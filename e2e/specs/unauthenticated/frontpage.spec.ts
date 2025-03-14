@@ -19,14 +19,13 @@ test("should have list of valid links on frontpage", async ({ page }) => {
   await expect(programmes).toHaveCount(15);
 });
 
-test("show have functioning language box", async ({ page }) => {
-  await page.getByRole("combobox").getByText("Velg språk").click();
+test("should have functioning language anchor", async ({ page }) => {
+  const languageSelector = page.getByTestId("language-selector");
+  await languageSelector.click();
 
-  expect(page.getByRole("option").getByText("Bokmål")).toBeTruthy();
-
-  await page.getByRole("option").getByText("Nynorsk").click();
-
-  await expect(page.getByRole("combobox").getByText("Vel språk")).toBeVisible();
-
+  await expect(languageSelector).toContainText("Bokmål");
   expect(page.url().includes("/nn/")).toBeTruthy();
+  await languageSelector.click();
+  await expect(languageSelector).toContainText("Nynorsk");
+  expect(page.url().includes("/nb/")).toBeTruthy();
 });

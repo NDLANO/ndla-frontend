@@ -30,12 +30,12 @@ import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
 import { SearchCompetenceGoal, SearchCoreElements } from "./searchTypes";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
-import { LanguageSelector } from "../../components/LanguageSelector";
+import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
 import { preferredLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 
-const StyledLanguageSelector = styled(LanguageSelector, { base: { alignSelf: "center" } });
+const StyledLanguageSelectorSelect = styled(LanguageSelectorSelect, { base: { alignSelf: "center" } });
 
 const CompetenceWrapper = styled("div", {
   base: {
@@ -260,9 +260,9 @@ const SearchContainer = ({
             />
           ))}
           {!!isLti && (
-            <StyledLanguageSelector
+            <StyledLanguageSelectorSelect
               languages={preferredLanguages}
-              onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
+              onValueChange={(details) => setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0)}
             />
           )}
         </SearchGroupWrapper>

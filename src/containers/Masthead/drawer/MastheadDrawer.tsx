@@ -16,7 +16,7 @@ import DefaultMenu from "./DefaultMenu";
 import DrawerContent from "./DrawerContent";
 import { DrawerProvider } from "./DrawerContext";
 import { MenuType } from "./drawerMenuTypes";
-import { LanguageSelector } from "../../../components/LanguageSelector";
+import { LanguageSelector } from "../../../components/LanguageSelector/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLDrawerContent_FrontpageMenuFragment,
@@ -24,8 +24,6 @@ import {
   GQLMastheadFrontpageQuery,
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
-import { preferredLanguages } from "../../../i18n";
-import { LocaleType } from "../../../interfaces";
 import { useUrnIds } from "../../../routeHelpers";
 import { usePrevious } from "../../../util/utilityHooks";
 import { findBreadcrumb } from "../../AboutPage/aboutPageUtils";
@@ -129,7 +127,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const drawerTriggerRef = useRef<HTMLButtonElement>(null);
 
   const frontpageQuery = useQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
@@ -273,13 +271,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
             </DrawerContainer>
             {!type && (
               <LanguageSelectWrapper>
-                <LanguageSelector
-                  languages={preferredLanguages}
-                  onValueChange={(details) => {
-                    setOpen(false);
-                    setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0);
-                  }}
-                />
+                <LanguageSelector />
               </LanguageSelectWrapper>
             )}
           </MenuLanguageContainer>

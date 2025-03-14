@@ -8,11 +8,11 @@
 
 import "./style/index.css";
 import queryString from "query-string";
-import { ReactNode, useLayoutEffect, useRef, useState } from "react";
+import { ReactNode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { I18nextProvider, useTranslation } from "react-i18next";
+import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
-import { ApolloProvider, useApolloClient } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client";
 import "@fontsource/source-code-pro/400-italic.css";
 import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-code-pro/index.css";
@@ -32,15 +32,9 @@ import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { Document } from "./Document";
 import { entryPoints } from "./entrypoints";
-import {
-  getLangAttributeValue,
-  getLocaleInfoFromPath,
-  initializeI18n,
-  isValidLocale,
-  supportedLanguages,
-} from "./i18n";
+import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
 import { NDLAWindow } from "./interfaces";
-import { createApolloClient, createApolloLinks } from "./util/apiHelpers";
+import { createApolloClient } from "./util/apiHelpers";
 import { initSentry } from "./util/sentry";
 
 declare global {
@@ -63,39 +57,10 @@ const { versionHash } = queryString.parse(window.location.search);
 const i18n = initializeI18n(i18nInstance, abbreviation);
 const client = createApolloClient(abbreviation, versionHash);
 
-const constructNewPath = (newLocale?: string) => {
-  const regex = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
-  const path = window.location.pathname.replace(regex, "");
-  const fullPath = path.startsWith("/") ? path : `/${path}`;
-  const localePrefix = newLocale ? `/${newLocale}` : "";
-  return `${localePrefix}${fullPath}${window.location.search}`;
-};
-
 const LanguageWrapper = ({ basename }: { basename?: string }) => {
-  const { i18n } = useTranslation();
-  const [base, setBase] = useState(basename ?? "");
-  const firstRender = useRef(true);
-  const client = useApolloClient();
-
-  i18n.on("languageChanged", (lang) => {
-    client.resetStore();
-    client.setLink(createApolloLinks(lang, versionHash));
-    document.documentElement.lang = getLangAttributeValue(lang);
-  });
-
-  // handle path changes when the language is changed
-  useLayoutEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false;
-    } else {
-      window.history.replaceState("", "", constructNewPath(i18n.language));
-      setBase(i18n.language);
-    }
-  }, [i18n.language]);
-
   return (
-    <BrowserRouter key={base} basename={base}>
-      <App base={base} />
+    <BrowserRouter key={basename} basename={basename}>
+      <App base={basename} />
     </BrowserRouter>
   );
 };
