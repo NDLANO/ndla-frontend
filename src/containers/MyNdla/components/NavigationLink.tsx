@@ -38,6 +38,23 @@ const ShortText = styled("span", {
   },
 });
 
+const IconWrapper = styled("span", {
+  base: {
+    "& svg": {
+      width: "small",
+      height: "small",
+    },
+  },
+});
+
+const ExternalWrapper = styled("span", {
+  base: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: "4xsmall",
+  },
+});
+
 interface Props extends Omit<SafeLinkButtonProps, "children"> {
   icon: ReactNode;
   iconFilled?: ReactNode;
@@ -65,8 +82,16 @@ const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reload
       >
         {selectedIcon}
         <LongText>{name}</LongText>
-        <ShortText>{shortName}</ShortText>
-        {!!external && <ExternalLinkLine />}
+        {external ? (
+          <ExternalWrapper>
+            <ShortText>{shortName}</ShortText>
+            <IconWrapper aria-hidden>
+              <ExternalLinkLine />
+            </IconWrapper>
+          </ExternalWrapper>
+        ) : (
+          <ShortText>{shortName}</ShortText>
+        )}
       </SafeLink>
     </MyNdlaButton>
   );
