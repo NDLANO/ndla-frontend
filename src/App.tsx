@@ -47,7 +47,7 @@ import H5pPage from "./containers/ResourceEmbed/H5pPage";
 import ImagePage from "./containers/ResourceEmbed/ImagePage";
 import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
-import SearchPage from "./containers/SearchPage/SearchPage";
+import { SearchPage } from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
 import SubjectPage from "./containers/SubjectPage/SubjectPage";
 import { TopicPage } from "./containers/TopicPage/TopicPage";

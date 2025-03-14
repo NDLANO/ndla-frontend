@@ -21,6 +21,7 @@ const StyledButton = styled(Button, {
 
 const StyledForm = styled("form", {
   base: {
+    position: "relative",
     width: "100%",
   },
 });
