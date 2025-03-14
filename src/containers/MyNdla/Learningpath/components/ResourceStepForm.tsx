@@ -42,8 +42,8 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
 
   const onRemove = () => {
     setSelectedResource(undefined);
-    setValue("embedUrl", "", { shouldValidate: true });
-    setValue("title", "", { shouldValidate: true });
+    setValue("embedUrl", "", { shouldDirty: true });
+    setValue("title", "", { shouldDirty: true });
     setFocusId("resource-input");
   };
 
