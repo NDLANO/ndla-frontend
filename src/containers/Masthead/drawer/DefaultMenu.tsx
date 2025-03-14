@@ -177,7 +177,6 @@ DefaultMenu.fragments = {
       id
       name
       url
-      path
       nodeType
     }
   `,

@@ -148,7 +148,6 @@ TopicMenu.fragments = {
     fragment TopicMenu_Root on Node {
       id
       name
-      path
       url
     }
   `,
@@ -156,7 +155,6 @@ TopicMenu.fragments = {
     fragment TopicMenu_Node on Node {
       id
       name
-      path
       url
       relevanceId
       rank

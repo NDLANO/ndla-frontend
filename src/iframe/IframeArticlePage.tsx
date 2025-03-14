@@ -66,8 +66,8 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
     });
   }, [propArticle, node, trackPageView]);
 
-  const path = node?.url;
-  const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
+  const url = node?.url;
+  const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
   const contentType =
     article.articleType === "standard"
@@ -136,7 +136,6 @@ export const iframeArticlePageFragments = {
     fragment IframeArticlePage_Node on Node {
       id
       name
-      path
       url
       resourceTypes {
         id

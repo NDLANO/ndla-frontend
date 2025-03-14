@@ -55,7 +55,7 @@ export const learningpathStepFragment = gql`
     }
     resource {
       id
-      path
+      url
       breadcrumbs
       resourceTypes {
         id
