@@ -132,16 +132,6 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
 
   useNavigateToHash(article?.transformedContent.content);
 
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
-
   if (resource && isLearningPathResource(resource)) {
     const url = getLearningPathUrlFromResource(resource);
     return (
