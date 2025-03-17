@@ -5,6 +5,9 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
   <div
     class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.contentMax --gutter_spacing.small tablet:--gutter_spacing.medium"
   >
+    <div
+      class="[&]:w_100% [&]:grid-cs_1 [&]:grid-ce_-1"
+    />
     <script
       type="application/ld+json"
     >

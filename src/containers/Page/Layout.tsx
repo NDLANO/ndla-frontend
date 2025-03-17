@@ -52,7 +52,7 @@ const Layout = () => {
     <>
       <TitleAnnouncer />
       {metaChildren}
-      <Masthead />
+      <Masthead showAlerts />
       <PageLayout style={mastheadHeightVar}>
         <Outlet />
       </PageLayout>
