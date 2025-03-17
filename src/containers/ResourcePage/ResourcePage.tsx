@@ -156,6 +156,7 @@ const ResourcePage = () => {
   if (isLearningPathResource(node)) {
     return (
       <LearningpathPage
+        key={data.node.url}
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
         data={{ ...data, relevance }}
@@ -165,6 +166,7 @@ const ResourcePage = () => {
   }
   return (
     <ArticlePage
+      key={data.node.url}
       skipToContentId={SKIP_TO_CONTENT_ID}
       resource={data.node}
       relevance={relevance}
