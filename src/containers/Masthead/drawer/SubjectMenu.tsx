@@ -172,13 +172,11 @@ SubjectMenu.fragments = {
     fragment SubjectMenu_Root on Node {
       id
       name
-      path
       url
       allTopics: children(nodeType: "TOPIC", recursive: true) {
         id
         name
         parentId
-        path
         url
       }
       ...TopicMenu_Root
