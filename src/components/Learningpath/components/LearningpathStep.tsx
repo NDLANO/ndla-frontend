@@ -118,7 +118,7 @@ export const LearningpathStep = ({
     );
   }
 
-  if (learningpathStep.opengraph) {
+  if (learningpathStep.embedUrl?.embedType === "external") {
     return (
       <ExternalStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
     );

@@ -20,7 +20,7 @@ import MastheadDrawer from "./drawer/MastheadDrawer";
 import { useAlerts } from "../../components/AlertsContext";
 import { AuthContext } from "../../components/AuthenticationContext";
 import FeideLoginButton from "../../components/FeideLoginButton";
-import { LanguageSelector } from "../../components/LanguageSelector";
+import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLContextQuery,
@@ -28,8 +28,6 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
 } from "../../graphqlTypes";
-import { preferredLanguages } from "../../i18n";
-import { LocaleType } from "../../interfaces";
 import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
 import { isValidContextId } from "../../util/urlHelper";
@@ -83,7 +81,7 @@ const mastheadQuery = gql`
 `;
 
 const MastheadContainer = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { contextId, subjectId: maybeSubjectId, topicList } = useUrnIds();
   const { user } = useContext(AuthContext);
   const { openAlerts, closeAlert } = useAlerts();
@@ -125,10 +123,7 @@ const MastheadContainer = () => {
           <NdlaLogoText />
         </SafeLink>
         <ButtonWrapper>
-          <StyledLanguageSelector
-            languages={preferredLanguages}
-            onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
-          />
+          <StyledLanguageSelector />
           <FeideLoginButton>
             <FeideLoginLabel data-hj-suppress>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
             {user ? <UserLine /> : <Feide />}

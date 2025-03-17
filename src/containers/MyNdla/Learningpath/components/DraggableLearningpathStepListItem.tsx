@@ -125,6 +125,7 @@ export const DraggableLearningpathStepListItem = ({
       },
     });
     if (!res.errors?.length) {
+      setSelectedLearningpathStepId(undefined);
       toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: step.title }) });
       close();
     } else {

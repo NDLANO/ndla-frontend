@@ -806,7 +806,6 @@ type Movie {
   id: String!
   metaDescription: String!
   metaImage: MetaImage
-  path: String!
   resourceTypes: [ResourceType!]!
   title: String!
   url: String!
@@ -978,8 +977,6 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parentId: String
-  path: String
-  paths: [String!]!
   rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
@@ -1215,8 +1212,6 @@ type Resource implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parents: [Topic!]
-  path: String
-  paths: [String!]!
   rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
@@ -1346,8 +1341,6 @@ type Subject implements TaxBase & TaxonomyEntity {
   metadata: TaxonomyMetadata!
   name: String!
   nodeType: String!
-  path: String
-  paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
@@ -1412,7 +1405,6 @@ type Tags {
 interface TaxBase {
   id: String!
   name: String!
-  path: String
   url: String
 }
 
@@ -1423,7 +1415,6 @@ type TaxonomyContext {
   name: String!
   parentIds: [String!]!
   parents: [TaxonomyCrumb!]
-  path: String!
   relevance: String!
   rootId: String!
   url: String!
@@ -1433,7 +1424,6 @@ type TaxonomyCrumb implements TaxBase {
   contextId: String!
   id: String!
   name: String!
-  path: String!
   url: String!
 }
 
@@ -1448,8 +1438,6 @@ interface TaxonomyEntity {
   metadata: TaxonomyMetadata!
   name: String!
   nodeType: String!
-  path: String
-  paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
@@ -1490,8 +1478,6 @@ type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parentId: String
-  path: String
-  paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   subtopics: [Topic!]

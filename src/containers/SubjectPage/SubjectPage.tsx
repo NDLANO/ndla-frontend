@@ -24,7 +24,7 @@ const subjectPageQuery = gql`
       ...SubjectContainer_Node
     }
     nodes(metadataFilterKey: $metadataFilterKey, metadataFilterValue: $metadataFilterValue, filterVisible: true) {
-      path
+      url
       metadata {
         customFields
       }
@@ -69,7 +69,7 @@ const SubjectPage = () => {
     if (!redirect) {
       return <NotFoundPage />;
     } else {
-      return <Navigate to={redirect.path || ""} replace />;
+      return <Navigate to={redirect.url || ""} replace />;
     }
   }
   const subjectType = getSubjectType(data.node.id);

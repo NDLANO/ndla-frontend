@@ -922,7 +922,6 @@ export type GQLMovie = {
   id: Scalars["String"]["output"];
   metaDescription: Scalars["String"]["output"];
   metaImage?: Maybe<GQLMetaImage>;
-  path: Scalars["String"]["output"];
   resourceTypes: Array<GQLResourceType>;
   title: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
@@ -1220,8 +1219,6 @@ export type GQLNode = GQLTaxBase &
     name: Scalars["String"]["output"];
     nodeType: Scalars["String"]["output"];
     parentId?: Maybe<Scalars["String"]["output"]>;
-    path?: Maybe<Scalars["String"]["output"]>;
-    paths: Array<Scalars["String"]["output"]>;
     rank?: Maybe<Scalars["Int"]["output"]>;
     relevanceId?: Maybe<Scalars["String"]["output"]>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
@@ -1655,8 +1652,6 @@ export type GQLResource = GQLTaxBase &
     name: Scalars["String"]["output"];
     nodeType: Scalars["String"]["output"];
     parents?: Maybe<Array<GQLTopic>>;
-    path?: Maybe<Scalars["String"]["output"]>;
-    paths: Array<Scalars["String"]["output"]>;
     rank?: Maybe<Scalars["Int"]["output"]>;
     relevanceId?: Maybe<Scalars["String"]["output"]>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
@@ -1797,8 +1792,6 @@ export type GQLSubject = GQLTaxBase &
     metadata: GQLTaxonomyMetadata;
     name: Scalars["String"]["output"];
     nodeType: Scalars["String"]["output"];
-    path?: Maybe<Scalars["String"]["output"]>;
-    paths: Array<Scalars["String"]["output"]>;
     relevanceId?: Maybe<Scalars["String"]["output"]>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
     subjectpage?: Maybe<GQLSubjectPage>;
@@ -1875,7 +1868,6 @@ export type GQLTags = {
 export type GQLTaxBase = {
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
-  path?: Maybe<Scalars["String"]["output"]>;
   url?: Maybe<Scalars["String"]["output"]>;
 };
 
@@ -1887,7 +1879,6 @@ export type GQLTaxonomyContext = {
   name: Scalars["String"]["output"];
   parentIds: Array<Scalars["String"]["output"]>;
   parents?: Maybe<Array<GQLTaxonomyCrumb>>;
-  path: Scalars["String"]["output"];
   relevance: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
@@ -1898,7 +1889,6 @@ export type GQLTaxonomyCrumb = GQLTaxBase & {
   contextId: Scalars["String"]["output"];
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
-  path: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
 };
 
@@ -1913,8 +1903,6 @@ export type GQLTaxonomyEntity = {
   metadata: GQLTaxonomyMetadata;
   name: Scalars["String"]["output"];
   nodeType: Scalars["String"]["output"];
-  path?: Maybe<Scalars["String"]["output"]>;
-  paths: Array<Scalars["String"]["output"]>;
   relevanceId?: Maybe<Scalars["String"]["output"]>;
   resourceTypes?: Maybe<Array<GQLResourceType>>;
   supportedLanguages: Array<Scalars["String"]["output"]>;
@@ -1961,8 +1949,6 @@ export type GQLTopic = GQLTaxBase &
     name: Scalars["String"]["output"];
     nodeType: Scalars["String"]["output"];
     parentId?: Maybe<Scalars["String"]["output"]>;
-    path?: Maybe<Scalars["String"]["output"]>;
-    paths: Array<Scalars["String"]["output"]>;
     relevanceId?: Maybe<Scalars["String"]["output"]>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
     subtopics?: Maybe<Array<GQLTopic>>;
@@ -2529,7 +2515,6 @@ export type GQLFilmContentCard_MovieFragment = {
   id: string;
   title: string;
   metaDescription: string;
-  path: string;
   url: string;
   metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
   resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
@@ -2690,7 +2675,6 @@ export type GQLDefaultMenu_RootFragment = {
   id: string;
   name: string;
   url?: string;
-  path?: string;
   nodeType: string;
 };
 
@@ -2734,18 +2718,16 @@ export type GQLSubjectMenu_RootFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
-  allTopics?: Array<{ __typename?: "Node"; id: string; name: string; parentId?: string; path?: string; url?: string }>;
+  allTopics?: Array<{ __typename?: "Node"; id: string; name: string; parentId?: string; url?: string }>;
 } & GQLTopicMenu_RootFragment;
 
-export type GQLTopicMenu_RootFragment = { __typename?: "Node"; id: string; name: string; path?: string; url?: string };
+export type GQLTopicMenu_RootFragment = { __typename?: "Node"; id: string; name: string; url?: string };
 
 export type GQLTopicMenu_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   relevanceId?: string;
   rank?: number;
@@ -2850,7 +2832,7 @@ export type GQLMyNdlaLearningpathStepFragment = {
   resource?: {
     __typename?: "Resource";
     id: string;
-    path?: string;
+    url?: string;
     breadcrumbs: Array<string>;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
     article?: { __typename?: "Article" } & GQLResource_ArticleFragment;
@@ -3767,7 +3749,7 @@ export type GQLSubjectPageQuery = {
   node?: { __typename?: "Node" } & GQLSubjectContainer_NodeFragment;
   nodes?: Array<{
     __typename?: "Node";
-    path?: string;
+    url?: string;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   }>;
 };
@@ -3941,7 +3923,6 @@ export type GQLIframeArticlePage_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
-  path?: string;
   url?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };

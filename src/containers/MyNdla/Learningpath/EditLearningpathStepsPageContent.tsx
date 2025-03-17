@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   closestCenter,
@@ -63,6 +63,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [createStep] = useCreateLearningpathStep();
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
   const toast = useToast();
+  const headingRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
     if (!learningpath.learningsteps) return;
@@ -81,6 +82,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
       if (!res.errors?.length) {
         setSelectedLearningpathStepId(undefined);
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
+        headingRef.current?.scrollIntoView({ behavior: "smooth" });
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
       }
@@ -137,7 +139,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   return (
     <>
       <Stack gap="medium" justify="left">
-        <Heading textStyle="heading.small" asChild consumeCss>
+        <Heading textStyle="heading.small" asChild consumeCss ref={headingRef}>
           <h2>{t("myNdla.learningpath.form.content.title")}</h2>
         </Heading>
         {!!sortedLearningpathSteps.length && (
