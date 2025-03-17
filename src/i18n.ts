@@ -15,7 +15,7 @@ import nn from "./messages/messagesNN";
 import se from "./messages/messagesSE";
 
 export const supportedLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
-export const preferredLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
+export const preferredLanguages: LocaleType[] = ["nb", "nn"];
 export const myndlaLanguages: LocaleType[] = ["nb", "nn", "en"];
 
 type LocaleObject = {

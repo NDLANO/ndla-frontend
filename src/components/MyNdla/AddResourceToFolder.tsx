@@ -6,7 +6,6 @@
  *
  */
 
-import { compact, isEqual, sortBy, uniq } from "lodash-es";
 import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
@@ -34,6 +33,7 @@ import {
   TagSelectorTrigger,
   useTagSelectorTranslations,
 } from "@ndla/ui";
+import { sortBy, uniq } from "@ndla/util";
 import FolderSelect from "./FolderSelect";
 import ListResource from "./ListResource";
 import {
@@ -119,7 +119,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
     if (!loading && folders && !storedResource) {
       const _storedResource = getResourceForPath(folders, resource.path);
       setStoredResource(_storedResource ?? undefined);
-      const newTags = uniq(compact(getAllTags(folders)));
+      const newTags = uniq(getAllTags(folders).filter((folder) => !!folder));
       setAllTags(newTags ?? []);
       setTags(newTags ?? []);
       setSelectedTags((prevTags) => uniq(prevTags.concat(_storedResource?.tags ?? [])));
@@ -142,13 +142,18 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
   }, [storedResource, selectedTags, selectedFolder, defaultOpenFolder?.id]);
 
   const shouldUpdateFolderResource = (storedResource: GQLFolderResource, selectedTags: string[]) => {
-    const sortedStored = sortBy(storedResource.tags);
-    const sortedSelected = sortBy(selectedTags);
-    return !isEqual(sortedStored, sortedSelected);
+    const sortedStored = sortBy(storedResource.tags, (tag) => tag);
+    const sortedSelected = sortBy(selectedTags, (tag) => tag);
+    const isEqual =
+      sortedSelected.length === sortedStored.length &&
+      sortedSelected.every((value, index) => value === sortedStored[index]);
+    return !isEqual;
   };
 
-  const { updateFolderResource } = useUpdateFolderResourceMutation();
-  const { addResourceToFolder, loading: addResourceLoading } = useAddResourceToFolderMutation(selectedFolder?.id ?? "");
+  const [updateFolderResource] = useUpdateFolderResourceMutation();
+  const [addResourceToFolder, { loading: addResourceLoading }] = useAddResourceToFolderMutation(
+    selectedFolder?.id ?? "",
+  );
 
   const allTagsCollection = useMemo(() => createListCollection({ items: allTags }), [allTags]);
 
@@ -156,7 +161,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
 
   const onSave = async () => {
     if (selectedFolder && !alreadyAdded) {
-      await addResourceToFolder({
+      const res = await addResourceToFolder({
         variables: {
           resourceId: resource.id,
           resourceType: resource.resourceType,
@@ -165,20 +170,32 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           tags: selectedTags,
         },
       });
-
-      toast.create({
-        title: t("myNdla.resource.added"),
-        description: <ResourceAddedSnack folder={selectedFolder} />,
-      });
+      if (!res.errors?.length) {
+        onClose();
+        toast.create({
+          title: t("myNdla.resource.added"),
+          description: <ResourceAddedSnack folder={selectedFolder} />,
+        });
+      } else {
+        toast.create({
+          title: t("myNdla.resource.addedFailed"),
+        });
+      }
     } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
-      await updateFolderResource({
+      const res = await updateFolderResource({
         variables: { id: storedResource.id, tags: selectedTags },
       });
-      toast.create({
-        title: t("myNdla.resource.tagsUpdated"),
-      });
+      if (!res.errors?.length) {
+        onClose();
+        toast.create({
+          title: t("myNdla.resource.tagsUpdated"),
+        });
+      } else {
+        toast.create({
+          title: t("myNdla.resource.tagsUpdatedFailed"),
+        });
+      }
     }
-    onClose();
   };
 
   const onInputValueChange = (e: ComboboxInputValueChangeDetails) => {

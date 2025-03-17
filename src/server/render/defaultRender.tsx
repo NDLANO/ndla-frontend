@@ -6,14 +6,12 @@
  *
  */
 
-import { getSelectorsByUserAgent } from "react-device-detect";
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
-import { ApolloProvider } from "@apollo/client/react";
+import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { i18nInstance } from "@ndla/ui";
-import { getCookie } from "@ndla/util";
 import { disableSSR } from "./renderHelpers";
 import App from "../../App";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
@@ -21,30 +19,18 @@ import ResponseContext, { ResponseInfo } from "../../components/ResponseContext"
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
-import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
-import { UserAgentProvider } from "../../UserAgentContext";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
 import { RenderFunc } from "../serverHelpers";
 
-function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) {
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? "";
-  if (cookieLocale.length && isValidLocale(cookieLocale)) {
-    return cookieLocale;
-  }
-  return abbreviation;
-}
-
 export const defaultRender: RenderFunc = async (req, chunks) => {
-  const resCookie = req.headers["cookie"] ?? "";
-
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
-  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
+  const locale = isValidLocale(abbreviation) ? abbreviation : (config.defaultLocale as LocaleType);
   if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
     return {
       status: TEMPORARY_REDIRECT,
@@ -54,8 +40,6 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
 
   const siteTheme = getSiteTheme();
 
-  const userAgent = req.headers["user-agent"];
-  const userAgentSelectors = userAgent ? getSelectorsByUserAgent(userAgent) : undefined;
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const noSSR = disableSSR(req);
 
@@ -88,13 +72,11 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
           <ApolloProvider client={client}>
             <ResponseContext.Provider value={responseContext}>
               <VersionHashProvider value={versionHash}>
-                <UserAgentProvider value={userAgentSelectors}>
-                  <SiteThemeProvider value={siteTheme}>
-                    <StaticRouter basename={basename} location={req.url}>
-                      <App key={locale} />
-                    </StaticRouter>
-                  </SiteThemeProvider>
-                </UserAgentProvider>
+                <SiteThemeProvider value={siteTheme}>
+                  <StaticRouter basename={basename} location={req.url}>
+                    <App key={locale} />
+                  </StaticRouter>
+                </SiteThemeProvider>
               </VersionHashProvider>
             </ResponseContext.Provider>
           </ApolloProvider>

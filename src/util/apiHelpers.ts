@@ -10,7 +10,7 @@ import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePoli
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
-import { getAccessToken, getFeideCookie, isAccessTokenValid, renewAuth } from "./authHelpers";
+import { getFeideCookie, isAccessTokenValid } from "./authHelpers";
 import { DebugInMemoryCache } from "./DebugInMemoryCache";
 import { NDLAGraphQLError, NDLANetworkError } from "./error/NDLAApolloErrors";
 import { StatusError } from "./error/StatusError";
@@ -92,7 +92,7 @@ const mergeGroupSearch = (existing: GQLGroupSearch[], incoming: GQLGroupSearch[]
 
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
-  SearchResult: ["ArticleSearchResult", "LearningpathSearchResult"],
+  SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
   FolderResourceMeta: ["ArticleFolderResourceMeta", "LearningpathFolderResourceMeta"],
 };
 
@@ -155,6 +155,9 @@ const typePolicies: TypePolicies = {
   SearchContext: {
     keyFields: ["contextId"],
   },
+  SearchResult: {
+    keyFields: ["id", "__typename"],
+  },
   GroupSearchResult: {
     keyFields: ["url"],
   },
@@ -205,6 +208,9 @@ export const createApolloClient = (language = "nb", versionHash?: string, path?:
     cache,
     ssrMode: true,
     defaultOptions: {
+      watchQuery: {
+        errorPolicy: "all",
+      },
       query: {
         errorPolicy: "all",
       },
@@ -247,31 +253,4 @@ export const createApolloLinks = (lang: string, versionHash?: string, requestPat
   });
 
   return ApolloLink.from([errorLink, headersLink, new BatchHttpLink({ uri })]);
-};
-
-type HttpHeaders = {
-  headers?: {
-    "Content-Type": string;
-  };
-};
-
-export const fetchAuthorized = (url: string, config?: HttpHeaders) => fetchWithAuthorization(url, false, config);
-
-export const fetchWithAuthorization = async (url: string, forceAuth: boolean, config?: HttpHeaders) => {
-  if (forceAuth || !isAccessTokenValid()) {
-    await renewAuth();
-  }
-
-  const contentType = config?.headers ? config?.headers["Content-Type"] : "text/plain";
-  const extraHeaders: HeadersInit = contentType ? { "Content-Type": contentType } : {};
-  const cacheControl: HeadersInit = { "Cache-Control": "no-cache" };
-
-  return fetch(url, {
-    ...config,
-    headers: {
-      ...extraHeaders,
-      ...cacheControl,
-      FeideAuthorization: `Bearer ${getAccessToken(document.cookie)}`,
-    },
-  });
 };

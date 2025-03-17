@@ -20,20 +20,6 @@ import { AccessDeniedPage } from "./containers/AccessDeniedPage/AccessDeniedPage
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
 import { CollectionPage } from "./containers/CollectionPage/CollectionPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
-import { AdminCheck } from "./containers/MyNdla/Arena/AdminCheck";
-import ArenaAdminPage from "./containers/MyNdla/Arena/ArenaAdminPage";
-import { ArenaCheck } from "./containers/MyNdla/Arena/ArenaCheck";
-import ArenaFlagPage from "./containers/MyNdla/Arena/ArenaFlagPage";
-import ArenaNotificationPage from "./containers/MyNdla/Arena/ArenaNotificationsPage";
-import ArenaPage from "./containers/MyNdla/Arena/ArenaPage";
-import ArenaSingleFlagPage from "./containers/MyNdla/Arena/ArenaSingleFlagPage";
-import ArenaUserListPage from "./containers/MyNdla/Arena/ArenaUserListPage";
-import CategoryEditPage from "./containers/MyNdla/Arena/CategoryEditPage";
-import NewCategoryPage from "./containers/MyNdla/Arena/NewCategoryPage";
-import { NewTopicPage } from "./containers/MyNdla/Arena/NewTopicPage";
-import PostsPage from "./containers/MyNdla/Arena/PostsPage";
-import ArenaTopicPage from "./containers/MyNdla/Arena/TopicPage";
-import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
@@ -190,49 +176,20 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
                   </Route>
-                  <Route path="arena" element={<ArenaCheck />}>
-                    <Route index element={<PrivateRoute element={<ArenaPage />} />} />
-                    <Route path="category/new" element={<AdminCheck />}>
-                      <Route index element={<PrivateRoute element={<NewCategoryPage />} />} />
+                  <Route path="learningpaths" element={<LearningpathCheck />}>
+                    <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
+                    <Route path=":learningpathId/edit">
+                      <Route path="title" element={<PrivateRoute element={<EditLearningpathTitlePage />} />} />
+                      <Route path="steps" element={<PrivateRoute element={<EditLearningpathStepsPage />} />} />
                     </Route>
-                    <Route path="category/:categoryId">
-                      <Route index element={<PrivateRoute element={<ArenaTopicPage />} />} />
-                      <Route path="edit" element={<AdminCheck />}>
-                        <Route index element={<PrivateRoute element={<CategoryEditPage />} />} />
-                      </Route>
-                      <Route path="topic/new" element={<PrivateRoute element={<NewTopicPage />} />} />
-                    </Route>
-                    <Route path="topic/:topicId" element={<PrivateRoute element={<PostsPage />} />} />
-                    <Route path="notifications" element={<PrivateRoute element={<ArenaNotificationPage />} />} />
-                    <Route path="user/:username" element={<PrivateRoute element={<ArenaUserPage />} />} />
-                  </Route>
-                  <Route path="admin" element={<AdminCheck />}>
-                    <Route index element={<PrivateRoute element={<ArenaAdminPage />} />} />
-                    <Route path="users" element={<PrivateRoute element={<ArenaUserListPage />} />} />
-                    <Route path="flags">
-                      <Route index element={<PrivateRoute element={<ArenaFlagPage />} />} />
-                      <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
-                    </Route>
-                  </Route>
-                  {!!config.learningpathEnabled && (
-                    <Route path="learningpaths" element={<LearningpathCheck />}>
-                      <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
-                      <Route path=":learningpathId/edit">
-                        <Route path="title" element={<PrivateRoute element={<EditLearningpathTitlePage />} />} />
-                        <Route path="steps" element={<PrivateRoute element={<EditLearningpathStepsPage />} />} />
-                      </Route>
-                      <Route
-                        path=":learningpathId/save"
-                        element={<PrivateRoute element={<SaveLearningpathPage />} />}
-                      />
+                    <Route path=":learningpathId/save" element={<PrivateRoute element={<SaveLearningpathPage />} />} />
 
-                      <Route path=":learningpathId/preview">
-                        <Route index element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
-                        <Route path=":stepId" element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
-                      </Route>
-                      <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
+                    <Route path=":learningpathId/preview">
+                      <Route index element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
+                      <Route path=":stepId" element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
                     </Route>
-                  )}
+                    <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
+                  </Route>
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>

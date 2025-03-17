@@ -14,10 +14,17 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLMovedTopicPage_NodeFragment, GQLSearchResult } from "../../graphqlTypes";
+import {
+  GQLArticleSearchResult,
+  GQLLearningpathSearchResult,
+  GQLMovedTopicPage_NodeFragment,
+} from "../../graphqlTypes";
 
 interface GQLSearchResultExtended
-  extends Omit<GQLSearchResult, "id" | "contexts" | "metaDescription" | "supportedLanguages" | "traits"> {
+  extends Omit<
+    GQLLearningpathSearchResult | GQLArticleSearchResult,
+    "id" | "contexts" | "metaDescription" | "supportedLanguages" | "traits"
+  > {
   subjects?: {
     url?: string;
     title: string;

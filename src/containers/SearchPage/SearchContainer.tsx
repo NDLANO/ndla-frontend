@@ -27,12 +27,12 @@ import { HomeBreadcrumb } from "@ndla/ui";
 import SearchHeader from "./components/SearchHeader";
 import { SearchResultGroup } from "./components/SearchResults";
 import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
-import { SearchCompetenceGoal, SearchCoreElements } from "./SearchInnerPage";
+import { SearchCompetenceGoal, SearchCoreElements } from "./searchTypes";
 import { groupCompetenceGoals } from "../../components/CompetenceGoals";
 import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
 import { LanguageSelector } from "../../components/LanguageSelector";
 import { GQLSubjectInfoFragment } from "../../graphqlTypes";
-import { supportedLanguages } from "../../i18n";
+import { preferredLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 
 const StyledLanguageSelector = styled(LanguageSelector, { base: { alignSelf: "center" } });
@@ -261,7 +261,7 @@ const SearchContainer = ({
           ))}
           {!!isLti && (
             <StyledLanguageSelector
-              languages={supportedLanguages}
+              languages={preferredLanguages}
               onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
             />
           )}

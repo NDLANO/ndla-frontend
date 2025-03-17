@@ -12,9 +12,10 @@ import { PencilLine, CloseLine } from "@ndla/icons";
 import { Button, Spinner, Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { formValuesToGQLInput } from "../learningpathFormUtils";
 import { useUpdateLearningpathStep } from "../learningpathMutations";
 import { FormValues } from "../types";
-import { formValuesToGQLInput, getFormTypeFromStep, learningpathStepId } from "../utils";
+import { getFormTypeFromStep, learningpathStepId } from "../utils";
 
 const LearningpathStepForm = lazy(() => import("./LearningpathStepForm"));
 
@@ -53,7 +54,7 @@ export const LearningpathStepListItem = forwardRef<HTMLLIElement, Props>(
 
     const { t, i18n } = useTranslation();
 
-    const [updateStep] = useUpdateLearningpathStep(learningpathId.toString());
+    const [updateStep] = useUpdateLearningpathStep();
 
     const onSave = async (data: FormValues) => {
       const transformedData = formValuesToGQLInput(data);

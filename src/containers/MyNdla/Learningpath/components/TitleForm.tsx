@@ -65,7 +65,7 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
           },
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot invalid={!!fieldState.error?.message} required>
+          <FieldRoot invalid={!!fieldState.error?.message}>
             {/* <FieldLabel fontWeight="bold" textStyle="label.large">
               {t("validation.fields.title")}
             </FieldLabel> */}
@@ -105,7 +105,9 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
           <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
             {t("cancel")}
           </SafeLinkButton>
-          <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
+          <Button variant="secondary" type="submit">
+            {t("myNdla.learningpath.form.next")}
+          </Button>
         </Stack>
       ) : null}
     </StyledForm>

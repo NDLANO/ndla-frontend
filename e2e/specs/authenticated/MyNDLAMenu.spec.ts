@@ -19,6 +19,12 @@ test("can navigate to folders", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
 });
 
+test("can navigate to learningpaths", async ({ page }) => {
+  await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
+  await page.getByRole("listitem").getByRole("link", { name: "Mine læringsstier" }).click();
+  await expect(page.getByRole("heading").getByText("Mine læringsstier")).toBeVisible();
+});
+
 test("can navigate to subjects", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
   await page.getByRole("listitem").getByRole("link", { name: "Mine fag" }).click();
@@ -35,8 +41,13 @@ test("have all options at the different pages", async ({ page }) => {
   await mockWaitResponse(page, "**/graphql-api/graphql");
   await expect(page.getByRole("link", { name: "Logg ut" })).toBeVisible({ timeout: 10000 });
   const options = await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts();
+
   await page.getByRole("listitem").getByRole("link", { name: "Mine mapper" }).click();
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
+  expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toMatchObject(options);
+
+  await page.getByRole("listitem").getByRole("link", { name: "Mine læringsstier" }).click();
+  await expect(page.getByRole("heading").getByText("Mine læringsstier")).toBeVisible();
   expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toMatchObject(options);
 
   await page.getByRole("listitem").getByRole("link", { name: "Mine fag" }).click();

@@ -24,12 +24,11 @@ import {
   GQLMastheadFrontpageQuery,
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
-import { supportedLanguages } from "../../../i18n";
+import { preferredLanguages } from "../../../i18n";
 import { LocaleType } from "../../../interfaces";
 import { useUrnIds } from "../../../routeHelpers";
-import { useUserAgent } from "../../../UserAgentContext";
 import { usePrevious } from "../../../util/utilityHooks";
-import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
+import { findBreadcrumb } from "../../AboutPage/aboutPageUtils";
 
 const MainMenu = styled("div", {
   base: {
@@ -131,7 +130,6 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
   const { t, i18n } = useTranslation();
-  const userAgent = useUserAgent();
   const drawerTriggerRef = useRef<HTMLButtonElement>(null);
 
   const frontpageQuery = useQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
@@ -220,7 +218,6 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
       onOpenChange={() => setOpen((prev) => !prev)}
       initialFocusEl={getHeaderElement}
       finalFocusEl={() => drawerTriggerRef.current}
-      closeOnInteractOutside={!userAgent?.isMobile}
     >
       <DialogTrigger asChild ref={drawerTriggerRef}>
         <DrawerButton
@@ -277,7 +274,7 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
             {!type && (
               <LanguageSelectWrapper>
                 <LanguageSelector
-                  languages={supportedLanguages}
+                  languages={preferredLanguages}
                   onValueChange={(details) => {
                     setOpen(false);
                     setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0);

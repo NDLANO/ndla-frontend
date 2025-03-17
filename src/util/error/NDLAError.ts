@@ -5,7 +5,8 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { LogLevel } from "./index";
+
+import { LogLevel } from "../../interfaces";
 
 export class NDLAError extends Error {
   logLevel: LogLevel = "error";

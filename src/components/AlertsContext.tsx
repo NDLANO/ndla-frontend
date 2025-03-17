@@ -5,10 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { partition, uniq } from "lodash-es";
 import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
 import { useQuery } from "@apollo/client";
-import config from "../config";
+import { partition, uniq } from "@ndla/util";
 import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
 import { alertsQuery } from "../queries";
 
@@ -68,7 +67,7 @@ const AlertsProvider = ({ children }: Props) => {
   const [openAlerts, setOpenAlerts] = useState<GQLUptimeAlert[]>([]);
   const { data: { alerts } = {} } = useQuery<GQLAlertsQuery, GQLAlertsQueryVariables>(alertsQuery, {
     pollInterval: 10 * 60 * 1000,
-    skip: typeof window === "undefined" || config.externalArena,
+    skip: typeof window === "undefined",
   });
 
   const closeAlert = useCallback((id: number) => {

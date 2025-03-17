@@ -86,3 +86,5 @@ export interface OembedResponse {
   title: string;
   html: string;
 }
+
+export type LogLevel = "error" | "warn" | "info";

@@ -28,7 +28,7 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
 } from "../../graphqlTypes";
-import { supportedLanguages } from "../../i18n";
+import { preferredLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { contextQuery } from "../../queries";
 import { useUrnIds } from "../../routeHelpers";
@@ -116,7 +116,7 @@ const MastheadContainer = () => {
 
   return (
     <ErrorBoundary>
-      <Masthead fixed skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
+      <Masthead skipToMainContentId={SKIP_TO_CONTENT_ID} onCloseAlert={(id) => closeAlert(id)} messages={alerts}>
         <DrawerWrapper>
           <MastheadDrawer root={data?.root} crumbs={crumbs} />
           <MastheadSearch />
@@ -126,7 +126,7 @@ const MastheadContainer = () => {
         </SafeLink>
         <ButtonWrapper>
           <StyledLanguageSelector
-            languages={supportedLanguages}
+            languages={preferredLanguages}
             onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
           />
           <FeideLoginButton>

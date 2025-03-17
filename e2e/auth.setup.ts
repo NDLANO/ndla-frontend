@@ -14,7 +14,7 @@ test("authenticate", async ({ page }) => {
     await page.getByRole("link").getByText("Feide test users").click();
     await page.getByLabel("Username").fill(process.env.FEIDE_TEACHER_USER_NAME ?? "");
     await page.getByLabel("Password", { exact: true }).fill(process.env.FEIDE_TEACHER_USER_PASSWORD ?? "");
-    await page.getByRole("button", { name: "Log in" }).click();
+    await page.getByRole("button", { name: "Log in", exact: true }).click();
     await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
   } else {
     const expAt = (32518706430 - 1687564890 - 60) * 1000 + new Date().getTime();

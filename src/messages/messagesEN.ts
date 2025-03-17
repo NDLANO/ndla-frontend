@@ -30,12 +30,6 @@ const messages = {
     myTagsPage: `My tags - ${titleTemplate}`,
     sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
-    arenaPage: `Arena - ${titleTemplate}`,
-    arenaAdminPage: `Administrate Arena - ${titleTemplate}`,
-    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaNewTopicPage: `New post - Arena - ${titleTemplate}`,
-    arenaNewCategoryPage: `New category - Arena - ${titleTemplate}`,
     learningpathsPage: `My learning paths - ${titleTemplate}`,
     learningpathPage: `{{name}}  - ${titleTemplate}`,
     learningpathEditStepsPage: `Edit steps - {{name}} - Learningpath - ${titleTemplate}`,
@@ -60,12 +54,104 @@ const messages = {
     subtitle: "Listen and learn!",
     pagination: "Podcast pages",
   },
-  subjectsPage: { tabFilter: { label: "Which subjects would you like to show?", all: "All subjects and resources" } },
+  subjectsPage: {
+    tabFilter: {
+      label: "Which subjects would you like to show?",
+      all: "All subjects and resources",
+    },
+    myFavoriteSubjects: "Your favorite subjects",
+    subjectGroup: 'Group "{{ category }}"',
+    scrollToGroup: "Scroll to group",
+    errorDescription: "Sorry, an error occurred while loading the subjects.",
+    allSubjects: "All subjects",
+    alphabeticSort: "Subjects grouped alphabetically",
+    addConfirmed: "{{subject}} is added to your favorite subjects",
+    removeConfirmed: "{{subject}} is removed from your favorite subjects",
+    addFavorite: "Add favorite subject",
+    removeFavorite: "Remove favorite subject",
+    confirmRemove: "Are you sure you want to remove {{subject}} from your favorite subjects?",
+    subjectFavoritePitch: "Do you want to favorite this subject?",
+    subjectFavoriteGuide:
+      "To favorite a subject you must log in to My NDLA. You will find the subject on the top of this page after logging in.",
+  },
+  topicsPage: {
+    topics: "Topics",
+  },
   searchPage: {
     title: "Search on ndla.no",
     filterSearch: "Filter your search results:",
     subjectLetter: "Subjects starting with {{letter}}",
     resourceTypeFilter: "Resource types",
+
+    noHits: "Your search - {{query}} - did not match any articles. ",
+    noHitsShort: "No results for search: {{query}}",
+    removeFilterSuggestion: "Try removing filters",
+    close: "Close",
+    abilities: "Abilities",
+    search: "Search",
+    searchFieldPlaceholder: "Search for subjects, tasks and activities or learningpaths",
+    searchFieldPlaceholderShort: "Search",
+    label: {
+      subjects: "Subjects",
+    },
+    includes: "Includes:",
+    searchField: {
+      contentTypeResultShowMoreLabel: "Show more results",
+      contentTypeResultShowLessLabel: "Show less results",
+      allResultButtonText: "Show all results",
+      searchResultHeading: "Proposals:",
+      contentTypeResultNoHit: "No results",
+    },
+    searchResultListMessages: {
+      subjectsLabel: "Open in subject:",
+      noResultHeading: "Hmm, no content ...",
+      noResultDescription:
+        "Unfortunately, we do not have anything to offer here. If you want to suggest any content for this site, you can use Ask NDLA, located at the bottom right of the screen.",
+    },
+    searchFilterMessages: {
+      backButton: "Back to filter",
+      filterLabel: "Search-filter",
+      confirmButton: "Refresh filter",
+      hasValuesButtonText: "More subjects",
+      noValuesButtonText: "Filter by subjects",
+      useFilter: "Use filter",
+      closeFilter: "Close filter",
+      removeFilter: "Remove filter {{filterName}}",
+      additionalSubjectFilters: "+ {{count}} subjects",
+      coreRelevance: "Core content",
+      supplementaryRelevance: "Supplementary content",
+      resourceTypeFilter: {
+        heading: "Content type filter",
+        button: "Content type filter",
+      },
+    },
+    resultType: {
+      showing: "Showing {{count}} of {{totalCount}} {{contentType}}",
+      showingAll: "Showing all",
+      showMore: "Show more",
+      showAll: "Show all",
+      toTopOfPage: "To top of page",
+      toSubjectPageLabel: "Go to subject page",
+      all: "All",
+      allContentTypes: "All content-types",
+      hits: "{{count}} hits",
+      showingSearchPhrase: "Showing hits for",
+      searchPhraseSuggestion: "Search instead for",
+      showingCompetenceGoalSearchPhrase: "Showing results for competence goals {text}",
+      notionLabels: "Used in",
+      notionsHeading: "Explanations",
+      notionsRemove: "Remove",
+      showVideo: "Watch video",
+      concept: "Concept",
+      gridView: "Grid-view",
+      listView: "List-view",
+      gloss: "Gloss",
+    },
+    contextModal: {
+      button: "+ {{count}} more contexts",
+      heading: "The resource is used in several contexts",
+      ariaLabel: "View more contexts",
+    },
   },
   myNdla: {
     tagsTitle: "My tags",
@@ -81,14 +167,51 @@ const messages = {
     },
     resource: {
       added: "Added",
+      addedFailed: "Failed to add resource",
       removed: "Removed",
       showTags: "Show tags",
       tagsDialogTitle: "Tags related to resource {{title}}",
       noTags: "No tags.",
+      add: "Add folder/tag",
+      remove: "Remove",
+      removeTitle: "Remove resource",
+      confirmRemove: "Are you sure you want to remove the resource from this folder?",
+      copyLink: "Copy link to this page",
+      linkCopied: "Copied to clipboard",
+      addToMyNdla: "Add to My NDLA",
+      addedToMyNdla: "Added to My NDLA",
+      copyToMyNdla: "Copy to My NDLA",
+      addedToFolder: "Resource added to ",
+      removedFromFolder: 'Removed from "{{folderName}}"',
+      removedFromFolderFailed: 'Could not remove resource from folder "{{ folderName }}"',
+      titleUpdated: "Title updated",
+      tagsUpdated: "Tags updated",
+      tagsUpdatedFailed: "Failed to update tags",
+      show: "Show",
+      save: "Save resource",
+      onDragStart: "Picked up the resource {{name}}. The resource is in position {{index}} of {{length}}",
+      onDragOver: "The resource {{name}} was moved into position {{index}} of {{length}}",
+      onDragOverMissingOver: "The resource {{name}} is no longer over a droppable area",
+      onDragEnd: "The resource {{name}} was dropped at position {{index}} og {{length}}",
+      onDragEndMissingOver: "The resource {{name}} was dropped",
+      onDragCancel: "Dragging was cancelled. The resource {{name}} was dropped",
+      dragHandle: "Drag the resource {{name}}",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Learning paths are not supported",
       resourceRemovedTitle: "Resource not available",
+      folderCopied: "The folder was copied.",
+      info: "This folder contains learning resources and tasks from NDLA, gathered by a teacher.",
+      shared: "This folder contains learning resources and tasks from NDLA, gathered by {{sharedBy}}.",
+      aTeacher: "a teacher",
+      firstShared: "The folder was shared for the first time {{date}}",
+      learningpathUnsupported:
+        "Learning paths and multidisciplinary cases cannot be shown directly in a shared folder. You can open the learning path in a new tab by clicking the link in the navigation menu to the left.",
+      drawerButton: "Show folders and resources",
+      drawerTitle: "Folders and resources",
+      description:
+        "In this folder you find articles and tasks from NDLA. The articles have been collected and placed in order by a teacher.",
+      willOpenInNewTab: "Opens in a new tab.",
     },
     acceptedShareName: {
       title: "Now we show your name when you share",
@@ -102,13 +225,6 @@ const messages = {
     },
     arena: {
       title: "The arena",
-      notification: {
-        description:
-          "Welcome to the arena for teachers in upper secondary education. This is <em>your</em> arena: a professional meeting place for discussion, inspiration, sharing, development, and collaboration.",
-      },
-      reported: "Content reported",
-      error: "An error occured",
-      userUpdated: "User updated",
       accept: {
         success: "You now have access to the arena",
         error: "Failed to accept the terms.",
@@ -128,13 +244,24 @@ const messages = {
       },
     },
     goToMyNdla: "Go to My NDLA",
+    learningpathstep: {
+      onDragStart:
+        "Picked up the learningpath step {{name}}. The learningpath step is in position {{index}} of {{length}}",
+      onDragOver: "The learningpath step {{name}} was moved into position {{index}} of {{length}}",
+      onDragOverMissingOver: "The learningpath step {{name}} is no longer over a droppable area",
+      onDragEnd: "The learningpath step {{name}} was dropped at position {{index}} of {{length}}",
+      onDragEndMissingOver: "The learningpath step {{name}} was dropped",
+      onDragCancel: "Dragging was cancelled. The learningpath step {{name}} was dropped",
+      dragHandle: "Drag the learningpath step {{name}}",
+      error: "Something went wrong while moving the learningpath step",
+    },
     learningpath: {
       newLearningpath: "New learningpath",
       editLearningpath: "Edit learningpath",
       editLearningpathTitle: "Edit learningpath title",
       form: {
         delete: "Delete",
-        next: "Next",
+        next: "Proceed",
         back: "Back",
         deleteStep: "Delete step",
         deleteBody: "Content cannot be restored",
@@ -190,6 +317,7 @@ const messages = {
             checkbox: "The content I have linked to is legal to share.",
           },
           folder: {
+            noResources: "You haven't added any resources to your folders yet.",
             label: "Search in My Folders",
             labelHelper: "Select content from your folders",
             placeholder: "Search for resources that are stored in your folders.",
@@ -228,12 +356,19 @@ const messages = {
         copy: "Copy Link",
       },
       toast: {
+        createdFailed: "Could not create learningpath.",
         deleted: 'The learning path "{{ name }}" has been deleted.',
+        deletedFailed: 'Deleting the learning path "{{ name }}" failed.',
         unshared: 'The learning path "{{ name }}" is no longer shared.',
         unshareFailed: "Failed to unshare the learning path.",
         shared: "The learning path is shared.",
         shareFailed: "Failed to share the learning path.",
-        copy: 'Copied the link to the learning path "{{ name }}"',
+        copy: 'Copied the link to the learning path "{{ name }}".',
+        updateStepFailed: 'Updating step with title "{{ name }}" failed.',
+        createdStep: 'A step with title "{{ name }}" was created.',
+        deletedStep: 'A step with title "{{ name }}" was deleted.',
+        deletedStepFailed: 'Could not delete step with title "{{ name }}".',
+        createdStepFailed: 'Could not create step with title "{{ name }}".',
       },
       status: {
         shared: "Shared",
@@ -265,7 +400,7 @@ const messages = {
         saveAndClose: "Save and close",
         pageHeading: "Save and share",
         pageDescription:
-          "Save and share your learning path. When you share the learning path, you create a link that can be shared with students or teachers.",
+          "Save and share your learning path. When you share the learning path, you create a shareable link that you can send to students or teachers.",
       },
       previewLearningpath: {
         pageHeading: "Preview",
@@ -282,11 +417,248 @@ const messages = {
         loginCopyPitch: "Do you want to copy this learning path?",
       },
     },
+
+    description:
+      "My NDLA: Organize the content your way! Use NDLA’s chat robot (AI). Save and share with colleagues and students.",
+    mainMenu: "Main menu",
+    myNDLA: "My NDLA",
+    myNDLAMenu: "My NDLA menu",
+    support: "Support",
+    resources_one: "{{count}} Resource",
+    resources_other: "{{count}} Resources",
+    folders_one: "{{count}} Folder",
+    folders_other: "{{count}} Folders",
+    settings: "Settings",
+    showEditOptions: "Show editing options",
+    folder: {
+      folder: "Folder",
+      navigation: "Folder navigation",
+      delete: "Delete folder",
+      deleteShort: "Delete",
+      edit: "Edit folder",
+      editShort: "Edit",
+      copy: "Copy folder",
+      open: "Open folder",
+      close: "Close folder",
+      updated: "Folder updated",
+      updatedFailed: 'Failed to update folder "{{ name }}"',
+      defaultPageDescription: "Add a description by editing the folder",
+      missingName: "Folder name required",
+      folderDeleted: '"{{folderName}}" deleted',
+      folderDeletedFailed: 'Failed to delete folder "{{folderName}}"',
+      folderCreated: '"{{folderName}}" created',
+      folderCreatedFailed: 'Failed to create folder "{{folderName}}"',
+      onDragStart: "Picked up the folder {{name}}. The folder is in position {{index}} of {{length}}",
+      onDragOver: "The folder {{name}} was moved into position {{index}} of {{length}}",
+      onDragOverMissingOver: "The folder {{name}} is no longer over a droppable area",
+      onDragEnd: "The folder {{name}} was dropped at position {{index}} of {{length}}",
+      onDragEndMissingOver: "The folder {{name}} was dropped",
+      onDragCancel: "Dragging was cancelled. The folder {{name}} was dropped",
+      dragHandle: "Drag the folder {{name}}",
+      professional: "a professional",
+      sharedWarning: "Name and description will be visible for everyone you share the folder with",
+      sharing: {
+        share: "Share folder",
+        shared: "Shared",
+        sharedBy: "Shared by ",
+        sharedByAnonymous: "anonymous teacher",
+        sharedFolder: "Shared folder",
+        unShare: "Sharing stopped. The folder is no longer shared.",
+        unShareFailed: "Failed to stop sharing the folder. The folder is still shared.",
+        copyLink: "Copy link to folder",
+        removeLink: "Remove link to folder",
+        link: "Link is copied",
+        savedLink: "Link to {{ name }} has been added to My folders.",
+        savedLinkFailed: "Failed to add Link to {{name}} to My folders.",
+        unSavedLink: "Link to {{ name }} has been removed from My folders.",
+        unSavedLinkFailed: "Failed to remove link from My folders.",
+        sharedHeader: "This folder is shared",
+        folderShared: "This folder is shared.",
+        folderSharedFailed: "Unsuccessful to share this folder.",
+        description: {
+          copy: "Press the link to copy",
+          private:
+            "When you share a folder, you create a link which is open to anyone who has the link. You can change the content or stop sharing whenever you want.",
+          shared:
+            "Now you can share this link to students or other teachers. If you make changes in the folder, they become visible to everybody you have shared the link with.",
+        },
+        warning: {
+          authenticated:
+            "This folder is shared by {{ name }}, and contains course material, assignments and links to texts from both NDLA and other websites.",
+          unauthenticated:
+            "This folder is shared by {{ name }}, and contains course material, assignments and links to texts from both NDLA and other websites. Log onto My NDLA to copy the folder or save the link.",
+        },
+        button: {
+          share: "Share folder",
+          shareShort: "Share",
+          preview: "Preview folder",
+          previewShort: "Preview",
+          goTo: "Go to shared folder",
+          unShare: "Stop sharing",
+          shareLink: "Copy link",
+          saveLink: "Save the link",
+          unSaveLink: "Remove the link",
+        },
+        save: {
+          warning:
+            "This creates a link to the folder in My folders. You can easily find the link by navigating to My Folders through the menu in My NDLA.",
+          header: "Save the link to this folder",
+          save: "Save the link to the shared folder",
+        },
+        previewInformation:
+          "Preview of shared folder. The folder is not available to others until you update its status to shared.",
+      },
+    },
+    iconMenu: {
+      folders: "Folders",
+      tags: "Tags",
+      subjects: "Subjects",
+      profile: "Profile",
+      more: "More",
+      learningpath: "Learning paths",
+    },
+    tagList: "Tags",
+    tags_one: "{{count}} tag",
+    tags_other: "{{count}} tags",
+    moreTags_one: "Show one more tag",
+    moreTags_other: "Show {{count}} more tags",
+    confirmDeleteFolder:
+      "Are you sure you want to delete this folder? Subfolders of this folder will also be deleted. This action cannot be undone.",
+
+    confirmDeleteTag: "Are you sure you want to delete this tag? This process cannot be undone.",
+    myFolders: "My folders",
+    sharedByOthersFolders: "Folders shared by others",
+    myTags: "My tags",
+    mySubjects: "My subjects",
+    newFolder: "New folder",
+    newFolderShort: "New",
+    newFolderUnder: "Create new folder under {{folderName}}",
+    myAccount: "My account",
+    favourites: "Favourites",
+    addToFavourites: "Add to my favourites",
+    alreadyFavourited: "Already in my favourites",
+    alreadyInFolder: "Already in folder. You can still save new tags.",
+    addInSharedFolder: "This folder is shared. Content you add will also be shared.",
+    noFolderSelected: "Select or create a new folder to save the resource.",
+    examLockInfo: "Editing content on Min NDLA is deactivated for pupils during the exam period.",
+    copyFolderDisclaimer:
+      "This creates a copy of the folder. Any changes made to the original folder will not be updated here.",
+    loginCopyFolderPitch: "Do you wish to copy this folder?",
+    loginSaveFolderLinkPitch: "Do you wish to save the link to this shared folder?",
+    help: "Help",
+    more: "More options",
+    selectView: "Select view",
+    listView: "List view",
+    detailView: "Detailed listview",
+    shortView: "Card view",
+    userPictureAltText: "Profile picture",
+    myPage: {
+      noRecents: "You haven't added any resources yet. This is how you get started:",
+      imageAlt:
+        "Medium close-up of girl holding a tablet. On top of the tablet there are colour samples in different shapes and colours. Graphic image.",
+      confirmDeleteAccount: "Are you sure you want to delete your account?",
+      confirmDeleteAccountButton: "Delete account",
+      myPage: "My page",
+      logout: "Log out of My NDLA",
+      loginIngress:
+        "This page allows you to organize your articles in <b>your own</b> way! Use the heart button to highlight your favorite subjects or resources, and share them with students and colleagues across the country.",
+      loginText:
+        "In order to use the My NDLA service you have to be a student or work at a school in a county that partakes in the NDLA collaboration.",
+      loginTextLink: "Read our privacy policy here",
+      loginTerms: "Log in with Feide to receive access. By logging on your accept your terms of service",
+      loginResourcePitch: "Do you want to favorite this resource?",
+      loginWelcome: "Welcome to My NDLA!",
+      deleteAccount: "Delete profile",
+      loginPitch:
+        "Welcome to My NDLA! Here you can save your favourite resources from NDLA, organize them and share them with others. Log in with your Feide account to get started.",
+      loginPitchButton: "Log in to My NDLA",
+      welcome:
+        "Welcome to my NDLA! You can now save your favourite resources from NDLA and organise them in folders with tags",
+      read: { read: "Read our", our: "." },
+      privacy: "privacy statement",
+      privacyLink: "https://ndla.no/article/personvernerklaering",
+      questions: { question: "Any questions?", ask: "Ask NDLA" },
+      wishToDelete: "Do you wish to delete your account?",
+      terms: {
+        terms: "Terms of use",
+        term1: "Do not write personal or sensitive information in text fields.",
+        term2: "Do not write offensive statements in text fields.",
+        term3: "NDLA reserves the right to update or remove resources if they are not up to date.",
+      },
+      feide: "We have retrieved this information from Feide",
+      feideWrongInfo:
+        "If the information is incorrect, it has to be updated by the host organizationg or the school that the account is associated with. An overview of user support can be found here: feide.no/brukerstotte",
+      recentFavourites: {
+        title: "Recently added to my folders",
+        link: "View all of your folders",
+        search: "Search for resources",
+        unauthorized: "Nothing here? Add a heart to some resources to show them here.",
+      },
+      favouriteSubjects: {
+        noFavorites:
+          "No favourite subjects? Use the heart button to add your favourite subjects, and you can easily find them again!",
+        search: "See all subjects",
+        viewAll: "See all favourite subjects",
+      },
+    },
+    myProfile: {
+      title: "My profile",
+      disclaimerTitle: {
+        employee: "Where is my name used?",
+        student: "Where is my name used?",
+      },
+      disclaimerText: {
+        employee:
+          "Your name is displayed when you share a folder or a learning path. If you do not wish to share your name, you can stop sharing folders or learning paths.",
+        student: "Your name is only displayed for you",
+      },
+      editButtonText: "Change profile picture",
+      modalTexts: {
+        title: "Upload a new profile picture",
+        uploadSection: {
+          title: "Drag and drop",
+          subTitle: "or press to upload picture",
+        },
+        fileName: "Uploaded file:",
+        fileTypes: "Accepted file types: PNG, JPG (Max 5MB)",
+        savePicture: "Save profile picture",
+        deletePicture: "Delete profile picture",
+      },
+    },
+    favoriteSubjects: {
+      title: "My subjects",
+      subjects_one: "{{count}} subject",
+      subjects_other: "{{count}} subjects",
+      noFavorites: "Add a heart to subjects, and they will show up here.",
+      goToAllSubjects: "Go to all subjects",
+    },
+    tools: "Tools",
+    simpleList: "Simple list",
+    detailedList: "With preamble",
   },
   ndlaFilm: {
+    heading: "NDLA film",
+    slideBackwardsLabel: "Scroll backwards",
+    slideForwardsLabel: "Scroll forwards",
     films: "Films",
     topics: "Topics",
     filterFilms: "Filter films",
+    about: {
+      more: "Read more about NDLA film",
+    },
+    search: {
+      categoryFromNdla: "Selected resources from NDLA",
+    },
+  },
+  filmfrontpage: {
+    resourcetype: {
+      documentary: "Documentary",
+      featureFilm: "Feature film",
+      series: "Series",
+      shortFilm: "Short film",
+      all: "All movies A-Z",
+    },
+    allMovieGroupTitleLabel: "Movies starting with {{letter}}",
   },
   validation: {
     fields: {
@@ -306,6 +678,9 @@ const messages = {
     properUrl: "This field can only contain a valid link. E.g: https://ndla.no",
   },
   lti: {
+    embed: "Embed",
+    notSupported:
+      "It did not work to auto-insert the content. You can copy the source code and add it to your content.",
     goBack: "Go back to LTI search",
   },
   resourcepageTitles: {
@@ -316,43 +691,6 @@ const messages = {
   },
   contentTypes: {
     multidisciplinary: "Multidisciplinary case",
-  },
-  markdownEditor: {
-    link: {
-      url: "URL",
-      text: "Text",
-      error: {
-        url: {
-          empty: "Link URL must not be empty",
-          invalid: "Invalid link URL. Follow the format https://ndla.no",
-        },
-        text: {
-          empty: "Link text must not be empty",
-        },
-      },
-    },
-    toolbar: {
-      bold: {
-        active: "Remove bold formatting",
-        inactive: "Add bold formatting",
-      },
-      italic: {
-        active: "Remove italic formatting",
-        inactive: "Add italic formatting",
-      },
-      unorderedList: {
-        active: "Remove unordered list",
-        inactive: "Add unordered list",
-      },
-      orderedList: {
-        active: "Remove ordered list",
-        inactive: "Add ordered list",
-      },
-      link: {
-        active: "Remove link",
-        inactive: "Add link",
-      },
-    },
   },
   multidisciplinary: {
     casesCount: "{{count}} cases",
@@ -365,6 +703,22 @@ const messages = {
   masthead: {
     search: "Search ndla.no",
     moreHits: "See more results",
+    skipToContent: "Skip to content",
+    menuOptions: {
+      programme: "Programmes",
+      subjects: "Subjects",
+      multidisciplinarySubjects: "Multidisciplinary subjects",
+      toolboxStudents: "Toolbox - for students",
+      toolboxTeachers: "Toolbox - for teachers",
+      film: "NDLA film",
+    },
+    menu: {
+      button: "Menu",
+      goToMainMenu: "Go to main menu",
+      search: "Search",
+      modalLabel: "Choose content",
+      title: "Open menu",
+    },
   },
   pagination: { next: "Next", prev: "Previous" },
   programmePage: {
@@ -376,8 +730,16 @@ const messages = {
   subjectPage: {
     topicsTitle: "Topics in {{topic}}",
   },
+  toolboxPage: {
+    introduction:
+      "What will it mean to work exploratory? How can you learn better? What is needed in order to make group work function? In the toolbox both students and teach find resources that are current for every subject, and that support learning work and development of knowledge, skills and understanding.",
+  },
   welcomePage: {
+    resetSearch: "Empty search",
     programmes: "Programmes",
+    heading: {
+      heading: "The Norwegian Digital Learning Arena",
+    },
   },
   learningpathPage: {
     accordionTitle: "Learning path content",
@@ -398,7 +760,7 @@ const messages = {
     errorDescription: "You do not have access to this page.",
   },
   collectionPage: {
-    title: `Resources in $t(languages.{{language}})`,
+    title: "Resources in {{language}}",
     noSubjects: "We do not have any resources in this language yet.",
   },
   date: {
@@ -431,6 +793,151 @@ const messages = {
         },
       },
     },
+  },
+  treeStructure: {
+    maxFoldersAlreadyAdded: "Maximum subfolders reached",
+    newFolder: {
+      placeholder: "Add foldername",
+      folderName: "Folder name",
+    },
+  },
+  competenceGoals: {
+    competenceGoalTitle: "The pupil is expected to be able to:",
+    licenseData: "Containing data under",
+    licenseFrom: "published at",
+    competenceGoalResourceSearchText: "View resources for {{code}}",
+    coreResourceSearchText: "View resources to core element {{code}}",
+    competenceTabLK20label: "Competence goal",
+    competenceTabCorelabel: "Core element",
+    modalText: "Explore curriculum links",
+    showCompetenceGoals: "Show competence goals",
+    competenceGoalItem: {
+      title: "Competence goals and assessment",
+    },
+  },
+  subjectFrontPage: {
+    buildsOn: "Builds on",
+    connectedTo: "Common programme subject with",
+    leadsTo: "Leads to",
+  },
+  learningPath: {
+    lastUpdated: "Last updated",
+    youAreInALearningPath: "You are now in a learningpath",
+    nextArrow: "Go to next step",
+    previousArrow: "Go to previous step",
+    lastStep: {
+      heading: "Last step of this learningpath",
+      headingSmall: "You are now in the last step of the learningpath {{learningPathName}}",
+      topicHeading: "Go to topic:",
+      subjectHeading: "Go to subject:",
+    },
+  },
+  createdBy: {
+    content: "The resource",
+    text: "is retrieved from",
+  },
+  tagSelector: {
+    placeholder: "Enter tag name",
+  },
+  notFoundPage: {
+    title: "Page not found",
+    errorDescription: "We can't seem to find the page you are looking for.",
+  },
+  unpublishedResourcePage: {
+    title: "Resource is unpublished",
+    errorDescription: "The resource you are looking for has been unpublished.",
+  },
+  messageBoxInfo: {
+    noContent: "We are sorry, but we do not yet offer any program courses.",
+    resources: "This is not a complete course, but a collection of resources we hope you will find useful.",
+    subjectOutdated: "This course is not updated to the current curriculum.",
+    subjectBeta: "This course is under development. New resources are being added continously.",
+    frontPageExpired:
+      "Expired subjects are not being taught any longer, but it may still be possible to take exams in these subjects.",
+  },
+  programmes: {
+    header: "What do you want to learn today?",
+    description: "Choose a programme to see your subjects",
+    grades: "Grades",
+  },
+  common: {
+    subject_one: "Subject",
+    subject_other: "Subjects",
+  },
+  resource: {
+    noCoreResourcesAvailableUnspecific: "There is no core content available.",
+    noCoreResourcesAvailable: "There is no core content available for {{name}}.",
+    activateAdditionalResources: "Show additional content",
+    label: "Learning content",
+    tooltipCoreTopic: "Core content",
+    tooltipAdditionalTopic: "Additional content",
+    additionalTooltip: "Additional content is not on the curriculum",
+    trait: {
+      audio: "Audio",
+      h5p: "Interactive",
+      podcast: "Podcast",
+      video: "Video",
+    },
+  },
+  navigation: {
+    additionalTopic: "Additional topic",
+  },
+  siteNav: {
+    close: "Close search",
+  },
+  labels: {
+    other: "Other",
+  },
+  multidisciplinarySubject: {
+    subjectsLinksDescription: "Case in",
+  },
+  frontpageMenu: {
+    allsubjects: "All subjects",
+  },
+  frontpageMultidisciplinarySubject: {
+    text: "The three interdisciplinary topics in the curriculum are based on current societal challenges that require the involvement and efforts of individuals and the community in the local community, nationally and globally.",
+  },
+  footer: {
+    info: "This webapplication is developed as Open Source code.",
+    editorInChief: "Editor in chief:",
+    linksHeader: "Contact",
+    availabilityLink: "Availability statement",
+    privacyLink: "Privacy statement",
+    cookiesLink: "Statement about cookies",
+    aboutWebsite: "About",
+    vision: "We create the learning of the future together",
+    followUs: "Follow us",
+    socialMediaLinks: {
+      facebook: "NDLA on Facebook",
+      newsletter: "Sign up for our Newsletter",
+      youtube: "NDLA on YouTube",
+      linkedin: "NDLA on LinkedIn",
+      instagram: "NDLA on Instagram",
+    },
+    ndlaLinks: {
+      omNdla: "Om NDLA",
+      aboutNdla: "About NDLA",
+      contact: "Contact us",
+    },
+    otherLanguages: "Other languages",
+  },
+  user: {
+    loggedInAs: "You are logged in as {{role}}.",
+    role: {
+      employee: "Employee",
+      student: "Student",
+    },
+    buttonLogIn: "Log in with Feide",
+    buttonLogOut: "Log out",
+    resource: {
+      accessDenied: "We are sorry, but this resource is only available to teachers who are logged in with Feide.",
+    },
+    primarySchool: "Primary School",
+    name: "Name",
+    mail: "E-mail",
+    username: "Username",
+    wrongUserInfoDisclaimer:
+      "If any information is wrong, it must be updated by the host organization/school owner the user belongs to. An overview of available user support can be found here: ",
   },
 };
 

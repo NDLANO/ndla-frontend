@@ -40,6 +40,7 @@ export default defineConfig(() => {
       target: "es2020",
       assetsDir: "static",
       outDir: "build/public",
+      cssCodeSplit: false,
       manifest: true,
       sourcemap: true,
       rollupOptions: {
@@ -54,6 +55,9 @@ export default defineConfig(() => {
     },
     resolve: {
       dedupe: ["react-router", "react-router-dom", "i18next", "react-i18next", "@ark-ui/react"],
+    },
+    define: {
+      "globalThis.__DEV__": JSON.stringify(false),
     },
   };
 });

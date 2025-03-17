@@ -39,16 +39,22 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { id, name } = folder;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const { favoriteSharedFolder } = useFavoriteSharedFolder(id);
+  const [favoriteSharedFolder] = useFavoriteSharedFolder(id);
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
-  const onSaveLink = (name: string) => {
-    favoriteSharedFolder();
-    setOpen(false);
-    toast.create({
-      title: t("myNdla.folder.sharing.savedLink", { name }),
-    });
+  const onSaveLink = async (name: string) => {
+    const res = await favoriteSharedFolder();
+    if (!res.errors?.length) {
+      setOpen(false);
+      toast.create({
+        title: t("myNdla.folder.sharing.savedLink", { name }),
+      });
+    } else {
+      toast.create({
+        title: t("myNdla.folder.sharing.savedLinkFailed", { name }),
+      });
+    }
   };
 
   const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);

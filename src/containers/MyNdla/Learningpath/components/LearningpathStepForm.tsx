@@ -20,13 +20,13 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { toFormValues } from "../utils";
 import { ExternalStepForm } from "./ExternalStepForm";
 import { FolderStepForm } from "./FolderStepForm";
+import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
+import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { toFormValues } from "../learningpathFormUtils";
 import { FormValues } from "../types";
 
 const ContentForm = styled("form", {

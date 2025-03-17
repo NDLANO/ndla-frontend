@@ -13,8 +13,8 @@ import { DeleteBinLine } from "@ndla/icons";
 import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge } from "@ndla/ui";
+import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
-import { GQLResourceType } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
 
 export interface ResourceFormValues {
@@ -42,8 +42,8 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
 
   const onRemove = () => {
     setSelectedResource(undefined);
-    setValue("embedUrl", "", { shouldValidate: true });
-    setValue("title", "", { shouldValidate: true });
+    setValue("embedUrl", "", { shouldDirty: true });
+    setValue("title", "", { shouldDirty: true });
     setFocusId("resource-input");
   };
 
@@ -103,12 +103,6 @@ const CrumbText = styled(Text, {
   },
 });
 
-export interface ResourceData {
-  title: string;
-  breadcrumbs?: string[];
-  resourceTypes?: Pick<GQLResourceType, "id" | "name">[];
-  url: string;
-}
 interface ResourceContentProps {
   onRemove: () => void;
   selectedResource: ResourceData;

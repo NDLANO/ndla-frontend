@@ -92,7 +92,7 @@ export const EditLearningpathTitlePage = () => {
         }}
       />
       <Stack justify="flex-end" direction="row">
-        <Button type="submit" form="titleForm">
+        <Button variant="secondary" type="submit" form="titleForm">
           {t("myNdla.learningpath.form.next")}
         </Button>
       </Stack>

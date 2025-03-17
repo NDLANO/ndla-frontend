@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { LocaleType } from "./interfaces";
 
 type RuntimeType = "test" | "development" | "production";
 
@@ -98,7 +97,7 @@ const logglyApiKey = (): string | undefined => {
 };
 
 export type ConfigType = {
-  defaultLocale: LocaleType;
+  defaultLocale: string;
   componentName: string;
   ndlaEnvironment: string;
   host: string;
@@ -119,23 +118,19 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   isVercel: boolean;
   monsidoToken: string;
-  arenaModeratorGroup: string;
-  arenaAdminGroup: string;
   enableNodeBB: boolean;
   runtimeType: RuntimeType;
   isClient: boolean;
   debugGraphQLCache: boolean;
   sentrydsn: string;
   formbricksId: string;
-  learningpathEnabled: boolean;
-  externalArena: boolean;
   arenaDomain: string;
 };
 
 const getServerSideConfig = (): ConfigType => {
   const ndlaEnvironment = getEnvironmentVariabel("NDLA_ENVIRONMENT", "dev");
   return {
-    defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb") as LocaleType,
+    defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb"),
     componentName: "ndla-frontend",
     ndlaEnvironment,
     host: getEnvironmentVariabel("NDLA_FRONTEND_HOST", "localhost"),
@@ -156,8 +151,6 @@ const getServerSideConfig = (): ConfigType => {
     matomoTagmanagerId: getEnvironmentVariabel("MATOMO_TAGMANAGER_ID", ""),
     isVercel: getEnvironmentVariabel("IS_VERCEL", false),
     monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
-    arenaModeratorGroup: getEnvironmentVariabel("ARENA_MODERATOR_GROUP", "Global Moderators"),
-    arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
     enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", true),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
@@ -167,8 +160,6 @@ const getServerSideConfig = (): ConfigType => {
       "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
-    learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
-    externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", true),
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
   };
 };

@@ -18,8 +18,9 @@ import { PageSpinner } from "../../../../components/PageSpinner";
 import WhileLoading from "../../../../components/WhileLoading";
 import { GQLFolder, GQLSharedFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
+import { makeDndTranslations } from "../../dndUtil";
 import { useSortFoldersMutation } from "../../folderMutations";
-import { makeDndSortFunction, makeDndTranslations } from "../util";
+import { makeDndSortFunction } from "../util";
 
 interface Props {
   loading: boolean;
@@ -38,7 +39,7 @@ export const getFolderCount = (folders: GQLFolder[] | GQLSharedFolder[]) =>
 
 const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
-  const { sortFolders } = useSortFoldersMutation({ type: isFavorited ? "sharedFolder" : "folder" });
+  const [sortFolders] = useSortFoldersMutation({ type: isFavorited ? "sharedFolder" : "folder" });
   const client = useApolloClient();
   const [sortedFolders, setSortedFolders] = useState(folders);
 

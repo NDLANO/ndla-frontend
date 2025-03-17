@@ -13,6 +13,7 @@ import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
+import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
 
@@ -21,6 +22,7 @@ const Layout = () => {
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
+  const isSticky = useIsMastheadSticky();
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -35,10 +37,10 @@ const Layout = () => {
   useEffect(() => {
     if (!htmlRef.current) {
       htmlRef.current = document.querySelector("html");
-    } else {
+    } else if (isSticky) {
       htmlRef.current.style.scrollPaddingTop = `${height}px`;
     }
-  }, [height]);
+  }, [height, isSticky]);
 
   const mastheadHeightVar = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
 

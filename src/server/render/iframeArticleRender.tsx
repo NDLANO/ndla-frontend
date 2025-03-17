@@ -19,6 +19,7 @@ import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, initializeI18n, isValidLocale } from "../../i18n";
 import IframePageContainer from "../../iframe/IframePageContainer";
+import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { RenderFunc } from "../serverHelpers";
@@ -44,7 +45,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
   if (noSSR) {
     return {
       status: OK,
-      locale: locale ?? config.defaultLocale,
+      locale: locale ?? (config.defaultLocale as LocaleType),
       data: {
         htmlContent: renderToString(
           <Document
@@ -93,7 +94,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
 
   return {
     status: context.status ?? OK,
-    locale: locale ?? config.defaultLocale,
+    locale: locale ?? (config.defaultLocale as LocaleType),
     data: {
       htmlContent: html,
       data: {

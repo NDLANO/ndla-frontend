@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client/core";
+import { gql } from "@apollo/client";
 
 export const contextQuery = gql`
   query Context($contextId: String!) {
@@ -72,15 +72,25 @@ const searchResultFragment = gql`
   fragment SearchResource on SearchResult {
     id
     title
-    htmlTitle
     supportedLanguages
     url
     metaDescription
-    metaImage {
-      url
-      alt
+    ... on ArticleSearchResult {
+      htmlTitle
+      traits
+      metaImage {
+        url
+        alt
+      }
     }
-    traits
+    ... on LearningpathSearchResult {
+      htmlTitle
+      traits
+      metaImage {
+        url
+        alt
+      }
+    }
     contexts {
       ...SearchContext
     }

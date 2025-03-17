@@ -16,6 +16,7 @@ import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleForm, TitleFormValues } from "./components/TitleForm";
 import { useCreateLearningpath } from "./learningpathMutations";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
@@ -27,6 +28,7 @@ export const NewLearningpathPage = () => {
   const { trackPageView } = useTracker();
   const { user } = useContext(AuthContext);
 
+  const toast = useToast();
   const { createLearningpath } = useCreateLearningpath();
   const navigate = useNavigate();
 
@@ -49,13 +51,16 @@ export const NewLearningpathPage = () => {
               // TODO: I don't like this approach. We shouldn't rely on index, it's too brittle
               license: ALL_ABBREVIATIONS[4],
             },
-            contributors: [{ name: user.displayName, type: "author" }],
+            contributors: [{ name: user.displayName, type: "writer" }],
           },
         },
       },
     });
     if (res.data?.newLearningpath.id) {
       navigate(routes.myNdla.learningpathEditSteps(res.data.newLearningpath.id));
+    }
+    if (res.errors?.length) {
+      toast.create({ title: t("myNdla.learningpath.toast.createdFailed") });
     }
   };
 

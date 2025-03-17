@@ -215,7 +215,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
         {!!node.nodes?.length && (
           <StyledNav aria-labelledby={headingId}>
             <Heading id={headingId} textStyle="heading.small" asChild consumeCss>
-              <h2>{t("topicPage.topics")}</h2>
+              <h2>{t("topicsPage.topics")}</h2>
             </Heading>
             <TransportationPageNodeListGrid>
               {node.nodes.map((node) => (

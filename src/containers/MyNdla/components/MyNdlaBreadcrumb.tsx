@@ -16,7 +16,7 @@ interface Props {
   page: PageType;
 }
 
-type PageType = "folders" | "subjects" | "arena" | "admin" | "learningpath";
+type PageType = "folders" | "subjects" | "learningpath";
 
 const types = {
   folders: {
@@ -26,14 +26,6 @@ const types = {
   subjects: {
     to: routes.myNdla.subjects,
     name: "myNdla.favoriteSubjects",
-  },
-  arena: {
-    to: routes.myNdla.arena,
-    name: "myNdla.arena.title",
-  },
-  admin: {
-    to: routes.myNdla.admin,
-    name: "myNdla.arena.admin.title",
   },
   learningpath: {
     to: routes.myNdla.learningpath,

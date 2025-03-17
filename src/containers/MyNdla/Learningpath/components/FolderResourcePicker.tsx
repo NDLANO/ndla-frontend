@@ -28,7 +28,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
 import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
-import { FolderResource } from "./FolderStepForm";
+import { FolderResource } from "./folderTypes";
 import {
   GQLBreadcrumb,
   GQLFolder,
@@ -179,6 +179,10 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
   if (!!foldersError || !!folderResourceMetaError)
     return <Text color="text.error">{t("myNdla.learningpath.form.content.folder.error")}</Text>;
+
+  if (stitchedResources.length === 0) {
+    return <Text>{t("myNdla.learningpath.form.content.folder.noResources")}</Text>;
+  }
 
   return (
     <ComboboxRoot

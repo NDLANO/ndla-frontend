@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo, useRef, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
@@ -34,6 +34,7 @@ import {
 import { Breadcrumb } from "../../interfaces";
 import { routes, toLearningPath } from "../../routeHelpers";
 import FavoriteButton from "../Article/FavoritesButton";
+import { AuthContext } from "../AuthenticationContext";
 import { PageContainer } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 import CopyLearningPath from "./components/CopyLearningPath";
@@ -190,6 +191,7 @@ const Learningpath = ({
   const { t } = useTranslation();
   const [accordionValue, setAccordionValue] = useState<string[]>();
   const accordionRef = useRef<HTMLDivElement>(null);
+  const { user } = useContext(AuthContext);
 
   const index = learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id);
   const previousStep = learningpath.learningsteps[index - 1];
@@ -231,7 +233,7 @@ const Learningpath = ({
               >
                 <FavoriteButton path={path} />
               </AddResourceToFolderModal>
-              {!resourcePath && <CopyLearningPath learningpath={learningpath} />}
+              {!resourcePath && user?.role === "employee" && <CopyLearningPath learningpath={learningpath} />}
             </ContentTypeWrapper>
             <Text textStyle="label.large">
               {`${t("learningPath.youAreInALearningPath")}:`}
@@ -331,8 +333,8 @@ Learningpath.fragments = {
       license {
         license
       }
-      ...LearningpathEmbed_LearningpathStep
       ...LearningpathMenu_LearningpathStep
+      ...LearningpathStep_LearningpathStep
     }
     ${LearningpathMenu.fragments.step}
     ${LearningpathStep.fragments.learningpathStep}

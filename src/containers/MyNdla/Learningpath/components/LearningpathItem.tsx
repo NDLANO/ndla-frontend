@@ -6,18 +6,16 @@
  *
  */
 
-import { Fragment, useMemo } from "react";
+import { Fragment, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { PencilLine, CheckLine, UserLine, RouteLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { useLearningpathActionHooks } from "./LearningpathActionHooks";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import SettingsMenu from "../../components/SettingsMenu";
-import { LEARNINGPATH_PRIVATE, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED, learningpathId } from "../utils";
+import { LEARNINGPATH_PRIVATE, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "../utils";
 
 const StatusText = styled(Text, {
   base: {
@@ -50,11 +48,10 @@ const MenuWrapper = styled("div", {
 
 interface Props {
   learningpath: GQLMyNdlaLearningpathFragment;
-  showMenu: boolean;
+  menu?: ReactNode;
 }
-export const LearningpathItem = ({ learningpath, showMenu = true, context, ...rest }: Props & ListItemVariantProps) => {
+export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props & ListItemVariantProps) => {
   const { t, i18n } = useTranslation();
-  const menuItems = useLearningpathActionHooks(learningpath);
 
   const MaybeWrapper = context === "list" ? "li" : Fragment;
 
@@ -72,7 +69,7 @@ export const LearningpathItem = ({ learningpath, showMenu = true, context, ...re
   return (
     <ListItemRoot
       {...rest}
-      id={learningpathId(learningpath.id)}
+      id={learningpath.id.toString()}
       context={context}
       asChild={context === "list"}
       consumeCss={context === "list"}
@@ -111,11 +108,7 @@ export const LearningpathItem = ({ learningpath, showMenu = true, context, ...re
             </StatusText>
           ) : null}
         </ListItemContent>
-        {showMenu ? (
-          <MenuWrapper>
-            <SettingsMenu menuItems={menuItems} />
-          </MenuWrapper>
-        ) : null}
+        {menu ? <MenuWrapper>{menu}</MenuWrapper> : null}
       </MaybeWrapper>
     </ListItemRoot>
   );
