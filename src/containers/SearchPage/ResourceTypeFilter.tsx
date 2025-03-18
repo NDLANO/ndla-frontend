@@ -178,7 +178,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
         <StyledRadioGroupRoot
           orientation="horizontal"
           value={nodeType}
-          onValueChange={(details) => onChangeNodeType(details.value)}
+          onValueChange={(details) => (details.value ? onChangeNodeType(details.value) : undefined)}
         >
           <RadioGroupLabel textStyle="label.medium" fontWeight="bold" asChild consumeCss>
             <h3>{t("searchPage.resourceTypeFilter.title")}</h3>
