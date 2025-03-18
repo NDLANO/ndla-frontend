@@ -58,13 +58,6 @@ interface State {
   hasError: boolean;
 }
 
-const resourceRoutes = (
-  <>
-    <Route index element={<ResourcePage />} />
-    <Route path=":stepId" element={<ResourcePage />} />
-  </>
-);
-
 class App extends Component<AppProps, State> {
   constructor(props: AppProps) {
     super(props);
@@ -117,17 +110,6 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="learningpaths/:learningpathId" element={<PlainLearningpathPage />}>
                   <Route path="steps/:stepId" element={null} />
                 </Route>
-                <Route path="subject:subjectId/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
                 <Route path="r" element={<ResourcePage />}>
                   <Route path=":contextId" element={null} />
                   <Route path=":contextId/:stepId" element={null} />
@@ -142,20 +124,6 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route path=":contextId" element={null} />
                   <Route path=":root/:contextId" element={null} />
                   <Route path=":root/:name/:contextId" element={null} />
-                </Route>
-                <Route path="subject:subjectId" element={<SubjectPage />} />
-                <Route path="subject:subjectId/topic:topicId" element={<TopicPage />} />
-                <Route path="subject:subjectId/topic:topic1" element={<TopicPage />}>
-                  <Route path="topic:topicId" element={null} />
-                  <Route path="topic:topic2" element={null}>
-                    <Route path="topic:topicId" element={null} />
-                    <Route path="topic:topic3" element={null}>
-                      <Route path="topic:topicId" element={null} />
-                      <Route path="topic:topic4" element={null}>
-                        <Route path="topic:topicId" element={null} />
-                      </Route>
-                    </Route>
-                  </Route>
                 </Route>
                 <Route path="video/:videoId" element={<VideoPage />} />
                 <Route path="image/:imageId" element={<ImagePage />} />
