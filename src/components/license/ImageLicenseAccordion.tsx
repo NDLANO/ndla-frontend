@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { useTranslation } from "react-i18next";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
@@ -25,7 +26,8 @@ type Props = {
 
 const StyledAccordionRoot = styled(AccordionRoot, {
   base: {
-    paddingBlockStart: "3xlarge",
+    marginBlockStart: "3xlarge",
+    width: "2/3",
   },
 });
 
