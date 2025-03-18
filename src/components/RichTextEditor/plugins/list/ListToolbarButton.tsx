@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { useSlateSelection } from "slate-react";
 import { ListType } from "@ndla/editor";
 import { platformSpecificTooltip, useListToolbarButton, useListToolbarButtonState } from "@ndla/editor-components";
 import { IconButton, IconButtonProps } from "@ndla/primitives";
@@ -18,6 +19,7 @@ interface Props extends IconButtonProps {
 
 export const ListToolbarButton = ({ listType, shortcut, title, ...rest }: Props) => {
   const { t } = useTranslation();
+  const selection = useSlateSelection();
   const state = useListToolbarButtonState({ type: listType });
   const toolbarButton = useListToolbarButton(state);
   const tooltip = shortcut
@@ -27,6 +29,7 @@ export const ListToolbarButton = ({ listType, shortcut, title, ...rest }: Props)
     <IconButton
       size="small"
       variant="tertiary"
+      disabled={!selection}
       {...toolbarButton.props}
       {...rest}
       title={title ?? tooltip}

@@ -8,6 +8,11 @@
 
 import "@testing-library/jest-dom/vitest";
 import { cleanup } from "@testing-library/react";
+import { ResizeObserver } from "@juggle/resize-observer";
+
+beforeAll(() => {
+  global.ResizeObserver = ResizeObserver;
+});
 
 afterEach(() => {
   cleanup();

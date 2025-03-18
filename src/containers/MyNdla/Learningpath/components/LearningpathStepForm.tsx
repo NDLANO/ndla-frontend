@@ -73,9 +73,16 @@ export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete
               <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
               <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
               <RadioGroupRoot
-                onValueChange={(details) => reset(toFormValues(details.value as FormValues["type"]))}
+                onValueChange={(details) => {
+                  reset(toFormValues(details.value as FormValues["type"]));
+                  field.onChange(details.value);
+                }}
+                value={field.value}
+                ref={field.ref}
+                disabled={field.disabled}
+                name={field.name}
+                onBlur={field.onBlur}
                 orientation="vertical"
-                {...field}
               >
                 {RADIO_GROUP_OPTIONS.map((val) => (
                   <RadioGroupItem value={val} key={val}>
