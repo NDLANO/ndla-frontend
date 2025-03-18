@@ -11,12 +11,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons";
-import { Button, PageContent } from "@ndla/primitives";
+import { BleedPageContent, Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
 import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
+import { BannerAlerts } from "../components/BannerAlerts";
 import { useLtiData } from "../components/LtiContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
@@ -77,6 +78,11 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
         : undefined;
   return (
     <PageContent variant="content">
+      {
+        <BleedPageContent>
+          <BannerAlerts />
+        </BleedPageContent>
+      }
       <title>{getDocumentTitle({ article: propArticle })}</title>
       <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (

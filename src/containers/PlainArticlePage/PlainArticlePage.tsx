@@ -82,7 +82,7 @@ const PlainArticlePage = () => {
     return <NotFoundPage />;
   }
 
-  return <PlainArticleContainer article={data.article} skipToContentId={SKIP_TO_CONTENT_ID} />;
+  return <PlainArticleContainer key={data.article.id} article={data.article} skipToContentId={SKIP_TO_CONTENT_ID} />;
 };
 
 export default PlainArticlePage;

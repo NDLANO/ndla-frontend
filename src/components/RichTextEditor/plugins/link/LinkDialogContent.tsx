@@ -69,7 +69,11 @@ export const LinkDialogContent = ({ initialValue }: LinkDialogContentProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
 
-  const { control, handleSubmit } = useForm({ defaultValues: initialValue, mode: "onSubmit" });
+  const { control, handleSubmit } = useForm({
+    defaultValues: initialValue,
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+  });
 
   const onSave: SubmitHandler<LinkFormValues> = useCallback(
     (values) => {

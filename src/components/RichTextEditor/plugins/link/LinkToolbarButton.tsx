@@ -8,7 +8,7 @@
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSlate } from "slate-react";
+import { useSlate, useSlateSelection } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { isLinkElement } from "@ndla/editor";
 import { platformSpecificTooltip } from "@ndla/editor-components";
@@ -25,6 +25,7 @@ export const LinkToolbarButton = ({ shortcut, ...rest }: Props) => {
   const { t } = useTranslation();
   const [initialValue, setInitialValue] = useState<LinkFormValues | undefined>(undefined);
   const editor = useSlate();
+  const selection = useSlateSelection();
 
   const [match] = editor.nodes({ match: isLinkElement });
 
@@ -42,6 +43,7 @@ export const LinkToolbarButton = ({ shortcut, ...rest }: Props) => {
       <DialogTrigger
         asChild
         onMouseDown={(e) => e.preventDefault()}
+        disabled={!selection}
         onClick={() => setInitialValue(toInitialLinkFormValues(match?.[0], editor))}
       >
         <IconButton

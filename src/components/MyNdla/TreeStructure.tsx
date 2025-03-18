@@ -249,6 +249,7 @@ export const TreeStructure = ({
       onFocusOutside={(e) => e.preventDefault()}
       persistentElements={[() => newFolderButtonRef.current, () => inputRef.current]}
       initialFocusEl={() => inputRef.current}
+      portalled={false}
     >
       <StyledTreeRootProvider value={treeView} asChild {...treeView.getRootProps()}>
         <Stack align="flex-end">
