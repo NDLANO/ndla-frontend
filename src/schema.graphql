@@ -1382,6 +1382,7 @@ type SubjectPageBanner {
 
 type SubjectPageVisualElement {
   alt: String
+  imageLicense: ImageLicense
   type: String!
   url: String!
 }

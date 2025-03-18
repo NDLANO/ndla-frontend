@@ -13,7 +13,7 @@ test("contains search bar", async ({ page }) => {
   await page.goto("/search/?disableSSR=true");
   await mockWaitResponse(page, "**/graphql-api/*");
 
-  const topicHeader = page.getByRole("heading").getByText("Emne");
+  const topicHeader = page.getByRole("heading").getByText("Emne", { exact: true });
   await expect(topicHeader).toBeVisible();
 
   const input = page.getByRole("searchbox");

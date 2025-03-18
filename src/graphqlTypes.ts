@@ -1842,6 +1842,7 @@ export type GQLSubjectPageBanner = {
 export type GQLSubjectPageVisualElement = {
   __typename?: "SubjectPageVisualElement";
   alt?: Maybe<Scalars["String"]["output"]>;
+  imageLicense?: Maybe<GQLImageLicense>;
   type: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
 };
@@ -3725,7 +3726,13 @@ export type GQLSubjectContainer_NodeFragment = {
     about?: {
       __typename?: "SubjectPageAbout";
       title: string;
-      visualElement: { __typename?: "SubjectPageVisualElement"; type: string; alt?: string; url: string };
+      visualElement: {
+        __typename?: "SubjectPageVisualElement";
+        type: string;
+        alt?: string;
+        url: string;
+        imageLicense?: { __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment;
+      };
     };
   } & GQLSubjectLinks_SubjectPageFragment;
 } & GQLFavoriteSubject_NodeFragment;
