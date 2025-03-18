@@ -38,12 +38,10 @@ const ShortText = styled("span", {
   },
 });
 
-const IconWrapper = styled("span", {
+const StyledExternalLinkLine = styled(ExternalLinkLine, {
   base: {
-    "& svg": {
-      width: "small",
-      height: "small",
-    },
+    width: "small!",
+    height: "small!",
   },
 });
 
@@ -85,9 +83,7 @@ const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reload
         {external ? (
           <ExternalWrapper>
             <ShortText>{shortName}</ShortText>
-            <IconWrapper aria-hidden>
-              <ExternalLinkLine />
-            </IconWrapper>
+            <StyledExternalLinkLine />
           </ExternalWrapper>
         ) : (
           <ShortText>{shortName}</ShortText>
