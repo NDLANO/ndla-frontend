@@ -44,7 +44,7 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
   };
 }
 
-type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId";
+type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId" | "nodeId";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;
@@ -61,14 +61,16 @@ const getApolloClient = (locale: string, req: express.Request) => {
 
 const getHTMLandTitle = async (match: Params<MatchParams>, req: express.Request) => {
   const { contextId, resourceId, topicId, lang = config.defaultLocale } = match;
-  if (!contextId && !topicId && !resourceId) {
+  if (!contextId && !topicId && !resourceId && !match.nodeId) {
     return {};
   }
 
   const height = req.query.height || 480;
   const width = req.query.width || 854;
   const nodeId = topicId && !resourceId ? `urn:topic${topicId}` : `urn:resource${resourceId}`;
-  const node = contextId ? await queryNodeByContexts(contextId, lang) : await fetchNode(nodeId, lang);
+  const node = contextId
+    ? await queryNodeByContexts(contextId, lang)
+    : await fetchNode(match.nodeId ? match.nodeId : nodeId, lang);
   if (node.contentUri?.includes("learningpath")) {
     return {};
   }
@@ -155,6 +157,7 @@ export async function oembedArticleRoute(req: express.Request) {
     videoId,
     imageId,
     topicId,
+    nodeId,
     lang = config.defaultLocale,
   } = params;
   try {
@@ -168,7 +171,7 @@ export async function oembedArticleRoute(req: express.Request) {
       return await getEmbedObject(lang, imageId, "image", req);
     } else if (h5pId) {
       return await getEmbedObject(lang, h5pId, "h5p", req);
-    } else if (!resourceId && !topicId && !contextId) {
+    } else if (!resourceId && !topicId && !nodeId && !contextId) {
       const { articleId } = params;
       const article = await fetchArticle(articleId!, lang);
       const height = req.query.height || 480;
