@@ -214,12 +214,12 @@ const messages = {
     },
     acceptedShareName: {
       title: "No viser vi namnet ditt når du deler",
-      subtitle: "Vi har endra visninga på delte mapper. No visast namnet ditt på alle delte mapper og læringsstier.",
+      subtitle: "Vi har endra visninga på delte mapper. No visest namnet ditt på alle delte mapper og læringsstiar.",
       description:
-        "Dersom du ikkje ønsker at namnet ditt skal være synleg kan du avslutte deling av mapper og læringsstier.",
+        "Dersom du ikkje ønsker at namnet ditt skal vere synleg, kan du avslutte deling av mapper og læringsstiar.",
       button: "OK",
       accept: {
-        error: "Kunne ikke lagre",
+        error: "Kunne ikkje lagre",
       },
     },
     arena: {
