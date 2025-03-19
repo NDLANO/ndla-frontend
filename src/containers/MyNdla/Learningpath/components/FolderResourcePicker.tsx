@@ -35,8 +35,8 @@ import {
   GQLFolderResource,
   GQLFolderResourceMetaSearchQuery,
 } from "../../../../graphqlTypes";
+import { useFolders, useFolderResourceMetaSearch } from "../../../../mutations/folderMutations";
 import { contentTypeMapping } from "../../../../util/getContentType";
-import { useFolders, useFolderResourceMetaSearch } from "../../folderMutations";
 
 const StyledHitsWrapper = styled("div", {
   base: {

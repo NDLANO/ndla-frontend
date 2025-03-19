@@ -12,8 +12,8 @@ import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, Dialo
 import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 import ListResource from "./ListResource";
 import LoginModalContent from "./LoginModalContent";
-import { useFolderResourceMeta } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
+import { useFolderResourceMeta } from "../../mutations/folderMutations";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";

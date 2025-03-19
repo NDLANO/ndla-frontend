@@ -17,21 +17,20 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
 import ListResource from "../../../components/MyNdla/ListResource";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import MyNdlaTitle, { TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import { GQLFolderResource } from "../../../graphqlTypes";
+import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/folderMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import TitleWrapper from "../components/TitleWrapper";
-import { useFolders, useFolderResourceMetaSearch } from "../folderMutations";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {

@@ -27,9 +27,9 @@ import { Folder } from "../../../components/MyNdla/Folder";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
 import { GQLFolder } from "../../../graphqlTypes";
+import { useFavoriteSharedFolder } from "../../../mutations/folderMutations";
 import { routes } from "../../../routeHelpers";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
-import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
 
 interface SaveLinkProps {
   folder: GQLFolder;

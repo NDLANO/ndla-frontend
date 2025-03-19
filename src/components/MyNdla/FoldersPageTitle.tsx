@@ -10,9 +10,8 @@ import { useTranslation } from "react-i18next";
 import { FolderUserLine, FolderLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import MyNdlaBreadcrumb from "../../containers/MyNdla/components/MyNdlaBreadcrumb";
-import MyNdlaTitle from "../../containers/MyNdla/components/MyNdlaTitle";
-import TitleWrapper from "../../containers/MyNdla/components/TitleWrapper";
+import MyNdlaBreadcrumb from "./MyNdlaBreadcrumb";
+import MyNdlaTitle, { TitleWrapper } from "./MyNdlaTitle";
 import { GQLFolder } from "../../graphqlTypes";
 
 const TitleRow = styled("div", {

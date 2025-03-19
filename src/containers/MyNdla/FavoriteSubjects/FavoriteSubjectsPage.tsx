@@ -14,13 +14,13 @@ import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import MyNdlaTitle from "../../../components/MyNdla/MyNdlaTitle";
+import { useFavouriteSubjects } from "../../../mutations/folderMutations";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../../AllSubjectsPage/SubjectLink";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import MyNdlaTitle from "../components/MyNdlaTitle";
 import { MenuItemProps } from "../components/SettingsMenu";
-import { useFavouriteSubjects } from "../folderMutations";
 import { sortSubjectsByRecentlyFavourited } from "../myNdlaUtils";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {

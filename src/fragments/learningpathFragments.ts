@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 
-export const learningpathStepEmbedUrl = gql`
+const learningpathStepEmbedUrl = gql`
   fragment LearningpathStepEmbedUrl on LearningpathStepEmbedUrl {
     url
     embedType
@@ -25,7 +25,7 @@ export const learningpathStepOembed = gql`
   }
 `;
 
-export const articleFragment = gql`
+const articleFragment = gql`
   fragment Resource_Article on Article {
     id
     metaDescription

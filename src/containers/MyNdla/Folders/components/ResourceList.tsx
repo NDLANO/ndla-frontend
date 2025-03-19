@@ -17,8 +17,8 @@ import { keyBy } from "@ndla/util";
 import DraggableResource from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
+import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../../../mutations/folderMutations";
 import { makeDndTranslations } from "../../dndUtil";
-import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
 import { makeDndSortFunction } from "../util";
 
 const StyledBlockWrapper = styled(BlockWrapper, {

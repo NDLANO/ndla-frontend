@@ -26,8 +26,8 @@ import {
   GQLCopyLearningpathMutation,
   GQLUpdateLearningpathStepSeqNoMutation,
   GQLUpdateLearningpathStepSeqNoMutationVariables,
-} from "../../../graphqlTypes";
-import { learningpathFragment, learningpathStepFragment } from "./learningpathFragments";
+} from "../graphqlTypes";
+import { learningpathFragment, learningpathStepFragment } from "../fragments/learningpathFragments";
 
 const deleteLearningpathMutation = gql`
   mutation deleteLearningpath($id: Int!) {

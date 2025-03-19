@@ -22,7 +22,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IFolderDTO } from "@ndla/types-backend/myndla-api";
-import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
+import { getFolder, useAddFolderMutation, useFolders } from "../../mutations/folderMutations";
 import useValidationTranslation from "../../util/useValidationTranslation";
 import { useToast } from "../ToastContext";
 
