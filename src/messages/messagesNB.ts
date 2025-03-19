@@ -383,8 +383,6 @@ const messages = {
         title: "Denne læringsstien er delt",
         description: {
           shared:
-            "Når du deler en læringssti, lager du en lenke som er åpen for alle som har lenken. Du kan endre innholdet eller avslutte delinga når du ønsker det.",
-          private:
             "Nå kan du dele denne lenken med elever eller andre lærere. Hvis du gjør endringer i læringsstien, blir de synlige for alle du har delt lenken med.",
           copy: "Trykk på lenken for å kopiere",
         },
@@ -399,7 +397,7 @@ const messages = {
         saveAndClose: "Lagre og lukk",
         pageHeading: "Lagre og del",
         pageDescription:
-          "Lagre og del læringsstien din. Når du deler oppretter du en delbar lenke som du kan sende til elever eller lærere.",
+          "Lagre og del læringsstien din. Når du deler en læringssti, lager du en delbar lenke som du kan sende til elever eller lærere. Læringsstien din vil være tilgjengelig for alle som har lenken. Du kan endre innholdet eller avslutte delinga når du ønsker det.",
       },
       previewLearningpath: {
         pageHeading: "Se gjennom",
