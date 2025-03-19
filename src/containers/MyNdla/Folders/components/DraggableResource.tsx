@@ -246,6 +246,7 @@ const DraggableResource = ({
           description={resourceMeta?.description ?? ""}
           menu={menu}
           variant="subtle"
+          nonInteractive={!resourceMeta}
         />
       </DragWrapper>
     </DraggableListItem>
