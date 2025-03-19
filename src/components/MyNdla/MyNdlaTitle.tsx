@@ -7,7 +7,20 @@
  */
 
 import { Heading } from "@ndla/primitives";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { styled } from "@ndla/styled-system/jsx";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+
+export const TitleWrapper = styled("div", {
+  base: {
+    alignItems: "flex-start",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    "& a": {
+      color: "text.default",
+    },
+  },
+});
 
 interface Props {
   title: string;

@@ -51,8 +51,8 @@ import {
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
   GQLUpdateFolderStatusMutation,
-} from "../../graphqlTypes";
-import { nodeWithMetadataFragment } from "../../queries";
+} from "../graphqlTypes";
+import { nodeWithMetadataFragment } from "../queries";
 
 export const folderResourceFragment = gql`
   fragment FolderResourceFragment on FolderResource {

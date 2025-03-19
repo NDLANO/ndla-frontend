@@ -16,17 +16,20 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { CampaignBlock } from "@ndla/ui";
 import { keyBy } from "@ndla/util";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
-import MyNdlaTitle from "./components/MyNdlaTitle";
-import TitleWrapper from "./components/TitleWrapper";
-import { useFolderResourceMetaSearch, useFavouriteSubjects, useRecentlyUsedResources } from "./folderMutations";
 import { isStudent } from "./Folders/util";
 import { sortSubjectsByRecentlyFavourited } from "./myNdlaUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
+import MyNdlaTitle, { TitleWrapper } from "../../components/MyNdla/MyNdlaTitle";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { myndlaLanguages } from "../../i18n";
+import {
+  useFolderResourceMetaSearch,
+  useFavouriteSubjects,
+  useRecentlyUsedResources,
+} from "../../mutations/folderMutations";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getNdlaRobotDateFormat } from "../../util/formatDate";

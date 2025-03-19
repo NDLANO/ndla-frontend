@@ -8,8 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { Breadcrumb } from "@ndla/ui";
-import { GQLBreadcrumb } from "../../../graphqlTypes";
-import { routes } from "../../../routeHelpers";
+import { GQLBreadcrumb } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 
 interface Props {
   breadcrumbs: GQLBreadcrumb[];

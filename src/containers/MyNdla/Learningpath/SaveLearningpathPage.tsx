@@ -13,23 +13,23 @@ import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
+import { LearningpathItem } from "./components/LearningpathItem";
+import { LearningpathShareDialogContent } from "./components/LearningpathShareDialogContent";
+import { LearningpathStepper } from "./components/LearningpathStepper";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
-import { useUpdateLearningpathStatus } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import { LearningpathItem } from "./components/LearningpathItem";
-import { LearningpathShareDialogContent } from "./components/LearningpathShareDialogContent";
-import { LearningpathStepper } from "./components/LearningpathStepper";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathShareLink } from "./components/LearningpathShareLink";
+import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
 
 const TextWrapper = styled("div", {
   base: {

@@ -14,13 +14,13 @@ import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleForm, TitleFormValues } from "./components/TitleForm";
-import { useCreateLearningpath } from "./learningpathMutations";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { useCreateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 export const NewLearningpathPage = () => {

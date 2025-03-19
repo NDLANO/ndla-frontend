@@ -15,18 +15,18 @@ import FolderEditModalContent from "./FolderEditModalContent";
 import { FolderFormValues } from "./FolderForm";
 import FolderShareModalContent from "./FolderShareModalContent";
 import { AuthContext } from "../../../../components/AuthenticationContext";
+import DeleteModalContent from "../../../../components/MyNdla/DeleteModalContent";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { routes } from "../../../../routeHelpers";
-import DeleteModalContent from "../../components/DeleteModalContent";
-import { MenuItemProps } from "../../components/SettingsMenu";
 import {
   useAddFolderMutation,
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
   useUnFavoriteSharedFolder,
-} from "../../folderMutations";
+} from "../../../../mutations/folderMutations";
+import { routes } from "../../../../routeHelpers";
+import { MenuItemProps } from "../../components/SettingsMenu";
 import { copyFolderSharingLink, isStudent } from "../util";
 
 export const useFolderActions = (

@@ -17,7 +17,7 @@ import {
   DialogCloseTrigger,
   DialogFooter,
 } from "@ndla/primitives";
-import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {
   onDelete: () => void;

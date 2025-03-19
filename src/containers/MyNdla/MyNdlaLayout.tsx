@@ -48,7 +48,7 @@ import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { AcceptArenaDialog } from "./components/AcceptArenaDialog";
 import { MyNdlaButton } from "./components/MyNdlaButton";
-import { useUpdatePersonalData } from "./userMutations";
+import { useUpdatePersonalData } from "../../mutations/userMutations";
 import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled(PageLayout, {

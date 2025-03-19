@@ -31,10 +31,10 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
 import LearningpathStepForm from "./components/LearningpathStepForm";
 import { formValuesToGQLInput } from "./learningpathFormUtils";
-import { useCreateLearningpathStep, useUpdateLearningpathStepSeqNo } from "./learningpathMutations";
 import { FormValues } from "./types";
 import { useToast } from "../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
+import { useCreateLearningpathStep, useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
 
