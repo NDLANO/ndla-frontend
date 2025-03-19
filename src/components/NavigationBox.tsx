@@ -51,6 +51,7 @@ interface Props {
 export const NavigationBox = ({ heading, variant, items }: Props & NavigationSafeLinkButtonVariantProps) => {
   const { t } = useTranslation();
   const headingId = useId();
+
   return (
     <StyledWrapper aria-labelledby={heading ? headingId : undefined} data-nav-box="">
       {!!heading && (
@@ -60,7 +61,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
       )}
       <StyledList data-testid="nav-box-list">
         {items?.map((item) => (
-          <li key={item.id} data-testid="nav-box-item">
+          <li key={item.id ?? item.url} data-testid="nav-box-item">
             <NavigationSafeLinkButton to={item.url ?? ""} aria-current={item.current} variant={variant}>
               {!!item.isAdditionalResource && (
                 <Additional
