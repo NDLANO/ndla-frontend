@@ -69,8 +69,8 @@ export const routes = [
 export const embedRoutes = [
   "article-iframe/article/:articleId",
   "article-iframe/:lang/article/:articleId",
-  "article-iframe/urn:topicOrResourceId/:articleId",
-  "article-iframe/:lang/urn:topicOrResourceId/:articleId",
+  "article-iframe/:nodeId/:articleId",
+  "article-iframe/:lang/:nodeId/:articleId",
   "embed-iframe/video/:videoId",
   "embed-iframe/audio/:audioId",
   "embed-iframe/image/:imageId",
