@@ -6,6 +6,7 @@
  *
  */
 
+import { useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { MovedTopicPage } from "./MovedTopicPage";
 import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
@@ -14,7 +15,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
-import { getSubjectType, useUrnIds } from "../../routeHelpers";
+import { getSubjectType } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
@@ -75,12 +76,12 @@ export const topicPageQuery = gql`
 `;
 
 export const TopicPage = () => {
-  const { contextId, subjectId, topicId } = useUrnIds();
+  const { contextId } = useParams();
   const query = useQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {
-      id: topicId,
-      rootId: subjectId ?? MULTIDISCIPLINARY_SUBJECT_ID,
       contextId: contextId,
+      // TODO: Is it wise to hardcode this? Should it always be set? Multidisciplinary breaks if we don't have it.
+      rootId: MULTIDISCIPLINARY_SUBJECT_ID,
       transformArgs: {
         showVisualElement: "true",
         prettyUrl: true,
