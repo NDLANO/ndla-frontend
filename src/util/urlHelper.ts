@@ -16,7 +16,6 @@ type OembedReturnParams =
   | "subjectId"
   | "topicId"
   | "resourceId"
-  | "stepId"
   | "contextId"
   | "articleId"
   | "nodeId"
@@ -37,6 +36,10 @@ const matchRoute = <ParamKey extends string = string>(
   return match ? matchPath(match, pathname)?.params : undefined;
 };
 
+const SUBJECT_REGEX = /^subject:(\d+:)?[a-z\-0-9]+$/;
+const RESOURCE_REGEX = /^resource:(\d+:)?[a-z\-0-9]+$/;
+const TOPIC_REGEX = /^topic:(\d+:)?[a-z\-0-9]+$/;
+
 export function parseOembedUrl(url: string) {
   const { pathname } = new URL(url);
   const paths = pathname.split("/");
@@ -47,6 +50,33 @@ export function parseOembedUrl(url: string) {
     paths.splice(paths.indexOf("subjects"), 1);
   }
   const path = paths.join("/");
+
+  if (path.includes("/subject:")) {
+    const params: Partial<Record<OembedReturnParams, string>> = {};
+    // Remove empty string caused by leading slash
+    paths.shift();
+    const locale = isValidLocale(paths[0]) ? paths.shift() : undefined;
+    params.lang = locale;
+    const subjectId = paths.shift();
+    if (!subjectId || !SUBJECT_REGEX.test(subjectId)) return undefined;
+    params.subjectId = `urn:${subjectId}`;
+
+    let valid = true;
+    for (const p of paths) {
+      if (RESOURCE_REGEX.test(p)) {
+        params.resourceId = `urn:${p}`;
+      } else if (TOPIC_REGEX.test(p)) {
+        params.topicId = `urn:${p}`;
+      } else {
+        valid = false;
+        break;
+      }
+    }
+    return valid && params.subjectId && (params.resourceId || params.topicId)
+      ? (params as Params<OembedReturnParams>)
+      : undefined;
+  }
+
   return matchRoute<OembedReturnParams>(path, oembedRoutes, isValidLocale(paths[1]));
 }
 
