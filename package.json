@@ -82,7 +82,7 @@
     "vitest": "^3.0.7"
   },
   "dependencies": {
-    "@apollo/client": "^3.12.2",
+    "@apollo/client": "^3.13.4",
     "@ark-ui/react": "^5.0.1",
     "@dnd-kit/core": "^6.2.0",
     "@dnd-kit/modifiers": "^8.0.0",
