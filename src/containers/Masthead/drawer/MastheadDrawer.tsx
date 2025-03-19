@@ -8,6 +8,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { CloseLine, MenuLine } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
@@ -24,7 +25,6 @@ import {
   GQLMastheadFrontpageQuery,
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
-import { useUrnIds } from "../../../routeHelpers";
 import { usePrevious } from "../../../util/utilityHooks";
 import { findBreadcrumb } from "../../AboutPage/aboutPageUtils";
 
@@ -121,9 +121,9 @@ const mastheadProgrammeQuery = gql`
 const MastheadDrawer = ({ root, crumbs }: Props) => {
   const [open, setOpen] = useState(false);
   const [frontpageMenu, setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
-  const { subjectId: maybeSubjectId, topicList: maybeTopicList, programme, slug } = useUrnIds();
-  const subjectId = root?.id || maybeSubjectId;
-  const topicList = maybeTopicList.length ? maybeTopicList : crumbs;
+  const { programme, slug } = useParams();
+  const subjectId = root?.id;
+  const topicList = crumbs;
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
