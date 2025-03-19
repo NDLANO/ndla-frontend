@@ -21,6 +21,7 @@ import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -206,6 +207,9 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               </PageContent>
             </BleedPageContent>
           </NoSSR>
+        )}
+        {!!node.article?.transformedContent.metaData?.images && (
+          <ImageLicenseAccordion imageLicenses={node.article.transformedContent.metaData.images} />
         )}
       </StyledPageContainer>
     </main>

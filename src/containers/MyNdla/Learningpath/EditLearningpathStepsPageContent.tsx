@@ -58,10 +58,13 @@ interface Props {
   learningpath: GQLMyNdlaLearningpathFragment;
 }
 
+const NO_FORM_ID = -2;
+const ADD_NEW_FORM_ID = -1;
+
 export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
   const { t, i18n } = useTranslation();
-  const [selectedLearningpathStepId, setSelectedLearningpathStepId] = useState<undefined | number>(undefined);
+  const [selectedLearningpathStepId, setSelectedLearningpathStepId] = useState<number>(NO_FORM_ID);
   const [nextId, setNextId] = useState<number | undefined>(undefined);
 
   const [createStep] = useCreateLearningpathStep();
@@ -88,7 +91,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
         },
       });
       if (!res.errors?.length) {
-        handleStateChanges(undefined);
+        handleStateChanges(NO_FORM_ID);
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
         headingRef.current?.scrollIntoView({ behavior: "smooth" });
       } else {
@@ -97,8 +100,8 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
     }
   };
 
-  const onFormChange = (val: number | undefined) => {
-    if (formMethods.formState.isDirty && val) {
+  const onFormChange = (val: number) => {
+    if (formMethods.formState.isDirty && !formMethods.formState.isSubmitting) {
       setNextId(val);
     } else {
       handleStateChanges(val);
@@ -108,9 +111,10 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const handleStateChanges = (val: number | undefined) => {
     //Reset the form to remove traces of changes
     formMethods.reset();
-    setSelectedLearningpathStepId(val);
+    setSelectedLearningpathStepId(val ?? NO_FORM_ID);
     setNextId(undefined);
   };
+
   const announcements = useMemo(
     () => makeDndTranslations("learningpathstep", t, sortedLearningpathSteps.length),
     [sortedLearningpathSteps, t],
@@ -160,14 +164,11 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
 
   return (
     <FormProvider {...formMethods}>
-      {nextId ? (
-        <AlertDialog
-          formState={formMethods.formState}
-          isBlocking={!!nextId}
-          onAbort={() => setNextId(undefined)}
-          onContinue={() => handleStateChanges(nextId)}
-        />
-      ) : null}
+      <AlertDialog
+        onAbort={() => setNextId(undefined)}
+        onContinue={() => handleStateChanges(nextId)}
+        isBlocking={!!nextId}
+      />
       <Stack gap="medium" justify="left">
         <Heading textStyle="heading.small" asChild consumeCss ref={headingRef}>
           <h2>{t("myNdla.learningpath.form.content.title")}</h2>
@@ -191,9 +192,10 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
                   <DraggableLearningpathStepListItem
                     key={`${step.id.toString()}`}
                     step={step}
-                    learningpath={learningpath}
+                    learningpathId={learningpath.id}
                     selectedLearningpathStepId={selectedLearningpathStepId}
-                    setSelectedLearningpathStepId={(val) => onFormChange(val)}
+                    onClose={() => onFormChange(NO_FORM_ID)}
+                    onSelect={() => onFormChange(step.id)}
                     index={index}
                   />
                 ))}
@@ -201,15 +203,14 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
             </SortableContext>
           </DndContext>
         )}
-        {!selectedLearningpathStepId || selectedLearningpathStepId !== -1 ? (
-          <AddButton variant="secondary" onClick={() => onFormChange(-1)}>
+        {selectedLearningpathStepId !== ADD_NEW_FORM_ID ? (
+          <AddButton variant="secondary" onClick={() => onFormChange(ADD_NEW_FORM_ID)}>
             <AddLine />
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
-        ) : null}
-        {selectedLearningpathStepId === -1 ? (
-          <LearningpathStepForm stepType="text" onClose={() => onFormChange(undefined)} onSave={onSaveStep} />
-        ) : null}
+        ) : (
+          <LearningpathStepForm stepType="text" onClose={() => onFormChange(NO_FORM_ID)} onSave={onSaveStep} />
+        )}
       </Stack>
       <Stack justify="space-between" direction="row">
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(learningpath.id)}>

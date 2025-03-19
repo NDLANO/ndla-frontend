@@ -7,7 +7,7 @@
  */
 
 import express from "express";
-import { PathMatch } from "react-router-dom";
+import { Params } from "react-router-dom";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { gql } from "@apollo/client/core";
 import { Node } from "@ndla/types-taxonomy";
@@ -59,10 +59,8 @@ const getApolloClient = (locale: string, req: express.Request) => {
   }
 };
 
-const getHTMLandTitle = async (match: PathMatch<MatchParams>, req: express.Request) => {
-  const {
-    params: { contextId, resourceId, topicId, lang = config.defaultLocale },
-  } = match;
+const getHTMLandTitle = async (match: Params<MatchParams>, req: express.Request) => {
+  const { contextId, resourceId, topicId, lang = config.defaultLocale } = match;
   if (!contextId && !topicId && !resourceId) {
     return {};
   }
@@ -140,8 +138,8 @@ export async function oembedArticleRoute(req: express.Request) {
     };
   }
 
-  const match = parseOembedUrl(url);
-  if (!match) {
+  const params = parseOembedUrl(url);
+  if (!params) {
     return {
       status: BAD_REQUEST,
       data: "Bad request. Url not recognized",
@@ -149,18 +147,16 @@ export async function oembedArticleRoute(req: express.Request) {
   }
 
   const {
-    params: {
-      contextId,
-      resourceId,
-      audioId,
-      conceptId,
-      h5pId,
-      videoId,
-      imageId,
-      topicId,
-      lang = config.defaultLocale,
-    },
-  } = match;
+    contextId,
+    resourceId,
+    audioId,
+    conceptId,
+    h5pId,
+    videoId,
+    imageId,
+    topicId,
+    lang = config.defaultLocale,
+  } = params;
   try {
     if (conceptId) {
       return await getEmbedObject(lang, conceptId, "concept", req);
@@ -173,16 +169,14 @@ export async function oembedArticleRoute(req: express.Request) {
     } else if (h5pId) {
       return await getEmbedObject(lang, h5pId, "h5p", req);
     } else if (!resourceId && !topicId && !contextId) {
-      const {
-        params: { articleId },
-      } = match;
+      const { articleId } = params;
       const article = await fetchArticle(articleId!, lang);
       const height = req.query.height || 480;
       const width = req.query.width || 854;
       const html = `<iframe aria-label="${article.title.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`;
       return getOembedObject(req, article.title.title, html);
     }
-    const { html, title } = await getHTMLandTitle(match, req);
+    const { html, title } = await getHTMLandTitle(params, req);
     if (!html && !title) {
       return {
         status: NOT_FOUND,

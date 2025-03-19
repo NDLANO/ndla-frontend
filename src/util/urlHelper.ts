@@ -6,11 +6,11 @@
  *
  */
 
-import { matchPath, Params, PathMatch, Location } from "react-router-dom";
+import { matchPath, Params, Location } from "react-router-dom";
 import { validContextIdRegExp } from "../constants";
 import { GQLTaxBase } from "../graphqlTypes";
 import { isValidLocale, supportedLanguages } from "../i18n";
-import { oembedRoutes } from "../routes";
+import { oembedRoutes, routes } from "../routes";
 
 type OembedParams =
   | "subjectId"
@@ -41,38 +41,34 @@ type OembedReturnParams =
   | "conceptId"
   | "h5pId";
 
-const matchUrl = (pathname: string, lang: boolean = false): PathMatch<OembedReturnParams> | null => {
-  const possiblePaths = lang ? oembedRoutes.map((r) => `/:lang/${r}`) : oembedRoutes;
+const matchRoute = <ParamKey extends string = string>(
+  pathname: string,
+  paths: string[],
+  lang = false,
+): Params<ParamKey> | undefined => {
+  const possiblePaths = lang ? paths.map((r) => `/:lang/${r}`) : paths;
+  const match = possiblePaths.find((p) => matchPath(p, pathname));
+  return match ? matchPath(match, pathname)?.params : undefined;
+};
 
-  let match: PathMatch<OembedParams> | undefined;
-  for (let i = 0; i < possiblePaths.length; i++) {
-    const attempt = possiblePaths[i] ?? "";
-    const m = matchPath<OembedParams, string>(attempt, pathname);
-    if (m) {
-      match = m;
-      break;
-    }
-  }
-  if (!match) {
-    return null;
-  }
+const matchUrl = (pathname: string, lang: boolean = false): Params<OembedReturnParams> | null => {
+  const params = matchRoute<OembedParams>(pathname, oembedRoutes, lang);
 
-  if (match.params.topicOrResourceId) {
+  if (!params) return null;
+
+  if (params.topicOrResourceId) {
     const missingParam: {
       resourceId?: string;
       topicId?: string;
-    } = match.params.topicOrResourceId.startsWith(":resource")
-      ? { resourceId: match.params.topicOrResourceId.replace(":resource", "") }
-      : { topicId: match.params.topicOrResourceId.replace(":topic", "") };
-    const params: Params<OembedParams> = match.params;
+    } = params.topicOrResourceId.startsWith(":resource")
+      ? { resourceId: params.topicOrResourceId.replace(":resource", "") }
+      : { topicId: params.topicOrResourceId.replace(":topic", "") };
+    const oldParams: Params<OembedParams> = params;
     return {
-      ...match,
-      params: {
-        ...params,
-        ...missingParam,
-      },
+      ...oldParams,
+      ...missingParam,
     };
-  } else return match;
+  } else return params;
 };
 
 export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
@@ -107,13 +103,13 @@ export const constructNewPath = (pathname: string, newLocale?: string) => {
   return `${localePrefix}${fullPath}`;
 };
 
-export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "url">) => {
+export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "url">) => {
   let path = pathname.replace(/\/$/, ""); // Remove trailing slash if present
-  const match = matchUrl(path);
-  if (match?.params.stepId) {
+  const params = matchRoute(path, routes);
+  if (params?.stepId) {
     path = path.replace(/\/\d+$/, ""); // Remove last numeric segment if stepId
   }
-  return path === taxBase.path || decodeURIComponent(path) === taxBase.url;
+  return decodeURIComponent(path) === taxBase.url;
 };
 
 export const isValidContextId = (id?: string) => validContextIdRegExp.test(id ?? "");

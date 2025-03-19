@@ -259,7 +259,7 @@ const messages = {
       editLearningpathTitle: "Rediger læringsstitittel",
       alert: {
         title: "Du har ulagrede endringar i steget",
-        content: "Du har ulagrede endringar i steget. Om du fortsettar vil alle endringar bli mista.",
+        content: "Du har ulagrede endringar i steget. Om du fortsettar vil du miste endringane dine.",
         continue: "Fortsett",
         cancel: "Avbryt",
       },

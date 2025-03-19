@@ -56,7 +56,7 @@ const AboutPage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  return <AboutPageContent article={data.article} frontpage={data.frontpage} />;
+  return <AboutPageContent key={data.article.slug} article={data.article} frontpage={data.frontpage} />;
 };
 
 export default AboutPage;

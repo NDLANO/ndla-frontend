@@ -19,6 +19,8 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import FavoriteSubject from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
+import ImageLicenseList from "../../components/license/ImageLicenseList";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -224,6 +226,9 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
             </TransportationPageNodeListGrid>
           </StyledNav>
         )}
+        {!!about?.visualElement.imageLicense && (
+          <ImageLicenseAccordion imageLicenses={[about.visualElement.imageLicense]} />
+        )}
       </StyledPageContainer>
     </main>
   );
@@ -260,6 +265,9 @@ export const subjectContainerFragments = {
             type
             alt
             url
+            imageLicense {
+              ...ImageLicenseList_ImageLicense
+            }
           }
         }
         ...SubjectLinks_SubjectPage
@@ -267,6 +275,7 @@ export const subjectContainerFragments = {
       ...FavoriteSubject_Node
     }
     ${TransportationNode.fragments.node}
+    ${ImageLicenseList.fragments.image}
     ${FavoriteSubject.fragments.node}
     ${SubjectLinks.fragments.subjectPage}
   `,

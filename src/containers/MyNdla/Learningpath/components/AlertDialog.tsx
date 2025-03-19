@@ -8,7 +8,7 @@
 
 import { History, Blocker, Transition } from "history";
 import { useContext, useEffect, useState } from "react";
-import { FormState } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
 import {
@@ -23,7 +23,6 @@ import {
 } from "@ndla/primitives";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { supportedLanguages } from "../../../../i18n";
-import { FormValues } from "../types";
 
 // TODO: Remove when upgrading react-router
 // V6 has not added useBlocker hook yet. Source taken from react-router. Same logic used in editorial frontend
@@ -51,21 +50,20 @@ const useBlocker = (blocker: Blocker, when = true): void => {
 };
 
 interface Props {
-  formState: FormState<FormValues>;
   onContinue?: () => void;
   onAbort?: () => void;
-  isBlocking: boolean;
+  isBlocking?: boolean;
 }
 
-export const AlertDialog = ({ formState, onContinue, onAbort, isBlocking }: Props) => {
-  const [open, setOpen] = useState<boolean>(isBlocking);
-  const [discardChanges, setDiscardChanges] = useState(false);
+export const AlertDialog = ({ onContinue, onAbort, isBlocking }: Props) => {
+  const [open, setOpen] = useState<boolean>(!!isBlocking);
   const [nextLocation, setNextLocation] = useState<Location | undefined>(undefined);
+  const { formState } = useFormContext();
   const { t } = useTranslation();
 
   const navigate = useNavigate();
 
-  const shouldBlock = !(!formState.isDirty || formState.isSubmitting || discardChanges);
+  const shouldBlock = !(!formState.isDirty || formState.isSubmitting);
   const onCancel = () => {
     setNextLocation(undefined);
     setOpen(false);
@@ -73,7 +71,6 @@ export const AlertDialog = ({ formState, onContinue, onAbort, isBlocking }: Prop
   };
 
   const onWillContinue = () => {
-    setDiscardChanges(true);
     setOpen(false);
     onContinue?.();
   };
@@ -85,10 +82,12 @@ export const AlertDialog = ({ formState, onContinue, onAbort, isBlocking }: Prop
       const pathname = transition.location.pathname.replace(pathRegex, "/");
       setOpen(true);
       setNextLocation({ ...transition.location, pathname });
-    } else {
-      setDiscardChanges(false);
     }
   }, shouldBlock);
+
+  useEffect(() => {
+    setOpen(!!isBlocking);
+  }, [isBlocking]);
 
   useEffect(() => {
     if (!shouldBlock && nextLocation) {
@@ -100,8 +99,9 @@ export const AlertDialog = ({ formState, onContinue, onAbort, isBlocking }: Prop
     <DialogRoot
       open={open}
       onOpenChange={(details) => setOpen(details.open)}
-      onInteractOutside={onCancel}
-      onEscapeKeyDown={onCancel}
+      closeOnEscape
+      closeOnInteractOutside
+      onExitComplete={onCancel}
     >
       <DialogContent>
         <DialogHeader>
