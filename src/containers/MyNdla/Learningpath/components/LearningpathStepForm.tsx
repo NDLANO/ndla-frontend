@@ -140,7 +140,7 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
   } else if (formType === "external") {
     return <ExternalStepForm />;
   } else if (formType === "text") {
-    return <TextStepForm initialValue={step?.description ?? ""} />;
+    return <TextStepForm />;
   } else if (formType === "folder") {
     return <FolderStepForm />;
   }
