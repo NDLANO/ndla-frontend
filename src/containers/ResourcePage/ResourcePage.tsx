@@ -78,6 +78,7 @@ const ResourcePage = () => {
     variables: {
       contextId,
       transformArgs: {
+        contextId,
         prettyUrl: true,
       },
     },

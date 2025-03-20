@@ -1981,6 +1981,7 @@ export type GQLTransformedArticleContent = {
 
 export type GQLTransformedArticleContentInput = {
   absoluteUrl?: InputMaybe<Scalars["Boolean"]["input"]>;
+  contextId?: InputMaybe<Scalars["String"]["input"]>;
   draftConcept?: InputMaybe<Scalars["Boolean"]["input"]>;
   isOembed?: InputMaybe<Scalars["String"]["input"]>;
   path?: InputMaybe<Scalars["String"]["input"]>;
