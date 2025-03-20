@@ -40,7 +40,6 @@ export const LearningpathShareLink = ({ learningpath }: Props) => {
   return (
     <>
       <Text>{t("myNdla.learningpath.sharing.description.shared")}</Text>
-      <Text>{t("myNdla.learningpath.sharing.description.private")}</Text>
       <GapWrapper>
         <Text textStyle="label.medium" fontWeight="bold" asChild consumeCss>
           <span>{t("myNdla.learningpath.sharing.description.copy")}</span>

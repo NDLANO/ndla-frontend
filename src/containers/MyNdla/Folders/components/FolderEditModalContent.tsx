@@ -14,7 +14,7 @@ import FolderForm from "./FolderForm";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { useUpdateFolderMutation, useFolders, getFolder } from "../../folderMutations";
+import { useUpdateFolderMutation, useFolders, getFolder } from "../../../../mutations/folderMutations";
 
 interface Props {
   folder?: GQLFolder;

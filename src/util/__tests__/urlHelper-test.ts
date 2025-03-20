@@ -12,74 +12,68 @@ describe("parseAndMatchUrl", () => {
   it("should parse a valid article url with old URL scheme", () => {
     const validArticleUrl1 = "https://www.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
     expect(parseOembedUrl(validArticleUrl1)).toEqual({
-      resourceId: ":1:1682",
-      subjectId: ":3",
-      topic1: ":1:55163",
-      topicId: ":1:168398",
+      resourceId: "urn:resource:1:1682",
+      subjectId: "urn:subject:3",
+      topicId: "urn:topic:1:168398",
     });
   });
   it("should parse a valid environment article url with old URL scheme", () => {
     const validArticleUrl1 = "https://www.test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
     expect(parseOembedUrl(validArticleUrl1)).toEqual({
-      resourceId: ":1:1682",
-      subjectId: ":3",
-      topic1: ":1:55163",
-      topicId: ":1:168398",
+      resourceId: "urn:resource:1:1682",
+      subjectId: "urn:subject:3",
+      topicId: "urn:topic:1:168398",
     });
   });
   it("supports omitting www with old URL scheme", () => {
     const result = "https://ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
     expect(parseOembedUrl(result)).toEqual({
-      resourceId: ":1:1682",
-      subjectId: ":3",
-      topic1: ":1:55163",
-      topicId: ":1:168398",
+      resourceId: "urn:resource:1:1682",
+      subjectId: "urn:subject:3",
+      topicId: "urn:topic:1:168398",
     });
   });
   it("supports localhost with old URL scheme", () => {
     const result = "https://localhost:3000/subject:3/topic:1:55163/topic:1:168398/resource:1:1682";
     expect(parseOembedUrl(result)).toEqual({
-      resourceId: ":1:1682",
-      subjectId: ":3",
-      topic1: ":1:55163",
-      topicId: ":1:168398",
+      resourceId: "urn:resource:1:1682",
+      subjectId: "urn:subject:3",
+      topicId: "urn:topic:1:168398",
     });
   });
   it("supports topic articles with old URL scheme", () => {
     const result = parseOembedUrl("https://www.test.ndla.no/subject:3/topic:1:55163");
     expect(result).toEqual({
-      subjectId: ":3",
-      topicId: ":1:55163",
+      subjectId: "urn:subject:3",
+      topicId: "urn:topic:1:55163",
     });
   });
   it("supports language prefix with old URL scheme", () => {
     const result = parseOembedUrl("https://www.test.ndla.no/nn/subject:3/topic:1:55163");
     expect(result).toEqual({
-      subjectId: ":3",
-      topicId: ":1:55163",
+      subjectId: "urn:subject:3",
+      topicId: "urn:topic:1:55163",
       lang: "nn",
     });
   });
   it("defaults to nb language prefix when encountering unknown languages with old URL scheme", () => {
     const result = parseOembedUrl("https://www.test.ndla.no/unknown/subject:3/topic:1:55163");
     expect(result).toEqual({
-      subjectId: ":3",
-      topicId: ":1:55163",
+      subjectId: "urn:subject:3",
+      topicId: "urn:topic:1:55163",
       lang: "nb",
     });
   });
   it("supports nesting of topics with old URL scheme", () => {
     const result = parseOembedUrl("https://www.test.ndla.no/subject:3/topic:1:55163/topic:1:168398/topic:1:168554");
     expect(result).toEqual({
-      subjectId: ":3",
-      topic1: ":1:55163",
-      topic2: ":1:168398",
-      topicId: ":1:168554",
+      subjectId: "urn:subject:3",
+      topicId: "urn:topic:1:168554",
     });
   });
   it("does not support subjects with old URL scheme", () => {
     const result = parseOembedUrl("https://www.test.ndla.no/subject:3");
-    expect(result).toEqual(null);
+    expect(result).toEqual(undefined);
   });
   it("supports simple article path", () => {
     const result = parseOembedUrl("https://www.test.ndla.no/article/4809");
@@ -98,7 +92,7 @@ describe("parseAndMatchUrl", () => {
     const result = parseOembedUrl(
       "https://www.test.ndla.no/subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7/topic:3cdf9349-4593-498c-a899-9310133a4788/topic:2a5d3976-9969-41eb-b686-77a91a92e6be/topic:62ee79ca-eada-4103-9619-dc8fa6afd9c1/resource:de768880-92a1-45e8-972a-d0c2176730be/3",
     );
-    expect(result).toEqual(null);
+    expect(result).toEqual(undefined);
   });
   it("supports embed-iframe paths", () => {
     const videoResult = parseOembedUrl("https://www.test.ndla.no/embed-iframe/video/4809");
@@ -162,37 +156,18 @@ describe("parseAndMatchUrl", () => {
       lang: "nn",
     });
   });
-  it("supports article-iframe with taxonomy id (resource)", () => {
+  it("supports article-iframe with taxonomy id", () => {
     const result = parseOembedUrl("https://test.ndla.no/article-iframe/urn:resource:1:89279/1200");
     expect(result).toEqual({
       articleId: "1200",
-      topicOrResourceId: ":resource:1:89279",
-      resourceId: ":1:89279",
+      nodeId: "urn:resource:1:89279",
     });
   });
-  it("supports article-iframe with language prefix and taxonomy id (resource)", () => {
+  it("supports article-iframe with language prefix and taxonomy id", () => {
     const result = parseOembedUrl("https://test.ndla.no/article-iframe/nn/urn:resource:1:89279/1200");
     expect(result).toEqual({
       articleId: "1200",
-      topicOrResourceId: ":resource:1:89279",
-      resourceId: ":1:89279",
-      lang: "nn",
-    });
-  });
-  it("supports article-iframe with taxonomy id (topic)", () => {
-    const result = parseOembedUrl("https://test.ndla.no/article-iframe/urn:topic:1:89279/1200");
-    expect(result).toEqual({
-      articleId: "1200",
-      topicOrResourceId: ":topic:1:89279",
-      topicId: ":1:89279",
-    });
-  });
-  it("supports article-iframe with language prefix and taxonomy id (resource)", () => {
-    const result = parseOembedUrl("https://test.ndla.no/article-iframe/nn/urn:topic:1:89279/1200");
-    expect(result).toEqual({
-      articleId: "1200",
-      topicOrResourceId: ":topic:1:89279",
-      topicId: ":1:89279",
+      nodeId: "urn:resource:1:89279",
       lang: "nn",
     });
   });

@@ -1500,6 +1500,7 @@ type TransformedArticleContent {
 
 input TransformedArticleContentInput {
   absoluteUrl: Boolean
+  contextId: String
   draftConcept: Boolean
   isOembed: String
   path: String

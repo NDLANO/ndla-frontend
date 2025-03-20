@@ -15,9 +15,9 @@ import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
-import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../learningpathMutations";
 import { myLearningpathQuery } from "../learningpathQueries";
 import {
   copyLearningpathSharingLink,

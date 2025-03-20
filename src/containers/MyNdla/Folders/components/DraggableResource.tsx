@@ -18,16 +18,16 @@ import { DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
+import DeleteModalContent from "../../../../components/MyNdla/DeleteModalContent";
 import ListResource from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../../graphqlTypes";
+import { useDeleteFolderResourceMutation } from "../../../../mutations/folderMutations";
 import { routes } from "../../../../routeHelpers";
 import { getResourceTypesForResource } from "../../../../util/folderHelpers";
-import DeleteModalContent from "../../components/DeleteModalContent";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
-import { useDeleteFolderResourceMutation } from "../../folderMutations";
 import { DraggableListItem } from "../../Learningpath/components/DraggableListItem";
 
 const StyledTagsWrapper = styled("div", {

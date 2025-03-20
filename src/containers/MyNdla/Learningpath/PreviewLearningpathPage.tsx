@@ -18,11 +18,11 @@ import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContain
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import Learningpath from "../../../components/Learningpath";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";

@@ -20,11 +20,11 @@ import ResourceList from "./components/ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import FoldersPageTitle from "../../../components/MyNdla/FoldersPageTitle";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { foldersPageQuery, useFolder } from "../../../mutations/folderMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { foldersPageQuery, useFolder } from "../folderMutations";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {

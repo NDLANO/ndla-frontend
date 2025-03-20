@@ -8,6 +8,7 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { Feide, UserLine } from "@ndla/icons";
 import { NdlaLogoText } from "@ndla/primitives";
@@ -27,7 +28,6 @@ import {
   GQLMastHeadQueryVariables,
 } from "../../graphqlTypes";
 import { contextQuery } from "../../queries";
-import { useUrnIds } from "../../routeHelpers";
 import { isValidContextId } from "../../util/urlHelper";
 import { ErrorBoundary } from "../ErrorPage/ErrorBoundary";
 
@@ -84,7 +84,7 @@ interface Props {
 
 const MastheadContainer = ({ showAlerts }: Props) => {
   const { t } = useTranslation();
-  const { contextId, subjectId: maybeSubjectId, topicList } = useUrnIds();
+  const { contextId } = useParams();
   const { user } = useContext(AuthContext);
   const { data: rootData, loading: rootLoading } = useQuery<GQLContextQuery, GQLContextQueryVariables>(contextQuery, {
     variables: {
@@ -94,9 +94,9 @@ const MastheadContainer = ({ showAlerts }: Props) => {
   });
   const nodeType = rootData?.node?.nodeType;
   const maybeTopicId = nodeType === "TOPIC" ? rootData?.node?.id : undefined;
-  const subjectId = rootData?.node?.context?.rootId || maybeSubjectId;
+  const subjectId = rootData?.node?.context?.rootId;
   const parentIds = rootData?.node?.context?.parentIds?.filter((id) => id !== subjectId) ?? [];
-  const crumbs = maybeTopicId ? parentIds?.concat(maybeTopicId) : parentIds || topicList;
+  const crumbs = maybeTopicId ? parentIds?.concat(maybeTopicId) : parentIds;
 
   const { data: freshData, previousData } = useQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(mastheadQuery, {
     variables: {

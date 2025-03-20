@@ -28,6 +28,9 @@ const StyledAccordionRoot = styled(AccordionRoot, {
   base: {
     marginBlockStart: "3xlarge",
     width: "2/3",
+    tabletWideDown: {
+      width: "100%",
+    },
   },
 });
 

@@ -7,7 +7,7 @@
  */
 
 import { useApolloClient, useMutation, gql } from "@apollo/client";
-import { GQLUpdatePersonalDataMutation, GQLUpdatePersonalDataMutationVariables } from "../../graphqlTypes";
+import { GQLUpdatePersonalDataMutation, GQLUpdatePersonalDataMutationVariables } from "../graphqlTypes";
 
 const deletePersonalDataMutation = gql`
   mutation deletePersonalData {

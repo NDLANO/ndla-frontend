@@ -8,7 +8,7 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, Location } from "react-router-dom";
+import { Navigate, useLocation, Location, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -16,7 +16,6 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
-import { useUrnIds } from "../../routeHelpers";
 import { findAccessDeniedErrors } from "../../util/handleError";
 import { isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
@@ -73,16 +72,13 @@ const resourcePageQuery = gql`
 const ResourcePage = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { contextId, subjectId, resourceId, topicId, stepId } = useUrnIds();
+  const { contextId, stepId } = useParams();
 
   const { error, loading, data } = useQuery<GQLResourcePageQuery>(resourcePageQuery, {
     variables: {
-      subjectId,
-      topicId,
-      resourceId,
       contextId,
       transformArgs: {
-        subjectId,
+        contextId,
         prettyUrl: true,
       },
     },

@@ -214,12 +214,12 @@ const messages = {
     },
     acceptedShareName: {
       title: "No viser vi namnet ditt når du deler",
-      subtitle: "Vi har endra visninga på delte mapper. No visast namnet ditt på alle delte mapper og læringsstier.",
+      subtitle: "Vi har endra visninga på delte mapper. No visest namnet ditt på alle delte mapper og læringsstiar.",
       description:
-        "Dersom du ikkje ønsker at namnet ditt skal være synleg kan du avslutte deling av mapper og læringsstier.",
+        "Dersom du ikkje ønsker at namnet ditt skal vere synleg, kan du avslutte deling av mapper og læringsstiar.",
       button: "OK",
       accept: {
-        error: "Kunne ikke lagre",
+        error: "Kunne ikkje lagre",
       },
     },
     arena: {
@@ -389,8 +389,6 @@ const messages = {
         title: "Denne læringsstien er delt",
         description: {
           shared:
-            "Når du deler ein læringssti, lagar du ei lenke som er open for alle som har lenka. Du kan endre innhaldet eller avslutte delinga når du ønsker det.",
-          private:
             "No kan du dele denne lenka med elevar eller andre lærarar. Dersom du gjer endringar i læringsstien, blir dei synlege for alle du har delt lenka med.",
           copy: "Trykk på lenka for å kopiere",
         },
@@ -405,7 +403,7 @@ const messages = {
         saveAndClose: "Lagre og lukk",
         pageHeading: "Lagre og del",
         pageDescription:
-          "Lagre og del læringsstien din. Når du deler opprettar du ei delbar lenkje som du kan sende til elevar eller lærarar.",
+          "Lagre og del læringsstien din. Når du deler ein læringssti, opprettar du ei delbar lenkje som du kan sende til elevar eller lærarar. Læringsstien din vil vere tilgjengeleg for alle som har lenkja. Du kan endre innhaldet eller avslutte delinga når du ønskjer det.",
       },
       previewLearningpath: {
         pageHeading: "Sjå gjennom",

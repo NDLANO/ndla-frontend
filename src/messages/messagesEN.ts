@@ -390,8 +390,6 @@ const messages = {
         title: "This learning path is shared",
         description: {
           shared:
-            "When you share a learning path, you create a link that is accessible to anyone with the link. You can edit the content or stop sharing it whenever you want.",
-          private:
             "Now you can share this link with students or other teachers. If you make changes to the learning path, they will be visible to everyone you’ve shared the link with.",
           copy: "Click the link to copy it",
         },
@@ -406,7 +404,7 @@ const messages = {
         saveAndClose: "Save and close",
         pageHeading: "Save and share",
         pageDescription:
-          "Save and share your learning path. When you share the learning path, you create a shareable link that you can send to students or teachers.",
+          "Save and share your learning path. When you share a learning path, you create a shareable link that you can send to students or teachers. The learning path will be available for anyone who has the link. You can change the learning path's content or stop the sharing when you wish.",
       },
       previewLearningpath: {
         pageHeading: "Preview",

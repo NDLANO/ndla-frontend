@@ -23,8 +23,8 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useCopyLearningpathMutation } from "../../../containers/MyNdla/Learningpath/learningpathMutations";
 import { GQLLearningpath_LearningpathFragment, GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
+import { useCopyLearningpathMutation } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { AuthContext } from "../../AuthenticationContext";
 import { DialogCloseButton } from "../../DialogCloseButton";

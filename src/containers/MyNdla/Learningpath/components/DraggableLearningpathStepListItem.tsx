@@ -14,7 +14,7 @@ import { Button, Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../learningpathMutations";
+import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../../../../mutations/learningpathMutations";
 import { FormValues } from "../types";
 import { getFormTypeFromStep } from "../utils";
 import LearningpathStepForm from "./LearningpathStepForm";

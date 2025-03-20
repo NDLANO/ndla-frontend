@@ -15,9 +15,9 @@ import { AuthContext } from "./AuthenticationContext";
 import FavoriteButton from "./MyNdla/FavoriteButton";
 import LoginModalContent from "./MyNdla/LoginModalContent";
 import { useToast } from "./ToastContext";
-import DeleteModalContent from "../containers/MyNdla/components/DeleteModalContent";
-import { useUpdatePersonalData } from "../containers/MyNdla/userMutations";
 import { GQLFavoriteSubject_NodeFragment } from "../graphqlTypes";
+import { useUpdatePersonalData } from "../mutations/userMutations";
+import DeleteModalContent from "./MyNdla/DeleteModalContent";
 
 const SafeLinkWrapper = styled("div", {
   base: {

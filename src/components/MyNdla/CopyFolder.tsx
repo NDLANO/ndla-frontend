@@ -22,8 +22,8 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { Folder } from "./Folder";
 import FolderSelect from "./FolderSelect";
-import { useCopySharedFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
+import { useCopySharedFolderMutation, useFolders } from "../../mutations/folderMutations";
 import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";

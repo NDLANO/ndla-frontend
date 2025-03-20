@@ -33,10 +33,10 @@ import { AlertDialog } from "./components/AlertDialog";
 import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
 import LearningpathStepForm from "./components/LearningpathStepForm";
 import { formValuesToGQLInput, toFormValues } from "./learningpathFormUtils";
-import { useCreateLearningpathStep, useUpdateLearningpathStepSeqNo } from "./learningpathMutations";
 import { FormValues } from "./types";
 import { useToast } from "../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
+import { useCreateLearningpathStep, useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
 

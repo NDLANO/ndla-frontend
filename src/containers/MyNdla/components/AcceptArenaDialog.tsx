@@ -24,7 +24,7 @@ import { SafeLink } from "@ndla/safelink";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
-import { useUpdatePersonalData } from "../userMutations";
+import { useUpdatePersonalData } from "../../../mutations/userMutations";
 
 interface Props {
   children: ReactNode;

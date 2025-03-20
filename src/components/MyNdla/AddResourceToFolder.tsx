@@ -36,14 +36,14 @@ import {
 import { sortBy, uniq } from "@ndla/util";
 import FolderSelect from "./FolderSelect";
 import ListResource from "./ListResource";
+import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import {
   useAddResourceToFolderMutation,
   useFolder,
   useFolderResourceMeta,
   useFolders,
   useUpdateFolderResourceMutation,
-} from "../../containers/MyNdla/folderMutations";
-import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+} from "../../mutations/folderMutations";
 import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath, getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";

@@ -12,15 +12,15 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Spinner, Heading, Button } from "@ndla/primitives";
 import { Stack } from "@ndla/styled-system/jsx";
 import { useTracker, HelmetWithTracker } from "@ndla/tracker";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { routes } from "../../../routeHelpers";
-import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleFormValues, TitleForm } from "./components/TitleForm";
-import { useUpdateLearningpath } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
+import { routes } from "../../../routeHelpers";
+import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 export const EditLearningpathTitlePage = () => {

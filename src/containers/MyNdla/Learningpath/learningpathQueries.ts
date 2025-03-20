@@ -16,7 +16,7 @@ import {
   GQLOpengraphQuery,
   GQLOpengraphQueryVariables,
 } from "../../../graphqlTypes";
-import { learningpathFragment, learningpathStepOembed } from "./learningpathFragments";
+import { learningpathFragment, learningpathStepOembed } from "../../../fragments/learningpathFragments";
 
 export const myLearningpathQuery = gql`
   query MyLearningpaths($includeSteps: Boolean = false) {

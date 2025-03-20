@@ -11,13 +11,13 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { Heading, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { LearningpathStepper } from "./components/LearningpathStepper";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import { LearningpathStepper } from "./components/LearningpathStepper";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const EditLearningpathStepsPageContent = lazy(() => import("./EditLearningpathStepsPageContent"));
