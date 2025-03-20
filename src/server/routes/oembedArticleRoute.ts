@@ -67,10 +67,10 @@ const getHTMLandTitle = async (match: Params<MatchParams>, req: express.Request)
 
   const height = req.query.height || 480;
   const width = req.query.width || 854;
-  const nodeId = topicId && !resourceId ? `urn:topic${topicId}` : `urn:resource${resourceId}`;
+  const nodeId = topicId && !resourceId ? topicId : resourceId;
   const node = contextId
     ? await queryNodeByContexts(contextId, lang)
-    : await fetchNode(match.nodeId ? match.nodeId : nodeId, lang);
+    : await fetchNode(match.nodeId ? match.nodeId : nodeId!, lang);
   if (node.contentUri?.includes("learningpath")) {
     return {};
   }
