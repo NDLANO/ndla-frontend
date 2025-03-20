@@ -50,9 +50,10 @@ interface Props {
   onClose?: VoidFunction;
   onDelete?: (close: VoidFunction) => Promise<void>;
   onSave: (data: FormValues) => Promise<void>;
+  id?: string;
 }
 
-export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete }: Props) => {
+export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete, id }: Props) => {
   const { t } = useTranslation();
 
   const methods = useForm<FormValues>({
@@ -64,7 +65,7 @@ export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete
 
   return (
     <FormProvider {...methods}>
-      <ContentForm onSubmit={handleSubmit(onSave)} noValidate>
+      <ContentForm id={id} onSubmit={handleSubmit(onSave)} noValidate>
         <Controller
           name="type"
           control={control}

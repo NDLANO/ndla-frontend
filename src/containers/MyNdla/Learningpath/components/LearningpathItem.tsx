@@ -15,12 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import {
-  LEARNINGPATH_PRIVATE,
-  LEARNINGPATH_READY_FOR_SHARING,
-  LEARNINGPATH_SHARED,
-  learningpathListItemId,
-} from "../utils";
+import { LEARNINGPATH_PRIVATE, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "../utils";
 
 const StatusText = styled(Text, {
   base: {
@@ -74,7 +69,7 @@ export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props
   return (
     <ListItemRoot
       {...rest}
-      id={learningpathListItemId(learningpath.id)}
+      id={learningpath.id.toString()}
       context={context}
       asChild={context === "list"}
       consumeCss={context === "list"}

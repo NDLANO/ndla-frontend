@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   closestCenter,
@@ -51,6 +51,9 @@ const AddButton = styled(Button, {
   },
 });
 
+const CREATE_STEP_ID = "create-step";
+const CREATE_STEP_FORM_ID = "create-step";
+
 interface Props {
   // TODO
   learningpath: GQLMyNdlaLearningpathFragment;
@@ -63,12 +66,6 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [createStep] = useCreateLearningpathStep();
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
   const toast = useToast();
-  const headingRef = useRef<HTMLHeadingElement>(null);
-
-  useEffect(() => {
-    if (!learningpath.learningsteps) return;
-    setSortedLearningpathSteps(learningpath.learningsteps);
-  }, [learningpath.learningsteps]);
 
   const onSaveStep = async (values: FormValues) => {
     if (learningpath?.id) {
@@ -82,12 +79,25 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
       if (!res.errors?.length) {
         setSelectedLearningpathStepId(undefined);
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
-        headingRef.current?.scrollIntoView({ behavior: "smooth" });
+        setTimeout(
+          () =>
+            document
+              .getElementById(res.data?.newLearningpathStep.id.toString() ?? "-1")
+              ?.querySelector("div")
+              ?.querySelector("button")
+              ?.focus(),
+          0,
+        );
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
       }
     }
   };
+
+  useEffect(() => {
+    if (!learningpath.learningsteps) return;
+    setSortedLearningpathSteps(learningpath.learningsteps);
+  }, [learningpath.learningsteps]);
 
   const announcements = useMemo(
     () => makeDndTranslations("learningpathstep", t, sortedLearningpathSteps.length),
@@ -129,6 +139,16 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
     }
   };
 
+  const onOpenCreate = async () => {
+    setSelectedLearningpathStepId(-1);
+    setTimeout(() => document.getElementById(CREATE_STEP_FORM_ID)?.querySelector("input")?.focus(), 500);
+  };
+
+  const onCloseCreate = async () => {
+    setSelectedLearningpathStepId(undefined);
+    setTimeout(() => document.getElementById(CREATE_STEP_ID)?.focus(), 0);
+  };
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -139,7 +159,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   return (
     <>
       <Stack gap="medium" justify="left">
-        <Heading textStyle="heading.small" asChild consumeCss ref={headingRef}>
+        <Heading textStyle="heading.small" asChild consumeCss>
           <h2>{t("myNdla.learningpath.form.content.title")}</h2>
         </Heading>
         {!!sortedLearningpathSteps.length && (
@@ -171,17 +191,13 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
           </DndContext>
         )}
         {!selectedLearningpathStepId || selectedLearningpathStepId !== -1 ? (
-          <AddButton variant="secondary" onClick={() => setSelectedLearningpathStepId(-1)}>
+          <AddButton id={CREATE_STEP_ID} variant="secondary" onClick={onOpenCreate}>
             <AddLine />
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : null}
         {selectedLearningpathStepId === -1 ? (
-          <LearningpathStepForm
-            stepType="text"
-            onClose={() => setSelectedLearningpathStepId(undefined)}
-            onSave={onSaveStep}
-          />
+          <LearningpathStepForm stepType="text" onClose={onCloseCreate} onSave={onSaveStep} id={CREATE_STEP_FORM_ID} />
         ) : null}
       </Stack>
       <Stack justify="space-between" direction="row">
