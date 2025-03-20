@@ -6,7 +6,8 @@
  *
  */
 
-import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { useEffect } from "react";
+import { Controller, FormProvider, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   Button,
@@ -55,12 +56,12 @@ interface Props {
 export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete }: Props) => {
   const { t } = useTranslation();
 
-  const methods = useForm<FormValues>({
-    mode: "onSubmit",
-    defaultValues: toFormValues(stepType, step),
-  });
-
+  const methods = useFormContext<FormValues>();
   const { handleSubmit, control, reset, formState } = methods;
+
+  useEffect(() => {
+    reset(toFormValues(stepType, step));
+  }, [reset, step, stepType]);
 
   return (
     <FormProvider {...methods}>

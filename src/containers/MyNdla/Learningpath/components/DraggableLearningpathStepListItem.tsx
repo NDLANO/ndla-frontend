@@ -6,7 +6,6 @@
  *
  */
 
-import { Dispatch, SetStateAction } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -16,12 +15,12 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../../../../mutations/learningpathMutations";
-import DragHandle from "../../components/DragHandle";
 import { FormValues } from "../types";
 import { getFormTypeFromStep } from "../utils";
 import LearningpathStepForm from "./LearningpathStepForm";
 import { formValuesToGQLInput } from "../learningpathFormUtils";
 import { DraggableListItem } from "./DraggableListItem";
+import DragHandle from "../../components/DragHandle";
 
 export const DragWrapper = styled("div", {
   base: {
@@ -70,7 +69,8 @@ interface LearningpathStepListItemProps {
   learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
   selectedLearningpathStepId: number | undefined;
-  setSelectedLearningpathStepId: Dispatch<SetStateAction<number | undefined>>;
+  onClose: VoidFunction;
+  onSelect: VoidFunction;
   index: number;
 }
 
@@ -78,7 +78,8 @@ export const DraggableLearningpathStepListItem = ({
   step,
   learningpathId,
   selectedLearningpathStepId,
-  setSelectedLearningpathStepId,
+  onClose,
+  onSelect,
   index,
 }: LearningpathStepListItemProps) => {
   const { t, i18n } = useTranslation();
@@ -110,8 +111,9 @@ export const DraggableLearningpathStepListItem = ({
         params: { ...transformedData, language: i18n.language, revision: step.revision },
       },
     });
+
     if (!res.errors?.length) {
-      setSelectedLearningpathStepId(undefined);
+      onClose();
     } else {
       toast.create({ title: t("myNdla.learningpath.toast.updateStepFailed", { name: step.title }) });
     }
@@ -125,7 +127,7 @@ export const DraggableLearningpathStepListItem = ({
       },
     });
     if (!res.errors?.length) {
-      setSelectedLearningpathStepId(undefined);
+      onClose();
       toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: step.title }) });
       close();
     } else {
@@ -155,11 +157,12 @@ export const DraggableLearningpathStepListItem = ({
             <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
           </Stack>
           {step.id !== selectedLearningpathStepId ? (
-            <Button variant="tertiary" onClick={() => setSelectedLearningpathStepId(step.id)}>
-              {t("myNdla.learningpath.form.steps.edit")} <PencilLine />
+            <Button variant="tertiary" onClick={onSelect}>
+              {t("myNdla.learningpath.form.steps.edit")}
+              <PencilLine />
             </Button>
           ) : (
-            <Button variant="tertiary" onClick={() => setSelectedLearningpathStepId(undefined)}>
+            <Button variant="tertiary" onClick={onClose}>
               <CloseLine />
               {t("close")}
             </Button>

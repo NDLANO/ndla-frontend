@@ -7,6 +7,7 @@
  */
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import {
   closestCenter,
@@ -28,9 +29,10 @@ import { AddLine } from "@ndla/icons";
 import { Button, Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { AlertDialog } from "./components/AlertDialog";
 import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
 import LearningpathStepForm from "./components/LearningpathStepForm";
-import { formValuesToGQLInput } from "./learningpathFormUtils";
+import { formValuesToGQLInput, toFormValues } from "./learningpathFormUtils";
 import { FormValues } from "./types";
 import { useToast } from "../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
@@ -56,10 +58,15 @@ interface Props {
   learningpath: GQLMyNdlaLearningpathFragment;
 }
 
+const NO_FORM_ID = -2;
+const ADD_NEW_FORM_ID = -1;
+
 export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
   const { t, i18n } = useTranslation();
-  const [selectedLearningpathStepId, setSelectedLearningpathStepId] = useState<undefined | number>(undefined);
+  const [selectedLearningpathStepId, setSelectedLearningpathStepId] = useState<number>(NO_FORM_ID);
+  const [nextId, setNextId] = useState<number | undefined>(undefined);
+
   const [createStep] = useCreateLearningpathStep();
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
   const toast = useToast();
@@ -69,6 +76,10 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
     if (!learningpath.learningsteps) return;
     setSortedLearningpathSteps(learningpath.learningsteps);
   }, [learningpath.learningsteps]);
+
+  const formMethods = useForm<FormValues>({
+    defaultValues: toFormValues("text"),
+  });
 
   const onSaveStep = async (values: FormValues) => {
     if (learningpath?.id) {
@@ -80,13 +91,28 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
         },
       });
       if (!res.errors?.length) {
-        setSelectedLearningpathStepId(undefined);
+        handleStateChanges(NO_FORM_ID);
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
         headingRef.current?.scrollIntoView({ behavior: "smooth" });
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
       }
     }
+  };
+
+  const onFormChange = (val: number) => {
+    if (formMethods.formState.isDirty && !formMethods.formState.isSubmitting) {
+      setNextId(val);
+    } else {
+      handleStateChanges(val);
+    }
+  };
+
+  const handleStateChanges = (val: number | undefined) => {
+    //Reset the form to remove traces of changes
+    formMethods.reset();
+    setSelectedLearningpathStepId(val ?? NO_FORM_ID);
+    setNextId(undefined);
   };
 
   const announcements = useMemo(
@@ -137,11 +163,17 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   );
 
   return (
-    <>
+    <FormProvider {...formMethods}>
+      <AlertDialog
+        onAbort={() => setNextId(undefined)}
+        onContinue={() => handleStateChanges(nextId)}
+        isBlocking={!!nextId}
+      />
       <Stack gap="medium" justify="left">
         <Heading textStyle="heading.small" asChild consumeCss ref={headingRef}>
           <h2>{t("myNdla.learningpath.form.content.title")}</h2>
         </Heading>
+
         {!!sortedLearningpathSteps.length && (
           <DndContext
             sensors={sensors}
@@ -159,10 +191,11 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
                 {sortedLearningpathSteps.map((step, index) => (
                   <DraggableLearningpathStepListItem
                     key={`${step.id.toString()}`}
-                    learningpathId={learningpath.id ?? -1}
                     step={step}
+                    learningpathId={learningpath.id}
                     selectedLearningpathStepId={selectedLearningpathStepId}
-                    setSelectedLearningpathStepId={setSelectedLearningpathStepId}
+                    onClose={() => onFormChange(NO_FORM_ID)}
+                    onSelect={() => onFormChange(step.id)}
                     index={index}
                   />
                 ))}
@@ -170,19 +203,14 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
             </SortableContext>
           </DndContext>
         )}
-        {!selectedLearningpathStepId || selectedLearningpathStepId !== -1 ? (
-          <AddButton variant="secondary" onClick={() => setSelectedLearningpathStepId(-1)}>
+        {selectedLearningpathStepId !== ADD_NEW_FORM_ID ? (
+          <AddButton variant="secondary" onClick={() => onFormChange(ADD_NEW_FORM_ID)}>
             <AddLine />
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
-        ) : null}
-        {selectedLearningpathStepId === -1 ? (
-          <LearningpathStepForm
-            stepType="text"
-            onClose={() => setSelectedLearningpathStepId(undefined)}
-            onSave={onSaveStep}
-          />
-        ) : null}
+        ) : (
+          <LearningpathStepForm stepType="text" onClose={() => onFormChange(NO_FORM_ID)} onSave={onSaveStep} />
+        )}
       </Stack>
       <Stack justify="space-between" direction="row">
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(learningpath.id)}>
@@ -192,7 +220,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
           {t("myNdla.learningpath.form.next")}
         </SafeLinkButton>
       </Stack>
-    </>
+    </FormProvider>
   );
 };
 
