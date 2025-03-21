@@ -130,7 +130,9 @@ export const groupCompetenceGoals = (
   goalType: CompetenceGoalsType,
   subjectId?: string,
 ): ElementType["groupedCompetenceGoals"] => {
-  const searchUrl = subjectId ? `/search?subjects=${subjectId}&grepCodes=` : "/search?grepCodes=";
+  const searchUrl = subjectId
+    ? `/search?subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=`
+    : "/search?grepCodes=";
   const curriculumElements = getUniqueCurriculums(competenceGoals).map((curriculum) => ({
     title: `${curriculum?.title} (${curriculum?.id})`,
     elements: getUniqueCompetenceGoalSet(competenceGoals, curriculum!.id).map((competenceGoalSet) => ({
@@ -146,7 +148,9 @@ export const groupCoreElements = (
   coreElements: GQLCoreElement[],
   subjectId?: string,
 ): ElementType["groupedCoreElementItems"] => {
-  const searchUrl = subjectId ? `/search?subjects=${subjectId}&grepCodes=` : "/search?grepCodes=";
+  const searchUrl = subjectId
+    ? `/search?subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=`
+    : "/search?grepCodes=";
   return getUniqueCurriculums(coreElements).map((curriculum) => ({
     title: `${curriculum?.title} (${curriculum!.id})`,
     elements: coreElements

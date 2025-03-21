@@ -49,25 +49,6 @@ const searchContextFragment = gql`
   }
 `;
 
-export const GroupSearchResourceFragment = gql`
-  fragment GroupSearchResource on GroupSearchResult {
-    id
-    url
-    title
-    htmlTitle
-    ingress
-    traits
-    contexts {
-      ...SearchContext
-    }
-    metaImage {
-      url
-      alt
-    }
-  }
-  ${searchContextFragment}
-`;
-
 const searchResultFragment = gql`
   fragment SearchResource on SearchResult {
     id
@@ -163,77 +144,6 @@ export const searchQuery = gql`
   ${searchResultFragment}
 `;
 
-export const groupSearchQuery = gql`
-  query GroupSearch(
-    $resourceTypes: String
-    $contextTypes: String
-    $subjects: String
-    $query: String
-    $page: Int
-    $pageSize: Int
-    $language: String
-    $fallback: String
-    $grepCodes: String
-    $aggregatePaths: [String!]
-    $grepCodesList: [String]
-    $filterInactive: Boolean
-    $license: String
-  ) {
-    groupSearch(
-      resourceTypes: $resourceTypes
-      contextTypes: $contextTypes
-      subjects: $subjects
-      query: $query
-      page: $page
-      pageSize: $pageSize
-      language: $language
-      fallback: $fallback
-      grepCodes: $grepCodes
-      aggregatePaths: $aggregatePaths
-      filterInactive: $filterInactive
-      license: $license
-    ) {
-      resources {
-        ...GroupSearchResource
-      }
-      aggregations {
-        values {
-          value
-        }
-      }
-      suggestions {
-        suggestions {
-          options {
-            text
-          }
-        }
-      }
-      resourceType
-      totalCount
-      language
-    }
-    competenceGoals(codes: $grepCodesList, language: $language) {
-      id
-      title
-      type
-      curriculum {
-        id
-        title
-      }
-      competenceGoalSet {
-        id
-        title
-      }
-    }
-    coreElements(codes: $grepCodesList, language: $language) {
-      id
-      title
-      description
-    }
-  }
-  ${GroupSearchResourceFragment}
-`;
-
 export const copyrightInfoFragment = gql`
   ${contributorInfoFragment}
   fragment CopyrightInfo on Copyright {
@@ -254,46 +164,6 @@ export const copyrightInfoFragment = gql`
     origin
     processed
   }
-`;
-
-export const subjectInfoFragment = gql`
-  fragment SubjectInfo on Node {
-    id
-    name
-    url
-    metadata {
-      customFields
-    }
-    subjectpage {
-      id
-      about {
-        title
-        visualElement {
-          url
-        }
-      }
-      banner {
-        desktopUrl
-      }
-    }
-  }
-`;
-
-export const searchPageQuery = gql`
-  query searchPage {
-    subjects: nodes(nodeType: "SUBJECT", filterVisible: true) {
-      ...SubjectInfo
-    }
-    resourceTypes {
-      id
-      name
-      subtypes {
-        id
-        name
-      }
-    }
-  }
-  ${subjectInfoFragment}
 `;
 
 export const movedResourceQuery = gql`
