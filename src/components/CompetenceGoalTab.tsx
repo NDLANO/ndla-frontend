@@ -146,7 +146,7 @@ const CoreElementWrapper = styled("div", {
   },
 });
 
-export const CompetenceItem = ({ item, isOembed, showLinks = false }: CompetenceItemProps) => {
+const CompetenceItem = ({ item, isOembed, showLinks = false }: CompetenceItemProps) => {
   const { t } = useTranslation();
   return (
     <OuterList>
