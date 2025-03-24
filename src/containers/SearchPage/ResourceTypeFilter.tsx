@@ -34,7 +34,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilterContainer } from "./FilterContainer";
-import { RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
+import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import {
   GQLResourceTypeFilter_BucketResultFragment,
@@ -103,14 +103,14 @@ const CheckboxWrapper = styled("div", {
   },
 });
 
-const NODE_TYPES = [SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE];
+const NODE_TYPES = [ALL_NODE_TYPES, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE];
 
 export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const { t } = useTranslation();
   const isLti = useLtiContext();
 
-  const nodeType = useMemo(() => searchParams.get("type") ?? RESOURCE_NODE_TYPE, [searchParams]);
+  const nodeType = useMemo(() => searchParams.get("type") ?? defaultNodeType(isLti), [isLti, searchParams]);
 
   const keyedBucketResult = useMemo(() => {
     return bucketResult.reduce<Record<string, number>>((acc, curr) => {
@@ -162,7 +162,8 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
 
   const onChangeNodeType = useCallback(
     (id: string) => {
-      setSearchParams({ resourceTypes: null, type: id === RESOURCE_NODE_TYPE ? null : id });
+      // this will only ever happen in non-lti mode, so we don't need to check for default node type
+      setSearchParams({ resourceTypes: null, type: id === ALL_NODE_TYPES ? null : id });
     },
     [setSearchParams],
   );

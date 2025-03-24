@@ -10,7 +10,7 @@ import { expect } from "@playwright/test";
 import { test, mockWaitResponse } from "../../apiMock";
 
 test("contains search bar", async ({ page }) => {
-  await page.goto("/search/?disableSSR=true");
+  await page.goto("/search/?disableSSR=true&type=resource");
   await mockWaitResponse(page, "**/graphql-api/*");
 
   const input = page.getByRole("searchbox");

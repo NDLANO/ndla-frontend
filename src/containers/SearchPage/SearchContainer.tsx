@@ -32,7 +32,7 @@ import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import { GrepFilter } from "./GrepFilter";
 import { ResourceTypeFilter } from "./ResourceTypeFilter";
 import { SearchResult } from "./SearchResult";
-import { RESOURCE_NODE_TYPE } from "./searchUtils";
+import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE } from "./searchUtils";
 import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
@@ -219,6 +219,13 @@ const getTypeVariables = (
   allResourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[] | undefined,
   nodeType: string,
 ) => {
+  if (nodeType === ALL_NODE_TYPES) {
+    return {
+      resultTypes: "node,article",
+      // we're only interested in subject nodes, as topics are handled through context types
+      nodeTypes: "SUBJECT",
+    };
+  }
   // TODO: Figure out if we want this. It depends on what search approach we go for
   if (nodeType !== RESOURCE_NODE_TYPE) {
     return {
@@ -240,9 +247,6 @@ const getTypeVariables = (
   return {
     resourceTypes: actualResourceTypes ?? flattenedResourceTypes,
     contextTypes: "standard,learningpath",
-    // TODO: Keep for later, in case we want to replace "resource" with "all"
-    // resultTypes: !resourceTypes ? "article,node" : undefined,
-    // nodeTypes: !resourceTypes ? "SUBJECT" : undefined,
   };
 };
 
@@ -287,7 +291,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       ...getTypeVariables(
         searchParams.get("resourceTypes"),
         isLti ? resourceTypes : undefined,
-        searchParams.get("type") ?? RESOURCE_NODE_TYPE,
+        searchParams.get("type") ?? defaultNodeType(isLti),
       ),
     };
   }, [i18n.language, isLti, resourceTypes, searchParams]);

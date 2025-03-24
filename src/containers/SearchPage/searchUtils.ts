@@ -9,3 +9,8 @@
 export const RESOURCE_NODE_TYPE = "resource";
 export const TOPIC_NODE_TYPE = "topic";
 export const SUBJECT_NODE_TYPE = "subject";
+export const ALL_NODE_TYPES = "all";
+
+export const defaultNodeType = (isLti: boolean) => {
+  return isLti ? RESOURCE_NODE_TYPE : ALL_NODE_TYPES;
+};

@@ -40,11 +40,12 @@ import { styled } from "@ndla/styled-system/jsx";
 import { constants } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import { FilterContainer } from "./FilterContainer";
-import { SUBJECT_NODE_TYPE } from "./searchUtils";
+import { RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
 import { GQLSubjectFilterQuery } from "../../graphqlTypes";
+import { useLtiContext } from "../../LtiContext";
 
 const FiltersWrapper = styled("div", {
   base: {
@@ -81,16 +82,21 @@ export const SubjectFilter = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const nodeType = searchParams.get("type");
+  const isLti = useLtiContext();
+  const validNodeTypes: (string | null)[] = useMemo(
+    () => (isLti ? [null] : [RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE]),
+    [isLti],
+  );
 
   const subjectsQuery = useQuery<GQLSubjectFilterQuery>(subjectFilterQuery, {
     skip: nodeType === SUBJECT_NODE_TYPE,
   });
 
   useEffect(() => {
-    if (nodeType && nodeType === SUBJECT_NODE_TYPE && searchParams.get("subjects")) {
+    if (!validNodeTypes.includes(nodeType) && searchParams.get("subjects")) {
       setSearchParams({ subjects: null });
     }
-  }, [nodeType, searchParams, setSearchParams]);
+  }, [isLti, nodeType, searchParams, setSearchParams, validNodeTypes]);
 
   const activeSubjectIds = useMemo(() => searchParams.get("subjects")?.split(",") ?? [], [searchParams]);
 
@@ -110,7 +116,7 @@ export const SubjectFilter = () => {
     [activeSubjectIds, setSearchParams],
   );
 
-  if (nodeType === SUBJECT_NODE_TYPE) {
+  if (!validNodeTypes.includes(nodeType)) {
     return;
   }
 

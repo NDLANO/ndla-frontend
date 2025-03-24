@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -22,6 +22,7 @@ import { SearchTrait } from "@ndla/types-backend/search-api";
 import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
+import { useLtiContext } from "../../LtiContext";
 
 const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "H5P", "PODCAST"];
 
@@ -29,12 +30,14 @@ export const TraitFilter = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const nodeType = searchParams.get("type");
+  const isLti = useLtiContext();
+  const validNodeTypes: (string | null)[] = useMemo(() => (isLti ? [null] : [RESOURCE_NODE_TYPE]), [isLti]);
 
   useEffect(() => {
-    if (nodeType && nodeType !== RESOURCE_NODE_TYPE && searchParams.get("traits")) {
+    if (!validNodeTypes.includes(nodeType) && searchParams.get("traits")) {
       setSearchParams({ traits: null });
     }
-  }, [nodeType, searchParams, setSearchParams]);
+  }, [isLti, nodeType, searchParams, setSearchParams, validNodeTypes]);
 
   const onValueChange = useCallback(
     (traits: string[]) => {
@@ -43,7 +46,7 @@ export const TraitFilter = () => {
     [setSearchParams],
   );
 
-  if (nodeType && nodeType !== RESOURCE_NODE_TYPE) {
+  if (!validNodeTypes.includes(nodeType)) {
     return;
   }
 

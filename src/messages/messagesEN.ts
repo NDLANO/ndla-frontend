@@ -117,6 +117,7 @@ const messages = {
       resourceLabel: "Resource",
       subjectLabel: "Subject",
       topicLabel: "Topic",
+      allLabel: "Show all",
       hits: "{{count}} hits",
     },
     noHitsShort: "No results for search: {{query}}",

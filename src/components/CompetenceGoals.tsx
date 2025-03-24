@@ -131,8 +131,8 @@ export const groupCompetenceGoals = (
   subjectId?: string,
 ): ElementType["groupedCompetenceGoals"] => {
   const searchUrl = subjectId
-    ? `/search?subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=`
-    : "/search?grepCodes=";
+    ? `/search?type=resource&subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=`
+    : "/search?type=resource&grepCodes=";
   const curriculumElements = getUniqueCurriculums(competenceGoals).map((curriculum) => ({
     title: `${curriculum?.title} (${curriculum?.id})`,
     elements: getUniqueCompetenceGoalSet(competenceGoals, curriculum!.id).map((competenceGoalSet) => ({
