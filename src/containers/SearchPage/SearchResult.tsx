@@ -76,7 +76,7 @@ const resultUrl = (result: GQLSearchResult_SearchResultFragment, isLti: boolean,
 export const SearchResult = ({ searchResult }: Props) => {
   const { t, i18n } = useTranslation();
   const ltiContext = useLtiContext();
-  const context = searchResult.context;
+  const context = searchResult.context ?? searchResult.contexts?.[0];
 
   const contentType = useMemo(() => {
     if (searchResult.__typename === "NodeSearchResult") {
