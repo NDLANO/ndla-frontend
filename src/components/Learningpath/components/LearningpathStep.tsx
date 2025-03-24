@@ -51,14 +51,29 @@ interface Props {
   subjectId?: string;
 }
 
-export const LearningpathStep = ({
+export const LearningpathStep = (props: Props) => {
+  const { learningpath, learningpathStep, resource } = props;
+  return (
+    <>
+      <LearningpathStepTitle learningpathStep={learningpathStep} />
+      <LearningpathStepContent {...props} />
+      <LastLearningpathStepInfo
+        seqNo={learningpath.learningsteps.findIndex(({ id }) => id === learningpathStep.id)}
+        numberOfLearningSteps={learningpath.learningsteps.length - 1}
+        title={learningpath.title}
+        resource={resource}
+      />
+    </>
+  );
+};
+
+const LearningpathStepContent = ({
   learningpath,
   learningpathStep,
   breadcrumbItems,
   subjectId,
   skipToContentId,
-  resource,
-}: Props) => {
+}: Omit<Props, "resource">) => {
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
       ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
@@ -77,54 +92,35 @@ export const LearningpathStep = ({
     (learningpathStep.embedUrl?.embedType === "oembed" || learningpathStep.embedUrl?.embedType === "iframe")
   ) {
     return (
-      <>
-        <LearningpathStepTitle learningpathStep={learningpathStep} />
-        <EmbedStep
-          skipToContentId={skipToContentId}
-          title={learningpathStep.title}
-          url={learningpathStep.embedUrl?.url ?? ""}
-          oembed={learningpathStep.oembed}
-        />
-      </>
+      <EmbedStep
+        skipToContentId={skipToContentId}
+        title={learningpathStep.title}
+        url={learningpathStep.embedUrl?.url ?? ""}
+        oembed={learningpathStep.oembed}
+      />
     );
-  }
-
-  if (learningpathStep.resource) {
+  } else if (learningpathStep.resource) {
     return (
-      <>
-        <LearningpathStepTitle learningpathStep={learningpathStep} />
-        <ArticleStep
-          taxId={taxId}
-          articleId={articleId}
-          learningpathStep={learningpathStep}
-          subjectId={subjectId}
-          breadcrumbItems={breadcrumbItems}
-          skipToContentId={skipToContentId}
-        >
-          <LastLearningpathStepInfo
-            seqNo={learningpath.learningsteps.findIndex(({ id }) => id === learningpathStep.id)}
-            numberOfLearningSteps={learningpath.learningsteps.length - 1}
-            title={learningpath.title}
-            resource={resource}
-          />
-        </ArticleStep>
-      </>
+      <ArticleStep
+        taxId={taxId}
+        articleId={articleId}
+        learningpathStep={learningpathStep}
+        subjectId={subjectId}
+        breadcrumbItems={breadcrumbItems}
+        skipToContentId={skipToContentId}
+      />
     );
-  }
-
-  if (learningpathStep.description && learningpathStep.introduction) {
+  } else if (learningpathStep.description && learningpathStep.introduction) {
     return (
       <TextStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
     );
-  }
-
-  if (learningpathStep.embedUrl?.embedType === "external") {
+  } else if (learningpathStep.embedUrl?.embedType === "external") {
     return (
       <ExternalStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
     );
+  } else {
+    return null;
   }
-
-  return <LearningpathStepTitle learningpathStep={learningpathStep} />;
 };
 
 LearningpathStep.fragments = {
