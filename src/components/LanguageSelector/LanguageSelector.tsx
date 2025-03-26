@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useHref, useLocation } from "react-router-dom";
 import { HTMLArkProps } from "@ark-ui/react";
 import { GlobalLine } from "@ndla/icons";
 import { Button } from "@ndla/primitives";
@@ -18,13 +18,14 @@ interface Props extends JsxStyleProps, HTMLArkProps<"button"> {}
 
 export const LanguageSelector = (props: Props) => {
   const { t, i18n } = useTranslation();
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const href = useHref(location);
 
   const navigateToLang = i18n.language === "nn" ? "nb" : "nn";
 
   return (
     <Button {...props} asChild consumeCss variant="tertiary" data-testid="language-selector" type={undefined}>
-      <a href={constructNewPath(pathname, navigateToLang)}>
+      <a href={constructNewPath(href, navigateToLang)}>
         {t(`languages.${navigateToLang}`)} <GlobalLine />
       </a>
     </Button>
