@@ -149,8 +149,8 @@ export const groupCoreElements = (
   subjectId?: string,
 ): ElementType["groupedCoreElementItems"] => {
   const searchUrl = subjectId
-    ? `/search?subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=`
-    : "/search?grepCodes=";
+    ? `/search?type=resource&subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=`
+    : "/search?type=resource&grepCodes=";
   return getUniqueCurriculums(coreElements).map((curriculum) => ({
     title: `${curriculum?.title} (${curriculum!.id})`,
     elements: coreElements

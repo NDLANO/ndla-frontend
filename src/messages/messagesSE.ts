@@ -99,7 +99,7 @@ const messages = {
     },
     filtersHeading: "Tilpass søket ditt",
     subjectFilter: {
-      heading: "Sorter på fag",
+      heading: "Filtrer på fag",
       trigger: "Velg fag",
       dialogTitle: "Filtrer søket",
       removeFilter: "Fjern {{subject}}",

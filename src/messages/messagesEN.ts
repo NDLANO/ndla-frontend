@@ -99,7 +99,7 @@ const messages = {
     },
     filtersHeading: "Customize your search",
     subjectFilter: {
-      heading: "Sort by subject",
+      heading: "Filter by subject",
       trigger: "Choose subject",
       dialogTitle: "Filter search",
       removeFilter: "Remove {{subject}}",
