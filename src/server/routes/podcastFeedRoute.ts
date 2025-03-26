@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2021-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { NextFunction, Request, Response } from "express";
 import { NOT_FOUND_PAGE_PATH } from "../../constants";
 import { BAD_REQUEST } from "../../statusCodes";
