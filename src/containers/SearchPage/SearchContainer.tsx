@@ -32,7 +32,7 @@ import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import { GrepFilter } from "./GrepFilter";
 import { ResourceTypeFilter } from "./ResourceTypeFilter";
 import { SearchResult } from "./SearchResult";
-import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE } from "./searchUtils";
+import { ALL_NODE_TYPES, defaultNodeType, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { SubjectFilter } from "./SubjectFilter";
 import { TraitFilter } from "./TraitFilter";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
@@ -221,17 +221,19 @@ const getTypeVariables = (
 ) => {
   if (nodeType === ALL_NODE_TYPES) {
     return {
-      resultTypes: "node,article",
+      resultTypes: "node,article,learningpath",
+      contextTypes: "standard,learningpath,topic-article",
       // we're only interested in subject nodes, as topics are handled through context types
       nodeTypes: "SUBJECT",
     };
-  }
-  // TODO: Figure out if we want this. It depends on what search approach we go for
-  if (nodeType !== RESOURCE_NODE_TYPE) {
+  } else if (nodeType === TOPIC_NODE_TYPE) {
     return {
-      contextTypes: nodeType === "topic" ? "topic-article" : nodeType === "subject" ? "subject" : nodeType,
-      resultTypes: nodeType === "subject" ? "node" : undefined,
-      nodeTypes: nodeType === "subject" ? "SUBJECT" : undefined,
+      contextTypes: "topic-article",
+    };
+  } else if (nodeType === SUBJECT_NODE_TYPE) {
+    return {
+      resultTypes: "node",
+      nodeTypes: "SUBJECT",
     };
   }
 
