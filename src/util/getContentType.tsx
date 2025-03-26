@@ -35,22 +35,6 @@ export const contentTypeMapping: Record<string, string> = {
   default: contentTypes.SUBJECT_MATERIAL,
 };
 
-export const resourceTypeMapping: Record<string, string> = {
-  [contentTypes.LEARNING_PATH]: RESOURCE_TYPE_LEARNING_PATH,
-
-  [contentTypes.SUBJECT_MATERIAL]: RESOURCE_TYPE_SUBJECT_MATERIAL,
-
-  [contentTypes.TASKS_AND_ACTIVITIES]: RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-
-  [contentTypes.ASSESSMENT_RESOURCES]: RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-
-  [contentTypes.CONCEPT]: RESOURCE_TYPE_CONCEPT,
-
-  [contentTypes.SOURCE_MATERIAL]: RESOURCE_TYPE_SOURCE_MATERIAL,
-
-  default: RESOURCE_TYPE_SUBJECT_MATERIAL,
-};
-
 export const resourceEmbedTypeMapping: Record<string, string> = {
   image: "image",
   video: "video",
