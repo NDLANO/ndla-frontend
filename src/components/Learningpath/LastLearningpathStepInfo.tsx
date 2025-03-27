@@ -10,9 +10,18 @@ import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { ArticleContent, ArticleHeader, ArticleWrapper } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import Resources from "../../containers/Resources/Resources";
 import { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
+import { EmbedPageContent } from "./components/EmbedPageContent";
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    paddingBlockStart: "xlarge",
+    paddingBlockEnd: "xxlarge",
+  },
+});
 
 const LinksWrapper = styled("div", {
   base: {
@@ -22,11 +31,9 @@ const LinksWrapper = styled("div", {
   },
 });
 
-const StyledHGroup = styled("hgroup", {
+const ResourcesWrapper = styled("div", {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
+    marginBlockStart: "xlarge",
   },
 });
 
@@ -36,11 +43,12 @@ interface Props {
   numberOfLearningSteps: number;
   title: string;
 }
+
 const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, title }: Props) => {
   const { t } = useTranslation();
   const isLastStep = seqNo === numberOfLearningSteps;
 
-  if (!isLastStep) {
+  if (!isLastStep || !resource?.context) {
     return null;
   }
 
@@ -49,40 +57,46 @@ const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, titl
   const parent = crumbs[crumbs.length - 1];
 
   return (
-    <>
-      <StyledHGroup>
-        <Heading asChild consumeCss>
-          <h2>{t("learningPath.lastStep.heading")}</h2>
-        </Heading>
-        <Text>{t("learningPath.lastStep.headingSmall", { learningPathName: title })}</Text>
-      </StyledHGroup>
-      <LinksWrapper>
-        {!!root && (
-          <Text>
-            {`${t("learningPath.lastStep.subjectHeading")} `}
-            <SafeLink to={root.url ?? ""}>{root.name}</SafeLink>
-          </Text>
-        )}
-        {!!parent && (
-          <Text>
-            {`${t("learningPath.lastStep.topicHeading")} `}
-            <SafeLink to={parent.url ?? ""}>{parent.name}</SafeLink>
-          </Text>
-        )}
-      </LinksWrapper>
-      {!!parent && !!root && (
-        <NoSSR fallback={null}>
-          <Resources
-            headingType="h2"
-            key="resources"
-            parentId={parent.id}
-            rootId={root.id}
-            subHeadingType="h3"
-            currentResourceId={resource?.id}
-          />
-        </NoSSR>
-      )}
-    </>
+    <EmbedPageContent variant="content">
+      <ArticleWrapper>
+        <ArticleHeader>
+          <Heading asChild consumeCss>
+            <h2>{t("learningPath.lastStep.heading")}</h2>
+          </Heading>
+        </ArticleHeader>
+        <StyledArticleContent>
+          <Text>{t("learningPath.lastStep.headingSmall", { learningPathName: title })}</Text>
+          <LinksWrapper>
+            {!!root && (
+              <Text>
+                {`${t("learningPath.lastStep.subjectHeading")} `}
+                <SafeLink to={root.url ?? ""}>{root.name}</SafeLink>
+              </Text>
+            )}
+            {!!parent && (
+              <Text>
+                {`${t("learningPath.lastStep.topicHeading")} `}
+                <SafeLink to={parent.url ?? ""}>{parent.name}</SafeLink>
+              </Text>
+            )}
+          </LinksWrapper>
+          {!!parent && !!root && (
+            <NoSSR fallback={null}>
+              <ResourcesWrapper>
+                <Resources
+                  headingType="h2"
+                  key="resources"
+                  parentId={parent.id}
+                  rootId={root.id}
+                  subHeadingType="h3"
+                  currentResourceId={resource?.id}
+                />
+              </ResourcesWrapper>
+            </NoSSR>
+          )}
+        </StyledArticleContent>
+      </ArticleWrapper>
+    </EmbedPageContent>
   );
 };
 
