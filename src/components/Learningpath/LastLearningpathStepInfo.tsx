@@ -48,7 +48,7 @@ const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, titl
   const { t } = useTranslation();
   const isLastStep = seqNo === numberOfLearningSteps;
 
-  if (!isLastStep) {
+  if (!isLastStep || !resource?.context) {
     return null;
   }
 
