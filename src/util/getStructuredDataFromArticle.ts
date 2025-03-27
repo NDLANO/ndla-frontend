@@ -317,7 +317,7 @@ const getStructuredDataFromArticle = (
 ) => {
   const inLanguage = article.supportedLanguages?.includes(language)
     ? language
-    : article.supportedLanguages?.[0] ?? language;
+    : (article.supportedLanguages?.[0] ?? language);
   const educationalAlignment = getAllignments(article);
   const articleData: StructuredData = {
     ...structuredDataBase,
