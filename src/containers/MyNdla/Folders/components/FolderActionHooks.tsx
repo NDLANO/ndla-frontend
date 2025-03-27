@@ -61,7 +61,7 @@ export const useFolderActions = (
         variables: {
           name: values.name,
           description: values.description,
-          parentId: inToolbar ? folderId : selectedFolder?.parentId ?? undefined,
+          parentId: inToolbar ? folderId : (selectedFolder?.parentId ?? undefined),
         },
       });
       const folder = res.data?.addFolder as GQLFolder | undefined;

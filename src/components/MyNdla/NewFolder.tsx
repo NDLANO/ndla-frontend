@@ -48,7 +48,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
   const { folders } = useFolders();
   const { cache } = useApolloClient();
   const siblings = useMemo(
-    () => (parentId !== "folders" ? getFolder(cache, parentId)?.subfolders ?? [] : folders),
+    () => (parentId !== "folders" ? (getFolder(cache, parentId)?.subfolders ?? []) : folders),
     [parentId, cache, folders],
   );
   const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
