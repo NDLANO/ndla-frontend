@@ -62,12 +62,18 @@ export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => 
   const infoError = isInformationalError(exception);
   if (infoError) return null;
 
-  if (
-    exception instanceof Error &&
-    sentryIgnoreErrors.find(
-      (e) => (e.exact ? exception.message === e.error : exception.message.includes(e.error)) !== undefined,
-    )
-  ) {
+  const message = (exception as Error)?.message;
+
+  if (typeof message !== "string") return event;
+
+  const ignoreEntry = sentryIgnoreErrors.find((ignoreEntry) => {
+    if (ignoreEntry.exact) {
+      return message === ignoreEntry.error;
+    }
+    return message.includes(ignoreEntry.error);
+  });
+
+  if (ignoreEntry) {
     // https://github.com/getsentry/sentry/issues/61469
     // https://github.com/matomo-org/matomo/issues/22836
     return null;
