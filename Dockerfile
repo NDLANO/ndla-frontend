@@ -3,8 +3,6 @@ FROM node:20.13.1-alpine3.18 AS builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
-ARG SENTRY_AUTH_TOKEN
-ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
 ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
 
@@ -26,7 +24,9 @@ COPY src $APP_PATH/src
 COPY public $APP_PATH/public
 
 # Build client code
-RUN yarn run build
+RUN --mount=type=secret,id=sentry_token \
+  export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_token) && \
+  yarn run build
 
 ### Run stage
 FROM node:20.13.1-alpine3.18

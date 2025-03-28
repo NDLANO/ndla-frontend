@@ -10,8 +10,10 @@ then
     VERSION="SNAPSHOT"
 fi
 
+
 docker build \
   --build-arg COMPONENT_VERSION=$VERSION \
+  --secret id=sentry_token,env=SENTRY_AUTH_TOKEN \
   --tag $PROJECT:$VERSION \
   .
 echo "BUILT $PROJECT:$VERSION"
