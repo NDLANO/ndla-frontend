@@ -30,6 +30,7 @@ const sentryIgnoreErrors: SentryIgnore[] = [
   // https://github.com/matomo-org/matomo/issues/22836
   { error: "'get' on proxy: property 'javaEnabled' is a read-only and non-configurable data property" },
   // Based on Sentry issues. ChromeOS specific errors.
+  { error: "Request timeout isMathOcrAvailable" },
   { error: "Request timeout getDictionariesByLanguageId" },
   { error: "Request timeout getSupportScreenShot" },
   { error: "Request timeout isDictateAvailable" },
@@ -62,8 +63,8 @@ export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => 
   const infoError = isInformationalError(exception);
   if (infoError) return null;
 
-  const message = (exception as Error)?.message;
-
+  const message =
+    event.message || event?.exception?.values?.[0]?.value || (hint?.originalException as Error | undefined)?.message;
   if (typeof message !== "string") return event;
 
   const ignoreEntry = sentryIgnoreErrors.find((ignoreEntry) => {
