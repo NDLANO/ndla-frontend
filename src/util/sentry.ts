@@ -105,9 +105,12 @@ export const initSentry = (config: ConfigType) => {
     return;
   }
 
+  const release = `${config.componentName}@${config.componentVersion}`;
+
   Sentry.init({
     dsn: config.sentrydsn,
     environment: config.ndlaEnvironment,
+    release,
     beforeSend,
     integrations: [],
   });

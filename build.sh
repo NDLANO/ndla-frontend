@@ -10,5 +10,8 @@ then
     VERSION="SNAPSHOT"
 fi
 
-docker build -t $PROJECT:$VERSION .
+docker build \
+  --build-arg COMPONENT_VERSION=$VERSION \
+  --tag $PROJECT:$VERSION \
+  .
 echo "BUILT $PROJECT:$VERSION"
