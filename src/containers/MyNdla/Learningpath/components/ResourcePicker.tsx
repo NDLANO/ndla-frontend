@@ -47,10 +47,13 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
 import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResourceFragment } from "../../../../graphqlTypes";
+import { OembedResponseWithTaxonomy } from "../../../../interfaces";
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
 import { ResourceData } from "./folderTypes";
+import { urlIsNDLAUrl } from "../../../../components/Learningpath/LearningpathIframe";
+import { resolveJsonOrRejectWithError } from "../../../../util/apiHelpers";
 
 const HitsWrapper = styled("div", {
   base: {
@@ -180,7 +183,25 @@ export const ResourcePicker = ({ setResource }: Props) => {
     [searchHits],
   );
 
+  const setResourceFromNdlaUrl = async (url: string) => {
+    const res = await fetch(`/oembed?url=${url}&includeTaxonomy=true`);
+    const oembedData = await resolveJsonOrRejectWithError<OembedResponseWithTaxonomy>(res);
+    if (oembedData) {
+      setResource({
+        title: oembedData.title,
+        url,
+        resourceTypes: oembedData.resourceTypes,
+        breadcrumbs: oembedData.breadcrumbs,
+      });
+    }
+  };
+
   const onQueryChange = (val: string) => {
+    if (urlIsNDLAUrl(val)) {
+      setResourceFromNdlaUrl(val);
+      return;
+    }
+
     setSearchObject({ query: val, page: 1, pageSize: 10 });
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };

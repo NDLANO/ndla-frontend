@@ -19,6 +19,7 @@ import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } from "../../statusCodes
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import handleError from "../../util/handleError";
 import { parseOembedUrl } from "../../util/urlHelper";
+import { OembedResponseWithTaxonomy } from "../../interfaces";
 
 const baseUrl = apiResourceUrl("/taxonomy/v1");
 
@@ -30,13 +31,17 @@ const queryNodeByContexts = (contextId: string, locale: string): Promise<Node> =
     .then((r) => resolveJsonOrRejectWithError(r) as Promise<Node[]>)
     .then((nodes) => nodes[0] || Promise.reject(new Error("No node found")));
 
-function getOembedObject(req: express.Request, title?: string, html?: string) {
+function getOembedObject(req: express.Request, title: string, html: string) {
+  const parsedHeight = parseInt(req.query.height?.toString() ?? "", 10);
+  const height = isNaN(parsedHeight) ? 480 : parsedHeight;
+  const parsedWidth = parseInt(req.query.width?.toString() ?? "", 10);
+  const width = isNaN(parsedWidth) ? 854 : parsedWidth;
   return {
     data: {
       type: "rich",
       version: "1.0", // oEmbed version
-      height: req.query.height || 480,
-      width: req.query.width || 854,
+      height,
+      width,
       title,
       html,
     },
@@ -78,6 +83,8 @@ const getHTMLandTitle = async (match: Params<MatchParams>, req: express.Request)
   return {
     title: node.name,
     html: `<iframe aria-label="${node.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`,
+    breadcrumbs: node.breadcrumbs,
+    resourceTypes: node.resourceTypes,
   };
 };
 
@@ -131,8 +138,11 @@ const getEmbedObject = async (lang: string, embedId: string, embedType: string, 
   return getOembedObject(req, title, html);
 };
 
-export async function oembedArticleRoute(req: express.Request) {
-  const { url } = req.query;
+export async function oembedArticleRoute(req: express.Request): Promise<{
+  data: OembedResponseWithTaxonomy | string;
+  status: number;
+}> {
+  const { url, includeTaxonomy } = req.query;
   if (!url || typeof url !== "string") {
     return {
       status: BAD_REQUEST,
@@ -174,18 +184,34 @@ export async function oembedArticleRoute(req: express.Request) {
     } else if (!resourceId && !topicId && !nodeId && !contextId) {
       const { articleId } = params;
       const article = await fetchArticle(articleId!, lang);
-      const height = req.query.height || 480;
-      const width = req.query.width || 854;
+      const parsedHeight = parseInt(req.query.height?.toString() ?? "");
+      const height = isNaN(parsedHeight) ? 480 : parsedHeight;
+      const parsedWidth = parseInt(req.query.width?.toString() ?? "");
+      const width = isNaN(parsedWidth) ? 854 : parsedWidth;
       const html = `<iframe aria-label="${article.title.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`;
       return getOembedObject(req, article.title.title, html);
     }
-    const { html, title } = await getHTMLandTitle(params, req);
+    const { html, title, breadcrumbs, resourceTypes } = await getHTMLandTitle(params, req);
     if (!html && !title) {
       return {
         status: NOT_FOUND,
         data: "Not found",
       };
     }
+
+    const oembedObject = getOembedObject(req, title, html);
+    if (includeTaxonomy === "true") {
+      const { data, status } = oembedObject;
+      return {
+        data: {
+          ...data,
+          breadcrumbs,
+          resourceTypes,
+        },
+        status,
+      };
+    }
+
     return getOembedObject(req, title, html);
   } catch (error) {
     handleError(error, req.path);
