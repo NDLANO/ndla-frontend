@@ -11,6 +11,7 @@ import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig(() => {
+  const componentVersion = process.env.COMPONENT_VERSION ?? "SNAPSHOT";
   return {
     test: {
       include: ["src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
@@ -29,6 +30,9 @@ export default defineConfig(() => {
         authToken: process.env.SENTRY_AUTH_TOKEN,
         org: process.env.SENTRY_ORG ?? "ndlano",
         project: process.env.SENTRY_PROJECT ?? "ndla-frontend",
+        release: {
+          name: `ndla-frontend@${componentVersion}`,
+        },
         url: "https://sentry.io/",
         telemetry: false,
       }),

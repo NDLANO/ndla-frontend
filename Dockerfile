@@ -5,6 +5,8 @@ ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
 ARG SENTRY_AUTH_TOKEN
 ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+ARG COMPONENT_VERSION
+ENV COMPONENT_VERSION=$COMPONENT_VERSION
 
 # Copy necessary files for installing dependencies
 COPY yarn.lock package.json .yarnrc.yml $APP_PATH/
@@ -36,5 +38,7 @@ WORKDIR /home/app/ndla-frontend
 COPY --from=builder /home/app/ndla-frontend/build build
 
 ENV NODE_ENV=production
+ARG COMPONENT_VERSION
+ENV COMPONENT_VERSION=$COMPONENT_VERSION
 
 CMD ["/run-ndla-frontend.sh", "node build/server.mjs"]
