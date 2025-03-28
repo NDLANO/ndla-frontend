@@ -52,8 +52,8 @@ import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
 import { ResourceData } from "./folderTypes";
-import { urlIsNDLAUrl } from "../../../../components/Learningpath/LearningpathIframe";
 import { resolveJsonOrRejectWithError } from "../../../../util/apiHelpers";
+import { urlIsNDLAUrl } from "../../../../util/ndlaUrl";
 
 const HitsWrapper = styled("div", {
   base: {
