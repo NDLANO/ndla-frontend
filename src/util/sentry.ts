@@ -67,6 +67,22 @@ export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => 
     event.message || event?.exception?.values?.[0]?.value || (hint?.originalException as Error | undefined)?.message;
   if (typeof message !== "string") return event;
 
+  // Extension error filtering
+  const frames = event?.exception?.values?.[0]?.stacktrace?.frames || [];
+  const hasExtensionFrame = frames.some((frame) => {
+    const filename = frame?.filename || "";
+    return (
+      filename.startsWith("chrome-extension://") ||
+      filename.startsWith("moz-extension://") ||
+      filename.includes("extensions::")
+    );
+  });
+
+  const isExtensionError =
+    hasExtensionFrame || message.includes("chrome-extension://") || message.includes("moz-extension://");
+
+  if (isExtensionError) return null;
+
   const ignoreEntry = sentryIgnoreErrors.find((ignoreEntry) => {
     if (ignoreEntry.exact) {
       return message === ignoreEntry.error;
