@@ -187,6 +187,8 @@ export const ResourcePicker = ({ setResource }: Props) => {
     const res = await fetch(`/oembed?url=${url}&includeTaxonomy=true`);
     const oembedData = await resolveJsonOrRejectWithError<OembedResponseWithTaxonomy>(res);
     if (oembedData) {
+      const url =
+        new DOMParser().parseFromString(oembedData.html, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
       setResource({
         title: oembedData.title,
         url,
