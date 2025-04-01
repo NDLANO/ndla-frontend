@@ -202,8 +202,12 @@ const StyledMoreHitsButton = styled(Button, {
 
 const getActiveSubjectUrl = (id: string, query: string): string => {
   const stripped = id.replace("urn:subject:", "");
-  const queryParam = query.length > 0 ? `&query=${encodeURIComponent(query)}` : "";
-  return `/search?type=resource&subjects=${encodeURIComponent(stripped)}${queryParam}`;
+  const searchParams = new URLSearchParams({
+    type: "resource",
+    subjects: stripped,
+    query: query,
+  });
+  return `/search?${searchParams}`;
 };
 
 interface Props {
