@@ -41,7 +41,6 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
-
 import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
@@ -77,12 +76,14 @@ const StyledForm = styled("form", {
   base: {
     width: "100%",
     flex: "1",
-    paddingBlock: "medium",
-    paddingInline: "medium",
+    paddingBlockStart: "xsmall",
+    paddingBlockEnd: "xxlarge",
+    paddingInline: "small",
     display: "flex",
     alignItems: "flex-start",
     flexDirection: "column",
-    gap: "3xsmall",
+    gap: "xsmall",
+    overflow: "auto",
     desktop: {
       width: "60%",
     },
@@ -96,6 +97,7 @@ const StyledDialogContent = styled(DialogContent, {
     justifyContent: "center",
     alignItems: "center",
     height: "unset",
+    maxHeight: "100%",
   },
 });
 
@@ -117,6 +119,7 @@ const LabelContainer = styled("div", {
     gap: "medium",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBlockEnd: "xsmall",
   },
 });
 
@@ -132,16 +135,7 @@ const TextWrapper = styled("div", {
 
 const StyledHitsWrapper = styled("div", {
   base: {
-    marginTop: "3xsmall",
     textAlign: "start",
-  },
-});
-
-const SearchContentWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
   },
 });
 
@@ -186,6 +180,21 @@ const InlineText = styled(Text, {
   base: {
     display: "inline",
     marginInlineEnd: "4xsmall",
+  },
+});
+
+const StyledComboboxItemText = styled(ComboboxItemText, {
+  base: {
+    textDecoration: "underline",
+    _highlighted: {
+      textDecoration: "none",
+    },
+  },
+});
+
+const StyledMoreHitsButton = styled(Button, {
+  base: {
+    marginBlockStart: "small",
   },
 });
 
@@ -247,7 +256,7 @@ const MastheadSearch = ({ root }: Props) => {
           language: i18n.language,
           nodeTypes: "SUBJECT",
           page: 1,
-          pageSize: 10,
+          pageSize: 7,
           resultTypes: "node,article,learningpath",
         },
       });
@@ -346,7 +355,7 @@ const MastheadSearch = ({ root }: Props) => {
             form={formId}
             selectionBehavior="preserve"
             translations={comboboxTranslations}
-            css={{ width: "100%" }}
+            css={{ width: "100%", gap: "xsmall" }}
           >
             <LabelContainer>
               <DialogTitle asChild>
@@ -384,83 +393,81 @@ const MastheadSearch = ({ root }: Props) => {
                 <SearchLine />
               </IconButton>
             </ComboboxControl>
-            <SearchContentWrapper>
-              <StyledHitsWrapper aria-live="assertive">
-                {!loading && !!query && (
-                  <div>
-                    {!(searchHits.length >= 1) ? (
-                      <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
-                    ) : (
-                      <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
-                    )}
-                    {!!suggestion && (
-                      <Text textStyle="label.small">
-                        {t("searchPage.resultType.searchPhraseSuggestion")}
-                        <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
-                          [{suggestion}]
-                        </SuggestionButton>
-                      </Text>
-                    )}
-                  </div>
-                )}
-              </StyledHitsWrapper>
-              {!loading && !!query && root ? (
-                <ActiveSubjectWrapper>
-                  <SearchLine />
-                  <div>
-                    <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
-                    {/* TODO: Figure out if we should handle this differently to avoid onClick on anchor tag */}
-                    <StyledSafeLink to={getActiveSubjectUrl(root.id)} onClick={() => setDialogState({ open: false })}>
-                      {root.name}
-                    </StyledSafeLink>
-                  </div>
-                </ActiveSubjectWrapper>
-              ) : null}
-              {!!searchHits.length || loading ? (
-                <StyledComboboxContent>
-                  {loading ? (
-                    <Spinner />
+            <StyledHitsWrapper aria-live="assertive">
+              {!loading && !!query && (
+                <div>
+                  {!(searchHits.length >= 1) ? (
+                    <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
                   ) : (
-                    searchHits.map((resource) => (
-                      <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
-                        <StyledListItemRoot context="list">
-                          <TextWrapper>
-                            <ComboboxItemText>
-                              <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
-                                {resource.htmlTitle}
-                              </SafeLink>
-                            </ComboboxItemText>
-                            {resource.contentType === constants.contentTypes.SUBJECT ? (
-                              <Text textStyle="label.small" color="text.subtle">
-                                {resource.metaDescription}
-                              </Text>
-                            ) : (
-                              !!resource.contexts[0] && (
-                                <Text
-                                  textStyle="label.small"
-                                  color="text.subtle"
-                                  css={{ textAlign: "start" }}
-                                  aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
-                                >
-                                  {resource.contexts[0].breadcrumbs.join(" / ")}
-                                </Text>
-                              )
-                            )}
-                          </TextWrapper>
-                          <ContentTypeBadge contentType={resource.contentType} />
-                        </StyledListItemRoot>
-                      </ComboboxItem>
-                    ))
+                    <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
                   )}
-                </StyledComboboxContent>
-              ) : null}
-            </SearchContentWrapper>
+                  {!!suggestion && (
+                    <Text textStyle="label.small">
+                      {t("searchPage.resultType.searchPhraseSuggestion")}
+                      <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
+                        [{suggestion}]
+                      </SuggestionButton>
+                    </Text>
+                  )}
+                </div>
+              )}
+            </StyledHitsWrapper>
+            {!loading && !!query && root ? (
+              <ActiveSubjectWrapper>
+                <SearchLine />
+                <div>
+                  <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
+                  {/* TODO: Figure out if we should handle this differently to avoid onClick on anchor tag */}
+                  <StyledSafeLink to={getActiveSubjectUrl(root.id)} onClick={() => setDialogState({ open: false })}>
+                    {root.name}
+                  </StyledSafeLink>
+                </div>
+              </ActiveSubjectWrapper>
+            ) : null}
+            {!!searchHits.length || loading ? (
+              <StyledComboboxContent>
+                {loading ? (
+                  <Spinner />
+                ) : (
+                  searchHits.map((resource) => (
+                    <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                      <StyledListItemRoot context="list">
+                        <TextWrapper>
+                          <StyledComboboxItemText>
+                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                              {resource.htmlTitle}
+                            </SafeLink>
+                          </StyledComboboxItemText>
+                          {resource.contentType === constants.contentTypes.SUBJECT ? (
+                            <Text textStyle="label.small" color="text.subtle">
+                              {resource.metaDescription}
+                            </Text>
+                          ) : (
+                            !!resource.contexts[0] && (
+                              <Text
+                                textStyle="label.small"
+                                color="text.subtle"
+                                css={{ textAlign: "start" }}
+                                aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                              >
+                                {resource.contexts[0].breadcrumbs.join(" / ")}
+                              </Text>
+                            )
+                          )}
+                        </TextWrapper>
+                        <ContentTypeBadge contentType={resource.contentType} />
+                      </StyledListItemRoot>
+                    </ComboboxItem>
+                  ))
+                )}
+              </StyledComboboxContent>
+            ) : null}
           </ComboboxRoot>
           {!!searchHits.length && !loading && (
-            <Button variant="secondary" type="submit">
+            <StyledMoreHitsButton variant="secondary" type="submit">
               {t("masthead.moreHits")}
               <ArrowRightLine />
-            </Button>
+            </StyledMoreHitsButton>
           )}
         </StyledForm>
       </StyledDialogContent>
