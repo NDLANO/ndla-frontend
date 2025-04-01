@@ -40,12 +40,8 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
-import {
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_LEARNING_PATH,
-} from "../../../constants";
+import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
+
 import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
@@ -206,7 +202,7 @@ const MastheadSearch = ({ root }: Props) => {
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [query, setQuery] = useState("");
   const [delayedSearchQuery, setDelayedQuery] = useState("");
   const formId = useId();
@@ -244,12 +240,15 @@ const MastheadSearch = ({ root }: Props) => {
       runSearch({
         variables: {
           query: delayedSearchQuery,
-          resourceTypes: [
-            RESOURCE_TYPE_LEARNING_PATH,
-            RESOURCE_TYPE_SUBJECT_MATERIAL,
-            RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-          ].join(),
+          contextTypes: "standard,learningpath,topic-article",
+          fallback: "true",
+          filterInactive: true,
           license: "all",
+          language: i18n.language,
+          nodeTypes: "SUBJECT",
+          page: 1,
+          pageSize: 10,
+          resultTypes: "node,article,learningpath",
         },
       });
     }
@@ -270,7 +269,10 @@ const MastheadSearch = ({ root }: Props) => {
     return (
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
+        const contentType =
+          result.__typename === "NodeSearchResult"
+            ? constants.contentTypes.SUBJECT
+            : contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         return {
           ...result,
           htmlTitle:
@@ -428,15 +430,21 @@ const MastheadSearch = ({ root }: Props) => {
                                 {resource.htmlTitle}
                               </SafeLink>
                             </ComboboxItemText>
-                            {!!resource.contexts[0] && (
-                              <Text
-                                textStyle="label.small"
-                                color="text.subtle"
-                                css={{ textAlign: "start" }}
-                                aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
-                              >
-                                {resource.contexts[0].breadcrumbs.join(" > ")}
+                            {resource.contentType === constants.contentTypes.SUBJECT ? (
+                              <Text textStyle="label.small" color="text.subtle">
+                                {resource.metaDescription}
                               </Text>
+                            ) : (
+                              !!resource.contexts[0] && (
+                                <Text
+                                  textStyle="label.small"
+                                  color="text.subtle"
+                                  css={{ textAlign: "start" }}
+                                  aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                                >
+                                  {resource.contexts[0].breadcrumbs.join(" / ")}
+                                </Text>
+                              )
                             )}
                           </TextWrapper>
                           <ContentTypeBadge contentType={resource.contentType} />
