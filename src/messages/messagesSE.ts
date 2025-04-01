@@ -683,6 +683,7 @@ const messages = {
     search: "Søk på ndla.no",
     moreHits: "Vis flere treff",
     skipToContent: "Njuike sisdollui",
+    activeSubjectSearch: "Søk i faget",
     menuOptions: {
       programme: "Oahppoprográmma",
       subjects: "Fága",

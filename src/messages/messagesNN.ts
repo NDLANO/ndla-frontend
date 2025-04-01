@@ -684,6 +684,7 @@ const messages = {
     search: "Søk på ndla.no",
     moreHits: "Vis fleire treff",
     skipToContent: "Hopp til innhald",
+    activeSubjectSearch: "Søk i faget",
     menuOptions: {
       programme: "Utdanningsprogram",
       subjects: "Fag",

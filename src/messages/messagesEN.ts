@@ -687,6 +687,7 @@ const messages = {
     search: "Search ndla.no",
     moreHits: "See more results",
     skipToContent: "Skip to content",
+    activeSubjectSearch: "Search in subject",
     menuOptions: {
       programme: "Programmes",
       subjects: "Subjects",

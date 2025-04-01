@@ -46,7 +46,7 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
   RESOURCE_TYPE_LEARNING_PATH,
 } from "../../../constants";
-import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
+import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
 import { contentTypeMapping } from "../../../util/getContentType";
 
@@ -62,6 +62,7 @@ const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     minHeight: "unset",
     textAlign: "start",
+    flexWrap: "wrap",
   },
 });
 
@@ -133,7 +134,20 @@ const TextWrapper = styled("div", {
   },
 });
 
-const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall", textAlign: "start" } });
+const StyledHitsWrapper = styled("div", {
+  base: {
+    marginTop: "3xsmall",
+    textAlign: "start",
+  },
+});
+
+const SearchContentWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
 
 const SuggestionButton = styled(Button, {
   base: {
@@ -141,7 +155,53 @@ const SuggestionButton = styled(Button, {
   },
 });
 
-const MastheadSearch = () => {
+const ActiveSubjectWrapper = styled("div", {
+  base: {
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    backgroundColor: "surface.brand.1.subtle",
+    display: "flex",
+    gap: "3xsmall",
+    padding: "xsmall",
+    alignItems: "center",
+    textAlign: "start",
+    tabletDown: {
+      gap: "4xsmall",
+    },
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "inline",
+    color: "text.default",
+    textStyle: "label.small",
+    textDecoration: "underline",
+    _hover: {
+      textDecoration: "none",
+    },
+    _focusVisible: {
+      textDecoration: "none",
+    },
+  },
+});
+
+const InlineText = styled(Text, {
+  base: {
+    display: "inline",
+    marginInlineEnd: "4xsmall",
+  },
+});
+
+const getActiveSubjectUrl = (id: string): string => {
+  const stripped = id.replace("urn:subject:", "");
+  return `/search?type=resource&subjects=${encodeURIComponent(stripped)}`;
+};
+
+interface Props {
+  root?: GQLMastheadDrawer_RootFragment;
+}
+const MastheadSearch = ({ root }: Props) => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const { pathname } = useLocation();
@@ -322,57 +382,71 @@ const MastheadSearch = () => {
                 <SearchLine />
               </IconButton>
             </ComboboxControl>
-            <StyledHitsWrapper aria-live="assertive">
-              {!loading && !!query && (
-                <div>
-                  {!(searchHits.length >= 1) ? (
-                    <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
-                  ) : (
-                    <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
-                  )}
-                  {!!suggestion && (
-                    <Text textStyle="label.small">
-                      {t("searchPage.resultType.searchPhraseSuggestion")}
-                      <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
-                        [{suggestion}]
-                      </SuggestionButton>
-                    </Text>
-                  )}
-                </div>
-              )}
-            </StyledHitsWrapper>
-            {!!searchHits.length || loading ? (
-              <StyledComboboxContent>
-                {loading ? (
-                  <Spinner />
-                ) : (
-                  searchHits.map((resource) => (
-                    <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
-                      <StyledListItemRoot context="list">
-                        <TextWrapper>
-                          <ComboboxItemText>
-                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
-                              {resource.htmlTitle}
-                            </SafeLink>
-                          </ComboboxItemText>
-                          {!!resource.contexts[0] && (
-                            <Text
-                              textStyle="label.small"
-                              color="text.subtle"
-                              css={{ textAlign: "start" }}
-                              aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
-                            >
-                              {resource.contexts[0].breadcrumbs.join(" > ")}
-                            </Text>
-                          )}
-                        </TextWrapper>
-                        <ContentTypeBadge contentType={resource.contentType} />
-                      </StyledListItemRoot>
-                    </ComboboxItem>
-                  ))
+            <SearchContentWrapper>
+              <StyledHitsWrapper aria-live="assertive">
+                {!loading && !!query && (
+                  <div>
+                    {!(searchHits.length >= 1) ? (
+                      <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
+                    ) : (
+                      <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
+                    )}
+                    {!!suggestion && (
+                      <Text textStyle="label.small">
+                        {t("searchPage.resultType.searchPhraseSuggestion")}
+                        <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
+                          [{suggestion}]
+                        </SuggestionButton>
+                      </Text>
+                    )}
+                  </div>
                 )}
-              </StyledComboboxContent>
-            ) : null}
+              </StyledHitsWrapper>
+              {!loading && !!query && root ? (
+                <ActiveSubjectWrapper>
+                  <SearchLine />
+                  <div>
+                    <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
+                    {/* TODO: Figure out if we should handle this differently to avoid onClick on anchor tag */}
+                    <StyledSafeLink to={getActiveSubjectUrl(root.id)} onClick={() => setDialogState({ open: false })}>
+                      {root.name}
+                    </StyledSafeLink>
+                  </div>
+                </ActiveSubjectWrapper>
+              ) : null}
+              {!!searchHits.length || loading ? (
+                <StyledComboboxContent>
+                  {loading ? (
+                    <Spinner />
+                  ) : (
+                    searchHits.map((resource) => (
+                      <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
+                        <StyledListItemRoot context="list">
+                          <TextWrapper>
+                            <ComboboxItemText>
+                              <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                                {resource.htmlTitle}
+                              </SafeLink>
+                            </ComboboxItemText>
+                            {!!resource.contexts[0] && (
+                              <Text
+                                textStyle="label.small"
+                                color="text.subtle"
+                                css={{ textAlign: "start" }}
+                                aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                              >
+                                {resource.contexts[0].breadcrumbs.join(" > ")}
+                              </Text>
+                            )}
+                          </TextWrapper>
+                          <ContentTypeBadge contentType={resource.contentType} />
+                        </StyledListItemRoot>
+                      </ComboboxItem>
+                    ))
+                  )}
+                </StyledComboboxContent>
+              ) : null}
+            </SearchContentWrapper>
           </ComboboxRoot>
           {!!searchHits.length && !loading && (
             <Button variant="secondary" type="submit">
