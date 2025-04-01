@@ -166,12 +166,14 @@ const StyledSafeLink = styled(SafeLink, {
     display: "inline",
     color: "text.default",
     textStyle: "label.small",
-    textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
-    _focusVisible: {
-      textDecoration: "none",
+    "& span": {
+      textDecoration: "underline",
+      _hover: {
+        textDecoration: "none",
+      },
+      _focusVisible: {
+        textDecoration: "none",
+      },
     },
   },
 });
@@ -417,9 +419,8 @@ const MastheadSearch = ({ root }: Props) => {
                 <SearchLine />
                 <div>
                   <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
-                  {/* TODO: Figure out if we should handle this differently to avoid onClick on anchor tag */}
-                  <StyledSafeLink to={getActiveSubjectUrl(root.id)} onClick={() => setDialogState({ open: false })}>
-                    {root.name}
+                  <StyledSafeLink to={getActiveSubjectUrl(root.id)} onClick={() => onNavigate()}>
+                    &quot;<span>{root.name}</span>&quot;
                   </StyledSafeLink>
                 </div>
               </ActiveSubjectWrapper>
