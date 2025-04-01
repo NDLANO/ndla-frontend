@@ -200,9 +200,10 @@ const StyledMoreHitsButton = styled(Button, {
   },
 });
 
-const getActiveSubjectUrl = (id: string): string => {
+const getActiveSubjectUrl = (id: string, query: string): string => {
   const stripped = id.replace("urn:subject:", "");
-  return `/search?type=resource&subjects=${encodeURIComponent(stripped)}`;
+  const queryParam = query.length > 0 ? `&query=${encodeURIComponent(query)}` : "";
+  return `/search?type=resource&subjects=${encodeURIComponent(stripped)}${queryParam}`;
 };
 
 interface Props {
@@ -419,7 +420,7 @@ const MastheadSearch = ({ root }: Props) => {
                 <SearchLine />
                 <div>
                   <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
-                  <StyledSafeLink to={getActiveSubjectUrl(root.id)} onClick={() => onNavigate()}>
+                  <StyledSafeLink to={getActiveSubjectUrl(root.id, query)} onClick={() => onNavigate()}>
                     &quot;<span>{root.name}</span>&quot;
                   </StyledSafeLink>
                 </div>
