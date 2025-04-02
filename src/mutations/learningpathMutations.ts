@@ -345,6 +345,16 @@ export const useUpdateLearningpathStepSeqNo = (
             },
           },
         });
+        client.cache.modify({
+          id: client.cache.identify({
+            __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStepId}`,
+          }),
+          fields: {
+            revision: () => {
+              return methodOptions?.variables?.revision;
+            },
+          },
+        });
         client.cache.gc();
       },
     },
