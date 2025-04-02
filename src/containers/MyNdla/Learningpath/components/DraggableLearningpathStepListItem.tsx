@@ -6,6 +6,7 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -137,6 +138,11 @@ export const DraggableLearningpathStepListItem = ({
 
   const stepType = getFormTypeFromStep(step);
 
+  const isDraggable = useMemo(
+    () => selectedLearningpathStepId === -1 || selectedLearningpathStepId === -2,
+    [selectedLearningpathStepId],
+  );
+
   return (
     <DraggableListItem id={sortableId} ref={setNodeRef} style={style} isDragging={isDragging}>
       <StyledDragHandle
@@ -145,8 +151,8 @@ export const DraggableLearningpathStepListItem = ({
         disabled={items.length < 2}
         type="learningpathstep"
         {...attributes}
-        isHidden={!!selectedLearningpathStepId}
-        aria-hidden={selectedLearningpathStepId ? true : undefined}
+        isHidden={!isDraggable}
+        aria-hidden={!isDraggable ? true : undefined}
       />
       <DragWrapper>
         <ContentWrapper editing={step.id === selectedLearningpathStepId}>
