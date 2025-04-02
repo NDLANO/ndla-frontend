@@ -37,12 +37,16 @@ interface LinkDialogContentProps {
 export interface LinkFormValues {
   url: string;
   text: string;
+  target?: string;
+  rel?: string;
 }
 
 export const toInitialLinkFormValues = (node: Node | undefined, editor: Editor): LinkFormValues => {
   return {
     url: isElementOfType(node, "link") ? node.data.href : "",
     text: isElementOfType(node, "link") ? Node.string(node) : editor.selection ? editor.string(editor.selection) : "",
+    target: "_blank",
+    rel: "noopener noreferrer",
   };
 };
 
@@ -51,15 +55,21 @@ const updateNode = (editor: Editor, values: LinkFormValues) => {
   if (!selection) return;
   const [linkEntry] = editor.nodes({ match: isLinkElement });
 
+  const embedData = { href: values.url, target: values.target, rel: values.rel };
+
   // we're updating an existing link
   if (linkEntry) {
     Transforms.insertText(editor, values.text, { at: linkEntry[1] });
-    Transforms.setNodes(editor, { data: { href: values.url } }, { at: [...linkEntry[1], 0], match: isLinkElement });
+    Transforms.setNodes(editor, { data: embedData }, { at: [...linkEntry[1], 0], match: isLinkElement });
   } else if (Range.isCollapsed(selection)) {
     // we're inserting a link without having preselected text
-    Transforms.insertNodes(editor, { type: "link", data: { href: values.url }, children: [{ text: values.text }] });
+    Transforms.insertNodes(editor, {
+      type: "link",
+      data: embedData,
+      children: [{ text: values.text }],
+    });
   } else {
-    Transforms.wrapNodes(editor, { type: "link", data: { href: values.url }, children: [] }, { split: true });
+    Transforms.wrapNodes(editor, { type: "link", data: embedData, children: [] }, { split: true });
   }
 };
 
