@@ -263,7 +263,7 @@ const MastheadSearch = ({ root }: Props) => {
           language: i18n.language,
           nodeTypes: "SUBJECT",
           page: 1,
-          pageSize: 7,
+          pageSize: 10,
           resultTypes: "node,article,learningpath",
         },
       });
