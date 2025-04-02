@@ -98,21 +98,21 @@ const MastheadContainer = ({ showAlerts }: Props) => {
   const parentIds = rootData?.node?.context?.parentIds?.filter((id) => id !== subjectId) ?? [];
   const crumbs = maybeTopicId ? parentIds?.concat(maybeTopicId) : parentIds;
 
-  const { data: freshData, previousData } = useQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(mastheadQuery, {
+  const { data: freshData } = useQuery<GQLMastHeadQuery, GQLMastHeadQueryVariables>(mastheadQuery, {
     variables: {
       subjectId: subjectId!,
     },
     skip: rootLoading || !subjectId || nodeType === "PROGRAMME" || typeof window === "undefined",
   });
 
-  const data = subjectId ? (freshData ?? previousData) : undefined;
+  const data = subjectId ? freshData : undefined;
 
   return (
     <ErrorBoundary>
       <Masthead skipToMainContentId={SKIP_TO_CONTENT_ID} showAlerts={showAlerts}>
         <DrawerWrapper>
           <MastheadDrawer root={data?.root} crumbs={crumbs} />
-          <MastheadSearch />
+          <MastheadSearch root={data?.root} />
         </DrawerWrapper>
         <SafeLink to="/" aria-label="NDLA" title="NDLA">
           <NdlaLogoText />
