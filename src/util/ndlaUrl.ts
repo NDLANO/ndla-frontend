@@ -6,8 +6,9 @@
  *
  */
 
-export const urlIsNDLAApiUrl = (url: string) =>
-  /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
-export const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);
-export const urlIsLocalNdla = (url: string) => /^http:\/\/(proxy.ndla-local|localhost):30017/.test(url);
-export const urlIsNDLAUrl = (url: string) => urlIsNDLAApiUrl(url) || urlIsNDLAEnvUrl(url) || urlIsLocalNdla(url);
+export const NDLA_API_URL_REGEX = /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/;
+export const NDLA_ENV_URL_REGEX = /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/;
+export const NDLA_LOCAL_URL_REGEX = /^http:\/\/(proxy.ndla-local|localhost):30017/;
+
+export const urlIsNDLAUrl = (url: string) =>
+  NDLA_API_URL_REGEX.test(url) || NDLA_ENV_URL_REGEX.test(url) || NDLA_LOCAL_URL_REGEX.test(url);
