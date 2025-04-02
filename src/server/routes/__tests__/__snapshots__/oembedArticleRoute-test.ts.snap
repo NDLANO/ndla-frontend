@@ -17,8 +17,11 @@ exports[`oembedArticleRoute learningpath fail 1`] = `
 exports[`oembedArticleRoute success 1`] = `
 {
   "data": {
+    "breadcrumbs": undefined,
     "height": 480,
     "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" height="480" width="854" frameborder="0" allowFullscreen="" />",
+    "iframeSrc": "https://test.ndla.no/article-iframe/nb/urn:resource:1/123",
+    "resourceTypes": undefined,
     "title": "Resource title",
     "type": "rich",
     "version": "1.0",
@@ -31,8 +34,11 @@ exports[`oembedArticleRoute success 1`] = `
 exports[`oembedArticleRoute success 2`] = `
 {
   "data": {
+    "breadcrumbs": undefined,
     "height": 480,
     "html": "<iframe aria-label="Resource title" src="https://test.ndla.no/article-iframe/nb/urn:resource:1/123" height="480" width="854" frameborder="0" allowFullscreen="" />",
+    "iframeSrc": "https://test.ndla.no/article-iframe/nb/urn:resource:1/123",
+    "resourceTypes": undefined,
     "title": "Resource title",
     "type": "rich",
     "version": "1.0",

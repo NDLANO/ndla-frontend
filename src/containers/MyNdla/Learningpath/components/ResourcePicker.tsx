@@ -47,7 +47,7 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
 import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResourceFragment } from "../../../../graphqlTypes";
-import { OembedResponseWithTaxonomy } from "../../../../interfaces";
+import { OembedResponse } from "../../../../interfaces";
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
@@ -184,8 +184,8 @@ export const ResourcePicker = ({ setResource }: Props) => {
   );
 
   const setResourceFromNdlaUrl = async (url: string) => {
-    const res = await fetch(`/oembed?url=${url}&includeTaxonomy=true`);
-    const oembedData = await resolveJsonOrRejectWithError<OembedResponseWithTaxonomy>(res);
+    const res = await fetch(`/oembed?url=${url}`);
+    const oembedData = await resolveJsonOrRejectWithError<OembedResponse>(res);
     if (oembedData) {
       const url =
         new DOMParser().parseFromString(oembedData.html, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";

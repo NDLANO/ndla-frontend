@@ -87,9 +87,7 @@ export interface OembedResponse {
   width: number;
   title: string;
   html: string;
-}
-
-export interface OembedResponseWithTaxonomy extends OembedResponse {
+  iframeSrc: string;
   breadcrumbs?: string[];
   resourceTypes?: ResourceTypeWithConnection[];
 }
