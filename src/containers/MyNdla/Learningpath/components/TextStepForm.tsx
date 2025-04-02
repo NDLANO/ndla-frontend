@@ -7,14 +7,12 @@
  */
 
 import { t } from "i18next";
-import { useMemo } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { Descendant } from "slate";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
-import { deserializeToRichText } from "../../../../components/RichTextEditor/richTextSerialization";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
 
@@ -28,17 +26,9 @@ export interface TextFormValues {
   description: Descendant[];
 }
 
-interface Props {
-  initialValue: string;
-}
-
-export const TextStepForm = ({ initialValue }: Props) => {
+export const TextStepForm = () => {
   const { validationT } = useValidationTranslation();
   const { control } = useFormContext<TextFormValues>();
-
-  const editorInitialValue = useMemo(() => {
-    return deserializeToRichText(initialValue);
-  }, [initialValue]);
 
   return (
     <>
@@ -113,7 +103,7 @@ export const TextStepForm = ({ initialValue }: Props) => {
             </ContentEditableFieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.description.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <RichTextEditor initialValue={editorInitialValue} {...rest} />
+            <RichTextEditor initialValue={value} {...rest} />
           </FieldRoot>
         )}
       />

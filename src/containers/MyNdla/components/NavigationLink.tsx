@@ -65,7 +65,7 @@ const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reload
   const location = useLocation();
   const selected =
     to === routes.myNdla.root ? location.pathname === routes.myNdla.root : location.pathname.startsWith(to);
-  const selectedIcon = selected ? iconFilled ?? icon : icon;
+  const selectedIcon = selected ? (iconFilled ?? icon) : icon;
   const external = to.startsWith("http");
 
   return (

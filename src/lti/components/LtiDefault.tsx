@@ -21,6 +21,12 @@ const BreakableCode = styled("code", {
   },
 });
 
+const StyledButton = styled(Button, {
+  base: {
+    position: "relative",
+  },
+});
+
 interface Props {
   item: LtiItem;
 }
@@ -46,7 +52,7 @@ const LtiDefault = ({ item }: Props) => {
   return (
     <DialogRoot open={open} onOpenChange={(details) => onOpenChange(details.open)}>
       <DialogTrigger asChild>
-        <Button variant="primary">{t("lti.embed")}</Button>
+        <StyledButton variant="primary">{t("lti.embed")}</StyledButton>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

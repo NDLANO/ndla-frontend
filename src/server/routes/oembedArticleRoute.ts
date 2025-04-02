@@ -143,7 +143,7 @@ export async function oembedArticleRoute(req: express.Request) {
   const params = parseOembedUrl(url);
   if (!params) {
     return {
-      status: BAD_REQUEST,
+      status: NOT_FOUND,
       data: "Bad request. Url not recognized",
     };
   }

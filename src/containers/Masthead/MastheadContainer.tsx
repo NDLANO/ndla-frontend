@@ -105,7 +105,7 @@ const MastheadContainer = ({ showAlerts }: Props) => {
     skip: rootLoading || !subjectId || nodeType === "PROGRAMME" || typeof window === "undefined",
   });
 
-  const data = subjectId ? freshData ?? previousData : undefined;
+  const data = subjectId ? (freshData ?? previousData) : undefined;
 
   return (
     <ErrorBoundary>

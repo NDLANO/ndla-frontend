@@ -3,7 +3,7 @@
 exports[`oembedArticleRoute invalid url 1`] = `
 {
   "data": "Bad request. Url not recognized",
-  "status": 400,
+  "status": 404,
 }
 `;
 

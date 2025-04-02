@@ -88,11 +88,11 @@ const FoldersPage = () => {
   }, [folderId, selectedFolder?.name, t]);
 
   const folders: GQLFolder[] = useMemo(
-    () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.folders as GQLFolder[]) ?? []),
+    () => (selectedFolder ? selectedFolder.subfolders : ((data?.folders.folders as GQLFolder[]) ?? [])),
     [selectedFolder, data?.folders],
   );
   const sharedByOthersFolders = useMemo(
-    () => (!selectedFolder ? data?.folders.sharedFolders ?? [] : []),
+    () => (!selectedFolder ? (data?.folders.sharedFolders ?? []) : []),
     [selectedFolder, data?.folders.sharedFolders],
   );
 
