@@ -63,10 +63,6 @@ export const TextStepForm = () => {
         name="introduction"
         control={control}
         rules={{
-          required: validationT({
-            type: "required",
-            field: "introduction",
-          }),
           maxLength: {
             value: INTRODUCTION_MAX_LENGTH,
             message: validationT({
@@ -77,7 +73,7 @@ export const TextStepForm = () => {
           },
         }}
         render={({ field, fieldState }) => (
-          <FieldRoot invalid={!!fieldState.error?.message} required>
+          <FieldRoot invalid={!!fieldState.error?.message}>
             <FieldLabel>{t("myNdla.learningpath.form.content.text.introduction.label")}</FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.content.text.introduction.labelHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
