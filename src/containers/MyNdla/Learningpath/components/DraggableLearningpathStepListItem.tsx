@@ -22,6 +22,7 @@ import { getFormTypeFromStep } from "../utils";
 import LearningpathStepForm from "./LearningpathStepForm";
 import { formValuesToGQLInput } from "../learningpathFormUtils";
 import { DraggableListItem } from "./DraggableListItem";
+import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 
 export const DragWrapper = styled("div", {
   base: {
@@ -118,16 +119,24 @@ export const DraggableLearningpathStepListItem = ({
   };
 
   const onDelete = async (close: VoidFunction) => {
+    const el = document.getElementById(step.id.toString());
+    const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
+      .find((el) => el?.tagName === "LI")
+      ?.querySelector("div")
+      ?.querySelector("button");
+
     const res = await deleteStep({
       variables: {
         learningstepId: step.id,
         learningpathId: learningpathId,
       },
     });
+
     if (!res.errors?.length) {
       setSelectedLearningpathStepId(undefined);
       toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: step.title }) });
       close();
+      setTimeout(() => (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus(), 0);
     } else {
       toast.create({ title: t("myNdla.learningpath.toast.deletedStepFailed", { name: step.title }) });
     }

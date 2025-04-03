@@ -23,7 +23,7 @@ import {
   copyLearningpathSharingLink,
   LEARNINGPATH_READY_FOR_SHARING,
   LEARNINGPATH_SHARED,
-  learningpathListItemId,
+  learningpathId,
 } from "../utils";
 
 export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
@@ -66,7 +66,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
           learningpath={learningpath}
           onClose={close}
           onDelete={async () => {
-            const el = document.getElementById(learningpathListItemId(learningpath.id));
+            const el = document.getElementById(learningpathId(learningpath.id));
             const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
               .find((el) => el?.tagName === "LI")
               ?.querySelector("a");

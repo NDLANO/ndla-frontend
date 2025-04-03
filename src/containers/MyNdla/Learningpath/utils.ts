@@ -29,4 +29,5 @@ export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment): F
   return "text";
 };
 
-export const learningpathListItemId = (id: number) => `learningpath-${id}`;
+export const learningpathId = (id: number) => `learningpath-${id}`;
+export const learningpathStepId = (id: number) => `learningpathstep-${id}`;
