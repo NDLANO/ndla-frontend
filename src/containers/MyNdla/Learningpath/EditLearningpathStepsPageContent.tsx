@@ -91,8 +91,9 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
     }
   };
 
-  const onFormChange = (val: number) => {
-    if (formMethods.formState.isDirty && !formMethods.formState.isSubmitting) {
+  // skipAlertDialog is for an edgecase when you have edited a step and then decide to delete. This will skip the unsaved edits dialog.
+  const onFormChange = (val: number, skipAlertDialog?: boolean) => {
+    if (formMethods.formState.isDirty && !formMethods.formState.isSubmitting && !skipAlertDialog) {
       setNextId(val);
     } else {
       handleStateChanges(val);
@@ -179,7 +180,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
                     step={step}
                     learningpathId={learningpath.id}
                     selectedLearningpathStepId={selectedLearningpathStepId}
-                    onClose={() => onFormChange(NO_SELECTED_LEARNINGPATH_STEP_ID)}
+                    onClose={(skipAlert) => onFormChange(NO_SELECTED_LEARNINGPATH_STEP_ID, skipAlert)}
                     onSelect={() => onFormChange(step.id)}
                     index={index}
                   />

@@ -70,7 +70,7 @@ interface LearningpathStepListItemProps {
   learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
   selectedLearningpathStepId: number | undefined;
-  onClose: VoidFunction;
+  onClose: (skipAlert?: boolean) => void;
   onSelect: VoidFunction;
   index: number;
 }
@@ -90,7 +90,6 @@ export const DraggableLearningpathStepListItem = ({
   const [deleteStep] = useDeleteLearningpathStep();
 
   const sortableId = step.id.toString();
-
   const { attributes, setNodeRef, transform, transition, isDragging, items } = useSortable({
     id: sortableId,
     data: {
@@ -120,7 +119,7 @@ export const DraggableLearningpathStepListItem = ({
     }
   };
 
-  const onDelete = async (close: VoidFunction) => {
+  const onDelete = async (closeDialog: VoidFunction) => {
     const res = await deleteStep({
       variables: {
         learningstepId: step.id,
@@ -128,9 +127,9 @@ export const DraggableLearningpathStepListItem = ({
       },
     });
     if (!res.errors?.length) {
-      onClose();
+      onClose(true);
+      closeDialog();
       toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: step.title }) });
-      close();
     } else {
       toast.create({ title: t("myNdla.learningpath.toast.deletedStepFailed", { name: step.title }) });
     }
@@ -168,7 +167,7 @@ export const DraggableLearningpathStepListItem = ({
               <PencilLine />
             </Button>
           ) : (
-            <Button variant="tertiary" onClick={onClose}>
+            <Button variant="tertiary" onClick={() => onClose()}>
               <CloseLine />
               {t("close")}
             </Button>
