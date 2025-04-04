@@ -31,7 +31,7 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-  const { setValue } = useFormContext<ResourceFormValues>();
+  const { setValue, reset } = useFormContext<ResourceFormValues>();
 
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
@@ -42,8 +42,7 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
 
   const onRemove = () => {
     setSelectedResource(undefined);
-    setValue("embedUrl", "", { shouldDirty: true });
-    setValue("title", "", { shouldDirty: true });
+    reset({ type: "resource", title: "", embedUrl: "" });
     setFocusId("resource-input");
   };
 
