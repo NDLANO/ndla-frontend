@@ -9,8 +9,9 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons";
+import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
@@ -96,6 +97,29 @@ const StyledHStack = styled(HStack, {
   },
 });
 
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "inline",
+    color: "text.default",
+    textStyle: "label.small",
+    "& span": {
+      textDecoration: "underline",
+      _hover: {
+        textDecoration: "none",
+      },
+      _focusVisible: {
+        textDecoration: "none",
+      },
+    },
+  },
+});
+
+const StyledText = styled(Text, {
+  base: {
+    textDecoration: "underline",
+  },
+});
+
 const CrumbText = styled(Text, {
   base: {
     overflowWrap: "anywhere",
@@ -115,7 +139,12 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <Text>{selectedResource.title}</Text>
+        <StyledSafeLink to={selectedResource.url} target="_blank">
+          <StyledText fontWeight="bold">
+            {selectedResource.title}
+            <ExternalLinkLine size="small" />
+          </StyledText>
+        </StyledSafeLink>
         {!!selectedResource.breadcrumbs && (
           <CrumbText
             textStyle="label.small"

@@ -9,8 +9,9 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { DeleteBinLine } from "@ndla/icons";
+import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { FolderResourcePicker } from "./FolderResourcePicker";
 import config from "../../../../config";
@@ -41,6 +42,23 @@ const ResourceWrapper = styled("div", {
     gap: "medium",
     justifyContent: "space-between",
     backgroundColor: "background.default",
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "inline",
+    color: "text.default",
+    textStyle: "label.small",
+    "& span": {
+      textDecoration: "underline",
+      _hover: {
+        textDecoration: "none",
+      },
+      _focusVisible: {
+        textDecoration: "none",
+      },
+    },
   },
 });
 
@@ -97,7 +115,13 @@ export const FolderStepForm = () => {
       ) : (
         <ResourceWrapper>
           <TextWrapper>
-            <StyledText fontWeight="bold">{resource.title}</StyledText>
+            <StyledSafeLink to={resource.path} target="_blank">
+              <StyledText fontWeight="bold">
+                {resource.title}
+                <ExternalLinkLine size="small" />
+              </StyledText>
+            </StyledSafeLink>
+
             <PathText textStyle="label.small" color="text.subtle">
               {config.ndlaFrontendDomain}
               {resource.path}
