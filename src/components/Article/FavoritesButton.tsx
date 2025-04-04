@@ -6,7 +6,7 @@
  *
  */
 
-import { ButtonHTMLAttributes, forwardRef, useContext, useMemo } from "react";
+import { ButtonHTMLAttributes, type Ref, useContext, useMemo } from "react";
 import { NoSSR } from "@ndla/util";
 import UIFavoriteButton from "../../components/MyNdla/FavoriteButton";
 import { useFolders } from "../../mutations/folderMutations";
@@ -14,23 +14,24 @@ import { getAllResources } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "type"> {
+  ref?: Ref<HTMLButtonElement>;
   path: string;
 }
 
-const ClientFavorite = forwardRef<HTMLButtonElement, Props>(({ path, ...rest }, ref) => {
+const ClientFavorite = ({ path, ...rest }: Props) => {
   const { authenticated } = useContext(AuthContext);
   const { folders } = useFolders({ skip: !authenticated });
   const resources = useMemo(() => getAllResources(folders), [folders]);
   const exists = resources.some((r) => r.path === path);
-  return <UIFavoriteButton isFavorite={exists} {...rest} ref={ref} />;
-});
+  return <UIFavoriteButton isFavorite={exists} {...rest} />;
+};
 
-const FavoriteButton = forwardRef<HTMLButtonElement, Props>((props: Props, ref) => {
+const FavoriteButton = (props: Props) => {
   return (
     <NoSSR fallback={<UIFavoriteButton />}>
-      <ClientFavorite {...props} ref={ref} />
+      <ClientFavorite {...props} />
     </NoSSR>
   );
-});
+};
 
 export default FavoriteButton;

@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, RefObject, useEffect, useMemo, useRef, useState } from "react";
+import { memo, type RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
 import { CloseLine, CheckLine } from "@ndla/icons";

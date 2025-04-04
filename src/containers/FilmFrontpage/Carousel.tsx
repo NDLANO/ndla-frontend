@@ -14,16 +14,12 @@ import {
   useEffect,
   useCallback,
   HTMLAttributes,
-  forwardRef,
+  type Ref,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-
-interface Props extends HTMLAttributes<HTMLDivElement> {
-  hideButtons?: boolean;
-}
 
 const StyledSlideContent = styled("div", {
   base: {
@@ -73,7 +69,12 @@ const StyledIconButton = styled(IconButton, {
   },
 });
 
-export const Carousel = forwardRef<HTMLDivElement, Props>(({ children, hideButtons, ...rest }, ref) => {
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  ref?: Ref<HTMLDivElement>;
+  hideButtons?: boolean;
+}
+
+export const Carousel = ({ children, hideButtons, ...rest }: Props) => {
   const { t } = useTranslation();
   const slideshowRef = useRef<HTMLDivElement>(null);
   const slideContainer = useRef<HTMLDivElement>(null);
@@ -154,7 +155,7 @@ export const Carousel = forwardRef<HTMLDivElement, Props>(({ children, hideButto
   };
 
   return (
-    <CarouselWrapper ref={ref} {...rest}>
+    <CarouselWrapper {...rest}>
       <StyledIconButton
         aria-label={t("ndlaFilm.slideBackwardsLabel")}
         variant="secondary"
@@ -179,4 +180,4 @@ export const Carousel = forwardRef<HTMLDivElement, Props>(({ children, hideButto
       </SliderWrapper>
     </CarouselWrapper>
   );
-});
+};

@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, MouseEvent, useState, useCallback, useRef, RefObject } from "react";
+import { ReactNode, MouseEvent, useState, useCallback, useRef, type Ref } from "react";
 import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { MoreLine } from "@ndla/icons";
@@ -220,7 +220,7 @@ interface ItemProps {
   children?: ReactNode;
   handleDialogItemOpenChange?: (open: boolean) => void;
   item: MenuItemProps;
-  dropdownTriggerRef?: RefObject<HTMLButtonElement | null>;
+  dropdownTriggerRef?: Ref<HTMLButtonElement>;
 }
 
 export const MenuItemElement = ({
@@ -258,7 +258,9 @@ export const MenuItemElement = ({
     <DialogRoot
       open={open}
       onOpenChange={(details) => onOpenChange(details.open)}
-      finalFocusEl={dropdownTriggerRef ? () => dropdownTriggerRef.current : undefined}
+      finalFocusEl={
+        dropdownTriggerRef && "current" in dropdownTriggerRef ? () => dropdownTriggerRef.current : undefined
+      }
     >
       <DialogTrigger css={{ all: "unset" }} {...rest}>
         {children}
