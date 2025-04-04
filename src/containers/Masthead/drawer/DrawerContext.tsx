@@ -29,11 +29,7 @@ export const DrawerProvider = ({ children }: Props) => {
   const setShouldCloseLevel = useCallback(() => _setShouldCloseLevel(true), []);
   const setLevelClosed = useCallback(() => _setShouldCloseLevel(false), []);
 
-  return (
-    <DrawerContext.Provider value={{ shouldCloseLevel, setShouldCloseLevel, setLevelClosed }}>
-      {children}
-    </DrawerContext.Provider>
-  );
+  return <DrawerContext value={{ shouldCloseLevel, setShouldCloseLevel, setLevelClosed }}>{children}</DrawerContext>;
 };
 
 export const useDrawerContext = () => {

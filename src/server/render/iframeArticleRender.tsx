@@ -69,7 +69,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
 
   const Page = (
     <Document language={locale ?? config.defaultLocale} chunks={chunks} devEntrypoint={entryPoints.iframeArticle}>
-      <RedirectContext.Provider value={context}>
+      <RedirectContext value={context}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
             <StaticRouter location={req.url}>
@@ -77,7 +77,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
             </StaticRouter>
           </ApolloProvider>
         </I18nextProvider>
-      </RedirectContext.Provider>
+      </RedirectContext>
     </Document>
   );
 

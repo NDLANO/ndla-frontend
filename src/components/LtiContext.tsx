@@ -21,7 +21,7 @@ interface Props {
 }
 
 export const LtiContextProvider = ({ ltiData, children }: Props) => (
-  <LtiContext.Provider value={{ ltiData }}>{children}</LtiContext.Provider>
+  <LtiContext value={{ ltiData }}>{children}</LtiContext>
 );
 
 export const useLtiData = () => {

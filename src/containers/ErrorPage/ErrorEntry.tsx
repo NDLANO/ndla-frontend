@@ -43,10 +43,10 @@ renderOrHydrate(
     <I18nextProvider i18n={i18n}>
       <SiteThemeProvider value={window.DATA.siteTheme}>
         <BrowserRouter>
-          <MissingRouterContext.Provider value={true}>
+          <MissingRouterContext value={true}>
             <Scripts />
             <ErrorPage />
-          </MissingRouterContext.Provider>
+          </MissingRouterContext>
         </BrowserRouter>
       </SiteThemeProvider>
     </I18nextProvider>
