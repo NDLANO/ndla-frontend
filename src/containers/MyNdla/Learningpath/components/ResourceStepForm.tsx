@@ -97,6 +97,29 @@ const StyledHStack = styled(HStack, {
   },
 });
 
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "inline",
+    color: "text.default",
+    textStyle: "label.small",
+    "& span": {
+      textDecoration: "underline",
+      _hover: {
+        textDecoration: "none",
+      },
+      _focusVisible: {
+        textDecoration: "none",
+      },
+    },
+  },
+});
+
+const StyledText = styled(Text, {
+  base: {
+    textDecoration: "underline",
+  },
+});
+
 const CrumbText = styled(Text, {
   base: {
     overflowWrap: "anywhere",
@@ -116,12 +139,12 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <SafeLink to={selectedResource.url} target="_blank">
-          <Text>
+        <StyledSafeLink to={selectedResource.url} target="_blank">
+          <StyledText fontWeight="bold">
             {selectedResource.title}
             <ExternalLinkLine size="small" />
-          </Text>
-        </SafeLink>
+          </StyledText>
+        </StyledSafeLink>
         {!!selectedResource.breadcrumbs && (
           <CrumbText
             textStyle="label.small"
