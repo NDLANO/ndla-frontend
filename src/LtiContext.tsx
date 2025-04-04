@@ -14,9 +14,7 @@ interface Props {
   children?: ReactNode;
 }
 
-export const LtiContextProvider = ({ children }: Props) => (
-  <LtiContext.Provider value={true}>{children}</LtiContext.Provider>
-);
+export const LtiContextProvider = ({ children }: Props) => <LtiContext value={true}>{children}</LtiContext>;
 
 export const useLtiContext = () => {
   const context = useContext(LtiContext);

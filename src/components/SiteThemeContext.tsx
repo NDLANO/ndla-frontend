@@ -17,7 +17,7 @@ interface Props {
 }
 
 export const SiteThemeProvider = ({ children, value }: Props) => {
-  return <SiteThemeContext.Provider value={value ?? "brand1"}>{children}</SiteThemeContext.Provider>;
+  return <SiteThemeContext value={value ?? "brand1"}>{children}</SiteThemeContext>;
 };
 
 export const useSiteTheme = (): SiteTheme => {

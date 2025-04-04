@@ -93,7 +93,7 @@ const AlertsProvider = ({ children }: Props) => {
     }
   }, [alerts]);
 
-  return <AlertsContext.Provider value={{ openAlerts, closeAlert }}>{children}</AlertsContext.Provider>;
+  return <AlertsContext value={{ openAlerts, closeAlert }}>{children}</AlertsContext>;
 };
 
 const useAlerts = () => {

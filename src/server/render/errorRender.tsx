@@ -33,14 +33,14 @@ export const errorRender: RenderFunc = async (req, chunks) => {
   const Page = (
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.error}>
       <I18nextProvider i18n={i18nInstance}>
-        <MissingRouterContext.Provider value={true}>
+        <MissingRouterContext value={true}>
           <SiteThemeProvider value={siteTheme}>
             <StaticRouter location={req.url}>
               <Scripts />
               <ErrorPage />
             </StaticRouter>
           </SiteThemeProvider>
-        </MissingRouterContext.Provider>
+        </MissingRouterContext>
       </I18nextProvider>
     </Document>
   );

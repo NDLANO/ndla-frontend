@@ -68,9 +68,9 @@ renderOrHydrate(
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <BrowserRouter>
-          <MissingRouterContext.Provider value={true}>
+          <MissingRouterContext value={true}>
             <EmbedIframePageContainer {...(initialProps as EmbedInitialProps)} />
-          </MissingRouterContext.Provider>
+          </MissingRouterContext>
         </BrowserRouter>
       </ApolloProvider>
     </I18nextProvider>
