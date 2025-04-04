@@ -6,7 +6,7 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type RefObject } from "react";
 import { useTranslation } from "react-i18next";
 import { HeartFill, HeartLine } from "@ndla/icons";
 import { IconButton, IconButtonProps } from "@ndla/primitives";
@@ -15,10 +15,11 @@ import { styled } from "@ndla/styled-system/jsx";
 const StyledFavoriteButton = styled(IconButton, { base: { borderRadius: "100%" } });
 
 export interface Props extends Omit<IconButtonProps, "children"> {
+  ref?: RefObject<HTMLButtonElement>;
   isFavorite?: boolean;
 }
 
-const FavoriteButton = forwardRef<HTMLButtonElement, Props>(({ isFavorite, variant = "tertiary", ...props }, ref) => {
+const FavoriteButton = ({ isFavorite, variant = "tertiary", ref, ...props }: Props) => {
   const { t } = useTranslation();
   const labelModifier = isFavorite ? "added" : "add";
   const Icon = isFavorite ? HeartFill : HeartLine;
@@ -30,6 +31,6 @@ const FavoriteButton = forwardRef<HTMLButtonElement, Props>(({ isFavorite, varia
       <Icon />
     </StyledFavoriteButton>
   );
-});
+};
 
 export default FavoriteButton;
