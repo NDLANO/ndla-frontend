@@ -9,7 +9,7 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons";
+import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
@@ -117,7 +117,10 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
     <ResourceWrapper>
       <TextWrapper>
         <SafeLink to={selectedResource.url} target="_blank">
-          <Text>{selectedResource.title}</Text>
+          <Text>
+            {selectedResource.title}
+            <ExternalLinkLine size="small" />
+          </Text>
         </SafeLink>
         {!!selectedResource.breadcrumbs && (
           <CrumbText
