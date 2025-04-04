@@ -11,6 +11,7 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
@@ -115,7 +116,9 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <Text>{selectedResource.title}</Text>
+        <SafeLink to={selectedResource.url} target="_blank">
+          <Text>{selectedResource.title}</Text>
+        </SafeLink>
         {!!selectedResource.breadcrumbs && (
           <CrumbText
             textStyle="label.small"
