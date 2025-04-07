@@ -9,10 +9,11 @@
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
+import { ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
 import { BaseStepProps } from "../learningpathTypes";
 import { EmbedPageContent } from "./EmbedPageContent";
+import { ExternalStepByline } from "./ExternalStepByline";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -49,7 +50,7 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }
           </section>
         </ArticleContent>
         <StyledArticleFooter>
-          <ArticleByline authors={learningpath.copyright.contributors} />
+          <ExternalStepByline authors={learningpath.copyright.contributors} />
         </StyledArticleFooter>
       </ArticleWrapper>
     </EmbedPageContent>
