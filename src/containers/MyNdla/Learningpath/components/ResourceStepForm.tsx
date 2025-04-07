@@ -16,8 +16,8 @@ import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
+import { StepSafeLink } from "./StepSafeLink";
 import { contentTypeMapping } from "../../../../util/getContentType";
-import { StyledSafeLink } from "../../../Masthead/components/MastheadSearch";
 
 export interface ResourceFormValues {
   type: "resource";
@@ -89,18 +89,13 @@ const ResourceWrapper = styled("div", {
     justifyContent: "space-between",
     boxShadow: "xsmall",
     backgroundColor: "background.default",
+    position: "relative",
   },
 });
 
 const StyledHStack = styled(HStack, {
   base: {
     flexWrap: "wrap",
-  },
-});
-
-const StyledText = styled(Text, {
-  base: {
-    textDecoration: "underline",
   },
 });
 
@@ -129,22 +124,22 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <StyledSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
-          <StyledText fontWeight="bold">
+        <StepSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
+          <Text fontWeight="bold">
             {selectedResource.title}
             <ExternalLinkLine size="small" />
-          </StyledText>
-          {!!selectedResource.breadcrumbs && (
-            <CrumbText
-              textStyle="label.small"
-              color="text.subtle"
-              css={{ textAlign: "start" }}
-              aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
-            >
-              {selectedResource.breadcrumbs.join(" > ")}
-            </CrumbText>
-          )}
-        </StyledSafeLink>
+          </Text>
+        </StepSafeLink>
+        {!!selectedResource.breadcrumbs && (
+          <CrumbText
+            textStyle="label.small"
+            color="text.subtle"
+            css={{ textAlign: "start" }}
+            aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
+          >
+            {selectedResource.breadcrumbs.join(" > ")}
+          </CrumbText>
+        )}
       </TextWrapper>
       <StyledHStack gap="medium">
         <ContentTypeBadge contentType={contentType} />

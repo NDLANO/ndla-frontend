@@ -18,19 +18,13 @@ import config from "../../../../config";
 import { useFetchOembed } from "../learningpathQueries";
 import { FolderResource } from "./folderTypes";
 import { ResourceFormValues } from "./ResourceStepForm";
-import { StyledSafeLink } from "../../../Masthead/components/MastheadSearch";
+import { StepSafeLink } from "./StepSafeLink";
 
 const TextWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
     gap: "4xsmall",
-  },
-});
-
-const StyledText = styled(Text, {
-  base: {
-    textDecoration: "underline",
   },
 });
 
@@ -43,6 +37,7 @@ const ResourceWrapper = styled("div", {
     gap: "medium",
     justifyContent: "space-between",
     backgroundColor: "background.default",
+    position: "relative",
   },
 });
 
@@ -105,16 +100,16 @@ export const FolderStepForm = () => {
       ) : (
         <ResourceWrapper>
           <TextWrapper>
-            <StyledSafeLink to={resource.path} target="_blank" css={linkOverlay.raw()}>
-              <StyledText fontWeight="bold">
+            <StepSafeLink to={resource.path} target="_blank" css={linkOverlay.raw()}>
+              <Text fontWeight="bold">
                 {resource.title}
                 <ExternalLinkLine size="small" />
-              </StyledText>
-              <PathText textStyle="label.small" color="text.subtle">
-                {config.ndlaFrontendDomain}
-                {resource.path}
-              </PathText>
-            </StyledSafeLink>
+              </Text>
+            </StepSafeLink>
+            <PathText textStyle="label.small" color="text.subtle">
+              {config.ndlaFrontendDomain}
+              {resource.path}
+            </PathText>
           </TextWrapper>
           <StyledIconButton
             id="remove-resource"
