@@ -13,7 +13,6 @@ export const StepSafeLink = styled(SafeLink, {
   base: {
     display: "inline",
     color: "text.default",
-    textStyle: "label.small",
     textDecoration: "underline",
     _hover: {
       textDecoration: "none",
