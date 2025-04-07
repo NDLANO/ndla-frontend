@@ -811,6 +811,7 @@ const messages = {
     leadsTo: "Leads to",
   },
   learningPath: {
+    externalStepAuthorsLabel: "This link is added by {{names}}",
     lastUpdated: "Last updated",
     youAreInALearningPath: "You are now in a learningpath",
     nextArrow: "Go to next step",

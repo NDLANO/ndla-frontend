@@ -63,7 +63,7 @@ export const ExternalStepByline = ({ authors = [] }: Props) => {
         {!!showPrimaryContributors && (
           <span>
             {authors.length > 0 &&
-              `${t("article.externalStepAuthorsLabel", {
+              `${t("learningPath.externalStepAuthorsLabel", {
                 names: renderContributors(authors, t),
                 interpolation: { escapeValue: false },
               })}. `}

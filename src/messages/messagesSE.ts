@@ -807,6 +807,7 @@ const messages = {
     leadsTo: "Dát doalvu",
   },
   learningPath: {
+    externalStepAuthorsLabel: "Denne lenken er lagt til av {{names}}",
     nextArrow: "Mana boahtte lávkái",
     previousArrow: "Mana ovddit lávkái",
     youAreInALearningPath: "Don leat dál muhtin oahppobálgás",

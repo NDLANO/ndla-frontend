@@ -808,6 +808,7 @@ const messages = {
     leadsTo: "Leier til",
   },
   learningPath: {
+    externalStepAuthorsLabel: "Denne lenka er lagd til av {{names}}",
     lastUpdated: "Sist oppdatert",
     youAreInALearningPath: "Du er no inne i ein læringssti",
     nextArrow: "Gå til neste steg",
