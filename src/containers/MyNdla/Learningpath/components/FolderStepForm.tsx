@@ -11,7 +11,6 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { FolderResourcePicker } from "./FolderResourcePicker";
@@ -19,6 +18,7 @@ import config from "../../../../config";
 import { useFetchOembed } from "../learningpathQueries";
 import { FolderResource } from "./folderTypes";
 import { ResourceFormValues } from "./ResourceStepForm";
+import { StyledSafeLink } from "../../../Masthead/components/MastheadSearch";
 
 const TextWrapper = styled("div", {
   base: {
@@ -43,23 +43,6 @@ const ResourceWrapper = styled("div", {
     gap: "medium",
     justifyContent: "space-between",
     backgroundColor: "background.default",
-  },
-});
-
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    display: "inline",
-    color: "text.default",
-    textStyle: "label.small",
-    "& span": {
-      textDecoration: "underline",
-      _hover: {
-        textDecoration: "none",
-      },
-      _focusVisible: {
-        textDecoration: "none",
-      },
-    },
   },
 });
 

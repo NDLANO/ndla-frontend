@@ -11,13 +11,13 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
 import { contentTypeMapping } from "../../../../util/getContentType";
+import { StyledSafeLink } from "../../../Masthead/components/MastheadSearch";
 
 export interface ResourceFormValues {
   type: "resource";
@@ -95,23 +95,6 @@ const ResourceWrapper = styled("div", {
 const StyledHStack = styled(HStack, {
   base: {
     flexWrap: "wrap",
-  },
-});
-
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    display: "inline",
-    color: "text.default",
-    textStyle: "label.small",
-    "& span": {
-      textDecoration: "underline",
-      _hover: {
-        textDecoration: "none",
-      },
-      _focusVisible: {
-        textDecoration: "none",
-      },
-    },
   },
 });
 

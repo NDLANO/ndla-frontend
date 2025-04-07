@@ -161,7 +161,7 @@ const ActiveSubjectWrapper = styled("div", {
   },
 });
 
-const StyledSafeLink = styled(SafeLink, {
+export const StyledSafeLink = styled(SafeLink, {
   base: {
     display: "inline",
     color: "text.default",
