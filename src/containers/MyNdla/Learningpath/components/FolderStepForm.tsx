@@ -13,6 +13,7 @@ import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { FolderResourcePicker } from "./FolderResourcePicker";
 import config from "../../../../config";
 import { useFetchOembed } from "../learningpathQueries";
@@ -59,6 +60,12 @@ const StyledSafeLink = styled(SafeLink, {
         textDecoration: "none",
       },
     },
+  },
+});
+
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "relative",
   },
 });
 
@@ -115,7 +122,7 @@ export const FolderStepForm = () => {
       ) : (
         <ResourceWrapper>
           <TextWrapper>
-            <StyledSafeLink to={resource.path} target="_blank">
+            <StyledSafeLink to={resource.path} target="_blank" css={linkOverlay.raw()}>
               <StyledText fontWeight="bold">
                 {resource.title}
                 <ExternalLinkLine size="small" />
@@ -126,7 +133,7 @@ export const FolderStepForm = () => {
               </PathText>
             </StyledSafeLink>
           </TextWrapper>
-          <IconButton
+          <StyledIconButton
             id="remove-resource"
             aria-label={t("myNdla.learningpath.form.delete")}
             title={t("myNdla.learningpath.form.delete")}
@@ -134,7 +141,7 @@ export const FolderStepForm = () => {
             variant="tertiary"
           >
             <DeleteBinLine />
-          </IconButton>
+          </StyledIconButton>
         </ResourceWrapper>
       )}
     </FieldRoot>

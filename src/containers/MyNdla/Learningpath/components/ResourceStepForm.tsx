@@ -13,6 +13,7 @@ import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
@@ -126,6 +127,12 @@ const CrumbText = styled(Text, {
   },
 });
 
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "relative",
+  },
+});
+
 interface ResourceContentProps {
   onRemove: () => void;
   selectedResource: ResourceData;
@@ -139,7 +146,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <StyledSafeLink to={selectedResource.url} target="_blank">
+        <StyledSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
           <StyledText fontWeight="bold">
             {selectedResource.title}
             <ExternalLinkLine size="small" />
@@ -158,7 +165,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
       </TextWrapper>
       <StyledHStack gap="medium">
         <ContentTypeBadge contentType={contentType} />
-        <IconButton
+        <StyledIconButton
           id="remove-resource"
           aria-label={t("myNdla.learningpath.form.delete")}
           title={t("myNdla.learningpath.form.delete")}
@@ -166,7 +173,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
           onClick={onRemove}
         >
           <DeleteBinLine />
-        </IconButton>
+        </StyledIconButton>
       </StyledHStack>
     </ResourceWrapper>
   );
