@@ -144,17 +144,17 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
             {selectedResource.title}
             <ExternalLinkLine size="small" />
           </StyledText>
+          {!!selectedResource.breadcrumbs && (
+            <CrumbText
+              textStyle="label.small"
+              color="text.subtle"
+              css={{ textAlign: "start" }}
+              aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
+            >
+              {selectedResource.breadcrumbs.join(" > ")}
+            </CrumbText>
+          )}
         </StyledSafeLink>
-        {!!selectedResource.breadcrumbs && (
-          <CrumbText
-            textStyle="label.small"
-            color="text.subtle"
-            css={{ textAlign: "start" }}
-            aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
-          >
-            {selectedResource.breadcrumbs.join(" > ")}
-          </CrumbText>
-        )}
       </TextWrapper>
       <StyledHStack gap="medium">
         <ContentTypeBadge contentType={contentType} />

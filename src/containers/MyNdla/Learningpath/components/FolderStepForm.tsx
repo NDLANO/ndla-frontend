@@ -120,12 +120,11 @@ export const FolderStepForm = () => {
                 {resource.title}
                 <ExternalLinkLine size="small" />
               </StyledText>
+              <PathText textStyle="label.small" color="text.subtle">
+                {config.ndlaFrontendDomain}
+                {resource.path}
+              </PathText>
             </StyledSafeLink>
-
-            <PathText textStyle="label.small" color="text.subtle">
-              {config.ndlaFrontendDomain}
-              {resource.path}
-            </PathText>
           </TextWrapper>
           <IconButton
             id="remove-resource"
