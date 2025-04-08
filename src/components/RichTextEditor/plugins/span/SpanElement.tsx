@@ -8,6 +8,15 @@
 
 import { SPAN_ELEMENT_TYPE, ElementRenderer } from "@ndla/editor";
 import { InlineBugfix } from "@ndla/editor-components";
+import { styled } from "@ndla/styled-system/jsx";
+
+const Span = styled("span", {
+  base: {
+    position: "relative",
+    textDecoration: "underline",
+    textDecorationColor: "stroke.subtle",
+  },
+});
 
 export const SpanElement: ElementRenderer = (props) => {
   const { element, attributes, children } = props;
@@ -15,10 +24,10 @@ export const SpanElement: ElementRenderer = (props) => {
   if (element.type !== SPAN_ELEMENT_TYPE) return undefined;
 
   return (
-    <span {...attributes} lang={element.data.lang}>
+    <Span {...attributes} lang={element.data.lang}>
       <InlineBugfix />
       {children}
       <InlineBugfix />
-    </span>
+    </Span>
   );
 };

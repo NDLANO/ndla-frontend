@@ -19,6 +19,7 @@ import {
   paragraphPlugin,
   sectionPlugin,
   softBreakPlugin,
+  spanPlugin,
 } from "@ndla/editor";
 import { useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -83,6 +84,7 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
         softBreakPlugin,
         breakPlugin,
         linkPlugin,
+        spanPlugin,
       ],
       elementRenderers: [
         SectionElement,
