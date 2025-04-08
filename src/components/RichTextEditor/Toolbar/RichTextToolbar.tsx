@@ -8,12 +8,14 @@
 
 import { Bold, Italic, ListOrdered, ListUnordered } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
+import { appLocales } from "../../../i18n";
 import { LinkToolbarButton } from "../plugins/link/LinkToolbarButton";
 import { LINK_SHORTCUT } from "../plugins/link/linkUtils";
 import { BULLETED_LIST_SHORTCUT, NUMBERED_LIST_SHORTCUT } from "../plugins/list/listShortcuts";
 import { ListToolbarButton } from "../plugins/list/ListToolbarButton";
 import { BOLD_SHORTCUT, ITALIC_SHORTCUT } from "../plugins/mark/markShortcuts";
 import { MarkToolbarButton } from "../plugins/mark/MarkToolbarButton";
+import { LanguageToolbarButton } from "../plugins/span/LanguageToolbarButton";
 
 const ToolbarContainer = styled("div", {
   base: {
@@ -30,6 +32,8 @@ const ToolbarContainer = styled("div", {
 });
 
 export const RichTextToolbar = () => {
+  const languages = appLocales.map((l) => l.abbreviation);
+
   return (
     <ToolbarContainer>
       <MarkToolbarButton mark="bold" shortcut={BOLD_SHORTCUT}>
@@ -45,6 +49,7 @@ export const RichTextToolbar = () => {
         <ListOrdered />
       </ListToolbarButton>
       <LinkToolbarButton shortcut={LINK_SHORTCUT} />
+      <LanguageToolbarButton languages={languages} />
     </ToolbarContainer>
   );
 };

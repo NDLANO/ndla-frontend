@@ -782,6 +782,9 @@ const messages = {
           urlLabel: "URL",
         },
       },
+      span: {
+        languageTooltip: "Language",
+      },
     },
   },
   treeStructure: {

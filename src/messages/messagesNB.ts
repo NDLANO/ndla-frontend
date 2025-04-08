@@ -780,6 +780,9 @@ const messages = {
           urlLabel: "URL",
         },
       },
+      span: {
+        languageTooltip: "Språk",
+      },
     },
   },
   treeStructure: {

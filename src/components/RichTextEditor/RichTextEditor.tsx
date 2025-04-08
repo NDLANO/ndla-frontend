@@ -32,6 +32,7 @@ import { MarkLeaf } from "./plugins/mark/MarkLeaf";
 import { markPlugin } from "./plugins/mark/markPlugin";
 import { ParagraphElement } from "./plugins/paragraph/ParagraphElement";
 import { SectionElement } from "./plugins/section/SectionElement";
+import { SpanElement } from "./plugins/span/SpanElement";
 import { RichTextToolbar } from "./Toolbar/RichTextToolbar";
 
 interface Props extends Omit<TextareaHTMLAttributes<HTMLDivElement>, "onChange" | "value"> {
@@ -83,7 +84,15 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
         breakPlugin,
         linkPlugin,
       ],
-      elementRenderers: [SectionElement, ParagraphElement, BreakElement, HeadingElement, ListElement, LinkElement],
+      elementRenderers: [
+        SectionElement,
+        ParagraphElement,
+        BreakElement,
+        HeadingElement,
+        ListElement,
+        LinkElement,
+        SpanElement,
+      ],
       leafRenderers: [MarkLeaf],
       logger: new LoggerManager({ debug: true }),
     }),
