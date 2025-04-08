@@ -6,7 +6,7 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type Ref } from "react";
 import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
 import { RecipeVariantProps, css, cva } from "@ndla/styled-system/css";
 
@@ -38,13 +38,8 @@ const navigationSafeLinkButtonRecipe = cva({
 
 export type NavigationSafeLinkButtonVariantProps = RecipeVariantProps<typeof navigationSafeLinkButtonRecipe>;
 
-export const NavigationSafeLinkButton = forwardRef<
-  HTMLAnchorElement,
-  SafeLinkButtonProps & NavigationSafeLinkButtonVariantProps
->(({ css: cssProp, ...props }, ref) => (
-  <SafeLinkButton
-    css={css.raw(navigationSafeLinkButtonRecipe.raw({ variant: props.variant }), cssProp)}
-    {...props}
-    ref={ref}
-  />
-));
+type Props = SafeLinkButtonProps & NavigationSafeLinkButtonVariantProps & { ref?: Ref<HTMLAnchorElement> };
+
+export const NavigationSafeLinkButton = ({ css: cssProp, ...props }: Props) => (
+  <SafeLinkButton css={css.raw(navigationSafeLinkButtonRecipe.raw({ variant: props.variant }), cssProp)} {...props} />
+);
