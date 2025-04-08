@@ -14,10 +14,11 @@ import { PencilLine, CloseLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { useToast } from "../../../../components/ToastContext";
+import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../../../../mutations/learningpathMutations";
 import { FormValues } from "../types";
-import { getFormTypeFromStep } from "../utils";
+import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
 import LearningpathStepForm from "./LearningpathStepForm";
 import { formValuesToGQLInput } from "../learningpathFormUtils";
 import { DraggableListItem } from "./DraggableListItem";
@@ -120,16 +121,24 @@ export const DraggableLearningpathStepListItem = ({
   };
 
   const onDelete = async (closeDialog: VoidFunction) => {
+    const el = document.getElementById(step.id.toString());
+    const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
+      .find((el) => el?.tagName === "LI")
+      ?.querySelector("div")
+      ?.querySelector("button");
+
     const res = await deleteStep({
       variables: {
         learningstepId: step.id,
         learningpathId: learningpathId,
       },
     });
+
     if (!res.errors?.length) {
       onClose(true);
       closeDialog();
       toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: step.title }) });
+      setTimeout(() => (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus(), 0);
     } else {
       toast.create({ title: t("myNdla.learningpath.toast.deletedStepFailed", { name: step.title }) });
     }
@@ -144,15 +153,15 @@ export const DraggableLearningpathStepListItem = ({
 
   return (
     <DraggableListItem id={sortableId} ref={setNodeRef} style={style} isDragging={isDragging}>
-      <StyledDragHandle
-        sortableId={sortableId}
-        name={step.title}
-        disabled={items.length < 2}
-        type="learningpathstep"
-        {...attributes}
-        isHidden={!isDraggable}
-        aria-hidden={!isDraggable ? true : undefined}
-      />
+      {isDraggable ? (
+        <StyledDragHandle
+          sortableId={sortableId}
+          name={step.title}
+          disabled={items.length < 2}
+          type="learningpathstep"
+          {...attributes}
+        />
+      ) : null}
       <DragWrapper>
         <ContentWrapper editing={step.id === selectedLearningpathStepId}>
           <Stack gap="xxsmall">
@@ -162,7 +171,7 @@ export const DraggableLearningpathStepListItem = ({
             <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
           </Stack>
           {step.id !== selectedLearningpathStepId ? (
-            <Button variant="tertiary" onClick={onSelect}>
+            <Button variant="tertiary" onClick={onSelect} id={learningpathStepEditButtonId(step)}>
               {t("myNdla.learningpath.form.steps.edit")}
               <PencilLine />
             </Button>
