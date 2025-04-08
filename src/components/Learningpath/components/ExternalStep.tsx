@@ -49,7 +49,7 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }
           </section>
         </ArticleContent>
         <StyledArticleFooter>
-          <ArticleByline authors={learningpath.copyright.contributors} isExternal={true} />
+          <ArticleByline authors={learningpath.copyright.contributors} bylineType="external" />
         </StyledArticleFooter>
       </ArticleWrapper>
     </EmbedPageContent>
