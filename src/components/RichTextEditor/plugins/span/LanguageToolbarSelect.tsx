@@ -108,7 +108,7 @@ export const LanguageToolbarSelect = () => {
       value={currentLanguage ? [currentLanguage] : []}
     >
       <SelectControl>
-        <StyledSelectTrigger disabled={!selection} asChild>
+        <StyledSelectTrigger disabled={!selection || Range.isCollapsed(selection)} asChild>
           <Button size="small" variant="tertiary" data-state={match ? "on" : "off"} aria-label={label} title={label}>
             <SelectValueText placeholder={label} />
             <SelectIndicator>

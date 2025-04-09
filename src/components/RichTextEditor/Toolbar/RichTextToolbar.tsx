@@ -33,6 +33,7 @@ const ToolbarContainer = styled("div", {
 const Separator = styled("span", {
   base: {
     borderLeft: "1px solid",
+    borderColor: "stroke.subtle",
   },
 });
 
