@@ -2618,12 +2618,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^10.0.114-alpha.0":
-  version: 10.0.114-alpha.0
-  resolution: "@ndla/article-converter@npm:10.0.114-alpha.0"
+"@ndla/article-converter@npm:^10.0.115-alpha.0":
+  version: 10.0.115-alpha.0
+  resolution: "@ndla/article-converter@npm:10.0.115-alpha.0"
   dependencies:
     "@ndla/primitives": "npm:^1.0.85-alpha.0"
-    "@ndla/ui": "npm:^56.0.111-alpha.0"
+    "@ndla/ui": "npm:^56.0.112-alpha.0"
     html-react-parser: "npm:^5.1.19"
   peerDependencies:
     i18next: ">= 24.2.2"
@@ -2631,7 +2631,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^15.4.1
     react-router-dom: ">= 6.0.0"
-  checksum: 10c0/a57fafbf1851ccf60b0622ace1c88b56145b441b26a0198b1b9486a4647eb4ea482b2baf52534bde1acc41371c450059ac1c014f93c3e833bc493ab9a2e34841
+  checksum: 10c0/f19b5859461708fc8a2390e46125b6b9e9015600927c6277475e795808da4543c4c0d1ccf2bbf2fa748e9d46fcc0d1157cc178d0709e8231635a4ca11e6dbfbc
   languageName: node
   linkType: hard
 
@@ -2645,11 +2645,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/editor-components@npm:^0.0.25":
-  version: 0.0.25
-  resolution: "@ndla/editor-components@npm:0.0.25"
+"@ndla/editor-components@npm:^0.0.26":
+  version: 0.0.26
+  resolution: "@ndla/editor-components@npm:0.0.26"
   dependencies:
-    "@ndla/editor": "npm:^0.0.17"
+    "@ndla/editor": "npm:^0.0.18"
     "@ndla/primitives": "npm:^1.0.85-alpha.0"
     "@ndla/styled-system": "npm:^0.0.33"
   peerDependencies:
@@ -2659,13 +2659,13 @@ __metadata:
     slate-dom: ^0.112.0
     slate-history: ^0.110.3
     slate-react: ^0.112.0
-  checksum: 10c0/f5334e7b74c4e57aaf828ad42a6387f1ecca1a105ad972742bb721f860174bbdc01a78f4c9ecc16f4c051a08dc93380366c44fd6b36ec2e6776b1c8cc5862f42
+  checksum: 10c0/8004bb5816b02c26ac181c55fd5a45b948b131ca9bdc9248dbc282f80b5ad806058c00c3adce4263f20ae601968d15b9ffb865e3bb416eb4615cb35131ed6c3e
   languageName: node
   linkType: hard
 
-"@ndla/editor@npm:^0.0.17":
-  version: 0.0.17
-  resolution: "@ndla/editor@npm:0.0.17"
+"@ndla/editor@npm:^0.0.18":
+  version: 0.0.18
+  resolution: "@ndla/editor@npm:0.0.18"
   dependencies:
     escape-html: "npm:^1.0.3"
     he: "npm:^1.2.0"
@@ -2679,7 +2679,7 @@ __metadata:
     slate-dom: ^0.112.0
     slate-history: ^0.110.3
     slate-react: ^0.112.0
-  checksum: 10c0/393436e9cea4a810ee625471f3d38c9377f8345b099de7db658f44c78d20bfd812d5f56627a10d79dc93452245d82cc3f126f2a67cb5abaa54822a2a139ebde7
+  checksum: 10c0/45e087ab047ece6114fe8704254c4e884c75e0b8de423201eb1f0a9f802e918e99b2ba9ec7a474229b55e74b53e60bfcebeb493e39c18b21e5ba591c26c16600
   languageName: node
   linkType: hard
 
@@ -2824,9 +2824,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^56.0.111-alpha.0":
-  version: 56.0.111-alpha.0
-  resolution: "@ndla/ui@npm:56.0.111-alpha.0"
+"@ndla/ui@npm:^56.0.112-alpha.0":
+  version: 56.0.112-alpha.0
+  resolution: "@ndla/ui@npm:56.0.112-alpha.0"
   dependencies:
     "@ndla/core": "npm:^5.0.3"
     "@ndla/icons": "npm:^8.0.53-alpha.0"
@@ -2842,7 +2842,7 @@ __metadata:
     react-dom: ">= 18"
     react-i18next: ^15.4.1
     react-router-dom: "> 6.0.0"
-  checksum: 10c0/5bb03e7917a914f72868e71d68d0bc7a52858a1d511161dd427f308f0aa3b8ad15db38eaeef4d1b16cb4c212fc09810605985e9d1a3913fc6d0ceaa4c566caa0
+  checksum: 10c0/d8312a9594a08a5aded6f96cebf116d0114ef022296824ed7a85e3e65a9c40da2b456c9279c376607b06c0ee34dff025edcd6d6454879f26a7959655612b6faa
   languageName: node
   linkType: hard
 
@@ -10812,10 +10812,10 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^4.6.0"
     "@graphql-eslint/eslint-plugin": "npm:^4.4.0"
     "@juggle/resize-observer": "npm:^3.4.0"
-    "@ndla/article-converter": "npm:^10.0.114-alpha.0"
+    "@ndla/article-converter": "npm:^10.0.115-alpha.0"
     "@ndla/core": "npm:^5.0.3"
-    "@ndla/editor": "npm:^0.0.17"
-    "@ndla/editor-components": "npm:^0.0.25"
+    "@ndla/editor": "npm:^0.0.18"
+    "@ndla/editor-components": "npm:^0.0.26"
     "@ndla/hooks": "npm:^2.1.11"
     "@ndla/icons": "npm:^8.0.53-alpha.0"
     "@ndla/image-search": "npm:^11.0.96-alpha.0"
@@ -10829,7 +10829,7 @@ __metadata:
     "@ndla/types-backend": "npm:^1.0.39"
     "@ndla/types-embed": "npm:^5.0.12-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
-    "@ndla/ui": "npm:^56.0.111-alpha.0"
+    "@ndla/ui": "npm:^56.0.112-alpha.0"
     "@ndla/util": "npm:^5.0.7-alpha.0"
     "@pandacss/dev": "npm:^0.53.3"
     "@playwright/test": "npm:^1.49.1"
