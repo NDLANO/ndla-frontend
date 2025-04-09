@@ -8,9 +8,8 @@
 
 import { TFunction } from "i18next";
 import { useMemo, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import {
   Heading,
   RadioGroupItem,
@@ -30,9 +29,8 @@ import Article from "../../components/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import NavigationBox from "../../components/NavigationBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 import { htmlTitle } from "../../util/titleHelper";
 
 const Wrapper = styled("div", {
@@ -66,8 +64,8 @@ const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   },
 });
 
-const getDocumentTitle = (t: TFunction, subject: GQLFilmFrontPageQuery["subject"]) =>
-  htmlTitle(subject?.name, [t("htmlTitles.titleTemplate")]);
+const getDocumentTitle = (t: TFunction, node: GQLFilmFrontPageQuery["node"]) =>
+  htmlTitle(node?.name, [t("htmlTitles.titleTemplate")]);
 
 const fromNdla = {
   id: "fromNdla",
@@ -88,8 +86,8 @@ const FilmFrontpage = () => {
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const { data: { filmfrontpage, subject } = {}, loading } = useGraphQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { subjectId: "urn:subject:20", transformArgs: { subjectId: "urn:subject:20" } },
+  const { data: { filmfrontpage, node } = {}, loading } = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID, prettyUrl: true } },
   });
 
   const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);
@@ -112,10 +110,8 @@ const FilmFrontpage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{getDocumentTitle(t, subject)}</title>
-      </Helmet>
-      <SocialMediaMetadata type="website" title={subject?.name ?? ""} description={about?.description} />
+      <title>{getDocumentTitle(t, node)}</title>
+      <SocialMediaMetadata type="website" title={node?.name ?? ""} description={about?.description} />
       <StyledPageContainer asChild consumeCss>
         <main>
           <FilmSlideshow slideshow={definedSlideshowMovies} />
@@ -125,10 +121,13 @@ const FilmFrontpage = () => {
             </Heading>
             <NavigationBox
               heading={t("ndlaFilm.topics")}
-              items={subject?.topics?.map((topic) => ({
-                label: topic.name,
-                url: topic.path,
-              }))}
+              items={node?.children?.map((child) => {
+                return {
+                  id: child.id,
+                  label: child.name,
+                  url: child.url,
+                };
+              })}
             />
           </Wrapper>
           <Wrapper>
@@ -160,7 +159,7 @@ const FilmFrontpage = () => {
             loading={loading}
             loadingPlaceholderHeight={loadingPlaceholderHeight}
           />
-          {about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
+          {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
         </main>
       </StyledPageContainer>
     </>
@@ -170,7 +169,7 @@ const FilmFrontpage = () => {
 export default FilmFrontpage;
 
 const filmFrontPageQuery = gql`
-  query filmFrontPage($subjectId: String!, $transformArgs: TransformedArticleContentInput) {
+  query filmFrontPage($nodeId: String!, $transformArgs: TransformedArticleContentInput) {
     filmfrontpage {
       slideShow {
         ...FilmSlideshow_Movie
@@ -198,13 +197,14 @@ const filmFrontPageQuery = gql`
         ...Article_Article
       }
     }
-    subject(id: $subjectId) {
+    node(id: $nodeId) {
       id
       name
-      topics {
+      url
+      children(nodeType: "TOPIC") {
         id
-        path
         name
+        url
       }
     }
   }

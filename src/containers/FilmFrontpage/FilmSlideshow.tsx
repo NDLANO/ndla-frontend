@@ -138,7 +138,7 @@ const LoadingShimmer = () => {
     return (
       <Skeleton key={index}>
         <StyledSafeLinkCard data-current={false} onMouseDown={(e) => e.preventDefault()} to={""}>
-          <StyledImg src={""} loading="eager" alt="" />
+          <StyledImg loading="eager" alt="" />
           <StyledText textStyle="label.large" fontWeight="bold"></StyledText>
         </StyledSafeLinkCard>
       </Skeleton>
@@ -148,7 +148,7 @@ const LoadingShimmer = () => {
 
 const MainImageShimmer = () => (
   <Skeleton>
-    <StyledImage src={""} sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw" alt="" />
+    <StyledImage sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw" alt="" />
   </Skeleton>
 );
 
@@ -171,11 +171,11 @@ const FilmSlideshow = ({ slideshow }: Props) => {
   return (
     <BleedPageContent asChild consumeCss>
       <section>
-        <StyledSafeLink to={currentSlide?.path ?? ""} tabIndex={-1} aria-hidden>
+        <StyledSafeLink to={currentSlide?.url ?? ""} tabIndex={-1} aria-hidden>
           {!currentSlide?.metaImage?.url ? (
             <MainImageShimmer />
           ) : (
-            <StyledImage src={currentSlide?.metaImage?.url ?? ""} sizes="(min-width: 1140px) 1140, 1140px" alt="" />
+            <StyledImage src={currentSlide?.metaImage?.url} sizes="(min-width: 1140px) 1140, 1140px" alt="" />
           )}
           {!!currentSlide && (
             <StyledInfoContainer>
@@ -188,28 +188,35 @@ const FilmSlideshow = ({ slideshow }: Props) => {
           {!slideshow ? (
             <LoadingShimmer />
           ) : (
-            slideshow.map((movie) => (
-              <StyledSafeLinkCard
-                data-current={movie.id === currentSlide?.id}
-                key={movie.id}
-                onMouseDown={(e) => e.preventDefault()}
-                onMouseEnter={() => onHover(movie)}
-                onMouseLeave={() => {
-                  if (hoverCallback) {
-                    clearTimeout(hoverCallback);
-                    setHoverCallback(undefined);
-                  }
-                }}
-                onFocus={() => setCurrentSlide(movie)}
-                aria-describedby={"currentMovieDescription"}
-                to={movie.path}
-              >
-                <StyledImg src={movie?.metaImage ? movie?.metaImage.url : ""} sizes={"300px"} loading="eager" alt="" />
-                <StyledText textStyle="label.large" fontWeight="bold" title={movie.title}>
-                  {movie.title}
-                </StyledText>
-              </StyledSafeLinkCard>
-            ))
+            slideshow.map((movie) => {
+              return (
+                <StyledSafeLinkCard
+                  data-current={movie.id === currentSlide?.id}
+                  key={movie.id}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onMouseEnter={() => onHover(movie)}
+                  onMouseLeave={() => {
+                    if (hoverCallback) {
+                      clearTimeout(hoverCallback);
+                      setHoverCallback(undefined);
+                    }
+                  }}
+                  onFocus={() => setCurrentSlide(movie)}
+                  aria-describedby={"currentMovieDescription"}
+                  to={movie.url}
+                >
+                  <StyledImg
+                    src={movie?.metaImage ? movie?.metaImage.url : ""}
+                    sizes={"300px"}
+                    loading="eager"
+                    alt=""
+                  />
+                  <StyledText textStyle="label.large" fontWeight="bold" title={movie.title}>
+                    {movie.title}
+                  </StyledText>
+                </StyledSafeLinkCard>
+              );
+            })
           )}
         </StyledCarousel>
       </section>

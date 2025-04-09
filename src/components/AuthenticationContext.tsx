@@ -6,31 +6,21 @@
  *
  */
 
-import { createContext, ReactNode, useEffect, useState, useCallback } from "react";
-import { gql } from "@apollo/client";
-import config from "../config";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { gql, useQuery } from "@apollo/client";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
-import { useGraphQuery } from "../util/runQueries";
-
-export type MyNDLAUserType = GQLMyNdlaPersonalDataFragmentFragment & {
-  isModerator: boolean;
-};
 
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
-  login: () => void;
-  logout: () => void;
-  user: MyNDLAUserType | undefined;
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
   examLock: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   authContextLoaded: false,
-  login: () => {},
-  logout: () => {},
   user: undefined,
   examLock: false,
 });
@@ -39,11 +29,6 @@ interface Props {
   children: ReactNode;
   initialValue?: string;
 }
-
-export const isArenaModerator = (groups?: string[]): boolean => {
-  if (!groups) return false;
-  return groups.includes(config.arenaAdminGroup) || groups.includes(config.arenaModeratorGroup);
-};
 
 export const personalDataQueryFragment = gql`
   fragment MyNdlaPersonalDataFragment on MyNdlaPersonalData {
@@ -61,9 +46,9 @@ export const personalDataQueryFragment = gql`
     organization
     favoriteSubjects
     role
+    shareNameAccepted
     arenaEnabled
-    arenaGroups
-    shareName
+    arenaAccepted
   }
 `;
 
@@ -83,10 +68,10 @@ const myNdlaQuery = gql`
 const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<MyNDLAUserType | undefined>(undefined);
+  const [user, setUser] = useState<GQLMyNdlaPersonalDataFragmentFragment | undefined>(undefined);
   const [examLock, setExamLock] = useState(false);
 
-  const myNdlaData = useGraphQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
+  const myNdlaData = useQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
     skip: typeof window === "undefined" || !isAccessTokenValid(),
   });
 
@@ -99,37 +84,29 @@ const AuthenticationContext = ({ children }: Props) => {
       if (personalData?.role === "student") {
         setExamLock(examLockStatus?.value === true);
       }
-      setUser({
-        isModerator: isArenaModerator(personalData?.arenaGroups) && !config.enableNodeBB,
-        ...personalData,
-      });
+      setUser(personalData);
       setLoaded(true);
       // Since we can't listen to cookies set a timeout to update context
       const timeoutMillis = millisUntilExpiration();
       window.setTimeout(() => {
         setAuthenticated(false);
       }, timeoutMillis);
-    } else {
+    } else if (!myNdlaData.loading) {
       setLoaded(true);
     }
-  }, [myNdlaData.data]);
-
-  const login = useCallback(() => setAuthenticated(true), []);
-  const logout = useCallback(() => setAuthenticated(false), []);
+  }, [myNdlaData]);
 
   return (
-    <AuthContext.Provider
+    <AuthContext
       value={{
         authenticated,
         authContextLoaded,
-        login,
-        logout,
         user,
         examLock,
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </AuthContext>
   );
 };
 

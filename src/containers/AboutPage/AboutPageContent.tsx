@@ -8,7 +8,6 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, PageContent, Text } from "@ndla/primitives";
@@ -24,11 +23,12 @@ import {
   licenseAttributes,
 } from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
+import { findBreadcrumb } from "./aboutPageUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import { SKIP_TO_CONTENT_ID, ABOUT_PATH } from "../../constants";
 import { GQLAboutPage_ArticleFragment, GQLAboutPage_FrontpageMenuFragment } from "../../graphqlTypes";
 import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
@@ -41,12 +41,6 @@ interface Props {
   frontpage: GQLAboutPage_FrontpageMenuFragment;
 }
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "hidden",
-  },
-});
-
 const StyledHeroContent = styled(HeroContent, {
   base: {
     "& a:focus-within": {
@@ -55,24 +49,17 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
-export const findBreadcrumb = (
-  menu: GQLAboutPage_FrontpageMenuFragment[],
-  slug: string | undefined,
-  currentPath: GQLAboutPage_FrontpageMenuFragment[] = [],
-): GQLAboutPage_FrontpageMenuFragment[] => {
-  for (const item of menu) {
-    const newPath = currentPath.concat(item);
-    if (item.article.slug?.toLowerCase() === slug?.toLowerCase()) {
-      return newPath;
-    } else if (item.menu?.length) {
-      const foundPath = findBreadcrumb(item.menu as GQLAboutPage_FrontpageMenuFragment[], slug, newPath);
-      if (foundPath.length) {
-        return foundPath;
-      }
-    }
-  }
-  return [];
-};
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
 
 const getBreadcrumb = (slug: string | undefined, frontpage: GQLAboutPage_FrontpageMenuFragment, t: TFunction) => {
   const crumbs = findBreadcrumb(frontpage.menu as GQLAboutPage_FrontpageMenuFragment[], slug);
@@ -100,14 +87,15 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   useEffect(() => {
     if (_article && authContextLoaded) {
-      const dimensions = getAllDimensions({ article: _article, user });
+      const dimensions = getAllDimensions({ user });
       trackPageView({ dimensions, title: getDocumentTitle(t, _article.title) });
     }
   }, [_article, authContextLoaded, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
-      path: `${config.ndlaFrontendDomain}/about/${_article.slug}`,
+      path: `${config.ndlaFrontendDomain}${ABOUT_PATH}/${_article.slug}`,
+      articleLanguage: _article.language,
     });
     return [
       {
@@ -136,17 +124,16 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   return (
     <main>
-      <Helmet>
-        <title>{`${getDocumentTitle(t, article.title)}`}</title>
-        <meta name="pageid" content={`${article.id}`} />
-        {scripts?.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-        <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
-        </script>
-      </Helmet>
+      <title>{`${getDocumentTitle(t, article.title)}`}</title>
+      <meta name="pageid" content={`${article.id}`} />
+      {scripts?.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
+      </script>
+
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}
@@ -171,7 +158,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
                   <Text textStyle="body.xlarge">{article.transformedContent.introduction}</Text>
                 )}
               </ArticleHeader>
-              <ArticleContent>{article.transformedContent.content}</ArticleContent>
+              <StyledArticleContent>{article.transformedContent.content}</StyledArticleContent>
               <ArticleFooter>
                 <AccordionRoot multiple>
                   <ArticleBylineAccordionItem accordionTitle={t("article.useContent")} value="rulesForUse">
@@ -202,6 +189,7 @@ export const aboutPageFragments = {
       created
       updated
       slug
+      language
       published
       transformedContent(transformArgs: $transformArgs) {
         content

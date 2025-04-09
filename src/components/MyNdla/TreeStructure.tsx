@@ -1,19 +1,15 @@
 /**
- * Copyright (c) 2024-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { KeyboardEvent, ReactNode, useCallback, useMemo, useRef, useState } from "react";
-import { flushSync } from "react-dom";
+import { KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useTreeView, usePopoverContext, type PopoverOpenChangeDetails } from "@ark-ui/react";
-import { AddLine, HeartFill } from "@ndla/icons/action";
-import { ArrowDownShortLine, ArrowRightShortLine } from "@ndla/icons/common";
-import { FolderUserLine } from "@ndla/icons/contentType";
-import { FolderLine } from "@ndla/icons/editor";
+import { PopoverOpenChangeDetails, TreeViewNodeProviderProps, usePopoverContext } from "@ark-ui/react";
+import { AddLine, ArrowDownShortLine, ArrowRightShortLine, FolderLine, FolderUserLine, HeartFill } from "@ndla/icons";
 import {
   Button,
   IconButton,
@@ -30,44 +26,32 @@ import {
   TreeItem,
   TreeItemText,
   TreeLabel,
+  TreeNodeProvider,
   TreeRootProvider,
+  createTreeCollection,
+  useTreeView,
 } from "@ndla/primitives";
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
-import { IFolder, IResource } from "@ndla/types-backend/myndla-api";
-
-const flattenFolders = (folders: IFolder[], openFolders?: string[]): IFolder[] => {
-  return folders.reduce((acc, { subfolders, id, ...rest }) => {
-    if (!subfolders || (openFolders && !openFolders.includes(id))) {
-      return acc.concat({ subfolders, id, ...rest });
-    }
-    return acc.concat({ subfolders, id, ...rest }, flattenFolders(subfolders, openFolders));
-  }, [] as IFolder[]);
-};
-
-type OnCreatedFunc = (folder: IFolder | undefined) => void;
-
-type NewFolderInputFunc = ({
-  onCancel,
-  parentId,
-  onCreate,
-}: {
-  onCancel: () => void;
-  parentId: string;
-  onCreate: OnCreatedFunc;
-}) => ReactNode;
+import NewFolder from "./NewFolder";
+import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 
 export const MAX_LEVEL_FOR_FOLDERS = 5;
 
 export interface TreeStructureProps {
   loading?: boolean;
-  targetResource?: IResource;
+  targetResource?: GQLFolderResource;
   defaultOpenFolders?: string[];
-  folders: IFolder[];
+  folders: GQLFolder[];
   label?: string;
   maxLevel?: number;
-  newFolderInput?: NewFolderInputFunc;
   onSelectFolder?: (id: string) => void;
   ariaDescribedby?: string;
+}
+
+interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolder> {
+  targetResource?: GQLFolderResource;
+  selected?: boolean;
+  focusId?: string | null;
 }
 
 const StyledButton = styled(Button, {
@@ -105,7 +89,7 @@ const StyledFolderUserLine = styled(FolderUserLine, {
   },
 });
 
-const StyledTreeRootProvider = styled(TreeRootProvider, {
+const StyledTreeRootProvider = styled(TreeRootProvider<RootNode>, {
   base: {
     width: "100%",
     maxHeight: "inherit",
@@ -130,10 +114,27 @@ const LabelHStack = styled(HStack, {
   },
 });
 
+const StyledTreeItem = styled(TreeItem, {
+  base: {
+    scrollMargin: "xsmall",
+  },
+});
+
+const StyledTreeBranchControl = styled(TreeBranchControl, {
+  base: {
+    scrollMargin: "xsmall",
+  },
+});
+
+interface RootNode {
+  id: string;
+  name: string;
+  subfolders: GQLFolder[];
+}
+
 export const TreeStructure = ({
   folders,
   defaultOpenFolders,
-  newFolderInput,
   label,
   targetResource,
   loading,
@@ -145,25 +146,16 @@ export const TreeStructure = ({
   const [selectedValue, setSelectedValue] = useState(defaultOpenFolders?.[defaultOpenFolders?.length - 1] ?? "");
   const [expandedValue, setExpandedValue] = useState<string[]>(defaultOpenFolders ?? []);
   const [focusedValue, setFocusedValue] = useState<string | null>(selectedValue);
+  const [focusNewFolder, setFocusNewFolder] = useState<string | undefined>(undefined);
   const [newFolderParentId, setNewFolderParentId] = useState<string | null>(null);
   const newFolderButtonRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
   const rootFolderIds = useMemo(() => folders.map((folder) => folder.id), [folders]);
   const contentRef = useRef<HTMLDivElement>(null);
-
-  const selectedFolder = useMemo(() => {
-    return flattenFolders(folders).find((folder) => folder.id === selectedValue);
-  }, [folders, selectedValue]);
-
-  const disableCreateFolder = useMemo(() => {
-    return (selectedFolder?.breadcrumbs.length ?? 0) > maxLevel - 1;
-  }, [maxLevel, selectedFolder?.breadcrumbs.length]);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onOpenChange = useCallback((details: PopoverOpenChangeDetails) => {
     setOpen(details.open);
-    if (!details.open) {
-      setNewFolderParentId(null);
-    }
   }, []);
 
   const onKeyDown = useCallback((e: KeyboardEvent<HTMLElement>) => {
@@ -173,17 +165,21 @@ export const TreeStructure = ({
     }
   }, []);
 
-  const onShowInput = useCallback(() => {
-    if (disableCreateFolder) return;
-    const flattenedFolders = flattenFolders(folders);
-    const folder = flattenedFolders.find((folder) => folder.id === selectedValue);
-    const newExpandedIds = rootFolderIds.concat(folder?.breadcrumbs.map((bc) => bc.id) ?? []);
-    setOpen(true);
-    setExpandedValue((prev) => Array.from(new Set([...prev, ...newExpandedIds])));
-    setNewFolderParentId(selectedValue);
-  }, [disableCreateFolder, folders, rootFolderIds, selectedValue]);
+  const collection = useMemo(() => {
+    return createTreeCollection<RootNode>({
+      rootNode: {
+        id: "ROOT",
+        name: "",
+        subfolders: folders,
+      },
+      nodeToString: (node) => node.name,
+      nodeToValue: (node) => node.id,
+      nodeToChildren: (node) => node.subfolders,
+    });
+  }, [folders]);
 
-  const treeView = useTreeView({
+  const treeView = useTreeView<RootNode>({
+    collection,
     focusedValue,
     onFocusChange: (details) => !!details.focusedValue && setFocusedValue(details.focusedValue),
     expandedValue,
@@ -192,51 +188,52 @@ export const TreeStructure = ({
     onSelectionChange: (details) => {
       const val = details.selectedValue[0];
       if (!val) return;
-      if (val === selectedValue && details.focusedValue === selectedValue) {
-        setOpen(false);
-        return;
-      }
       setSelectedValue(val);
       onSelectFolder?.(val);
     },
     expandOnClick: false,
   });
 
-  const onCreateFolder = useCallback(
-    (folder: IFolder | undefined) => {
-      if (!folder) return;
-      const focus = treeView.focusItem;
-      const expand = treeView.expand;
-      const select = treeView.select;
-      flushSync(() => {
-        setOpen(true);
-      });
-      flushSync(() => {
-        expand(folder.breadcrumbs.map((bc) => bc.id));
-      });
-      flushSync(() => {
-        select([folder.id]);
-      });
-      flushSync(() => {
-        focus(folder.id);
-      });
-      setNewFolderParentId(null);
-    },
-    [treeView.expand, treeView.focusItem, treeView.select],
-  );
-
-  const onAnimationEnd = useCallback(() => {
-    if (open && focusedValue) {
-      document.getElementById(focusedValue)?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  const selectedFolder = useMemo(() => {
+    const selectedValue = treeView.selectedValue[0];
+    if (selectedValue) {
+      return treeView.collection.findNode(selectedValue) as GQLFolder;
     }
-  }, [focusedValue, open]);
+    return undefined;
+  }, [treeView.collection, treeView.selectedValue]);
+
+  const disableCreateFolder = useMemo(() => {
+    return (selectedFolder?.breadcrumbs.length ?? 0) > maxLevel - 1;
+  }, [maxLevel, selectedFolder?.breadcrumbs.length]);
+
+  const onShowInput = useCallback(() => {
+    if (disableCreateFolder) return;
+    const newExpandedIds = rootFolderIds.concat(selectedFolder?.breadcrumbs.map((bc) => bc.id) ?? []);
+    setOpen(true);
+    setExpandedValue((prev) => Array.from(new Set([...prev, ...newExpandedIds])));
+    setNewFolderParentId(selectedValue);
+  }, [disableCreateFolder, rootFolderIds, selectedFolder?.breadcrumbs, selectedValue]);
+
+  const onCreateFolder = useCallback((folder: GQLFolder | undefined) => {
+    if (!folder) return;
+    setFocusNewFolder(folder.id);
+  }, []);
+
+  useEffect(() => {
+    if (focusNewFolder && treeView.collection.findNode(focusNewFolder)) {
+      treeView.focus(focusNewFolder);
+      treeView.select([focusNewFolder]);
+      setFocusNewFolder(undefined);
+    }
+  }, [focusNewFolder, treeView]);
 
   const onCancelFolder = useCallback(() => {
     if (!selectedFolder) return;
-    const focusFunc = selectedFolder.subfolders.length ? treeView.focusBranch : treeView.focusItem;
-    focusFunc(selectedFolder.id);
+    if (!focusNewFolder) {
+      treeView.focus(selectedFolder.id);
+    }
     setNewFolderParentId(null);
-  }, [selectedFolder, treeView.focusBranch, treeView.focusItem]);
+  }, [focusNewFolder, selectedFolder, treeView]);
 
   const addTooltip = loading
     ? t("loading")
@@ -245,31 +242,33 @@ export const TreeStructure = ({
       : t("myNdla.newFolderUnder", { folderName: selectedFolder?.name });
 
   return (
-    <StyledTreeRootProvider value={treeView} asChild {...treeView.getRootProps()}>
-      <Stack align="flex-end">
-        <LabelHStack gap="xsmall" justify="space-between">
-          <TreeLabel>{label}</TreeLabel>
-          <Button
-            size="small"
-            variant="tertiary"
-            ref={newFolderButtonRef}
-            aria-disabled={disableCreateFolder}
-            title={addTooltip}
-            aria-label={addTooltip}
-            loading={loading}
-            onClick={onShowInput}
-          >
-            <AddLine />
-            {t("myNdla.newFolder")}
-          </Button>
-        </LabelHStack>
-        <PopoverRoot
-          open={open}
-          positioning={{ sameWidth: true, strategy: "fixed" }}
-          onOpenChange={onOpenChange}
-          persistentElements={[() => newFolderButtonRef.current]}
-          initialFocusEl={() => contentRef.current?.querySelector("input") ?? null}
-        >
+    <PopoverRoot
+      open={open}
+      positioning={{ sameWidth: true, strategy: "fixed" }}
+      onOpenChange={onOpenChange}
+      onFocusOutside={(e) => e.preventDefault()}
+      persistentElements={[() => newFolderButtonRef.current, () => inputRef.current]}
+      initialFocusEl={() => inputRef.current}
+      portalled={false}
+    >
+      <StyledTreeRootProvider value={treeView} asChild {...treeView.getRootProps()}>
+        <Stack align="flex-end">
+          <LabelHStack gap="xsmall" justify="space-between">
+            <TreeLabel>{label}</TreeLabel>
+            <Button
+              size="small"
+              variant="tertiary"
+              ref={newFolderButtonRef}
+              aria-disabled={disableCreateFolder}
+              title={addTooltip}
+              aria-label={addTooltip}
+              loading={loading}
+              onClick={onShowInput}
+            >
+              <AddLine />
+              {t("myNdla.newFolder")}
+            </Button>
+          </LabelHStack>
           <PopoverTrigger asChild>
             <StyledButton
               variant="secondary"
@@ -283,90 +282,119 @@ export const TreeStructure = ({
               <ArrowDownShortLine />
             </StyledButton>
           </PopoverTrigger>
-          <StyledPopoverContent onAnimationEnd={onAnimationEnd} ref={contentRef}>
-            {!!newFolderParentId &&
-              newFolderInput?.({ parentId: newFolderParentId, onCreate: onCreateFolder, onCancel: onCancelFolder })}
+          <StyledPopoverContent ref={contentRef}>
+            {!!newFolderParentId && (
+              <NewFolder
+                parentId={newFolderParentId}
+                onCreate={onCreateFolder}
+                onClose={onCancelFolder}
+                ref={inputRef}
+              />
+            )}
             <Tree>
-              {folders.map((folder) => (
-                <TreeStructureItem key={folder.id} folder={folder} targetResource={targetResource} />
+              {collection.rootNode.subfolders.map((node, idx) => (
+                <TreeStructureItem
+                  node={node}
+                  key={node.id}
+                  targetResource={targetResource}
+                  indexPath={[idx]}
+                  focusId={newFolderParentId ? undefined : focusedValue}
+                />
               ))}
             </Tree>
           </StyledPopoverContent>
-        </PopoverRoot>
-      </Stack>
-    </StyledTreeRootProvider>
+        </Stack>
+      </StyledTreeRootProvider>
+    </PopoverRoot>
   );
 };
 
-interface TreeStructureItemProps {
-  folder: IFolder;
-  targetResource?: IResource;
-}
-
-const TreeStructureItem = ({ folder, targetResource }: TreeStructureItemProps) => {
+export const TreeStructureItem = ({ node, focusId, indexPath, targetResource }: TreeStructureItemProps) => {
   const { t } = useTranslation();
   const { setOpen } = usePopoverContext();
-  const containsResource =
-    targetResource && folder.resources.some((resource) => resource.resourceId === targetResource.resourceId);
+  const ref = useRef<HTMLDivElement>(null);
+  const containsResource = targetResource && node.resources.some((r) => r.resourceId === targetResource.resourceId);
 
-  const FolderIcon = folder.status === "shared" ? StyledFolderUserLine : StyledFolderLine;
+  const FolderIcon = node.status === "shared" ? StyledFolderUserLine : StyledFolderLine;
+
+  const selected = focusId === node.id;
+
+  useEffect(() => {
+    if (selected) {
+      ref.current?.scrollIntoView({ behavior: "instant", block: "nearest" });
+    }
+  }, [selected]);
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLElement>) => {
-      if (e.key === "Enter") {
+      if (e.key === "Enter" || (e.key === " " && ref.current?.hasAttribute("data-selected"))) {
         setOpen(false);
       }
     },
     [setOpen],
   );
 
-  if (!folder.subfolders.length) {
-    return (
-      <TreeItem key={folder.id} value={folder.id} onKeyDown={onKeyDown} id={folder.id}>
-        <StyledHStack gap="xsmall" justify="space-between">
-          <StyledHStack gap="xxsmall" justify="center">
-            <FolderIcon />
-            <TreeItemText>{folder.name}</TreeItemText>
-          </StyledHStack>
-          {containsResource && <StyledHeartFill title={t("myNdla.alreadyInFolder")} />}
-        </StyledHStack>
-      </TreeItem>
-    );
-  }
-
-  const ariaLabel = folder.status === "shared" ? `${folder.name}. ${t("myNdla.folder.sharing.shared")}` : folder.name;
+  const ariaLabel = node.status === "shared" ? `${node.name}. ${t("myNdla.folder.sharing.shared")}` : node.name;
 
   return (
-    <TreeBranch key={folder.id} value={folder.id} id={folder.id}>
-      <TreeBranchControl onKeyDown={onKeyDown} asChild>
-        <StyledHStack gap="xsmall" justify="space-between">
-          <StyledHStack gap="xxsmall" justify="center">
-            <IconButton variant="clear" asChild>
-              <TreeBranchTrigger>
-                <TreeBranchIndicator asChild>
-                  <ArrowRightShortLine />
-                </TreeBranchIndicator>
-              </TreeBranchTrigger>
-            </IconButton>
-            <FolderIcon />
-            <TreeBranchText aria-label={ariaLabel} title={ariaLabel}>
-              {folder.name}
-            </TreeBranchText>
+    <TreeNodeProvider node={node} indexPath={indexPath}>
+      {node.subfolders?.length ? (
+        <TreeBranch>
+          <StyledTreeBranchControl onKeyDown={onKeyDown} asChild ref={ref}>
+            <StyledHStack gap="xsmall" justify="space-between">
+              <StyledHStack gap="xxsmall" justify="center">
+                <IconButton variant="clear" asChild>
+                  <TreeBranchTrigger>
+                    <TreeBranchIndicator asChild>
+                      <ArrowRightShortLine />
+                    </TreeBranchIndicator>
+                  </TreeBranchTrigger>
+                </IconButton>
+                <FolderLine />
+                <TreeBranchText aria-label={ariaLabel} title={ariaLabel}>
+                  {node.name}
+                </TreeBranchText>
+              </StyledHStack>
+              {!!containsResource && (
+                <StyledHeartFill
+                  title={t("myNdla.alreadyInFolder")}
+                  aria-label={t("myNdla.alreadyInFolder")}
+                  aria-hidden={false}
+                />
+              )}
+            </StyledHStack>
+          </StyledTreeBranchControl>
+          <TreeBranchContent>
+            {node.subfolders.map((child, index) => (
+              <TreeStructureItem
+                key={child.id}
+                node={child}
+                indexPath={[...indexPath, index]}
+                targetResource={targetResource}
+                focusId={focusId}
+              />
+            ))}
+          </TreeBranchContent>
+        </TreeBranch>
+      ) : (
+        <StyledTreeItem onKeyDown={onKeyDown} asChild ref={ref}>
+          <StyledHStack gap="xsmall" justify="space-between">
+            <StyledHStack gap="xxsmall" justify="center">
+              <FolderIcon />
+              <TreeItemText aria-label={ariaLabel} title={ariaLabel}>
+                {node.name}
+              </TreeItemText>
+            </StyledHStack>
+            {!!containsResource && (
+              <StyledHeartFill
+                title={t("myNdla.alreadyInFolder")}
+                aria-label={t("myNdla.alreadyInFolder")}
+                aria-hidden={false}
+              />
+            )}
           </StyledHStack>
-          {containsResource && (
-            <StyledHeartFill
-              title={t("myNdla.alreadyInFolder")}
-              aria-label={t("myNdla.alreadyInFolder")}
-              aria-hidden={false}
-            />
-          )}
-        </StyledHStack>
-      </TreeBranchControl>
-      <TreeBranchContent>
-        {folder.subfolders.map((subfolder) => (
-          <TreeStructureItem key={subfolder.id} folder={subfolder} targetResource={targetResource} />
-        ))}
-      </TreeBranchContent>
-    </TreeBranch>
+        </StyledTreeItem>
+      )}
+    </TreeNodeProvider>
   );
 };

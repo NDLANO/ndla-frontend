@@ -8,7 +8,7 @@
 
 import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
-import { Additional, PresentationLine } from "@ndla/icons/common";
+import { Additional, PresentationLine } from "@ndla/icons";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { NavigationSafeLinkButton, NavigationSafeLinkButtonVariantProps } from "./NavigationSafeLinkButton";
@@ -51,18 +51,19 @@ interface Props {
 export const NavigationBox = ({ heading, variant, items }: Props & NavigationSafeLinkButtonVariantProps) => {
   const { t } = useTranslation();
   const headingId = useId();
+
   return (
     <StyledWrapper aria-labelledby={heading ? headingId : undefined} data-nav-box="">
-      {heading && (
+      {!!heading && (
         <Heading id={headingId} asChild consumeCss textStyle="heading.small" fontWeight="bold">
           <h2>{heading}</h2>
         </Heading>
       )}
       <StyledList data-testid="nav-box-list">
         {items?.map((item) => (
-          <li key={item.label} data-testid="nav-box-item">
+          <li key={item.id ?? item.url} data-testid="nav-box-item">
             <NavigationSafeLinkButton to={item.url ?? ""} aria-current={item.current} variant={variant}>
-              {item.isAdditionalResource && (
+              {!!item.isAdditionalResource && (
                 <Additional
                   aria-label={t("resource.additionalTooltip")}
                   title={t("resource.additionalTooltip")}
@@ -70,7 +71,7 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
                 />
               )}
               {/* TODO: Consider adding a label to this */}
-              {item.isRestrictedResource && <PresentationLine />}
+              {!!item.isRestrictedResource && <PresentationLine />}
               {item.label}
             </NavigationSafeLinkButton>
           </li>

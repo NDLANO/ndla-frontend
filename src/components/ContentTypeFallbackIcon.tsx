@@ -6,24 +6,18 @@
  *
  */
 
-import { ComponentPropsWithRef, ComponentType, forwardRef } from "react";
-import { HeadphoneLine, VolumeUpLine } from "@ndla/icons/common";
-import { LearningPath } from "@ndla/icons/contentType";
-import { H5P, ImageLine, PlayBoxOutline } from "@ndla/icons/editor";
+import { ComponentType, type Ref } from "react";
+import { HeadphoneLine, VolumeUpLine, H5P, ImageLine, MovieLine, TextWrap, IconProps } from "@ndla/icons";
 import { ContentType } from "@ndla/ui";
-
-interface Props extends ComponentPropsWithRef<"svg"> {
-  contentType?: ContentType;
-}
 
 const getIcon = (contentType: string | undefined) => {
   switch (contentType) {
     case "learning-path":
-      return LearningPath;
+      return TextWrap;
     case "image":
       return ImageLine;
     case "video":
-      return PlayBoxOutline;
+      return MovieLine;
     case "h5p":
       return H5P;
     case "podcast":
@@ -35,7 +29,12 @@ const getIcon = (contentType: string | undefined) => {
   }
 };
 
-export const ContentTypeFallbackIcon = forwardRef<SVGElement, Props>(({ contentType, children, ...props }, ref) => {
-  const Element: ComponentType = getIcon(contentType);
-  return <Element ref={ref} {...props} />;
-});
+interface Props extends IconProps {
+  ref?: Ref<SVGSVGElement>;
+  contentType?: ContentType;
+}
+
+export const ContentTypeFallbackIcon = ({ contentType, ...props }: Props) => {
+  const Element: ComponentType<IconProps> = getIcon(contentType);
+  return <Element {...props} />;
+};

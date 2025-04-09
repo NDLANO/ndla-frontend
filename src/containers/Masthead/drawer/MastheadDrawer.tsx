@@ -8,29 +8,25 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
-import { CloseLine, MenuLine } from "@ndla/icons/action";
+import { useParams } from "react-router-dom";
+import { gql, useQuery } from "@apollo/client";
+import { CloseLine, MenuLine } from "@ndla/icons";
 import { Button, DialogContent, DialogRoot, DialogCloseTrigger, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import DefaultMenu from "./DefaultMenu";
 import DrawerContent from "./DrawerContent";
 import { DrawerProvider } from "./DrawerContext";
 import { MenuType } from "./drawerMenuTypes";
-import { LanguageSelector } from "../../../components/LanguageSelector";
+import { LanguageSelector } from "../../../components/LanguageSelector/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
   GQLDrawerContent_FrontpageMenuFragment,
-  GQLMastheadDrawer_SubjectFragment,
+  GQLMastheadDrawer_RootFragment,
   GQLMastheadFrontpageQuery,
   GQLMastheadProgrammeQuery,
 } from "../../../graphqlTypes";
-import { supportedLanguages } from "../../../i18n";
-import { LocaleType } from "../../../interfaces";
-import { useUrnIds } from "../../../routeHelpers";
-import { useUserAgent } from "../../../UserAgentContext";
-import { useGraphQuery } from "../../../util/runQueries";
 import { usePrevious } from "../../../util/utilityHooks";
-import { findBreadcrumb } from "../../AboutPage/AboutPageContent";
+import { findBreadcrumb } from "../../AboutPage/aboutPageUtils";
 
 const MainMenu = styled("div", {
   base: {
@@ -100,7 +96,8 @@ const StyledDrawer = styled(DialogContent, {
 });
 
 interface Props {
-  subject?: GQLMastheadDrawer_SubjectFragment;
+  root?: GQLMastheadDrawer_RootFragment;
+  crumbs: string[];
 }
 
 const mastheadFrontpageQuery = gql`
@@ -121,22 +118,23 @@ const mastheadProgrammeQuery = gql`
   ${DrawerContent.fragments.programmeMenu}
 `;
 
-const MastheadDrawer = ({ subject }: Props) => {
+const MastheadDrawer = ({ root, crumbs }: Props) => {
   const [open, setOpen] = useState(false);
   const [frontpageMenu, setFrontpageMenu] = useState<GQLDrawerContent_FrontpageMenuFragment[]>([]);
-  const { subjectId, topicList, programme, slug } = useUrnIds();
+  const { programme, slug } = useParams();
+  const subjectId = root?.id;
+  const topicList = crumbs;
   const prevProgramme = usePrevious(programme);
   const [type, setType] = useState<MenuType | undefined>(undefined);
   const [topicPath, setTopicPath] = useState<string[]>(topicList);
-  const { t, i18n } = useTranslation();
-  const userAgent = useUserAgent();
+  const { t } = useTranslation();
   const drawerTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const frontpageQuery = useGraphQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
+  const frontpageQuery = useQuery<GQLMastheadFrontpageQuery>(mastheadFrontpageQuery, {
     skip: typeof window === "undefined",
   });
 
-  const programmesQuery = useGraphQuery<GQLMastheadProgrammeQuery>(mastheadProgrammeQuery, {
+  const programmesQuery = useQuery<GQLMastheadProgrammeQuery>(mastheadProgrammeQuery, {
     skip: typeof window === "undefined",
   });
 
@@ -153,9 +151,9 @@ const MastheadDrawer = ({ subject }: Props) => {
     } else if (slug) {
       const crumb = findBreadcrumb(frontpageQuery.data?.frontpage?.menu ?? [], slug);
       const menuItems = !crumb[crumb.length - 1]?.menu?.length ? crumb.slice(0, -1) : crumb;
-      setType("about");
+      setType("om");
       const firstLevelAboutMenu = frontpageQuery.data?.frontpage?.menu?.[0];
-      const defaultMenu = [crumb[0] ?? firstLevelAboutMenu];
+      const defaultMenu = [crumb[0] ?? firstLevelAboutMenu].filter(Boolean);
       const menuItem = menuItems.length > 0 ? menuItems : defaultMenu;
       setFrontpageMenu(menuItem as GQLDrawerContent_FrontpageMenuFragment[]);
     } else {
@@ -171,13 +169,13 @@ const MastheadDrawer = ({ subject }: Props) => {
 
   const handleUpdateFrontpageMenu = useCallback((menu: GQLDrawerContent_FrontpageMenuFragment) => {
     setFrontpageMenu([menu]);
-    setType("about");
+    setType("om");
   }, []);
 
   const close = useCallback(() => setOpen(false), []);
 
   const onCloseMenuPortion = useCallback(() => {
-    if (type === "about") {
+    if (type === "om") {
       const slicedMenu = frontpageMenu?.slice(0, frontpageMenu?.length - 1);
       setFrontpageMenu(slicedMenu);
       if (!slicedMenu?.length) {
@@ -198,7 +196,7 @@ const MastheadDrawer = ({ subject }: Props) => {
   const getHeaderElement = () => {
     if (!type) {
       return document.getElementById("header-programme");
-    } else if (type === "about") {
+    } else if (type === "om") {
       const articleTitle = frontpageMenu[frontpageMenu.length - 1]?.article.slug;
       return document.getElementById(`header-${articleTitle}`);
     } else if (type !== "subject" || !topicPath.length) {
@@ -218,7 +216,6 @@ const MastheadDrawer = ({ subject }: Props) => {
       onOpenChange={() => setOpen((prev) => !prev)}
       initialFocusEl={getHeaderElement}
       finalFocusEl={() => drawerTriggerRef.current}
-      closeOnInteractOutside={!userAgent?.isMobile}
     >
       <DialogTrigger asChild ref={drawerTriggerRef}>
         <DrawerButton
@@ -254,16 +251,16 @@ const MastheadDrawer = ({ subject }: Props) => {
                   dynamicMenus={
                     (frontpageQuery.data?.frontpage?.menu ?? []) as GQLDrawerContent_FrontpageMenuFragment[]
                   }
-                  subject={subject}
+                  root={root}
                   type={type}
                 />
-                {type && (
+                {!!type && (
                   <DrawerContent
                     onClose={close}
                     type={type}
                     menuItems={frontpageMenu}
                     topicPath={topicPath}
-                    subject={subject}
+                    root={root}
                     setFrontpageMenu={setFrontpageMenu}
                     setTopicPathIds={setTopicPath}
                     onCloseMenuPortion={onCloseMenuPortion}
@@ -274,13 +271,7 @@ const MastheadDrawer = ({ subject }: Props) => {
             </DrawerContainer>
             {!type && (
               <LanguageSelectWrapper>
-                <LanguageSelector
-                  languages={supportedLanguages}
-                  onValueChange={(details) => {
-                    setOpen(false);
-                    setTimeout(() => i18n.changeLanguage(details.value[0] as LocaleType), 0);
-                  }}
-                />
+                <LanguageSelector />
               </LanguageSelectWrapper>
             )}
           </MenuLanguageContainer>
@@ -291,13 +282,13 @@ const MastheadDrawer = ({ subject }: Props) => {
 };
 
 MastheadDrawer.fragments = {
-  subject: gql`
-    fragment MastheadDrawer_Subject on Subject {
-      ...DefaultMenu_Subject
-      ...DrawerContent_Subject
+  root: gql`
+    fragment MastheadDrawer_Root on Node {
+      ...DefaultMenu_Root
+      ...DrawerContent_Root
     }
-    ${DefaultMenu.fragments.subject}
-    ${DrawerContent.fragments.subject}
+    ${DefaultMenu.fragments.root}
+    ${DrawerContent.fragments.root}
   `,
 };
 

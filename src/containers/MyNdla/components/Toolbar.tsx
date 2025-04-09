@@ -6,14 +6,11 @@
  *
  */
 
-import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import MenuModalContent from "./MenuModalContent";
-import NotificationPopover from "./NotificationPopover";
 import SettingsMenu, { MenuItemElement, MenuItemProps } from "./SettingsMenu";
-import { AuthContext } from "../../../components/AuthenticationContext";
 
 const ToolbarContainer = styled("div", {
   base: {
@@ -44,7 +41,7 @@ const StyledButtonList = styled("ul", {
     margin: "0",
     padding: "0",
 
-    desktop: {
+    tablet: {
       display: "flex",
     },
   },
@@ -53,7 +50,7 @@ const StyledButtonList = styled("ul", {
 const SettingsMenuWrapper = styled("div", {
   base: {
     display: "none",
-    mobileWideToDesktop: {
+    mobileWideToTablet: {
       display: "unset",
     },
   },
@@ -81,10 +78,9 @@ interface Props {
 
 const Toolbar = ({ menuItems, showButtons }: Props) => {
   const { t } = useTranslation();
-  const { user } = useContext(AuthContext);
 
   return (
-    <ToolbarContainer data-visible={!!menuItems?.length || !!user?.arenaEnabled}>
+    <ToolbarContainer data-visible={!!menuItems?.length}>
       <StyledPageContent>
         <Wrapper>
           <div>
@@ -112,11 +108,10 @@ const Toolbar = ({ menuItems, showButtons }: Props) => {
             </StyledButtonList>
             {!!menuItems?.length && (
               <SettingsMenuWrapper>
-                <SettingsMenu menuItems={menuItems} modalHeader={t("myNdla.tools")} showSingle elementSize="small" />
+                <SettingsMenu menuItems={menuItems} modalHeader={t("myNdla.tools")} elementSize="small" />
               </SettingsMenuWrapper>
             )}
           </div>
-          {user?.arenaEnabled && <NotificationPopover />}
         </Wrapper>
       </StyledPageContent>
       <MenuModalContent menuItems={menuItems} showButtons={showButtons} />

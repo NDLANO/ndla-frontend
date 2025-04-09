@@ -6,15 +6,14 @@
  *
  */
 
-import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { FileCopyLine } from "@ndla/icons/action";
-import { DownloadLine, ExternalLinkLine } from "@ndla/icons/common";
+import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -100,11 +99,11 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: audio.id,
-                  path: `${config.ndlaFrontendDomain}/audio/${audio.id}`,
+                  path: `/audio/${audio.id}`,
                   resourceType: "audio",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/audio/${audio.id}`} />
+                <FavoriteButton path={`/audio/${audio.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
@@ -114,7 +113,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
                 <DownloadLine />
                 {t("license.download")}
               </SafeLinkButton>
-              {shouldShowLink && (
+              {!!shouldShowLink && (
                 <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                   <ExternalLinkLine />
                   {t("license.openLink")}

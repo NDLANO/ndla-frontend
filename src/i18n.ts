@@ -6,7 +6,6 @@
  *
  */
 
-import * as datefnslocale from "date-fns/locale";
 import { i18n } from "i18next";
 import config from "./config";
 import { LocaleType } from "./interfaces";
@@ -15,10 +14,9 @@ import nb from "./messages/messagesNB";
 import nn from "./messages/messagesNN";
 import se from "./messages/messagesSE";
 
-export const supportedLanguages: LocaleType[] = config.saamiEnabled
-  ? ["nb", "nn", "en", "se"]
-  : ["nb", "nn", "en", "se"];
-export const preferredLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
+export const supportedLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
+export const preferredLanguages: LocaleType[] = ["nb", "nn"];
+export const myndlaLanguages: LocaleType[] = ["nb", "nn", "en"];
 
 type LocaleObject = {
   name: string;
@@ -61,6 +59,10 @@ export const getHtmlLang = (localeAbbreviation?: string): string => {
   return locale?.abbreviation ?? config.defaultLocale;
 };
 
+export const getLangAttributeValue = (lang: string) => {
+  return lang === "nn" || lang === "nb" ? "no" : lang;
+};
+
 interface RetType extends LocaleObject {
   basepath: string;
   basename: string;
@@ -87,11 +89,4 @@ export const initializeI18n = (i18n: i18n, language: string): i18n => {
   i18n.addResourceBundle("nn", "translation", nn, true, true);
   i18n.addResourceBundle("se", "translation", se, true, true);
   return instance;
-};
-
-export const DateFNSLocales = {
-  nn: datefnslocale.nn,
-  nb: datefnslocale.nb,
-  en: datefnslocale.enGB,
-  se: datefnslocale.nb,
 };

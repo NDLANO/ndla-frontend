@@ -6,16 +6,15 @@
  *
  */
 
-import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { FileCopyLine } from "@ndla/icons/action";
-import { DownloadLine, ExternalLinkLine } from "@ndla/icons/common";
+import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -56,6 +55,14 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
     });
   }
 
+  if (video.copyright?.origin) {
+    items.push({
+      label: t("source"),
+      description: video.copyright.origin,
+      metaType: metaTypes.other,
+    });
+  }
+
   const copyText = figureApa7CopyString(
     video.title,
     undefined,
@@ -87,18 +94,18 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
               <AddResourceToFolderModal
                 resource={{
                   id: video.id,
-                  path: `${config.ndlaFrontendDomain}/video/${video.id}`,
+                  path: `/video/${video.id}`,
                   resourceType: "video",
                 }}
               >
-                <FavoriteButton path={`${config.ndlaFrontendDomain}/video/${video.id}`} />
+                <FavoriteButton path={`/video/${video.id}`} />
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
-          {video.cover && !isResourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
+          {!!video.cover && !isResourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
           {!isCopyrighted(video.copyright?.license.license) && (
             <MediaListItemActions>
-              {video.download && (
+              {!!video.download && (
                 <SafeLinkButton to={video.download} download variant="secondary" size="small">
                   <DownloadLine />
                   {t("license.download")}
@@ -109,7 +116,7 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />
-              {shouldShowLink && (
+              {!!shouldShowLink && (
                 <SafeLinkButton to={pageUrl} target="_blank" variant="secondary" rel="noopener noreferrer" size="small">
                   <ExternalLinkLine />
                   {t("license.openLink")}

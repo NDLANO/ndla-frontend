@@ -1,19 +1,18 @@
 /**
- * Copyright (c) 2022-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { FolderUserLine } from "@ndla/icons/contentType";
-import { FolderLine } from "@ndla/icons/editor";
+import { FolderUserLine, FolderLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import MyNdlaBreadcrumb from "../../containers/MyNdla/components/MyNdlaBreadcrumb";
-import MyNdlaTitle from "../../containers/MyNdla/components/MyNdlaTitle";
-import TitleWrapper from "../../containers/MyNdla/components/TitleWrapper";
+import MyNdlaBreadcrumb from "./MyNdlaBreadcrumb";
+import MyNdlaTitle, { TitleWrapper } from "./MyNdlaTitle";
 import { GQLFolder } from "../../graphqlTypes";
 
 const TitleRow = styled("div", {
@@ -54,7 +53,7 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
   if (loading) {
     return (
       <TitleWrapper>
-        {!!selectedFolder && enableBreadcrumb && <StyledSkeleton />}
+        {!!selectedFolder && !!enableBreadcrumb && <StyledSkeleton />}
         <StyledSkeleton selectedFolder={!!selectedFolder} />
       </TitleWrapper>
     );
@@ -62,7 +61,7 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
 
   return (
     <TitleWrapper>
-      {enableBreadcrumb && <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />}
+      {!!enableBreadcrumb && <MyNdlaBreadcrumb breadcrumbs={selectedFolder?.breadcrumbs ?? []} page="folders" />}
       <TitleRow>
         {selectedFolder ? selectedFolder.status === "shared" ? <FolderUserLine /> : <FolderLine /> : null}
         <MyNdlaTitle title={selectedFolder?.name ?? t("myNdla.myFolders")} />

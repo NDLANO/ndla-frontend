@@ -7,34 +7,42 @@
  */
 
 import { renderToString } from "react-dom/server";
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import { RedirectInfo } from "../../components/RedirectContext";
 import Scripts from "../../components/Scripts/Scripts";
+import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
+import { getHtmlLang, getLocaleObject } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
+import { getSiteTheme } from "../../util/siteTheme";
 import { RenderFunc } from "../serverHelpers";
 
-export const errorRender: RenderFunc = async (req) => {
+export const errorRender: RenderFunc = async (req, chunks) => {
   const context: RedirectInfo = {};
-  //@ts-ignore
-  const helmetContext: FilledContext = {};
+
+  const lang = getHtmlLang(req.params.lang ?? "");
+  const locale = getLocaleObject(lang).abbreviation;
+  const siteTheme = getSiteTheme();
 
   const Page = (
-    <I18nextProvider i18n={i18nInstance}>
-      <MissingRouterContext.Provider value={true}>
-        <HelmetProvider context={helmetContext}>
-          <StaticRouter location={req.url}>
-            <Scripts />
-            <ErrorPage />
-          </StaticRouter>
-        </HelmetProvider>
-      </MissingRouterContext.Provider>
-    </I18nextProvider>
+    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.error}>
+      <I18nextProvider i18n={i18nInstance}>
+        <MissingRouterContext value={true}>
+          <SiteThemeProvider value={siteTheme}>
+            <StaticRouter location={req.url}>
+              <Scripts />
+              <ErrorPage />
+            </StaticRouter>
+          </SiteThemeProvider>
+        </MissingRouterContext>
+      </I18nextProvider>
+    </Document>
   );
 
   const html = renderToString(Page);
@@ -48,10 +56,12 @@ export const errorRender: RenderFunc = async (req) => {
 
   return {
     status: context.status || OK,
+    locale,
     data: {
-      helmetContext,
       htmlContent: html,
       data: {
+        chunks,
+        siteTheme,
         serverPath: req.path,
         serverQuery: req.query,
         config: {

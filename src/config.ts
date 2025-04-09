@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { LocaleType } from "./interfaces";
 
 type RuntimeType = "test" | "development" | "production";
 
@@ -64,6 +63,19 @@ const learningPathDomain = (ndlaEnvironment: string): string => {
   }
 };
 
+export const arenaDomain = (ndlaEnvironment: string): string => {
+  const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
+  switch (ndlaEnvironment) {
+    case "dev":
+    case "local":
+      return "arena.test.ndla.no";
+    case "prod":
+      return "arena.ndla.no";
+    default:
+      return `arena.${ndlaEnvironmentHostname}.ndla.no`;
+  }
+};
+
 export const feideDomain = (ndlaEnvironment: string): string => {
   const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
   switch (ndlaEnvironment) {
@@ -85,8 +97,9 @@ const logglyApiKey = (): string | undefined => {
 };
 
 export type ConfigType = {
-  defaultLocale: LocaleType;
+  defaultLocale: string;
   componentName: string;
+  componentVersion: string;
   ndlaEnvironment: string;
   host: string;
   port: string;
@@ -100,28 +113,27 @@ export type ConfigType = {
   learningPathDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
-  saamiEnabled: boolean;
   feideDomain: string;
   matomoUrl: string;
   matomoSiteId: string;
   matomoTagmanagerId: string;
   isVercel: boolean;
   monsidoToken: string;
-  arenaModeratorGroup: string;
-  arenaAdminGroup: string;
   enableNodeBB: boolean;
   runtimeType: RuntimeType;
   isClient: boolean;
   debugGraphQLCache: boolean;
   sentrydsn: string;
   formbricksId: string;
+  arenaDomain: string;
 };
 
 const getServerSideConfig = (): ConfigType => {
   const ndlaEnvironment = getEnvironmentVariabel("NDLA_ENVIRONMENT", "dev");
   return {
-    defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb") as LocaleType,
+    defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb"),
     componentName: "ndla-frontend",
+    componentVersion: getEnvironmentVariabel("COMPONENT_VERSION") ?? "SNAPSHOT",
     ndlaEnvironment,
     host: getEnvironmentVariabel("NDLA_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariabel("NDLA_FRONTEND_PORT", "3000"),
@@ -135,16 +147,13 @@ const getServerSideConfig = (): ConfigType => {
     learningPathDomain: getEnvironmentVariabel("LEARNINGPATH_DOMAIN", learningPathDomain(ndlaEnvironment)),
     zendeskWidgetKey: getEnvironmentVariabel("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariabel("LOCAL_GRAPHQL_API", false),
-    saamiEnabled: getEnvironmentVariabel("SAAMI_ENABLED", false),
     feideDomain: getEnvironmentVariabel("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),
     matomoUrl: getEnvironmentVariabel("MATOMO_URL", "https://tall.ndla.no"),
     matomoSiteId: getEnvironmentVariabel("MATOMO_SITE_ID", ""),
     matomoTagmanagerId: getEnvironmentVariabel("MATOMO_TAGMANAGER_ID", ""),
     isVercel: getEnvironmentVariabel("IS_VERCEL", false),
     monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
-    arenaModeratorGroup: getEnvironmentVariabel("ARENA_MODERATOR_GROUP", "Global Moderators"),
-    arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
-    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
+    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", true),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
@@ -153,6 +162,7 @@ const getServerSideConfig = (): ConfigType => {
       "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
+    arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
   };
 };
 

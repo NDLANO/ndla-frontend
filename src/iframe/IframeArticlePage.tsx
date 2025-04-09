@@ -7,31 +7,30 @@
  */
 
 import { useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
-import { ArrowLeftLine } from "@ndla/icons/common";
-import { Button, PageContent } from "@ndla/primitives";
+import { ArrowLeftLine } from "@ndla/icons";
+import { BleedPageContent, Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
 import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
+import { BannerAlerts } from "../components/BannerAlerts";
 import { useLtiData } from "../components/LtiContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
-import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_ResourceFragment } from "../graphqlTypes";
+import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
 import { getArticleScripts } from "../util/getArticleScripts";
 import { getContentType } from "../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
-import { getAllDimensions } from "../util/trackingUtil";
 import { transformArticle } from "../util/transformArticle";
 
 interface Props {
   locale?: LocaleType;
-  resource?: GQLIframeArticlePage_ResourceFragment;
+  node?: GQLIframeArticlePage_NodeFragment;
   article: GQLIframeArticlePage_ArticleFragment;
 }
 
@@ -42,7 +41,7 @@ const getDocumentTitle = ({ article }: Pick<Props, "article">) => {
   return "";
 };
 
-const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp }: Props) => {
+const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: Props) => {
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const ltiData = useLtiData();
@@ -55,41 +54,43 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
         articleLanguage: propArticle.language,
-        contentType: getContentType(resource),
+        contentType: getContentType(node),
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale, resource]);
+  }, [propArticle, locale, node]);
 
   useEffect(() => {
     if (propArticle?.id) return;
-    const dimensions = getAllDimensions({ article: propArticle });
     trackPageView({
-      dimensions,
       title: getDocumentTitle({ article: propArticle }),
     });
-  }, [propArticle, resource, trackPageView]);
+  }, [propArticle, node, trackPageView]);
 
-  const contentUrl = resource?.path ? `${config.ndlaFrontendDomain}${resource.path}` : undefined;
+  const url = node?.url;
+  const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
   const contentType =
     article.articleType === "standard"
-      ? getContentType(resource)
+      ? getContentType(node)
       : article.articleType === "topic-article"
         ? constants.contentTypes.TOPIC
         : undefined;
   return (
     <PageContent variant="content">
-      <Helmet>
-        <title>{getDocumentTitle({ article: propArticle })}</title>
-        <meta name="robots" content="noindex, nofollow" />
-        {scripts.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
-        </script>
-      </Helmet>
+      {
+        <BleedPageContent>
+          <BannerAlerts />
+        </BleedPageContent>
+      }
+      <title>{getDocumentTitle({ article: propArticle })}</title>
+      <meta name="robots" content="noindex, nofollow" />
+      {scripts.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
+      </script>
       <SocialMediaMetadata
         title={article.title}
         imageUrl={article.metaImage?.url}
@@ -110,7 +111,7 @@ const IframeArticlePage = ({ resource, article: propArticle, locale: localeProp 
           isOembed
           oembed={article?.oembed}
           contentType={contentType}
-          contentTypeLabel={resource?.resourceTypes?.[0]?.name}
+          contentTypeLabel={node?.resourceTypes?.[0]?.name}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
         </Article>
@@ -137,10 +138,11 @@ export const iframeArticlePageFragments = {
     ${Article.fragments.article}
     ${structuredArticleDataFragment}
   `,
-  resource: gql`
-    fragment IframeArticlePage_Resource on Resource {
+  node: gql`
+    fragment IframeArticlePage_Node on Node {
       id
-      path
+      name
+      url
       resourceTypes {
         id
         name

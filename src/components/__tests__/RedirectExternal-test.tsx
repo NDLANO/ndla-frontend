@@ -15,11 +15,11 @@ import RedirectExternal from "../RedirectExternal";
 test("External redirect for static router", () => {
   const context = {};
   render(
-    <RedirectContext.Provider value={context}>
+    <RedirectContext value={context}>
       <StaticRouter location="">
         <RedirectExternal to="https://google.com/" />
       </StaticRouter>
-    </RedirectContext.Provider>,
+    </RedirectContext>,
   );
 
   expect(context).toEqual({
@@ -30,11 +30,11 @@ test("External redirect for static router", () => {
 test("External redirect for static router with basename", () => {
   const context = {};
   render(
-    <RedirectContext.Provider value={context}>
+    <RedirectContext value={context}>
       <StaticRouter basename="nb" location={"/nb"}>
         <RedirectExternal to="https://google.com/" />
       </StaticRouter>
-    </RedirectContext.Provider>,
+    </RedirectContext>,
   );
 
   expect(context).toEqual({
@@ -43,10 +43,10 @@ test("External redirect for static router with basename", () => {
 });
 
 test("External redirect for (memory/dom) router", () => {
-  // @ts-ignore
+  // @ts-expect-error - This is a workaround
   delete window.location;
   const replace = vi.fn();
-  //@ts-ignore
+  // @ts-expect-error - This is a workaround
   window.location = { replace };
 
   render(

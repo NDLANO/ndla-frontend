@@ -6,29 +6,33 @@
  *
  */
 
-import format from "date-fns/format";
-import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Feide, ArrowRightLine } from "@ndla/icons/common";
+import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { CampaignBlock } from "@ndla/ui";
-import { TopicListItem } from "./Arena/components/ArenaListItem";
-import { useArenaRecentTopics } from "./Arena/components/temporaryNodebbHooks";
+import { keyBy } from "@ndla/util";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
-import MyNdlaTitle from "./components/MyNdlaTitle";
-import TitleWrapper from "./components/TitleWrapper";
-import { useFolderResourceMetaSearch, useFavouriteSubjects, useRecentlyUsedResources } from "./folderMutations";
 import { isStudent } from "./Folders/util";
 import { sortSubjectsByRecentlyFavourited } from "./myNdlaUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
+import MyNdlaTitle, { TitleWrapper } from "../../components/MyNdla/MyNdlaTitle";
+import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import config from "../../config";
+import { myndlaLanguages } from "../../i18n";
+import {
+  useFolderResourceMetaSearch,
+  useFavouriteSubjects,
+  useRecentlyUsedResources,
+} from "../../mutations/folderMutations";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
+import { getNdlaRobotDateFormat } from "../../util/formatDate";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../AllSubjectsPage/SubjectLink";
@@ -67,21 +71,20 @@ const StyledArrowRightLine = styled(ArrowRightLine, {
 
 const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { trackPageView } = useTracker();
-  const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.slice(0, 4) ?? [], {
+  const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
-  const { allFolderResources } = useRecentlyUsedResources(!authenticated);
-  const recentArenaTopicsQuery = useArenaRecentTopics(!user?.arenaEnabled, 5);
+  const { data: recentlyUsedResources } = useRecentlyUsedResources(!authenticated);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
-    allFolderResources?.map((r) => ({
+    recentlyUsedResources?.allFolderResources?.map((r) => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
     })) ?? [],
     {
-      skip: !allFolderResources || !allFolderResources.length,
+      skip: !recentlyUsedResources?.allFolderResources.length,
     },
   );
 
@@ -102,18 +105,21 @@ const MyNdlaPage = () => {
 
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
-  const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
+  // const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
-  const dateString = format(new Date(), "Y-MM-dd HH:mm:ss");
+  const dateString = getNdlaRobotDateFormat(new Date());
   const token = btoa(dateString);
-  const aiUrl =
-    user?.organization === "Rogaland fylkeskommune" ? `https://ndlarobot.org/${token}` : `https://ai.ndla.no/${aiLang}`;
+  const aiUrl = `https://ndla-ki.no/${token}`;
 
   return (
     <StyledMyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.myNdlaPage")}>
-        <meta name="description" content={t("myNdla.description")} />
-      </HelmetWithTracker>
+      <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
+      <SocialMediaMetadata
+        title={t("myNdla.myNDLA")}
+        description={t("myNdla.description")}
+        trackableContent={{ supportedLanguages: myndlaLanguages }}
+        imageUrl={`${config.ndlaFrontendDomain}/static/ndla-ai.jpg`}
+      />
       <TitleWrapper>
         <MyNdlaTitle title={t("myNdla.myNDLA")} />
         <StyledText textStyle="body.xlarge">
@@ -132,7 +138,7 @@ const MyNdlaPage = () => {
         </DialogRoot>
       )}
       <CampaignBlock
-        title={t("myndla.campaignBlock.title")}
+        title={t("myNdla.campaignBlock.title")}
         headingLevel="h2"
         image={{
           src: "/static/ndla-ai.jpg",
@@ -141,14 +147,14 @@ const MyNdlaPage = () => {
         imageSide="right"
         url={{
           url: authenticated ? aiUrl : undefined,
-          text: authenticated ? t("myndla.campaignBlock.linkText") : undefined,
+          text: authenticated ? t("myNdla.campaignBlock.linkText") : undefined,
         }}
         description={
           !authenticated
-            ? t("myndla.campaignBlock.ingressUnauthenticated")
+            ? t("myNdla.campaignBlock.ingressUnauthenticated")
             : isStudent(user)
-              ? t("myndla.campaignBlock.ingressStudent")
-              : t("myndla.campaignBlock.ingress")
+              ? t("myNdla.campaignBlock.ingressStudent")
+              : t("myNdla.campaignBlock.ingress")
         }
       />
       {!!recentFavouriteSubjectsQuery.data?.subjects?.length && (
@@ -164,31 +170,6 @@ const MyNdlaPage = () => {
 
           <SafeLink to={routes.myNdla.subjects}>
             {t("myNdla.myPage.favouriteSubjects.viewAll")}
-            <StyledArrowRightLine />
-          </SafeLink>
-        </SectionWrapper>
-      )}
-      {!!recentArenaTopicsQuery.data?.items?.length && (
-        <SectionWrapper>
-          <Heading asChild consumeCss textStyle="heading.small">
-            <h2>{t("myNdla.myPage.recentArenaPosts.title")}</h2>
-          </Heading>
-          <StyledList>
-            {recentArenaTopicsQuery.data?.items?.map((topic) => (
-              <li key={topic.id}>
-                <TopicListItem
-                  id={topic.id}
-                  context="list"
-                  postCount={topic.postCount}
-                  voteCount={topic.voteCount}
-                  title={topic.title}
-                  timestamp={topic.created}
-                />
-              </li>
-            ))}
-          </StyledList>
-          <SafeLink to="arena">
-            {t("myNdla.myPage.recentArenaPosts.link")}
             <StyledArrowRightLine />
           </SafeLink>
         </SectionWrapper>
@@ -216,13 +197,13 @@ const MyNdlaPage = () => {
             </SafeLink>
           </SectionWrapper>
         </>
-      ) : !!allFolderResources && allFolderResources?.length > 0 ? (
+      ) : recentlyUsedResources?.allFolderResources?.length ? (
         <SectionWrapper>
           <Heading asChild consumeCss textStyle="heading.small">
             <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
           </Heading>
           <StyledList>
-            {allFolderResources.map((res) => {
+            {recentlyUsedResources.allFolderResources.map((res) => {
               const meta = keyedData[`${res.resourceType}${res.resourceId}`];
               return (
                 <li key={res.id}>
@@ -234,7 +215,7 @@ const MyNdlaPage = () => {
                     link={res.path}
                     title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                     resourceImage={{
-                      src: meta?.metaImage?.url ?? "",
+                      src: meta?.metaImage?.url,
                       alt: "",
                     }}
                     resourceTypes={getResourceTypesForResource(res.resourceType, meta?.resourceTypes, t)}

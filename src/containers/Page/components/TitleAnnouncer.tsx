@@ -7,31 +7,33 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { Text } from "@ndla/primitives";
-import { useOnTopicPage } from "../../../routeHelpers";
 
 const TitleAnnouncer = () => {
-  const [title, setTitle] = useState("");
-  const prevTitle = useRef(title);
   const titleRef = useRef<HTMLParagraphElement | null>(null);
-  const onTopicPage = useOnTopicPage();
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
-    if (!!title && title !== prevTitle.current) {
-      if (!onTopicPage) {
-        titleRef.current?.focus();
-      } else prevTitle.current = title;
-    }
-  }, [title, titleRef, onTopicPage]);
+    const observer = new MutationObserver(() => {
+      const newTitle = document.querySelector("title")?.textContent;
+      if (newTitle) {
+        setTitle(newTitle);
+      }
+    });
+
+    observer.observe(document.head, { childList: true });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    titleRef.current?.focus();
+  }, [title]);
 
   return (
-    <>
-      <Text srOnly aria-live={onTopicPage ? `assertive` : undefined} tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
-        {title}
-      </Text>
-      <Helmet onChangeClientState={(state) => state.title && setTitle(state.title)} />
-    </>
+    <Text srOnly aria-live="assertive" tabIndex={-1} id="titleAnnouncer" ref={titleRef}>
+      {title}
+    </Text>
   );
 };
 

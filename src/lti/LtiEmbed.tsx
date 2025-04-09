@@ -6,21 +6,24 @@
  *
  */
 
+import { useLtiData } from "../components/LtiContext";
+import { LtiData, LtiItem } from "../interfaces";
 import LtiBasicLaunch from "./components/LtiBasicLaunch";
 import LtiDeepLinking from "./components/LtiDeepLinking";
 import LtiDefault from "./components/LtiDefault";
-import { LtiData, LtiItem } from "../interfaces";
 
 interface Props {
   item: LtiItem;
   ltiData?: LtiData;
 }
-const LtiEmbed = ({ ltiData = {}, item }: Props) => {
+const LtiEmbed = ({ ltiData, item }: Props) => {
+  const _ltiData = useLtiData()?.ltiData;
+  const withFallback = ltiData ?? _ltiData ?? {};
   switch (ltiData?.lti_message_type) {
     case "basic-lti-launch-request":
-      return <LtiBasicLaunch ltiData={ltiData} item={item} />;
+      return <LtiBasicLaunch ltiData={withFallback} item={item} />;
     case "ContentItemSelectionRequest":
-      return <LtiDeepLinking ltiData={ltiData} item={item} />;
+      return <LtiDeepLinking ltiData={withFallback} item={item} />;
     default:
       return <LtiDefault item={item} />;
   }

@@ -6,32 +6,31 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
-import { FolderLine, LinkMedium } from "@ndla/icons/editor";
+import { FolderLine, LinkMedium } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { keyBy } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
 import ListResource from "../../../components/MyNdla/ListResource";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import MyNdlaTitle, { TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import { GQLFolderResource } from "../../../graphqlTypes";
+import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/folderMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import TitleWrapper from "../components/TitleWrapper";
-import { useFolders, useFolderResourceMetaSearch } from "../folderMutations";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -77,7 +76,7 @@ const FoldersTagsPage = () => {
         <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
         <MyNdlaTitle title={`#${tag}`} />
       </TitleWrapper>
-      {resources && <Resources resources={resources} />}
+      {!!resources && <Resources resources={resources} />}
     </StyledMyNdlaPageWrapper>
   );
 };
@@ -136,30 +135,28 @@ const Resources = ({ resources }: ResourcesProps) => {
   };
 
   return (
-    <>
-      <BlockWrapper>
-        {resources.map((resource) => {
-          const meta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-          return (
-            <ListResource
-              id={resource.id}
-              isLoading={loading}
-              key={resource.id}
-              link={resource.path}
-              title={meta?.title ?? ""}
-              description={meta?.description ?? ""}
-              resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
-              resourceImage={{
-                src: meta?.metaImage?.url ?? "",
-                alt: "",
-              }}
-              menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
-              variant="subtle"
-            />
-          );
-        })}
-      </BlockWrapper>
-    </>
+    <BlockWrapper>
+      {resources.map((resource) => {
+        const meta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
+        return (
+          <ListResource
+            id={resource.id}
+            isLoading={loading}
+            key={resource.id}
+            link={resource.path}
+            title={meta?.title ?? ""}
+            description={meta?.description ?? ""}
+            resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
+            resourceImage={{
+              src: meta?.metaImage?.url,
+              alt: "",
+            }}
+            menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
+            variant="subtle"
+          />
+        );
+      })}
+    </BlockWrapper>
   );
 };
 

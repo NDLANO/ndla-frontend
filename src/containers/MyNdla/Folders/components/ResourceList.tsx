@@ -6,21 +6,20 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
-import keyBy from "lodash/keyBy";
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useApolloClient } from "@apollo/client";
-import { Reference } from "@apollo/client/cache";
+import { useApolloClient, Reference } from "@apollo/client";
 import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, closestCenter } from "@dnd-kit/core";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { styled } from "@ndla/styled-system/jsx";
+import { keyBy } from "@ndla/util";
 import DraggableResource from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../folderMutations";
-import { makeDndSortFunction, makeDndTranslations } from "../util";
+import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../../../mutations/folderMutations";
+import { makeDndTranslations } from "../../dndUtil";
+import { makeDndSortFunction } from "../util";
 
 const StyledBlockWrapper = styled(BlockWrapper, {
   base: {
@@ -37,7 +36,7 @@ const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
   const { t } = useTranslation();
   const client = useApolloClient();
   const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
-  const { sortResources } = useSortResourcesMutation();
+  const [sortResources] = useSortResourcesMutation();
 
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
   const [sortedResources, setSortedResources] = useState(resources);
@@ -50,7 +49,9 @@ const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
   useEffect(() => {
     const resourceIds = resources.map((f) => f.id).sort();
     const prevResourceIds = prevResources?.map((f) => f.id).sort();
-    if (!isEqual(resourceIds, prevResourceIds) && focusId) {
+    const isEqual =
+      resourceIds.length === prevResourceIds.length && resourceIds.every((v, i) => v === prevResourceIds[i]);
+    if (!isEqual && focusId) {
       setTimeout(
         () => document.getElementById(`resource-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(),
         // Timeout needs to be bigger than 0 in order for timeout to execute on FireFox

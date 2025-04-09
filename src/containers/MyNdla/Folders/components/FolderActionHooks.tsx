@@ -9,25 +9,24 @@
 import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine } from "@ndla/icons/action";
-import { ShareLine, ArrowRightLine } from "@ndla/icons/common";
+import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine, ShareLine, ArrowRightLine } from "@ndla/icons";
 import FolderCreateModalContent from "./FolderCreateModalContent";
 import FolderEditModalContent from "./FolderEditModalContent";
 import { FolderFormValues } from "./FolderForm";
 import FolderShareModalContent from "./FolderShareModalContent";
 import { AuthContext } from "../../../../components/AuthenticationContext";
+import DeleteModalContent from "../../../../components/MyNdla/DeleteModalContent";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { routes } from "../../../../routeHelpers";
-import DeleteModalContent from "../../components/DeleteModalContent";
-import { MenuItemProps } from "../../components/SettingsMenu";
 import {
   useAddFolderMutation,
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
   useUnFavoriteSharedFolder,
-} from "../../folderMutations";
+} from "../../../../mutations/folderMutations";
+import { routes } from "../../../../routeHelpers";
+import { MenuItemProps } from "../../components/SettingsMenu";
 import { copyFolderSharingLink, isStudent } from "../util";
 
 export const useFolderActions = (
@@ -43,10 +42,10 @@ export const useFolderActions = (
   const toast = useToast();
   const navigate = useNavigate();
 
-  const { deleteFolder } = useDeleteFolderMutation();
-  const { addFolder } = useAddFolderMutation();
-  const { updateFolderStatus } = useUpdateFolderStatusMutation();
-  const { unFavoriteSharedFolder } = useUnFavoriteSharedFolder();
+  const [deleteFolder] = useDeleteFolderMutation();
+  const [addFolder] = useAddFolderMutation();
+  const [updateFolderStatus] = useUpdateFolderStatusMutation();
+  const [unFavoriteSharedFolder] = useUnFavoriteSharedFolder();
 
   const { user, examLock } = useContext(AuthContext);
 
@@ -62,7 +61,7 @@ export const useFolderActions = (
         variables: {
           name: values.name,
           description: values.description,
-          parentId: inToolbar ? folderId : selectedFolder?.parentId ?? undefined,
+          parentId: inToolbar ? folderId : (selectedFolder?.parentId ?? undefined),
         },
       });
       const folder = res.data?.addFolder as GQLFolder | undefined;
@@ -74,6 +73,10 @@ export const useFolderActions = (
             folderName: folder.name,
           }),
         });
+      } else {
+        toast.create({
+          title: t("myNdla.folder.folderCreatedFailed"),
+        });
       }
     },
     [addFolder, inToolbar, folderId, selectedFolder?.parentId, navigate, toast, t],
@@ -82,46 +85,65 @@ export const useFolderActions = (
   const onDeleteFolder = useCallback(async () => {
     if (!selectedFolder) return;
 
-    await deleteFolder({ variables: { id: selectedFolder.id } });
+    const res = await deleteFolder({ variables: { id: selectedFolder.id } });
 
-    if (selectedFolder?.id === folderId) {
-      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
-        replace: true,
+    if (!res.errors?.length) {
+      if (selectedFolder?.id === folderId) {
+        navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
+          replace: true,
+        });
+      }
+
+      toast.create({
+        title: t("myNdla.folder.folderDeleted", {
+          folderName: selectedFolder.name,
+        }),
       });
-    }
 
-    toast.create({
-      title: t("myNdla.folder.folderDeleted", {
-        folderName: selectedFolder.name,
-      }),
-    });
-
-    const previousFolderId = folders.indexOf(selectedFolder) - 1;
-    const nextFolderId = folders.indexOf(selectedFolder) + 1;
-    if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
-      setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
-    } else if (folderRefId) {
-      setTimeout(
-        () =>
-          (
-            document.getElementById(folderRefId)?.getElementsByTagName("a")?.[0] ?? document.getElementById(folderRefId)
-          )?.focus({ preventScroll: true }),
-        1,
-      );
-    } else if (inToolbar) {
-      document.getElementById("titleAnnouncer")?.focus();
+      const previousFolderId = folders.indexOf(selectedFolder) - 1;
+      const nextFolderId = folders.indexOf(selectedFolder) + 1;
+      if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
+        setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
+      } else if (folderRefId) {
+        setTimeout(
+          () =>
+            (
+              document.getElementById(folderRefId)?.getElementsByTagName("a")?.[0] ??
+              document.getElementById(folderRefId)
+            )?.focus({ preventScroll: true }),
+          1,
+        );
+      } else if (inToolbar) {
+        document.getElementById("titleAnnouncer")?.focus();
+      }
+      close();
+    } else {
+      toast.create({
+        title: t("myNdla.folder.folderDeleted", {
+          folderName: selectedFolder.name,
+        }),
+      });
     }
   }, [selectedFolder, deleteFolder, folderId, toast, t, folders, folderRefId, inToolbar, navigate, setFocusId]);
 
   const onUnFavoriteSharedFolder = useCallback(async () => {
     if (!selectedFolder) return;
 
-    await unFavoriteSharedFolder({ variables: { folderId: selectedFolder.id } });
-
-    if (selectedFolder?.id === folderId) {
-      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
-        replace: true,
+    const res = await unFavoriteSharedFolder({ variables: { folderId: selectedFolder.id } });
+    if (!res.errors?.length) {
+      toast.create({
+        title: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
       });
+
+      if (selectedFolder?.id === folderId) {
+        navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
+          replace: true,
+        });
+      } else {
+        toast.create({
+          title: t("myNdla.folder.sharing.unSavedLinkFailed"),
+        });
+      }
     }
 
     const previousFolderId = folders.indexOf(selectedFolder) - 1;
@@ -139,7 +161,18 @@ export const useFolderActions = (
     } else if (inToolbar) {
       document.getElementById("titleAnnouncer")?.focus();
     }
-  }, [unFavoriteSharedFolder, selectedFolder, folderRefId, setFocusId, folderId, inToolbar, navigate, folders]);
+  }, [
+    selectedFolder,
+    unFavoriteSharedFolder,
+    folders,
+    folderRefId,
+    inToolbar,
+    toast,
+    t,
+    folderId,
+    navigate,
+    setFocusId,
+  ]);
 
   const actionItems: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
@@ -179,16 +212,22 @@ export const useFolderActions = (
         />
       ),
       onClick: !isFolderShared
-        ? () => {
-            updateFolderStatus({
+        ? async () => {
+            const res = await updateFolderStatus({
               variables: {
                 folderId: selectedFolder.id,
                 status: "shared",
               },
             });
-            toast.create({
-              title: t("myNdla.folder.sharing.header.shared"),
-            });
+            if (!res.errors?.length) {
+              toast.create({
+                title: t("myNdla.folder.sharing.folderShared"),
+              });
+            } else {
+              toast.create({
+                title: t("myNdla.folder.sharing.folderSharedFailed"),
+              });
+            }
           }
         : undefined,
     };
@@ -222,16 +261,22 @@ export const useFolderActions = (
       value: "unshareFolder",
       icon: <CloseLine />,
       text: t("myNdla.folder.sharing.button.unShare"),
-      onClick: () => {
-        updateFolderStatus({
+      onClick: async () => {
+        const res = await updateFolderStatus({
           variables: {
             folderId: selectedFolder.id,
             status: "private",
           },
         });
-        toast.create({
-          title: t("myNdla.folder.sharing.unShare"),
-        });
+        if (!res.errors?.length) {
+          toast.create({
+            title: t("myNdla.folder.sharing.unShare"),
+          });
+        } else {
+          toast.create({
+            title: t("myNdla.folder.sharing.unShareFailed"),
+          });
+        }
       },
     };
 
@@ -241,12 +286,7 @@ export const useFolderActions = (
       icon: <CloseLine />,
       text: t("myNdla.folder.sharing.button.unSaveLink"),
       variant: "destructive",
-      onClick: async () => {
-        await onUnFavoriteSharedFolder();
-        toast.create({
-          title: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
-        });
-      },
+      onClick: onUnFavoriteSharedFolder,
     };
 
     const deleteOpt: MenuItemProps = {
@@ -260,10 +300,7 @@ export const useFolderActions = (
           title={t("myNdla.folder.delete")}
           description={t("myNdla.confirmDeleteFolder")}
           removeText={t("myNdla.folder.delete")}
-          onDelete={async () => {
-            await onDeleteFolder();
-            close();
-          }}
+          onDelete={onDeleteFolder}
           onClose={close}
         />
       ),

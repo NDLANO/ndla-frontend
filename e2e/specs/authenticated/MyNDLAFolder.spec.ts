@@ -17,17 +17,17 @@ test("can copy sharable link to folder", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
   const folderList = page.getByRole("main").getByRole("list").first();
   await expect(folderList).toBeVisible();
-  expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(2);
+  expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(1);
 
   const sharedFolder = folderList
     .getByRole("listitem")
-    .filter({ has: page.getByLabel("Delt Mappe", { exact: true }) })
-    .nth(1);
+    .filter({ has: page.locator('svg[aria-label="Delt Mappe"]') })
+    .first();
 
   const sharedFolderTitle = (await sharedFolder.getByRole("link").textContent()) ?? "";
   await expect(sharedFolder).toBeVisible();
 
-  await sharedFolder.getByLabel("Vis redigeringsmuligheter").click();
+  await sharedFolder.getByRole("button").last().click();
   await page.getByRole("menuitem", { name: "Kopier lenke", exact: true }).click();
 
   const url: string = await page.evaluate("navigator.clipboard.readText()");
@@ -57,7 +57,7 @@ test("can add and delete folder", async ({ page, harCheckpoint }) => {
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await page.goBack();
   await expect(folderList.getByRole("listitem")).toHaveCount(count + 1);
-  await page.getByRole("listitem").filter({ hasText: name }).getByLabel("Vis redigeringsmuligheter").click();
+  await page.getByRole("listitem").filter({ hasText: name }).getByRole("button").last().click();
   await page.getByRole("menuitem", { name: "Slett" }).click();
   await harCheckpoint();
   await page.getByRole("dialog").getByRole("button", { name: "Slett mappe" }).click();
@@ -72,7 +72,7 @@ test("can drag and drop folders", async ({ page, harCheckpoint }) => {
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
   const folderList = page.getByRole("main").getByRole("list").first();
   await expect(folderList).toBeVisible();
-  expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(2);
+  expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(1);
 
   const initialFolderOrder = await folderList.getByRole("listitem").getByRole("link").allTextContents();
   const firstItem = folderList.getByRole("listitem").first().getByRole("button").first();
@@ -103,7 +103,7 @@ test("can share and unshare folder", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
   const folderList = page.getByRole("main").getByRole("list").first();
   await expect(folderList).toBeVisible();
-  expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(2);
+  expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(1);
 
   const unSharedFolder = folderList
     .getByRole("listitem")
@@ -154,16 +154,16 @@ test("can go to shared folder page", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
   const folderList = page.getByRole("main").getByRole("list").first();
   await expect(folderList).toBeVisible();
-  expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(2);
+  expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(1);
   const sharedFolder = folderList
     .getByRole("listitem")
-    .filter({ has: page.getByLabel("Delt Mappe", { exact: true }) })
-    .nth(1);
+    .filter({ has: page.locator('svg[aria-label="Delt Mappe"]') })
+    .first();
 
   const sharedFolderTitle = (await sharedFolder.getByRole("link").textContent()) ?? "";
   expect(sharedFolder).toBeDefined();
 
-  await sharedFolder.getByRole("button").nth(1).click();
+  await sharedFolder.getByRole("button").last().click();
   await page.getByRole("menuitem", { name: "Gå til delt mappe", exact: true }).click();
 
   await page.waitForURL("/folder/*");

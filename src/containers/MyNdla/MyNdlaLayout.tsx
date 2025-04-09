@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useMemo, useContext, useState } from "react";
+import { useMemo, useContext, useState, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router-dom";
 import {
@@ -20,18 +20,35 @@ import {
   LogoutBoxRightLine,
   UserFill,
   UserLine,
-  ShieldUserLine,
-  ShieldUserFill,
   LoginBoxLine,
-} from "@ndla/icons/common";
-import { MoreLine } from "@ndla/icons/contentType";
-import { FolderFill, FolderLine } from "@ndla/icons/editor";
-import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
+  RouteLine,
+  RouteFill,
+  MoreLine,
+  FolderFill,
+  FolderLine,
+} from "@ndla/icons";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogFooter,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  MessageBox,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";
-import { AuthContext, MyNDLAUserType } from "../../components/AuthenticationContext";
+import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
+import { useToast } from "../../components/ToastContext";
+import config from "../../config";
+import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
+import { AcceptArenaDialog } from "./components/AcceptArenaDialog";
+import { MyNdlaButton } from "./components/MyNdlaButton";
+import { useUpdatePersonalData } from "../../mutations/userMutations";
 import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled(PageLayout, {
@@ -112,9 +129,26 @@ const StyledSideBar = styled("div", {
   },
 });
 
+const StyledMyNdlaButton = styled(MyNdlaButton, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledDialogBody = styled(DialogBody, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    height: "unset",
+    gap: "large",
+  },
+});
+
 const MyNdlaLayout = () => {
   const { t } = useTranslation();
-  const { user, examLock } = useContext(AuthContext);
+  const { user, examLock, authenticated } = useContext(AuthContext);
+  const { updatePersonalData, loading: updateLoading } = useUpdatePersonalData();
+  const toast = useToast();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -142,12 +176,35 @@ const MyNdlaLayout = () => {
     [location, t, user],
   );
 
+  const onAcceptShareName = async () => {
+    const res = await updatePersonalData({ variables: { shareNameAccepted: true } });
+    if (!res.errors?.length) {
+      // do nothing, everything is fine
+    } else {
+      toast.create({ title: t("myNdla.shareName.accept.error") });
+    }
+  };
+
   return (
     <StyledLayout>
       <DialogRoot key={location.pathname} open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
         <StyledSideBar>
           <nav aria-label={t("myNdla.myNDLAMenu")}>
-            <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
+            <StyledNavList data-testid="my-ndla-menu">
+              {menuLink}
+              {!!user?.arenaEnabled && !user?.arenaAccepted && (
+                <AcceptArenaDialog>
+                  <StyledLi>
+                    <DialogTrigger asChild>
+                      <StyledMyNdlaButton>
+                        <ForumOutlined />
+                        {t("myNdla.arena.title")}
+                      </StyledMyNdlaButton>
+                    </DialogTrigger>
+                  </StyledLi>
+                </AcceptArenaDialog>
+              )}
+            </StyledNavList>
           </nav>
           <DialogTrigger asChild>
             <MoreButton variant="tertiary">
@@ -157,11 +214,34 @@ const MyNdlaLayout = () => {
           </DialogTrigger>
         </StyledSideBar>
         <StyledContent>
-          {examLock && (
+          {!!examLock && (
             <MessageBox variant="warning">
               <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>
           )}
+          {authenticated && !user?.shareNameAccepted && user?.role === "employee" ? (
+            <DialogRoot modal open={!user?.shareNameAccepted}>
+              <DialogContent>
+                <StyledDialogBody>
+                  <DialogTitle textStyle="heading.small">{t("myNdla.acceptedShareName.title")}</DialogTitle>
+                  <Text textStyle="body.xlarge">{t("myNdla.acceptedShareName.subtitle")}</Text>
+                  <Text textStyle="body.large">{t("myNdla.acceptedShareName.description")}</Text>
+                </StyledDialogBody>
+                <DialogFooter>
+                  <Button
+                    variant="primary"
+                    type="button"
+                    loading={updateLoading}
+                    onClick={() => {
+                      onAcceptShareName();
+                    }}
+                  >
+                    {t("myNdla.acceptedShareName.button")}
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </DialogRoot>
+          ) : null}
           <Outlet />
         </StyledContent>
       </DialogRoot>
@@ -171,7 +251,22 @@ const MyNdlaLayout = () => {
 
 export default MyNdlaLayout;
 
-export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType | undefined) => [
+interface MenuLink {
+  id: string;
+  name: string;
+  to: string;
+  shortName?: string;
+  icon?: ReactElement;
+  iconFilled?: ReactElement;
+  shownForUser?: (user: GQLMyNdlaPersonalDataFragmentFragment | undefined) => boolean;
+  reloadDocument?: boolean;
+}
+
+export const menuLinks = (
+  t: TFunction,
+  location: Location,
+  user: GQLMyNdlaPersonalDataFragmentFragment | undefined,
+): MenuLink[] => [
   {
     id: "root",
     to: routes.myNdla.root,
@@ -197,22 +292,22 @@ export const menuLinks = (t: TFunction, location: Location, user: MyNDLAUserType
     iconFilled: <FolderFill />,
   },
   {
+    id: "learningpaths",
+    to: routes.myNdla.learningpath,
+    name: t("myNdla.learningpath.title"),
+    shortName: t("myNdla.iconMenu.learningpath"),
+    icon: <RouteLine />,
+    iconFilled: <RouteFill />,
+    shownForUser: (user) => user?.role === "employee",
+  },
+  {
     id: "arena",
-    to: routes.myNdla.arena,
+    to: `https://${config.arenaDomain}`,
     name: t("myNdla.arena.title"),
     shortName: t("myNdla.arena.title"),
     icon: <ForumOutlined />,
     iconFilled: <Forum />,
-    shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled,
-  },
-  {
-    id: "admin",
-    to: routes.myNdla.admin,
-    name: t("myNdla.arena.admin.title"),
-    shortName: t("myNdla.arena.admin.title"),
-    icon: <ShieldUserLine />,
-    iconFilled: <ShieldUserFill />,
-    shownForUser: (user: MyNDLAUserType | undefined) => user?.arenaEnabled && user?.isModerator,
+    shownForUser: (user) => !!user?.arenaEnabled && !!user?.arenaAccepted,
   },
   {
     id: "profile",

@@ -9,7 +9,7 @@
 import { TFunction } from "i18next";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { InformationLine } from "@ndla/icons/common";
+import { InformationLine } from "@ndla/icons";
 import {
   Button,
   DialogCloseTrigger,

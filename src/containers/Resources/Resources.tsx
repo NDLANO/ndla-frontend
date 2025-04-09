@@ -8,9 +8,10 @@
 
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import {
   Heading,
+  Spinner,
   SwitchControl,
   SwitchHiddenInput,
   SwitchLabel,
@@ -23,18 +24,22 @@ import { ContentType } from "@ndla/ui";
 import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
 import { StableId } from "../../components/StableId";
-import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
-import { GQLResources_ResourceTypeDefinitionFragment, GQLResources_TopicFragment } from "../../graphqlTypes";
+import {
+  RELEVANCE_SUPPLEMENTARY,
+  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
+  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+} from "../../constants";
+import { GQLResourcesQueryQuery } from "../../graphqlTypes";
 import { HeadingType } from "../../interfaces";
-import { useUrnIds } from "../../routeHelpers";
 import { contentTypeMapping } from "../../util/getContentType";
 
 interface Props {
-  topic: GQLResources_TopicFragment;
-  resourceTypes?: GQLResources_ResourceTypeDefinitionFragment[];
   headingType: HeadingType;
   subHeadingType: HeadingType;
   currentResourceContentType?: ContentType;
+  currentResourceId?: string;
+  parentId?: string;
+  rootId?: string;
 }
 
 const StyledNav = styled("nav", {
@@ -75,7 +80,7 @@ const ListWrapper = styled("div", {
   },
 });
 
-const StyledForm = styled("form", {
+const StyledSwitchRoot = styled(SwitchRoot, {
   base: {
     marginInlineStart: "auto",
   },
@@ -89,27 +94,45 @@ const ResourceContainer = styled("div", {
   },
 });
 
+const SpinnerWrapper = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+
 const Resources = ({
-  topic,
-  resourceTypes,
+  parentId,
+  rootId,
   headingType: HeadingType,
   subHeadingType: SubHeadingType,
   currentResourceContentType,
+  currentResourceId,
 }: Props) => {
-  const { resourceId } = useUrnIds();
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
   const navHeadingId = useId();
 
-  const { supplementaryResources, sortedResources } = useMemo(
-    () => getResourceGroupings(topic.coreResources?.concat(topic.supplementaryResources ?? []) ?? [], resourceId),
-    [resourceId, topic.coreResources, topic.supplementaryResources],
+  const { error, loading, data } = useQuery<GQLResourcesQueryQuery>(resourcesQuery, {
+    variables: {
+      parentId: parentId,
+      rootId: rootId,
+    },
+  });
+
+  const node = data?.node;
+  const resourceTypes = data?.resourceTypes;
+
+  const { sortedResources } = useMemo(
+    () => getResourceGroupings(node?.children ?? [], currentResourceId),
+    [currentResourceId, node?.children],
   );
 
   const isGrouped = useMemo(
     () =>
-      topic?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-    [topic?.metadata?.customFields],
+      node?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+    [node?.metadata?.customFields],
   );
 
   const { groupedResources, ungroupedResources } = useMemo(() => {
@@ -127,18 +150,30 @@ const Resources = ({
   }, [isGrouped, resourceTypes, sortedResources]);
 
   useEffect(() => {
-    const showAdditional = window.localStorage.getItem("showAdditionalResources");
+    const showAdditional = window.localStorage?.getItem("showAdditionalResources");
     setShowAdditionalResources(showAdditional === "true");
   }, []);
 
   const toggleAdditionalResources = useCallback(() => {
     setShowAdditionalResources((prev) => {
-      window?.localStorage.setItem("showAdditionalResources", `${!prev}`);
+      window?.localStorage?.setItem("showAdditionalResources", `${!prev}`);
       return !prev;
     });
   }, []);
 
-  if (!sortedResources.length) {
+  const hasSupplementaryResources = useMemo(() => {
+    return node?.children?.some((resource) => resource.relevanceId === RELEVANCE_SUPPLEMENTARY);
+  }, [node?.children]);
+
+  if (loading) {
+    return (
+      <SpinnerWrapper>
+        <Spinner />
+      </SpinnerWrapper>
+    );
+  }
+
+  if (error || !sortedResources.length) {
     return null;
   }
 
@@ -149,18 +184,16 @@ const Resources = ({
           <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
             <HeadingType>{t("resource.label")}</HeadingType>
           </Heading>
-          <Text textStyle="label.medium">{topic.name}</Text>
+          <Text textStyle="label.medium">{node?.name}</Text>
         </StyledHGroup>
-        {!!supplementaryResources.length && (
-          <StyledForm>
-            <SwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
-              <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
-              <SwitchControl>
-                <SwitchThumb />
-              </SwitchControl>
-              <SwitchHiddenInput />
-            </SwitchRoot>
-          </StyledForm>
+        {!!hasSupplementaryResources && (
+          <StyledSwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
+            <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
+            <SwitchControl>
+              <SwitchThumb />
+            </SwitchControl>
+            <SwitchHiddenInput />
+          </StyledSwitchRoot>
         )}
       </TitleWrapper>
       <ResourceContainer>
@@ -169,6 +202,7 @@ const Resources = ({
             resources={ungroupedResources}
             showAdditionalResources={showAdditionalResources}
             currentResourceContentType={currentResourceContentType}
+            currentResourceId={currentResourceId}
           />
         ) : (
           groupedResources.map((type) => (
@@ -185,6 +219,7 @@ const Resources = ({
                     contentType={type.contentType}
                     resources={type.resources ?? []}
                     currentResourceContentType={currentResourceContentType}
+                    currentResourceId={currentResourceId}
                   />
                 </ListWrapper>
               )}
@@ -196,34 +231,6 @@ const Resources = ({
   );
 };
 
-const resourceFragment = gql`
-  fragment Resources_Resource on Resource {
-    id
-    name
-    contentUri
-    path
-    paths
-    rank
-    language
-    relevanceId
-    article {
-      metaImage {
-        url
-        alt
-      }
-    }
-    learningpath {
-      coverphoto {
-        url
-      }
-    }
-    resourceTypes {
-      id
-      name
-    }
-  }
-`;
-
 Resources.fragments = {
   resourceType: gql`
     fragment Resources_ResourceTypeDefinition on ResourceTypeDefinition {
@@ -231,21 +238,54 @@ Resources.fragments = {
       name
     }
   `,
-  topic: gql`
-    fragment Resources_Topic on Topic {
+  node: gql`
+    fragment Resources_Parent on Node {
+      id
       name
-      coreResources(subjectId: $subjectId) {
-        ...Resources_Resource
-      }
-      supplementaryResources(subjectId: $subjectId) {
-        ...Resources_Resource
+      url
+      children(nodeType: "RESOURCE") {
+        id
+        name
+        url
+        rank
+        language
+        relevanceId
+        article {
+          id
+          metaImage {
+            url
+            alt
+          }
+        }
+        learningpath {
+          id
+          coverphoto {
+            url
+          }
+        }
+        resourceTypes {
+          id
+          name
+        }
       }
       metadata {
         customFields
       }
     }
-    ${resourceFragment}
   `,
 };
+
+const resourcesQuery = gql`
+  query resourcesQuery($parentId: String!, $rootId: String!) {
+    node(id: $parentId, rootId: $rootId) {
+      ...Resources_Parent
+    }
+    resourceTypes {
+      ...Resources_ResourceTypeDefinition
+    }
+  }
+  ${Resources.fragments.node}
+  ${Resources.fragments.resourceType}
+`;
 
 export default Resources;

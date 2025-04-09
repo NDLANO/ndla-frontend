@@ -1,0 +1,133 @@
+/**
+ * Copyright (c) 2019-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { gql } from "@apollo/client";
+import {
+  GQLLearningpath_LearningpathStepFragment,
+  GQLLearningpath_LearningpathFragment,
+  GQLLearningpathPage_NodeFragment,
+} from "../../../graphqlTypes";
+import { supportedLanguages } from "../../../i18n";
+import LastLearningpathStepInfo from "../LastLearningpathStepInfo";
+import { ArticleStep } from "./ArticleStep";
+import { EmbedStep } from "./EmbedStep";
+import { ExternalStep } from "./ExternalStep";
+import { LearningpathStepTitle } from "./LearningpathStepTitle";
+import { TextStep } from "./TextStep";
+import { Breadcrumb } from "../../../interfaces";
+
+const urlIsNDLAApiUrl = (url: string) => /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
+const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);
+const urlIsLocalNdla = (url: string) => /^http:\/\/(proxy.ndla-local|localhost):30017/.test(url);
+const urlIsNDLAUrl = (url: string) => urlIsNDLAApiUrl(url) || urlIsNDLAEnvUrl(url) || urlIsLocalNdla(url);
+
+const regex = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
+
+const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefined] => {
+  const url = _url.split("/article-iframe")?.[1]?.replace(regex, "")?.replace("article/", "")?.split("?")?.[0];
+
+  if (url?.includes("/")) {
+    const [taxId, articleId] = url.split("/");
+    if (parseInt(articleId!)) {
+      return [taxId, articleId];
+    }
+  } else if (url && parseInt(url)) {
+    return [undefined, url];
+  }
+  return [undefined, undefined];
+};
+
+interface Props {
+  learningpath: GQLLearningpath_LearningpathFragment;
+  learningpathStep: GQLLearningpath_LearningpathStepFragment;
+  resource?: GQLLearningpathPage_NodeFragment;
+  skipToContentId?: string;
+  breadcrumbItems: Breadcrumb[];
+  subjectId?: string;
+}
+
+export const LearningpathStep = (props: Props) => {
+  const { learningpath, learningpathStep, resource } = props;
+  return (
+    <>
+      <LearningpathStepTitle learningpathStep={learningpathStep} />
+      <LearningpathStepContent {...props} />
+      <LastLearningpathStepInfo
+        seqNo={learningpath.learningsteps.findIndex(({ id }) => id === learningpathStep.id)}
+        numberOfLearningSteps={learningpath.learningsteps.length - 1}
+        title={learningpath.title}
+        resource={resource}
+      />
+    </>
+  );
+};
+
+const LearningpathStepContent = ({
+  learningpath,
+  learningpathStep,
+  breadcrumbItems,
+  subjectId,
+  skipToContentId,
+}: Omit<Props, "resource">) => {
+  const [taxId, articleId] =
+    !learningpathStep.resource && learningpathStep.embedUrl?.url
+      ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
+      : [undefined, undefined];
+
+  const shouldUseConverter =
+    !!articleId &&
+    !!learningpathStep.resource?.article &&
+    !!learningpathStep.embedUrl &&
+    urlIsNDLAUrl(learningpathStep.embedUrl?.url);
+
+  if (
+    !shouldUseConverter &&
+    !learningpathStep.resource &&
+    learningpathStep.oembed?.html &&
+    (learningpathStep.embedUrl?.embedType === "oembed" || learningpathStep.embedUrl?.embedType === "iframe")
+  ) {
+    return (
+      <EmbedStep
+        skipToContentId={skipToContentId}
+        title={learningpathStep.title}
+        url={learningpathStep.embedUrl?.url ?? ""}
+        oembed={learningpathStep.oembed}
+      />
+    );
+  } else if (learningpathStep.resource) {
+    return (
+      <ArticleStep
+        taxId={taxId}
+        articleId={articleId}
+        learningpathStep={learningpathStep}
+        subjectId={subjectId}
+        breadcrumbItems={breadcrumbItems}
+        skipToContentId={skipToContentId}
+      />
+    );
+  } else if (learningpathStep.description && learningpathStep.introduction) {
+    return (
+      <TextStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
+    );
+  } else if (learningpathStep.embedUrl?.embedType === "external") {
+    return (
+      <ExternalStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
+    );
+  } else {
+    return null;
+  }
+};
+
+LearningpathStep.fragments = {
+  learningpathStep: gql`
+    fragment LearningpathStep_LearningpathStep on LearningpathStep {
+      ...ArticleStep_LearningpathStep
+    }
+    ${ArticleStep.fragments.learningpathStep}
+  `,
+};

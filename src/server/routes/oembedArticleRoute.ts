@@ -7,7 +7,7 @@
  */
 
 import express from "express";
-import { PathMatch } from "react-router-dom";
+import { Params } from "react-router-dom";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { gql } from "@apollo/client/core";
 import { Node } from "@ndla/types-taxonomy";
@@ -15,7 +15,7 @@ import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
 import { getArticleIdFromResource } from "../../containers/Resources/resourceHelpers";
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../../statusCodes";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import handleError from "../../util/handleError";
 import { parseOembedUrl } from "../../util/urlHelper";
@@ -24,6 +24,11 @@ const baseUrl = apiResourceUrl("/taxonomy/v1");
 
 const fetchNode = (id: string, locale: string): Promise<Node> =>
   fetch(`${baseUrl}/nodes/${id}?language=${locale}`).then((r) => resolveJsonOrRejectWithError(r) as Promise<Node>);
+
+const queryNodeByContexts = (contextId: string, locale: string): Promise<Node> =>
+  fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`)
+    .then((r) => resolveJsonOrRejectWithError(r) as Promise<Node[]>)
+    .then((nodes) => nodes[0] || Promise.reject(new Error("No node found")));
 
 function getOembedObject(req: express.Request, title?: string, html?: string) {
   return {
@@ -39,7 +44,7 @@ function getOembedObject(req: express.Request, title?: string, html?: string) {
   };
 }
 
-type MatchParams = "resourceId" | "topicId" | "lang" | "articleId";
+type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId" | "nodeId";
 
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;
@@ -54,20 +59,22 @@ const getApolloClient = (locale: string, req: express.Request) => {
   }
 };
 
-const getHTMLandTitle = async (match: PathMatch<MatchParams>, req: express.Request) => {
-  const {
-    params: { resourceId, topicId, lang = config.defaultLocale },
-  } = match;
-  if (!topicId && !resourceId) {
+const getHTMLandTitle = async (match: Params<MatchParams>, req: express.Request) => {
+  const { contextId, resourceId, topicId, lang = config.defaultLocale } = match;
+  if (!contextId && !topicId && !resourceId && !match.nodeId) {
     return {};
   }
 
   const height = req.query.height || 480;
   const width = req.query.width || 854;
-  const nodeId = topicId && !resourceId ? `urn:topic${topicId}` : `urn:resource${resourceId}`;
-  const node = await fetchNode(nodeId, lang);
+  const nodeId = topicId && !resourceId ? topicId : resourceId;
+  const node = contextId
+    ? await queryNodeByContexts(contextId, lang)
+    : await fetchNode(match.nodeId ? match.nodeId : nodeId!, lang);
+  if (node.contentUri?.includes("learningpath")) {
+    return {};
+  }
   const articleId = getArticleIdFromResource(node);
-
   return {
     title: node.name,
     html: `<iframe aria-label="${node.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`,
@@ -133,17 +140,26 @@ export async function oembedArticleRoute(req: express.Request) {
     };
   }
 
-  const match = parseOembedUrl(url);
-  if (!match) {
+  const params = parseOembedUrl(url);
+  if (!params) {
     return {
-      status: BAD_REQUEST,
-      data: "Bad request. Invalid url.",
+      status: NOT_FOUND,
+      data: "Bad request. Url not recognized",
     };
   }
 
   const {
-    params: { resourceId, audioId, conceptId, h5pId, videoId, imageId, topicId, lang = config.defaultLocale },
-  } = match;
+    contextId,
+    resourceId,
+    audioId,
+    conceptId,
+    h5pId,
+    videoId,
+    imageId,
+    topicId,
+    nodeId,
+    lang = config.defaultLocale,
+  } = params;
   try {
     if (conceptId) {
       return await getEmbedObject(lang, conceptId, "concept", req);
@@ -155,22 +171,26 @@ export async function oembedArticleRoute(req: express.Request) {
       return await getEmbedObject(lang, imageId, "image", req);
     } else if (h5pId) {
       return await getEmbedObject(lang, h5pId, "h5p", req);
-    } else if (!resourceId && !topicId) {
-      const {
-        params: { articleId },
-      } = match;
+    } else if (!resourceId && !topicId && !nodeId && !contextId) {
+      const { articleId } = params;
       const article = await fetchArticle(articleId!, lang);
       const height = req.query.height || 480;
       const width = req.query.width || 854;
       const html = `<iframe aria-label="${article.title.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`;
       return getOembedObject(req, article.title.title, html);
     }
-    const { html, title } = await getHTMLandTitle(match, req);
+    const { html, title } = await getHTMLandTitle(params, req);
+    if (!html && !title) {
+      return {
+        status: NOT_FOUND,
+        data: "Not found",
+      };
+    }
     return getOembedObject(req, title, html);
   } catch (error) {
     handleError(error, req.path);
 
-    const typedError = error as { status?: number };
+    const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
 
     const data: Record<number, string> = {
@@ -181,7 +201,7 @@ export async function oembedArticleRoute(req: express.Request) {
 
     return {
       status,
-      data: data[status] || "Internal server error",
+      data: data[status] || typedError.message || "Internal server error",
     };
   }
 }

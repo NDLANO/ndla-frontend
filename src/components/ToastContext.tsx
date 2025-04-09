@@ -8,7 +8,7 @@
 
 import { ReactNode, createContext, useContext } from "react";
 import { Toaster, createToaster } from "@ark-ui/react";
-import { CloseLine } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { IconButton, ToastCloseTrigger, ToastDescription, ToastRoot, ToastTitle } from "@ndla/primitives";
 
 const toaster = createToaster({
@@ -34,7 +34,7 @@ export const useToast = () => {
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
-    <ToastContext.Provider value={toaster}>
+    <ToastContext value={toaster}>
       <Toaster toaster={toaster}>
         {(toast) => (
           <ToastRoot>
@@ -49,6 +49,6 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
         )}
       </Toaster>
       {children}
-    </ToastContext.Provider>
+    </ToastContext>
   );
 };

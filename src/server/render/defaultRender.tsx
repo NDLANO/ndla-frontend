@@ -5,60 +5,54 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { getSelectorsByUserAgent } from "react-device-detect";
-import { FilledContext, HelmetProvider } from "react-helmet-async";
+
+import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
-import { ApolloProvider } from "@apollo/client/react";
+import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { i18nInstance } from "@ndla/ui";
-import { getCookie } from "@ndla/util";
 import { disableSSR } from "./renderHelpers";
 import App from "../../App";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
+import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
-import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
-import { UserAgentProvider } from "../../UserAgentContext";
 import { createApolloClient } from "../../util/apiHelpers";
+import { getSiteTheme } from "../../util/siteTheme";
 import { RenderFunc } from "../serverHelpers";
 
-function getCookieLocaleOrFallback(resCookie: string, abbreviation: LocaleType) {
-  const cookieLocale = getCookie(STORED_LANGUAGE_COOKIE_KEY, resCookie) ?? "";
-  if (cookieLocale.length && isValidLocale(cookieLocale)) {
-    return cookieLocale;
-  }
-  return abbreviation;
-}
-
-export const defaultRender: RenderFunc = async (req) => {
-  const resCookie = req.headers["cookie"] ?? "";
-
+export const defaultRender: RenderFunc = async (req, chunks) => {
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
-  const locale = getCookieLocaleOrFallback(resCookie, abbreviation);
-  if (locale !== basename && locale !== "nb" && basename !== "") {
+  const locale = isValidLocale(abbreviation) ? abbreviation : (config.defaultLocale as LocaleType);
+  if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
     return {
       status: TEMPORARY_REDIRECT,
       location: `/${locale}${basepath}`,
     };
   }
 
-  const userAgent = req.headers["user-agent"];
-  const userAgentSelectors = userAgent ? getSelectorsByUserAgent(userAgent) : undefined;
+  const siteTheme = getSiteTheme();
+
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const noSSR = disableSSR(req);
 
   if (noSSR) {
     return {
       status: OK,
+      locale,
       data: {
-        htmlContent: "",
+        htmlContent: renderToString(<Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} />),
         data: {
           config: { ...config, disableSSR: noSSR },
+          siteTheme,
+          chunks,
           serverPath: req.path,
           serverQuery: req.query,
         },
@@ -70,27 +64,25 @@ export const defaultRender: RenderFunc = async (req) => {
   const i18n = initializeI18n(i18nInstance, locale);
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};
-  // @ts-ignore
-  const helmetContext: FilledContext = {};
 
   const Page = (
-    <RedirectContext.Provider value={redirectContext}>
-      <HelmetProvider context={helmetContext}>
+    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default}>
+      <RedirectContext value={redirectContext}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
-            <ResponseContext.Provider value={responseContext}>
+            <ResponseContext value={responseContext}>
               <VersionHashProvider value={versionHash}>
-                <UserAgentProvider value={userAgentSelectors}>
+                <SiteThemeProvider value={siteTheme}>
                   <StaticRouter basename={basename} location={req.url}>
                     <App key={locale} />
                   </StaticRouter>
-                </UserAgentProvider>
+                </SiteThemeProvider>
               </VersionHashProvider>
-            </ResponseContext.Provider>
+            </ResponseContext>
           </ApolloProvider>
         </I18nextProvider>
-      </HelmetProvider>
-    </RedirectContext.Provider>
+      </RedirectContext>
+    </Document>
   );
 
   const html = await renderToStringWithData(Page);
@@ -106,10 +98,12 @@ export const defaultRender: RenderFunc = async (req) => {
 
   return {
     status: redirectContext.status ?? OK,
+    locale,
     data: {
-      helmetContext,
       htmlContent: html,
       data: {
+        siteTheme: siteTheme,
+        chunks,
         serverResponse: redirectContext.status ?? undefined,
         serverPath: req.path,
         serverQuery: req.query,

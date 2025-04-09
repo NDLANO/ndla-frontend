@@ -32,7 +32,7 @@ const StyledText = styled(Text, {
 
 type SubjectLinkItem = {
   name?: string;
-  path?: string;
+  url?: string;
 };
 
 interface SubjectLinkSetProps {
@@ -47,24 +47,26 @@ export const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) =>
   return (
     <StyledText textStyle="label.medium">
       <b>{title}:</b>
-      {subjects.map((subject, index) => (
-        <StyledText textStyle="body.link" key={`${set}-${index}`} asChild consumeCss>
-          <span>
-            {subject.path ? (
-              <SafeLink to={subject.path}>
-                {subject.name}
-                {index < subjects.length - 2 ? "," : null}
-              </SafeLink>
-            ) : (
-              <span>
-                {subject.name}
-                {index < subjects.length - 2 ? "," : null}
-              </span>
-            )}
-            {index === subjects.length - 2 && <span>{t("article.conjunction")}</span>}
-          </span>
-        </StyledText>
-      ))}
+      {subjects.map((subject, index) => {
+        return (
+          <StyledText textStyle="body.link" key={`${set}-${index}`} asChild consumeCss>
+            <span>
+              {subject.url ? (
+                <SafeLink to={subject.url}>
+                  {subject.name}
+                  {index < subjects.length - 2 ? "," : null}
+                </SafeLink>
+              ) : (
+                <span>
+                  {subject.name}
+                  {index < subjects.length - 2 ? "," : null}
+                </span>
+              )}
+              {index === subjects.length - 2 && <span>{t("article.conjunction")}</span>}
+            </span>
+          </StyledText>
+        );
+      })}
     </StyledText>
   );
 };
@@ -92,15 +94,15 @@ SubjectLinks.fragments = {
     fragment SubjectLinks_SubjectPage on SubjectPage {
       buildsOn {
         name
-        path
+        url
       }
       connectedTo {
         name
-        path
+        url
       }
       leadsTo {
         name
-        path
+        url
       }
     }
   `,

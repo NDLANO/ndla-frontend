@@ -6,6 +6,7 @@
  *
  */
 
+import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -145,7 +146,7 @@ const CoreElementWrapper = styled("div", {
   },
 });
 
-export const CompetenceItem = ({ item, isOembed, showLinks = false }: CompetenceItemProps) => {
+const CompetenceItem = ({ item, isOembed, showLinks = false }: CompetenceItemProps) => {
   const { t } = useTranslation();
   return (
     <OuterList>
@@ -160,7 +161,7 @@ export const CompetenceItem = ({ item, isOembed, showLinks = false }: Competence
                 <li key={goal.id}>
                   <Text>
                     {goal.text}
-                    {showLinks && (
+                    {!!showLinks && (
                       <SafeLinkWrapper>
                         <SafeLink to={goal.url} target={isOembed ? "_blank" : "_self"}>
                           {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
@@ -173,8 +174,10 @@ export const CompetenceItem = ({ item, isOembed, showLinks = false }: Competence
             </InnerList>
           ) : (
             <CoreElementWrapper>
-              <Text>{element.text}</Text>
-              {showLinks && (
+              <Text asChild consumeCss>
+                <div>{parse(element.text)}</div>
+              </Text>
+              {!!showLinks && (
                 <SafeLink to={element.url} target={isOembed ? "_blank" : "_self"}>
                   {t("competenceGoals.coreResourceSearchText", { code: element.id })}
                 </SafeLink>

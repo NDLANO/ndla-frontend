@@ -9,9 +9,7 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-import { FileTextLine, ShareFill } from "@ndla/icons/common";
-import { FolderUserLine } from "@ndla/icons/contentType";
-import { FolderLine, LinkMedium } from "@ndla/icons/editor";
+import { FileTextLine, FolderUserLine, ShareFill, FolderLine, LinkMedium } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -158,7 +156,7 @@ export const Folder = ({
           )}
         </TitleWrapper>
         <FolderInfo>
-          {isShared && (
+          {!!isShared && (
             <IconTextWrapper textStyle="label.small">
               <ShareFill size="small" />
               <span aria-hidden={!isFavorited}>

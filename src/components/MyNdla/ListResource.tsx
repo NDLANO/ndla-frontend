@@ -20,7 +20,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentTypeBadge, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
@@ -39,7 +39,7 @@ export interface ListResourceProps {
   id: string;
   link: string;
   title: string;
-  resourceImage: { src: string; alt: string };
+  resourceImage: { src: string | undefined; alt: string };
   resourceTypes: { id: string; name: string }[];
   description?: string;
   menu?: ReactNode;
@@ -125,6 +125,8 @@ const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
   },
 });
 
+const learningpathMapping: Record<string, string> = { learningpath: constants.contentTypes.LEARNING_PATH };
+
 const ListResource = ({
   id,
   link,
@@ -148,6 +150,7 @@ const ListResource = ({
     return (
       constants.contentTypeMapping[firstContentType] ??
       resourceEmbedTypeMapping[firstContentType] ??
+      learningpathMapping[firstContentType] ??
       constants.contentTypeMapping.default!
     );
   }, [firstContentType]);
@@ -162,7 +165,7 @@ const ListResource = ({
         nonInteractive={nonInteractive}
       >
         <Skeleton>
-          <ListItemImage src="" alt="" />
+          <ListItemImage alt="" />
         </Skeleton>
         <StyledListItemContent>
           <TitleWrapper>
@@ -170,7 +173,7 @@ const ListResource = ({
               <ListItemHeading>&nbsp;</ListItemHeading>
             </Skeleton>
             <Skeleton>
-              <ContentTypeBadgeNew contentType={"missing"} />
+              <ContentTypeBadge contentType={"missing"} />
             </Skeleton>
           </TitleWrapper>
         </StyledListItemContent>
@@ -203,7 +206,7 @@ const ListResource = ({
               </StyledSafeLink>
             </ListItemHeading>
           )}
-          <ContentTypeBadgeNew contentType={contentType} />
+          <ContentTypeBadge contentType={contentType} />
         </TitleWrapper>
         <DescriptionWrapper>
           {!!description && <StyledDescription>{description}</StyledDescription>}

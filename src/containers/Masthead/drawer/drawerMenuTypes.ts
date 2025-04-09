@@ -6,4 +6,12 @@
  *
  */
 
-export type MenuType = "programme" | "about" | "subject";
+import { GQLSubjectMenu_RootFragment } from "../../../graphqlTypes";
+
+export type MenuType = "programme" | "om" | "subject";
+
+export type AllTopicsType = NonNullable<GQLSubjectMenu_RootFragment["allTopics"]>[0];
+
+export type TopicWithSubTopics = AllTopicsType & {
+  subtopics: TopicWithSubTopics[];
+};

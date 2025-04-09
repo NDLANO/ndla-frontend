@@ -10,8 +10,8 @@ import { parse, stringify } from "query-string";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
-import { gql, useApolloClient } from "@apollo/client";
-import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons/common";
+import { gql, useApolloClient, useQuery } from "@apollo/client";
+import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   Button,
   PaginationEllipsis,
@@ -33,7 +33,6 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 
 type SearchObject = {
   page: string;
@@ -71,13 +70,6 @@ export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
 
-const SpinnerWrapper = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "center",
-  },
-});
-
 const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
@@ -90,7 +82,7 @@ const PodcastSeriesListPage = () => {
 
   const apolloClient = useApolloClient();
 
-  const { error, loading, data } = useGraphQuery<GQLPodcastSeriesListPageQuery>(podcastSeriesListPageQuery, {
+  const { error, loading, data } = useQuery<GQLPodcastSeriesListPageQuery>(podcastSeriesListPageQuery, {
     variables: {
       page: page,
       pageSize: pageSize,
@@ -164,9 +156,7 @@ const PodcastSeriesListPage = () => {
         </StyledHeader>
         <section>
           {loading ? (
-            <SpinnerWrapper>
-              <Spinner aria-label={t("loading")} />
-            </SpinnerWrapper>
+            <Spinner aria-label={t("loading")} />
           ) : results?.length ? (
             <ul>
               {results.map((series) => {

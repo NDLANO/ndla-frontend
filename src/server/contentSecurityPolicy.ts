@@ -1,11 +1,12 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { IncomingMessage, ServerResponse } from "http";
+
+import { IncomingMessage } from "http";
 import { matchPath } from "react-router-dom";
 import config from "../config";
 import { embedRoutes } from "../routes";
@@ -195,11 +196,13 @@ const frameSrc = (() => {
     "jeopardylabs.com",
     "*.uio.no",
     "*.maps.arcgis.com",
+    "*.arcgis.com",
     "arcg.is",
     "norgeskart.no",
     "kartiskolen.no",
     "norgeibilder.no",
     "video.qbrick.com",
+    "www.norskpetroleum.no",
   ];
   if (config.runtimeType === "development") {
     return [
@@ -237,7 +240,7 @@ const contentSecurityPolicy = {
     scriptSrc,
     frameSrc,
     frameAncestors: [
-      (req: IncomingMessage, _: ServerResponse) => {
+      (req: IncomingMessage) => {
         const isEmbeddable = !!req.url?.length && embedRoutes.some((r) => matchPath(r, req.url || ""));
         if (isEmbeddable || req.url?.startsWith("/lti")) {
           return "*";

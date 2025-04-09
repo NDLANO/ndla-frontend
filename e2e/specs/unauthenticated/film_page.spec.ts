@@ -9,15 +9,11 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-if (process.env.RECORD_FIXTURES === "true") {
-  test.slow();
-}
-
 test.beforeEach(async ({ page }) => {
   await page.goto("/subject:20?disableSSR=true");
 });
 
 test("film page has content", async ({ page }) => {
-  await expect(page.getByRole("link", { name: "Chef Flynn", exact: true }).first()).toBeVisible();
+  await expect(page.getByRole("link", { name: "Fun Factory", exact: true }).first()).toBeVisible({ timeout: 10000 });
   await expect(page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link")).toHaveCount(8);
 });

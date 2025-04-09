@@ -6,17 +6,15 @@
  *
  */
 
-import { GraphQLError } from "graphql";
+import { GraphQLFormattedError } from "graphql";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import {
-  constants,
   ContentTypeHero,
   HomeBreadcrumb,
   ArticleWrapper,
@@ -26,6 +24,7 @@ import {
   ArticleByline,
   licenseAttributes,
 } from "@ndla/ui";
+import { NoSSR } from "@ndla/util";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
@@ -33,22 +32,16 @@ import { useArticleCopyText, useNavigateToHash } from "../../components/Article/
 import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import Disclaimer from "../../components/Disclaimer";
 import LicenseBox from "../../components/license/LicenseBox";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
-import {
-  GQLArticlePage_ResourceFragment,
-  GQLArticlePage_ResourceTypeFragment,
-  GQLArticlePage_SubjectFragment,
-  GQLArticlePage_TopicFragment,
-} from "../../graphqlTypes";
+import { GQLArticlePage_NodeFragment, GQLArticlePage_ResourceTypeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { TopicPath } from "../../util/getTopicPath";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -56,13 +49,10 @@ import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resou
 import Resources from "../Resources/Resources";
 
 interface Props {
-  resource?: GQLArticlePage_ResourceFragment;
-  topic?: GQLArticlePage_TopicFragment;
-  topicPath: TopicPath[];
+  resource?: GQLArticlePage_NodeFragment;
   relevance: string;
-  subject?: GQLArticlePage_SubjectFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
-  errors?: readonly GraphQLError[];
+  errors?: readonly GraphQLFormattedError[];
   loading?: boolean;
   skipToContentId?: string;
 }
@@ -86,12 +76,6 @@ const ResourcesPageContent = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "hidden",
-  },
-});
-
 const StyledHeroContent = styled(HeroContent, {
   base: {
     "& a:focus-within": {
@@ -100,47 +84,49 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
-const ArticlePage = ({
-  resource,
-  topicPath,
-  topic,
-  resourceTypes,
-  subject,
-  errors,
-  skipToContentId,
-  loading,
-}: Props) => {
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
+
+const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  const subjectPageUrl = config.ndlaFrontendDomain;
+
+  const crumbs = resource?.context?.parents || [];
+  const root = crumbs[0];
+  const parent = crumbs[crumbs.length - 1];
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
-      const dimensions = getAllDimensions({
-        article: resource?.article,
-        filter: subject?.name,
-        user,
-      });
+      const dimensions = getAllDimensions({ user });
       trackPageView({
         dimensions,
-        title: getDocumentTitle(t, resource, subject),
+        title: getDocumentTitle(t, resource, root),
       });
     }
-  }, [authContextLoaded, loading, resource, subject, t, topicPath, trackPageView, user]);
+  }, [authContextLoaded, loading, resource, root, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     if (!resource?.article) return [];
     return [
       transformArticle(resource?.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
-        subject: subject?.id,
+        subject: root?.id,
         articleLanguage: resource.article.language,
         contentType: getContentType(resource),
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
-  }, [resource, i18n.language, subject?.id])!;
+  }, [resource, i18n.language, root?.id]);
 
   const copyText = useArticleCopyText(article);
 
@@ -166,15 +152,14 @@ const ArticlePage = ({
   }
   if (!resource?.article || !article) {
     const error = errors?.find((e) => e.path?.includes("resource"));
-    return <ArticleErrorMessage status={(error as any)?.status} />;
+    return <ArticleErrorMessage status={(error as any)?.status ?? 404} />;
   }
 
   const contentType = resource ? getContentType(resource) : undefined;
 
-  const copyPageUrlLink = topic ? `${subjectPageUrl}${topic.path}/${resource.id.replace("urn:", "")}` : undefined;
-  const printUrl = `${subjectPageUrl}/article-iframe/${i18n.language}/article/${resource.article.id}`;
+  const printUrl = `${config.ndlaFrontendDomain}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...topicPath, resource]);
+  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource]);
 
   const authors =
     article.copyright?.creators.length || article.copyright?.rightsholders.length
@@ -185,36 +170,34 @@ const ArticlePage = ({
 
   return (
     <main>
-      <Helmet>
-        <title>{`${getDocumentTitle(t, resource, subject)}`}</title>
-        {scripts?.map((script) => (
-          <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
-        ))}
-        {copyPageUrlLink && (
-          <link
-            rel="alternate"
-            type="application/json+oembed"
-            href={`${config.ndlaFrontendDomain}/oembed?url=${copyPageUrlLink}`}
-            title={article.title}
-          />
-        )}
-        {subject?.metadata.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] ===
-          constants.subjectCategories.ARCHIVE_SUBJECTS && <meta name="robots" content="noindex, nofollow" />}
-        <meta name="pageid" content={`${article.id}`} />
-        <script type="application/ld+json">
-          {JSON.stringify(getStructuredDataFromArticle(resource.article, i18n.language, breadcrumbItems))}
-        </script>
-      </Helmet>
+      <title>{`${getDocumentTitle(t, resource, root)}`}</title>
+      {scripts?.map((script) => (
+        <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
+      ))}
+      {!!resource.url && (
+        <link
+          rel="alternate"
+          type="application/json+oembed"
+          href={`${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain + resource.url}`}
+          title={article.title}
+        />
+      )}
+      {!resource.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
+      <meta name="pageid" content={`${article.id}`} />
+      <script type="application/ld+json">
+        {JSON.stringify(getStructuredDataFromArticle(resource.article, i18n.language, breadcrumbItems))}
+      </script>
       <SocialMediaMetadata
-        title={htmlTitle(article.title, [subject?.name])}
+        title={htmlTitle(article.title, [root?.name])}
         trackableContent={article}
         description={article.metaDescription}
         imageUrl={article.metaImage?.url}
+        path={resource.url}
       />
       <ContentTypeHero contentType={contentType}>
         <HeroBackground />
         <PageContent variant="article" asChild>
-          <StyledHeroContent>{subject && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
+          <StyledHeroContent>{!!root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
@@ -224,15 +207,15 @@ const ArticlePage = ({
                 contentType={contentType}
                 contentTypeLabel={resource.resourceTypes?.[0]?.name}
                 heartButton={
-                  resource.path && (
+                  !!resource.url && (
                     <AddResourceToFolderModal
                       resource={{
                         id: article.id.toString(),
-                        path: resource.path,
+                        path: resource.url,
                         resourceType: "article",
                       }}
                     >
-                      <FavoriteButton path={resource.path} />
+                      <FavoriteButton path={resource.url} />
                     </AddResourceToFolderModal>
                   )
                 }
@@ -242,35 +225,42 @@ const ArticlePage = ({
                   !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
                     <CompetenceGoals
                       codes={article.grepCodes}
-                      subjectId={subject?.id}
+                      subjectId={root?.id}
                       supportedLanguages={article.supportedLanguages}
                     />
                   )
                 }
                 lang={article.language === "nb" ? "no" : article.language}
+                disclaimer={
+                  article.transformedDisclaimer?.content ? (
+                    <Disclaimer disclaimer={article.transformedDisclaimer} />
+                  ) : null
+                }
               />
-              <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
+              <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
               <ArticleFooter>
                 <ArticleByline
                   footnotes={article.transformedContent.metaData?.footnotes ?? []}
                   authors={authors}
                   suppliers={article.copyright?.rightsholders}
                   published={article.published}
-                  license={article.copyright?.license?.license ?? ""}
                   licenseBox={
                     <LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />
                   }
                 />
-                {topic && (
-                  <ResourcesPageContent>
-                    <Resources
-                      topic={topic}
-                      resourceTypes={resourceTypes}
-                      headingType="h2"
-                      subHeadingType="h3"
-                      currentResourceContentType={contentType}
-                    />
-                  </ResourcesPageContent>
+                {!!parent && (
+                  <NoSSR fallback={null}>
+                    <ResourcesPageContent>
+                      <Resources
+                        parentId={parent.id}
+                        rootId={root?.id}
+                        headingType="h2"
+                        subHeadingType="h3"
+                        currentResourceContentType={contentType}
+                        currentResourceId={resource.id}
+                      />
+                    </ResourcesPageContent>
+                  </NoSSR>
                 )}
               </ArticleFooter>
             </ArticleWrapper>
@@ -283,45 +273,36 @@ const ArticlePage = ({
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: GQLArticlePage_ResourceFragment,
-  subject?: GQLArticlePage_SubjectFragment,
-) =>
-  htmlTitle(resource?.article?.title, [
-    subject?.subjectpage?.about?.title || subject?.name,
-    t("htmlTitles.titleTemplate"),
-  ]);
+  resource?: GQLArticlePage_NodeFragment,
+  root?: Omit<GQLTaxonomyCrumb, "path">,
+) => htmlTitle(resource?.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
 
-export const articlePageFragments = {
+ArticlePage.fragments = {
   resourceType: gql`
     fragment ArticlePage_ResourceType on ResourceTypeDefinition {
       ...Resources_ResourceTypeDefinition
     }
     ${Resources.fragments.resourceType}
   `,
-  subject: gql`
-    fragment ArticlePage_Subject on Subject {
-      id
-      name
-      metadata {
-        customFields
-      }
-      subjectpage {
-        id
-        about {
-          title
-        }
-      }
-    }
-  `,
   resource: gql`
-    fragment ArticlePage_Resource on Resource {
+    fragment ArticlePage_Node on Node {
       id
       name
-      path
+      url
       contentUri
       resourceTypes {
         name
         id
+      }
+      context {
+        contextId
+        isActive
+        parents {
+          contextId
+          id
+          name
+          url
+        }
       }
       article {
         created
@@ -335,13 +316,6 @@ export const articlePageFragments = {
     }
     ${structuredArticleDataFragment}
     ${Article.fragments.article}
-  `,
-  topic: gql`
-    fragment ArticlePage_Topic on Topic {
-      path
-      ...Resources_Topic
-    }
-    ${Resources.fragments.topic}
   `,
 };
 

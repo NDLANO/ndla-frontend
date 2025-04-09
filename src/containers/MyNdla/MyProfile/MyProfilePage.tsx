@@ -8,7 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons/action";
+import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -25,17 +25,16 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import MyPreferences from "./components/MyPreferences";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { useBaseName } from "../../../components/BaseNameContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import MyNdlaTitle from "../../../components/MyNdla/MyNdlaTitle";
+import { useDeletePersonalData } from "../../../mutations/userMutations";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { constructNewPath } from "../../../util/urlHelper";
 import MyContactArea from "../components/MyContactArea";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import MyNdlaTitle from "../components/MyNdlaTitle";
 import { UserInfo } from "../components/UserInfo";
-import { useDeletePersonalData } from "../userMutations";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -58,6 +57,15 @@ const HeadingWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
+  },
+});
+
+const DisclaimerContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    maxWidth: "surface.xlarge",
   },
 });
 
@@ -92,9 +100,16 @@ const MyProfilePage = () => {
           primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
         }}
       />
-      {user && <MyPreferences user={user} />}
+      {!!user && (
+        <DisclaimerContainer>
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
+          </Heading>
+          <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
+        </DisclaimerContainer>
+      )}
       <InfoContainer>
-        {user && (
+        {!!user && (
           <>
             <HeadingWrapper>
               <Heading textStyle="heading.small" asChild consumeCss>

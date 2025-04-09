@@ -8,7 +8,7 @@
 
 import { styled } from "@ndla/styled-system/jsx";
 
-export const BlockWrapper = styled("ul", {
+export const BlockWrapper = styled("ol", {
   base: {
     display: "grid",
     height: "100%",

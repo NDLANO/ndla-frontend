@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { FileCopyLine } from "@ndla/icons/action";
+import { FileCopyLine } from "@ndla/icons";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -68,7 +68,7 @@ const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareMod
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>{t("myNdla.folder.sharing.header.shared")}</DialogTitle>
+        <DialogTitle>{t("myNdla.folder.sharing.folderShared")}</DialogTitle>
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
@@ -79,7 +79,6 @@ const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareMod
           nonInteractive
           foldersCount={getTotalCountForFolder(folder)}
         />
-        <Text textStyle="body.large">{t("myNdla.folder.sharing.description.private")}</Text>
         <Text textStyle="body.large">{t("myNdla.folder.sharing.description.shared")}</Text>
         <GapWrapper>
           <Text textStyle="label.medium" fontWeight="bold" asChild consumeCss>

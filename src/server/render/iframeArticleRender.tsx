@@ -6,7 +6,7 @@
  *
  */
 
-import { HelmetProvider, FilledContext } from "react-helmet-async";
+import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client";
@@ -15,13 +15,16 @@ import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, initializeI18n, isValidLocale } from "../../i18n";
 import IframePageContainer from "../../iframe/IframePageContainer";
+import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { RenderFunc } from "../serverHelpers";
 
-export const iframeArticleRender: RenderFunc = async (req) => {
+export const iframeArticleRender: RenderFunc = async (req, chunks) => {
   const lang = req.params.lang ?? "";
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
@@ -42,9 +45,17 @@ export const iframeArticleRender: RenderFunc = async (req) => {
   if (noSSR) {
     return {
       status: OK,
+      locale: locale ?? (config.defaultLocale as LocaleType),
       data: {
-        htmlContent: "",
+        htmlContent: renderToString(
+          <Document
+            language={locale ?? config.defaultLocale}
+            chunks={chunks}
+            devEntrypoint={entryPoints.iframeArticle}
+          />,
+        ),
         data: {
+          chunks,
           config: { ...config, disableSSR: true },
           initialProps,
         },
@@ -55,12 +66,10 @@ export const iframeArticleRender: RenderFunc = async (req) => {
   const client = createApolloClient(locale, undefined, req.path);
   const i18n = initializeI18n(i18nInstance, locale ?? config.defaultLocale);
   const context: RedirectInfo = {};
-  // @ts-ignore
-  const helmetContext: FilledContext = {};
 
   const Page = (
-    <RedirectContext.Provider value={context}>
-      <HelmetProvider context={helmetContext}>
+    <Document language={locale ?? config.defaultLocale} chunks={chunks} devEntrypoint={entryPoints.iframeArticle}>
+      <RedirectContext value={context}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
             <StaticRouter location={req.url}>
@@ -68,8 +77,8 @@ export const iframeArticleRender: RenderFunc = async (req) => {
             </StaticRouter>
           </ApolloProvider>
         </I18nextProvider>
-      </HelmetProvider>
-    </RedirectContext.Provider>
+      </RedirectContext>
+    </Document>
   );
 
   const html = await renderToStringWithData(Page);
@@ -85,10 +94,11 @@ export const iframeArticleRender: RenderFunc = async (req) => {
 
   return {
     status: context.status ?? OK,
+    locale: locale ?? (config.defaultLocale as LocaleType),
     data: {
-      helmetContext,
       htmlContent: html,
       data: {
+        chunks,
         apolloState,
         config: {
           ...config,

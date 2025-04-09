@@ -6,23 +6,25 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type Ref } from "react";
 import { useTranslation } from "react-i18next";
-import { Cross } from "@ndla/icons/action";
+import { CloseLine } from "@ndla/icons";
 import { DialogCloseTrigger, IconButton, IconButtonProps } from "@ndla/primitives";
 
-export const DialogCloseButton = forwardRef<HTMLButtonElement, IconButtonProps>(
-  ({ children, variant = "clear", ...props }, ref) => {
-    const { t } = useTranslation();
-    const content = children ?? <Cross />;
-    const label = props["aria-label"] ?? t("close");
+interface Props extends IconButtonProps {
+  ref?: Ref<HTMLButtonElement>;
+}
 
-    return (
-      <DialogCloseTrigger asChild>
-        <IconButton ref={ref} variant={variant} {...props} aria-label={label} title={props["title"] ?? label}>
-          {content}
-        </IconButton>
-      </DialogCloseTrigger>
-    );
-  },
-);
+export const DialogCloseButton = ({ children, variant = "clear", ref, ...props }: Props) => {
+  const { t } = useTranslation();
+  const content = children ?? <CloseLine />;
+  const label = props["aria-label"] ?? t("close");
+
+  return (
+    <DialogCloseTrigger ref={ref} asChild>
+      <IconButton variant={variant} {...props} aria-label={label} title={props["title"] ?? label}>
+        {content}
+      </IconButton>
+    </DialogCloseTrigger>
+  );
+};

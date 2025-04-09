@@ -9,7 +9,7 @@
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { breakpoints } from "@ndla/core";
-import { PresentationLine } from "@ndla/icons/common";
+import { PresentationLine } from "@ndla/icons";
 import {
   Badge,
   ListItemContent,
@@ -22,7 +22,7 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentType, ContentTypeBadgeNew, constants } from "@ndla/ui";
+import { ContentType, ContentTypeBadge, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import { RELEVANCE_CORE } from "../../constants";
 
@@ -71,7 +71,7 @@ interface Props {
 export type Resource = {
   id: string;
   name: string;
-  path?: string;
+  url?: string;
   contentType?: string;
   active?: boolean;
   relevanceId?: string;
@@ -83,7 +83,9 @@ export type Resource = {
   };
 };
 
-const getListItemColorTheme = (contentType?: ContentType): NonNullable<ListItemVariantProps["colorTheme"]> => {
+const getListItemColorTheme = (
+  contentType?: ContentType,
+): Exclude<NonNullable<ListItemVariantProps["colorTheme"]>, "neutral"> => {
   switch (contentType) {
     case contentTypes.TASKS_AND_ACTIVITIES:
     case contentTypes.ASSESSMENT_RESOURCES:
@@ -170,7 +172,7 @@ const StyledListItemImage = styled(ListItemImage, {
 
 export const ResourceItem = ({
   name,
-  path,
+  url,
   contentType,
   active,
   relevanceId,
@@ -200,6 +202,8 @@ export const ResourceItem = ({
     return elements.length ? elements.join(" ") : undefined;
   }, [accessId, relevanceId, showAdditionalResources, teacherOnly]);
 
+  if (!learningpath && !article) return null;
+
   return (
     <li>
       <ListItemRoot
@@ -208,10 +212,10 @@ export const ResourceItem = ({
         colorTheme={getListItemColorTheme(currentResourceContentType)}
         borderVariant={additional ? "dashed" : "solid"}
         aria-current={active ? "page" : undefined}
-        hidden={hidden && !active}
+        hidden={!!hidden && !active}
       >
         <StyledListItemImage
-          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
+          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url}
           alt=""
           sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
@@ -219,7 +223,7 @@ export const ResourceItem = ({
         <StyledListItemContent>
           <ListItemHeading asChild consumeCss>
             <StyledSafeLink
-              to={path || ""}
+              to={url || ""}
               unstyled
               css={linkOverlay.raw()}
               lang={language === "nb" ? "no" : language}
@@ -231,7 +235,7 @@ export const ResourceItem = ({
             </StyledSafeLink>
           </ListItemHeading>
           <InfoContainer gap="xxsmall">
-            {teacherOnly && (
+            {!!teacherOnly && (
               <StyledPresentationLine
                 aria-hidden={false}
                 id={accessId}
@@ -239,8 +243,8 @@ export const ResourceItem = ({
                 title={t("article.access.onlyTeacher")}
               />
             )}
-            <ContentTypeBadgeNew contentType={contentType} />
-            {!!showAdditionalResources && additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
+            <ContentTypeBadge contentType={contentType} />
+            {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>
       </ListItemRoot>

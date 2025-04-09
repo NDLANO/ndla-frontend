@@ -8,6 +8,7 @@
 
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { styled } from "@ndla/styled-system/jsx";
 import BackButton from "./BackButton";
@@ -16,7 +17,7 @@ import DrawerMenuItem from "./DrawerMenuItem";
 import { DrawerPortion, DrawerHeader, DrawerList } from "./DrawerPortion";
 import useArrowNavigation from "./useArrowNavigation";
 import { GQLProgrammeMenu_ProgrammePageFragment } from "../../../graphqlTypes";
-import { toProgramme, useUrnIds } from "../../../routeHelpers";
+import { toProgramme } from "../../../routeHelpers";
 
 const StyledDrawerHeader = styled(DrawerHeader, {
   base: {
@@ -32,7 +33,7 @@ interface Props {
 
 const ProgrammeMenu = ({ onClose, onCloseMenuPortion, programmes: programmesProp }: Props) => {
   const { t } = useTranslation();
-  const { contextId } = useUrnIds();
+  const { contextId } = useParams();
   const { shouldCloseLevel, setLevelClosed } = useDrawerContext();
   const programmes = useMemo(
     () =>
@@ -88,6 +89,7 @@ ProgrammeMenu.fragments = {
       contextId
       title {
         title
+        language
       }
       url
       contentUri

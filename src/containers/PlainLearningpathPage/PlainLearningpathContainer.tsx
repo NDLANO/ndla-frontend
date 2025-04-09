@@ -8,12 +8,12 @@
 
 import { TFunction } from "i18next";
 import { useContext, useEffect } from "react";
-import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { PageLayout } from "../../components/Layout/PageContainer";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
@@ -46,10 +46,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
 
   useEffect(() => {
     if (learningpath && authContextLoaded) {
-      const learningstep = stepId
-        ? learningpath.learningsteps?.find((step) => `${step.id}` === stepId)
-        : learningpath.learningsteps?.[0];
-      const dimensions = getAllDimensions({ learningpath, user, learningstep });
+      const dimensions = getAllDimensions({ user });
       trackPageView({ dimensions, title: getDocumentTitle(learningpath, t) });
     }
   }, [authContextLoaded, learningpath, stepId, t, trackPageView, user]);
@@ -62,22 +59,24 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
 
   return (
     <>
-      <Helmet>
-        <title>{`${getDocumentTitle(learningpath, t)}`}</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Helmet>
+      <title>{`${getDocumentTitle(learningpath, t)}`}</title>
+      <meta name="robots" content="noindex, nofollow" />
       <SocialMediaMetadata
-        title={htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")])}
+        title={learningpath.title}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}
       />
-      <Learningpath
-        learningpath={learningpath}
-        learningpathStep={currentStep}
-        skipToContentId={skipToContentId}
-        breadcrumbItems={[]}
-      />
+      <PageLayout asChild consumeCss>
+        <main>
+          <Learningpath
+            learningpath={learningpath}
+            learningpathStep={currentStep}
+            skipToContentId={skipToContentId}
+            breadcrumbItems={[]}
+          />
+        </main>
+      </PageLayout>
     </>
   );
 };
@@ -85,6 +84,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
 export const plainLearningpathContainerFragments = {
   learningpath: gql`
     fragment PlainLearningpathContainer_Learningpath on Learningpath {
+      id
       supportedLanguages
       tags
       description

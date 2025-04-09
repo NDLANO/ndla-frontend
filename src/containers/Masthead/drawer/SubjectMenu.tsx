@@ -6,35 +6,30 @@
  *
  */
 
-import partition from "lodash/partition";
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { Skeleton } from "@ndla/primitives";
 import { VStack } from "@ndla/styled-system/jsx";
+import { partition } from "@ndla/util";
 import BackButton from "./BackButton";
 import { useDrawerContext } from "./DrawerContext";
 import DrawerMenuItem from "./DrawerMenuItem";
+import { AllTopicsType, TopicWithSubTopics } from "./drawerMenuTypes";
 import { DrawerPortion, DrawerHeaderLink, DrawerList, DrawerListItem } from "./DrawerPortion";
 import TopicMenu from "./TopicMenu";
 import useArrowNavigation from "./useArrowNavigation";
-import { GQLSubjectMenu_SubjectFragment } from "../../../graphqlTypes";
-import { removeUrn } from "../../../routeHelpers";
+import { GQLSubjectMenu_RootFragment } from "../../../graphqlTypes";
+import { isCurrentPage } from "../../../util/urlHelper";
 
 interface Props {
-  subject?: GQLSubjectMenu_SubjectFragment;
+  subject?: GQLSubjectMenu_RootFragment;
   onClose: () => void;
   onCloseMenuPortion: () => void;
   topicPathIds: string[];
   setTopicPathIds: Dispatch<SetStateAction<string[]>>;
 }
-
-type AllTopicsType = NonNullable<GQLSubjectMenu_SubjectFragment["allTopics"]>[0];
-
-export type TopicWithSubTopics = AllTopicsType & {
-  subtopics: TopicWithSubTopics[];
-};
 
 const placeholders = [0, 1, 2, 3, 4, 5];
 
@@ -106,8 +101,6 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
     onRightKeyPressed: keyboardAddTopic,
   });
 
-  const path = subject ? `/${removeUrn(subject.id)}` : "";
-
   return (
     <>
       <DrawerPortion>
@@ -117,9 +110,9 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
             <DrawerListItem role="none" data-list-item>
               <DrawerHeaderLink
                 variant="link"
-                aria-current={path === location.pathname ? "page" : undefined}
+                aria-current={isCurrentPage(location.pathname, subject) ? "page" : undefined}
                 id={`header-${subject.id}`}
-                to={path}
+                to={subject?.url ?? ""}
                 onClick={onClose}
                 tabIndex={-1}
                 role="menuitem"
@@ -133,7 +126,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
                 id={t.id}
                 key={t.id}
                 type="button"
-                current={t.path === location.pathname}
+                current={isCurrentPage(location.pathname, t)}
                 onClick={(expanded) => {
                   if (expanded) {
                     setTopicPathIds([]);
@@ -156,7 +149,7 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
           </VStack>
         )}
       </DrawerPortion>
-      {subject &&
+      {!!subject &&
         topicPath.map((topic, index) => (
           <TopicMenu
             key={topic.id}
@@ -175,19 +168,20 @@ const SubjectMenu = ({ subject, onClose, onCloseMenuPortion, setTopicPathIds, to
 };
 
 SubjectMenu.fragments = {
-  subject: gql`
-    fragment SubjectMenu_Subject on Subject {
+  root: gql`
+    fragment SubjectMenu_Root on Node {
       id
       name
-      allTopics {
+      url
+      allTopics: children(nodeType: "TOPIC", recursive: true) {
         id
         name
         parentId
-        path
+        url
       }
-      ...TopicMenu_Subject
+      ...TopicMenu_Root
     }
-    ${TopicMenu.fragments.subject}
+    ${TopicMenu.fragments.root}
   `,
 };
 

@@ -14,9 +14,11 @@ import { MovieGrid, MovieGridLoadingShimmer, SelectionMovieGrid } from "./MovieG
 import { MovieResourceType } from "./resourceTypes";
 import { GQLMovieTheme } from "../../graphqlTypes";
 
+type MovieTheme = Omit<GQLMovieTheme, "path">;
+
 interface Props {
   resourceTypeSelected: MovieResourceType | undefined;
-  movieThemes: GQLMovieTheme[] | undefined;
+  movieThemes: MovieTheme[] | undefined;
   loadingPlaceholderHeight: string;
   loading: boolean;
 }
@@ -36,17 +38,13 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes, loading }: Prop
     return <MovieGridLoadingShimmer showHeading />;
   }
 
-  return (
-    <>
-      {movieThemes?.map((theme) => (
-        <SelectionMovieGrid
-          key={theme.name[0]?.name}
-          name={findName(theme.name ?? [], i18n.language)}
-          movies={theme.movies}
-        />
-      ))}
-    </>
-  );
+  return movieThemes?.map((theme) => (
+    <SelectionMovieGrid
+      key={theme.name[0]?.name}
+      name={findName(theme.name ?? [], i18n.language)}
+      movies={theme.movies}
+    />
+  ));
 };
 
 FilmContent.fragments = {

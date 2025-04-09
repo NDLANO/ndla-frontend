@@ -8,13 +8,13 @@
 
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
-import { Draggable } from "@ndla/icons/editor";
+import { Draggable } from "@ndla/icons";
 import { IconButton, IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
 interface Props extends Omit<IconButtonProps, "type"> {
   sortableId: string;
-  type: "folder" | "resource" | "category";
+  type: "folder" | "resource" | "category" | "learningpathstep";
   name: string;
 }
 

@@ -8,8 +8,7 @@
 
 import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { BookmarkLine } from "@ndla/icons/action";
-import { InformationLine } from "@ndla/icons/common";
+import { BookmarkLine, InformationLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -28,9 +27,9 @@ import { Folder } from "../../../components/MyNdla/Folder";
 import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
 import { GQLFolder } from "../../../graphqlTypes";
+import { useFavoriteSharedFolder } from "../../../mutations/folderMutations";
 import { routes } from "../../../routeHelpers";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
-import { useFavoriteSharedFolder } from "../../MyNdla/folderMutations";
 
 interface SaveLinkProps {
   folder: GQLFolder;
@@ -40,16 +39,22 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { id, name } = folder;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const { favoriteSharedFolder } = useFavoriteSharedFolder(id);
+  const [favoriteSharedFolder] = useFavoriteSharedFolder(id);
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
-  const onSaveLink = (name: string) => {
-    favoriteSharedFolder();
-    setOpen(false);
-    toast.create({
-      title: t("myNdla.folder.sharing.savedLink", { name }),
-    });
+  const onSaveLink = async (name: string) => {
+    const res = await favoriteSharedFolder();
+    if (!res.errors?.length) {
+      setOpen(false);
+      toast.create({
+        title: t("myNdla.folder.sharing.savedLink", { name }),
+      });
+    } else {
+      toast.create({
+        title: t("myNdla.folder.sharing.savedLinkFailed", { name }),
+      });
+    }
   };
 
   const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);

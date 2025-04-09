@@ -18,22 +18,19 @@ import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import { AccessDeniedPage } from "./containers/AccessDeniedPage/AccessDeniedPage";
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
+import { CollectionPage } from "./containers/CollectionPage/CollectionPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
-import ArenaAdminPage from "./containers/MyNdla/Arena/ArenaAdminPage";
-import ArenaFlagPage from "./containers/MyNdla/Arena/ArenaFlagPage";
-import ArenaNotificationPage from "./containers/MyNdla/Arena/ArenaNotificationsPage";
-import ArenaPage from "./containers/MyNdla/Arena/ArenaPage";
-import ArenaSingleFlagPage from "./containers/MyNdla/Arena/ArenaSingleFlagPage";
-import ArenaUserListPage from "./containers/MyNdla/Arena/ArenaUserListPage";
-import CategoryEditPage from "./containers/MyNdla/Arena/CategoryEditPage";
-import NewCategoryPage from "./containers/MyNdla/Arena/NewCategoryPage";
-import { NewTopicPage } from "./containers/MyNdla/Arena/NewTopicPage";
-import PostsPage from "./containers/MyNdla/Arena/PostsPage";
-import TopicPage from "./containers/MyNdla/Arena/TopicPage";
-import ArenaUserPage from "./containers/MyNdla/ArenaUserPage";
+import { FilmRedirectPage } from "./containers/FilmRedirect/FilmRedirectPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
+import { EditLearningpathStepsPage } from "./containers/MyNdla/Learningpath/EditLearningpathStepsPage";
+import { EditLearningpathTitlePage } from "./containers/MyNdla/Learningpath/EditLearningpathTitlePage";
+import { LearningpathCheck } from "./containers/MyNdla/Learningpath/LearningpathCheck";
+import LearningpathPage from "./containers/MyNdla/Learningpath/LearningpathPage";
+import { NewLearningpathPage } from "./containers/MyNdla/Learningpath/NewLearningpathPage";
+import { PreviewLearningpathPage } from "./containers/MyNdla/Learningpath/PreviewLearningpathPage";
+import { SaveLearningpathPage } from "./containers/MyNdla/Learningpath/SaveLearningpathPage";
 import MyNdlaLayout from "./containers/MyNdla/MyNdlaLayout";
 import MyNdlaPage from "./containers/MyNdla/MyNdlaPage";
 import MyProfilePage from "./containers/MyNdla/MyProfile/MyProfilePage";
@@ -51,22 +48,16 @@ import H5pPage from "./containers/ResourceEmbed/H5pPage";
 import ImagePage from "./containers/ResourceEmbed/ImagePage";
 import VideoPage from "./containers/ResourceEmbed/VideoPage";
 import ResourcePage from "./containers/ResourcePage/ResourcePage";
-import SearchPage from "./containers/SearchPage/SearchPage";
+import { SearchPage } from "./containers/SearchPage/SearchPage";
 import SharedFolderPage from "./containers/SharedFolderPage/SharedFolderPage";
-import SubjectRouting from "./containers/SubjectPage/SubjectRouting";
+import SubjectPage from "./containers/SubjectPage/SubjectPage";
+import { TopicPage } from "./containers/TopicPage/TopicPage";
 import WelcomePage from "./containers/WelcomePage/WelcomePage";
 import handleError from "./util/handleError";
 
 interface State {
   hasError: boolean;
 }
-
-const resourceRoutes = (
-  <>
-    <Route index element={<ResourcePage />} />
-    <Route path=":stepId" element={<ResourcePage />} />
-  </>
-);
 
 class App extends Component<AppProps, State> {
   constructor(props: AppProps) {
@@ -111,6 +102,7 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path=":grade" element={null} />
                   </Route>
                 </Route>
+                <Route path="samling/:collectionId" element={<CollectionPage />} />
                 <Route path="podkast">
                   <Route index element={<PodcastSeriesListPage />} />
                   <Route path=":id" element={<PodcastSeriesPage />} />
@@ -119,31 +111,20 @@ const AppRoutes = ({ base }: AppProps) => {
                 <Route path="learningpaths/:learningpathId" element={<PlainLearningpathPage />}>
                   <Route path="steps/:stepId" element={null} />
                 </Route>
-                <Route path="subject:subjectId/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topicId/resource:resourceId">{resourceRoutes}</Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
+                <Route path="r" element={<ResourcePage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":contextId/:stepId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId/:stepId" element={null} />
                 </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
+                <Route path="e" element={<TopicPage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
                 </Route>
-                <Route path="subject:subjectId/topic:topic1/topic:topic2/topic:topic3/topic:topic4/topic:topicId/resource:resourceId">
-                  {resourceRoutes}
-                </Route>
-                <Route path="subject:subjectId" element={<SubjectRouting />}>
-                  <Route path="topic:topicId" element={null} />
-                  <Route path="topic:topic1" element={null}>
-                    <Route path="topic:topicId" element={null} />
-                    <Route path="topic:topic2" element={null}>
-                      <Route path="topic:topicId" element={null} />
-                      <Route path="topic:topic3" element={null}>
-                        <Route path="topic:topicId" element={null} />
-                        <Route path="topic:topic4" element={null}>
-                          <Route path="topic:topicId" element={null} />
-                        </Route>
-                      </Route>
-                    </Route>
-                  </Route>
+                <Route path="f" element={<SubjectPage />}>
+                  <Route path=":contextId" element={null} />
+                  <Route path=":root/:contextId" element={null} />
+                  <Route path=":root/:name/:contextId" element={null} />
                 </Route>
                 <Route path="video/:videoId" element={<VideoPage />} />
                 <Route path="image/:imageId" element={<ImagePage />} />
@@ -164,35 +145,29 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path="tag/:tag" element={<PrivateRoute element={<FoldersTagsPage />} />} />
                     <Route path=":folderId" element={<PrivateRoute element={<FoldersPage />} />} />
                   </Route>
-                  <Route path="arena">
-                    <Route index element={<PrivateRoute element={<ArenaPage />} />} />
-                    <Route path="category/new" element={<PrivateRoute element={<NewCategoryPage />} />} />
-                    <Route path="category/:categoryId">
-                      <Route index element={<PrivateRoute element={<TopicPage />} />} />
-                      <Route path="edit" element={<PrivateRoute element={<CategoryEditPage />} />} />
-                      <Route path="topic/new" element={<PrivateRoute element={<NewTopicPage />} />} />
+                  <Route path="learningpaths" element={<LearningpathCheck />}>
+                    <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
+                    <Route path=":learningpathId/edit">
+                      <Route path="title" element={<PrivateRoute element={<EditLearningpathTitlePage />} />} />
+                      <Route path="steps" element={<PrivateRoute element={<EditLearningpathStepsPage />} />} />
                     </Route>
-                    <Route path="topic/:topicId" element={<PrivateRoute element={<PostsPage />} />} />
-                    <Route path="notifications" element={<PrivateRoute element={<ArenaNotificationPage />} />} />
-                    <Route path="user/:username" element={<PrivateRoute element={<ArenaUserPage />} />} />
-                  </Route>
-                  <Route path="admin">
-                    <Route index element={<PrivateRoute element={<ArenaAdminPage />} />} />
-                    <Route path="users" element={<PrivateRoute element={<ArenaUserListPage />} />} />
-                    <Route path="flags">
-                      <Route index element={<PrivateRoute element={<ArenaFlagPage />} />} />
-                      <Route path=":postId" element={<PrivateRoute element={<ArenaSingleFlagPage />} />} />
+                    <Route path=":learningpathId/save" element={<PrivateRoute element={<SaveLearningpathPage />} />} />
+
+                    <Route path=":learningpathId/preview">
+                      <Route index element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
+                      <Route path=":stepId" element={<PrivateRoute element={<PreviewLearningpathPage />} />} />
                     </Route>
+                    <Route index element={<PrivateRoute element={<LearningpathPage />} />} />
                   </Route>
                   <Route path="subjects" element={<PrivateRoute element={<FavoriteSubjectsPage />} />} />
                   <Route path="profile" element={<PrivateRoute element={<MyProfilePage />} />} />
                 </Route>
-                <Route path="about/:slug" element={<AboutPage />} />
-
+                <Route path="om/:slug" element={<AboutPage />} />
                 <Route path="folder/:folderId">
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />
                 </Route>
+                <Route path="film" element={<FilmRedirectPage />} />
                 <Route path="404" element={<NotFoundPage />} />
                 <Route path="403" element={<AccessDeniedPage />} />
                 <Route path="*" element={<NotFoundPage />} />

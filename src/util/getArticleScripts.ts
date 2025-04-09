@@ -57,16 +57,16 @@ export function getArticleScripts(
     scripts.push({
       src: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/mml-chtml.js",
       type: "text/javascript",
-      async: false,
+      async: true,
       defer: true,
     });
   }
 
   if (article && article.transformedContent?.content.indexOf('data-resource="h5p"') > -1) {
     scripts.push({
-      src: "https://ca.h5p.ndla.no/h5p-php-library/js/h5p-resizer.js",
+      src: "/static/h5p-resizer.js",
       type: "text/javascript",
-      async: false,
+      async: true,
       defer: true,
     });
   }

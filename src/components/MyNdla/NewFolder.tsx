@@ -6,11 +6,10 @@
  *
  */
 
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, type RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import { CloseLine } from "@ndla/icons/action";
-import { CheckLine } from "@ndla/icons/editor";
+import { CloseLine, CheckLine } from "@ndla/icons";
 import {
   IconButton,
   FieldErrorMessage,
@@ -22,16 +21,17 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IFolder } from "@ndla/types-backend/myndla-api";
-import { getFolder, useAddFolderMutation, useFolders } from "../../containers/MyNdla/folderMutations";
-import { useUserAgent } from "../../UserAgentContext";
+import { IFolderDTO } from "@ndla/types-backend/myndla-api";
+import { getFolder, useAddFolderMutation, useFolders } from "../../mutations/folderMutations";
 import useValidationTranslation from "../../util/useValidationTranslation";
+import { useToast } from "../ToastContext";
 
 interface Props {
   parentId: string;
   onClose?: () => void;
   initialValue?: string;
-  onCreate?: (folder: IFolder, parentId: string) => void;
+  onCreate?: (folder: IFolderDTO, parentId: string) => void;
+  ref: RefObject<HTMLInputElement | null>;
 }
 
 const StyledSpinner = styled(Spinner, {
@@ -40,28 +40,25 @@ const StyledSpinner = styled(Spinner, {
   },
 });
 
-const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) => {
+const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Props) => {
   const [name, setName] = useState(initialValue);
   const hasWritten = useRef(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const toast = useToast();
   const [error, setError] = useState("");
   const { folders } = useFolders();
   const { cache } = useApolloClient();
   const siblings = useMemo(
-    () => (parentId !== "folders" ? getFolder(cache, parentId)?.subfolders ?? [] : folders),
+    () => (parentId !== "folders" ? (getFolder(cache, parentId)?.subfolders ?? []) : folders),
     [parentId, cache, folders],
   );
   const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
-  const { addFolder, loading } = useAddFolderMutation();
+  const [addFolder, { loading }] = useAddFolderMutation();
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
-  const selectors = useUserAgent();
 
   useEffect(() => {
-    if (selectors?.isMobile) {
-      inputRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [selectors?.isMobile]);
+    ref.current?.scrollIntoView({ behavior: "smooth" });
+  }, [ref]);
 
   const onSave = async () => {
     if (error) {
@@ -73,10 +70,13 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
         name,
       },
     });
-    const createdFolder = res.data?.addFolder as IFolder | undefined;
+    const createdFolder = res.data?.addFolder as IFolderDTO | undefined;
     if (createdFolder) {
       onCreate?.({ ...createdFolder, subfolders: [] }, parentId);
       onClose?.();
+    }
+    if (res.errors?.length) {
+      toast.create({ title: "myNdla.folder.toast.folderCreatedFailed" });
     }
   };
 
@@ -110,7 +110,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
         <FieldInput
           autoComplete="off"
           disabled={loading}
-          ref={inputRef}
+          ref={ref}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus
           placeholder={t("treeStructure.newFolder.placeholder")}
@@ -142,7 +142,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate }: Props) =>
           </>
         ) : (
           <FieldHelper>
-            <StyledSpinner aria-label={t("loading")} />
+            <StyledSpinner size="small" aria-label={t("loading")} />
           </FieldHelper>
         )}
       </InputContainer>

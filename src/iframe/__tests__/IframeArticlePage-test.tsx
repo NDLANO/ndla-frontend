@@ -6,18 +6,30 @@
  *
  */
 
-import { HelmetProvider } from "react-helmet-async";
 import { I18nextProvider, Translation } from "react-i18next";
 import { StaticRouter } from "react-router-dom/server.js";
-import { MockedProvider } from "@apollo/client/testing";
+import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { render } from "@testing-library/react";
 import { i18nInstance } from "@ndla/ui";
 import { initializeI18n } from "../../i18n";
+import { alertsQuery } from "../../queries";
 import IframeArticlePage from "../IframeArticlePage";
 import IframePageContainer from "../IframePageContainer";
 
 window._mtm = [];
-HelmetProvider.canUseDOM = false;
+
+const mockedResponses: MockedResponse[] = [
+  {
+    request: {
+      query: alertsQuery,
+    },
+    result: {
+      data: {
+        alerts: [],
+      },
+    },
+  },
+];
 
 // Mock IntersectionObserver
 class IntersectionObserver {
@@ -46,6 +58,9 @@ test("IframeArticlePage with article renderers correctly", () => {
     revision: 1,
     articleType: "standard",
     created: "2018-01-09T18:40:03Z",
+    transformedDisclaimer: {
+      content: "",
+    },
     introduction:
       "Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!",
     htmlIntroduction:
@@ -187,35 +202,34 @@ test("IframeArticlePage with article renderers correctly", () => {
   const i18n = initializeI18n(i18nInstance, "nb");
   const { asFragment } = render(
     <I18nextProvider i18n={i18n}>
-      <MockedProvider mocks={[]}>
-        <HelmetProvider>
-          <StaticRouter
-            location={{
-              pathname: "/article-iframe/urn:resource:1/128",
-              search: "asd",
-              hash: "",
-            }}
-          >
-            <I18nextProvider i18n={i18nInstance}>
-              <Translation>
-                {(_, { i18n }) => {
-                  i18n.language = locale;
-                  return (
-                    <IframeArticlePage
-                      locale={locale}
-                      resource={{
-                        id: "urn:resource:1",
-                        path: "/subject:1/resource:1",
-                        resourceTypes: [],
-                      }}
-                      article={article}
-                    />
-                  );
-                }}
-              </Translation>
-            </I18nextProvider>
-          </StaticRouter>
-        </HelmetProvider>
+      <MockedProvider mocks={mockedResponses}>
+        <StaticRouter
+          location={{
+            pathname: "/article-iframe/urn:resource:1/128",
+            search: "asd",
+            hash: "",
+          }}
+        >
+          <I18nextProvider i18n={i18nInstance}>
+            <Translation>
+              {(_, { i18n }) => {
+                i18n.language = locale;
+                return (
+                  <IframeArticlePage
+                    locale={locale}
+                    node={{
+                      id: "urn:resource:1",
+                      name: "Politiske skillelinjer",
+                      url: "/r/naturfag/politiske-skillelinjer/asdfw323",
+                      resourceTypes: [],
+                    }}
+                    article={article}
+                  />
+                );
+              }}
+            </Translation>
+          </I18nextProvider>
+        </StaticRouter>
       </MockedProvider>
     </I18nextProvider>,
   );
@@ -227,18 +241,16 @@ test("IframePage with article displays error message on status === error", () =>
   const i18n = initializeI18n(i18nInstance, "nb");
   const { asFragment } = render(
     <I18nextProvider i18n={i18n}>
-      <MockedProvider mocks={[]}>
-        <HelmetProvider>
-          <StaticRouter
-            location={{
-              pathname: "/article-iframe/urn:resource:1/128",
-              search: "asd",
-              hash: "",
-            }}
-          >
-            <IframePageContainer locale={"nb"} status="error" />
-          </StaticRouter>
-        </HelmetProvider>
+      <MockedProvider mocks={mockedResponses}>
+        <StaticRouter
+          location={{
+            pathname: "/article-iframe/urn:resource:1/128",
+            search: "asd",
+            hash: "",
+          }}
+        >
+          <IframePageContainer status="error" />
+        </StaticRouter>
       </MockedProvider>
     </I18nextProvider>,
   );

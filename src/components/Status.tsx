@@ -19,7 +19,7 @@ const Status = ({ code, children }: Props) => {
   if (redirectContext) {
     redirectContext.status = code;
   }
-  return <>{children}</>;
+  return children;
 };
 
 export default Status;

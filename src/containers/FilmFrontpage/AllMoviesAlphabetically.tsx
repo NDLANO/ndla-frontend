@@ -8,13 +8,13 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { movieResourceTypes } from "./resourceTypes";
+import { FILM_ID } from "../../constants";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
-import { useGraphQuery } from "../../util/runQueries";
 
 const LetterHeading = styled(Heading, {
   base: {
@@ -63,7 +63,9 @@ const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
 type MovieType = NonNullable<GQLAllMoviesQuery["searchWithoutPagination"]>["results"][0];
 
 const groupMovies = (movies: MovieType[]) => {
-  const sortedMovies = movies.toSorted((a, b) => a.title.localeCompare(b.title, "nb"));
+  const sortedMovies: Exclude<MovieType, { __typename: "NodeSearchResult" | undefined }>[] = movies
+    .filter((movie) => movie.__typename !== "NodeSearchResult")
+    .toSorted((a, b) => a.title.localeCompare(b.title, "nb"));
 
   const grouped = sortedMovies.reduce<Record<string, MovieType[]>>((acc, movie) => {
     const firstChar = movie.title[0]?.toUpperCase() ?? "";
@@ -119,7 +121,7 @@ const LoadingShimmer = () => {
 
 const AllMoviesAlphabetically = () => {
   const { t, i18n } = useTranslation();
-  const allMovies = useGraphQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
+  const allMovies = useQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
     variables: {
       resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
       language: i18n.language,
@@ -148,20 +150,23 @@ const AllMoviesAlphabetically = () => {
           >
             <h2>{letter}</h2>
           </LetterHeading>
-          {movies.map((movie) => (
-            <StyledSafeLink
-              to={movie.contexts.filter((c) => c.contextType === "standard")[0]?.path ?? ""}
-              key={movie.id}
-            >
-              {movie.metaImage?.url && <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />}
-              <MovieTextWrapper>
-                <Heading textStyle="title.small" asChild consumeCss data-title="">
-                  <h3>{movie.title}</h3>
-                </Heading>
-                <Text textStyle="body.small">{movie.metaDescription}</Text>
-              </MovieTextWrapper>
-            </StyledSafeLink>
-          ))}
+          {movies.map((movie) => {
+            const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+            return (
+              <StyledSafeLink to={context?.url ?? ""} key={movie.id}>
+                {(movie.__typename === "ArticleSearchResult" || movie.__typename === "LearningpathSearchResult") &&
+                  !!movie.metaImage?.url && (
+                    <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />
+                  )}
+                <MovieTextWrapper>
+                  <Heading textStyle="title.small" asChild consumeCss data-title="">
+                    <h3>{movie.title}</h3>
+                  </Heading>
+                  <Text textStyle="body.small">{movie.metaDescription}</Text>
+                </MovieTextWrapper>
+              </StyledSafeLink>
+            );
+          })}
         </MovieGroup>
       ))}
     </>
@@ -182,13 +187,23 @@ const allMoviesQuery = gql`
       results {
         id
         metaDescription
-        metaImage {
-          url
+        ... on ArticleSearchResult {
+          metaImage {
+            url
+          }
+        }
+        ... on LearningpathSearchResult {
+          metaImage {
+            url
+          }
         }
         title
         contexts {
+          contextId
           contextType
           path
+          url
+          rootId
         }
       }
     }
