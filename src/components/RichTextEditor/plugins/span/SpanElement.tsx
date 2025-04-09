@@ -24,7 +24,7 @@ export const SpanElement: ElementRenderer = (props) => {
   if (element.type !== SPAN_ELEMENT_TYPE) return undefined;
 
   return (
-    <Span {...attributes} lang={element.data.lang}>
+    <Span {...attributes} lang={element.data.lang} dir={element.data.dir}>
       <InlineBugfix />
       {children}
       <InlineBugfix />

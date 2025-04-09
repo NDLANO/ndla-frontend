@@ -8,14 +8,13 @@
 
 import { Bold, Italic, ListOrdered, ListUnordered } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
-import { appLocales } from "../../../i18n";
 import { LinkToolbarButton } from "../plugins/link/LinkToolbarButton";
 import { LINK_SHORTCUT } from "../plugins/link/linkUtils";
 import { BULLETED_LIST_SHORTCUT, NUMBERED_LIST_SHORTCUT } from "../plugins/list/listShortcuts";
 import { ListToolbarButton } from "../plugins/list/ListToolbarButton";
 import { BOLD_SHORTCUT, ITALIC_SHORTCUT } from "../plugins/mark/markShortcuts";
 import { MarkToolbarButton } from "../plugins/mark/MarkToolbarButton";
-import { LanguageToolbarButton } from "../plugins/span/LanguageToolbarButton";
+import { LanguageToolbarSelect } from "../plugins/span/LanguageToolbarSelect";
 
 const ToolbarContainer = styled("div", {
   base: {
@@ -31,25 +30,28 @@ const ToolbarContainer = styled("div", {
   },
 });
 
-export const RichTextToolbar = () => {
-  const languages = appLocales.map((l) => l.abbreviation);
+const Separator = styled("span", {
+  base: {
+    borderLeft: "1px solid",
+  },
+});
 
-  return (
-    <ToolbarContainer>
-      <MarkToolbarButton mark="bold" shortcut={BOLD_SHORTCUT}>
-        <Bold />
-      </MarkToolbarButton>
-      <MarkToolbarButton mark="italic" shortcut={ITALIC_SHORTCUT}>
-        <Italic />
-      </MarkToolbarButton>
-      <ListToolbarButton listType="bulleted-list" shortcut={BULLETED_LIST_SHORTCUT}>
-        <ListUnordered />
-      </ListToolbarButton>
-      <ListToolbarButton listType="numbered-list" shortcut={NUMBERED_LIST_SHORTCUT}>
-        <ListOrdered />
-      </ListToolbarButton>
-      <LinkToolbarButton shortcut={LINK_SHORTCUT} />
-      <LanguageToolbarButton languages={languages} />
-    </ToolbarContainer>
-  );
-};
+export const RichTextToolbar = () => (
+  <ToolbarContainer>
+    <MarkToolbarButton mark="bold" shortcut={BOLD_SHORTCUT}>
+      <Bold />
+    </MarkToolbarButton>
+    <MarkToolbarButton mark="italic" shortcut={ITALIC_SHORTCUT}>
+      <Italic />
+    </MarkToolbarButton>
+    <ListToolbarButton listType="bulleted-list" shortcut={BULLETED_LIST_SHORTCUT}>
+      <ListUnordered />
+    </ListToolbarButton>
+    <ListToolbarButton listType="numbered-list" shortcut={NUMBERED_LIST_SHORTCUT}>
+      <ListOrdered />
+    </ListToolbarButton>
+    <LinkToolbarButton shortcut={LINK_SHORTCUT} />
+    <Separator />
+    <LanguageToolbarSelect />
+  </ToolbarContainer>
+);

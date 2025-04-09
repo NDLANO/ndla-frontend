@@ -11,3 +11,22 @@ import { jsx as slatejsx } from "slate-hyperscript";
 
 export const defaultSpanBlock = (data: SpanElement["data"] = {}) =>
   slatejsx("element", { type: SPAN_ELEMENT_TYPE, data }, { text: "" }) as SpanElement;
+
+export const languages = [
+  "no",
+  "de",
+  "es",
+  "se",
+  "sma",
+  "zh",
+  "en",
+  "ar",
+  "prs",
+  "fr",
+  "heb",
+  "la",
+  "pli",
+  "san",
+  "so",
+  "ti",
+] as const;
