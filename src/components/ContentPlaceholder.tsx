@@ -6,13 +6,17 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type Ref } from "react";
 import { Skeleton } from "@ndla/primitives";
 import { PageContainer, PageContainerProps } from "./Layout/PageContainer";
 
-export const ContentPlaceholder = forwardRef<HTMLDivElement, PageContainerProps>((props, ref) => {
+interface Props extends PageContainerProps {
+  ref?: Ref<HTMLDivElement>;
+}
+
+export const ContentPlaceholder = (props: Props) => {
   return (
-    <PageContainer {...props} ref={ref}>
+    <PageContainer {...props}>
       <Skeleton css={{ width: "15%", marginBottom: "3xsmall" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "55%", height: "xxlarge", marginBottom: "medium" }}>&nbsp;</Skeleton>
       <Skeleton css={{ width: "100%", height: "xlarge", marginBottom: "4xsmall" }}>&nbsp;</Skeleton>
@@ -26,4 +30,4 @@ export const ContentPlaceholder = forwardRef<HTMLDivElement, PageContainerProps>
       <Skeleton css={{ width: "55%", height: "medium", marginBottom: "xxsmall" }}>&nbsp;</Skeleton>
     </PageContainer>
   );
-});
+};
