@@ -202,7 +202,6 @@ const StyledMoreHitsButton = styled(Button, {
 const getActiveSubjectUrl = (id: string, query: string): string => {
   const stripped = id.replace("urn:subject:", "");
   const searchParams = new URLSearchParams({
-    type: "resource",
     subjects: stripped,
     query: query,
   });
