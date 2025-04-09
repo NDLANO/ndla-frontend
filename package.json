@@ -92,7 +92,7 @@
     "@fontsource/source-serif-pro": "^4.5.7",
     "@ndla/article-converter": "^10.0.116-alpha.0",
     "@ndla/core": "^5.0.3",
-    "@ndla/editor": "^0.0.17",
+    "@ndla/editor": "^0.0.18",
     "@ndla/editor-components": "^0.0.26",
     "@ndla/hooks": "^2.1.11",
     "@ndla/icons": "^8.0.53-alpha.0",

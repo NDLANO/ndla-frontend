@@ -2663,26 +2663,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/editor@npm:^0.0.17":
-  version: 0.0.17
-  resolution: "@ndla/editor@npm:0.0.17"
-  dependencies:
-    escape-html: "npm:^1.0.3"
-    he: "npm:^1.2.0"
-    is-hotkey: "npm:^0.2.0"
-    lodash.mergewith: "npm:^4.6.2"
-    slate-hyperscript: "npm:^0.100.0"
-  peerDependencies:
-    react: ">= 18"
-    react-dom: ">= 18"
-    slate: ^0.112.0
-    slate-dom: ^0.112.0
-    slate-history: ^0.110.3
-    slate-react: ^0.112.0
-  checksum: 10c0/393436e9cea4a810ee625471f3d38c9377f8345b099de7db658f44c78d20bfd812d5f56627a10d79dc93452245d82cc3f126f2a67cb5abaa54822a2a139ebde7
-  languageName: node
-  linkType: hard
-
 "@ndla/editor@npm:^0.0.18":
   version: 0.0.18
   resolution: "@ndla/editor@npm:0.0.18"
@@ -10834,7 +10814,7 @@ __metadata:
     "@juggle/resize-observer": "npm:^3.4.0"
     "@ndla/article-converter": "npm:^10.0.116-alpha.0"
     "@ndla/core": "npm:^5.0.3"
-    "@ndla/editor": "npm:^0.0.17"
+    "@ndla/editor": "npm:^0.0.18"
     "@ndla/editor-components": "npm:^0.0.26"
     "@ndla/hooks": "npm:^2.1.11"
     "@ndla/icons": "npm:^8.0.53-alpha.0"
