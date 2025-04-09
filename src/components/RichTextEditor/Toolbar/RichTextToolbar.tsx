@@ -14,6 +14,7 @@ import { BULLETED_LIST_SHORTCUT, NUMBERED_LIST_SHORTCUT } from "../plugins/list/
 import { ListToolbarButton } from "../plugins/list/ListToolbarButton";
 import { BOLD_SHORTCUT, ITALIC_SHORTCUT } from "../plugins/mark/markShortcuts";
 import { MarkToolbarButton } from "../plugins/mark/MarkToolbarButton";
+import { LanguageToolbarSelect } from "../plugins/span/LanguageToolbarSelect";
 
 const ToolbarContainer = styled("div", {
   base: {
@@ -29,22 +30,29 @@ const ToolbarContainer = styled("div", {
   },
 });
 
-export const RichTextToolbar = () => {
-  return (
-    <ToolbarContainer>
-      <MarkToolbarButton mark="bold" shortcut={BOLD_SHORTCUT}>
-        <Bold />
-      </MarkToolbarButton>
-      <MarkToolbarButton mark="italic" shortcut={ITALIC_SHORTCUT}>
-        <Italic />
-      </MarkToolbarButton>
-      <ListToolbarButton listType="bulleted-list" shortcut={BULLETED_LIST_SHORTCUT}>
-        <ListUnordered />
-      </ListToolbarButton>
-      <ListToolbarButton listType="numbered-list" shortcut={NUMBERED_LIST_SHORTCUT}>
-        <ListOrdered />
-      </ListToolbarButton>
-      <LinkToolbarButton shortcut={LINK_SHORTCUT} />
-    </ToolbarContainer>
-  );
-};
+const Separator = styled("span", {
+  base: {
+    borderLeft: "1px solid",
+    borderColor: "stroke.subtle",
+  },
+});
+
+export const RichTextToolbar = () => (
+  <ToolbarContainer>
+    <MarkToolbarButton mark="bold" shortcut={BOLD_SHORTCUT}>
+      <Bold />
+    </MarkToolbarButton>
+    <MarkToolbarButton mark="italic" shortcut={ITALIC_SHORTCUT}>
+      <Italic />
+    </MarkToolbarButton>
+    <ListToolbarButton listType="bulleted-list" shortcut={BULLETED_LIST_SHORTCUT}>
+      <ListUnordered />
+    </ListToolbarButton>
+    <ListToolbarButton listType="numbered-list" shortcut={NUMBERED_LIST_SHORTCUT}>
+      <ListOrdered />
+    </ListToolbarButton>
+    <LinkToolbarButton shortcut={LINK_SHORTCUT} />
+    <Separator />
+    <LanguageToolbarSelect />
+  </ToolbarContainer>
+);

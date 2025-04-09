@@ -9,6 +9,20 @@
 const titleTemplate = "NDLA";
 
 const messages = {
+  languages: {
+    // Adds to list from frontend-packages
+    ar: "Arabic",
+    la: "Latin",
+    no: "Norwegian",
+    so: "Somali",
+    ti: "Tigrinya",
+    und: "Undetermined",
+    ukr: "Ukranian",
+    prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebrew",
+    pli: "Pali",
+  },
   htmlTitles: {
     titleTemplate,
     welcomePage: `Frontpage - ${titleTemplate}`,
@@ -781,6 +795,9 @@ const messages = {
           textLabel: "Text",
           urlLabel: "URL",
         },
+      },
+      span: {
+        language: "Language",
       },
     },
   },
