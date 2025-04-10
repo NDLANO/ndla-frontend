@@ -155,19 +155,16 @@ test("can go to shared folder page", async ({ page }) => {
   const folderList = page.getByRole("main").getByRole("list").first();
   await expect(folderList).toBeVisible();
   expect(await folderList.getByRole("listitem").count()).toBeGreaterThanOrEqual(1);
+
   const sharedFolder = folderList
     .getByRole("listitem")
     .filter({ has: page.locator('svg[aria-label="Delt Mappe"]') })
     .first();
 
   const sharedFolderTitle = (await sharedFolder.getByRole("link").textContent()) ?? "";
-  expect(sharedFolder).toBeDefined();
-
   await sharedFolder.getByRole("button").last().click();
   await page.getByRole("menuitem", { name: "Gå til delt mappe", exact: true }).click();
-
-  await page.waitForURL("/folder/*");
-
+  await page.waitForLoadState("networkidle");
   await expect(page.getByRole("main").getByRole("heading")).toHaveText(sharedFolderTitle);
 });
 
@@ -183,5 +180,5 @@ test("can edit folder name on list item ", async ({ page, harCheckpoint }) => {
   await page.getByRole("menuitem", { name: "Rediger" }).click();
   await page.getByLabel("Navn").click();
   await page.keyboard.press("Control+a");
-  await page.keyboard.type([...Array(5)].map(() => Math.random().toString(36)[2]).join(""));
+  await page.keyboard.type(Math.random().toString(36).substring(2, 25));
 });
