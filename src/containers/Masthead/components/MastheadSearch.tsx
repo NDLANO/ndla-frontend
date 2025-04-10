@@ -43,7 +43,6 @@ import { linkOverlay } from "@ndla/styled-system/patterns";
 import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
 import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
-import { contentTypeMapping } from "../../../util/getContentType";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
@@ -203,7 +202,6 @@ const StyledMoreHitsButton = styled(Button, {
 const getActiveSubjectUrl = (id: string, query: string): string => {
   const stripped = id.replace("urn:subject:", "");
   const searchParams = new URLSearchParams({
-    type: "resource",
     subjects: stripped,
     query: query,
   });
@@ -256,7 +254,7 @@ const MastheadSearch = ({ root }: Props) => {
       runSearch({
         variables: {
           query: delayedSearchQuery,
-          contextTypes: "standard,learningpath,topic-article",
+          contextTypes: "standard,learningpath,topic-article,node",
           fallback: "true",
           filterInactive: true,
           license: "all",
@@ -285,10 +283,15 @@ const MastheadSearch = ({ root }: Props) => {
     return (
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        const contentType =
-          result.__typename === "NodeSearchResult"
-            ? constants.contentTypes.SUBJECT
-            : contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
+        let contentType = undefined;
+        if (result.__typename === "NodeSearchResult") {
+          contentType = constants.contentTypes.SUBJECT;
+        }
+        if (context?.resourceTypes?.length) {
+          contentType = constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
+        } else if (context?.url.startsWith("/e")) {
+          contentType = constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
+        }
         return {
           ...result,
           htmlTitle:
