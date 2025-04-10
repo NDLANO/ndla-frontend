@@ -40,7 +40,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { constants } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import { FilterContainer } from "./FilterContainer";
-import { RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
+import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../../constants";
@@ -81,10 +81,10 @@ type SubjectCategoryType = "active" | "archived" | "beta" | "other";
 export const SubjectFilter = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useStableSearchPageParams();
-  const nodeType = searchParams.get("type");
   const isLti = useLtiContext();
+  const nodeType = useMemo(() => searchParams.get("type") ?? defaultNodeType(isLti), [isLti, searchParams]);
   const validNodeTypes: (string | null)[] = useMemo(
-    () => (isLti ? [null] : [RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE]),
+    () => (isLti ? [null] : [RESOURCE_NODE_TYPE, TOPIC_NODE_TYPE, ALL_NODE_TYPES]),
     [isLti],
   );
 
