@@ -138,12 +138,6 @@ const StyledHitsWrapper = styled("div", {
   },
 });
 
-const SuggestionButton = styled(Button, {
-  base: {
-    marginInlineStart: "3xsmall",
-  },
-});
-
 const ActiveSubjectWrapper = styled("div", {
   base: {
     border: "1px solid",
@@ -327,8 +321,6 @@ const MastheadSearch = ({ root }: Props) => {
     [searchHits],
   );
 
-  const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
-
   return (
     <DialogRoot
       open={dialogState.open}
@@ -410,14 +402,6 @@ const MastheadSearch = ({ root }: Props) => {
                     <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
-                  )}
-                  {!!suggestion && (
-                    <Text textStyle="label.small">
-                      {t("searchPage.resultType.searchPhraseSuggestion")}
-                      <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
-                        [{suggestion}]
-                      </SuggestionButton>
-                    </Text>
                   )}
                 </div>
               )}
