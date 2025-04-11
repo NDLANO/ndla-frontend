@@ -23,6 +23,7 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: 2,
   reporter: "html",
+  workers: process.env.RECORD_FIXTURES ? 1 : process.env.CI ? 10 : undefined,
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: "http://localhost:3000",
@@ -43,6 +44,7 @@ export default defineConfig({
       testMatch: "e2e/specs/authenticated/*.spec.ts",
       dependencies: ["setup"],
       use: {
+        permissions: ["clipboard-read", "clipboard-write"],
         storageState: STORAGE_STATE,
       },
     },

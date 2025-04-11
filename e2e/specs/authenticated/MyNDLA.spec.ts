@@ -7,22 +7,32 @@
  */
 
 import { expect } from "@playwright/test";
-import { mockWaitResponse, test } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/minndla");
 });
 
-test("have recently added to folder", async ({ page }) => {
-  await expect(page.getByRole("heading", { name: "Nylig lagt til i mine mapper" })).toBeVisible();
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+test("have favourite subjects", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "Mine fag" })).toBeVisible();
   expect(await page.getByRole("main").locator("section").first().getByRole("listitem").count()).toBeGreaterThanOrEqual(
     1,
   );
 
-  const toFolder = page.getByRole("link").getByText("Se alle mappene dine");
+  const toFolder = page.getByRole("link", { name: "Se alle favorittfag" });
   await expect(toFolder).toBeVisible();
   await toFolder.click();
-  await page.waitForURL("/minndla/folders");
+  await expect(page.getByRole("heading", { name: "Mine fag" })).toBeVisible();
+});
+
+test("have recently added to folder", async ({ page }) => {
+  await expect(page.getByRole("heading", { name: "Nylig lagt til i mine mapper" })).toBeVisible();
+  expect(await page.getByRole("main").locator("section").first().getByRole("listitem").count()).toBeGreaterThanOrEqual(
+    1,
+  );
+
+  const toFolder = page.getByRole("link", { name: "Se alle mappene dine" });
+  await expect(toFolder).toBeVisible();
+  await toFolder.click();
   await expect(page.getByRole("heading", { name: "Mine mapper" })).toBeVisible();
 });
