@@ -9,12 +9,7 @@
 import parse from "html-react-parser";
 import { useEffect, useRef, useState } from "react";
 import { styled } from "@ndla/styled-system/jsx";
-
-export const urlIsNDLAApiUrl = (url: string) =>
-  /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
-export const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);
-export const urlIsLocalNdla = (url: string) => /^http:\/\/(proxy.ndla-local|localhost):30017/.test(url);
-export const urlIsNDLAUrl = (url: string) => urlIsNDLAApiUrl(url) || urlIsNDLAEnvUrl(url) || urlIsLocalNdla(url);
+import { urlIsNDLAUrl } from "../../util/ndlaUrl";
 
 interface Props {
   html: string;
