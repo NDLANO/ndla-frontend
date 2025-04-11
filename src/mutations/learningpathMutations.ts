@@ -234,6 +234,16 @@ export const useDeleteLearningpathStep = (
           fieldName: "learningpath",
           args: { pathId: methodOptions?.variables?.learningpathId?.toString() },
         });
+        client.cache.modify({
+          id: client.cache.identify({
+            __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+          }),
+          fields: {
+            revision: () => {
+              return methodOptions?.variables?.revision;
+            },
+          },
+        });
         const normalizedId = client.cache.identify({
           __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningstepId}`,
         });
