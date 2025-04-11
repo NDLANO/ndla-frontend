@@ -183,6 +183,7 @@ const allMoviesQuery = gql`
       fallback: "true"
       subjects: "urn:subject:20"
       contextTypes: "standard"
+      sort: "title"
     ) {
       results {
         id
