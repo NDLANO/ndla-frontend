@@ -153,15 +153,16 @@ export const DraggableLearningpathStepListItem = ({
 
   return (
     <DraggableListItem id={sortableId} ref={setNodeRef} style={style} isDragging={isDragging}>
-      {isDraggable ? (
-        <StyledDragHandle
-          sortableId={sortableId}
-          name={step.title}
-          disabled={items.length < 2}
-          type="learningpathstep"
-          {...attributes}
-        />
-      ) : null}
+      <StyledDragHandle
+        sortableId={sortableId}
+        name={step.title}
+        disabled={items.length < 2}
+        type="learningpathstep"
+        isHidden={!isDraggable}
+        aria-hidden={!isDraggable ? true : undefined}
+        {...attributes}
+        tabIndex={!isDraggable ? -1 : attributes.tabIndex}
+      />
       <DragWrapper>
         <ContentWrapper editing={step.id === selectedLearningpathStepId}>
           <Stack gap="xxsmall">
