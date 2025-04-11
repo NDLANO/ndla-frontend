@@ -39,6 +39,7 @@ import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { useCreateLearningpathStep, useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
+import { learningpathStepEditButtonId } from "./utils";
 
 const StyledOl = styled("ol", { base: { listStyle: "none", width: "100%" } });
 
@@ -51,6 +52,8 @@ interface Props {
 
 const NO_SELECTED_LEARNINGPATH_STEP_ID = -2;
 const ADD_NEW_LEARNINGPATH_STEP_ID = -1;
+const ADD_STEP_BUTTON_ID = "add-step-button";
+const CREATE_STEP_FORM_ID = "create-step-form";
 
 export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
@@ -58,7 +61,8 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [selectedLearningpathStepId, setSelectedLearningpathStepId] = useState<number>(
     NO_SELECTED_LEARNINGPATH_STEP_ID,
   );
-  const [nextId, setNextId] = useState<number | undefined>(undefined);
+  const [nextLearningpathStepId, setNextLearningpathStepId] = useState<number | undefined>(undefined);
+  const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
   const [createStep] = useCreateLearningpathStep();
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
@@ -73,38 +77,49 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const formMethods = useForm<FormValues>({ defaultValues: toFormValues("text") });
 
   const onSaveStep = async (values: FormValues) => {
-    if (learningpath?.id) {
-      const transformedData = formValuesToGQLInput(values);
-      const res = await createStep({
-        variables: {
-          learningpathId: learningpath.id,
-          params: { ...transformedData, language: i18n.language, showTitle: false },
-        },
-      });
-      if (!res.errors?.length) {
-        handleStateChanges(NO_SELECTED_LEARNINGPATH_STEP_ID);
-        toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
-        headingRef.current?.scrollIntoView({ behavior: "smooth" });
-      } else {
-        toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
-      }
+    if (!learningpath?.id) return;
+
+    const transformedData = formValuesToGQLInput(values);
+    const res = await createStep({
+      variables: {
+        learningpathId: learningpath.id,
+        params: { ...transformedData, language: i18n.language, showTitle: false },
+      },
+    });
+
+    if (!res.errors?.length) {
+      handleFormChange(NO_SELECTED_LEARNINGPATH_STEP_ID, learningpathStepEditButtonId(res.data?.newLearningpathStep));
+      toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
+    } else {
+      toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
     }
   };
 
   // skipAlertDialog is for an edgecase when you have edited a step and then decide to delete. This will skip the unsaved edits dialog.
-  const onFormChange = (val: number, skipAlertDialog?: boolean) => {
-    if (formMethods.formState.isDirty && !formMethods.formState.isSubmitting && !skipAlertDialog) {
-      setNextId(val);
+  const onFormChange = (val: number, nextFocusableId?: string, skipAlertDialog?: boolean) => {
+    const isDirty = formMethods.formState.isDirty && !formMethods.formState.isSubmitting;
+    if (isDirty && !skipAlertDialog) {
+      setNextLearningpathStepId(val);
+      setFocusId(nextFocusableId);
     } else {
-      handleStateChanges(val);
+      handleFormChange(val, nextFocusableId);
     }
   };
 
-  const handleStateChanges = (val: number | undefined) => {
+  const handleFormChange = (val?: number, nextFocusableId?: string) => {
     //Reset the form to remove traces of changes
     formMethods.reset();
     setSelectedLearningpathStepId(val ?? NO_SELECTED_LEARNINGPATH_STEP_ID);
-    setNextId(undefined);
+    setNextLearningpathStepId(undefined);
+
+    const focus = nextFocusableId ?? focusId;
+    if (focus === CREATE_STEP_FORM_ID) {
+      setTimeout(() => document.querySelector("form")?.querySelector("input")?.focus(), 1);
+      setFocusId(undefined);
+    } else if (focus) {
+      setTimeout(() => document.getElementById(focus)?.focus(), 0);
+      setFocusId(undefined);
+    }
   };
 
   const announcements = useMemo(
@@ -112,9 +127,10 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
     [sortedLearningpathSteps, t],
   );
 
-  const learningpathIds = useMemo(() => {
-    return sortedLearningpathSteps.map((step) => step.id.toString());
-  }, [sortedLearningpathSteps]);
+  const learningpathIds = useMemo(
+    () => sortedLearningpathSteps.map((step) => step.id.toString()),
+    [sortedLearningpathSteps],
+  );
 
   const onError = () => toast.create({ title: t("myNdla.learningpathstep.error") });
 
@@ -151,9 +167,9 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   return (
     <FormProvider {...formMethods}>
       <AlertDialog
-        onAbort={() => setNextId(undefined)}
-        onContinue={() => handleStateChanges(nextId)}
-        isBlocking={!!nextId}
+        onAbort={() => setNextLearningpathStepId(undefined)}
+        onContinue={() => handleFormChange(nextLearningpathStepId)}
+        isBlocking={!!nextLearningpathStepId}
       />
       <Stack gap="medium" justify="left">
         <Heading textStyle="heading.small" asChild consumeCss ref={headingRef}>
@@ -180,7 +196,9 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
                     step={step}
                     learningpathId={learningpath.id}
                     selectedLearningpathStepId={selectedLearningpathStepId}
-                    onClose={(skipAlert) => onFormChange(NO_SELECTED_LEARNINGPATH_STEP_ID, skipAlert)}
+                    onClose={(skipAlert) =>
+                      onFormChange(NO_SELECTED_LEARNINGPATH_STEP_ID, learningpathStepEditButtonId(step), skipAlert)
+                    }
                     onSelect={() => onFormChange(step.id)}
                     index={index}
                   />
@@ -190,14 +208,20 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
           </DndContext>
         )}
         {selectedLearningpathStepId !== ADD_NEW_LEARNINGPATH_STEP_ID ? (
-          <AddButton variant="secondary" onClick={() => onFormChange(ADD_NEW_LEARNINGPATH_STEP_ID)}>
+          <AddButton
+            id={ADD_STEP_BUTTON_ID}
+            variant="secondary"
+            onClick={() => {
+              onFormChange(ADD_NEW_LEARNINGPATH_STEP_ID, CREATE_STEP_FORM_ID);
+            }}
+          >
             <AddLine />
             {t("myNdla.learningpath.form.steps.add")}
           </AddButton>
         ) : (
           <LearningpathStepForm
             stepType="text"
-            onClose={() => onFormChange(NO_SELECTED_LEARNINGPATH_STEP_ID)}
+            onClose={() => onFormChange(NO_SELECTED_LEARNINGPATH_STEP_ID, ADD_STEP_BUTTON_ID)}
             onSave={onSaveStep}
           />
         )}
