@@ -443,7 +443,13 @@ const MastheadSearch = ({ root }: Props) => {
                       <StyledListItemRoot context="list">
                         <TextWrapper>
                           <StyledComboboxItemText>
-                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                            <SafeLink
+                              to={resource.path}
+                              onClick={onNavigate}
+                              unstyled
+                              css={linkOverlay.raw()}
+                              id="matomo-masthead-search-anchor-element"
+                            >
                               {resource.htmlTitle}
                             </SafeLink>
                           </StyledComboboxItemText>
