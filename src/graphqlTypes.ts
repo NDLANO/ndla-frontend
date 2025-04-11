@@ -3197,13 +3197,6 @@ export type GQLSearchPageQuery = {
       __typename?: "AggregationResult";
       values: Array<{ __typename?: "BucketResult" } & GQLResourceTypeFilter_BucketResultFragment>;
     }>;
-    suggestions: Array<{
-      __typename?: "SuggestionResult";
-      suggestions: Array<{
-        __typename?: "SearchSuggestion";
-        options: Array<{ __typename?: "SuggestOption"; text: string }>;
-      }>;
-    }>;
   };
 };
 
