@@ -7,7 +7,7 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/minndla");
@@ -37,8 +37,8 @@ test("can navigate to profile", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Min profil")).toBeVisible();
 });
 
-test("have all options at the different pages", async ({ page }) => {
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+test("have all options at the different pages", async ({ page, waitGraphql }) => {
+  await waitGraphql();
   await expect(page.getByRole("link", { name: "Logg ut" })).toBeVisible({ timeout: 10000 });
   const options = await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts();
 
