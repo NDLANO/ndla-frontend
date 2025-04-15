@@ -7,27 +7,27 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
-test("topic contains content", async ({ page }) => {
+test("topic contains content", async ({ page, waitGraphql }) => {
   await page.goto("/article-iframe/nb/urn:topic:2:170165/2?disableSSR=true");
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await waitGraphql();
   const heading = page.getByRole("heading").getByText("Samfunnsfaglige tenkemåter");
   expect(heading).toBeDefined();
   expect(await heading.textContent()).toEqual("Samfunnsfaglige tenkemåter");
 });
 
-test("resource contains content", async ({ page }) => {
+test("resource contains content", async ({ page, waitGraphql }) => {
   await page.goto("/article-iframe/nb/urn:resource:1:124037/3?disableSSR=true");
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await waitGraphql();
   const heading = page.getByRole("heading").getByText("Meninger og kunnskap om samfunnet").first();
   expect(heading).toBeDefined();
   expect(await heading.textContent()).toEqual("Meninger og kunnskap om samfunnet");
 });
 
-test("oembed contains content", async ({ page }) => {
+test("oembed contains content", async ({ page, waitGraphql }) => {
   await page.goto("/article-iframe/nb/article/4?disableSSR=true");
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await waitGraphql();
   const heading = page.getByRole("heading").getByText("Medier og informasjonskilder");
   expect(heading).toBeDefined();
   expect(await heading.textContent()).toEqual("Medier og informasjonskilder");

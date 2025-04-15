@@ -7,14 +7,14 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/?disableSSR=true");
 });
 
-test("should have list of valid links on frontpage", async ({ page }) => {
-  await mockWaitResponse(page, "**/graphql-api/*");
+test("should have list of valid links on frontpage", async ({ page, waitGraphql }) => {
+  await waitGraphql();
   const programmes = page.getByTestId("programme-list").getByRole("link");
   await expect(programmes).toHaveCount(15);
 });

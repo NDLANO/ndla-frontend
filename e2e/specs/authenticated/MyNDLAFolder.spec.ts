@@ -7,7 +7,7 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/minndla/folders", { waitUntil: "domcontentloaded" });
@@ -39,7 +39,7 @@ test("can copy sharable link to folder", async ({ page }) => {
   await expect(heading).toHaveText(sharedFolderTitle);
 });
 
-test("can add and delete folder", async ({ page, harCheckpoint }) => {
+test("can add and delete folder", async ({ page, harCheckpoint, waitGraphql }) => {
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
   const folderList = page.getByRole("main").getByRole("list").first();
   await expect(folderList).toBeVisible();
@@ -52,7 +52,7 @@ test("can add and delete folder", async ({ page, harCheckpoint }) => {
 
   await harCheckpoint();
   await page.getByRole("button", { name: "Lagre", exact: true }).click();
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await waitGraphql();
 
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await page.goBack();
@@ -62,7 +62,7 @@ test("can add and delete folder", async ({ page, harCheckpoint }) => {
   await harCheckpoint();
   await page.getByRole("dialog").getByRole("button", { name: "Slett mappe" }).click();
   await harCheckpoint();
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await waitGraphql();
   await expect(page.getByRole("dialog")).not.toBeVisible();
   await expect(page.getByRole("listitem").getByText(name).last()).not.toBeVisible();
   await expect(folderList.getByRole("listitem")).toHaveCount(count);
