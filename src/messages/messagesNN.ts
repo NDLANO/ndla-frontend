@@ -796,6 +796,12 @@ const messages = {
       span: {
         language: "Språk",
       },
+      heading: {
+        label: "Velg teksttype",
+        "normal-text": "Normal",
+        "heading-2": "Overskrift 2",
+        "heading-3": "Overskrift 3",
+      },
     },
   },
   treeStructure: {
