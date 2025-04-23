@@ -74,6 +74,7 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
   const [labelledBy, setLabelledBy] = useState<string | undefined>(undefined);
   const [editor] = useState(() =>
     createSlate({
+      value: initialValue,
       plugins: [
         inlineNavigationPlugin,
         sectionPlugin,
@@ -97,19 +98,9 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
       ],
       leafRenderers: [MarkLeaf],
       logger: new LoggerManager({ debug: true }),
+      shouldNormalize: true,
     }),
   );
-
-  // Taken from https://github.com/ianstormtaylor/slate/issues/3465#issuecomment-1055413090
-  const slateValue = useMemo(() => {
-    // Slate throws an error if the value on the initial render is invalid
-    // so we directly set the value on the editor in order
-    // to be able to trigger normalization on the initial value before rendering
-    editor.children = initialValue;
-    editor.normalize({ force: true });
-    // We return the normalized internal value so that the rendering can take over from here
-    return editor.children;
-  }, [editor, initialValue]);
 
   const field = useFieldContext();
   const fieldProps = useMemo(() => (field?.getTextareaProps() as EditableProps | undefined) ?? {}, [field]);
@@ -123,7 +114,7 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
 
   return (
     <EditorWrapper className="ndla-article">
-      <Slate editor={editor} initialValue={slateValue} onChange={onChange}>
+      <Slate editor={editor} initialValue={editor.children} onChange={onChange}>
         <RichTextToolbar />
         <StyledEditable
           onKeyDown={editor.onKeyDown}
