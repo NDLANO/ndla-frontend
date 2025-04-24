@@ -3042,16 +3042,8 @@ export type GQLResourceEmbedQuery = {
 
 export type GQLResourceEmbedLicenseContent_MetaFragment = {
   __typename?: "ResourceMetaData";
-  concepts?: Array<
-    {
-      __typename?: "ConceptLicense";
-      content?: string;
-      metaImageUrl?: string;
-    } & GQLConceptLicenseList_ConceptLicenseFragment
-  >;
-  glosses?: Array<
-    { __typename?: "GlossLicense"; content?: string; metaImageUrl?: string } & GQLGlossLicenseList_GlossLicenseFragment
-  >;
+  concepts?: Array<{ __typename?: "ConceptLicense"; content?: string } & GQLConceptLicenseList_ConceptLicenseFragment>;
+  glosses?: Array<{ __typename?: "GlossLicense"; content?: string } & GQLGlossLicenseList_GlossLicenseFragment>;
   h5ps?: Array<{ __typename?: "H5pLicense" } & GQLH5pLicenseList_H5pLicenseFragment>;
   brightcoves?: Array<
     { __typename?: "BrightcoveLicense"; description?: string } & GQLVideoLicenseList_BrightcoveLicenseFragment
