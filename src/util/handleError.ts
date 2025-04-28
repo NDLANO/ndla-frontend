@@ -184,9 +184,15 @@ const logServerError = async (
   }
 };
 
+const sendToSentry = (error: ErrorType, requestPath: string | undefined, extraContext: Record<string, unknown>) => {
+  const errorContext = { error, requestPath, ...extraContext };
+  Sentry.setContext("NDLA Context", errorContext);
+  Sentry.captureException(error);
+};
+
 const handleError = async (error: ErrorType, requestPath?: string, extraContext: Record<string, unknown> = {}) => {
   if (config.runtimeType === "production" && config.isClient) {
-    Sentry.captureException(error);
+    sendToSentry(error, requestPath, extraContext);
   } else if (!config.isClient) {
     await logServerError(error, requestPath, extraContext);
   } else {
