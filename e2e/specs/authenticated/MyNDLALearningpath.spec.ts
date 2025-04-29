@@ -9,6 +9,12 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
+const TEXT_STEP = "Tekst jeg har skrevet selv";
+const ARTICLE_STEP = "Innhold fra NDLA";
+const EXTERNAL_STEP = "Innhold fra et annet nettsted";
+const FOLDER_STEP = "Innhold fra en av mine mapper i Min NDLA";
+const UNSAVED_EDITS_WARNING = "Du har ulagrede endringer i steget. Om du fortsetter vil du miste endringene dine.";
+
 test.beforeEach(async ({ page }) => {
   await page.goto("/minndla/learningpaths");
 });
@@ -45,10 +51,10 @@ test("can find all steps", async ({ page }) => {
 
   const labels = page.locator("form").locator("label");
 
-  await expect(labels.filter({ hasText: "Tekst jeg har skrevet selv" })).toBeVisible();
-  await expect(labels.filter({ hasText: "Innhold fra NDLA" })).toBeVisible();
-  await expect(labels.filter({ hasText: "Innhold fra et annet nettsted" })).toBeVisible();
-  await expect(labels.filter({ hasText: "Innhold fra en av mine mapper i Min NDLA" })).toBeVisible();
+  await expect(labels.filter({ hasText: TEXT_STEP })).toBeVisible();
+  await expect(labels.filter({ hasText: ARTICLE_STEP })).toBeVisible();
+  await expect(labels.filter({ hasText: EXTERNAL_STEP })).toBeVisible();
+  await expect(labels.filter({ hasText: FOLDER_STEP })).toBeVisible();
 });
 
 test("can create text step", async ({ page, waitGraphql, harCheckpoint }) => {
@@ -58,7 +64,7 @@ test("can create text step", async ({ page, waitGraphql, harCheckpoint }) => {
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
 
-  const textSteps = await page.getByRole("listitem").getByText("Tekst jeg har skrevet selv").count();
+  const textSteps = await page.getByRole("listitem").getByText(TEXT_STEP).count();
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.getByRole("group");
 
@@ -68,7 +74,7 @@ test("can create text step", async ({ page, waitGraphql, harCheckpoint }) => {
   await page.getByRole("button", { name: "Lagre" }).click();
   await harCheckpoint();
   await waitGraphql();
-  await expect(page.getByRole("listitem").getByText("Tekst jeg har skrevet selv")).toHaveCount(textSteps + 1);
+  await expect(page.getByRole("listitem").getByText(TEXT_STEP)).toHaveCount(textSteps + 1);
 });
 
 test("can create article step", async ({ page, waitGraphql }) => {
@@ -77,12 +83,12 @@ test("can create article step", async ({ page, waitGraphql }) => {
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
-  const amountArticleSteps = await page.getByRole("listitem").getByText("Innhold fra NDLA").count();
+  const amountArticleSteps = await page.getByRole("listitem").getByText(ARTICLE_STEP).count();
 
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").locator("label");
-  await radiogroup.filter({ hasText: "Innhold fra NDLA" }).click();
+  await radiogroup.filter({ hasText: ARTICLE_STEP }).click();
 
   await groups.nth(1).locator("input").focus();
   await groups.nth(1).locator("input").fill("test");
@@ -100,8 +106,8 @@ test("can create article step", async ({ page, waitGraphql }) => {
     .getByRole("listitem")
     .filter({ hasText: selectedComboboxTitle ?? "" })
     .last();
-  await expect(newStep.getByText("Innhold fra NDLA")).toBeVisible();
-  await expect(page.getByRole("listitem").getByText("Innhold fra NDLA")).toHaveCount(amountArticleSteps + 1);
+  await expect(newStep.getByText(ARTICLE_STEP)).toBeVisible();
+  await expect(page.getByRole("listitem").getByText(ARTICLE_STEP)).toHaveCount(amountArticleSteps + 1);
 });
 
 test("can create external step", async ({ page, waitGraphql }) => {
@@ -110,12 +116,12 @@ test("can create external step", async ({ page, waitGraphql }) => {
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
-  const externalSteps = await page.getByRole("listitem").getByText("Innhold fra et annet nettsted").count();
+  const externalSteps = await page.getByRole("listitem").getByText(EXTERNAL_STEP).count();
 
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
-  await radiogroup.getByText("Innhold fra et annet nettsted").click();
+  await radiogroup.getByText(EXTERNAL_STEP).click();
 
   await groups.nth(3).getByRole("textbox").fill("https://ndla.no");
 
@@ -127,8 +133,8 @@ test("can create external step", async ({ page, waitGraphql }) => {
   await page.getByRole("button", { name: "Lagre" }).click();
   await waitGraphql();
   const newStep = page.getByRole("listitem").filter({ hasText: ndlaOpengraphTitle }).last();
-  await expect(newStep.getByText("Innhold fra et annet nettsted")).toBeVisible();
-  await expect(page.getByRole("listitem").getByText("Innhold fra et annet nettsted")).toHaveCount(externalSteps + 1);
+  await expect(newStep.getByText(EXTERNAL_STEP)).toBeVisible();
+  await expect(page.getByRole("listitem").getByText(EXTERNAL_STEP)).toHaveCount(externalSteps + 1);
 });
 
 test("can create folder step", async ({ page, waitGraphql }) => {
@@ -138,11 +144,11 @@ test("can create folder step", async ({ page, waitGraphql }) => {
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
 
-  const amountArticleSteps = await page.getByRole("listitem").getByText("Innhold fra NDLA").count();
+  const amountArticleSteps = await page.getByRole("listitem").getByText(ARTICLE_STEP).count();
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
-  await radiogroup.getByText("Innhold fra en av mine mapper i Min NDLA").click();
+  await radiogroup.getByText(FOLDER_STEP).click();
 
   await groups.nth(1).locator("input").focus();
   await page.keyboard.press("ArrowDown");
@@ -156,8 +162,8 @@ test("can create folder step", async ({ page, waitGraphql }) => {
     .getByRole("listitem")
     .filter({ hasText: selectedComboboxTitle ?? "" })
     .last();
-  await expect(newStep.getByText("Innhold fra NDLA")).toBeVisible();
-  await expect(page.getByRole("listitem").getByText("Innhold fra NDLA")).toHaveCount(amountArticleSteps + 1);
+  await expect(newStep.getByText(ARTICLE_STEP)).toBeVisible();
+  await expect(page.getByRole("listitem").getByText(ARTICLE_STEP)).toHaveCount(amountArticleSteps + 1);
 });
 
 test("shows warning dialog when closing form and text form is dirty", async ({ page }) => {
@@ -175,6 +181,7 @@ test("shows warning dialog when closing form and text form is dirty", async ({ p
 
   await page.getByRole("button", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
 
 test("shows warning dialog when closing form and article form is dirty", async ({ page, waitGraphql }) => {
@@ -186,7 +193,7 @@ test("shows warning dialog when closing form and article form is dirty", async (
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").locator("label");
-  await radiogroup.filter({ hasText: "Innhold fra NDLA" }).click();
+  await radiogroup.filter({ hasText: ARTICLE_STEP }).click();
 
   await groups.nth(1).locator("input").focus();
   await groups.nth(1).locator("input").fill("test");
@@ -196,6 +203,7 @@ test("shows warning dialog when closing form and article form is dirty", async (
   await page.locator('div[data-part="list"]').locator("div").first().click();
   await page.getByRole("button", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
 
 test("shows warning dialog when closing form and external form is dirty", async ({ page, waitGraphql }) => {
@@ -207,7 +215,7 @@ test("shows warning dialog when closing form and external form is dirty", async 
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
-  await radiogroup.getByText("Innhold fra et annet nettsted").click();
+  await radiogroup.getByText(EXTERNAL_STEP).click();
 
   await groups.nth(3).getByRole("textbox").fill("https://ndla.no");
 
@@ -215,6 +223,7 @@ test("shows warning dialog when closing form and external form is dirty", async 
   await page.locator("label").filter({ hasText: "Innholdet jeg har lenket til" }).click();
   await page.getByRole("button", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
 
 test("shows warning dialog when closing form and folder form is dirty", async ({ page }) => {
@@ -226,7 +235,7 @@ test("shows warning dialog when closing form and folder form is dirty", async ({
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
-  await radiogroup.getByText("Innhold fra en av mine mapper i Min NDLA").click();
+  await radiogroup.getByText(FOLDER_STEP).click();
 
   await groups.nth(1).locator("input").focus();
   await page.keyboard.press("ArrowDown");
@@ -236,6 +245,7 @@ test("shows warning dialog when closing form and folder form is dirty", async ({
   await expect(page.getByRole("link", { name: title ?? "" })).toBeVisible();
   await page.getByRole("button", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
 
 test("shows warning dialog when navigating and text form is dirty", async ({ page }) => {
@@ -252,6 +262,7 @@ test("shows warning dialog when navigating and text form is dirty", async ({ pag
   await groups.nth(1).getByRole("textbox", { name: "Tittel" }).fill(title);
   await page.getByRole("navigation").getByRole("listitem").getByRole("link").first().click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
 
 test("shows warning dialog when navigating and article form is dirty", async ({ page, waitGraphql }) => {
@@ -263,7 +274,7 @@ test("shows warning dialog when navigating and article form is dirty", async ({ 
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").locator("label");
-  await radiogroup.filter({ hasText: "Innhold fra NDLA" }).click();
+  await radiogroup.filter({ hasText: ARTICLE_STEP }).click();
 
   await groups.nth(1).locator("input").focus();
   await groups.nth(1).locator("input").fill("test");
@@ -273,6 +284,7 @@ test("shows warning dialog when navigating and article form is dirty", async ({ 
   await page.locator('div[data-part="list"]').locator("div").first().click();
   await page.getByRole("navigation").getByRole("listitem").getByRole("link").first().click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
 
 test("shows warning dialog when navigating and external form is dirty", async ({ page, waitGraphql }) => {
@@ -284,7 +296,7 @@ test("shows warning dialog when navigating and external form is dirty", async ({
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
-  await radiogroup.getByText("Innhold fra et annet nettsted").click();
+  await radiogroup.getByText(EXTERNAL_STEP).click();
 
   await groups.nth(3).getByRole("textbox").fill("https://ndla.no");
 
@@ -292,6 +304,7 @@ test("shows warning dialog when navigating and external form is dirty", async ({
   await page.locator("label").filter({ hasText: "Innholdet jeg har lenket til" }).click();
   await page.getByRole("navigation").getByRole("listitem").getByRole("link").first().click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
 
 test("shows warning dialog when navigating and folder form is dirty", async ({ page }) => {
@@ -303,7 +316,7 @@ test("shows warning dialog when navigating and folder form is dirty", async ({ p
   await page.getByRole("button", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
-  await radiogroup.getByText("Innhold fra en av mine mapper i Min NDLA").click();
+  await radiogroup.getByText(FOLDER_STEP).click();
 
   await groups.nth(1).locator("input").focus();
   await page.keyboard.press("ArrowDown");
@@ -314,6 +327,7 @@ test("shows warning dialog when navigating and folder form is dirty", async ({ p
 
   await page.getByRole("navigation").getByRole("listitem").getByRole("link").first().click();
   await expect(page.getByRole("dialog")).toBeVisible();
+  await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
 
 test("can preview learningpath", async ({ page, waitGraphql }) => {
