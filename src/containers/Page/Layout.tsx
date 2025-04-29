@@ -7,18 +7,20 @@
  */
 
 import { CSSProperties, useEffect, useMemo, useRef } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
 import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
+import { routes } from "../../routeHelpers";
 import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 import { usePrevious } from "../../util/utilityHooks";
 import Masthead from "../Masthead";
 
 const Layout = () => {
   const { pathname } = useLocation();
+  const { learningpathId, stepId } = useParams();
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
@@ -29,10 +31,14 @@ const Layout = () => {
       return;
     }
     const searchUpdate = pathname === "/search" && prevPathname === "/search";
-    if (!searchUpdate) {
+    const learningpathStepUpdate =
+      pathname === routes.myNdla.learningpathEditSteps(Number(learningpathId)) ||
+      (stepId && routes.myNdla.learningpathEditStep(Number(learningpathId), stepId));
+
+    if (!searchUpdate && !learningpathStepUpdate) {
       window.scrollTo(0, 0);
     }
-  }, [pathname, prevPathname]);
+  }, [learningpathId, pathname, prevPathname, stepId]);
 
   useEffect(() => {
     if (!htmlRef.current) {

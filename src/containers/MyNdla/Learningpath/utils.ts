@@ -30,4 +30,5 @@ export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment): F
 };
 
 export const learningpathListItemId = (id: number) => `learningpath-${id}`;
-export const learningpathStepEditButtonId = (step?: GQLMyNdlaLearningpathStepFragment) => `edit-button-${step?.id}`;
+export const learningpathStepEditButtonId = (id: number) => `edit-button-${id}`;
+export const learningpathStepCloseButtonId = (id: number) => `close-button-${id}`;
