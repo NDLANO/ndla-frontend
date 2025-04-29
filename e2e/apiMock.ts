@@ -38,16 +38,12 @@ export const test = Ptest.extend<ExtendedTestOptions>({
       );
 
       // Appending the checkpoint index to the request headers
-      if (process.env.RECORD_FIXTURES === "true") {
-        await page.setExtraHTTPHeaders(createCheckpoint(checkpointIndex));
-      }
+      await page.setExtraHTTPHeaders(createCheckpoint(checkpointIndex));
 
       // Appending the new checkpoint index to the request headers
       await use(async () => {
         checkpointIndex += 1;
-        if (process.env.RECORD_FIXTURES === "true") {
-          await page.setExtraHTTPHeaders(createCheckpoint(checkpointIndex));
-        }
+        await page.setExtraHTTPHeaders(createCheckpoint(checkpointIndex));
       });
     },
     { auto: true, scope: "test" },
