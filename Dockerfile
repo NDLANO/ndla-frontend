@@ -31,7 +31,7 @@ RUN --mount=type=secret,id=sentry_token \
 ### Run stage
 FROM node:20.19.1-alpine3.20
 
-RUN apk add py-pip jq && pip install awscli
+RUN apk add py-pip jq aws-cli
 COPY run-ndla-frontend.sh /
 
 WORKDIR /home/app/ndla-frontend
