@@ -21,22 +21,27 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { FilterContainer } from "./FilterContainer";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import { GQLProgrammesQuery, GQLProgrammesQueryVariables } from "../../graphqlTypes";
+
+const programmeQueryParam = "programmes";
 
 export const ProgrammeFilter = () => {
   const { t } = useTranslation();
-
+  const [searchParams, setSearchParams] = useStableSearchPageParams();
+  const selectedSubjects = searchParams.get(programmeQueryParam)?.split(",") || [];
   const { data, loading } = useQuery<GQLProgrammesQuery, GQLProgrammesQueryVariables>(programmesQuery);
-
-  // TODO: Implement once we have search-api support
-  const onValueChange = useCallback(() => {}, []);
+  const onValueChange = useCallback(
+    (programmeIds: string[]) => setSearchParams({ [programmeQueryParam]: programmeIds.join(",") }),
+    [setSearchParams],
+  );
 
   return (
     <FilterContainer>
       <Heading textStyle="label.medium" fontWeight="bold" asChild consumeCss>
         <h3>{t("searchPage.programmeFilter.title")}</h3>
       </Heading>
-      <CheckboxGroup value={[]} onValueChange={onValueChange}>
+      <CheckboxGroup value={selectedSubjects} onValueChange={onValueChange}>
         {loading ? (
           <Spinner />
         ) : (

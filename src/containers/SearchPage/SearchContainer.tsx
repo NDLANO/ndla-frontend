@@ -266,12 +266,16 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const paginationTranslations = usePaginationTranslations();
 
   const queryParams: GQLSearchPageQueryVariables = useMemo(() => {
-    const subjects =
+    const subjectList =
       searchParams
         .get("subjects")
         ?.split(",")
-        .map((s) => `urn:subject:${s}`)
-        .join(",") ?? undefined;
+        .map((s) => `urn:subject:${s}`) ?? [];
+
+    const programmeList = searchParams.get("programmes")?.split(",") ?? [];
+    const subjectsParam = [...subjectList, ...programmeList];
+    const subjects = subjectsParam.length ? subjectsParam.join(",") : undefined;
+
     return {
       query: searchParams.get("query") ?? undefined,
       language: i18n.language,
@@ -283,7 +287,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       fallback: "true",
       license: "all",
       grepCodes: searchParams.get("grepCodes") ?? undefined,
-      filterInactive: !subjects?.split(",").length,
+      filterInactive: !subjectsParam.length,
       ...getTypeVariables(
         searchParams.get("resourceTypes"),
         isLti ? resourceTypes : undefined,
