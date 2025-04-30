@@ -149,7 +149,6 @@ const messages = {
     },
     resultType: {
       showingSearchPhrase: "Viser treff for",
-      searchPhraseSuggestion: "Søk heller",
     },
   },
   myNdla: {

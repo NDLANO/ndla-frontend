@@ -149,7 +149,6 @@ const messages = {
     },
     resultType: {
       showingSearchPhrase: "Showing hits for",
-      searchPhraseSuggestion: "Search instead for",
     },
   },
   myNdla: {
