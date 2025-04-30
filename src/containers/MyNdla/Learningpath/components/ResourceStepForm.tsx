@@ -129,7 +129,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
         )}
       </TextWrapper>
       <StyledHStack gap="medium">
-        <ContentTypeBadge contentType={contentType} />
+        {!!contentType && <ContentTypeBadge contentType={contentType} />}
         <IconButton
           id="remove-resource"
           aria-label={t("myNdla.learningpath.form.delete")}

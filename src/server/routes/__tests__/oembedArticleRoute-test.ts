@@ -16,33 +16,11 @@ const unvalidArticleUrl = "https://test.ndla.no/subject:3";
 const validLearningpathUrl = "https://test.ndla.no/subject:3/topic:1:55163/topic:1:168398/resource:1:9876";
 
 test("oembedArticleRoute success", async () => {
-  nock("http://ndla-api")
-    .get("/taxonomy/v1/nodes/urn:resource:1:1682?language=nb")
-    .times(2)
-    .reply(200, {
-      id: "urn:resource:1",
-      contentUri: "urn:article:123",
-      name: "Resource title",
-      breadcrumbs: ["Fag", "Emne"],
-      resourceTypes: [
-        {
-          id: "urn:resourcetype:subjectMaterial",
-          parentId: null,
-          name: "Fagstoff",
-          translations: [],
-          supportedLanguages: [],
-          connectionId: "",
-        },
-        {
-          id: "urn:resourcetype:academicArticle",
-          parentId: "urn:resourcetype:subjectMaterial",
-          name: "Fagartikkel",
-          translations: [],
-          supportedLanguages: [],
-          connectionId: "",
-        },
-      ],
-    });
+  nock("http://ndla-api").get("/taxonomy/v1/nodes/urn:resource:1:1682?language=nb").times(2).reply(200, {
+    id: "urn:resource:1",
+    contentUri: "urn:article:123",
+    name: "Resource title",
+  });
 
   const response = await oembedArticleRoute({
     query: {
