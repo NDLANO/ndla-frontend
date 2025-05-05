@@ -2788,6 +2788,7 @@ export type GQLPreviewLearningpathQuery = {
   learningpath?: {
     __typename?: "Learningpath";
     id: number;
+    canEdit: boolean;
     learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
 };
@@ -3558,6 +3559,7 @@ export type GQLMyNdlaLearningpathFragment = {
   title: string;
   description: string;
   created: string;
+  canEdit: boolean;
   status: string;
   madeAvailable?: string;
   revision: number;
