@@ -30,7 +30,7 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
   const toast = useToast();
 
   const levelFolders = useMemo(
-    () => (folder?.parentId ? getFolder(cache, folder.parentId)?.subfolders ?? [] : folders),
+    () => (folder?.parentId ? (getFolder(cache, folder.parentId)?.subfolders ?? []) : folders),
     [cache, folder?.parentId, folders],
   );
 

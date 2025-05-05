@@ -94,7 +94,7 @@ const SlateLink = ({ children, element, attributes }: SlateLinkProps) => {
             }}
           >
             <PopoverTrigger asChild consumeCss {...attributes} ref={triggerRef}>
-              <a href={element.data.href} target={element.data.target}>
+              <a href={element.data.href} target={element.data.target} rel={element.data.rel}>
                 <InlineBugfix />
                 {children}
                 <InlineBugfix />
@@ -106,7 +106,7 @@ const SlateLink = ({ children, element, attributes }: SlateLinkProps) => {
                   {t("richTextEditor.plugin.link.popoverTitle", { domain: element.data.href })}
                 </PopoverTitle>
                 <ActionsWrapper>
-                  <SafeLink to={element.data.href} target={element.data.target}>
+                  <SafeLink to={element.data.href} target={element.data.target} rel={element.data.rel}>
                     {element.data.href}
                   </SafeLink>
                   <DialogTrigger asChild onClick={() => popover.setOpen(false)}>

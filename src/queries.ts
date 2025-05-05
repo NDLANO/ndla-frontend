@@ -99,6 +99,8 @@ export const searchQuery = gql`
     $aggregatePaths: [String!]
     $filterInactive: Boolean
     $license: String
+    $resultTypes: String
+    $nodeTypes: String
   ) {
     search(
       query: $query
@@ -119,6 +121,8 @@ export const searchQuery = gql`
       aggregatePaths: $aggregatePaths
       filterInactive: $filterInactive
       license: $license
+      resultTypes: $resultTypes
+      nodeTypes: $nodeTypes
     ) {
       pageSize
       page

@@ -9,12 +9,14 @@
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { DeleteBinLine } from "@ndla/icons";
+import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
+import { StepSafeLink } from "./StepSafeLink";
 import { contentTypeMapping } from "../../../../util/getContentType";
 
 export interface ResourceFormValues {
@@ -31,7 +33,7 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
   const { t } = useTranslation();
   const [selectedResource, setSelectedResource] = useState<ResourceData | undefined>(resource);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
-  const { setValue } = useFormContext<ResourceFormValues>();
+  const { setValue, reset } = useFormContext<ResourceFormValues>();
 
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
@@ -42,8 +44,7 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
 
   const onRemove = () => {
     setSelectedResource(undefined);
-    setValue("embedUrl", "", { shouldDirty: true });
-    setValue("title", "", { shouldDirty: true });
+    reset({ type: "resource", title: "", embedUrl: "" });
     setFocusId("resource-input");
   };
 
@@ -88,6 +89,7 @@ const ResourceWrapper = styled("div", {
     justifyContent: "space-between",
     boxShadow: "xsmall",
     backgroundColor: "background.default",
+    position: "relative",
   },
 });
 
@@ -100,6 +102,12 @@ const StyledHStack = styled(HStack, {
 const CrumbText = styled(Text, {
   base: {
     overflowWrap: "anywhere",
+  },
+});
+
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "relative",
   },
 });
 
@@ -116,7 +124,12 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <Text>{selectedResource.title}</Text>
+        <StepSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
+          <Text fontWeight="bold">
+            {selectedResource.title}
+            <ExternalLinkLine size="small" />
+          </Text>
+        </StepSafeLink>
         {!!selectedResource.breadcrumbs && (
           <CrumbText
             textStyle="label.small"
@@ -130,7 +143,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
       </TextWrapper>
       <StyledHStack gap="medium">
         {!!contentType && <ContentTypeBadge contentType={contentType} />}
-        <IconButton
+        <StyledIconButton
           id="remove-resource"
           aria-label={t("myNdla.learningpath.form.delete")}
           title={t("myNdla.learningpath.form.delete")}
@@ -138,7 +151,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
           onClick={onRemove}
         >
           <DeleteBinLine />
-        </IconButton>
+        </StyledIconButton>
       </StyledHStack>
     </ResourceWrapper>
   );

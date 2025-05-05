@@ -83,13 +83,13 @@ renderOrHydrate(
   >
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
-        <ResponseContext.Provider value={{ status: serverResponse }}>
+        <ResponseContext value={{ status: serverResponse }}>
           <VersionHashProvider value={versionHash}>
             <SiteThemeProvider value={window.DATA.siteTheme}>
               <LanguageWrapper basename={basename} />
             </SiteThemeProvider>
           </VersionHashProvider>
-        </ResponseContext.Provider>
+        </ResponseContext>
       </ApolloProvider>
     </I18nextProvider>
   </Document>,

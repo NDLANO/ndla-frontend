@@ -203,6 +203,7 @@ const frameSrc = (() => {
     "norgeibilder.no",
     "video.qbrick.com",
     "www.norskpetroleum.no",
+    "pub.dialogapi.no",
   ];
   if (config.runtimeType === "development") {
     return [

@@ -6,13 +6,9 @@
  *
  */
 
-import { ComponentType, forwardRef } from "react";
+import { ComponentType, type Ref } from "react";
 import { HeadphoneLine, VolumeUpLine, H5P, ImageLine, MovieLine, TextWrap, IconProps } from "@ndla/icons";
 import { ContentType } from "@ndla/ui";
-
-interface Props extends IconProps {
-  contentType?: ContentType;
-}
 
 const getIcon = (contentType: string | undefined) => {
   switch (contentType) {
@@ -33,7 +29,12 @@ const getIcon = (contentType: string | undefined) => {
   }
 };
 
-export const ContentTypeFallbackIcon = forwardRef<SVGSVGElement, Props>(({ contentType, ...props }, ref) => {
+interface Props extends IconProps {
+  ref?: Ref<SVGSVGElement>;
+  contentType?: ContentType;
+}
+
+export const ContentTypeFallbackIcon = ({ contentType, ...props }: Props) => {
   const Element: ComponentType<IconProps> = getIcon(contentType);
-  return <Element ref={ref} {...props} />;
-});
+  return <Element {...props} />;
+};

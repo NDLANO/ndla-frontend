@@ -20,6 +20,7 @@ import { AccessDeniedPage } from "./containers/AccessDeniedPage/AccessDeniedPage
 import AllSubjectsPage from "./containers/AllSubjectsPage/AllSubjectsPage";
 import { CollectionPage } from "./containers/CollectionPage/CollectionPage";
 import ErrorPage from "./containers/ErrorPage/ErrorPage";
+import { FilmRedirectPage } from "./containers/FilmRedirect/FilmRedirectPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
@@ -166,6 +167,7 @@ const AppRoutes = ({ base }: AppProps) => {
                   <Route index element={<SharedFolderPage />} />
                   <Route path="*" element={<SharedFolderPage />} />
                 </Route>
+                <Route path="film" element={<FilmRedirectPage />} />
                 <Route path="404" element={<NotFoundPage />} />
                 <Route path="403" element={<AccessDeniedPage />} />
                 <Route path="*" element={<NotFoundPage />} />

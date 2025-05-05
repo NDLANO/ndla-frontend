@@ -9,6 +9,20 @@
 const titleTemplate = "NDLA";
 
 const messages = {
+  languages: {
+    // Adds to list from frontend-packages
+    ar: "Arabisk",
+    la: "Latin",
+    no: "Norsk",
+    so: "Somali",
+    ti: "Tigrinja",
+    und: "Udefinert",
+    ukr: "Ukrainsk",
+    prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebraisk",
+    pli: "Pali",
+  },
   htmlTitles: {
     titleTemplate,
     welcomePage: `Forsiden - ${titleTemplate}`,
@@ -243,6 +257,12 @@ const messages = {
       newLearningpath: "Ny læringssti",
       editLearningpath: "Rediger læringssti",
       editLearningpathTitle: "Rediger tittel på læringssti",
+      alert: {
+        title: "Du har ulagrede endringer i steget",
+        content: "Du har ulagrede endringer i steget. Om du fortsetter vil du miste endringene dine.",
+        continue: "Fortsett",
+        cancel: "Avbryt",
+      },
       form: {
         delete: "Slett",
         next: "Gå videre",
@@ -685,6 +705,7 @@ const messages = {
     search: "Søk på ndla.no",
     moreHits: "Vis flere treff",
     skipToContent: "Hopp til innhold",
+    activeSubjectSearch: "Søk i faget",
     menuOptions: {
       programme: "Utdanningsprogram",
       subjects: "Fag",
@@ -772,6 +793,9 @@ const messages = {
           textLabel: "Tekst",
           urlLabel: "URL",
         },
+      },
+      span: {
+        language: "Språk",
       },
     },
   },

@@ -40,15 +40,9 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
-import {
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_LEARNING_PATH,
-} from "../../../constants";
-import { GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
+import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
+import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
 import { searchQuery } from "../../../queries";
-import { contentTypeMapping } from "../../../util/getContentType";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
@@ -62,6 +56,7 @@ const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     minHeight: "unset",
     textAlign: "start",
+    flexWrap: "wrap",
   },
 });
 
@@ -80,12 +75,14 @@ const StyledForm = styled("form", {
   base: {
     width: "100%",
     flex: "1",
-    paddingBlock: "medium",
-    paddingInline: "medium",
+    paddingBlockStart: "xsmall",
+    paddingBlockEnd: "xxlarge",
+    paddingInline: "small",
     display: "flex",
     alignItems: "flex-start",
     flexDirection: "column",
-    gap: "3xsmall",
+    gap: "xsmall",
+    overflow: "auto",
     desktop: {
       width: "60%",
     },
@@ -99,6 +96,7 @@ const StyledDialogContent = styled(DialogContent, {
     justifyContent: "center",
     alignItems: "center",
     height: "unset",
+    maxHeight: "100%",
   },
 });
 
@@ -120,6 +118,7 @@ const LabelContainer = styled("div", {
     gap: "medium",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBlockEnd: "xsmall",
   },
 });
 
@@ -133,20 +132,85 @@ const TextWrapper = styled("div", {
   },
 });
 
-const StyledHitsWrapper = styled("div", { base: { marginTop: "3xsmall", textAlign: "start" } });
-
-const SuggestionButton = styled(Button, {
+const StyledHitsWrapper = styled("div", {
   base: {
-    marginInlineStart: "3xsmall",
+    textAlign: "start",
   },
 });
 
-const MastheadSearch = () => {
+const ActiveSubjectWrapper = styled("div", {
+  base: {
+    border: "1px solid",
+    borderColor: "stroke.subtle",
+    backgroundColor: "surface.brand.1.subtle",
+    display: "flex",
+    gap: "3xsmall",
+    padding: "xsmall",
+    alignItems: "center",
+    textAlign: "start",
+    tabletDown: {
+      gap: "4xsmall",
+    },
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "inline",
+    color: "text.default",
+    textStyle: "label.small",
+    "& span": {
+      textDecoration: "underline",
+      _hover: {
+        textDecoration: "none",
+      },
+      _focusVisible: {
+        textDecoration: "none",
+      },
+    },
+  },
+});
+
+const InlineText = styled(Text, {
+  base: {
+    display: "inline",
+    marginInlineEnd: "4xsmall",
+  },
+});
+
+const StyledComboboxItemText = styled(ComboboxItemText, {
+  base: {
+    textDecoration: "underline",
+    _highlighted: {
+      textDecoration: "none",
+    },
+  },
+});
+
+const StyledMoreHitsButton = styled(Button, {
+  base: {
+    marginBlockStart: "small",
+  },
+});
+
+const getActiveSubjectUrl = (id: string, query: string): string => {
+  const stripped = id.replace("urn:subject:", "");
+  const searchParams = new URLSearchParams({
+    subjects: stripped,
+    query: query,
+  });
+  return `/search?${searchParams}`;
+};
+
+interface Props {
+  root?: GQLMastheadDrawer_RootFragment;
+}
+const MastheadSearch = ({ root }: Props) => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [query, setQuery] = useState("");
   const [delayedSearchQuery, setDelayedQuery] = useState("");
   const formId = useId();
@@ -184,12 +248,15 @@ const MastheadSearch = () => {
       runSearch({
         variables: {
           query: delayedSearchQuery,
-          resourceTypes: [
-            RESOURCE_TYPE_LEARNING_PATH,
-            RESOURCE_TYPE_SUBJECT_MATERIAL,
-            RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-          ].join(),
+          contextTypes: "standard,learningpath,topic-article,node",
+          fallback: "true",
+          filterInactive: true,
           license: "all",
+          language: i18n.language,
+          nodeTypes: "SUBJECT",
+          page: 1,
+          pageSize: 10,
+          resultTypes: "node,article,learningpath",
         },
       });
     }
@@ -210,7 +277,15 @@ const MastheadSearch = () => {
     return (
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
+        let contentType = undefined;
+        if (result.__typename === "NodeSearchResult") {
+          contentType = constants.contentTypes.SUBJECT;
+        }
+        if (context?.resourceTypes?.length) {
+          contentType = constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
+        } else if (context?.url.startsWith("/e")) {
+          contentType = constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
+        }
         return {
           ...result,
           htmlTitle:
@@ -245,8 +320,6 @@ const MastheadSearch = () => {
       }),
     [searchHits],
   );
-
-  const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   return (
     <DialogRoot
@@ -284,7 +357,7 @@ const MastheadSearch = () => {
             form={formId}
             selectionBehavior="preserve"
             translations={comboboxTranslations}
-            css={{ width: "100%" }}
+            css={{ width: "100%", gap: "xsmall" }}
           >
             <LabelContainer>
               <DialogTitle asChild>
@@ -330,17 +403,20 @@ const MastheadSearch = () => {
                   ) : (
                     <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
                   )}
-                  {!!suggestion && (
-                    <Text textStyle="label.small">
-                      {t("searchPage.resultType.searchPhraseSuggestion")}
-                      <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
-                        [{suggestion}]
-                      </SuggestionButton>
-                    </Text>
-                  )}
                 </div>
               )}
             </StyledHitsWrapper>
+            {!loading && !!query && root ? (
+              <ActiveSubjectWrapper>
+                <SearchLine />
+                <div>
+                  <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
+                  <StyledSafeLink to={getActiveSubjectUrl(root.id, query)} onClick={() => onNavigate()}>
+                    &quot;<span>{root.name}</span>&quot;
+                  </StyledSafeLink>
+                </div>
+              </ActiveSubjectWrapper>
+            ) : null}
             {!!searchHits.length || loading ? (
               <StyledComboboxContent>
                 {loading ? (
@@ -350,20 +426,32 @@ const MastheadSearch = () => {
                     <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
                       <StyledListItemRoot context="list">
                         <TextWrapper>
-                          <ComboboxItemText>
-                            <SafeLink to={resource.path} onClick={onNavigate} unstyled css={linkOverlay.raw()}>
+                          <StyledComboboxItemText>
+                            <SafeLink
+                              to={resource.path}
+                              onClick={onNavigate}
+                              unstyled
+                              css={linkOverlay.raw()}
+                              id="matomo-masthead-search-anchor-element"
+                            >
                               {resource.htmlTitle}
                             </SafeLink>
-                          </ComboboxItemText>
-                          {!!resource.contexts[0] && (
-                            <Text
-                              textStyle="label.small"
-                              color="text.subtle"
-                              css={{ textAlign: "start" }}
-                              aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
-                            >
-                              {resource.contexts[0].breadcrumbs.join(" > ")}
+                          </StyledComboboxItemText>
+                          {resource.contentType === constants.contentTypes.SUBJECT ? (
+                            <Text textStyle="label.small" color="text.subtle">
+                              {resource.metaDescription}
                             </Text>
+                          ) : (
+                            !!resource.contexts[0] && (
+                              <Text
+                                textStyle="label.small"
+                                color="text.subtle"
+                                css={{ textAlign: "start" }}
+                                aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                              >
+                                {resource.contexts[0].breadcrumbs.join(" / ")}
+                              </Text>
+                            )
                           )}
                         </TextWrapper>
                         <ContentTypeBadge contentType={resource.contentType} />
@@ -375,10 +463,10 @@ const MastheadSearch = () => {
             ) : null}
           </ComboboxRoot>
           {!!searchHits.length && !loading && (
-            <Button variant="secondary" type="submit">
+            <StyledMoreHitsButton variant="secondary" type="submit">
               {t("masthead.moreHits")}
               <ArrowRightLine />
-            </Button>
+            </StyledMoreHitsButton>
           )}
         </StyledForm>
       </StyledDialogContent>

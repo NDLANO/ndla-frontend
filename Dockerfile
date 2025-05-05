@@ -1,10 +1,10 @@
 ### Build stage
-FROM node:20.13.1-alpine3.18 AS builder
+FROM node:20.19.1-alpine3.20 AS builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
-ARG SENTRY_AUTH_TOKEN
-ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+ARG COMPONENT_VERSION
+ENV COMPONENT_VERSION=$COMPONENT_VERSION
 
 # Copy necessary files for installing dependencies
 COPY yarn.lock package.json .yarnrc.yml $APP_PATH/
@@ -24,17 +24,21 @@ COPY src $APP_PATH/src
 COPY public $APP_PATH/public
 
 # Build client code
-RUN yarn run build
+RUN --mount=type=secret,id=sentry_token \
+  export SENTRY_AUTH_TOKEN=$(cat /run/secrets/sentry_token) && \
+  yarn run build
 
 ### Run stage
-FROM node:20.13.1-alpine3.18
+FROM node:20.19.1-alpine3.20
 
-RUN apk add py-pip jq && pip install awscli
+RUN apk add py-pip jq aws-cli
 COPY run-ndla-frontend.sh /
 
 WORKDIR /home/app/ndla-frontend
 COPY --from=builder /home/app/ndla-frontend/build build
 
 ENV NODE_ENV=production
+ARG COMPONENT_VERSION
+ENV COMPONENT_VERSION=$COMPONENT_VERSION
 
 CMD ["/run-ndla-frontend.sh", "node build/server.mjs"]

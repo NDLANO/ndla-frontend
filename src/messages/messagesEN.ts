@@ -9,6 +9,20 @@
 const titleTemplate = "NDLA";
 
 const messages = {
+  languages: {
+    // Adds to list from frontend-packages
+    ar: "Arabic",
+    la: "Latin",
+    no: "Norwegian",
+    so: "Somali",
+    ti: "Tigrinya",
+    und: "Undetermined",
+    ukr: "Ukranian",
+    prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebrew",
+    pli: "Pali",
+  },
   htmlTitles: {
     titleTemplate,
     welcomePage: `Frontpage - ${titleTemplate}`,
@@ -244,6 +258,12 @@ const messages = {
       newLearningpath: "New learningpath",
       editLearningpath: "Edit learningpath",
       editLearningpathTitle: "Edit learningpath title",
+      alert: {
+        title: "You have unsaved changes in the form",
+        content: "You have unsaved changes in the form. If you continue all changes will be lost.",
+        continue: "Continue",
+        cancel: "Cancel",
+      },
       form: {
         delete: "Delete",
         next: "Proceed",
@@ -687,6 +707,7 @@ const messages = {
     search: "Search ndla.no",
     moreHits: "See more results",
     skipToContent: "Skip to content",
+    activeSubjectSearch: "Search in subject",
     menuOptions: {
       programme: "Programmes",
       subjects: "Subjects",
@@ -774,6 +795,9 @@ const messages = {
           textLabel: "Text",
           urlLabel: "URL",
         },
+      },
+      span: {
+        language: "Language",
       },
     },
   },

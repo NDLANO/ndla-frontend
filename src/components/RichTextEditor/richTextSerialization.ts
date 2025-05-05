@@ -18,6 +18,7 @@ import {
   paragraphSerializer,
   sectionSerializer,
   serializeToHtml,
+  spanSerializer,
   type SlateSerializer,
 } from "@ndla/editor";
 import { Descendant } from "slate";
@@ -30,6 +31,7 @@ export const serializers: SlateSerializer<any>[] = [
   linkSerializer,
   headingSerializer,
   listSerializer,
+  spanSerializer,
 ];
 
 export const deserializeToRichText = (html: string) => {

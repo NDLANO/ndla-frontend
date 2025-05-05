@@ -67,10 +67,10 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
 
   const Page = (
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default}>
-      <RedirectContext.Provider value={redirectContext}>
+      <RedirectContext value={redirectContext}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
-            <ResponseContext.Provider value={responseContext}>
+            <ResponseContext value={responseContext}>
               <VersionHashProvider value={versionHash}>
                 <SiteThemeProvider value={siteTheme}>
                   <StaticRouter basename={basename} location={req.url}>
@@ -78,10 +78,10 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
                   </StaticRouter>
                 </SiteThemeProvider>
               </VersionHashProvider>
-            </ResponseContext.Provider>
+            </ResponseContext>
           </ApolloProvider>
         </I18nextProvider>
-      </RedirectContext.Provider>
+      </RedirectContext>
     </Document>
   );
 

@@ -99,6 +99,7 @@ const logglyApiKey = (): string | undefined => {
 export type ConfigType = {
   defaultLocale: string;
   componentName: string;
+  componentVersion: string;
   ndlaEnvironment: string;
   host: string;
   port: string;
@@ -132,6 +133,7 @@ const getServerSideConfig = (): ConfigType => {
   return {
     defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb"),
     componentName: "ndla-frontend",
+    componentVersion: getEnvironmentVariabel("COMPONENT_VERSION") ?? "SNAPSHOT",
     ndlaEnvironment,
     host: getEnvironmentVariabel("NDLA_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariabel("NDLA_FRONTEND_PORT", "3000"),

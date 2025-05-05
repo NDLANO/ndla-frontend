@@ -34,7 +34,7 @@ const ErrorMessageMain = styled("main", {
 const ErrorPage = () => {
   const { t } = useTranslation();
   return (
-    <MissingRouterContext.Provider value={true}>
+    <MissingRouterContext value={true}>
       <Status code={INTERNAL_SERVER_ERROR}>
         <title>NDLA</title>
         <meta name="description" content={t("meta.description")} />
@@ -52,7 +52,7 @@ const ErrorPage = () => {
         </PageLayout>
         <Footer />
       </Status>
-    </MissingRouterContext.Provider>
+    </MissingRouterContext>
   );
 };
 

@@ -97,7 +97,7 @@ const AuthenticationContext = ({ children }: Props) => {
   }, [myNdlaData]);
 
   return (
-    <AuthContext.Provider
+    <AuthContext
       value={{
         authenticated,
         authContextLoaded,
@@ -106,7 +106,7 @@ const AuthenticationContext = ({ children }: Props) => {
       }}
     >
       {children}
-    </AuthContext.Provider>
+    </AuthContext>
   );
 };
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, RefObject, useEffect, useMemo, useRef, useState } from "react";
+import { memo, type RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
 import { CloseLine, CheckLine } from "@ndla/icons";
@@ -48,7 +48,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
   const { folders } = useFolders();
   const { cache } = useApolloClient();
   const siblings = useMemo(
-    () => (parentId !== "folders" ? getFolder(cache, parentId)?.subfolders ?? [] : folders),
+    () => (parentId !== "folders" ? (getFolder(cache, parentId)?.subfolders ?? []) : folders),
     [parentId, cache, folders],
   );
   const siblingNames = siblings.map((sib) => sib.name.toLowerCase());

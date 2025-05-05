@@ -9,26 +9,22 @@
 import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { DeleteBinLine } from "@ndla/icons";
+import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { FolderResourcePicker } from "./FolderResourcePicker";
 import config from "../../../../config";
 import { useFetchOembed } from "../learningpathQueries";
 import { FolderResource } from "./folderTypes";
 import { ResourceFormValues } from "./ResourceStepForm";
+import { StepSafeLink } from "./StepSafeLink";
 
 const TextWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
     gap: "4xsmall",
-  },
-});
-
-const StyledText = styled(Text, {
-  base: {
-    textDecoration: "underline",
   },
 });
 
@@ -41,6 +37,13 @@ const ResourceWrapper = styled("div", {
     gap: "medium",
     justifyContent: "space-between",
     backgroundColor: "background.default",
+    position: "relative",
+  },
+});
+
+const StyledIconButton = styled(IconButton, {
+  base: {
+    position: "relative",
   },
 });
 
@@ -97,13 +100,18 @@ export const FolderStepForm = () => {
       ) : (
         <ResourceWrapper>
           <TextWrapper>
-            <StyledText fontWeight="bold">{resource.title}</StyledText>
+            <StepSafeLink to={resource.path} target="_blank" css={linkOverlay.raw()}>
+              <Text fontWeight="bold">
+                {resource.title}
+                <ExternalLinkLine size="small" />
+              </Text>
+            </StepSafeLink>
             <PathText textStyle="label.small" color="text.subtle">
               {config.ndlaFrontendDomain}
               {resource.path}
             </PathText>
           </TextWrapper>
-          <IconButton
+          <StyledIconButton
             id="remove-resource"
             aria-label={t("myNdla.learningpath.form.delete")}
             title={t("myNdla.learningpath.form.delete")}
@@ -111,7 +119,7 @@ export const FolderStepForm = () => {
             variant="tertiary"
           >
             <DeleteBinLine />
-          </IconButton>
+          </StyledIconButton>
         </ResourceWrapper>
       )}
     </FieldRoot>

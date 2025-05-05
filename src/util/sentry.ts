@@ -30,6 +30,7 @@ const sentryIgnoreErrors: SentryIgnore[] = [
   // https://github.com/matomo-org/matomo/issues/22836
   { error: "'get' on proxy: property 'javaEnabled' is a read-only and non-configurable data property" },
   // Based on Sentry issues. ChromeOS specific errors.
+  { error: "Request timeout isMathOcrAvailable" },
   { error: "Request timeout getDictionariesByLanguageId" },
   { error: "Request timeout getSupportScreenShot" },
   { error: "Request timeout isDictateAvailable" },
@@ -62,12 +63,34 @@ export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => 
   const infoError = isInformationalError(exception);
   if (infoError) return null;
 
-  if (
-    exception instanceof Error &&
-    sentryIgnoreErrors.find(
-      (e) => (e.exact ? exception.message === e.error : exception.message.includes(e.error)) !== undefined,
-    )
-  ) {
+  const message =
+    event.message || event?.exception?.values?.[0]?.value || (hint?.originalException as Error | undefined)?.message;
+  if (typeof message !== "string") return event;
+
+  // Extension error filtering
+  const frames = event?.exception?.values?.[0]?.stacktrace?.frames || [];
+  const hasExtensionFrame = frames.some((frame) => {
+    const filename = frame?.filename || "";
+    return (
+      filename.startsWith("chrome-extension://") ||
+      filename.startsWith("moz-extension://") ||
+      filename.includes("extensions::")
+    );
+  });
+
+  const isExtensionError =
+    hasExtensionFrame || message.includes("chrome-extension://") || message.includes("moz-extension://");
+
+  if (isExtensionError) return null;
+
+  const ignoreEntry = sentryIgnoreErrors.find((ignoreEntry) => {
+    if (ignoreEntry.exact) {
+      return message === ignoreEntry.error;
+    }
+    return message.includes(ignoreEntry.error);
+  });
+
+  if (ignoreEntry) {
     // https://github.com/getsentry/sentry/issues/61469
     // https://github.com/matomo-org/matomo/issues/22836
     return null;
@@ -82,9 +105,13 @@ export const initSentry = (config: ConfigType) => {
     return;
   }
 
+  const release = `${config.componentName}@${config.componentVersion}`;
+
   Sentry.init({
     dsn: config.sentrydsn,
     environment: config.ndlaEnvironment,
+    normalizeDepth: 20,
+    release,
     beforeSend,
     integrations: [],
   });

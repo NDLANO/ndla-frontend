@@ -34,7 +34,7 @@ export const useToast = () => {
 
 export const ToastProvider = ({ children }: ToastProviderProps) => {
   return (
-    <ToastContext.Provider value={toaster}>
+    <ToastContext value={toaster}>
       <Toaster toaster={toaster}>
         {(toast) => (
           <ToastRoot>
@@ -49,6 +49,6 @@ export const ToastProvider = ({ children }: ToastProviderProps) => {
         )}
       </Toaster>
       {children}
-    </ToastContext.Provider>
+    </ToastContext>
   );
 };

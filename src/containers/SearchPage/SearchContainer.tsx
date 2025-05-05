@@ -170,13 +170,6 @@ const searchPageQueryFragment = gql`
           ...ResourceTypeFilter_BucketResult
         }
       }
-      suggestions {
-        suggestions {
-          options {
-            text
-          }
-        }
-      }
     }
   }
   ${SearchResult.fragments.searchResult}
@@ -319,8 +312,6 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     [query, setSearchParams],
   );
 
-  const suggestion = data?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
-
   const resultsTranslation = useMemo(() => {
     if (!data?.search) return undefined;
     const res = [];
@@ -396,20 +387,6 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             {!!resultsTranslation && (
               <Text textStyle="label.small" aria-live="polite" role="status">
                 {resultsTranslation}
-              </Text>
-            )}
-            {!!suggestion && (
-              <Text>
-                {t("searchPage.querySuggestion")}
-                <Button
-                  variant="link"
-                  onClick={() => {
-                    setQuery(suggestion);
-                    setSearchParams({ query: suggestion });
-                  }}
-                >
-                  [{suggestion}]
-                </Button>
               </Text>
             )}
             {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
