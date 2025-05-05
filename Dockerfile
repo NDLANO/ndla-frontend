@@ -31,14 +31,12 @@ RUN --mount=type=secret,id=sentry_token \
 ### Run stage
 FROM node:20.19.1-alpine3.20
 
-RUN apk add py-pip jq aws-cli
-COPY run-ndla-frontend.sh /
-
 WORKDIR /home/app/ndla-frontend
 COPY --from=builder /home/app/ndla-frontend/build build
 
 ENV NODE_ENV=production
 ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
+ENV APPLICATION_NAME="ndla-frontend"
 
-CMD ["/run-ndla-frontend.sh", "node build/server.mjs"]
+CMD ["node", "build/server.mjs"]
