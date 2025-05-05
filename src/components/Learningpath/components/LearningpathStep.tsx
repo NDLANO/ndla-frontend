@@ -51,33 +51,27 @@ interface Props {
   subjectId?: string;
 }
 
-export const LearningpathStep = (props: Props) => {
-  const { learningpath, learningpathStep, resource } = props;
-  return (
-    <>
-      <LearningpathStepTitle learningpathStep={learningpathStep} />
-      <LearningpathStepContent {...props} />
-      <LastLearningpathStepInfo
-        seqNo={learningpath.learningsteps.findIndex(({ id }) => id === learningpathStep.id)}
-        numberOfLearningSteps={learningpath.learningsteps.length - 1}
-        title={learningpath.title}
-        resource={resource}
-      />
-    </>
-  );
-};
-
-const LearningpathStepContent = ({
+export const LearningpathStep = ({
   learningpath,
   learningpathStep,
   breadcrumbItems,
   subjectId,
   skipToContentId,
-}: Omit<Props, "resource">) => {
+  resource,
+}: Props) => {
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
       ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
       : [undefined, undefined];
+
+  const lastLearningpathStepInfo = (
+    <LastLearningpathStepInfo
+      seqNo={learningpath.learningsteps.findIndex(({ id }) => id === learningpathStep.id)}
+      numberOfLearningSteps={learningpath.learningsteps.length - 1}
+      title={learningpath.title}
+      resource={resource}
+    />
+  );
 
   const shouldUseConverter =
     !!articleId &&
@@ -92,34 +86,59 @@ const LearningpathStepContent = ({
     (learningpathStep.embedUrl?.embedType === "oembed" || learningpathStep.embedUrl?.embedType === "iframe")
   ) {
     return (
-      <EmbedStep
-        skipToContentId={skipToContentId}
-        title={learningpathStep.title}
-        url={learningpathStep.embedUrl?.url ?? ""}
-        oembed={learningpathStep.oembed}
-      />
+      <>
+        <LearningpathStepTitle learningpathStep={learningpathStep} />
+        <EmbedStep
+          skipToContentId={skipToContentId}
+          title={learningpathStep.title}
+          url={learningpathStep.embedUrl?.url ?? ""}
+          oembed={learningpathStep.oembed}
+        />
+        {lastLearningpathStepInfo}
+      </>
     );
   } else if (learningpathStep.resource) {
     return (
-      <ArticleStep
-        taxId={taxId}
-        articleId={articleId}
-        learningpathStep={learningpathStep}
-        subjectId={subjectId}
-        breadcrumbItems={breadcrumbItems}
-        skipToContentId={skipToContentId}
-      />
-    );
-  } else if (learningpathStep.description && learningpathStep.introduction) {
-    return (
-      <TextStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
+      <>
+        <LearningpathStepTitle learningpathStep={learningpathStep} />
+        <ArticleStep
+          taxId={taxId}
+          articleId={articleId}
+          learningpathStep={learningpathStep}
+          subjectId={subjectId}
+          breadcrumbItems={breadcrumbItems}
+          skipToContentId={skipToContentId}
+        />
+        {lastLearningpathStepInfo}
+      </>
     );
   } else if (learningpathStep.embedUrl?.embedType === "external") {
     return (
-      <ExternalStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
+      <>
+        <ExternalStep
+          learningpathStep={learningpathStep}
+          skipToContentId={skipToContentId}
+          learningpath={learningpath}
+        />
+        {lastLearningpathStepInfo}
+      </>
+    );
+    // this is either a plain text step from stier, or a text step from my ndla.
+    // There's really no way to know, so we have to make an educated guess.
+  } else if (learningpathStep.introduction || learningpathStep.description?.startsWith("<section>")) {
+    return (
+      <>
+        <TextStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
+        {lastLearningpathStepInfo}
+      </>
     );
   } else {
-    return null;
+    return (
+      <>
+        <LearningpathStepTitle learningpathStep={learningpathStep} skipToContentId={skipToContentId} />
+        {lastLearningpathStepInfo}
+      </>
+    );
   }
 };
 
