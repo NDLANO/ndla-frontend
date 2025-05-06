@@ -138,11 +138,7 @@ const getCopyrightDataImage = (
     copyrightHolder: mapType(ORGANIZATION_TYPE, rightsholders),
     contributor: mapType(PERSON_TYPE, processors),
     ...(rightsholders.length ? { creditText: rightsholders.map((r) => r.name).join(", ") } : {}),
-    ...(isCopyrighted
-      ? {
-          copyrightNotice: rightsholders.map((r) => r.name).join(", "),
-        }
-      : {}),
+    ...{ copyrightNotice: rightsholders.map((r) => r.name).join(", ") },
   };
 };
 
