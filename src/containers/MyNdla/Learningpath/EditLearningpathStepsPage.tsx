@@ -18,6 +18,7 @@ import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const EditLearningpathStepsPageContent = lazy(() => import("./EditLearningpathStepsPageContent"));
@@ -46,6 +47,10 @@ export const EditLearningpathStepsPage = () => {
 
   if (!data?.myNdlaLearningpath) {
     return <Navigate to={routes.myNdla.learningpath} />;
+  }
+
+  if (!data.myNdlaLearningpath.canEdit) {
+    return <NotFoundPage />;
   }
 
   return (
