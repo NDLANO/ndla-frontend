@@ -14,7 +14,6 @@ import { useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
-  Button,
   ComboboxContentStandalone,
   ComboboxControl,
   ComboboxInput,
@@ -56,11 +55,6 @@ const HitsWrapper = styled("div", {
   base: {
     marginBlockStart: "3xsmall",
     textAlign: "start",
-  },
-});
-const SuggestionButton = styled(Button, {
-  base: {
-    marginInlineStart: "3xsmall",
   },
 });
 
@@ -185,8 +179,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
 
-  const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
-
   const onResourceSelect = async (resource: Omit<GQLSearchResourceFragment, "__typename" | "id">) => {
     const path = resource.contexts?.[0]?.url;
     const data = await refetch({ url: `${config.ndlaFrontendDomain}${path}` });
@@ -242,14 +234,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
               <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: searchObject.query })}</Text>
             ) : (
               <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${searchObject.query}"`}</Text>
-            )}
-            {!!suggestion && (
-              <Text textStyle="label.small">
-                {t("searchPage.resultType.searchPhraseSuggestion")}
-                <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
-                  [{suggestion}]
-                </SuggestionButton>
-              </Text>
             )}
           </div>
         </HitsWrapper>
