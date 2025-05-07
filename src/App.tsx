@@ -24,6 +24,7 @@ import { FilmRedirectPage } from "./containers/FilmRedirect/FilmRedirectPage";
 import FavoriteSubjectsPage from "./containers/MyNdla/FavoriteSubjects/FavoriteSubjectsPage";
 import FoldersPage from "./containers/MyNdla/Folders/FoldersPage";
 import FoldersTagsPage from "./containers/MyNdla/Folders/FoldersTagPage";
+import LearningpathStepForm from "./containers/MyNdla/Learningpath/components/LearningpathStepForm";
 import { EditLearningpathStepsPage } from "./containers/MyNdla/Learningpath/EditLearningpathStepsPage";
 import { EditLearningpathTitlePage } from "./containers/MyNdla/Learningpath/EditLearningpathTitlePage";
 import { LearningpathCheck } from "./containers/MyNdla/Learningpath/LearningpathCheck";
@@ -149,7 +150,9 @@ const AppRoutes = ({ base }: AppProps) => {
                     <Route path="new" element={<PrivateRoute element={<NewLearningpathPage />} />} />
                     <Route path=":learningpathId/edit">
                       <Route path="title" element={<PrivateRoute element={<EditLearningpathTitlePage />} />} />
-                      <Route path="steps" element={<PrivateRoute element={<EditLearningpathStepsPage />} />} />
+                      <Route path="steps" element={<PrivateRoute element={<EditLearningpathStepsPage />} />}>
+                        <Route path=":stepId" element={<PrivateRoute element={<LearningpathStepForm />} />} />
+                      </Route>
                     </Route>
                     <Route path=":learningpathId/save" element={<PrivateRoute element={<SaveLearningpathPage />} />} />
 

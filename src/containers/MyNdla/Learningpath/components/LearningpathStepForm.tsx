@@ -6,9 +6,10 @@
  *
  */
 
-import { useEffect } from "react";
-import { Controller, FormProvider, useFormContext } from "react-hook-form";
+import { FormEvent, useEffect } from "react";
+import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   FieldErrorMessage,
@@ -20,15 +21,27 @@ import {
   RadioGroupItemText,
   RadioGroupRoot,
 } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
+import { AlertDialog } from "./AlertDialog";
 import { ExternalStepForm } from "./ExternalStepForm";
 import { FolderStepForm } from "./FolderStepForm";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
+import { useToast } from "../../../../components/ToastContext";
+import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { toFormValues } from "../learningpathFormUtils";
+import {
+  useCreateLearningpathStep,
+  useDeleteLearningpathStep,
+  useUpdateLearningpathStep,
+} from "../../../../mutations/learningpathMutations";
+import { routes } from "../../../../routeHelpers";
+import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
+import { useLearningpathStep } from "../LearningpathOutlet";
 import { FormValues } from "../types";
+import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
 
 const ContentForm = styled("form", {
   base: {
@@ -45,27 +58,117 @@ const ContentForm = styled("form", {
 
 const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
 
-interface Props {
-  step?: GQLMyNdlaLearningpathStepFragment;
-  stepType: FormValues["type"];
-  onClose?: VoidFunction;
-  onDelete?: (close: VoidFunction) => Promise<void>;
-  onSave: (data: FormValues) => Promise<void>;
-}
+export const LearningpathStepForm = () => {
+  const context = useLearningpathStep();
+  const stepType = getFormTypeFromStep(context?.step);
+  const { learningpathId: learningpathIdParam, stepId: stepIdParam } = useParams();
+  const { t, i18n } = useTranslation();
 
-export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete }: Props) => {
-  const { t } = useTranslation();
+  const toast = useToast();
+  const navigate = useNavigate();
+  const [updateStep] = useUpdateLearningpathStep();
+  const [deleteStep] = useDeleteLearningpathStep();
+  const [createStep] = useCreateLearningpathStep();
 
-  const methods = useFormContext<FormValues>();
-  const { handleSubmit, control, reset, formState } = methods;
+  const methods = useForm<FormValues>({
+    mode: "onSubmit",
+    defaultValues: toFormValues(stepType, context?.step),
+  });
+
+  const learningpathId = learningpathIdParam ? Number(learningpathIdParam) : undefined;
 
   useEffect(() => {
-    reset(toFormValues(stepType, step));
-  }, [reset, step, stepType]);
+    if (stepIdParam === "new") setTimeout(() => document.querySelector("form")?.querySelector("input")?.focus(), 0);
+  }, [stepIdParam]);
+
+  if (!learningpathId || !stepIdParam) return null;
+
+  const onSave = async (values: FormValues) => {
+    if (!learningpathId || !stepIdParam) return;
+    const transformedData = formValuesToGQLInput(values);
+
+    if (stepIdParam === "new") {
+      const res = await createStep({
+        variables: {
+          learningpathId: learningpathId,
+          params: { ...transformedData, language: i18n.language, showTitle: false },
+        },
+      });
+
+      if (!res.errors?.length) {
+        toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
+        navigate(routes.myNdla.learningpathEditSteps(learningpathId), {
+          state: {
+            focusStepId: res.data?.newLearningpathStep.id
+              ? learningpathStepEditButtonId(res.data?.newLearningpathStep.id)
+              : undefined,
+          },
+        });
+      } else {
+        toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
+      }
+    } else {
+      const stepId = Number(stepIdParam);
+      if (!stepId) return;
+
+      const res = await updateStep({
+        variables: {
+          learningpathId: learningpathId,
+          learningstepId: Number(stepIdParam),
+          params: { ...transformedData, language: i18n.language, revision: context.step.revision },
+        },
+      });
+      if (!res.errors?.length) {
+        const stepId = Number(stepIdParam);
+        navigate(routes.myNdla.learningpathEditSteps(learningpathId), {
+          state: {
+            focusStepId: Object.is(NaN, stepId) ? undefined : learningpathStepEditButtonId(stepId),
+          },
+        });
+      } else {
+        toast.create({ title: t("myNdla.learningpath.toast.updateStepFailed", { name: values.title }) });
+      }
+    }
+  };
+
+  const { handleSubmit, control, reset, formState } = methods;
+
+  const onDelete = async (closeDialog: VoidFunction) => {
+    const stepId = Number(stepIdParam);
+
+    const res = await deleteStep({
+      variables: {
+        learningstepId: stepId,
+        learningpathId: learningpathId,
+      },
+    });
+
+    if (!res.errors?.length) {
+      closeDialog();
+      reset();
+      toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: context?.step.title }) });
+      const el = document.getElementById(stepId.toString());
+      const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
+        .find((el) => el?.tagName === "LI")
+        ?.querySelector("div")
+        ?.querySelector("a");
+      navigate(routes.myNdla.learningpathEditSteps(learningpathId), {
+        state: { focusStepId: focusEl?.id ?? SKIP_TO_CONTENT_ID },
+        replace: true,
+      });
+    } else {
+      toast.create({ title: t("myNdla.learningpath.toast.deletedStepFailed", { name: context?.step.title }) });
+    }
+  };
+
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    handleSubmit(onSave)();
+  };
 
   return (
     <FormProvider {...methods}>
-      <ContentForm onSubmit={handleSubmit(onSave)} noValidate>
+      <ContentForm onSubmit={onSubmit} noValidate>
         <Controller
           name="type"
           control={control}
@@ -96,21 +199,28 @@ export const LearningpathStepForm = ({ step, stepType, onClose, onSave, onDelete
             </FieldRoot>
           )}
         />
-        <StepFormType step={step} />
-        <HStack justify={onDelete ? "space-between" : "end"}>
-          {onDelete ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
+        <StepFormType step={context?.step} />
+        <HStack justify={context?.step ? "space-between" : "end"}>
+          {context?.step ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
           <HStack>
-            {onClose ? (
-              <Button variant="secondary" onClick={onClose}>
-                {t("cancel")}
-              </Button>
-            ) : null}
+            <SafeLinkButton
+              to={routes.myNdla.learningpathEditSteps(learningpathId)}
+              state={{
+                focusStepId: Object.is(NaN, Number(stepIdParam))
+                  ? undefined
+                  : learningpathStepEditButtonId(Number(stepIdParam)),
+              }}
+              variant="secondary"
+            >
+              {t("cancel")}
+            </SafeLinkButton>
             <Button type="submit" disabled={!formState.isDirty || formState.isSubmitting}>
               {t("save")}
             </Button>
           </HStack>
         </HStack>
       </ContentForm>
+      <AlertDialog />
     </FormProvider>
   );
 };

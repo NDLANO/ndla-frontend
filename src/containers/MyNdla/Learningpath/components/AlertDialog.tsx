@@ -7,7 +7,7 @@
  */
 
 import { History, Blocker, Transition } from "history";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { UNSAFE_NavigationContext, useNavigate, Location } from "react-router-dom";
@@ -51,29 +51,23 @@ const useBlocker = (blocker: Blocker, when = true): void => {
 
 interface Props {
   onContinue?: () => void;
-  onAbort?: () => void;
-  isBlocking?: boolean;
 }
 
-export const AlertDialog = ({ onContinue, onAbort, isBlocking }: Props) => {
-  const [open, setOpen] = useState<boolean>(!!isBlocking);
+export const AlertDialog = ({ onContinue }: Props) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [discardChanges, setDiscardChanges] = useState(false);
   const [nextLocation, setNextLocation] = useState<Location | undefined>(undefined);
   const { formState } = useFormContext();
   const { t } = useTranslation();
 
   const navigate = useNavigate();
 
-  const shouldBlock = !(!formState.isDirty || formState.isSubmitting);
-  const onCancel = () => {
-    setNextLocation(undefined);
-    setOpen(false);
-    onAbort?.();
-  };
-
-  const onWillContinue = () => {
-    setOpen(false);
-    onContinue?.();
-  };
+  const shouldBlock = !(formState.isSubmitting || !formState.isDirty || discardChanges);
+  useEffect(() => {
+    if (!shouldBlock && nextLocation) {
+      navigate(nextLocation.pathname, { state: nextLocation.state });
+    }
+  }, [shouldBlock, nextLocation, navigate]);
 
   useBlocker((transition) => {
     if (shouldBlock) {
@@ -82,18 +76,21 @@ export const AlertDialog = ({ onContinue, onAbort, isBlocking }: Props) => {
       const pathname = transition.location.pathname.replace(pathRegex, "/");
       setOpen(true);
       setNextLocation({ ...transition.location, pathname });
+    } else {
+      setDiscardChanges(false);
     }
   }, shouldBlock);
 
-  useEffect(() => {
-    setOpen(!!isBlocking);
-  }, [isBlocking]);
+  const onCancel = useCallback(() => {
+    setNextLocation(undefined);
+    setOpen(false);
+  }, []);
 
-  useEffect(() => {
-    if (!shouldBlock && nextLocation) {
-      navigate(nextLocation);
-    }
-  }, [shouldBlock, nextLocation, navigate]);
+  const onWillContinue = useCallback(() => {
+    if (onContinue) onContinue();
+    setDiscardChanges(true);
+    setOpen(false);
+  }, [onContinue]);
 
   return (
     <DialogRoot
