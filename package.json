@@ -104,7 +104,7 @@
     "@ndla/tracker": "^5.0.18-alpha.0",
     "@ndla/ui": "^56.0.117-alpha.0",
     "@ndla/util": "^5.0.7-alpha.0",
-    "@sentry/react": "^9.9.0",
+    "@sentry/react": "^9.15.0",
     "cross-env": "^7.0.3",
     "express": "^5.1.0",
     "express-prom-bundle": "^8.0.0",
