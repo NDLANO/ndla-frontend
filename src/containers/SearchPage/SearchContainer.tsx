@@ -30,6 +30,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import { GrepFilter } from "./GrepFilter";
+import { ProgrammeFilter } from "./ProgrammeFilter";
 import { ResourceTypeFilter } from "./ResourceTypeFilter";
 import { SearchResult } from "./SearchResult";
 import { ALL_NODE_TYPES, defaultNodeType, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
@@ -265,12 +266,16 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const paginationTranslations = usePaginationTranslations();
 
   const queryParams: GQLSearchPageQueryVariables = useMemo(() => {
-    const subjects =
+    const subjectList =
       searchParams
         .get("subjects")
         ?.split(",")
-        .map((s) => `urn:subject:${s}`)
-        .join(",") ?? undefined;
+        .map((s) => `urn:subject:${s}`) ?? [];
+
+    const programmeList = searchParams.get("programmes")?.split(",") ?? [];
+    const subjectsParam = [...subjectList, ...programmeList];
+    const subjects = subjectsParam.length ? subjectsParam.join(",") : undefined;
+
     return {
       query: searchParams.get("query") ?? undefined,
       language: i18n.language,
@@ -282,7 +287,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       fallback: "true",
       license: "all",
       grepCodes: searchParams.get("grepCodes") ?? undefined,
-      filterInactive: !subjects?.split(",").length,
+      filterInactive: !subjectsParam.length,
       ...getTypeVariables(
         searchParams.get("resourceTypes"),
         isLti ? resourceTypes : undefined,
@@ -474,6 +479,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
           <Heading id={filterHeadingId} textStyle="title.medium" asChild consumeCss>
             <h2>{t("searchPage.filtersHeading")}</h2>
           </Heading>
+          {!isLti && <ProgrammeFilter />}
           <ResourceTypeFilter
             bucketResult={data?.search?.aggregations?.[0]?.values ?? []}
             resourceTypes={resourceTypes}

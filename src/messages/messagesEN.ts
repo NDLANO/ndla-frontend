@@ -134,6 +134,7 @@ const messages = {
       allLabel: "Show all",
       hits: "{{count}} hits",
     },
+    programmeFilter: { title: "Choose programme" },
     noHitsShort: "No results for search: {{query}}",
     search: "Search",
     searchFieldPlaceholder: "Search for subjects, tasks and activities or learningpaths",
