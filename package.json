@@ -106,7 +106,7 @@
     "@ndla/util": "^5.0.7-alpha.0",
     "@sentry/react": "^9.15.0",
     "cross-env": "^7.0.3",
-    "express": "^5.1.0",
+    "express": "^5.0.0",
     "express-prom-bundle": "^8.0.0",
     "graphql": "^16.10.0",
     "graphql-tag": "^2.12.6",
