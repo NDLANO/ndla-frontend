@@ -246,7 +246,7 @@ const contentSecurityPolicy = {
         if (isEmbeddable || req.url?.startsWith("/lti")) {
           return "*";
         }
-        return "'self' https://tall.ndla.no https://tall.test.ndla.no";
+        return "'self' https://tall.ndla.no https://tall.test.ndla.no https://exam.net https://*.exam.net";
       },
     ],
     styleSrc: [
