@@ -252,7 +252,7 @@ interface Props {
 
 export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
-  const [query, setQuery] = useState(searchParams.get("query") ?? "");
+  const [query, setQuery] = useState(decodeURIComponent(searchParams.get("query") ?? ""));
   const [page, setPage] = useState(() => {
     const maybePage = parseInt(searchParams.get("page") ?? "1");
     return maybePage ?? 1;
@@ -307,7 +307,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const handleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      setSearchParams({ query });
+      setSearchParams({ query: encodeURIComponent(query) });
     },
     [query, setSearchParams],
   );
@@ -328,7 +328,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       res.push(t("searchPage.showingResults.query"));
       // TODO: Should we account for the possibility that the query is wrapped in quotes? If so, how should we display it?
       // Keep query out of the translation string to avoid escaping issues
-      res.push(`"${currentQuery}"`);
+      res.push(`"${decodeURIComponent(currentQuery)}"`);
     }
     return res.filter(Boolean).join(" ");
   }, [data?.search, page, searchParams, t]);

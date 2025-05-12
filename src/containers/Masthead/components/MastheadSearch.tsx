@@ -301,7 +301,7 @@ const MastheadSearch = ({ root }: Props) => {
   }, [query.length, searchResult.search?.results]);
 
   const searchString = queryString.stringify({
-    query: query && query.length > 0 ? query : undefined,
+    query: query && query.length > 0 ? encodeURIComponent(query) : undefined,
   });
 
   const onSearch = (evt?: FormEvent) => {
