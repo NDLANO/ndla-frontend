@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useMemo, useContext, useState, ReactElement } from "react";
+import { useMemo, useContext, useEffect, useState, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router-dom";
 import {
@@ -39,11 +39,13 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { getCookie } from "@ndla/util";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { useToast } from "../../components/ToastContext";
 import config from "../../config";
+import { AUTOLOGIN_COOKIE } from "../../constants";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { AcceptArenaDialog } from "./components/AcceptArenaDialog";
@@ -146,11 +148,20 @@ const StyledDialogBody = styled(DialogBody, {
 
 const MyNdlaLayout = () => {
   const { t } = useTranslation();
-  const { user, examLock, authenticated } = useContext(AuthContext);
+  const { user, examLock, authenticated, authContextLoaded } = useContext(AuthContext);
   const { updatePersonalData, loading: updateLoading } = useUpdatePersonalData();
   const toast = useToast();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+
+  const loginlocation = `/login?state=${routes.myNdla.root}`;
+
+  useEffect(() => {
+    const autologin = getCookie(AUTOLOGIN_COOKIE, document.cookie);
+    if (window.location && autologin && !authenticated && authContextLoaded) {
+      window.location.replace(loginlocation);
+    }
+  }, [loginlocation, authenticated, authContextLoaded]);
 
   const menuLink = useMemo(
     () =>

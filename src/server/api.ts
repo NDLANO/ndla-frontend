@@ -21,7 +21,7 @@ import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
 import config, { getEnvironmentVariabel } from "../config";
-import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
+import { ABOUT_PATH, AUTOLOGIN_COOKIE, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
@@ -139,7 +139,7 @@ router.get("/login/success", async (req, res) => {
   }
 
   // Set cookie to automatically send user to feide if present
-  res.cookie("autologin", "true", { domain });
+  res.cookie(AUTOLOGIN_COOKIE, "true", { domain });
 
   return res.redirect(state);
 });
