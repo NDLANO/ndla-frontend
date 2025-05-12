@@ -58,6 +58,7 @@ export const getRedirectUrl = (req: Request, state: string) => {
         scope: "email openid userinfo-photo groups-edu userinfo-language userid userinfo-name groups-org userid-feide",
         code_challenge,
         state: state,
+        login_hint: "feide|all",
       }),
     )
     .then((feide_url) => {
