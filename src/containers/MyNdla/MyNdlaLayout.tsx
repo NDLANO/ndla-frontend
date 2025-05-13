@@ -158,6 +158,7 @@ const MyNdlaLayout = () => {
 
   useEffect(() => {
     const autologin = getCookie(AUTOLOGIN_COOKIE, document.cookie);
+    // If in browser, cookie exists due to previous login, and user is not logged in now, redirect user to login
     if (window.location && autologin && !authenticated && authContextLoaded) {
       window.location.replace(loginlocation);
     }
