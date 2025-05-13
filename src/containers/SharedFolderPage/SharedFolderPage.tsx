@@ -89,8 +89,6 @@ const SharedFolderPage = () => {
 
   const { folder, loading, error } = useGetSharedFolder({
     id: folderId,
-    includeResources: true,
-    includeSubfolders: true,
   });
 
   const { data: folderData } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
