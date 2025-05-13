@@ -301,8 +301,8 @@ const folderResourceMetaFragment = gql`
 `;
 
 export const sharedFolderQuery = gql`
-  query sharedFolder($id: String!, $includeSubfolders: Boolean, $includeResources: Boolean) {
-    sharedFolder(id: $id, includeSubfolders: $includeSubfolders, includeResources: $includeResources) {
+  query sharedFolder($id: String!) {
+    sharedFolder(id: $id) {
       ...SharedFoldersPageQueryFragment
     }
   }
