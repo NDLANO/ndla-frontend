@@ -13,9 +13,11 @@ import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
+import config from "../../config";
 import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 import { usePrevious } from "../../util/utilityHooks";
-import Masthead from "../Masthead";
+import OldMasthead from "../Masthead";
+import { Masthead } from "../Masthead/Masthead";
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -52,7 +54,7 @@ const Layout = () => {
     <>
       <TitleAnnouncer />
       {metaChildren}
-      <Masthead showAlerts />
+      {config.enableNewMasthead ? <Masthead /> : <OldMasthead showAlerts />}
       <PageLayout style={mastheadHeightVar}>
         <Outlet />
       </PageLayout>
