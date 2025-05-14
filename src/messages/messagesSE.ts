@@ -134,6 +134,7 @@ const messages = {
       allLabel: "Vis alle",
       hits: "{{count}} treff",
     },
+    programmeFilter: { title: "Velg utdanningsprogram" },
     noHitsShort: "Du ohcamii ii lean deaivva: {{query}}",
     search: "Oza",
     searchFieldPlaceholder: "Oza fágaáššiin, bargobihtáin ja doaimmain dahje oahppanbálgáin",
