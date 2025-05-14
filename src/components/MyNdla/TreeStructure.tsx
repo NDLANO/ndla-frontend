@@ -188,6 +188,9 @@ export const TreeStructure = ({
     onSelectionChange: (details) => {
       const val = details.selectedValue[0];
       if (!val) return;
+      if (newFolderParentId) {
+        setNewFolderParentId(val);
+      }
       setSelectedValue(val);
       onSelectFolder?.(val);
     },
