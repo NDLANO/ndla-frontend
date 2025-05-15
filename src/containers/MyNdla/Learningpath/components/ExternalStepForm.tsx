@@ -9,7 +9,7 @@
 import { useEffect } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { CheckLine } from "@ndla/icons";
+import { CheckLine, ExternalLinkLine } from "@ndla/icons";
 import {
   FieldLabel,
   FieldHelper,
@@ -147,8 +147,13 @@ export const ExternalStepForm = () => {
       <Stack align="start" gap="small">
         <Text>
           {t("myNdla.learningpath.form.content.external.copyright")}
-          <SafeLink to="https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering">
+          <SafeLink
+            to="https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {t("myNdla.learningpath.form.content.external.copyrightLink")}
+            <ExternalLinkLine />
           </SafeLink>
         </Text>
         <Controller
