@@ -11,7 +11,6 @@ import { Navigate } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { isValidContextId } from "../../util/urlHelper";
@@ -59,11 +58,7 @@ const ProgrammePage = () => {
     return <ContentPlaceholder padding="large" />;
   }
 
-  if (!data) {
-    return <DefaultErrorMessagePage />;
-  }
-
-  if (!data.programme) {
+  if (!data || !data.programme) {
     return <NotFoundPage />;
   }
 
