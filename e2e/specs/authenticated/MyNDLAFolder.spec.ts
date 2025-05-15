@@ -33,7 +33,8 @@ test("can copy sharable link to folder", async ({ page }) => {
   const url: string = await page.evaluate("navigator.clipboard.readText()");
   expect(url).toBeDefined();
 
-  await page.goto(url);
+  await sharedFolder.getByRole("button").last().click();
+  await page.getByRole("menuitem", { name: "Gå til delt mappe", exact: true }).click();
 
   const heading = page.getByRole("main").getByRole("heading").first();
   await expect(heading).toHaveText(sharedFolderTitle);
