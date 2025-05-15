@@ -11,6 +11,7 @@ import { Navigate } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { isValidContextId } from "../../util/urlHelper";
@@ -40,7 +41,7 @@ const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const { programme, contextId, grade } = useTypedParams<MatchParams>();
 
-  const { loading, data } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
+  const { loading, data, error } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
     variables: { contextId: contextId },
     skip: programme?.includes("__") || !isValidContextId(contextId),
   });
@@ -56,6 +57,14 @@ const ProgrammePage = () => {
 
   if (loading) {
     return <ContentPlaceholder padding="large" />;
+  }
+
+  if (!loading && error) {
+    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+      return <NotFoundPage />;
+    } else {
+      return <DefaultErrorMessagePage />;
+    }
   }
 
   if (!data || !data.programme) {
