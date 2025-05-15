@@ -114,15 +114,11 @@ export const TopicPage = () => {
     } else return <DefaultErrorMessagePage />;
   }
 
-  if (!query.data?.node) {
-    return <DefaultErrorMessagePage />;
-  }
-
   if (query.error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
     return <NotFoundPage />;
   }
 
-  if (!query.data?.node.article) {
+  if (!query.data?.node) {
     return <NotFoundPage />;
   }
 

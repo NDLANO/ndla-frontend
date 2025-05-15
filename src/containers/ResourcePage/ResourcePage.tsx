@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -115,11 +114,7 @@ const ResourcePage = () => {
     return <NotFoundPage />;
   }
 
-  if (!data) {
-    return <DefaultErrorMessagePage />;
-  }
-
-  if (!data.node || !data.node.url) {
+  if (!data || !data.node || !data.node.url) {
     return <NotFoundPage />;
   }
 

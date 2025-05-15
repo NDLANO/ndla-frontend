@@ -6,7 +6,7 @@
  *
  */
 
-import { parseOembedUrl, isCurrentPage } from "../urlHelper";
+import { parseOembedUrl, isCurrentPage, isValidContextId } from "../urlHelper";
 
 describe("parseAndMatchUrl", () => {
   it("should parse a valid article url with old URL scheme", () => {
@@ -308,4 +308,11 @@ test("isCurrentPage", () => {
       url: "/r/tysk-2/vier-mutige-norweger-in-deutschland/ec0f7deca4",
     }),
   ).toBe(true);
+});
+
+test("isValidContextId", () => {
+  expect(isValidContextId("1022072a8411")).toBe(true);
+  expect(isValidContextId("5ad439a5dacb")).toBe(true);
+  expect(isValidContextId("_vendor-DAL8SGeP.js")).toBe(false);
+  expect(isValidContextId("83ce68bc-19c9-4f2b-8dba-caf401428f21")).toBe(false);
 });

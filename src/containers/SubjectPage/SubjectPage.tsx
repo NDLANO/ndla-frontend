@@ -10,7 +10,6 @@ import { Navigate, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
-import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import FilmFrontpage from "../../containers/FilmFrontpage/FilmFrontpage";
 import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
@@ -51,7 +50,7 @@ const SubjectPage = () => {
   }
 
   if (!data && !loading) {
-    return <DefaultErrorMessagePage />;
+    return <NotFoundPage />;
   }
 
   if (!data) {
