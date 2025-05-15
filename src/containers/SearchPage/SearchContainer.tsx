@@ -303,6 +303,13 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     }
   }, [page, searchParams]);
 
+  useEffect(() => {
+    const queryParam = searchParams.get("query");
+    if (queryParam) {
+      setQuery(queryParam ? decodeURIComponent(queryParam) : "");
+    }
+  }, [searchParams]);
+
   const data = searchQuery.data ?? searchQuery.previousData;
 
   const handleSubmit = useCallback(
