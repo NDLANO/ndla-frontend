@@ -96,6 +96,17 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel("LOGGLY_API_KEY");
 };
 
+const loginHint = (ndlaEnvironment: string): string | undefined => {
+  switch (ndlaEnvironment) {
+    case "local":
+    case "dev":
+    case "test":
+      return undefined;
+    default:
+      return "feide|all";
+  }
+};
+
 export type ConfigType = {
   defaultLocale: string;
   componentName: string;
@@ -126,6 +137,7 @@ export type ConfigType = {
   sentrydsn: string;
   formbricksId: string;
   arenaDomain: string;
+  loginHint: string | undefined;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -163,6 +175,7 @@ const getServerSideConfig = (): ConfigType => {
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
+    loginHint: loginHint(ndlaEnvironment),
   };
 };
 
