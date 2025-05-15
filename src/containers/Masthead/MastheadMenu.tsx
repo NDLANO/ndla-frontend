@@ -27,6 +27,7 @@ import {
 import { Button, Heading, PopoverRoot, PopoverTrigger, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { usePrevious } from "@ndla/util";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
@@ -109,6 +110,7 @@ export const MastheadMenu = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const previousLocation = usePrevious(location);
   const { user, authenticated } = useContext(AuthContext);
 
   const dynamicMenuQuery = useQuery<GQLDynamicMenuQuery>(dynamicMenuQueryDef, {
@@ -130,8 +132,13 @@ export const MastheadMenu = () => {
   }, [dynamicMenuQuery.data?.frontpage?.menu]);
 
   useEffect(() => {
+    if (!open) return;
+    if (previousLocation?.pathname === location.pathname) return;
     setOpen(false);
-  }, [location]);
+    setTimeout(() => {
+      document.getElementById("titleAnnouncer")?.focus();
+    }, 100);
+  }, [location, open, previousLocation?.pathname]);
 
   const style = useMemo(
     () =>
