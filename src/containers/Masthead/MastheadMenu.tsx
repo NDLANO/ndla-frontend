@@ -89,7 +89,7 @@ const NavigationListWrapper = styled("div", {
 });
 
 const dynamicMenuQueryDef = gql`
-  query dynamicMenuTest {
+  query dynamicMenu {
     frontpage {
       # If we don't include articleId, the query response will be overridden
       articleId
