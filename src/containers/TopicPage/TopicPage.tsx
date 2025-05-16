@@ -98,7 +98,7 @@ export const TopicPage = () => {
     return <MovedTopicPage nodes={query.data.node.alternateNodes} />;
   }
 
-  if (!query.data || query.error) {
+  if (query.error) {
     handleError(query.error);
     const accessDeniedErrors = findAccessDeniedErrors(query.error);
     if (accessDeniedErrors.length) {
@@ -106,17 +106,13 @@ export const TopicPage = () => {
         (e) => !e.path?.includes("resources") && !e.path?.includes("children"),
       );
 
-      if (nonRecoverableError) {
-        return <ForbiddenPage />;
-      }
-    } else if (isNotFoundError(query.error)) {
-      return <NotFoundPage />;
-    } else return <DefaultErrorMessagePage />;
+      if (nonRecoverableError) return <ForbiddenPage />;
+    }
+
+    if (isNotFoundError(query.error)) return <NotFoundPage />;
   }
 
-  if (!query.data?.node) {
-    return <DefaultErrorMessagePage />;
-  }
+  if (!query.data?.node) return <DefaultErrorMessagePage />;
 
   if (query.error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
     return <NotFoundPage />;
