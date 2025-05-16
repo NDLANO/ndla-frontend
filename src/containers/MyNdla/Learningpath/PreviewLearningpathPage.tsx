@@ -40,6 +40,7 @@ const previewLearningpathQuery = gql`
   query previewLearningpath($pathId: String!, $transformArgs: TransformedArticleContentInput) {
     learningpath(pathId: $pathId) {
       id
+      canEdit
       ...Learningpath_Learningpath
       learningsteps {
         ...Learningpath_LearningpathStep
@@ -90,7 +91,7 @@ export const PreviewLearningpathPage = () => {
     : learningpath.learningsteps[0];
 
   // stepId is defined, but not found within the learningpath
-  if (numericStepId && numericStepId > 0 && !learningpathStep) {
+  if (!learningpath.canEdit || (numericStepId && numericStepId > 0 && !learningpathStep)) {
     return <NotFoundPage />;
   }
 

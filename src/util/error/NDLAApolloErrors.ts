@@ -50,6 +50,7 @@ export class NDLANetworkError extends NDLAError {
     const operationInfo = {
       operationName: operation.operationName,
       variables: operation.variables,
+      extensions: operation.extensions,
     };
 
     this.logContext = {

@@ -9,11 +9,12 @@
 import parse from "html-react-parser";
 import { debounce } from "lodash-es";
 import queryString from "query-string";
-import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
+import { useState, useEffect, FormEvent, useMemo, useId, useRef, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLazyQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
+import { useComponentSize } from "@ndla/hooks";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
   Button,
@@ -21,28 +22,27 @@ import {
   ComboboxInput,
   ComboboxLabel,
   ComboboxRoot,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogRoot,
-  DialogTrigger,
   IconButton,
   InputContainer,
   Input,
   ComboboxItem,
   ComboboxItemText,
   Spinner,
-  DialogTitle,
-  NdlaLogoText,
   Text,
   ListItemRoot,
   ComboboxContentStandalone,
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverCloseTrigger,
+  PopoverTitle,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
-import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
-import { searchQuery } from "../../../queries";
+import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
+import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../graphqlTypes";
+import { searchQuery } from "../../queries";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
@@ -86,29 +86,6 @@ const StyledForm = styled("form", {
     desktop: {
       width: "60%",
     },
-  },
-});
-
-const StyledDialogContent = styled(DialogContent, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "unset",
-    maxHeight: "100%",
-  },
-});
-
-const LogoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottom: "1px solid",
-    borderColor: "stroke.subtle",
-    paddingBlock: "medium",
   },
 });
 
@@ -218,6 +195,10 @@ const MastheadSearch = ({ root }: Props) => {
   const comboboxTranslations = useComboboxTranslations();
   const dialogTriggerRef = useRef<HTMLButtonElement>(null);
 
+  const { height } = useComponentSize("masthead");
+
+  const style = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
+
   useEffect(() => {
     setQuery("");
   }, [pathname]);
@@ -322,25 +303,14 @@ const MastheadSearch = ({ root }: Props) => {
   );
 
   return (
-    <DialogRoot
-      open={dialogState.open}
-      variant="drawer"
-      position="top"
-      size="xsmall"
-      onOpenChange={setDialogState}
-      initialFocusEl={() => inputRef.current}
-      finalFocusEl={() => dialogTriggerRef.current}
-    >
-      <DialogTrigger asChild ref={dialogTriggerRef}>
+    <PopoverRoot open={dialogState.open} onOpenChange={setDialogState} initialFocusEl={() => inputRef.current}>
+      <PopoverTrigger asChild ref={dialogTriggerRef}>
         <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
           <SearchLine />
           <span>{t("masthead.menu.search")}</span>
         </StyledButton>
-      </DialogTrigger>
-      <StyledDialogContent aria-label={t("searchPage.searchFieldPlaceholder")}>
-        <LogoWrapper>
-          <NdlaLogoText />
-        </LogoWrapper>
+      </PopoverTrigger>
+      <MastheadPopoverContent aria-label={t("searchPage.searchFieldPlaceholder")} style={style}>
         <StyledForm role="search" action="/search/" onSubmit={onSearch} id={formId}>
           <ComboboxRoot
             defaultOpen
@@ -360,15 +330,15 @@ const MastheadSearch = ({ root }: Props) => {
             css={{ width: "100%", gap: "xsmall" }}
           >
             <LabelContainer>
-              <DialogTitle asChild>
+              <PopoverTitle asChild>
                 <ComboboxLabel>{t("masthead.search")}</ComboboxLabel>
-              </DialogTitle>
-              <DialogCloseTrigger asChild>
+              </PopoverTitle>
+              <PopoverCloseTrigger asChild>
                 <Button variant="tertiary">
                   {t("siteNav.close")}
                   <CloseLine />
                 </Button>
-              </DialogCloseTrigger>
+              </PopoverCloseTrigger>
             </LabelContainer>
             <ComboboxControl>
               <InputContainer>
@@ -469,8 +439,9 @@ const MastheadSearch = ({ root }: Props) => {
             </StyledMoreHitsButton>
           )}
         </StyledForm>
-      </StyledDialogContent>
-    </DialogRoot>
+      </MastheadPopoverContent>
+      <MastheadPopoverBackdrop present={dialogState.open} style={style} />
+    </PopoverRoot>
   );
 };
 

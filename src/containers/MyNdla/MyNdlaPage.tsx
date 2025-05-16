@@ -31,8 +31,8 @@ import {
   useRecentlyUsedResources,
 } from "../../mutations/folderMutations";
 import { routes } from "../../routeHelpers";
+import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
-import { getNdlaRobotDateFormat } from "../../util/formatDate";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../AllSubjectsPage/SubjectLink";
@@ -107,10 +107,6 @@ const MyNdlaPage = () => {
 
   // const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
-  const dateString = getNdlaRobotDateFormat(new Date());
-  const token = btoa(dateString);
-  const aiUrl = `https://ndla-ki.no/${token}`;
-
   return (
     <StyledMyNdlaPageWrapper>
       <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
@@ -146,7 +142,7 @@ const MyNdlaPage = () => {
         }}
         imageSide="right"
         url={{
-          url: authenticated ? aiUrl : undefined,
+          url: authenticated ? getChatRobotUrl() : undefined,
           text: authenticated ? t("myNdla.campaignBlock.linkText") : undefined,
         }}
         description={

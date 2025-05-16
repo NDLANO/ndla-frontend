@@ -7,18 +7,18 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/?disableSSR=true");
 });
 
-test("menu is displayed", async ({ page }) => {
+test("menu is displayed", async ({ page, waitGraphql }) => {
   await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await waitGraphql();
   await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await waitGraphql();
   await page.getByTestId("masthead-menu-button").click();
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await waitGraphql();
   expect(page.getByRole("link", { name: "Mediesamfunnet 1" })).toBeDefined();
 });

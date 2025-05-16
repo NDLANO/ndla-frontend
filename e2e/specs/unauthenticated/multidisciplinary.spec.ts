@@ -7,17 +7,17 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/?disableSSR=true");
 });
 
-test("contains content", async ({ page }) => {
-  await mockWaitResponse(page, "**/graphql-api/graphql*");
+test("contains content", async ({ page, waitGraphql }) => {
+  await waitGraphql();
   await page.getByRole("button").getByText("Meny").click();
   await page.getByRole("menuitem", { name: "Tverrfaglige tema" }).first().click();
-  await mockWaitResponse(page, "**/graphql-api/graphql*");
+  await waitGraphql();
   await page.waitForLoadState();
   const heading = page.getByRole("heading").getByText("Tverrfaglige temaer");
   expect(heading).toBeDefined();

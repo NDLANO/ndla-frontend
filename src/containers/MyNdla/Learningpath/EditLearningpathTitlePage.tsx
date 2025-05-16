@@ -21,6 +21,7 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 export const EditLearningpathTitlePage = () => {
@@ -71,6 +72,10 @@ export const EditLearningpathTitlePage = () => {
 
   if (!data?.myNdlaLearningpath) {
     return <Navigate to={routes.myNdla.learningpath} />;
+  }
+
+  if (!data.myNdlaLearningpath.canEdit) {
+    return <NotFoundPage />;
   }
 
   return (

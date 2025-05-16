@@ -289,8 +289,6 @@ export type GQLConcept = {
   created: Scalars["String"]["output"];
   glossData?: Maybe<GQLGloss>;
   id: Scalars["Int"]["output"];
-  image?: Maybe<GQLImageLicense>;
-  metaImage?: Maybe<GQLMetaImage>;
   source?: Maybe<Scalars["String"]["output"]>;
   subjectIds?: Maybe<Array<Scalars["String"]["output"]>>;
   subjectNames?: Maybe<Array<Scalars["String"]["output"]>>;
@@ -325,7 +323,6 @@ export type GQLConceptLicense = {
   content?: Maybe<Scalars["String"]["output"]>;
   copyright?: Maybe<GQLConceptCopyright>;
   id: Scalars["String"]["output"];
-  metaImageUrl?: Maybe<Scalars["String"]["output"]>;
   src?: Maybe<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
 };
@@ -1587,8 +1584,6 @@ export type GQLQuerySearchWithoutPaginationArgs = {
 
 export type GQLQuerySharedFolderArgs = {
   id: Scalars["String"]["input"];
-  includeResources?: InputMaybe<Scalars["Boolean"]["input"]>;
-  includeSubfolders?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
 export type GQLQuerySubjectArgs = {
@@ -1843,6 +1838,7 @@ export type GQLSubjectPageVisualElement = {
   __typename?: "SubjectPageVisualElement";
   alt?: Maybe<Scalars["String"]["output"]>;
   imageLicense?: Maybe<GQLImageLicense>;
+  imageUrl?: Maybe<Scalars["String"]["output"]>;
   type: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
 };
@@ -2644,6 +2640,20 @@ export type GQLMastHeadQuery = {
   root?: { __typename?: "Node" } & GQLMastheadDrawer_RootFragment;
 };
 
+export type GQLDynamicMenuQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLDynamicMenuQuery = {
+  __typename?: "Query";
+  frontpage?: {
+    __typename?: "FrontpageMenu";
+    menu?: Array<{
+      __typename?: "FrontpageMenu";
+      articleId: number;
+      article: { __typename?: "Article"; id: number; title: string; slug?: string };
+    }>;
+  };
+};
+
 export type GQLAboutMenuFragment = {
   __typename?: "FrontpageMenu";
   articleId: number;
@@ -2788,6 +2798,7 @@ export type GQLPreviewLearningpathQuery = {
   learningpath?: {
     __typename?: "Learningpath";
     id: number;
+    canEdit: boolean;
     learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
 };
@@ -3042,16 +3053,8 @@ export type GQLResourceEmbedQuery = {
 
 export type GQLResourceEmbedLicenseContent_MetaFragment = {
   __typename?: "ResourceMetaData";
-  concepts?: Array<
-    {
-      __typename?: "ConceptLicense";
-      content?: string;
-      metaImageUrl?: string;
-    } & GQLConceptLicenseList_ConceptLicenseFragment
-  >;
-  glosses?: Array<
-    { __typename?: "GlossLicense"; content?: string; metaImageUrl?: string } & GQLGlossLicenseList_GlossLicenseFragment
-  >;
+  concepts?: Array<{ __typename?: "ConceptLicense"; content?: string } & GQLConceptLicenseList_ConceptLicenseFragment>;
+  glosses?: Array<{ __typename?: "GlossLicense"; content?: string } & GQLGlossLicenseList_GlossLicenseFragment>;
   h5ps?: Array<{ __typename?: "H5pLicense" } & GQLH5pLicenseList_H5pLicenseFragment>;
   brightcoves?: Array<
     { __typename?: "BrightcoveLicense"; description?: string } & GQLVideoLicenseList_BrightcoveLicenseFragment
@@ -3343,6 +3346,7 @@ export type GQLSubjectContainer_NodeFragment = {
         type: string;
         alt?: string;
         url: string;
+        imageUrl?: string;
         imageLicense?: { __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment;
       };
     };
@@ -3573,6 +3577,7 @@ export type GQLMyNdlaLearningpathFragment = {
   title: string;
   description: string;
   created: string;
+  canEdit: boolean;
   status: string;
   madeAvailable?: string;
   revision: number;
@@ -3917,8 +3922,6 @@ export type GQLFolderResourceMetaFragment =
 
 export type GQLSharedFolderQueryVariables = Exact<{
   id: Scalars["String"]["input"];
-  includeSubfolders?: InputMaybe<Scalars["Boolean"]["input"]>;
-  includeResources?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLSharedFolderQuery = {

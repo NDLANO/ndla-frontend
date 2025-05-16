@@ -150,7 +150,6 @@ const messages = {
     },
     resultType: {
       showingSearchPhrase: "Viser treff for",
-      searchPhraseSuggestion: "Søk heller",
     },
   },
   myNdla: {
@@ -719,8 +718,35 @@ const messages = {
       button: "Meny",
       goToMainMenu: "Gå til hovedmeny",
       search: "Søk",
-      title: "Åpne meny",
+      title: "Hva kan vi hjelpe deg med?",
       modalLabel: "Velg innhold",
+      open: "Åpne meny",
+      close: "Lukk meny",
+      myNdla: {
+        yourFavouriteSubjects: "Dine favorittfag",
+        viewAllFavouriteSubjects: "Se alle favorittfag",
+        loggedInAs: "Logget inn som",
+        myNdla: "Min NDLA",
+        arena: "Arena",
+        chatRobot: "Praterobot",
+      },
+      links: {
+        education: {
+          title: "Fag og utdanningsprogram",
+          programmes: "Utdanningsprogram",
+          subjects: "Alle fag",
+          multidisciplinary: "Tverrfaglige tema",
+          film: "NDLA Film",
+        },
+        tips: {
+          title: "Tips og råd",
+          studentToolbox: "Verktøykassen for elever",
+          teacherToolbox: "Verktøykassen for lærere",
+        },
+        dynamic: {
+          title: "Om oss",
+        },
+      },
     },
   },
   pagination: { next: "Neste", prev: "Forrige" },

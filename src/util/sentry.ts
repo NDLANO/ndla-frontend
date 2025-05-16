@@ -110,6 +110,7 @@ export const initSentry = (config: ConfigType) => {
   Sentry.init({
     dsn: config.sentrydsn,
     environment: config.ndlaEnvironment,
+    normalizeDepth: 20,
     release,
     beforeSend,
     integrations: [],

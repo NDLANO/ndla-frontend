@@ -30,6 +30,7 @@ import { getAllDimensions } from "../../../util/trackingUtil";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathShareLink } from "./components/LearningpathShareLink";
 import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
 const TextWrapper = styled("div", {
   base: {
@@ -110,6 +111,10 @@ export const SaveLearningpathPage = () => {
 
   if (!learningpathQuery.data?.myNdlaLearningpath) {
     return <DefaultErrorMessagePage />;
+  }
+
+  if (!learningpathQuery.data.myNdlaLearningpath.canEdit) {
+    return <NotFoundPage />;
   }
 
   const learningpath = learningpathQuery.data.myNdlaLearningpath;
