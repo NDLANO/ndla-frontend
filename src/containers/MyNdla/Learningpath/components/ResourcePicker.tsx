@@ -46,10 +46,13 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
 import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResourceFragment } from "../../../../graphqlTypes";
+import { OembedResponse } from "../../../../interfaces";
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
 import { ResourceData } from "./folderTypes";
+import { resolveJsonOrRejectWithError } from "../../../../util/apiHelpers";
+import { urlIsNDLAUrl } from "../../../../util/ndlaUrl";
 
 const HitsWrapper = styled("div", {
   base: {
@@ -174,7 +177,24 @@ export const ResourcePicker = ({ setResource }: Props) => {
     [searchHits],
   );
 
+  const setResourceFromNdlaUrl = async (url: string) => {
+    const res = await fetch(`/oembed?url=${url}`);
+    const oembedData = await resolveJsonOrRejectWithError<OembedResponse>(res);
+    if (oembedData) {
+      const { title, iframeSrc: url } = oembedData;
+      setResource({
+        title,
+        url,
+      });
+    }
+  };
+
   const onQueryChange = (val: string) => {
+    if (urlIsNDLAUrl(val)) {
+      setResourceFromNdlaUrl(val);
+      return;
+    }
+
     setSearchObject({ query: val, page: 1, pageSize: 10 });
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
