@@ -8,7 +8,7 @@
 
 import { ApolloError } from "@apollo/client";
 import * as Sentry from "@sentry/react";
-import { ErrorType } from "./error";
+import { ErrorType, UnknownError } from "./error";
 import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import log from "./logger";
@@ -27,7 +27,7 @@ type UnknownGQLError = {
   graphQLErrors?: SingleGQLError[] | null;
 };
 
-export const getErrorStatuses = (unknownError: ErrorType | null | undefined): number[] => {
+export const getErrorStatuses = (unknownError: UnknownError | null | undefined): number[] => {
   const statuses: number[] = [];
   // We cast to our own error type since we append status in graphql-api
   const error = unknownError as UnknownGQLError | null | undefined;
@@ -78,7 +78,7 @@ export const isNotFoundError = (error: ErrorType | undefined | null): boolean =>
   return codes.find((c) => c === 404) !== undefined;
 };
 
-const getMessage = (error: ErrorType): string => {
+const getMessage = (error: UnknownError): string => {
   if (error instanceof StatusError && error.message) return error.message;
   if (error instanceof Error && error.message) return error.message;
   if (error instanceof AggregateError) {
@@ -94,7 +94,7 @@ const getMessage = (error: ErrorType): string => {
 };
 
 const getErrorLog = (
-  error: ErrorType,
+  error: UnknownError,
   extraContext: Record<string, unknown>,
 ): ApolloError | Error | string | unknown => {
   if (!error) return { ...extraContext, message: `Unknown error: ${JSON.stringify(error)}` };
@@ -144,7 +144,7 @@ export const mergeLogLevels = (levels: LogLevel[]): LogLevel | undefined => {
   return undefined;
 };
 
-export const deriveLogLevel = (error: ErrorType): LogLevel | undefined => {
+export const deriveLogLevel = (error: UnknownError): LogLevel | undefined => {
   if (error instanceof NDLAError) return error.logLevel;
 
   const statusCodes = getErrorStatuses(error);
@@ -188,6 +188,11 @@ const sendToSentry = (error: ErrorType, requestPath: string | undefined, extraCo
   const errorContext = { error, requestPath, ...extraContext };
   Sentry.setContext("NDLA Context", errorContext);
   Sentry.captureException(error);
+};
+
+export const ensureError = (unknownError: UnknownError): ErrorType => {
+  if (unknownError instanceof Error) return unknownError;
+  return new NDLAError(String(unknownError));
 };
 
 const handleError = async (error: ErrorType, requestPath?: string, extraContext: Record<string, unknown> = {}) => {
