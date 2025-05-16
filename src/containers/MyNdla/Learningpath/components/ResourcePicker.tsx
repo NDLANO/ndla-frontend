@@ -187,12 +187,10 @@ export const ResourcePicker = ({ setResource }: Props) => {
     const res = await fetch(`/oembed?url=${url}`);
     const oembedData = await resolveJsonOrRejectWithError<OembedResponse>(res);
     if (oembedData) {
-      const { title, iframeSrc: url, resourceTypes, breadcrumbs } = oembedData;
+      const { title, iframeSrc: url } = oembedData;
       setResource({
         title,
         url,
-        resourceTypes,
-        breadcrumbs,
       });
     }
   };

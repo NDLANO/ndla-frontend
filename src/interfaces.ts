@@ -10,7 +10,6 @@ import { NormalizedCacheObject } from "@apollo/client";
 import { ConfigType } from "./config";
 import { LocaleValues } from "./constants";
 import type { ManifestChunk } from "vite";
-import { ResourceTypeWithConnection } from "@ndla/types-taxonomy";
 
 export type InitialProps = {
   articleId?: string;
@@ -88,8 +87,6 @@ export interface OembedResponse {
   title: string;
   html: string;
   iframeSrc: string;
-  breadcrumbs?: string[];
-  resourceTypes?: ResourceTypeWithConnection[];
 }
 
 export type LogLevel = "error" | "warn" | "info";
