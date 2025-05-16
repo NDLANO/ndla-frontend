@@ -222,8 +222,8 @@ const MastheadDrawer = ({ root, crumbs }: Props) => {
           aria-haspopup="menu"
           variant="tertiary"
           data-testid="masthead-menu-button"
-          aria-label={t("masthead.menu.title")}
-          title={t("masthead.menu.title")}
+          aria-label={t("masthead.menu.open")}
+          title={t("masthead.menu.open")}
         >
           <MenuLine />
           <span>{t("masthead.menu.button")}</span>

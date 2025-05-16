@@ -158,7 +158,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
       <SocialMediaMetadata
         title={node.name}
         description={node.subjectpage?.metaDescription}
-        imageUrl={about?.visualElement.url}
+        imageUrl={about?.visualElement.imageUrl}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
       />
       <StyledSubjectWrapper>
@@ -265,6 +265,7 @@ export const subjectContainerFragments = {
             type
             alt
             url
+            imageUrl
             imageLicense {
               ...ImageLicenseList_ImageLicense
             }

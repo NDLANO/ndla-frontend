@@ -403,21 +403,17 @@ export const useSharedFolder = (folderId?: string): GQLFolder | null => {
 
 interface UseSharedFolder {
   id: string;
-  includeResources?: boolean;
-  includeSubfolders?: boolean;
 }
 
 export const useGetSharedFolder = ({
   id,
-  includeResources,
-  includeSubfolders,
 }: UseSharedFolder): {
   folder?: GQLFolder;
   loading: boolean;
   error?: ApolloError;
 } => {
   const { data, loading, error } = useQuery<GQLSharedFolderQuery, GQLSharedFolderQueryVariables>(sharedFolderQuery, {
-    variables: { id, includeResources, includeSubfolders },
+    variables: { id },
   });
 
   const folder = data?.sharedFolder as GQLFolder | undefined;

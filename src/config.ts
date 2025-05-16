@@ -137,6 +137,7 @@ export type ConfigType = {
   sentrydsn: string;
   formbricksId: string;
   arenaDomain: string;
+  enableNewMasthead: boolean;
   loginHint: string | undefined;
 };
 
@@ -175,6 +176,7 @@ const getServerSideConfig = (): ConfigType => {
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
+    enableNewMasthead: getEnvironmentVariabel("ENABLE_NEW_MASTHEAD", false),
     loginHint: loginHint(ndlaEnvironment),
   };
 };

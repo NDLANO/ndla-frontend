@@ -2640,6 +2640,20 @@ export type GQLMastHeadQuery = {
   root?: { __typename?: "Node" } & GQLMastheadDrawer_RootFragment;
 };
 
+export type GQLDynamicMenuQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLDynamicMenuQuery = {
+  __typename?: "Query";
+  frontpage?: {
+    __typename?: "FrontpageMenu";
+    menu?: Array<{
+      __typename?: "FrontpageMenu";
+      articleId: number;
+      article: { __typename?: "Article"; id: number; title: string; slug?: string };
+    }>;
+  };
+};
+
 export type GQLAboutMenuFragment = {
   __typename?: "FrontpageMenu";
   articleId: number;
@@ -3325,6 +3339,7 @@ export type GQLSubjectContainer_NodeFragment = {
         type: string;
         alt?: string;
         url: string;
+        imageUrl?: string;
         imageLicense?: { __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment;
       };
     };
