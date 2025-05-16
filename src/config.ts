@@ -100,7 +100,6 @@ const loginHint = (ndlaEnvironment: string): string | undefined => {
   switch (ndlaEnvironment) {
     case "local":
     case "dev":
-    case "test":
       return undefined;
     default:
       return "feide|all";
