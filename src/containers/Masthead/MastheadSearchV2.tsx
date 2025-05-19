@@ -193,10 +193,8 @@ const currentContextQueryDef = gql`
       name
       context {
         contextId
-        parents {
-          id
-          name
-        }
+        rootId
+        root
       }
     }
   }
@@ -236,11 +234,10 @@ const MastheadSearch = () => {
     if (root.nodeType === "SUBJECT") {
       return root;
     }
-    const firstSubjectParent = root.context?.parents?.find((parent) => parent.id.includes(`urn:subject`));
-    if (firstSubjectParent) {
+    if (root.context) {
       return {
-        ...firstSubjectParent,
-        nodeType: "SUBJECT",
+        id: root.context?.rootId,
+        name: root.context.root,
       };
     }
     return undefined;

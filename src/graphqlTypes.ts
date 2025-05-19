@@ -1876,6 +1876,7 @@ export type GQLTaxonomyContext = {
   parentIds: Array<Scalars["String"]["output"]>;
   parents?: Maybe<Array<GQLTaxonomyCrumb>>;
   relevance: Scalars["String"]["output"];
+  root: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
 };
@@ -2666,11 +2667,7 @@ export type GQLCurrentContextQuery = {
     id: string;
     nodeType: string;
     name: string;
-    context?: {
-      __typename?: "TaxonomyContext";
-      contextId: string;
-      parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string }>;
-    };
+    context?: { __typename?: "TaxonomyContext"; contextId: string; rootId: string; root: string };
   };
 };
 
