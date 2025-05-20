@@ -1414,6 +1414,7 @@ type TaxonomyContext {
   parentIds: [String!]!
   parents: [TaxonomyCrumb!]
   relevance: String!
+  root: String!
   rootId: String!
   url: String!
 }

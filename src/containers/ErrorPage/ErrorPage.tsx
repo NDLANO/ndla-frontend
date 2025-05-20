@@ -13,7 +13,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { Status } from "../../components";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import { PageLayout } from "../../components/Layout/PageContainer";
+import config from "../../config";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
+import MastheadContainer from "../Masthead";
 import Masthead from "../Masthead/components/Masthead";
 import { Footer } from "../Page/components/Footer";
 
@@ -33,18 +35,25 @@ const ErrorMessageMain = styled("main", {
 
 const ErrorPage = () => {
   const { t } = useTranslation();
+  const MastheadComponent = config.enableNewMasthead ? MastheadContainer : Masthead;
   return (
     <MissingRouterContext value={true}>
       <Status code={INTERNAL_SERVER_ERROR}>
         <title>NDLA</title>
         <meta name="description" content={t("meta.description")} />
-        <Masthead>
-          <LogoWrapper>
-            <SafeLink unstyled to="/" aria-label={t("logo.altText")}>
+        <MastheadComponent>
+          {config.enableNewMasthead ? (
+            <SafeLink to="/" aria-label="NDLA" title="NDLA">
               <NdlaLogoText />
             </SafeLink>
-          </LogoWrapper>
-        </Masthead>
+          ) : (
+            <LogoWrapper>
+              <SafeLink unstyled to="/" aria-label={t("logo.altText")}>
+                <NdlaLogoText />
+              </SafeLink>
+            </LogoWrapper>
+          )}
+        </MastheadComponent>
         <PageLayout asChild>
           <ErrorMessageMain>
             <DefaultErrorMessage applySkipToContentId />

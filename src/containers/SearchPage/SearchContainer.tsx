@@ -271,8 +271,9 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
         ?.split(",")
         .map((s) => `urn:subject:${s}`)
         .join(",") ?? undefined;
+    const queryParam = searchParams.get("query");
     return {
-      query: searchParams.get("query") ?? undefined,
+      query: queryParam ? decodeURIComponent(queryParam) : undefined,
       language: i18n.language,
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
       subjects,
@@ -301,6 +302,13 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       setPage(pageParam);
     }
   }, [page, searchParams]);
+
+  useEffect(() => {
+    const queryParam = searchParams.get("query");
+    if (queryParam) {
+      setQuery(queryParam ? decodeURIComponent(queryParam) : "");
+    }
+  }, [searchParams]);
 
   const data = searchQuery.data ?? searchQuery.previousData;
 
