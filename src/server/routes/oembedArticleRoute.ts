@@ -17,7 +17,7 @@ import { getArticleIdFromResource } from "../../containers/Resources/resourceHel
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
-import handleError from "../../util/handleError";
+import handleError, { ensureError } from "../../util/handleError";
 import { parseOembedUrl } from "../../util/urlHelper";
 import { OembedResponse } from "../../interfaces";
 
@@ -197,7 +197,7 @@ export async function oembedArticleRoute(req: express.Request): Promise<OembedRo
     }
     return getOembedResponse(req, title, iframeSrc);
   } catch (error) {
-    handleError(error, req.path);
+    handleError(ensureError(error), req.path);
 
     const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;
