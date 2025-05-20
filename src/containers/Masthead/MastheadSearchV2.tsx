@@ -11,8 +11,8 @@ import { debounce } from "lodash-es";
 import queryString from "query-string";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useLazyQuery } from "@apollo/client";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
@@ -41,8 +41,14 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
-import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../graphqlTypes";
+import {
+  GQLCurrentContextQuery,
+  GQLCurrentContextQueryVariables,
+  GQLSearchQuery,
+  GQLSearchQueryVariables,
+} from "../../graphqlTypes";
 import { searchQuery } from "../../queries";
+import { isValidContextId } from "../../util/urlHelper";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
@@ -179,15 +185,28 @@ const getActiveSubjectUrl = (id: string, query: string): string => {
   return `/search?${searchParams}`;
 };
 
-interface Props {
-  root?: GQLMastheadDrawer_RootFragment;
-}
-const MastheadSearch = ({ root }: Props) => {
+const currentContextQueryDef = gql`
+  query currentContext($contextId: String!) {
+    root: node(contextId: $contextId) {
+      id
+      nodeType
+      name
+      context {
+        contextId
+        rootId
+        root
+      }
+    }
+  }
+`;
+
+const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { contextId } = useParams();
   const [query, setQuery] = useState("");
   const [delayedSearchQuery, setDelayedQuery] = useState("");
   const formId = useId();
@@ -198,6 +217,31 @@ const MastheadSearch = ({ root }: Props) => {
   const { height } = useComponentSize("masthead");
 
   const style = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
+
+  const currentContextQuery = useQuery<GQLCurrentContextQuery, GQLCurrentContextQueryVariables>(
+    currentContextQueryDef,
+    {
+      variables: {
+        contextId: contextId ?? "",
+      },
+      skip: !isValidContextId(contextId) || typeof window === "undefined",
+    },
+  );
+
+  const rootSubject = useMemo(() => {
+    const root = currentContextQuery.data?.root;
+    if (!root) return undefined;
+    if (root.nodeType === "SUBJECT") {
+      return root;
+    }
+    if (root.context) {
+      return {
+        id: root.context?.rootId,
+        name: root.context.root,
+      };
+    }
+    return undefined;
+  }, [currentContextQuery.data?.root]);
 
   useEffect(() => {
     setQuery("");
@@ -376,13 +420,13 @@ const MastheadSearch = ({ root }: Props) => {
                 </div>
               )}
             </StyledHitsWrapper>
-            {!loading && !!query && root ? (
+            {!loading && !!query && rootSubject ? (
               <ActiveSubjectWrapper>
                 <SearchLine />
                 <div>
                   <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
-                  <StyledSafeLink to={getActiveSubjectUrl(root.id, query)} onClick={() => onNavigate()}>
-                    &quot;<span>{root.name}</span>&quot;
+                  <StyledSafeLink to={getActiveSubjectUrl(rootSubject.id, query)} onClick={() => onNavigate()}>
+                    &quot;<span>{rootSubject.name}</span>&quot;
                   </StyledSafeLink>
                 </div>
               </ActiveSubjectWrapper>
