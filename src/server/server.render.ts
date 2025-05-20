@@ -13,21 +13,24 @@ import { iframeArticleRender } from "./render/iframeArticleRender";
 import { iframeEmbedRender } from "./render/iframeEmbedRender";
 import { ltiRender } from "./render/ltiRender";
 import { RootRenderFunc } from "./serverHelpers";
+import { getAsyncContextStorage } from "./helpers/ndlaContextStore";
 
 const render: RootRenderFunc = (req: Request, renderer: string, chunks) => {
-  if (renderer === "default") {
-    return defaultRender(req, chunks);
-  } else if (renderer === "lti") {
-    return ltiRender(req, chunks);
-  } else if (renderer === "iframeEmbed") {
-    return iframeEmbedRender(req, chunks);
-  } else if (renderer === "iframeArticle") {
-    return iframeArticleRender(req, chunks);
-  } else if (renderer === "error") {
-    return errorRender(req, chunks);
-  } else {
-    return defaultRender(req, chunks);
-  }
+  return getAsyncContextStorage().run({ requestPath: req.path }, () => {
+    if (renderer === "default") {
+      return defaultRender(req, chunks);
+    } else if (renderer === "lti") {
+      return ltiRender(req, chunks);
+    } else if (renderer === "iframeEmbed") {
+      return iframeEmbedRender(req, chunks);
+    } else if (renderer === "iframeArticle") {
+      return iframeArticleRender(req, chunks);
+    } else if (renderer === "error") {
+      return errorRender(req, chunks);
+    } else {
+      return defaultRender(req, chunks);
+    }
+  });
 };
 
 export default render;

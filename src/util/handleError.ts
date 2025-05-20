@@ -161,26 +161,31 @@ const deriveContext = (error: ErrorType): Record<string, unknown> => {
 
 const logServerError = async (
   error: ErrorType,
-  requestPath: string | undefined,
+  requestPathOverride: string | undefined,
   extraContext: Record<string, unknown>,
-) => {
-  const derivedContext = deriveContext(error);
-  const ctx = { ...extraContext, requestPath, ...derivedContext };
-  const logLevel = deriveLogLevel(error);
-  const err = getErrorLog(error, ctx);
-  switch (logLevel) {
-    case "info":
-      log.info(err);
-      break;
-    case "warn":
-      log.warn(err);
-      break;
-    case "error":
-    case undefined:
-      log.error(err);
-      break;
-    default:
-      unreachable(logLevel);
+): Promise<void> => {
+  if (import.meta.env.SSR) {
+    const { getContext } = await import("../server/helpers/ndlaContextStore");
+    const derivedContext = deriveContext(error);
+    const serverContext = getContext();
+    const requestPath = requestPathOverride ?? serverContext?.requestPath;
+    const ctx = { ...extraContext, requestPath, ...serverContext, ...derivedContext };
+    const logLevel = deriveLogLevel(error);
+    const err = getErrorLog(error, ctx);
+    switch (logLevel) {
+      case "info":
+        log.info(err);
+        break;
+      case "warn":
+        log.warn(err);
+        break;
+      case "error":
+      case undefined:
+        log.error(err);
+        break;
+      default:
+        unreachable(logLevel);
+    }
   }
 };
 
