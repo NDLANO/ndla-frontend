@@ -46,9 +46,6 @@ const MastheadContent = styled("div", {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    tabletWide: {
-      paddingInline: "xxlarge",
-    },
   },
 });
 
@@ -86,7 +83,7 @@ export const MastheadContainer = ({ skipToMainContentId, showAlerts, children, .
     <StyledMasthead id="masthead" {...rest}>
       {!!skipToMainContentId && <SkipToMainContent skipToMainContentId={skipToMainContentId} />}
       {!!showAlerts && <BannerAlerts />}
-      <StyledPageContent variant="wide">
+      <StyledPageContent variant="page">
         <MastheadContent id="masthead-content">{children}</MastheadContent>
       </StyledPageContent>
     </StyledMasthead>

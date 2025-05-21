@@ -15,7 +15,7 @@ export const MastheadPopoverContent = styled(PopoverContentStandalone, {
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    maxWidth: "surface.wideMax",
+    maxWidth: "calc(token(sizes.surface.pageMax) + 2 * token(spacing.xxlarge))",
     maxHeight: "100vh",
     overflow: "auto",
     position: "absolute",
