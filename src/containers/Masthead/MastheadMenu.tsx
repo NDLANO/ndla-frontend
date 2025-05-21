@@ -272,7 +272,7 @@ const NavigationPart = ({ dynamicLinks, favouriteSubjects }: NavigationPartProps
           </NavigationPartLink>
         </NavigationListWrapper>
       )}
-      <StyledLanguageSelector />
+      <StyledLanguageSelector variant="secondary" />
     </NavigationPartWrapper>
   );
 };
