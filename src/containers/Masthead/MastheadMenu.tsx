@@ -176,6 +176,9 @@ const NavigationPartWrapper = styled("div", {
     paddingInlineStart: "xxlarge",
     flexDirection: "column",
     gap: "medium",
+    paddingBlockStart: "medium",
+    paddingBlockEnd: "large",
+    paddingInline: "xxlarge",
   },
 });
 
@@ -269,7 +272,7 @@ const NavigationPart = ({ dynamicLinks, favouriteSubjects }: NavigationPartProps
           </NavigationPartLink>
         </NavigationListWrapper>
       )}
-      <StyledLanguageSelector />
+      <StyledLanguageSelector variant="secondary" />
     </NavigationPartWrapper>
   );
 };
@@ -307,7 +310,9 @@ const MyNdlaWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
+    paddingInlineStart: "large",
     paddingInlineEnd: "xxlarge",
+    paddingBlock: "large",
     gap: "large",
     background: "background.subtle",
   },

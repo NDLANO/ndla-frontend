@@ -23,9 +23,9 @@ test("should have functioning language anchor", async ({ page }) => {
   const languageSelector = page.getByTestId("language-selector");
   await languageSelector.click();
 
-  await expect(languageSelector).toContainText("Bokmål");
+  await expect(languageSelector).toContainText("Nynorsk");
   expect(page.url().includes("/nn/")).toBeTruthy();
   await languageSelector.click();
-  await expect(languageSelector).toContainText("Nynorsk");
+  await expect(languageSelector).toContainText("Bokmål");
   expect(page.url().includes("/nb/")).toBeTruthy();
 });

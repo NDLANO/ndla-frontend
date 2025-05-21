@@ -8,25 +8,21 @@
 
 import { useTranslation } from "react-i18next";
 import { useHref, useLocation } from "react-router-dom";
-import { HTMLArkProps } from "@ark-ui/react";
 import { GlobalLine } from "@ndla/icons";
-import { Button } from "@ndla/primitives";
-import { JsxStyleProps } from "@ndla/styled-system/types";
+import { Button, ButtonProps } from "@ndla/primitives";
 import { constructNewPath } from "../../util/urlHelper";
 
-interface Props extends JsxStyleProps, HTMLArkProps<"button"> {}
-
-export const LanguageSelector = (props: Props) => {
+export const LanguageSelector = ({ variant = "tertiary", ...props }: ButtonProps) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const href = useHref(location);
 
-  const navigateToLang = i18n.language === "nn" ? "nb" : "nn";
+  const navigateToLang = i18n.language !== "nb" ? "nb" : "nn";
 
   return (
-    <Button {...props} asChild consumeCss variant="tertiary" data-testid="language-selector" type={undefined}>
+    <Button {...props} variant={variant} asChild consumeCss data-testid="language-selector" type={undefined}>
       <a href={constructNewPath(href, navigateToLang)}>
-        {t(`languages.${navigateToLang}`)} <GlobalLine />
+        {t(`languages.${i18n.language}`)} <GlobalLine />
       </a>
     </Button>
   );
