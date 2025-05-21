@@ -28,11 +28,6 @@ export const MastheadPopoverContent = styled(PopoverContentStandalone, {
     tabletWide: {
       flexDirection: "row",
     },
-    "& > *": {
-      paddingBlockStart: "medium",
-      paddingInline: "xxlarge",
-      paddingBlockEnd: "xxlarge",
-    },
   },
 });
 

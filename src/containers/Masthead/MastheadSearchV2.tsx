@@ -75,9 +75,9 @@ const StyledForm = styled("form", {
   base: {
     width: "100%",
     flex: "1",
-    paddingBlockStart: "xsmall",
-    paddingBlockEnd: "xxlarge",
-    paddingInline: "small",
+    paddingBlockStart: "medium",
+    paddingBlockEnd: "large",
+    paddingInline: "xxlarge",
     display: "flex",
     alignItems: "flex-start",
     flexDirection: "column",
