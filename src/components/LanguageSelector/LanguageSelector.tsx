@@ -22,7 +22,7 @@ export const LanguageSelector = ({ variant = "tertiary", ...props }: ButtonProps
   return (
     <Button {...props} variant={variant} asChild consumeCss data-testid="language-selector" type={undefined}>
       <a href={constructNewPath(href, navigateToLang)}>
-        {t(`languages.${i18n.language}`)} <GlobalLine />
+        <GlobalLine /> {t(`languages.${i18n.language}`)}
       </a>
     </Button>
   );
