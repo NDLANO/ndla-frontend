@@ -826,6 +826,12 @@ const messages = {
       span: {
         language: "Language",
       },
+      heading: {
+        label: "Choose text type",
+        "normal-text": "Normal",
+        "heading-2": "Heading 2",
+        "heading-3": "Heading 3",
+      },
     },
   },
   treeStructure: {
