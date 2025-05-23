@@ -8,15 +8,24 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { StaticRouter } from "react-router-dom/server";
+import {
+  createStaticHandler,
+  createStaticRouter,
+  StaticHandlerContext,
+  StaticRouterProvider,
+} from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
-import App from "../../App";
+import { routes } from "../../appRoutes";
+import { AlertsProvider } from "../../components/AlertsContext";
+import AuthenticationContext from "../../components/AuthenticationContext";
+import { BaseNameProvider } from "../../components/BaseNameContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
+import { ToastProvider } from "../../components/ToastContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { Document } from "../../Document";
@@ -26,9 +35,10 @@ import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
+import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
-export const defaultRender: RenderFunc = async (req, chunks) => {
+export const defaultRender: RenderFunc = async (req, res, chunks) => {
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
   const locale = isValidLocale(abbreviation) ? abbreviation : (config.defaultLocale as LocaleType);
   if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
@@ -65,6 +75,12 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};
 
+  const handler = createStaticHandler(routes, { basename: `/${basename}` });
+  const fetchRequest = createFetchRequest(req, res);
+  const context: StaticHandlerContext = await handler.query(fetchRequest);
+
+  const router = createStaticRouter(routes, context);
+
   const Page = (
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default}>
       <RedirectContext value={redirectContext}>
@@ -73,9 +89,15 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
             <ResponseContext value={responseContext}>
               <VersionHashProvider value={versionHash}>
                 <SiteThemeProvider value={siteTheme}>
-                  <StaticRouter basename={basename} location={req.url}>
-                    <App key={locale} />
-                  </StaticRouter>
+                  <AlertsProvider>
+                    <BaseNameProvider value={basename}>
+                      <AuthenticationContext>
+                        <ToastProvider>
+                          <StaticRouterProvider router={router} context={context} />
+                        </ToastProvider>
+                      </AuthenticationContext>
+                    </BaseNameProvider>
+                  </AlertsProvider>
                 </SiteThemeProvider>
               </VersionHashProvider>
             </ResponseContext>

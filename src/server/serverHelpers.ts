@@ -27,9 +27,14 @@ export interface RenderDataReturn {
 
 export type RenderReturn = RenderLocationReturn | RenderDataReturn;
 
-export type RenderFunc = (req: Request, chunks?: ManifestChunk[]) => Promise<RenderReturn>;
+export type RenderFunc = (req: Request, res: Response, chunks?: ManifestChunk[]) => Promise<RenderReturn>;
 
-export type RootRenderFunc = (req: Request, renderer: string, chunks: ManifestChunk[]) => Promise<RenderReturn>;
+export type RootRenderFunc = (
+  req: Request,
+  res: Response,
+  renderer: string,
+  chunks: ManifestChunk[],
+) => Promise<RenderReturn>;
 
 export const sendResponse = (res: Response, data: any, status = OK) => {
   if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {

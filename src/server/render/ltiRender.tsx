@@ -54,7 +54,7 @@ export function parseAndValidateParameters(body: any) {
     : { valid: false, messages: errorMessages };
 }
 
-export const ltiRender: RenderFunc = async (req, chunks) => {
+export const ltiRender: RenderFunc = async (req, _res, chunks) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   const lang = getHtmlLang(req.params.lang ?? "");
