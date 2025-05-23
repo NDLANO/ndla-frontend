@@ -59,7 +59,7 @@ const ProgrammePage = () => {
     return <ContentPlaceholder padding="large" />;
   }
 
-  if (!loading && error) {
+  if (error?.graphQLErrors) {
     if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
       return <NotFoundPage />;
     } else {
