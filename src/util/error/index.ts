@@ -9,4 +9,5 @@
 import { ApolloError } from "@apollo/client";
 import { NDLAError } from "./NDLAError";
 
-export type ErrorType = ApolloError | Error | NDLAError | string | unknown;
+export type ErrorType = ApolloError | Error | NDLAError;
+export type UnknownError = ErrorType | unknown;
