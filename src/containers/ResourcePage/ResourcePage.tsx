@@ -102,24 +102,22 @@ const ResourcePage = () => {
     }
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
-    redirectContext.status = 410;
-    return <UnpublishedResourcePage />;
-  }
-
   if (responseContext?.status === 410) {
     return <UnpublishedResourcePage />;
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
-    return <NotFoundPage />;
-  }
-
-  if (!data) {
+  if (error?.graphQLErrors) {
+    if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
+      redirectContext.status = 410;
+      return <UnpublishedResourcePage />;
+    }
+    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+      return <NotFoundPage />;
+    }
     return <DefaultErrorMessagePage />;
   }
 
-  if (!data.node || !data.node.url) {
+  if (!data || !data.node || !data.node.url) {
     return <NotFoundPage />;
   }
 
