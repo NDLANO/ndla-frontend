@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import { PageLayout } from "../components/Layout/PageContainer";
 import IframePage from "../iframe/IframePage";
 
-export const LtiIframePage = () => {
+export const Component = () => {
   const { taxonomyId, articleId } = useParams();
   return (
     <PageLayout>

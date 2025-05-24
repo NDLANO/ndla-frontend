@@ -31,6 +31,7 @@ import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathShareLink } from "./components/LearningpathShareLink";
 import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 
 const TextWrapper = styled("div", {
   base: {
@@ -47,7 +48,11 @@ const ButtonWrapper = styled("div", {
   },
 });
 
-export const SaveLearningpathPage = () => {
+export const Component = () => {
+  return <PrivateRoute element={<SaveLearningpathPage />} />;
+};
+
+const SaveLearningpathPage = () => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();

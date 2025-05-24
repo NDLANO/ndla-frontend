@@ -69,7 +69,7 @@ const resourcePageQuery = gql`
   ${ArticlePage.fragments.resourceType}
   ${LearningpathPage.fragments.resource}
 `;
-const ResourcePage = () => {
+export const Component = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const { contextId, stepId } = useParams();
@@ -169,5 +169,3 @@ const ResourcePage = () => {
     />
   );
 };
-
-export default ResourcePage;

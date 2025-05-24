@@ -70,7 +70,7 @@ export const getPage = (searchObject: SearchObject) => {
   return Number(searchObject.page) || 1;
 };
 
-const PodcastSeriesListPage = () => {
+export const Component = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
@@ -222,5 +222,3 @@ const podcastSeriesListPageQuery = gql`
     }
   }
 `;
-
-export default PodcastSeriesListPage;
