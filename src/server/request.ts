@@ -6,15 +6,12 @@
  *
  */
 
-import { Request as ExpressRequest, Response } from "express";
+import { Request as ExpressRequest } from "express";
 
-export const createFetchRequest = (req: ExpressRequest, res: Response) => {
+export const createFetchRequest = (req: ExpressRequest) => {
   const origin = `${req.protocol}://${req.get("host")}`;
   // Note: This had to take originalUrl into account for presumably vite's proxying
   const url = new URL(req.originalUrl || req.url, origin);
-
-  const controller = new AbortController();
-  res.on("close", () => controller.abort());
 
   const headers = new Headers();
 
@@ -33,7 +30,6 @@ export const createFetchRequest = (req: ExpressRequest, res: Response) => {
   const init = {
     method: req.method,
     headers,
-    signal: controller.signal,
     body: undefined,
   };
 

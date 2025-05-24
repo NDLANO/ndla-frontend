@@ -57,7 +57,7 @@ const StyledImage = styled(Image, {
   },
 });
 
-export const CollectionPage = () => {
+export const Component = () => {
   const { collectionId } = useTypedParams();
   const isValidLanguage = COLLECTION_LANGUAGES.includes(collectionId ?? "");
 

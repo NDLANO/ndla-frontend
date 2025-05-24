@@ -27,7 +27,7 @@ export interface RenderDataReturn {
 
 export type RenderReturn = RenderLocationReturn | RenderDataReturn;
 
-export type RenderFunc = (req: Request, res: Response, chunks?: ManifestChunk[]) => Promise<RenderReturn>;
+export type RenderFunc = (req: Request, chunks?: ManifestChunk[]) => Promise<RenderReturn>;
 
 export type RootRenderFunc = (
   req: Request,

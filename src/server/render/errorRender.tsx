@@ -22,7 +22,7 @@ import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
 import { RenderFunc } from "../serverHelpers";
 
-export const errorRender: RenderFunc = async (req, _res, chunks) => {
+export const errorRender: RenderFunc = async (req, chunks) => {
   const context: RedirectInfo = {};
 
   const lang = getHtmlLang(req.params.lang ?? "");

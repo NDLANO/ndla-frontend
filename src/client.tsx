@@ -11,7 +11,7 @@ import queryString from "query-string";
 import { ReactNode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, matchRoutes, RouterProvider } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import "@fontsource/source-code-pro/400-italic.css";
 import "@fontsource/source-code-pro/700.css";
@@ -61,7 +61,19 @@ const { versionHash } = queryString.parse(window.location.search);
 const i18n = initializeI18n(i18nInstance, abbreviation);
 const client = createApolloClient(abbreviation, versionHash);
 
-const renderOrHydrate = (container: Element | Document, children: ReactNode) => {
+const renderOrHydrate = async (container: Element | Document, children: ReactNode) => {
+  const lazyMatches = matchRoutes(routes, window.location)?.filter((m) => m.route.lazy);
+
+  // Load the lazy matches and update the routes before creating your router
+  // so we can hydrate the SSR-rendered content synchronously
+  if (lazyMatches && lazyMatches?.length > 0) {
+    await Promise.all(
+      lazyMatches.map(async (m) => {
+        const routeModule = await m.route.lazy!();
+        Object.assign(m.route, { ...routeModule, lazy: undefined });
+      }),
+    );
+  }
   if (config.disableSSR) {
     const root = createRoot(container);
     root.render(children);
@@ -70,7 +82,7 @@ const renderOrHydrate = (container: Element | Document, children: ReactNode) => 
   }
 };
 
-const router = createBrowserRouter(routes, { basename: `/${basename}` });
+const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
 
 renderOrHydrate(
   document,

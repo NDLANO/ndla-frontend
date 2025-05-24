@@ -25,7 +25,7 @@ const searchResourceTypesQuery = gql`
   ${SearchContainer.fragments.resourceTypeDefinition}
 `;
 
-export const SearchPage = () => {
+export const Component = () => {
   const { t } = useTranslation();
 
   const resourceTypesQuery = useQuery<GQLSearchResourceTypesQuery>(searchResourceTypesQuery);

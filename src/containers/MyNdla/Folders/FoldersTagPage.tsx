@@ -29,6 +29,7 @@ import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 
@@ -37,6 +38,10 @@ const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
     gap: "xsmall",
   },
 });
+
+export const Component = () => {
+  return <PrivateRoute element={<FoldersTagsPage />} />;
+};
 
 const FoldersTagsPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -159,5 +164,3 @@ const Resources = ({ resources }: ResourcesProps) => {
     </BlockWrapper>
   );
 };
-
-export default FoldersTagsPage;

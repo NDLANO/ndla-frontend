@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import ResourceEmbed from "./components/ResourceEmbed";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
-const AudioPage = () => {
+export const Component = () => {
   const { audioId } = useParams();
 
   if (!audioId) {
@@ -19,5 +19,3 @@ const AudioPage = () => {
 
   return <ResourceEmbed id={audioId} type="audio" />;
 };
-
-export default AudioPage;
