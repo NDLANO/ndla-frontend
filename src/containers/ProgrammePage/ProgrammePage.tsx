@@ -37,7 +37,7 @@ const programmePageQuery = gql`
   ${ProgrammeContainer.fragments.programme}
 `;
 
-const ProgrammePage = () => {
+export const Component = () => {
   const { i18n } = useTranslation();
   const { programme, contextId, grade } = useTypedParams<MatchParams>();
 
@@ -74,5 +74,3 @@ const ProgrammePage = () => {
     <ProgrammeContainer programme={data.programme} grade={selectedGrade?.title.title || ""} locale={i18n.language} />
   );
 };
-
-export default ProgrammePage;

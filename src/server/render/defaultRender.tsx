@@ -8,12 +8,7 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import {
-  createStaticHandler,
-  createStaticRouter,
-  StaticHandlerContext,
-  StaticRouterProvider,
-} from "react-router-dom/server";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom/server";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { i18nInstance } from "@ndla/ui";
@@ -38,7 +33,7 @@ import { getSiteTheme } from "../../util/siteTheme";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
-export const defaultRender: RenderFunc = async (req, res, chunks) => {
+export const defaultRender: RenderFunc = async (req, chunks) => {
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
   const locale = isValidLocale(abbreviation) ? abbreviation : (config.defaultLocale as LocaleType);
   if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
@@ -75,11 +70,17 @@ export const defaultRender: RenderFunc = async (req, res, chunks) => {
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};
 
-  const handler = createStaticHandler(routes, { basename: `/${basename}` });
-  const fetchRequest = createFetchRequest(req, res);
-  const context: StaticHandlerContext = await handler.query(fetchRequest);
+  const { query, dataRoutes } = createStaticHandler(routes, {
+    basename: basename?.length ? `/${basename}` : undefined,
+  });
+  const fetchRequest = createFetchRequest(req);
+  const context = await query(fetchRequest);
 
-  const router = createStaticRouter(routes, context);
+  if (context instanceof Response) {
+    throw context;
+  }
+
+  const router = createStaticRouter(dataRoutes, context);
 
   const Page = (
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default}>

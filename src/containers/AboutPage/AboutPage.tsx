@@ -16,6 +16,7 @@ import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlType
 import { useTypedParams } from "../../routeHelpers";
 import { GONE } from "../../statusCodes";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 const aboutPageQuery = gql`
   query aboutPage($slug: String!, $transformArgs: TransformedArticleContentInput) {
@@ -29,6 +30,10 @@ const aboutPageQuery = gql`
   ${aboutPageFragments.article}
   ${aboutPageFragments.frontpageMenu}
 `;
+
+export const Component = () => {
+  return <PrivateRoute element={<AboutPage />} />;
+};
 
 const AboutPage = () => {
   const { slug } = useTypedParams<{ slug: string }>();
@@ -58,5 +63,3 @@ const AboutPage = () => {
 
   return <AboutPageContent key={data.article.slug} article={data.article} frontpage={data.frontpage} />;
 };
-
-export default AboutPage;

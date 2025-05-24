@@ -24,7 +24,7 @@ import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { RenderFunc } from "../serverHelpers";
 
-export const iframeEmbedRender: RenderFunc = async (req, _res, chunks) => {
+export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
   const lang = req.params.lang ?? "";
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;

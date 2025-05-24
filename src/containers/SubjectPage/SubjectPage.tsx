@@ -32,7 +32,7 @@ const subjectPageQuery = gql`
   ${subjectContainerFragments.subject}
 `;
 
-const SubjectPage = () => {
+export const Component = () => {
   const { contextId } = useParams();
   const {
     error,
@@ -73,5 +73,3 @@ const SubjectPage = () => {
 
   return <SubjectContainer node={data.node} subjectType={subjectType} loading={loading} />;
 };
-
-export default SubjectPage;
