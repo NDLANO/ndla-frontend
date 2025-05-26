@@ -254,7 +254,8 @@ export const iframeArticleRoutes: RouteObject[] = [
 
 export const errorRoutes: RouteObject[] = [
   {
-    index: true,
+    // This route is used for handling errors and displaying the error page. It should match all paths.
+    path: "*",
     element: <ErrorPage />,
   },
 ];
