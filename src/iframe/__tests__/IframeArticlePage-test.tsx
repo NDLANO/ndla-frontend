@@ -14,7 +14,6 @@ import { i18nInstance } from "@ndla/ui";
 import { initializeI18n } from "../../i18n";
 import { alertsQuery } from "../../queries";
 import IframeArticlePage from "../IframeArticlePage";
-import IframePageContainer from "../IframePageContainer";
 
 window._mtm = [];
 
@@ -229,27 +228,6 @@ test("IframeArticlePage with article renderers correctly", () => {
               }}
             </Translation>
           </I18nextProvider>
-        </StaticRouter>
-      </MockedProvider>
-    </I18nextProvider>,
-  );
-
-  expect(asFragment()).toMatchSnapshot();
-});
-
-test("IframePage with article displays error message on status === error", () => {
-  const i18n = initializeI18n(i18nInstance, "nb");
-  const { asFragment } = render(
-    <I18nextProvider i18n={i18n}>
-      <MockedProvider mocks={mockedResponses}>
-        <StaticRouter
-          location={{
-            pathname: "/article-iframe/urn:resource:1/128",
-            search: "asd",
-            hash: "",
-          }}
-        >
-          <IframePageContainer status="error" />
         </StaticRouter>
       </MockedProvider>
     </I18nextProvider>,

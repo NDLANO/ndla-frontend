@@ -14,7 +14,7 @@ export const Component = () => {
   const { taxonomyId, articleId } = useParams();
   return (
     <PageLayout>
-      <IframePage status="success" taxonomyId={taxonomyId} articleId={articleId} />
+      <IframePage taxonomyId={taxonomyId} articleId={articleId} />
     </PageLayout>
   );
 };

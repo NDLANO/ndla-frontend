@@ -234,3 +234,20 @@ export const iframeEmbedRoutes: RouteObject[] = [
     ],
   },
 ];
+
+export const iframeArticleRoutes: RouteObject[] = [
+  {
+    path: "/article-iframe",
+    errorElement: <ErrorElement />,
+    children: [
+      {
+        path: ":lang?/article/:articleId",
+        lazy: () => import("./iframe/IframePageContainer"),
+      },
+      {
+        path: ":lang?/:taxonomyId/:articleId",
+        lazy: () => import("./iframe/IframePageContainer"),
+      },
+    ],
+  },
+];
