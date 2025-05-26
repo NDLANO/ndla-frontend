@@ -28,8 +28,6 @@ const i18n = initializeI18n(i18nInstance, abbreviation);
 
 const router = createBrowserRouter(errorRoutes);
 
-console.log("on error!");
-
 renderOrHydrate(
   document,
   <Document language={abbreviation} chunks={chunks} devEntrypoint={entryPoints.error}>
