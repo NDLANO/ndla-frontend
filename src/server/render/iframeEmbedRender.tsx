@@ -8,7 +8,7 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom/server";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { MissingRouterContext } from "@ndla/safelink";
@@ -78,7 +78,7 @@ export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
           <ApolloProvider client={client}>
             <BaseNameProvider value={isValidLocale(lang) ? "lang" : ""}>
               <MissingRouterContext value={true}>
-                <StaticRouterProvider router={router} context={routerContext} />
+                <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
               </MissingRouterContext>
             </BaseNameProvider>
           </ApolloProvider>

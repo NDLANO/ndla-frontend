@@ -8,7 +8,7 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom/server";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { i18nInstance } from "@ndla/ui";
@@ -94,7 +94,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
                     <BaseNameProvider value={basename}>
                       <AuthenticationContext>
                         <ToastProvider>
-                          <StaticRouterProvider router={router} context={context} />
+                          <StaticRouterProvider router={router} context={context} hydrate={false} />
                         </ToastProvider>
                       </AuthenticationContext>
                     </BaseNameProvider>

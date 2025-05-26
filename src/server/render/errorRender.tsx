@@ -8,7 +8,7 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom/server";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import { errorRoutes } from "../../appRoutes";
@@ -45,7 +45,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
       <I18nextProvider i18n={i18nInstance}>
         <MissingRouterContext value={true}>
           <SiteThemeProvider value={siteTheme}>
-            <StaticRouterProvider router={router} context={routerContext} />
+            <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
           </SiteThemeProvider>
         </MissingRouterContext>
       </I18nextProvider>

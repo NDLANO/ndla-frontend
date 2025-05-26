@@ -19,8 +19,10 @@ export const renderOrHydrate = async (container: Element | Document, children: R
   if (lazyMatches && lazyMatches?.length > 0) {
     await Promise.all(
       lazyMatches.map(async (m) => {
-        const routeModule = await m.route.lazy!();
-        Object.assign(m.route, { ...routeModule, lazy: undefined });
+        if (m.route.lazy && typeof m.route.lazy === "function") {
+          const routeModule = await m.route.lazy();
+          Object.assign(m.route, { ...routeModule, lazy: undefined });
+        }
       }),
     );
   }
