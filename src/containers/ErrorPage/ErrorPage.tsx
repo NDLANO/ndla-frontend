@@ -65,4 +65,6 @@ const ErrorPage = () => {
   );
 };
 
+export const Component = ErrorPage;
+
 export default ErrorPage;

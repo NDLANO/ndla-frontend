@@ -251,3 +251,10 @@ export const iframeArticleRoutes: RouteObject[] = [
     ],
   },
 ];
+
+export const errorRoutes: RouteObject[] = [
+  {
+    index: true,
+    element: <ErrorPage />,
+  },
+];

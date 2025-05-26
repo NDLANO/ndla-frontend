@@ -7,17 +7,16 @@
  */
 
 import "../../style/index.css";
-import { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
-import ErrorPage from "./ErrorPage";
+import { errorRoutes } from "../../appRoutes";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
+import { renderOrHydrate } from "../../util/renderOrHydrate";
 import { initSentry } from "../../util/sentry";
 
 const { config, serverPath, chunks } = window.DATA;
@@ -27,26 +26,20 @@ initSentry(config);
 const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 const i18n = initializeI18n(i18nInstance, abbreviation);
 
-const renderOrHydrate = (container: Document | Element, children: ReactNode) => {
-  if (config.disableSSR) {
-    const root = createRoot(container);
-    root.render(children);
-  } else {
-    hydrateRoot(container, children);
-  }
-};
+const router = createBrowserRouter(errorRoutes);
+
+console.log("on error!");
 
 renderOrHydrate(
   document,
   <Document language={abbreviation} chunks={chunks} devEntrypoint={entryPoints.error}>
     <I18nextProvider i18n={i18n}>
       <SiteThemeProvider value={window.DATA.siteTheme}>
-        <BrowserRouter>
-          <MissingRouterContext value={true}>
-            <ErrorPage />
-          </MissingRouterContext>
-        </BrowserRouter>
+        <MissingRouterContext value={true}>
+          <RouterProvider router={router} />
+        </MissingRouterContext>
       </SiteThemeProvider>
     </I18nextProvider>
   </Document>,
+  errorRoutes,
 );

@@ -29,8 +29,8 @@ import { BaseNameProvider } from "../components/BaseNameContext";
 import { Document } from "../Document";
 import { entryPoints } from "../entrypoints";
 import { initializeI18n, isValidLocale } from "../i18n";
-import { renderOrHydrate } from "../server/render/renderHelpers";
 import { createApolloClient } from "../util/apiHelpers";
+import { renderOrHydrate } from "../util/renderOrHydrate";
 import { initSentry } from "../util/sentry";
 
 const { config, initialProps, chunks } = window.DATA;

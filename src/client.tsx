@@ -36,8 +36,8 @@ import { Document } from "./Document";
 import { entryPoints } from "./entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
 import { NDLAWindow } from "./interfaces";
-import { renderOrHydrate } from "./server/render/renderHelpers";
 import { createApolloClient } from "./util/apiHelpers";
+import { renderOrHydrate } from "./util/renderOrHydrate";
 import { initSentry } from "./util/sentry";
 
 declare global {
