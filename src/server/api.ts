@@ -139,7 +139,9 @@ router.get("/login/success", async (req, res) => {
   }
 
   // Set cookie to automatically send user to feide if present
-  res.cookie(AUTOLOGIN_COOKIE, "true", { domain });
+  if (config.autologinCookieEnabled) {
+    res.cookie(AUTOLOGIN_COOKIE, "true", { domain });
+  }
 
   return res.redirect(state);
 });
