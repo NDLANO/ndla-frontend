@@ -9,6 +9,7 @@
 import { DragEndEvent } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
 import config from "../../../config";
+import { GQLUserRole } from "../../../graphqlTypes";
 
 export const makeDndSortFunction = <PID, RES, T extends { id: string }>(
   parentId: PID,
@@ -52,4 +53,4 @@ export interface withRole {
   role: string;
 }
 
-export const isStudent = (user: withRole | undefined) => user?.role === "student";
+export const isStudent = (user: withRole | undefined) => user?.role === GQLUserRole.Student;

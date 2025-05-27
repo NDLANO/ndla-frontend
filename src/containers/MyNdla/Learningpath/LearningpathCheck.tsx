@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router-dom";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
+import { GQLUserRole } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { ForbiddenPage } from "../../ErrorPage/ForbiddenPage";
 
@@ -20,7 +21,7 @@ export const LearningpathCheck = () => {
 
   if (!authContextLoaded) return <PageSpinner />;
 
-  if (!authenticated || !user || user.role !== "employee") {
+  if (!authenticated || !user || user.role !== GQLUserRole.Employee) {
     return <ForbiddenPage navigationLink={{ to: routes.myNdla.root, children: t("myNdla.goToMyNdla") }} />;
   }
 

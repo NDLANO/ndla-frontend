@@ -8,7 +8,7 @@
 
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
+import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment, GQLUserRole } from "../graphqlTypes";
 import { isAccessTokenValid, millisUntilExpiration } from "../util/authHelpers";
 
 interface AuthContextType {
@@ -81,7 +81,7 @@ const AuthenticationContext = ({ children }: Props) => {
 
     if (!!myNdlaData.data && isValid && myNdlaData.data.personalData !== undefined) {
       const { personalData, examLockStatus } = myNdlaData.data;
-      if (personalData?.role === "student") {
+      if (personalData?.role === GQLUserRole.Student) {
         setExamLock(examLockStatus?.value === true);
       }
       setUser(personalData);

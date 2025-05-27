@@ -30,6 +30,7 @@ import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
   GQLLearningpathPage_NodeFragment,
+  GQLUserRole,
 } from "../../graphqlTypes";
 import { Breadcrumb } from "../../interfaces";
 import { routes, toLearningPath } from "../../routeHelpers";
@@ -233,7 +234,7 @@ const Learningpath = ({
               >
                 <FavoriteButton path={path} />
               </AddResourceToFolderModal>
-              {!resourcePath && user?.role === "employee" && <CopyLearningPath learningpath={learningpath} />}
+              {!resourcePath && user?.role === GQLUserRole.Employee && <CopyLearningPath learningpath={learningpath} />}
             </ContentTypeWrapper>
             <Text textStyle="label.large">
               {`${t("learningPath.youAreInALearningPath")}:`}

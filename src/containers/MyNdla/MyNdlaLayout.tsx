@@ -44,7 +44,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { useToast } from "../../components/ToastContext";
 import config from "../../config";
-import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
+import { GQLMyNdlaPersonalDataFragmentFragment, GQLUserRole } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { AcceptArenaDialog } from "./components/AcceptArenaDialog";
 import { MyNdlaButton } from "./components/MyNdlaButton";
@@ -219,7 +219,7 @@ const MyNdlaLayout = () => {
               <Text>{t("myNdla.examLockInfo")}</Text>
             </MessageBox>
           )}
-          {authenticated && !user?.shareNameAccepted && user?.role === "employee" ? (
+          {authenticated && !user?.shareNameAccepted && user?.role === GQLUserRole.Employee ? (
             <DialogRoot modal open={!user?.shareNameAccepted}>
               <DialogContent>
                 <StyledDialogBody>
@@ -298,7 +298,7 @@ export const menuLinks = (
     shortName: t("myNdla.iconMenu.learningpath"),
     icon: <RouteLine />,
     iconFilled: <RouteFill />,
-    shownForUser: (user) => user?.role === "employee",
+    shownForUser: (user) => user?.role === GQLUserRole.Employee,
   },
   {
     id: "arena",

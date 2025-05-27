@@ -1168,7 +1168,7 @@ export type GQLMyNdlaPersonalData = {
   groups: Array<GQLMyNdlaGroup>;
   id: Scalars["Int"]["output"];
   organization: Scalars["String"]["output"];
-  role: Scalars["String"]["output"];
+  role: GQLUserRole;
   shareNameAccepted: Scalars["Boolean"]["output"];
   username: Scalars["String"]["output"];
 };
@@ -2013,6 +2013,11 @@ export type GQLUserFolder = {
   sharedFolders: Array<GQLSharedFolder>;
 };
 
+export enum GQLUserRole {
+  Employee = "employee",
+  Student = "student",
+}
+
 export type GQLVideoFolderResourceMeta = GQLFolderResourceMeta & {
   __typename?: "VideoFolderResourceMeta";
   description: Scalars["String"]["output"];
@@ -2090,7 +2095,7 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
   displayName: string;
   organization: string;
   favoriteSubjects: Array<string>;
-  role: string;
+  role: GQLUserRole;
   shareNameAccepted: boolean;
   arenaEnabled: boolean;
   arenaAccepted: boolean;
@@ -4133,7 +4138,7 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   __typename?: "MyNdlaPersonalData";
   id: number;
   favoriteSubjects: Array<string>;
-  role: string;
+  role: GQLUserRole;
   arenaEnabled: boolean;
   arenaAccepted: boolean;
   shareNameAccepted: boolean;

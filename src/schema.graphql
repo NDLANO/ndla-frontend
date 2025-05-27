@@ -932,7 +932,7 @@ type MyNdlaPersonalData {
   groups: [MyNdlaGroup!]!
   id: Int!
   organization: String!
-  role: String!
+  role: UserRole!
   shareNameAccepted: Boolean!
   username: String!
 }
@@ -1528,6 +1528,11 @@ type UptimeAlert {
 type UserFolder {
   folders: [Folder!]!
   sharedFolders: [SharedFolder!]!
+}
+
+enum UserRole {
+  employee
+  student
 }
 
 type VideoFolderResourceMeta implements FolderResourceMeta {
