@@ -21,10 +21,11 @@ import config from "../config";
 import { NOT_FOUND_PAGE_PATH } from "../constants";
 import { getLocaleInfoFromPath } from "../i18n";
 import { privateRoutes, routes } from "../routes";
-import { INTERNAL_SERVER_ERROR } from "../statusCodes";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
 import { getRouteChunks } from "./getManifestChunks";
+import { HttpError } from "./httpError";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -35,6 +36,16 @@ const allowedBodyContentTypes = ["application/json", "application/x-www-form-url
 
 app.disable("x-powered-by");
 app.enable("trust proxy");
+
+app.use((req, _, next) => {
+  try {
+    decodeURIComponent(req.url);
+    next();
+  } catch (e: any) {
+    const error = new HttpError(`Invalid URL: ${req.url}`, BAD_REQUEST);
+    next(error);
+  }
+});
 
 let vite: ViteDevServer | undefined;
 if (!isProduction) {
