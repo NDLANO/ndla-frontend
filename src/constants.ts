@@ -75,4 +75,4 @@ export const programmeRedirects: Record<string, string> = {
   "teknologi-og-industrifag": "a920d0b5cbbb",
 };
 
-export const validContextIdRegExp = new RegExp(/[a-f0-9]{10,12}/);
+export const validContextIdRegExp = new RegExp(/^[a-f0-9]{10,12}/);

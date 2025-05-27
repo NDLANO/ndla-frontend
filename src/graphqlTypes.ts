@@ -1876,6 +1876,7 @@ export type GQLTaxonomyContext = {
   parentIds: Array<Scalars["String"]["output"]>;
   parents?: Maybe<Array<GQLTaxonomyCrumb>>;
   relevance: Scalars["String"]["output"];
+  root: Scalars["String"]["output"];
   rootId: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
 };
@@ -2646,11 +2647,27 @@ export type GQLDynamicMenuQuery = {
   __typename?: "Query";
   frontpage?: {
     __typename?: "FrontpageMenu";
+    articleId: number;
     menu?: Array<{
       __typename?: "FrontpageMenu";
       articleId: number;
       article: { __typename?: "Article"; id: number; title: string; slug?: string };
     }>;
+  };
+};
+
+export type GQLCurrentContextQueryVariables = Exact<{
+  contextId: Scalars["String"]["input"];
+}>;
+
+export type GQLCurrentContextQuery = {
+  __typename?: "Query";
+  root?: {
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    name: string;
+    context?: { __typename?: "TaxonomyContext"; contextId: string; rootId: string; root: string };
   };
 };
 
@@ -3149,6 +3166,13 @@ export type GQLGrepFilterQuery = {
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
   coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
+};
+
+export type GQLProgrammesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLProgrammesQuery = {
+  __typename?: "Query";
+  programmes?: Array<{ __typename?: "ProgrammePage"; id: string; title: { __typename?: "Title"; title: string } }>;
 };
 
 export type GQLResourceTypeFilter_BucketResultFragment = { __typename?: "BucketResult"; value: string; count: number };
