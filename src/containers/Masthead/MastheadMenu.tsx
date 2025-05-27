@@ -368,16 +368,18 @@ const MyNdlaPart = () => {
               <HeartLine />
               {t("masthead.menu.myNdla.myNdla")}
             </MyNdlaSafeLinkButton>
-            <MyNdlaSafeLinkButton
-              to={`https://${config.arenaDomain}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              variant="secondary"
-            >
-              <ForumOutlined />
-              {t("masthead.menu.myNdla.arena")}
-              <ExternalLinkLine />
-            </MyNdlaSafeLinkButton>
+            {!!user?.arenaEnabled && !!user?.arenaAccepted && (
+              <MyNdlaSafeLinkButton
+                to={`https://${config.arenaDomain}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="secondary"
+              >
+                <ForumOutlined />
+                {t("masthead.menu.myNdla.arena")}
+                <ExternalLinkLine />
+              </MyNdlaSafeLinkButton>
+            )}
             <MyNdlaSafeLinkButton to={getChatRobotUrl()} target="_blank" rel="noopener noreferrer" variant="secondary">
               <RobotFill />
               {t("masthead.menu.myNdla.chatRobot")}
