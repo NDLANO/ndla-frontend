@@ -54,6 +54,8 @@ export const AcquireLicensePage =
 
 export const MY_NDLA_CONTENT_WIDTH = 1440;
 
+export const AUTOLOGIN_COOKIE = "autologin";
+
 export const programmeRedirects: Record<string, string> = {
   "bygg-og-anleggsteknikk": "847f59182173",
   "elektro-og-datateknologi": "55ad4a85ba78",
