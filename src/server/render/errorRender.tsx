@@ -17,7 +17,7 @@ import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
-import { getHtmlLang, getLocaleObject } from "../../i18n";
+import { getHtmlLang, getLocaleInfoFromPath, getLocaleObject, initializeI18n } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
 import { createFetchRequest } from "../request";
@@ -29,6 +29,8 @@ export const errorRender: RenderFunc = async (req, chunks) => {
   const lang = getHtmlLang(req.params.lang ?? "");
   const locale = getLocaleObject(lang).abbreviation;
   const siteTheme = getSiteTheme();
+  const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
+  const i18n = initializeI18n(i18nInstance, abbreviation);
 
   const { query, dataRoutes } = createStaticHandler(errorRoutes);
   const fetchRequest = createFetchRequest(req);
@@ -42,7 +44,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
 
   const Page = (
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.error}>
-      <I18nextProvider i18n={i18nInstance}>
+      <I18nextProvider i18n={i18n}>
         <MissingRouterContext value={true}>
           <SiteThemeProvider value={siteTheme}>
             <StaticRouterProvider router={router} context={routerContext} hydrate={false} />

@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { NdlaLogoText } from "@ndla/primitives";
-import { MissingRouterContext, SafeLink } from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Status } from "../../components";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
@@ -37,31 +37,29 @@ const ErrorPage = () => {
   const { t } = useTranslation();
   const MastheadComponent = config.enableNewMasthead ? MastheadContainer : Masthead;
   return (
-    <MissingRouterContext value={true}>
-      <Status code={INTERNAL_SERVER_ERROR}>
-        <title>NDLA</title>
-        <meta name="description" content={t("meta.description")} />
-        <MastheadComponent>
-          {config.enableNewMasthead ? (
-            <SafeLink to="/" aria-label="NDLA" title="NDLA">
+    <Status code={INTERNAL_SERVER_ERROR}>
+      <title>NDLA</title>
+      <meta name="description" content={t("meta.description")} />
+      <MastheadComponent>
+        {config.enableNewMasthead ? (
+          <SafeLink to="/" aria-label="NDLA" title="NDLA">
+            <NdlaLogoText />
+          </SafeLink>
+        ) : (
+          <LogoWrapper>
+            <SafeLink unstyled to="/" aria-label={t("logo.altText")}>
               <NdlaLogoText />
             </SafeLink>
-          ) : (
-            <LogoWrapper>
-              <SafeLink unstyled to="/" aria-label={t("logo.altText")}>
-                <NdlaLogoText />
-              </SafeLink>
-            </LogoWrapper>
-          )}
-        </MastheadComponent>
-        <PageLayout asChild>
-          <ErrorMessageMain>
-            <DefaultErrorMessage applySkipToContentId />
-          </ErrorMessageMain>
-        </PageLayout>
-        <Footer />
-      </Status>
-    </MissingRouterContext>
+          </LogoWrapper>
+        )}
+      </MastheadComponent>
+      <PageLayout asChild>
+        <ErrorMessageMain>
+          <DefaultErrorMessage applySkipToContentId />
+        </ErrorMessageMain>
+      </PageLayout>
+      <Footer />
+    </Status>
   );
 };
 

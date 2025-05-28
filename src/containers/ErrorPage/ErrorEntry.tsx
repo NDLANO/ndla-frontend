@@ -32,11 +32,11 @@ renderOrHydrate(
   document,
   <Document language={abbreviation} chunks={chunks} devEntrypoint={entryPoints.error}>
     <I18nextProvider i18n={i18n}>
-      <SiteThemeProvider value={window.DATA.siteTheme}>
-        <MissingRouterContext value={true}>
+      <MissingRouterContext value={true}>
+        <SiteThemeProvider value={window.DATA.siteTheme}>
           <RouterProvider router={router} />
-        </MissingRouterContext>
-      </SiteThemeProvider>
+        </SiteThemeProvider>
+      </MissingRouterContext>
     </I18nextProvider>
   </Document>,
   errorRoutes,
