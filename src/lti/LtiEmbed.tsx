@@ -16,14 +16,14 @@ interface Props {
   item: LtiItem;
   ltiData?: LtiData;
 }
-const LtiEmbed = ({ ltiData, item }: Props) => {
+const LtiEmbed = ({ ltiData: ltiDataProp, item }: Props) => {
   const _ltiData = useLtiData()?.ltiData;
-  const withFallback = ltiData ?? _ltiData ?? {};
+  const ltiData = ltiDataProp ?? _ltiData ?? {};
   switch (ltiData?.lti_message_type) {
     case "basic-lti-launch-request":
-      return <LtiBasicLaunch ltiData={withFallback} item={item} />;
+      return <LtiBasicLaunch ltiData={ltiData} item={item} />;
     case "ContentItemSelectionRequest":
-      return <LtiDeepLinking ltiData={withFallback} item={item} />;
+      return <LtiDeepLinking ltiData={ltiData} item={item} />;
     default:
       return <LtiDefault item={item} />;
   }
