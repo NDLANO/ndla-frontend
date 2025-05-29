@@ -134,12 +134,12 @@ exports[`ErrorPage renderers correctly 1`] = `
             >
               <span
                 class="textStyle_label.large fw_bold"
-                id=":r0:"
+                id="«r0»"
               >
                 Kontakt
               </span>
               <nav
-                aria-labelledby=":r0:"
+                aria-labelledby="«r0»"
               >
                 <ul
                   class="d_flex flex-d_column gap_3xsmall"
@@ -179,12 +179,12 @@ exports[`ErrorPage renderers correctly 1`] = `
             >
               <span
                 class="textStyle_label.large fw_bold"
-                id=":r1:"
+                id="«r1»"
               >
                 Om nettstedet
               </span>
               <nav
-                aria-labelledby=":r1:"
+                aria-labelledby="«r1»"
               >
                 <ul
                   class="d_flex flex-d_column gap_3xsmall"
@@ -224,12 +224,12 @@ exports[`ErrorPage renderers correctly 1`] = `
             >
               <span
                 class="textStyle_label.large fw_bold"
-                id=":r2:"
+                id="«r2»"
               >
                 Andre språk
               </span>
               <nav
-                aria-labelledby=":r2:"
+                aria-labelledby="«r2»"
               >
                 <ul
                   class="d_flex flex-d_column gap_3xsmall"
@@ -269,12 +269,12 @@ exports[`ErrorPage renderers correctly 1`] = `
             >
               <span
                 class="textStyle_label.large fw_bold"
-                id=":r3:"
+                id="«r3»"
               >
                 Følg oss
               </span>
               <nav
-                aria-labelledby=":r3:"
+                aria-labelledby="«r3»"
               >
                 <ul
                   class="d_grid flex-d_column gap_3xsmall grid-tc_auto_auto_auto_auto_1fr"
