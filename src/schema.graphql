@@ -837,7 +837,7 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deleteLearningpath(id: Int!): Boolean
-  deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): [String!]
+  deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): Boolean
   deletePersonalData: Boolean!
   favoriteSharedFolder(folderId: String!): String!
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
