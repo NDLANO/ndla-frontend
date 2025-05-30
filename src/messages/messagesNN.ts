@@ -225,7 +225,7 @@ const messages = {
     arena: {
       title: "Arenaen",
       accept: {
-        success: "Du har no tilgang til Arena",
+        success: "Du har no tilgang til Arenaen",
         error: "Klarte ikkje å godta vilkåra.",
         title: "Velkommen til arenaen",
         pitch1: "Her kan du diskutere og samarbeide med lærarar frå heile Noreg.",
@@ -726,7 +726,7 @@ const messages = {
         viewAllFavouriteSubjects: "Sjå alle favorittfag",
         loggedInAs: "Pålogga som",
         myNdla: "Min NDLA",
-        arena: "Arena",
+        arena: "Arenaen",
         chatRobot: "Praterobot",
       },
       links: {

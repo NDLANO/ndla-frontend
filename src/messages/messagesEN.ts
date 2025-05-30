@@ -729,7 +729,7 @@ const messages = {
         viewAllFavouriteSubjects: "View all favourite subjects",
         loggedInAs: "Logged in as",
         myNdla: "My NDLA",
-        arena: "Arena",
+        arena: "The Arena",
         chatRobot: "The chat robot",
       },
       links: {
