@@ -8,10 +8,8 @@
 
 import "./style/index.css";
 import queryString from "query-string";
-import { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import "@fontsource/source-code-pro/400-italic.css";
 import "@fontsource/source-code-pro/700.css";
@@ -26,15 +24,20 @@ import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
 import { i18nInstance } from "@ndla/ui";
-import App from "./App";
+import { routes } from "./appRoutes";
+import { AlertsProvider } from "./components/AlertsContext";
+import AuthenticationContext from "./components/AuthenticationContext";
+import { BaseNameProvider } from "./components/BaseNameContext";
 import ResponseContext from "./components/ResponseContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
+import { ToastProvider } from "./components/ToastContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { Document } from "./Document";
 import { entryPoints } from "./entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
 import { NDLAWindow } from "./interfaces";
 import { createApolloClient } from "./util/apiHelpers";
+import { renderOrHydrate } from "./util/renderOrHydrate";
 import { initSentry } from "./util/sentry";
 
 declare global {
@@ -57,22 +60,7 @@ const { versionHash } = queryString.parse(window.location.search);
 const i18n = initializeI18n(i18nInstance, abbreviation);
 const client = createApolloClient(abbreviation, versionHash);
 
-const LanguageWrapper = ({ basename }: { basename?: string }) => {
-  return (
-    <BrowserRouter key={basename} basename={basename}>
-      <App base={basename} />
-    </BrowserRouter>
-  );
-};
-
-const renderOrHydrate = (container: Element | Document, children: ReactNode) => {
-  if (config.disableSSR) {
-    const root = createRoot(container);
-    root.render(children);
-  } else {
-    hydrateRoot(container, children);
-  }
-};
+const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
 
 renderOrHydrate(
   document,
@@ -86,11 +74,20 @@ renderOrHydrate(
         <ResponseContext value={{ status: serverResponse }}>
           <VersionHashProvider value={versionHash}>
             <SiteThemeProvider value={window.DATA.siteTheme}>
-              <LanguageWrapper basename={basename} />
+              <AlertsProvider>
+                <BaseNameProvider value={basename}>
+                  <AuthenticationContext>
+                    <ToastProvider>
+                      <RouterProvider router={router} />
+                    </ToastProvider>
+                  </AuthenticationContext>
+                </BaseNameProvider>
+              </AlertsProvider>
             </SiteThemeProvider>
           </VersionHashProvider>
         </ResponseContext>
       </ApolloProvider>
     </I18nextProvider>
   </Document>,
+  routes,
 );

@@ -94,7 +94,7 @@ const allSubjectsQuery = gql`
   ${nodeWithMetadataFragment}
 `;
 
-const AllSubjectsPage = () => {
+export const Component = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -161,5 +161,3 @@ const AllSubjectsPage = () => {
     </StyledPageContainer>
   );
 };
-
-export default AllSubjectsPage;

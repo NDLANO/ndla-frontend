@@ -24,6 +24,7 @@ import { foldersPageQuery, useFolder } from "../../../mutations/folderMutations"
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
@@ -72,6 +73,10 @@ const TagSafeLink = styled(SafeLinkButton, {
     },
   },
 });
+
+export const Component = () => {
+  return <PrivateRoute element={<FoldersPage />} />;
+};
 
 const FoldersPage = () => {
   const { t } = useTranslation();
@@ -198,5 +203,3 @@ const FoldersPage = () => {
     </StyledMyNdlaPageWrapper>
   );
 };
-
-export default FoldersPage;
