@@ -63,7 +63,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
     };
   }
 
-  const client = createApolloClient(locale, undefined, req.path);
+  const client = createApolloClient(locale, undefined, req.url);
   const i18n = initializeI18n(i18nInstance, locale ?? config.defaultLocale);
   const context: RedirectInfo = {};
 

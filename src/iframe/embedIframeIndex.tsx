@@ -51,7 +51,7 @@ initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
 
-const client = createApolloClient(language, undefined, window.location.pathname);
+const client = createApolloClient(language, undefined, `${window.location.pathname}${window.location.search}`);
 const i18n = initializeI18n(i18nInstance, language);
 
 const renderOrHydrate = (container: Element | Document, children: ReactNode) => {
