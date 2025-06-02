@@ -68,7 +68,7 @@ const getApolloClient = (locale: string, req: express.Request) => {
   if (apolloClient && locale === storedLocale) {
     return apolloClient;
   } else {
-    apolloClient = createApolloClient(locale, undefined, req.path);
+    apolloClient = createApolloClient(locale, undefined, req.url);
     storedLocale = locale;
     return apolloClient;
   }
@@ -197,7 +197,7 @@ export async function oembedArticleRoute(req: express.Request): Promise<OembedRo
     }
     return getOembedResponse(req, title, iframeSrc);
   } catch (error) {
-    handleError(ensureError(error), req.path);
+    handleError(ensureError(error), req.url);
 
     const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;

@@ -19,7 +19,7 @@ const getApolloClient = (locale: string, req: Request) => {
   if (apolloClient && locale === storedLocale) {
     return apolloClient;
   } else {
-    apolloClient = createApolloClient(locale, undefined, req.path);
+    apolloClient = createApolloClient(locale, undefined, req.url);
     storedLocale = locale;
     return apolloClient;
   }
