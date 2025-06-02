@@ -951,7 +951,7 @@ export type GQLMutation = {
   deleteFolder: Scalars["String"]["output"];
   deleteFolderResource: Scalars["String"]["output"];
   deleteLearningpath?: Maybe<Scalars["Boolean"]["output"]>;
-  deleteLearningpathStep?: Maybe<Array<Scalars["String"]["output"]>>;
+  deleteLearningpathStep?: Maybe<Scalars["Boolean"]["output"]>;
   deletePersonalData: Scalars["Boolean"]["output"];
   favoriteSharedFolder: Scalars["String"]["output"];
   newLearningpath: GQLMyNdlaLearningpath;
@@ -4090,7 +4090,7 @@ export type GQLDeleteLearningpathStepMutationVariables = Exact<{
   learningstepId: Scalars["Int"]["input"];
 }>;
 
-export type GQLDeleteLearningpathStepMutation = { __typename?: "Mutation"; deleteLearningpathStep?: Array<string> };
+export type GQLDeleteLearningpathStepMutation = { __typename?: "Mutation"; deleteLearningpathStep?: boolean };
 
 export type GQLUpdateLearningpathMutationVariables = Exact<{
   learningpathId: Scalars["Int"]["input"];
