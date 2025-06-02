@@ -10,7 +10,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   DialogBody,
-  DialogCloseTrigger,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -19,6 +18,7 @@ import {
   DialogTrigger,
   Button,
 } from "@ndla/primitives";
+import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 
 interface Props {
   onDelete: (close: VoidFunction) => Promise<void>;
@@ -39,7 +39,7 @@ export const LearningpathStepDeleteDialog = ({ onDelete }: Props) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{t("myNdla.learningpath.form.deleteStep")}</DialogTitle>
-          <DialogCloseTrigger />
+          <DialogCloseButton />
         </DialogHeader>
         <DialogBody>{t("myNdla.learningpath.form.deleteBody")}</DialogBody>
         <DialogFooter>

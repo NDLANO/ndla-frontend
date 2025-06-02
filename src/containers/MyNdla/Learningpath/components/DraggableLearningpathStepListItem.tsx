@@ -8,21 +8,19 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { PencilLine, CloseLine } from "@ndla/icons";
-import { Button, Text } from "@ndla/primitives";
+import { Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { useToast } from "../../../../components/ToastContext";
-import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
-import { useUpdateLearningpathStep, useDeleteLearningpathStep } from "../../../../mutations/learningpathMutations";
-import { FormValues } from "../types";
-import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
-import LearningpathStepForm from "./LearningpathStepForm";
-import { formValuesToGQLInput } from "../learningpathFormUtils";
 import { DraggableListItem } from "./DraggableListItem";
+import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { routes } from "../../../../routeHelpers";
 import DragHandle from "../../components/DragHandle";
+import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";
+import LearningpathStepForm from "./LearningpathStepForm";
 
 export const DragWrapper = styled("div", {
   base: {
@@ -70,25 +68,14 @@ const StyledDragHandle = styled(DragHandle, {
 interface LearningpathStepListItemProps {
   learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
-  selectedLearningpathStepId: number | undefined;
-  onClose: (skipAlert?: boolean) => void;
-  onSelect: VoidFunction;
   index: number;
 }
 
-export const DraggableLearningpathStepListItem = ({
-  step,
-  learningpathId,
-  selectedLearningpathStepId,
-  onClose,
-  onSelect,
-  index,
-}: LearningpathStepListItemProps) => {
-  const { t, i18n } = useTranslation();
-  const toast = useToast();
+export const DraggableLearningpathStepListItem = ({ step, learningpathId, index }: LearningpathStepListItemProps) => {
+  const { t } = useTranslation();
+  const { stepId } = useParams();
 
-  const [updateStep] = useUpdateLearningpathStep();
-  const [deleteStep] = useDeleteLearningpathStep();
+  const isEditingStep = useMemo(() => step.id === Number(stepId), [step.id, stepId]);
 
   const sortableId = step.id.toString();
   const { attributes, setNodeRef, transform, transition, isDragging, items } = useSortable({
@@ -98,58 +85,12 @@ export const DraggableLearningpathStepListItem = ({
     },
   });
 
+  const stepType = getFormTypeFromStep(step);
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
-
-  const onSave = async (data: FormValues) => {
-    const transformedData = formValuesToGQLInput(data);
-    const res = await updateStep({
-      variables: {
-        learningpathId: learningpathId,
-        learningstepId: step.id,
-        params: { ...transformedData, language: i18n.language, revision: step.revision },
-      },
-    });
-
-    if (!res.errors?.length) {
-      onClose();
-    } else {
-      toast.create({ title: t("myNdla.learningpath.toast.updateStepFailed", { name: step.title }) });
-    }
-  };
-
-  const onDelete = async (closeDialog: VoidFunction) => {
-    const el = document.getElementById(step.id.toString());
-    const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
-      .find((el) => el?.tagName === "LI")
-      ?.querySelector("div")
-      ?.querySelector("button");
-
-    const res = await deleteStep({
-      variables: {
-        learningstepId: step.id,
-        learningpathId: learningpathId,
-      },
-    });
-
-    if (!res.errors?.length) {
-      onClose(true);
-      closeDialog();
-      toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: step.title }) });
-      setTimeout(() => (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus(), 0);
-    } else {
-      toast.create({ title: t("myNdla.learningpath.toast.deletedStepFailed", { name: step.title }) });
-    }
-  };
-
-  const stepType = getFormTypeFromStep(step);
-
-  const isDraggable = useMemo(
-    () => selectedLearningpathStepId === -1 || selectedLearningpathStepId === -2,
-    [selectedLearningpathStepId],
-  );
 
   return (
     <DraggableListItem id={sortableId} ref={setNodeRef} style={style} isDragging={isDragging}>
@@ -158,34 +99,42 @@ export const DraggableLearningpathStepListItem = ({
         name={step.title}
         disabled={items.length < 2}
         type="learningpathstep"
-        isHidden={!isDraggable}
-        aria-hidden={!isDraggable ? true : undefined}
+        isHidden={!!stepId}
+        aria-hidden={stepId ? true : undefined}
         {...attributes}
-        tabIndex={!isDraggable ? -1 : attributes.tabIndex}
+        tabIndex={stepId ? -1 : attributes.tabIndex}
       />
       <DragWrapper>
-        <ContentWrapper editing={step.id === selectedLearningpathStepId}>
+        <ContentWrapper editing={isEditingStep}>
           <Stack gap="xxsmall">
             <Text fontWeight="bold" textStyle="label.medium">
               {step.title}
             </Text>
             <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
           </Stack>
-          {step.id !== selectedLearningpathStepId ? (
-            <Button variant="tertiary" onClick={onSelect} id={learningpathStepEditButtonId(step)}>
+          {!isEditingStep ? (
+            <SafeLinkButton
+              variant="tertiary"
+              id={learningpathStepEditButtonId(step.id)}
+              to={routes.myNdla.learningpathEditStep(learningpathId, step.id)}
+              state={{ focusStepId: learningpathStepCloseButtonId(step.id) }}
+            >
               {t("myNdla.learningpath.form.steps.edit")}
               <PencilLine />
-            </Button>
+            </SafeLinkButton>
           ) : (
-            <Button variant="tertiary" onClick={() => onClose()}>
+            <SafeLinkButton
+              variant="tertiary"
+              id={learningpathStepCloseButtonId(step.id)}
+              to={routes.myNdla.learningpathEditSteps(learningpathId)}
+              state={{ focusStepId: learningpathStepEditButtonId(step.id) }}
+            >
               <CloseLine />
               {t("close")}
-            </Button>
+            </SafeLinkButton>
           )}
         </ContentWrapper>
-        {step.id === selectedLearningpathStepId ? (
-          <LearningpathStepForm step={step} stepType={stepType} onSave={onSave} onDelete={onDelete} />
-        ) : null}
+        {!!isEditingStep && <LearningpathStepForm step={step} />}
       </DragWrapper>
     </DraggableListItem>
   );

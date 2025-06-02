@@ -12,3 +12,7 @@ import { ResourceFormValues } from "./components/ResourceStepForm";
 import { TextFormValues } from "./components/TextStepForm";
 
 export type FormValues = TextFormValues | ExternalFormValues | ResourceFormValues | FolderFormValues;
+
+export interface LocationState {
+  focusStepId?: string;
+}
