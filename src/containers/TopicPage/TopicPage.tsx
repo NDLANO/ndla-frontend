@@ -75,7 +75,7 @@ export const topicPageQuery = gql`
   ${TopicContainer.fragments.node}
 `;
 
-export const TopicPage = () => {
+export const Component = () => {
   const { contextId } = useParams();
   const query = useQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {

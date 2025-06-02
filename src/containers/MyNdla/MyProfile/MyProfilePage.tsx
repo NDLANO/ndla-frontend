@@ -32,6 +32,7 @@ import MyNdlaTitle from "../../../components/MyNdla/MyNdlaTitle";
 import { useDeletePersonalData } from "../../../mutations/userMutations";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { constructNewPath } from "../../../util/urlHelper";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyContactArea from "../components/MyContactArea";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { UserInfo } from "../components/UserInfo";
@@ -68,6 +69,10 @@ const DisclaimerContainer = styled("div", {
     maxWidth: "surface.xlarge",
   },
 });
+
+export const Component = () => {
+  return <PrivateRoute element={<MyProfilePage />} />;
+};
 
 const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
@@ -164,5 +169,3 @@ const MyProfilePage = () => {
     </StyledMyNdlaPageWrapper>
   );
 };
-
-export default MyProfilePage;

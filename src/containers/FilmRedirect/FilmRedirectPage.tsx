@@ -9,6 +9,6 @@
 import { Navigate } from "react-router-dom";
 import { FILM_PAGE_URL } from "../../constants";
 
-export const FilmRedirectPage = () => {
+export const Component = () => {
   return <Navigate to={FILM_PAGE_URL} replace />;
 };

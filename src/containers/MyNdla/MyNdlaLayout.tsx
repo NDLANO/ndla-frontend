@@ -39,6 +39,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { NoSSR } from "@ndla/util";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
@@ -143,6 +144,14 @@ const StyledDialogBody = styled(DialogBody, {
     gap: "large",
   },
 });
+
+export const Component = () => {
+  return (
+    <NoSSR fallback={null}>
+      <MyNdlaLayout />
+    </NoSSR>
+  );
+};
 
 const MyNdlaLayout = () => {
   const { t } = useTranslation();

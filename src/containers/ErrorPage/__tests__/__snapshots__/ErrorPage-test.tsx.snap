@@ -15,8 +15,10 @@ exports[`ErrorPage renderers correctly 1`] = `
         <a
           aria-label="Nasjonal digital læringsarena"
           class=""
+          data-discover="true"
           data-unstyled=""
           href="/"
+          tabindex="0"
         >
           <svg
             aria-hidden="true"
@@ -81,7 +83,9 @@ exports[`ErrorPage renderers correctly 1`] = `
       >
         <a
           class=""
+          data-discover="true"
           href="/"
+          tabindex="0"
         >
           Gå til forsiden
         </a>
@@ -237,8 +241,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      data-discover="true"
                       href="/f/ukrainian-resources-in-norwegian-social-science/1022072a8411"
                       rel="noopener noreferrer"
+                      tabindex="0"
                     >
                       Ukrainsk
                     </a>
@@ -246,8 +252,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      data-discover="true"
                       href="/samling/sma"
                       rel="noopener noreferrer"
+                      tabindex="0"
                     >
                       Sørsamisk
                     </a>
@@ -255,8 +263,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      data-discover="true"
                       href="/samling/se"
                       rel="noopener noreferrer"
+                      tabindex="0"
                     >
                       Nordsamisk
                     </a>
