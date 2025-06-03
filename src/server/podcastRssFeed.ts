@@ -28,7 +28,9 @@ const getApolloClient = (locale: string, req: Request) => {
 const podcastRssFeed = async (seriesId: number, req: Request): Promise<string> => {
   const client = getApolloClient("nb", req);
 
-  const { data: { podcastSeries } = {} } = await client.query<GQLPodcastSeriesQuery>({
+  const {
+    data: { podcastSeries } = {},
+  } = await client.query<GQLPodcastSeriesQuery>({
     query: podcastSeriesQuery,
     variables: { id: seriesId },
   });

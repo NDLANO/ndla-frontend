@@ -86,7 +86,10 @@ const FilmFrontpage = () => {
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const { data: { filmfrontpage, node } = {}, loading } = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+  const {
+    data: { filmfrontpage, node } = {},
+    loading,
+  } = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
     variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID, prettyUrl: true } },
   });
 

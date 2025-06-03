@@ -14,8 +14,8 @@
     "tdd": "vitest",
     "lint": "yarn format-check && yarn lint-es",
     "lint-es": "eslint --cache --cache-location '.eslintcache/' --max-warnings=0 src e2e",
-    "format": "prettier '{src,e2e}/**/*(*.js|*.jsx|*.ts|*.tsx|*.graphql)' --write",
-    "format-check": "prettier '{src,e2e}/**/*(*.js|*.jsx|*.ts|*.tsx|*.graphql)' --check",
+    "format": "biome format --write",
+    "format-check": "biome format",
     "start": "NODE_OPTIONS='--preserve-symlinks' concurrently 'yarn start:tsc' 'tsx src/index.ts'",
     "start:tsc": "tsc -b -w --preserveWatchOutput",
     "start-minimal": "NODE_OPTIONS='--preserve-symlinks' tsx src/index.ts",
@@ -27,8 +27,8 @@
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
     "vercel-build": "npm run build",
     "vercel-start": "cross-env NODE_ENV=production NOW=true node build/server",
-    "generate-gql:server": "graphql-codegen --config codegen.server.ts && prettier --write src/graphqlTypes.ts src/schema.graphql",
-    "generate-gql:local": "graphql-codegen --config codegen.local.ts && prettier --write src/graphqlTypes.ts src/schema.graphql",
+    "generate-gql:server": "graphql-codegen --config codegen.server.ts && biome format --write src/graphqlTypes.ts src/schema.graphql",
+    "generate-gql:local": "graphql-codegen --config codegen.local.ts && biome format --write src/graphqlTypes.ts src/schema.graphql",
     "check-translations": "vitest --run src/messages/__tests__/"
   },
   "engines": {
@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
+    "@biomejs/biome": "1.9.4",
     "@graphql-codegen/cli": "^5.0.6",
     "@graphql-codegen/schema-ast": "^4.1.0",
     "@graphql-codegen/typescript": "^4.1.6",
@@ -72,7 +73,6 @@
     "postcss-import": "^16.1.0",
     "postcss-preset-env": "^10.1.6",
     "postcss-reporter": "^7.1.0",
-    "prettier": "^3.5.3",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.0",

@@ -73,7 +73,7 @@ yarn e2e:headless
 
 ### Code style
 
-[Prettier](https://prettier.io/) is used for automatic code formatting.
+[Biome](https://biomejs.dev/) is used for automatic code formatting.
 
 ```yarn
 yarn format

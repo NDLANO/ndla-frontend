@@ -66,7 +66,9 @@ const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
 
 const AlertsProvider = ({ children }: Props) => {
   const [openAlerts, setOpenAlerts] = useState<GQLUptimeAlert[]>([]);
-  const { data: { alerts } = {} } = useQuery<GQLAlertsQuery, GQLAlertsQueryVariables>(alertsQuery, {
+  const {
+    data: { alerts } = {},
+  } = useQuery<GQLAlertsQuery, GQLAlertsQueryVariables>(alertsQuery, {
     pollInterval: 10 * 60 * 1000,
     skip: typeof window === "undefined",
   });
