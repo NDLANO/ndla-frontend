@@ -404,7 +404,11 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             )}
             {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
           </FormWrapper>
-          <ul>{data?.search?.results.map((result) => <SearchResult searchResult={result} key={result.id} />)}</ul>
+          <ul>
+            {data?.search?.results.map((result) => (
+              <SearchResult searchResult={result} key={result.id} />
+            ))}
+          </ul>
           {!!data?.search && data.search.totalCount > data.search.pageSize && (
             <StyledPaginationRoot
               page={page}

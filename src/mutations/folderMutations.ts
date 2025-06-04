@@ -322,7 +322,10 @@ export const useFolderResourceMeta = (
   resource: GQLFolderResourceMetaSearchInput,
   options?: QueryHookOptions<GQLFolderResourceMetaQuery>,
 ) => {
-  const { data: { folderResourceMeta } = {}, ...rest } = useQuery<GQLFolderResourceMetaQuery>(folderResourceMetaQuery, {
+  const {
+    data: { folderResourceMeta } = {},
+    ...rest
+  } = useQuery<GQLFolderResourceMetaQuery>(folderResourceMetaQuery, {
     variables: { resource },
     ...options,
   });
@@ -344,13 +347,13 @@ export const useFolderResourceMetaSearch = (
   resources: GQLFolderResourceMetaSearchInput[],
   options?: QueryHookOptions<GQLFolderResourceMetaSearchQuery>,
 ) => {
-  const { data: { folderResourceMetaSearch: data } = {}, ...rest } = useQuery<GQLFolderResourceMetaSearchQuery>(
-    folderResourceMetaSearchQuery,
-    {
-      variables: { resources },
-      ...options,
-    },
-  );
+  const {
+    data: { folderResourceMetaSearch: data } = {},
+    ...rest
+  } = useQuery<GQLFolderResourceMetaSearchQuery>(folderResourceMetaSearchQuery, {
+    variables: { resources },
+    ...options,
+  });
 
   return { data, ...rest };
 };
@@ -359,7 +362,9 @@ interface UseFolders {
   skip?: boolean;
 }
 
-export const useFolders = ({ skip }: UseFolders = {}): {
+export const useFolders = ({
+  skip,
+}: UseFolders = {}): {
   folders: GQLFolder[];
   sharedFolders: GQLSharedFolder[];
   loading: boolean;
