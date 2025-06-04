@@ -64,12 +64,12 @@ export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props
     const TIME_FORMAT = new Intl.DateTimeFormat(i18n.language);
     const created = TIME_FORMAT.format(new Date(learningpath.created));
     const arr = [t("myNdla.learningpath.created", { created })];
-    if (learningpath.madeAvailable) {
+    if (learningpath.madeAvailable && learningpath.status === LEARNINGPATH_SHARED) {
       const shared = TIME_FORMAT.format(new Date(learningpath.madeAvailable));
       arr.push(t("myNdla.learningpath.shared", { shared }));
     }
     return arr.join(" \\ ");
-  }, [t, i18n, learningpath.created, learningpath.madeAvailable]);
+  }, [i18n.language, learningpath.created, learningpath.madeAvailable, learningpath.status, t]);
 
   return (
     <ListItemRoot
