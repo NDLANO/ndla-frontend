@@ -47,7 +47,7 @@ test("can find all steps", async ({ page }) => {
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
 
   const labels = page.locator("form").locator("label");
 
@@ -65,7 +65,7 @@ test("can create text step", async ({ page, waitGraphql, harCheckpoint }) => {
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
 
   const textSteps = await page.getByRole("listitem").getByText(TEXT_STEP).count();
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.getByRole("group");
 
   await groups.nth(1).getByRole("textbox", { name: "Tittel" }).fill("test");
@@ -85,7 +85,7 @@ test("can create article step", async ({ page, waitGraphql }) => {
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
   const amountArticleSteps = await page.getByRole("listitem").getByText(ARTICLE_STEP).count();
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").locator("label");
   await radiogroup.filter({ hasText: ARTICLE_STEP }).click();
@@ -118,7 +118,7 @@ test("can create external step", async ({ page, waitGraphql }) => {
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
   const externalSteps = await page.getByRole("listitem").getByText(EXTERNAL_STEP).count();
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
   await radiogroup.getByText(EXTERNAL_STEP).click();
@@ -145,7 +145,7 @@ test("can create folder step", async ({ page, waitGraphql }) => {
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
 
   const amountArticleSteps = await page.getByRole("listitem").getByText(ARTICLE_STEP).count();
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
   await radiogroup.getByText(FOLDER_STEP).click();
@@ -172,14 +172,14 @@ test("shows warning dialog when closing form and text form is dirty", async ({ p
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
-  const groups = page.getByRole("group");
+  await page.getByRole("link", { name: "Legg til steg" }).click();
+  const groups = page.locator("form").getByRole("group");
 
   const title = Math.random().toString().substring(2, 8);
 
-  await groups.nth(1).getByRole("textbox", { name: "Tittel" }).fill(title);
+  await groups.nth(1).locator("input").fill(title);
 
-  await page.getByRole("button", { name: "Avbryt" }).click();
+  await page.getByRole("link", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
@@ -190,7 +190,7 @@ test("shows warning dialog when closing form and article form is dirty", async (
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").locator("label");
   await radiogroup.filter({ hasText: ARTICLE_STEP }).click();
@@ -201,7 +201,7 @@ test("shows warning dialog when closing form and article form is dirty", async (
   await waitGraphql();
   await page.waitForTimeout(1000);
   await page.locator('div[data-part="list"]').locator("div").first().click();
-  await page.getByRole("button", { name: "Avbryt" }).click();
+  await page.getByRole("link", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
@@ -212,7 +212,7 @@ test("shows warning dialog when closing form and external form is dirty", async 
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
   await radiogroup.getByText(EXTERNAL_STEP).click();
@@ -221,7 +221,7 @@ test("shows warning dialog when closing form and external form is dirty", async 
 
   await waitGraphql();
   await page.locator("label").filter({ hasText: "Innholdet jeg har lenket til" }).click();
-  await page.getByRole("button", { name: "Avbryt" }).click();
+  await page.getByRole("link", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
@@ -232,7 +232,7 @@ test("shows warning dialog when closing form and folder form is dirty", async ({
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
   await radiogroup.getByText(FOLDER_STEP).click();
@@ -243,7 +243,7 @@ test("shows warning dialog when closing form and folder form is dirty", async ({
   const title = await item.locator("div").locator("div").textContent();
   await item.click();
   await expect(page.getByRole("link", { name: title ?? "" })).toBeVisible();
-  await page.getByRole("button", { name: "Avbryt" }).click();
+  await page.getByRole("link", { name: "Avbryt" }).click();
   await expect(page.getByRole("dialog")).toBeVisible();
   await expect(page.getByRole("dialog").getByRole("paragraph")).toHaveText(UNSAVED_EDITS_WARNING);
 });
@@ -254,7 +254,7 @@ test("shows warning dialog when navigating and text form is dirty", async ({ pag
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.getByRole("group");
 
   const title = Math.random().toString().substring(2, 8);
@@ -271,7 +271,7 @@ test("shows warning dialog when navigating and article form is dirty", async ({ 
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").locator("label");
   await radiogroup.filter({ hasText: ARTICLE_STEP }).click();
@@ -293,7 +293,7 @@ test("shows warning dialog when navigating and external form is dirty", async ({
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
   await radiogroup.getByText(EXTERNAL_STEP).click();
@@ -313,7 +313,7 @@ test("shows warning dialog when navigating and folder form is dirty", async ({ p
   await learningpath.click();
   await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
 
-  await page.getByRole("button", { name: "Legg til steg" }).click();
+  await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
   const radiogroup = page.locator("form").getByRole("radiogroup");
   await radiogroup.getByText(FOLDER_STEP).click();
