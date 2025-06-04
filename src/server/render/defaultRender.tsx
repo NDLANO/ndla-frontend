@@ -60,7 +60,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
     };
   }
 
-  const client = createApolloClient(locale, versionHash, req.path);
+  const client = createApolloClient(locale, versionHash, req.url);
   const i18n = initializeI18n(i18nInstance, locale);
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};

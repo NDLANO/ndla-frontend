@@ -53,6 +53,7 @@ export const AcquireLicensePage =
   "https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering";
 
 export const MY_NDLA_CONTENT_WIDTH = 1440;
+export const AUTOLOGIN_COOKIE = "autologin";
 
 export const programmeRedirects: Record<string, string> = {
   "bygg-og-anleggsteknikk": "847f59182173",
@@ -73,4 +74,4 @@ export const programmeRedirects: Record<string, string> = {
   "teknologi-og-industrifag": "a920d0b5cbbb",
 };
 
-export const validContextIdRegExp = new RegExp(/[a-f0-9]{10,12}/);
+export const validContextIdRegExp = new RegExp(/^[a-f0-9]{10,12}/);

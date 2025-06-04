@@ -134,6 +134,7 @@ const messages = {
       allLabel: "Vis alle",
       hits: "{{count}} treff",
     },
+    programmeFilter: { title: "Vel utdanningsprogram" },
     noHitsShort: "Ingen treff på søk: {{query}}",
     search: "Søk",
     searchFieldPlaceholder: "Søk i fagstoff, oppgåver og aktivitetar eller læringsstiar",
@@ -149,7 +150,6 @@ const messages = {
     },
     resultType: {
       showingSearchPhrase: "Viser treff for",
-      searchPhraseSuggestion: "Søk heller",
     },
   },
   myNdla: {
@@ -225,7 +225,7 @@ const messages = {
     arena: {
       title: "Arenaen",
       accept: {
-        success: "Du har no tilgang til Arena",
+        success: "Du har no tilgang til Arenaen",
         error: "Klarte ikkje å godta vilkåra.",
         title: "Velkommen til arenaen",
         pitch1: "Her kan du diskutere og samarbeide med lærarar frå heile Noreg.",
@@ -717,8 +717,35 @@ const messages = {
       button: "Meny",
       goToMainMenu: "Gå til hovedmeny",
       search: "Søk",
-      title: "Åpne meny",
+      title: "Kva kan vi hjelpe deg med?",
       modalLabel: "Vel innhald",
+      open: "Åpne meny",
+      close: "Lukk meny",
+      myNdla: {
+        yourFavouriteSubjects: "Dine favorittfag",
+        viewAllFavouriteSubjects: "Sjå alle favorittfag",
+        loggedInAs: "Pålogga som",
+        myNdla: "Min NDLA",
+        arena: "Arenaen",
+        chatRobot: "Praterobot",
+      },
+      links: {
+        education: {
+          title: "Fag og utdanningsprogram",
+          programmes: "Utdanningsprogram",
+          subjects: "Alle fag",
+          multidisciplinary: "Tverrfaglige tema",
+          film: "NDLA Film",
+        },
+        tips: {
+          title: "Tips og råd",
+          studentToolbox: "Verktøykassa for elevar",
+          teacherToolbox: "Verktøykassa for lærarar",
+        },
+        dynamic: {
+          title: "Om oss",
+        },
+      },
     },
   },
   pagination: { next: "Neste", prev: "Førre" },

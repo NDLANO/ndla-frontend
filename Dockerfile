@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:20.13.1-alpine3.18 AS builder
+FROM node:22.15.1-alpine3.21 AS builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
@@ -29,10 +29,7 @@ RUN --mount=type=secret,id=sentry_token \
   yarn run build
 
 ### Run stage
-FROM node:20.13.1-alpine3.18
-
-RUN apk add py-pip jq && pip install awscli
-COPY run-ndla-frontend.sh /
+FROM node:22.15.1-alpine3.21
 
 WORKDIR /home/app/ndla-frontend
 COPY --from=builder /home/app/ndla-frontend/build build
@@ -40,5 +37,6 @@ COPY --from=builder /home/app/ndla-frontend/build build
 ENV NODE_ENV=production
 ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
+ENV APPLICATION_NAME="ndla-frontend"
 
-CMD ["/run-ndla-frontend.sh", "node build/server.mjs"]
+CMD ["node", "build/server.mjs"]

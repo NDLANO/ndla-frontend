@@ -46,12 +46,15 @@ const SubjectPage = () => {
 
   const data = newData ?? previousData;
 
-  if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
-    return <NotFoundPage />;
+  if (error?.graphQLErrors) {
+    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+      return <NotFoundPage />;
+    }
+    return <DefaultErrorMessagePage />;
   }
 
   if (!data && !loading) {
-    return <DefaultErrorMessagePage />;
+    return <NotFoundPage />;
   }
 
   if (!data) {

@@ -134,6 +134,7 @@ const messages = {
       allLabel: "Show all",
       hits: "{{count}} hits",
     },
+    programmeFilter: { title: "Choose programme" },
     noHitsShort: "No results for search: {{query}}",
     search: "Search",
     searchFieldPlaceholder: "Search for subjects, tasks and activities or learningpaths",
@@ -149,7 +150,6 @@ const messages = {
     },
     resultType: {
       showingSearchPhrase: "Showing hits for",
-      searchPhraseSuggestion: "Search instead for",
     },
   },
   myNdla: {
@@ -721,7 +721,34 @@ const messages = {
       goToMainMenu: "Go to main menu",
       search: "Search",
       modalLabel: "Choose content",
-      title: "Open menu",
+      title: "What can we help you with?",
+      open: "Open menu",
+      close: "Close menu",
+      myNdla: {
+        yourFavouriteSubjects: "Your favourite subjects",
+        viewAllFavouriteSubjects: "View all favourite subjects",
+        loggedInAs: "Logged in as",
+        myNdla: "My NDLA",
+        arena: "The Arena",
+        chatRobot: "The chat robot",
+      },
+      links: {
+        education: {
+          title: "Subjects and programmes",
+          programmes: "Programmes",
+          subjects: "All subjects",
+          multidisciplinary: "Multidisciplinary subjects",
+          film: "NDLA Film",
+        },
+        tips: {
+          title: "Tips and advice",
+          studentToolbox: "Toolbox for students",
+          teacherToolbox: "Toolbox for teachers",
+        },
+        dynamic: {
+          title: "About us",
+        },
+      },
     },
   },
   pagination: { next: "Next", prev: "Previous" },

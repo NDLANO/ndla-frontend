@@ -8,7 +8,7 @@ Norwegian Digital Learning Arena (NDLA) (Norwegian: Nasjonal digital læringsare
 
 ## Requirements
 
-- Node.JS 20.13
+- Node.JS 22
 - yarn v4
 - Docker (optional)
 

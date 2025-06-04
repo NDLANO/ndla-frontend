@@ -9,11 +9,12 @@
 import parse from "html-react-parser";
 import { debounce } from "lodash-es";
 import queryString from "query-string";
-import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
+import { useState, useEffect, FormEvent, useMemo, useId, useRef, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useLazyQuery } from "@apollo/client";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
+import { useComponentSize } from "@ndla/hooks";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
   Button,
@@ -21,28 +22,33 @@ import {
   ComboboxInput,
   ComboboxLabel,
   ComboboxRoot,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogRoot,
-  DialogTrigger,
   IconButton,
   InputContainer,
   Input,
   ComboboxItem,
   ComboboxItemText,
   Spinner,
-  DialogTitle,
-  NdlaLogoText,
   Text,
   ListItemRoot,
   ComboboxContentStandalone,
+  PopoverRoot,
+  PopoverTrigger,
+  PopoverCloseTrigger,
+  PopoverTitle,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
-import { GQLMastheadDrawer_RootFragment, GQLSearchQuery, GQLSearchQueryVariables } from "../../../graphqlTypes";
-import { searchQuery } from "../../../queries";
+import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
+import {
+  GQLCurrentContextQuery,
+  GQLCurrentContextQueryVariables,
+  GQLSearchQuery,
+  GQLSearchQueryVariables,
+} from "../../graphqlTypes";
+import { searchQuery } from "../../queries";
+import { isValidContextId } from "../../util/urlHelper";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
@@ -75,9 +81,9 @@ const StyledForm = styled("form", {
   base: {
     width: "100%",
     flex: "1",
-    paddingBlockStart: "xsmall",
-    paddingBlockEnd: "xxlarge",
-    paddingInline: "small",
+    paddingBlockStart: "medium",
+    paddingBlockEnd: "large",
+    paddingInline: "xxlarge",
     display: "flex",
     alignItems: "flex-start",
     flexDirection: "column",
@@ -86,29 +92,6 @@ const StyledForm = styled("form", {
     desktop: {
       width: "60%",
     },
-  },
-});
-
-const StyledDialogContent = styled(DialogContent, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "unset",
-    maxHeight: "100%",
-  },
-});
-
-const LogoWrapper = styled("div", {
-  base: {
-    display: "flex",
-    width: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottom: "1px solid",
-    borderColor: "stroke.subtle",
-    paddingBlock: "medium",
   },
 });
 
@@ -202,21 +185,63 @@ const getActiveSubjectUrl = (id: string, query: string): string => {
   return `/search?${searchParams}`;
 };
 
-interface Props {
-  root?: GQLMastheadDrawer_RootFragment;
-}
-const MastheadSearch = ({ root }: Props) => {
+const currentContextQueryDef = gql`
+  query currentContext($contextId: String!) {
+    root: node(contextId: $contextId) {
+      id
+      nodeType
+      name
+      context {
+        contextId
+        rootId
+        root
+      }
+    }
+  }
+`;
+
+const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
+  const { contextId } = useParams();
   const [query, setQuery] = useState("");
   const [delayedSearchQuery, setDelayedQuery] = useState("");
   const formId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const comboboxTranslations = useComboboxTranslations();
   const dialogTriggerRef = useRef<HTMLButtonElement>(null);
+
+  const { height } = useComponentSize("masthead");
+
+  const style = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
+
+  const currentContextQuery = useQuery<GQLCurrentContextQuery, GQLCurrentContextQueryVariables>(
+    currentContextQueryDef,
+    {
+      variables: {
+        contextId: contextId ?? "",
+      },
+      skip: !isValidContextId(contextId) || typeof window === "undefined",
+    },
+  );
+
+  const rootSubject = useMemo(() => {
+    const root = currentContextQuery.data?.root;
+    if (!root) return undefined;
+    if (root.nodeType === "SUBJECT") {
+      return root;
+    }
+    if (root.context) {
+      return {
+        id: root.context?.rootId,
+        name: root.context.root,
+      };
+    }
+    return undefined;
+  }, [currentContextQuery.data?.root]);
 
   useEffect(() => {
     setQuery("");
@@ -322,25 +347,14 @@ const MastheadSearch = ({ root }: Props) => {
   );
 
   return (
-    <DialogRoot
-      open={dialogState.open}
-      variant="drawer"
-      position="top"
-      size="xsmall"
-      onOpenChange={setDialogState}
-      initialFocusEl={() => inputRef.current}
-      finalFocusEl={() => dialogTriggerRef.current}
-    >
-      <DialogTrigger asChild ref={dialogTriggerRef}>
+    <PopoverRoot open={dialogState.open} onOpenChange={setDialogState} initialFocusEl={() => inputRef.current}>
+      <PopoverTrigger asChild ref={dialogTriggerRef}>
         <StyledButton variant="tertiary" aria-label={t("masthead.menu.search")} title={t("masthead.menu.search")}>
           <SearchLine />
           <span>{t("masthead.menu.search")}</span>
         </StyledButton>
-      </DialogTrigger>
-      <StyledDialogContent aria-label={t("searchPage.searchFieldPlaceholder")}>
-        <LogoWrapper>
-          <NdlaLogoText />
-        </LogoWrapper>
+      </PopoverTrigger>
+      <MastheadPopoverContent aria-label={t("searchPage.searchFieldPlaceholder")} style={style}>
         <StyledForm role="search" action="/search/" onSubmit={onSearch} id={formId}>
           <ComboboxRoot
             defaultOpen
@@ -360,15 +374,15 @@ const MastheadSearch = ({ root }: Props) => {
             css={{ width: "100%", gap: "xsmall" }}
           >
             <LabelContainer>
-              <DialogTitle asChild>
+              <PopoverTitle asChild>
                 <ComboboxLabel>{t("masthead.search")}</ComboboxLabel>
-              </DialogTitle>
-              <DialogCloseTrigger asChild>
+              </PopoverTitle>
+              <PopoverCloseTrigger asChild>
                 <Button variant="tertiary">
                   {t("siteNav.close")}
                   <CloseLine />
                 </Button>
-              </DialogCloseTrigger>
+              </PopoverCloseTrigger>
             </LabelContainer>
             <ComboboxControl>
               <InputContainer>
@@ -406,13 +420,13 @@ const MastheadSearch = ({ root }: Props) => {
                 </div>
               )}
             </StyledHitsWrapper>
-            {!loading && !!query && root ? (
+            {!loading && !!query && rootSubject ? (
               <ActiveSubjectWrapper>
                 <SearchLine />
                 <div>
                   <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
-                  <StyledSafeLink to={getActiveSubjectUrl(root.id, query)} onClick={() => onNavigate()}>
-                    &quot;<span>{root.name}</span>&quot;
+                  <StyledSafeLink to={getActiveSubjectUrl(rootSubject.id, query)} onClick={() => onNavigate()}>
+                    &quot;<span>{rootSubject.name}</span>&quot;
                   </StyledSafeLink>
                 </div>
               </ActiveSubjectWrapper>
@@ -469,8 +483,9 @@ const MastheadSearch = ({ root }: Props) => {
             </StyledMoreHitsButton>
           )}
         </StyledForm>
-      </StyledDialogContent>
-    </DialogRoot>
+      </MastheadPopoverContent>
+      <MastheadPopoverBackdrop present={dialogState.open} style={style} />
+    </PopoverRoot>
   );
 };
 

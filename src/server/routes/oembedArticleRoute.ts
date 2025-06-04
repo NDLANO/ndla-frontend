@@ -15,10 +15,15 @@ import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
 import { getArticleIdFromResource } from "../../containers/Resources/resourceHelpers";
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
-import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND } from "../../statusCodes";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
-import handleError from "../../util/handleError";
+import handleError, { ensureError } from "../../util/handleError";
 import { parseOembedUrl } from "../../util/urlHelper";
+import { OembedResponse } from "../../interfaces";
+
+type OembedRouteResponse =
+  | { data: OembedResponse; status: typeof OK }
+  | { data: string; status: Exclude<number, typeof OK> };
 
 const baseUrl = apiResourceUrl("/taxonomy/v1");
 
@@ -30,15 +35,25 @@ const queryNodeByContexts = (contextId: string, locale: string): Promise<Node> =
     .then((r) => resolveJsonOrRejectWithError(r) as Promise<Node[]>)
     .then((nodes) => nodes[0] || Promise.reject(new Error("No node found")));
 
-function getOembedObject(req: express.Request, title?: string, html?: string) {
+function getOembedResponse(
+  req: express.Request,
+  title: string,
+  iframeSrc: string,
+): Extract<OembedRouteResponse, { data: OembedResponse }> {
+  const parsedWidth = parseInt(req.query.width?.toString() ?? "", 10);
+  const width = isNaN(parsedWidth) ? 854 : parsedWidth;
+  const parsedHeight = parseInt(req.query.height?.toString() ?? "", 10);
+  const height = isNaN(parsedHeight) ? 854 : parsedHeight;
+  const html = `<iframe aria-label="${title}" src="${iframeSrc}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`;
   return {
     data: {
       type: "rich",
       version: "1.0", // oEmbed version
-      height: req.query.height || 480,
-      width: req.query.width || 854,
+      width,
+      height,
       title,
       html,
+      iframeSrc,
     },
     status: 200,
   };
@@ -53,20 +68,18 @@ const getApolloClient = (locale: string, req: express.Request) => {
   if (apolloClient && locale === storedLocale) {
     return apolloClient;
   } else {
-    apolloClient = createApolloClient(locale, undefined, req.path);
+    apolloClient = createApolloClient(locale, undefined, req.url);
     storedLocale = locale;
     return apolloClient;
   }
 };
 
-const getHTMLandTitle = async (match: Params<MatchParams>, req: express.Request) => {
+const getIframeSrcAndTitle = async (match: Params<MatchParams>) => {
   const { contextId, resourceId, topicId, lang = config.defaultLocale } = match;
   if (!contextId && !topicId && !resourceId && !match.nodeId) {
     return {};
   }
 
-  const height = req.query.height || 480;
-  const width = req.query.width || 854;
   const nodeId = topicId && !resourceId ? topicId : resourceId;
   const node = contextId
     ? await queryNodeByContexts(contextId, lang)
@@ -77,7 +90,7 @@ const getHTMLandTitle = async (match: Params<MatchParams>, req: express.Request)
   const articleId = getArticleIdFromResource(node);
   return {
     title: node.name,
-    html: `<iframe aria-label="${node.name}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`,
+    iframeSrc: `${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}`,
   };
 };
 
@@ -125,13 +138,11 @@ const getEmbedObject = async (lang: string, embedId: string, embedType: string, 
     variables: { id: embedId, type: embedType },
   });
   const title = getEmbedTitle(embedType, embed.data);
-  const height = req.query.height || 480;
-  const width = req.query.width || 854;
-  const html = `<iframe aria-label="${title}" src="${config.ndlaFrontendDomain}/embed-iframe/${lang}/${embedType}/${embedId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`;
-  return getOembedObject(req, title, html);
+  const iframeSrc = `${config.ndlaFrontendDomain}/embed-iframe/${lang}/${embedType}/${embedId}`;
+  return getOembedResponse(req, title, iframeSrc);
 };
 
-export async function oembedArticleRoute(req: express.Request) {
+export async function oembedArticleRoute(req: express.Request): Promise<OembedRouteResponse> {
   const { url } = req.query;
   if (!url || typeof url !== "string") {
     return {
@@ -174,21 +185,19 @@ export async function oembedArticleRoute(req: express.Request) {
     } else if (!resourceId && !topicId && !nodeId && !contextId) {
       const { articleId } = params;
       const article = await fetchArticle(articleId!, lang);
-      const height = req.query.height || 480;
-      const width = req.query.width || 854;
-      const html = `<iframe aria-label="${article.title.title}" src="${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`;
-      return getOembedObject(req, article.title.title, html);
+      const iframeSrc = `${config.ndlaFrontendDomain}/article-iframe/${lang}/article/${articleId}`;
+      return getOembedResponse(req, article.title.title, iframeSrc);
     }
-    const { html, title } = await getHTMLandTitle(params, req);
-    if (!html && !title) {
+    const { iframeSrc, title } = await getIframeSrcAndTitle(params);
+    if (!iframeSrc && !title) {
       return {
         status: NOT_FOUND,
         data: "Not found",
       };
     }
-    return getOembedObject(req, title, html);
+    return getOembedResponse(req, title, iframeSrc);
   } catch (error) {
-    handleError(error, req.path);
+    handleError(ensureError(error), req.url);
 
     const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;

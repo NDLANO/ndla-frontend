@@ -14,7 +14,6 @@ import { useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
-  Button,
   ComboboxContentStandalone,
   ComboboxControl,
   ComboboxInput,
@@ -47,20 +46,18 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
 import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResourceFragment } from "../../../../graphqlTypes";
+import { OembedResponse } from "../../../../interfaces";
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useFetchOembed } from "../learningpathQueries";
 import { ResourceData } from "./folderTypes";
+import { resolveJsonOrRejectWithError } from "../../../../util/apiHelpers";
+import { urlIsNDLAUrl } from "../../../../util/ndlaUrl";
 
 const HitsWrapper = styled("div", {
   base: {
     marginBlockStart: "3xsmall",
     textAlign: "start",
-  },
-});
-const SuggestionButton = styled(Button, {
-  base: {
-    marginInlineStart: "3xsmall",
   },
 });
 
@@ -180,12 +177,27 @@ export const ResourcePicker = ({ setResource }: Props) => {
     [searchHits],
   );
 
+  const setResourceFromNdlaUrl = async (url: string) => {
+    const res = await fetch(`/oembed?url=${url}`);
+    const oembedData = await resolveJsonOrRejectWithError<OembedResponse>(res);
+    if (oembedData) {
+      const { title, iframeSrc: url } = oembedData;
+      setResource({
+        title,
+        url,
+      });
+    }
+  };
+
   const onQueryChange = (val: string) => {
+    if (urlIsNDLAUrl(val)) {
+      setResourceFromNdlaUrl(val);
+      return;
+    }
+
     setSearchObject({ query: val, page: 1, pageSize: 10 });
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
-
-  const suggestion = searchResult?.search?.suggestions?.[0]?.suggestions?.[0]?.options?.[0]?.text;
 
   const onResourceSelect = async (resource: Omit<GQLSearchResourceFragment, "__typename" | "id">) => {
     const path = resource.contexts?.[0]?.url;
@@ -242,14 +254,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
               <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: searchObject.query })}</Text>
             ) : (
               <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${searchObject.query}"`}</Text>
-            )}
-            {!!suggestion && (
-              <Text textStyle="label.small">
-                {t("searchPage.resultType.searchPhraseSuggestion")}
-                <SuggestionButton variant="link" onClick={() => onQueryChange(suggestion)}>
-                  [{suggestion}]
-                </SuggestionButton>
-              </Text>
             )}
           </div>
         </HitsWrapper>

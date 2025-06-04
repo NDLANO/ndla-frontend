@@ -134,6 +134,7 @@ const messages = {
       allLabel: "Vis alle",
       hits: "{{count}} treff",
     },
+    programmeFilter: { title: "Velg utdanningsprogram" },
     noHitsShort: "Du ohcamii ii lean deaivva: {{query}}",
     search: "Oza",
     searchFieldPlaceholder: "Oza fágaáššiin, bargobihtáin ja doaimmain dahje oahppanbálgáin",
@@ -225,7 +226,7 @@ const messages = {
     arena: {
       title: "Arenaen",
       accept: {
-        success: "Du har nå tilgang til Arena",
+        success: "Du har nå tilgang til Arenaen",
         error: "Klarte ikke å godta vilkårene.",
         title: "Velkommen til arenaen",
         pitch1: "Her kan du diskutere og samarbeide med lærere fra hele Norge.",
@@ -716,8 +717,35 @@ const messages = {
       button: "Fállu",
       goToMainMenu: "Mana váldofállui",
       search: "Oza",
-      title: "Raba fálu",
+      title: "Hva kan vi hjelpe deg med?",
       modalLabel: "Vállje sisdoalu",
+      open: "Åpne meny",
+      close: "Lukk meny",
+      myNdla: {
+        yourFavouriteSubjects: "Dine favorittfag",
+        viewAllFavouriteSubjects: "Se alle favorittfag",
+        loggedInAs: "Logget inn som",
+        myNdla: "Min NDLA",
+        arena: "Arenaen",
+        chatRobot: "Praterobot",
+      },
+      links: {
+        education: {
+          title: "Fag og utdanningsprogram",
+          programmes: "Utdanningsprogram",
+          subjects: "Alle fag",
+          multidisciplinary: "Tverrfaglige tema",
+          film: "NDLA Film",
+        },
+        tips: {
+          title: "Tips og råd",
+          studentToolbox: "Verktøykassen for elever",
+          teacherToolbox: "Verktøykassen for lærere",
+        },
+        dynamic: {
+          title: "Om oss",
+        },
+      },
     },
   },
   pagination: { next: "Neste", prev: "Forrige" },
