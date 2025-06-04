@@ -740,8 +740,8 @@ const messages = {
         },
         tips: {
           title: "Tips og råd",
-          studentToolbox: "Verktøykassen for elever",
-          teacherToolbox: "Verktøykassen for lærere",
+          studentToolbox: "Verktøykassa for elever",
+          teacherToolbox: "Verktøykassa for lærere",
         },
         dynamic: {
           title: "Om oss",
