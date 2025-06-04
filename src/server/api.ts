@@ -138,8 +138,8 @@ router.get("/login/success", async (req, res) => {
     log.error("Failed to set cookie for nodebb autologin", { error });
   }
 
-  // Set cookie to automatically send user to feide if present
   if (config.autologinCookieEnabled) {
+    // Set cookie to automatically send user to feide if present
     res.cookie(AUTOLOGIN_COOKIE, "true", { domain });
   }
 

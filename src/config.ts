@@ -96,7 +96,8 @@ const logglyApiKey = (): string | undefined => {
   return getEnvironmentVariabel("LOGGLY_API_KEY");
 };
 
-const loginHint = (ndlaEnvironment: string): string | undefined => {
+const loginHint = (ndlaEnvironment: string, autologinCookieEnabled: boolean): string | undefined => {
+  if (!autologinCookieEnabled) return undefined;
   switch (ndlaEnvironment) {
     case "local":
     case "dev":
@@ -178,7 +179,7 @@ const getServerSideConfig = (): ConfigType => {
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
     enableNewMasthead: getEnvironmentVariabel("ENABLE_NEW_MASTHEAD", false),
     autologinCookieEnabled: getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false),
-    loginHint: loginHint(ndlaEnvironment),
+    loginHint: loginHint(ndlaEnvironment, getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false)),
   };
 };
 
