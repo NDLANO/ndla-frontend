@@ -13,7 +13,6 @@ import { EditableProps } from "slate-react/dist/components/editable";
 import {
   breakPlugin,
   createSlate,
-  headingPlugin,
   inlineNavigationPlugin,
   LoggerManager,
   paragraphPlugin,
@@ -25,6 +24,7 @@ import { useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { BreakElement } from "./plugins/break/BreakElement";
 import { HeadingElement } from "./plugins/heading/HeadingElement";
+import { headingPlugin } from "./plugins/heading/headingPlugin";
 import { LinkElement } from "./plugins/link/LinkElement";
 import { linkPlugin } from "./plugins/link/linkPlugin";
 import { ListElement } from "./plugins/list/ListElement";

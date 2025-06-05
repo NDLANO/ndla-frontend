@@ -11,7 +11,8 @@ import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Range } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
-import { toggleHeading } from "@ndla/editor";
+import { PARAGRAPH_ELEMENT_TYPE, toggleHeading } from "@ndla/editor";
+import { platformSpecificTooltip } from "@ndla/editor-components";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
   Button,
@@ -30,6 +31,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FontWeightToken } from "@ndla/styled-system/tokens";
+import { TextType } from "./headingTypes";
+import { getHotKey } from "./headingUtils";
 
 interface HeadingProps {
   title: string;
@@ -44,6 +47,7 @@ const TextWrapper = styled("div", {
   base: {
     display: "flex",
     alignItems: "baseline",
+    textStyle: "body.medium",
     gap: "3xsmall",
   },
 });
@@ -66,8 +70,6 @@ const HeadingSpan = ({ children, ...rest }: HeadingSpanProps) => {
 const Paragraph = (props: HeadingProps) => <HeadingSpan {...props}>P</HeadingSpan>;
 const HeadingTwo = (props: HeadingProps) => <HeadingSpan {...props}>H2</HeadingSpan>;
 const HeadingThree = (props: HeadingProps) => <HeadingSpan {...props}>H3</HeadingSpan>;
-
-type TextType = "normal-text" | "heading-2" | "heading-3";
 
 const iconMapping: Record<TextType, ElementType> = {
   "heading-2": HeadingTwo,
@@ -126,7 +128,7 @@ export const HeadingToolbarSelect = () => {
       ReactEditor.focus(editor);
       const textVariant = details.value[0];
       if (textVariant === "normal-text") {
-        Transforms.setNodes(editor, { type: "paragraph" }, { at: selection });
+        Transforms.setNodes(editor, { type: PARAGRAPH_ELEMENT_TYPE }, { at: selection });
       } else if (textVariant === "heading-2") {
         toggleHeading(editor, 2);
       } else if (textVariant === "heading-3") {
@@ -158,7 +160,12 @@ export const HeadingToolbarSelect = () => {
         {collection.items.map((item) => {
           const Icon = item.value ? iconMapping[item.value as TextType] : undefined;
           return (
-            <SelectItem key={item.value} item={item}>
+            <SelectItem
+              key={item.value}
+              item={item}
+              aria-label={`${item.label} (${platformSpecificTooltip(getHotKey(item.value as TextType))})`}
+              title={platformSpecificTooltip(getHotKey(item.value as TextType))}
+            >
               <TextWrapper>
                 {!!Icon && <Icon />}
                 <SelectItemText>{item.label}</SelectItemText>
