@@ -8,6 +8,7 @@
 
 import { Bold, Italic, ListOrdered, ListUnordered } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
+import { HeadingToolbarSelect } from "../plugins/heading/HeadingToolbarSelect";
 import { LinkToolbarButton } from "../plugins/link/LinkToolbarButton";
 import { LINK_SHORTCUT } from "../plugins/link/linkUtils";
 import { BULLETED_LIST_SHORTCUT, NUMBERED_LIST_SHORTCUT } from "../plugins/list/listShortcuts";
@@ -52,6 +53,8 @@ export const RichTextToolbar = () => (
       <ListOrdered />
     </ListToolbarButton>
     <LinkToolbarButton shortcut={LINK_SHORTCUT} />
+    <Separator />
+    <HeadingToolbarSelect />
     <Separator />
     <LanguageToolbarSelect />
   </ToolbarContainer>
