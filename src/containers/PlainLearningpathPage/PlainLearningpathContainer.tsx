@@ -35,16 +35,6 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
   const steps = learningpath.learningsteps;
 
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
-
-  useEffect(() => {
     if (learningpath && authContextLoaded) {
       const dimensions = getAllDimensions({ user });
       trackPageView({ dimensions, title: getDocumentTitle(learningpath, t) });
