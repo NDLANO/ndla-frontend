@@ -9000,7 +9000,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"history@npm:^5.2.0":
+"history@npm:^5.2.0, history@npm:^5.3.0":
   version: 5.3.0
   resolution: "history@npm:5.3.0"
   dependencies:
@@ -10940,6 +10940,7 @@ __metadata:
     graphql: "npm:^16.10.0"
     graphql-tag: "npm:^2.12.6"
     helmet: "npm:^7.0.0"
+    history: "npm:^5.3.0"
     html-react-parser: "npm:^5.2.0"
     i18next: "npm:^24.2.2"
     is-hotkey: "npm:^0.2.0"
