@@ -174,7 +174,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
         description={properties?.description}
         imageUrl={properties?.imageUrl}
       >
-        <meta name="robots" content="noindex, nofollow" />
+        {type !== "video" && <meta name="robots" content="noindex, nofollow" />}
       </SocialMediaMetadata>
       <main>
         <ContentTypeHero contentType={type}>
