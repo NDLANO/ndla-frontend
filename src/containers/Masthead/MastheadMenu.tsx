@@ -392,7 +392,7 @@ const MyNdlaPart = () => {
           </LogoutSafeLinkButton>
         </>
       ) : (
-        <MyNdlaSafeLinkButton variant="secondary" to={`/login?state=${toHref(location)}`} reloadDocument>
+        <MyNdlaSafeLinkButton variant="secondary" to={`/login?state=${routes.myNdla.root}`} reloadDocument>
           <UserLine />
           {t("masthead.menu.myNdla.myNdla")}
         </MyNdlaSafeLinkButton>
