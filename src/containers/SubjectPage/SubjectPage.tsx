@@ -41,7 +41,7 @@ const SubjectPage = () => {
     previousData,
   } = useQuery<GQLSubjectPageQuery, GQLSubjectPageQueryVariables>(subjectPageQuery, {
     variables: { contextId: contextId },
-    skip: !!contextId && !isValidContextId(contextId),
+    skip: !isValidContextId(contextId),
   });
 
   const data = newData ?? previousData;

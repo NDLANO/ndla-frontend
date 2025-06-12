@@ -87,7 +87,7 @@ export const TopicPage = () => {
         prettyUrl: true,
       },
     },
-    skip: !!contextId && !isValidContextId(contextId),
+    skip: !isValidContextId(contextId),
   });
 
   if (query.loading) {
