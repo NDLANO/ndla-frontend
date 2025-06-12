@@ -10,11 +10,12 @@ import Formbricks from "./Formbricks";
 import Matomo from "./Matomo";
 import Monsido from "./Monsido";
 import Tagmanager from "./Tagmanager";
+import config from "../../config";
 
 const Scripts = () => {
   return (
     <>
-      <Formbricks />
+      {!config.isNdlaProdEnvironment && <Formbricks />}
       <Matomo />
       <Monsido />
       <Tagmanager />
