@@ -82,7 +82,7 @@ const ResourcePage = () => {
         prettyUrl: true,
       },
     },
-    skip: !!contextId && !isValidContextId(contextId),
+    skip: !isValidContextId(contextId),
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
