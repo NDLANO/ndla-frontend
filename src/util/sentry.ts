@@ -96,6 +96,11 @@ export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => 
     return null;
   }
 
+  // OneNote can fail in a million ways. They are probably not our problem.
+  if (document.referrer && document.referrer.includes("noc-onenote.officeapps.live.com")) {
+    return null;
+  }
+
   return event;
 };
 
