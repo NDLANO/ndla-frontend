@@ -136,7 +136,10 @@ const PodcastSeriesPage = () => {
         ...getCopyrightData(episode.copyright),
       };
     });
-    const data = [seriesData, ...(episodes || [])];
+    const data = {
+      ...seriesData,
+      "@graph": episodes ?? [],
+    };
     return JSON.stringify(data);
   };
 
