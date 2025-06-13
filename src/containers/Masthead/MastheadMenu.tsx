@@ -10,6 +10,7 @@ import { CSSProperties, useContext, useEffect, useId, useMemo, useState } from "
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
+import { usePopoverContext } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";
 import {
   ArrowRightLine,
@@ -25,7 +26,7 @@ import {
   UserLine,
 } from "@ndla/icons";
 import { Button, Heading, PopoverRoot, PopoverTrigger, Text } from "@ndla/primitives";
-import { SafeLink, SafeLinkButton } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton, SafeLinkButtonProps, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePrevious } from "@ndla/util";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
@@ -39,7 +40,33 @@ import { routes } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
 
-const StyledSafeLink = styled(SafeLink, {
+const NavLink = (props: SafeLinkProps) => {
+  const { setOpen } = usePopoverContext();
+  return (
+    <SafeLink
+      {...props}
+      onClick={(e) => {
+        setOpen(false);
+        props.onClick?.(e);
+      }}
+    />
+  );
+};
+
+const NavSafeLinkButton = (props: SafeLinkButtonProps) => {
+  const { setOpen } = usePopoverContext();
+  return (
+    <SafeLinkButton
+      {...props}
+      onClick={(e) => {
+        setOpen(false);
+        props.onClick?.(e);
+      }}
+    />
+  );
+};
+
+const StyledSafeLink = styled(NavLink, {
   base: {
     display: "flex",
     gap: "3xsmall",
@@ -216,7 +243,7 @@ interface NavigationPartProps {
   favouriteSubjects: GQLFavouriteSubjectsQuery["subjects"];
 }
 
-const NavigationPartLink = styled(SafeLink, {
+const NavigationPartLink = styled(NavLink, {
   base: {
     marginBlockStart: "small",
     color: "text.link",
@@ -334,7 +361,7 @@ const ButtonsContainer = styled("div", {
   },
 });
 
-const MyNdlaSafeLinkButton = styled(SafeLinkButton, {
+const MyNdlaSafeLinkButton = styled(NavSafeLinkButton, {
   base: {
     justifyContent: "flex-start",
   },
