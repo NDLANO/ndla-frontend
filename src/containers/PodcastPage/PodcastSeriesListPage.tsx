@@ -6,7 +6,7 @@
  *
  */
 
-import { parse, stringify } from "query-string";
+import queryString, { ParsedQuery } from "query-string";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -34,11 +34,6 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 
-type SearchObject = {
-  page: string;
-  "page-size": string;
-};
-
 const StyledPageContainer = styled(PageContainer, {
   base: {
     gap: "xxlarge",
@@ -63,10 +58,10 @@ const StyledButton = styled(Button, {
   },
 });
 
-export const getPageSize = (searchObject: SearchObject) => {
+export const getPageSize = (searchObject: ParsedQuery) => {
   return Number(searchObject["page-size"]) || 5;
 };
-export const getPage = (searchObject: SearchObject) => {
+export const getPage = (searchObject: ParsedQuery) => {
   return Number(searchObject.page) || 1;
 };
 
@@ -75,7 +70,7 @@ const PodcastSeriesListPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const componentTranslations = usePaginationTranslations();
-  const searchObject = parse(location.search);
+  const searchObject = queryString.parse(location.search);
 
   const page = getPage(searchObject);
   const pageSize = getPageSize(searchObject);
@@ -107,7 +102,7 @@ const PodcastSeriesListPage = () => {
   }, [page, pageSize, apolloClient]);
 
   const onQueryPush = (newSearchObject: object) => {
-    const oldSearchObject = parse(location.search);
+    const oldSearchObject = queryString.parse(location.search);
 
     const searchQuery = {
       ...oldSearchObject,
@@ -116,7 +111,7 @@ const PodcastSeriesListPage = () => {
 
     // Remove unused/empty query params
     Object.keys(searchQuery).forEach((key) => searchQuery[key] === "" && delete searchQuery[key]);
-    navigate(`/podkast?${stringify(searchQuery)}`);
+    navigate(`/podkast?${queryString.stringify(searchQuery)}`);
   };
 
   if (!data && !loading) {
