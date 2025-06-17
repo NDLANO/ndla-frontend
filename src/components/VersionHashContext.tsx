@@ -13,7 +13,7 @@ const VersionHashContext = createContext<string>(defaultValue);
 
 interface Props {
   children: ReactNode;
-  value?: string;
+  value?: any;
 }
 
 export const VersionHashProvider = ({ children, value = defaultValue }: Props) => {
