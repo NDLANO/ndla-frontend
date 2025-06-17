@@ -284,14 +284,16 @@ const NavigationPart = ({ dynamicLinks, favouriteSubjects }: NavigationPartProps
             <h2>{t("masthead.menu.myNdla.yourFavouriteSubjects")}</h2>
           </Heading>
           <FavoriteSubjectsList>
-            {favouriteSubjects.map((subject) => (
-              <li key={subject.id}>
-                <StyledSafeLink to={subject.url ?? ""}>
-                  <HeartFill size="small" />
-                  {subject.name}
-                </StyledSafeLink>
-              </li>
-            ))}
+            {favouriteSubjects
+              .filter((_, index) => index < 5)
+              .map((subject) => (
+                <li key={subject.id}>
+                  <StyledSafeLink to={subject.url ?? ""}>
+                    <HeartFill size="small" />
+                    {subject.name}
+                  </StyledSafeLink>
+                </li>
+              ))}
           </FavoriteSubjectsList>
           <NavigationPartLink to={routes.myNdla.subjects}>
             {t("masthead.menu.myNdla.viewAllFavouriteSubjects")}
