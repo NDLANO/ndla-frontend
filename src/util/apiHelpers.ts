@@ -200,7 +200,7 @@ function getCache() {
   return cache;
 }
 
-export const createApolloClient = (language = "nb", versionHash?: any, path?: string) => {
+export const createApolloClient = (language = "nb", versionHash?: string, path?: string) => {
   const cache = getCache();
 
   return new ApolloClient({
@@ -221,7 +221,7 @@ export const createApolloClient = (language = "nb", versionHash?: any, path?: st
   });
 };
 
-export const createApolloLinks = (lang: string, versionHash?: any, requestPath?: string) => {
+export const createApolloLinks = (lang: string, versionHash?: string, requestPath?: string) => {
   const cookieString = config.isClient ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);

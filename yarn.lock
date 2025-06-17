@@ -7141,10 +7141,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decode-uri-component@npm:^0.4.1":
-  version: 0.4.1
-  resolution: "decode-uri-component@npm:0.4.1"
-  checksum: 10c0/a180bbdb5398ec8270d236a3ac07cb988bbf6097428481780b85840f088951dc0318a8d8f9d56796e1a322b55b29859cea29982f22f9b03af0bc60974c54e591
+"decode-uri-component@npm:^0.2.0":
+  version: 0.2.2
+  resolution: "decode-uri-component@npm:0.2.2"
+  checksum: 10c0/1f4fa54eb740414a816b3f6c24818fbfcabd74ac478391e9f4e2282c994127db02010ce804f3d08e38255493cfe68608b3f5c8e09fd6efc4ae46c807691f7a31
   languageName: node
   linkType: hard
 
@@ -8515,13 +8515,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"filter-obj@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "filter-obj@npm:5.1.0"
-  checksum: 10c0/716e8ad2bc352e206556b3e5695b3cdff8aab80c53ea4b00c96315bbf467b987df3640575100aef8b84e812cf5ea4251db4cd672bbe33b1e78afea88400c67dd
-  languageName: node
-  linkType: hard
-
 "finalhandler@npm:^2.0.0":
   version: 2.1.0
   resolution: "finalhandler@npm:2.1.0"
@@ -9079,10 +9072,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"helmet@npm:^8.1.0":
-  version: 8.1.0
-  resolution: "helmet@npm:8.1.0"
-  checksum: 10c0/94d3a7ebc88dbda1421635bdf33f00724adb5252269e93c5ab296ec0db11336d01265659ad3739ab1a1e881fb23a686ff7e788aac6a5fb929285134f157df763
+"helmet@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "helmet@npm:7.0.0"
+  checksum: 10c0/ec5b4923f9d3e77cb67438c4b49c14151c3fe19e45e17eaf6e2a37290d552dc8124fdd2ee14b2abdb6ba837c1eab1212a3e93f5f1dc037454c3684871b0025e3
   languageName: node
   linkType: hard
 
@@ -11025,7 +11018,7 @@ __metadata:
     express-prom-bundle: "npm:^8.0.0"
     graphql: "npm:^16.10.0"
     graphql-tag: "npm:^2.12.6"
-    helmet: "npm:^8.1.0"
+    helmet: "npm:^7.0.0"
     history: "npm:^5.3.0"
     html-react-parser: "npm:^5.2.0"
     i18next: "npm:^24.2.2"
@@ -11042,7 +11035,7 @@ __metadata:
     postcss-reporter: "npm:^7.1.0"
     prettier: "npm:^3.5.3"
     prom-client: "npm:^15.1.2"
-    query-string: "npm:^9.2.1"
+    query-string: "npm:5"
     react: "npm:^19.1.0"
     react-dom: "npm:^19.1.0"
     react-hook-form: "npm:^7.53.2"
@@ -12550,14 +12543,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"query-string@npm:^9.2.1":
-  version: 9.2.1
-  resolution: "query-string@npm:9.2.1"
+"query-string@npm:5":
+  version: 5.1.1
+  resolution: "query-string@npm:5.1.1"
   dependencies:
-    decode-uri-component: "npm:^0.4.1"
-    filter-obj: "npm:^5.1.0"
-    split-on-first: "npm:^3.0.0"
-  checksum: 10c0/ec2a1a812fb6e61b129587789c30731050e44b1e66bf77415ad075e7ff9923aa85088a8a8a36300170f6b82bcd6bda8aa64304fa168ea29116a57b597275467d
+    decode-uri-component: "npm:^0.2.0"
+    object-assign: "npm:^4.1.0"
+    strict-uri-encode: "npm:^1.0.0"
+  checksum: 10c0/25adf37fe9a5b749da55ef91192d190163c44283826b425fa86eeb1fa567cf500a32afc2c602d4f661839d86ca49c2f8d49433b3c1b44b9129a37a5d3da55f89
   languageName: node
   linkType: hard
 
@@ -13615,13 +13608,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"split-on-first@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "split-on-first@npm:3.0.0"
-  checksum: 10c0/a1262eae12b68de235e1a08e011bf5b42c42621985ddf807e6221fb1e2b3304824913ae7019f18436b96b8fab8aef5f1ad80dedd2385317fdc51b521c3882cd0
-  languageName: node
-  linkType: hard
-
 "sponge-case@npm:^1.0.1":
   version: 1.0.1
   resolution: "sponge-case@npm:1.0.1"
@@ -13713,6 +13699,13 @@ __metadata:
   version: 0.5.1
   resolution: "strict-event-emitter@npm:0.5.1"
   checksum: 10c0/f5228a6e6b6393c57f52f62e673cfe3be3294b35d6f7842fc24b172ae0a6e6c209fa83241d0e433fc267c503bc2f4ffdbe41a9990ff8ffd5ac425ec0489417f7
+  languageName: node
+  linkType: hard
+
+"strict-uri-encode@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "strict-uri-encode@npm:1.1.0"
+  checksum: 10c0/eb8a4109ba2588239787389313ba58ec49e043d4c64a1d44716defe5821a68ae49abe0cdefed9946ca9fc2a4af7ecf321da92422b0a67258ec0a3638b053ae62
   languageName: node
   linkType: hard
 

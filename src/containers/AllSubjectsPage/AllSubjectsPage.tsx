@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import queryString from "query-string";
+import { parse, stringify } from "query-string";
 import { useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -103,13 +103,12 @@ const AllSubjectsPage = () => {
   const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const { filter } = queryString.parse(location.search, { arrayFormat: "none" });
-  const [selectedFilter, _setSelectedFilter] = useState<string>(filter?.[0] ?? ACTIVE_SUBJECTS);
+  const [filter, _setFilter] = useState<string>(parse(location.search).filter ?? ACTIVE_SUBJECTS);
 
   const setFilter = (value: string) => {
-    const searchObject = queryString.parse(location.search);
-    _setSelectedFilter(value);
-    const search = queryString.stringify({
+    const searchObject = parse(location.search);
+    _setFilter(value);
+    const search = stringify({
       ...searchObject,
       filter: value,
     });
@@ -119,9 +118,9 @@ const AllSubjectsPage = () => {
   const favoriteSubjects = user?.favoriteSubjects;
   const sortedSubjects = useMemo(() => sortBy(subjectsQuery.data?.nodes, (s) => s.name), [subjectsQuery.data?.nodes]);
   const groupedSubjects = useMemo(() => {
-    const filteredSubjects = filterSubjects(sortedSubjects, selectedFilter);
+    const filteredSubjects = filterSubjects(sortedSubjects, filter);
     return groupSubjects(filteredSubjects);
-  }, [sortedSubjects, selectedFilter]);
+  }, [sortedSubjects, filter]);
 
   const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);
 
@@ -151,7 +150,7 @@ const AllSubjectsPage = () => {
           </Heading>
           {!!favoriteSubjects?.length && <FavoriteSubjects favorites={favoriteSubjects} subjects={sortedSubjects} />}
         </HeadingWrapper>
-        <TabFilter value={selectedFilter} onChange={setFilter} options={filterOptions} />
+        <TabFilter value={filter} onChange={setFilter} options={filterOptions} />
         <LetterNavigation activeLetters={letters} />
         <StyledList aria-label={t("subjectsPage.alphabeticSort")}>
           {groupedSubjects.map(({ label, subjects }) => (
