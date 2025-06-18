@@ -144,7 +144,7 @@ export const MastheadMenu = () => {
     skip: typeof window === "undefined",
   });
 
-  const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects ?? [], {
+  const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.toReversed().slice(0, 5) ?? [], {
     skip: !authenticated || !user?.favoriteSubjects.length,
   });
 
