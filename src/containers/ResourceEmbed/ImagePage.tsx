@@ -13,7 +13,7 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 const ImagePage = () => {
   const { imageId } = useParams();
 
-  if (!imageId) {
+  if (!imageId || !parseInt(imageId)) {
     return <NotFoundPage />;
   }
 

@@ -12,7 +12,7 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const ConceptPage = () => {
   const { conceptId } = useParams();
-  if (!conceptId) {
+  if (!conceptId || !parseInt(conceptId)) {
     return <NotFoundPage />;
   }
 
