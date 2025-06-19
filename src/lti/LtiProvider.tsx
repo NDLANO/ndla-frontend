@@ -33,7 +33,7 @@ const searchResourceTypesQuery = gql`
   ${SearchContainer.fragments.resourceTypeDefinition}
 `;
 
-const LtiProvider = () => {
+export const Component = () => {
   const { t, i18n } = useTranslation();
 
   const client = useApolloClient();
@@ -63,5 +63,3 @@ const LtiProvider = () => {
     </PageErrorBoundary>
   );
 };
-
-export default LtiProvider;

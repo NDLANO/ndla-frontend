@@ -29,3 +29,5 @@ export const EditLearningpathNewStepLink = () => {
     </AddSafeLinkButton>
   );
 };
+
+export const Component = EditLearningpathNewStepLink;

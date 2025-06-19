@@ -6,12 +6,13 @@
  *
  */
 
-import { lazy, Suspense, useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
 import { Heading, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningpathStepper } from "./components/LearningpathStepper";
+import EditLearningpathStepsPageContent from "./EditLearningpathStepsPageContent";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
@@ -19,9 +20,12 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const EditLearningpathStepsPageContent = lazy(() => import("./EditLearningpathStepsPageContent"));
+export const Component = () => {
+  return <PrivateRoute element={<EditLearningpathStepsPage />} />;
+};
 
 export const EditLearningpathStepsPage = () => {
   const { t } = useTranslation();
@@ -64,9 +68,7 @@ export const EditLearningpathStepsPage = () => {
         {data.myNdlaLearningpath.title}
       </Heading>
       <LearningpathStepper step="content" learningpathId={data.myNdlaLearningpath.id} />
-      <Suspense fallback={<Spinner aria-label={t("loading")} />}>
-        <EditLearningpathStepsPageContent learningpath={data.myNdlaLearningpath} />
-      </Suspense>
+      <EditLearningpathStepsPageContent learningpath={data.myNdlaLearningpath} />
     </MyNdlaPageWrapper>
   );
 };

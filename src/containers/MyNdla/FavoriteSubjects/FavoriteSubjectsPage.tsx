@@ -19,6 +19,7 @@ import { useFavouriteSubjects } from "../../../mutations/folderMutations";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../../AllSubjectsPage/SubjectLink";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { MenuItemProps } from "../components/SettingsMenu";
 import { sortSubjectsByRecentlyFavourited } from "../myNdlaUtils";
@@ -48,7 +49,11 @@ const LoadingItem = styled(Skeleton, {
   },
 });
 
-const FavoriteSubjectsPage = () => {
+export const Component = () => {
+  return <PrivateRoute element={<FavoriteSubjectsPage />} />;
+};
+
+export const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
   const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects ?? [], {
@@ -103,5 +108,3 @@ const FavoriteSubjectsPage = () => {
     </StyledMyNdlaPageWrapper>
   );
 };
-
-export default FavoriteSubjectsPage;
