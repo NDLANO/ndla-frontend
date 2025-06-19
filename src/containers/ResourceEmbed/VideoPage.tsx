@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import ResourceEmbed from "./components/ResourceEmbed";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
-const VideoPage = () => {
+export const VideoPage = () => {
   const { videoId } = useParams();
 
   if (!videoId) {
@@ -20,4 +20,4 @@ const VideoPage = () => {
   return <ResourceEmbed id={videoId} type="video" />;
 };
 
-export default VideoPage;
+export const Component = VideoPage;

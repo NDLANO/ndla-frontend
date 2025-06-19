@@ -35,7 +35,7 @@ const plainArticlePageQuery = gql`
   ${plainArticleContainerFragments.article}
 `;
 
-const PlainArticlePage = () => {
+export const PlainArticlePage = () => {
   const { articleId } = useTypedParams<MatchParams>();
   const { pathname } = useLocation();
   const redirectContext = useContext(RedirectContext);
@@ -85,4 +85,4 @@ const PlainArticlePage = () => {
   return <PlainArticleContainer key={data.article.id} article={data.article} skipToContentId={SKIP_TO_CONTENT_ID} />;
 };
 
-export default PlainArticlePage;
+export const Component = PlainArticlePage;

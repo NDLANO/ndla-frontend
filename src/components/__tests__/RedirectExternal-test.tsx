@@ -6,8 +6,7 @@
  *
  */
 
-import { MemoryRouter } from "react-router-dom";
-import { StaticRouter } from "react-router-dom/server.js";
+import { MemoryRouter, StaticRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
 import RedirectContext from "../RedirectContext";
 import RedirectExternal from "../RedirectExternal";

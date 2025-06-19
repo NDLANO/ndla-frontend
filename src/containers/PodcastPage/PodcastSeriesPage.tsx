@@ -51,7 +51,7 @@ interface RouteParams extends TypedParams {
   id: string;
 }
 
-const PodcastSeriesPage = () => {
+export const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
   const {
     error,
@@ -278,4 +278,4 @@ const podcastSeriesPageQuery = gql`
   }
 `;
 
-export default PodcastSeriesPage;
+export const Component = PodcastSeriesPage;
