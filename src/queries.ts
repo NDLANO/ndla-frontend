@@ -8,28 +8,6 @@
 
 import { gql } from "@apollo/client";
 
-export const contextQuery = gql`
-  query Context($contextId: String!) {
-    node(contextId: $contextId) {
-      id
-      nodeType
-      context {
-        contextId
-        rootId
-        parentIds
-        url
-      }
-    }
-  }
-`;
-
-export const contributorInfoFragment = gql`
-  fragment ContributorInfo on Contributor {
-    name
-    type
-  }
-`;
-
 const searchContextFragment = gql`
   fragment SearchContext on SearchContext {
     contextId
@@ -146,67 +124,6 @@ export const searchQuery = gql`
     }
   }
   ${searchResultFragment}
-`;
-
-export const copyrightInfoFragment = gql`
-  ${contributorInfoFragment}
-  fragment CopyrightInfo on Copyright {
-    license {
-      license
-      url
-      description
-    }
-    creators {
-      ...ContributorInfo
-    }
-    processors {
-      ...ContributorInfo
-    }
-    rightsholders {
-      ...ContributorInfo
-    }
-    origin
-    processed
-  }
-`;
-
-export const movedResourceQuery = gql`
-  query movedResource($resourceId: String!) {
-    resource: node(id: $resourceId) {
-      contexts {
-        contextId
-        url
-        breadcrumbs
-      }
-    }
-  }
-`;
-
-export const competenceGoalsQuery = gql`
-  query competenceGoals($codes: [String!], $language: String) {
-    competenceGoals(codes: $codes, language: $language) {
-      id
-      title
-      type
-      curriculum {
-        id
-        title
-      }
-      competenceGoalSet {
-        id
-        title
-      }
-    }
-    coreElements(codes: $codes, language: $language) {
-      id
-      title
-      description
-      curriculum {
-        id
-        title
-      }
-    }
-  }
 `;
 
 export const alertsQuery = gql`

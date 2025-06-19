@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
 import {
   Button,
@@ -31,7 +31,6 @@ import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./Compet
 import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
-import { competenceGoalsQuery } from "../queries";
 import handleError from "../util/handleError";
 
 interface Props {
@@ -163,6 +162,33 @@ export const groupCoreElements = (
       })),
   }));
 };
+
+const competenceGoalsQuery = gql`
+  query competenceGoals($codes: [String!], $language: String) {
+    competenceGoals(codes: $codes, language: $language) {
+      id
+      title
+      type
+      curriculum {
+        id
+        title
+      }
+      competenceGoalSet {
+        id
+        title
+      }
+    }
+    coreElements(codes: $codes, language: $language) {
+      id
+      title
+      description
+      curriculum {
+        id
+        title
+      }
+    }
+  }
+`;
 
 const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => {
   const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);

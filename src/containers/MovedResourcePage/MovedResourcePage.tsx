@@ -17,7 +17,6 @@ import { MovedNodeCard } from "../../components/MovedNodeCard";
 import NavigationBox from "../../components/NavigationBox";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
-import { movedResourceQuery } from "../../queries";
 import { contentTypeMapping } from "../../util/getContentType";
 import handleError from "../../util/handleError";
 
@@ -39,6 +38,18 @@ const StyledHeading = styled(Heading, {
     textAlign: "center",
   },
 });
+
+const movedResourceQuery = gql`
+  query movedResource($resourceId: String!) {
+    resource: node(id: $resourceId) {
+      contexts {
+        contextId
+        url
+        breadcrumbs
+      }
+    }
+  }
+`;
 
 const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
