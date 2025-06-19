@@ -13,7 +13,7 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 const AudioPage = () => {
   const { audioId } = useParams();
 
-  if (!audioId) {
+  if (!audioId || !parseInt(audioId)) {
     return <NotFoundPage />;
   }
 
