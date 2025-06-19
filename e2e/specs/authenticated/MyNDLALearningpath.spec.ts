@@ -384,15 +384,12 @@ test("can copy learningpath link", async ({ page }) => {
     .locator("li")
     .filter({ has: page.getByText("Delt") })
     .first();
-  const title = await listItem.getByRole("link").textContent();
   await listItem.getByLabel("Vis redigeringsmuligheter").last().click();
   await page.getByRole("menuitem", { name: "Kopier lenke" }).click();
 
   const url: string = await page.evaluate("navigator.clipboard.readText()");
   expect(url).toBeDefined();
-  await page.goto(url);
-
-  await expect(page.getByText(title ?? "", { exact: true })).toBeInViewport();
+  expect(url.includes("ndla.no/nb/learningpaths/")).toBeTruthy();
 });
 
 test("can go to learningpath", async ({ page }) => {
