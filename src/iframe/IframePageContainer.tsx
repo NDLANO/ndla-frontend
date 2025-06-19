@@ -10,7 +10,6 @@ import IframePage from "./IframePage";
 import { AlertsProvider } from "../components/AlertsContext";
 import { BaseNameProvider } from "../components/BaseNameContext";
 import { PageLayout } from "../components/Layout/PageContainer";
-import Scripts from "../components/Scripts/Scripts";
 import { isValidLocale } from "../i18n";
 
 interface Props {
@@ -25,7 +24,6 @@ const IframePageContainer = ({ basename, status, taxonomyId, articleId, isOembed
     <BaseNameProvider value={isValidLocale(basename) ? basename : ""}>
       <AlertsProvider>
         <PageLayout>
-          <Scripts />
           <IframePage status={status} taxonomyId={taxonomyId} articleId={articleId} isOembed={isOembed} />
         </PageLayout>
       </AlertsProvider>

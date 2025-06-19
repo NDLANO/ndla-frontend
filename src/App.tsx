@@ -12,7 +12,6 @@ import { NoSSR } from "@ndla/util";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
 import { BaseNameProvider } from "./components/BaseNameContext";
-import Scripts from "./components/Scripts/Scripts";
 import { ToastProvider } from "./components/ToastContext";
 import config from "./config";
 import AboutPage from "./containers/AboutPage/AboutPage";
@@ -92,7 +91,6 @@ const AppRoutes = ({ base }: AppProps) => {
       <BaseNameProvider value={base}>
         <AuthenticationContext>
           <ToastProvider>
-            <Scripts />
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<WelcomePage />} />
