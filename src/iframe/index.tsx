@@ -7,8 +7,6 @@
  */
 
 import "../style/index.css";
-import { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
@@ -30,6 +28,7 @@ import IframePageContainer from "./IframePageContainer";
 import { Document } from "../Document";
 import { entryPoints } from "../entrypoints";
 import { initializeI18n } from "../i18n";
+import { renderOrHydrate } from "../renderOrHydrate";
 import { createApolloClient } from "../util/apiHelpers";
 import { initSentry } from "../util/sentry";
 
@@ -42,14 +41,6 @@ const language = initialProps.locale ?? config.defaultLocale;
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
-const renderOrHydrate = (container: Document | Element, children: ReactNode) => {
-  if (config.disableSSR) {
-    const root = createRoot(container);
-    root.render(children);
-  } else {
-    hydrateRoot(container, children);
-  }
-};
 renderOrHydrate(
   document,
   <Document language={language} chunks={chunks} devEntrypoint={entryPoints.iframeArticle}>
