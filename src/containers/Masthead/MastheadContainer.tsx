@@ -27,7 +27,6 @@ import {
   GQLMastHeadQuery,
   GQLMastHeadQueryVariables,
 } from "../../graphqlTypes";
-import { contextQuery } from "../../queries";
 import { isValidContextId } from "../../util/urlHelper";
 import { ErrorBoundary } from "../ErrorPage/ErrorBoundary";
 
@@ -76,6 +75,21 @@ const mastheadQuery = gql`
     }
   }
   ${MastheadDrawer.fragments.root}
+`;
+
+const contextQuery = gql`
+  query Context($contextId: String!) {
+    node(contextId: $contextId) {
+      id
+      nodeType
+      context {
+        contextId
+        rootId
+        parentIds
+        url
+      }
+    }
+  }
 `;
 
 interface Props {

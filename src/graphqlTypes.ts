@@ -2111,6 +2111,30 @@ export type GQLMyNdlaDataQuery = {
   personalData?: { __typename?: "MyNdlaPersonalData" } & GQLMyNdlaPersonalDataFragmentFragment;
 };
 
+export type GQLCompetenceGoalsQueryVariables = Exact<{
+  codes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type GQLCompetenceGoalsQuery = {
+  __typename?: "Query";
+  competenceGoals?: Array<{
+    __typename?: "CompetenceGoal";
+    id: string;
+    title: string;
+    type: string;
+    curriculum?: { __typename?: "Reference"; id: string; title: string };
+    competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
+  }>;
+  coreElements?: Array<{
+    __typename?: "CoreElement";
+    id: string;
+    title: string;
+    description?: string;
+    curriculum?: { __typename?: "Reference"; id: string; title: string };
+  }>;
+};
+
 export type GQLFavoriteSubject_NodeFragment = { __typename?: "Node"; id: string; name: string };
 
 export type GQLLearningpath_LearningpathStepFragment = {
@@ -2783,6 +2807,18 @@ export type GQLTopicMenuResourcesQuery = {
   resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
+export type GQLMovedResourceQueryVariables = Exact<{
+  resourceId: Scalars["String"]["input"];
+}>;
+
+export type GQLMovedResourceQuery = {
+  __typename?: "Query";
+  resource?: {
+    __typename?: "Node";
+    contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
+  };
+};
+
 export type GQLMovedResourcePage_NodeFragment = {
   __typename?: "Node";
   id: string;
@@ -3009,7 +3045,15 @@ export type GQLPodcastSeriesPageQuery = {
       title: { __typename?: "Title"; title: string };
       audioFile: { __typename?: "AudioFile"; url: string };
       podcastMeta?: { __typename?: "PodcastMeta"; introduction: string };
-      copyright: { __typename?: "Copyright" } & GQLCopyrightInfoFragment;
+      copyright: {
+        __typename?: "Copyright";
+        origin?: string;
+        processed?: boolean;
+        license: { __typename?: "License"; license: string; url?: string; description?: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
     }>;
   };
 };
@@ -4170,8 +4214,6 @@ export type GQLContextQuery = {
   };
 };
 
-export type GQLContributorInfoFragment = { __typename?: "Contributor"; name: string; type: string };
-
 export type GQLSearchContextFragment = {
   __typename?: "SearchContext";
   contextId: string;
@@ -4276,52 +4318,6 @@ export type GQLSearchQuery = {
       values: Array<{ __typename?: "BucketResult"; value: string }>;
     }>;
   };
-};
-
-export type GQLCopyrightInfoFragment = {
-  __typename?: "Copyright";
-  origin?: string;
-  processed?: boolean;
-  license: { __typename?: "License"; license: string; url?: string; description?: string };
-  creators: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
-  processors: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
-  rightsholders: Array<{ __typename?: "Contributor" } & GQLContributorInfoFragment>;
-};
-
-export type GQLMovedResourceQueryVariables = Exact<{
-  resourceId: Scalars["String"]["input"];
-}>;
-
-export type GQLMovedResourceQuery = {
-  __typename?: "Query";
-  resource?: {
-    __typename?: "Node";
-    contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
-  };
-};
-
-export type GQLCompetenceGoalsQueryVariables = Exact<{
-  codes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type GQLCompetenceGoalsQuery = {
-  __typename?: "Query";
-  competenceGoals?: Array<{
-    __typename?: "CompetenceGoal";
-    id: string;
-    title: string;
-    type: string;
-    curriculum?: { __typename?: "Reference"; id: string; title: string };
-    competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
-  }>;
-  coreElements?: Array<{
-    __typename?: "CoreElement";
-    id: string;
-    title: string;
-    description?: string;
-    curriculum?: { __typename?: "Reference"; id: string; title: string };
-  }>;
 };
 
 export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;
