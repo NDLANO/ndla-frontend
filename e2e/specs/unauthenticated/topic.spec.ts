@@ -9,12 +9,12 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, waitGraphql }) => {
   await page.goto("/?disableSSR=true");
+  await waitGraphql();
 });
 
 test("contains article header and introduction", async ({ page, waitGraphql }) => {
-  await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
   await page.getByRole("link", { name: "Alle fag", exact: true }).click();
   await waitGraphql();
@@ -31,7 +31,6 @@ test("contains article header and introduction", async ({ page, waitGraphql }) =
 });
 
 test("should have functioning language box", async ({ page, waitGraphql }) => {
-  await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
   await page.getByRole("link", { name: "Alle fag", exact: true }).click();
   await page.getByText("ALLE FAG").last().click();

@@ -9,8 +9,9 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, waitGraphql }) => {
   await page.goto("/?disableSSR=true");
+  await waitGraphql();
 });
 
 test("shows students", async ({ page, waitGraphql }) => {

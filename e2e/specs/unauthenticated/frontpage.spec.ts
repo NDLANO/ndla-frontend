@@ -9,12 +9,12 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, waitGraphql }) => {
   await page.goto("/?disableSSR=true");
+  await waitGraphql();
 });
 
-test("should have list of valid links on frontpage", async ({ page, waitGraphql }) => {
-  await waitGraphql();
+test("should have list of valid links on frontpage", async ({ page }) => {
   const programmes = page.getByTestId("programme-list").getByRole("link");
   await expect(programmes).toHaveCount(16);
 });

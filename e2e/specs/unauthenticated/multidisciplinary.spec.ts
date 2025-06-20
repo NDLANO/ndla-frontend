@@ -9,12 +9,12 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, waitGraphql }) => {
   await page.goto("/?disableSSR=true");
+  await waitGraphql();
 });
 
 test("contains content", async ({ page, waitGraphql }) => {
-  await waitGraphql();
   await page.getByRole("button").getByText("Meny").click();
   await page.getByRole("link", { name: "Tverrfaglige tema" }).first().click();
   await waitGraphql();

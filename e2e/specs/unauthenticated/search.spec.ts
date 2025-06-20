@@ -21,8 +21,9 @@ test("contains search bar", async ({ page, waitGraphql }) => {
   await expect(subjectMaterialCheckbox).toBeVisible();
 });
 
-test("LTI contains action elements", async ({ page }) => {
+test("LTI contains action elements", async ({ page, waitGraphql }) => {
   await page.goto("/lti/?disableSSR=true");
+  await waitGraphql();
 
   const input = page.getByRole("searchbox");
   expect(input).toBeDefined();

@@ -15,8 +15,9 @@ const EXTERNAL_STEP = "Innhold fra et annet nettsted";
 const FOLDER_STEP = "Innhold fra en av mine mapper i Min NDLA";
 const UNSAVED_EDITS_WARNING = "Du har ulagrede endringer i steget. Om du fortsetter vil du miste endringene dine.";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/minndla/learningpaths");
+test.beforeEach(async ({ page, waitGraphql }) => {
+  await page.goto("/minndla/learningpaths?disableSSR=true");
+  await waitGraphql();
 });
 
 test("can create learningpaths", async ({ page, harCheckpoint, waitGraphql }) => {
