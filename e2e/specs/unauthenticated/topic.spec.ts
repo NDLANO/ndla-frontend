@@ -16,10 +16,10 @@ test.beforeEach(async ({ page }) => {
 test("contains article header and introduction", async ({ page, waitGraphql }) => {
   await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Fag", exact: true }).click();
+  await page.getByRole("link", { name: "Alle fag", exact: true }).click();
   await waitGraphql();
   await page.getByText("ALLE FAG").last().click();
-  await page.getByRole("link", { name: "Medieuttrykk 3" }).last().click();
+  await page.getByRole("link", { name: "Medieuttrykk 3 og mediesamfunnet 3" }).last().click();
   await waitGraphql();
   await page
     .getByRole("navigation", { name: "Emner" })
@@ -30,12 +30,12 @@ test("contains article header and introduction", async ({ page, waitGraphql }) =
   await expect(page.getByRole("heading", { name: "Idéskaping og mediedesign", exact: true })).toBeVisible();
 });
 
-test("show have functioning language box", async ({ page, waitGraphql }) => {
+test("should have functioning language box", async ({ page, waitGraphql }) => {
   await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Fag", exact: true }).click();
+  await page.getByRole("link", { name: "Alle fag", exact: true }).click();
   await page.getByText("ALLE FAG").last().click();
-  await page.getByRole("link", { name: "Medieuttrykk 3" }).last().click();
+  await page.getByRole("link", { name: "Medieuttrykk 3 og mediesamfunnet 3" }).last().click();
   await page
     .getByRole("navigation", { name: "Emner" })
     .getByRole("listitem")

@@ -8,9 +8,8 @@
 
 import { matchPath, Params, Location } from "react-router-dom";
 import { validContextIdRegExp } from "../constants";
-import { GQLTaxBase } from "../graphqlTypes";
 import { isValidLocale, supportedLanguages } from "../i18n";
-import { oembedRoutes, routes } from "../routes";
+import { oembedRoutes } from "../routes";
 import log from "./logger";
 
 type OembedReturnParams =
@@ -97,15 +96,6 @@ export const constructNewPath = (pathname: string, newLocale?: string) => {
   const fullPath = path.startsWith("/") ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : "";
   return `${localePrefix}${fullPath}`;
-};
-
-export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "url">) => {
-  let path = pathname.replace(/\/$/, ""); // Remove trailing slash if present
-  const params = matchRoute(path, routes);
-  if (params?.stepId) {
-    path = path.replace(/\/\d+$/, ""); // Remove last numeric segment if stepId
-  }
-  return decodeURIComponent(path) === taxBase.url;
 };
 
 export const isValidContextId = (id?: string) => validContextIdRegExp.test(id ?? "");

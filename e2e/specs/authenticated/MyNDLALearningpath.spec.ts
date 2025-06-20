@@ -361,23 +361,6 @@ test("can share learningpath", async ({ page, waitGraphql }) => {
   await expect(page.getByRole("main").locator("li").filter({ hasText: "Delt" })).toHaveCount(sharedPaths + 1);
 });
 
-test("can unshare learningpath", async ({ page, waitGraphql }) => {
-  await expect(page.locator("ol")).toBeVisible();
-
-  const sharedPaths = await page.getByRole("main").locator("li").filter({ hasText: /Delt/ }).count();
-  await page
-    .getByRole("main")
-    .locator("li")
-    .filter({ hasText: /Delt/ })
-    .last()
-    .getByLabel("Vis redigeringsmuligheter")
-    .last()
-    .click();
-  await page.getByRole("menuitem", { name: "Avslutt deling" }).click();
-  await waitGraphql();
-  await expect(page.getByRole("main").locator("li").filter({ hasText: /Delt/ })).toHaveCount(sharedPaths - 1);
-});
-
 test("can copy learningpath link", async ({ page }) => {
   await expect(page.locator("ol")).toBeVisible();
   const listItem = page
@@ -409,6 +392,23 @@ test("can go to learningpath", async ({ page }) => {
   const title = await listItem.getByRole("link").textContent();
   await page.getByRole("menuitem", { name: "Gå til" }).click();
   await expect(page.getByText(title ?? "", { exact: true })).toBeInViewport();
+});
+
+test("can unshare learningpath", async ({ page, waitGraphql }) => {
+  await expect(page.locator("ol")).toBeVisible();
+
+  const sharedPaths = await page.getByRole("main").locator("li").filter({ hasText: /Delt/ }).count();
+  await page
+    .getByRole("main")
+    .locator("li")
+    .filter({ hasText: /Delt/ })
+    .last()
+    .getByLabel("Vis redigeringsmuligheter")
+    .last()
+    .click();
+  await page.getByRole("menuitem", { name: "Avslutt deling" }).click();
+  await waitGraphql();
+  await expect(page.getByRole("main").locator("li").filter({ hasText: /Delt/ })).toHaveCount(sharedPaths - 1);
 });
 
 test("can delete learningpath", async ({ page, waitGraphql, harCheckpoint }) => {
