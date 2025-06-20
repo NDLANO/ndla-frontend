@@ -27,7 +27,6 @@ import "../style/index.css";
 import { LtiIframePage } from "./LtiIframePage";
 import LtiProvider from "./LtiProvider";
 import { LtiContextProvider } from "../components/LtiContext";
-import Scripts from "../components/Scripts/Scripts";
 import { Document } from "../Document";
 import { entryPoints } from "../entrypoints";
 import { initializeI18n } from "../i18n";
@@ -51,7 +50,6 @@ root.render(
       <I18nextProvider i18n={i18n}>
         <ApolloProvider client={client}>
           <MemoryRouter initialEntries={["/lti"]} basename="/">
-            <Scripts />
             <Routes>
               <Route path="lti" element={<LtiProvider />} />
               <Route path="article-iframe" element={<LtiIframePage />}>

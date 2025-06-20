@@ -12,7 +12,6 @@ import { StaticRouter } from "react-router-dom/server";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import { RedirectInfo } from "../../components/RedirectContext";
-import Scripts from "../../components/Scripts/Scripts";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
 import ErrorPage from "../../containers/ErrorPage";
@@ -36,7 +35,6 @@ export const errorRender: RenderFunc = async (req, chunks) => {
         <MissingRouterContext value={true}>
           <SiteThemeProvider value={siteTheme}>
             <StaticRouter location={req.url}>
-              <Scripts />
               <ErrorPage />
             </StaticRouter>
           </SiteThemeProvider>
