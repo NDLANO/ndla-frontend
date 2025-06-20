@@ -8,8 +8,6 @@
 
 import "./style/index.css";
 import queryString from "query-string";
-import { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
@@ -34,6 +32,7 @@ import { Document } from "./Document";
 import { entryPoints } from "./entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
 import { NDLAWindow } from "./interfaces";
+import { renderOrHydrate } from "./renderOrHydrate";
 import { createApolloClient } from "./util/apiHelpers";
 import { initSentry } from "./util/sentry";
 
@@ -63,15 +62,6 @@ const LanguageWrapper = ({ basename }: { basename?: string }) => {
       <App base={basename} />
     </BrowserRouter>
   );
-};
-
-const renderOrHydrate = (container: Element | Document, children: ReactNode) => {
-  if (config.disableSSR) {
-    const root = createRoot(container);
-    root.render(children);
-  } else {
-    hydrateRoot(container, children);
-  }
 };
 
 renderOrHydrate(
