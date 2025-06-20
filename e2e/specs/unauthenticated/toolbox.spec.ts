@@ -9,13 +9,14 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, waitGraphql }) => {
   await page.goto("/?disableSSR=true");
+  await waitGraphql();
 });
 
 test("shows students", async ({ page, waitGraphql }) => {
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Verktøykassa - for elever" }).click();
+  await page.getByRole("link", { name: "Verktøykassa for elever" }).click();
   await waitGraphql();
   await expect(page.getByRole("heading", { name: "Verktøykassa – for elever" })).toBeVisible();
 
@@ -27,7 +28,7 @@ test("shows students", async ({ page, waitGraphql }) => {
 
 test("shows teachers", async ({ page, waitGraphql }) => {
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Verktøykassa - for lærere" }).click();
+  await page.getByRole("link", { name: "Verktøykassa for lærere" }).click();
   await waitGraphql();
   await expect(page.getByRole("heading", { name: "Verktøykassa – for lærere" })).toBeVisible();
 

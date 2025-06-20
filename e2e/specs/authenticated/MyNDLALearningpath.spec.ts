@@ -15,8 +15,9 @@ const EXTERNAL_STEP = "Innhold fra et annet nettsted";
 const FOLDER_STEP = "Innhold fra en av mine mapper i Min NDLA";
 const UNSAVED_EDITS_WARNING = "Du har ulagrede endringer i steget. Om du fortsetter vil du miste endringene dine.";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/minndla/learningpaths");
+test.beforeEach(async ({ page, waitGraphql }) => {
+  await page.goto("/minndla/learningpaths?disableSSR=true");
+  await waitGraphql();
 });
 
 test("can create learningpaths", async ({ page, harCheckpoint, waitGraphql }) => {
@@ -361,23 +362,6 @@ test("can share learningpath", async ({ page, waitGraphql }) => {
   await expect(page.getByRole("main").locator("li").filter({ hasText: "Delt" })).toHaveCount(sharedPaths + 1);
 });
 
-test("can unshare learningpath", async ({ page, waitGraphql }) => {
-  await expect(page.locator("ol")).toBeVisible();
-
-  const sharedPaths = await page.getByRole("main").locator("li").filter({ hasText: /Delt/ }).count();
-  await page
-    .getByRole("main")
-    .locator("li")
-    .filter({ hasText: /Delt/ })
-    .last()
-    .getByLabel("Vis redigeringsmuligheter")
-    .last()
-    .click();
-  await page.getByRole("menuitem", { name: "Avslutt deling" }).click();
-  await waitGraphql();
-  await expect(page.getByRole("main").locator("li").filter({ hasText: /Delt/ })).toHaveCount(sharedPaths - 1);
-});
-
 test("can copy learningpath link", async ({ page }) => {
   await expect(page.locator("ol")).toBeVisible();
   const listItem = page
@@ -409,6 +393,23 @@ test("can go to learningpath", async ({ page }) => {
   const title = await listItem.getByRole("link").textContent();
   await page.getByRole("menuitem", { name: "Gå til" }).click();
   await expect(page.getByText(title ?? "", { exact: true })).toBeInViewport();
+});
+
+test("can unshare learningpath", async ({ page, waitGraphql }) => {
+  await expect(page.locator("ol")).toBeVisible();
+
+  const sharedPaths = await page.getByRole("main").locator("li").filter({ hasText: /Delt/ }).count();
+  await page
+    .getByRole("main")
+    .locator("li")
+    .filter({ hasText: /Delt/ })
+    .last()
+    .getByLabel("Vis redigeringsmuligheter")
+    .last()
+    .click();
+  await page.getByRole("menuitem", { name: "Avslutt deling" }).click();
+  await waitGraphql();
+  await expect(page.getByRole("main").locator("li").filter({ hasText: /Delt/ })).toHaveCount(sharedPaths - 1);
 });
 
 test("can delete learningpath", async ({ page, waitGraphql, harCheckpoint }) => {
