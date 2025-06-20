@@ -16,12 +16,3 @@
 .c-topic-resource__item--hidden {
   display: none;
 }
-
-mjx-container.MathJax[jax="CHTML"][display="true"] {
-  display: inline-flex !important;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  padding: 1px 4px;
-  margin: 0;
-  max-width: -webkit-stretch;
-}

@@ -127,7 +127,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         subject: root?.id,
         articleLanguage: node.article.language,
       }),
-      getArticleScripts(node.article, i18n.language),
+      getArticleScripts(node.article),
     ];
   }, [node.article, i18n.language, root?.id]);
 

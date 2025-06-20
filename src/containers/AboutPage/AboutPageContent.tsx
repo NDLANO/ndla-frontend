@@ -106,19 +106,9 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
         },
         introduction: transformedArticle.introduction ?? "",
       },
-      getArticleScripts(_article, i18n.language),
+      getArticleScripts(_article),
     ];
   }, [_article, i18n.language])!;
-
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 

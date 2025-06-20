@@ -1,5 +1,3 @@
 /*eslint-disable*/
-interface Window {
-  MathJax: any;
-}
+interface Window {}
 /*eslint-enable*/

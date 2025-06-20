@@ -6,7 +6,6 @@
  *
  */
 
-import config from "../config";
 import { GQLArticle } from "../graphqlTypes";
 
 export interface Scripts {
@@ -17,50 +16,12 @@ export interface Scripts {
   defer?: boolean;
 }
 
-export function getArticleScripts(
-  article: Pick<GQLArticle, "requiredLibraries" | "transformedContent">,
-  locale = "nb",
-) {
+export function getArticleScripts(article: Pick<GQLArticle, "requiredLibraries" | "transformedContent">) {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map((lib) => ({
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (article && article.transformedContent?.content.indexOf("<math") > -1 && config.isClient) {
-    if (!window.MathJax) {
-      window.MathJax = {
-        chtml: {
-          mathmlSpacing: false,
-        },
-        options: {
-          enableMenu: true,
-          menuOptions: {
-            settings: {
-              assistiveMml: false,
-              collapsible: false,
-              explorer: true,
-            },
-          },
-          sre: {
-            domain: "mathspeak",
-            style: "sbrief",
-            speech: "shallow",
-            locale: locale,
-            structure: false,
-          },
-        },
-      };
-    } else if (window.MathJax.options?.sre) {
-      window.MathJax.options.sre.locale = locale;
-    }
-
-    scripts.push({
-      src: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/mml-chtml.js",
-      type: "text/javascript",
-      async: true,
-      defer: true,
-    });
-  }
 
   if (article && article.transformedContent?.content.indexOf('data-resource="h5p"') > -1) {
     scripts.push({
