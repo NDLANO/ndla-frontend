@@ -13,7 +13,7 @@ export const HeadingElement: ElementRenderer = (props) => {
   const { element, attributes, children } = props;
   if (element.type === "heading") {
     const El = `h${element.level}` as const;
-    const style = element.level === 2 ? "heading.medium" : "heading.small";
+    const style = element.level <= 2 ? "heading.medium" : "heading.small";
     return (
       <Heading {...attributes} textStyle={style} asChild consumeCss>
         <El>{children}</El>
