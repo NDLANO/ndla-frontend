@@ -5,102 +5,11 @@ on:
   push:
     branches:
       - master
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
-  AWS_DEFAULT_REGION: eu-west-1
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_CLIENT_SECRET }}
-  NDLA_AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
-  CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
-  CI_GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
-  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-  NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
-  NDLA_ENVIRONMENT: local
-  NDLA_HOME: ${{ github.workspace }}/ndla
-  NDLA_DEPLOY: ${{ github.workspace }}/ndla/deploy
-  COMPONENT: ${{ github.event.repository.name }}
-  GPG_KEY: ${{ secrets.DEPLOY_BLACKBOX_GPG_KEY_B64 }}
-  SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 jobs:
   release:
-    name: Release and push to registry
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          path: ndla/${{ github.event.repository.name }}
-      - uses: actions/checkout@v4
-        with:
-          repository: NDLANO/deploy
-          token: ${{ secrets.CI_GITHUB_TOKEN }}
-          path: ndla/deploy
-      - uses: actions/setup-python@v4
-        with:
-          python-version: ${{ vars.PYTHON_VERSION }}
-      - uses: abatilo/actions-poetry@v2
-        with:
-          poetry-version: ${{ vars.POETRY_VERSION }}
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: ${{ vars.TERRAFORM_VERSION }}
-      - name: Setup ~/bin directory
-        run: |
-          mkdir -p /home/runner/bin
-          echo "/home/runner/bin" >> $GITHUB_PATH
-      - name: Login to ECR repo
-        run: RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name
-          github-actions-ecr-login) AWS_ACCESS_KEY_ID=$(echo $RES | jq -r .Credentials.AccessKeyId)
-          AWS_SECRET_ACCESS_KEY=$(echo $RES | jq -r .Credentials.SecretAccessKey) AWS_SESSION_TOKEN=$(echo
-          $RES | jq -r .Credentials.SessionToken) aws ecr get-login-password --region
-          eu-central-1 | docker login --username AWS --password-stdin $NDLA_AWS_ECR_REPO
-      - name: Login to dockerhub
-        run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME
-          --password-stdin
-      - name: Cache pip
-        uses: actions/cache@v3
-        with:
-          path: ndla/deploy/.venv
-          key: ${{ runner.os }}-pip-${{ hashFiles('ndla/deploy/poetry.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-            ${{ runner.os }}-
-      - name: Install python dependencies
-        run: |
-          # Setup the virtualenv in the repo to make caching of dependencies easier
-          poetry config virtualenvs.create true --local
-          poetry config virtualenvs.in-project true --local
-
-          # Install the deps!
-          poetry --directory $NDLA_DEPLOY install
-      - name: Download blackbox
-        uses: actions/checkout@v3
-        with:
-          repository: StackExchange/blackbox
-          path: blackbox
-      - name: Install Blackbox and key
-        run: |
-          # Move binaries to path
-          sudo mv blackbox/bin/* /home/runner/bin/
-          echo -n "$GPG_KEY" | base64 --decode | gpg --import
-      - name: Install kubectl
-        run: |
-          curl -L https://dl.k8s.io/release/v${{ vars.KUBECTL_VERSION }}/bin/linux/amd64/kubectl > kubectl
-          sudo mv kubectl /home/runner/bin/kubectl
-          sudo chmod +x /home/runner/bin/kubectl
-          mkdir -p ~/.kube
-      - name: Install aws-iam-authenticator
-        run: |
-          sudo curl -L https://github.com/kubernetes-sigs/aws-iam-authenticator/releases/download/v${{ vars.AWS_IAM_AUTHENTICATOR_VERSION }}/aws-iam-authenticator_${{ vars.AWS_IAM_AUTHENTICATOR_VERSION }}_linux_amd64 > aws-iam-authenticator
-          sudo mv aws-iam-authenticator /home/runner/bin/aws-iam-authenticator
-          sudo chmod +x /home/runner/bin/aws-iam-authenticator
-      - name: Install helm /w push-plugin
-        run: |
-          curl -L https://get.helm.sh/helm-v${{ vars.HELM_VERSION }}-linux-amd64.tar.gz > /tmp/helm.tar.gz
-          tar xvzf /tmp/helm.tar.gz -C /tmp/
-          sudo mv /tmp/linux-amd64/helm /home/runner/bin/
-          sudo chmod +x /home/runner/bin/helm
-      - name: Build kubernetes config
-        run: poetry -C $NDLA_DEPLOY run ndla env kubeconfig test
-      - name: Do release
-        shell: bash
-        run: poetry -C $NDLA_DEPLOY run ndla release $COMPONENT --update-chart
+    uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main
+    secrets: inherit
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+    with:
+      component: ndla-frontend
