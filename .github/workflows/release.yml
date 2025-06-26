@@ -9,7 +9,5 @@ jobs:
   release:
     uses: ndlano/reusable-workflows/.github/workflows/release.yaml@main
     secrets: inherit
-    env:
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
     with:
       component: ndla-frontend
