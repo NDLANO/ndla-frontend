@@ -17,14 +17,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "22.15.0"
-      - uses: ndlano/reusable-workflows/.github/actions/setup-ndla-login@main
-        with:
-          AWS_CLIENT_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
-          AWS_CLIENT_SECRET: ${{ secrets.CI_AWS_CLIENT_SECRET }}
-          AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
       - name: "Enable yarn v4"
         run: |
           corepack enable
@@ -56,14 +48,6 @@ jobs:
         run: |
           corepack enable
           yarn set version 4.9.2
-      - uses: ndlano/reusable-workflows/.github/actions/setup-ndla-login@main
-        with:
-          AWS_CLIENT_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
-          AWS_CLIENT_SECRET: ${{ secrets.CI_AWS_CLIENT_SECRET }}
-          AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
       - name: "Install"
         run: yarn install --immutable
       - name: "Build"
