@@ -14,7 +14,6 @@ import { BrowserRouter } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import ErrorPage from "./ErrorPage";
-import Scripts from "../../components/Scripts/Scripts";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
@@ -44,7 +43,6 @@ renderOrHydrate(
       <SiteThemeProvider value={window.DATA.siteTheme}>
         <BrowserRouter>
           <MissingRouterContext value={true}>
-            <Scripts />
             <ErrorPage />
           </MissingRouterContext>
         </BrowserRouter>
