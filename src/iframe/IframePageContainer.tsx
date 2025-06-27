@@ -6,31 +6,19 @@
  *
  */
 
+import { useParams } from "react-router-dom";
 import IframePage from "./IframePage";
-import { AlertsProvider } from "../components/AlertsContext";
-import { BaseNameProvider } from "../components/BaseNameContext";
 import { PageLayout } from "../components/Layout/PageContainer";
-import Scripts from "../components/Scripts/Scripts";
-import { isValidLocale } from "../i18n";
 
-interface Props {
-  basename?: string;
-  articleId?: string;
-  taxonomyId?: string;
-  status?: "success" | "error";
-  isOembed?: string;
-}
-const IframePageContainer = ({ basename, status, taxonomyId, articleId, isOembed }: Props) => {
+export const IframePageContainer = () => {
+  const { articleId, taxonomyId } = useParams();
   return (
-    <BaseNameProvider value={isValidLocale(basename) ? basename : ""}>
-      <AlertsProvider>
-        <PageLayout>
-          <Scripts />
-          <IframePage status={status} taxonomyId={taxonomyId} articleId={articleId} isOembed={isOembed} />
-        </PageLayout>
-      </AlertsProvider>
-    </BaseNameProvider>
+    <PageLayout>
+      <IframePage taxonomyId={taxonomyId} articleId={articleId} isOembed="true" />
+    </PageLayout>
   );
 };
+
+export const Component = IframePageContainer;
 
 export default IframePageContainer;

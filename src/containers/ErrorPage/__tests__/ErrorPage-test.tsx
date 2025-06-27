@@ -7,7 +7,7 @@
  */
 
 import { I18nextProvider } from "react-i18next";
-import { StaticRouter } from "react-router-dom/server.js";
+import { StaticRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
 import { i18nInstance } from "@ndla/ui";
 import { initializeI18n } from "../../../i18n";

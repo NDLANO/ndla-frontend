@@ -39,7 +39,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { getCookie } from "@ndla/util";
+import { getCookie, NoSSR } from "@ndla/util";
 import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
@@ -146,7 +146,15 @@ const StyledDialogBody = styled(DialogBody, {
   },
 });
 
-const MyNdlaLayout = () => {
+export const Component = () => {
+  return (
+    <NoSSR fallback={null}>
+      <MyNdlaLayout />
+    </NoSSR>
+  );
+};
+
+export const MyNdlaLayout = () => {
   const { t } = useTranslation();
   const { user, examLock, authenticated, authContextLoaded } = useContext(AuthContext);
   const { updatePersonalData, loading: updateLoading } = useUpdatePersonalData();
