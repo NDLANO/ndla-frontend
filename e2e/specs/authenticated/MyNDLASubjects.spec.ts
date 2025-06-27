@@ -9,8 +9,9 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/minndla/subjects");
+test.beforeEach(async ({ page, waitGraphql }) => {
+  await page.goto("/minndla/subjects?disableSSR=true");
+  await waitGraphql();
 });
 
 test("all subjects button works", async ({ page }) => {

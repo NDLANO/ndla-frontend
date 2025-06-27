@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 test("should have list of valid links on frontpage", async ({ page, waitGraphql }) => {
   await waitGraphql();
   const programmes = page.getByTestId("programme-list").getByRole("link");
-  await expect(programmes).toHaveCount(15);
+  await expect(programmes).toHaveCount(16);
 });
 
 test("should have functioning language anchor", async ({ page }) => {

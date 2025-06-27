@@ -10,10 +10,11 @@ import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/r/yrkesfaglig-fordypning-hs-hsf-vg1/arsplan-helse--og-oppvekstfag/53a49f710c");
+  await page.goto("/r/yrkesfaglig-fordypning-hs-hsf-vg1/arsplan-helse--og-oppvekstfag/53a49f710c?disableSSR=true");
 });
 
-test("contains content", async ({ page }) => {
+test("contains content", async ({ page, waitGraphql }) => {
+  await waitGraphql();
   await expect(page.getByLabel("Brødsmulesti").getByRole("listitem")).toHaveCount(4);
   await expect(page.getByLabel("Brødsmulesti").getByRole("listitem").getByRole("link")).toHaveCount(3);
 

@@ -6,7 +6,14 @@
  *
  */
 
-import { ApolloClient, ApolloLink, FieldFunctionOptions, InMemoryCache, TypePolicies } from "@apollo/client/core";
+import {
+  ApolloClient,
+  ApolloLink,
+  FieldFunctionOptions,
+  HttpLink,
+  InMemoryCache,
+  TypePolicies,
+} from "@apollo/client/core";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
@@ -252,5 +259,9 @@ export const createApolloLinks = (lang: string, versionHash?: any, requestPath?:
     }
   });
 
-  return ApolloLink.from([errorLink, headersLink, new BatchHttpLink({ uri })]);
+  return ApolloLink.from([
+    errorLink,
+    headersLink,
+    navigator.webdriver ? new HttpLink({ uri }) : new BatchHttpLink({ uri }),
+  ]);
 };
