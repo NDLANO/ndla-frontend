@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 test("contains article header and introduction", async ({ page, waitGraphql }) => {
   await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Fag", exact: true }).click();
+  await page.getByRole("link", { name: "Alle fag", exact: true }).click();
   await waitGraphql();
   await page.getByText("ALLE FAG").last().click();
   await page.getByRole("link", { name: "Medieuttrykk 3" }).last().click();
@@ -33,7 +33,7 @@ test("contains article header and introduction", async ({ page, waitGraphql }) =
 test("show have functioning language box", async ({ page, waitGraphql }) => {
   await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Fag", exact: true }).click();
+  await page.getByRole("link", { name: "Alle fag", exact: true }).click();
   await page.getByText("ALLE FAG").last().click();
   await page.getByRole("link", { name: "Medieuttrykk 3" }).last().click();
   await page

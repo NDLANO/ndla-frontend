@@ -17,7 +17,7 @@ export const API_REGEX = new RegExp(`^(${TEST_IMAGE_REGEX}|${LOCALHOST_GRAPHQL_R
 
 export const removeSensitiveDataFromHar = async (fileName: string) => {
   const data = JSON.parse(await readFile(fileName, "utf8"));
-  await writeFile(fileName, JSON.stringify(data), "utf8");
+  await writeFile(fileName, JSON.stringify(data).concat("\n"), "utf8");
 };
 
 export const getMockdataFilename = ({ titlePath, title: test_name }: TestInfo) => {

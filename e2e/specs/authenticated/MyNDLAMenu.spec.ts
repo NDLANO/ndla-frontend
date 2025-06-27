@@ -9,8 +9,9 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/minndla");
+test.beforeEach(async ({ page, waitGraphql }) => {
+  await page.goto("/minndla?disableSSR=true");
+  await waitGraphql();
 });
 
 test("can navigate to folders", async ({ page }) => {

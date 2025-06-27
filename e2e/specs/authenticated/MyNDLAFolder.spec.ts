@@ -9,8 +9,9 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/minndla/folders", { waitUntil: "domcontentloaded" });
+test.beforeEach(async ({ page, waitGraphql }) => {
+  await page.goto("/minndla/folders?disableSSR=true");
+  await waitGraphql();
 });
 
 test("can copy sharable link to folder", async ({ page }) => {
