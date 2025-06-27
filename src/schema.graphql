@@ -225,8 +225,6 @@ type CompetenceGoal {
 }
 
 type Concept {
-  articleIds: [Int!]!
-  articles: [Meta!]
   conceptType: String!
   content: String!
   copyright: ConceptCopyright
@@ -234,8 +232,6 @@ type Concept {
   glossData: Gloss
   id: Int!
   source: String
-  subjectIds: [String!]
-  subjectNames: [String!]
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
@@ -602,6 +598,7 @@ type ImageV3 {
 }
 
 type Learningpath {
+  basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
   coverphoto: LearningpathCoverphoto
@@ -881,6 +878,7 @@ type MyNdlaGroup {
 }
 
 type MyNdlaLearningpath {
+  basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
   coverphoto: LearningpathCoverphoto

@@ -281,8 +281,6 @@ export type GQLCompetenceGoal = {
 
 export type GQLConcept = {
   __typename?: "Concept";
-  articleIds: Array<Scalars["Int"]["output"]>;
-  articles?: Maybe<Array<GQLMeta>>;
   conceptType: Scalars["String"]["output"];
   content: Scalars["String"]["output"];
   copyright?: Maybe<GQLConceptCopyright>;
@@ -290,8 +288,6 @@ export type GQLConcept = {
   glossData?: Maybe<GQLGloss>;
   id: Scalars["Int"]["output"];
   source?: Maybe<Scalars["String"]["output"]>;
-  subjectIds?: Maybe<Array<Scalars["String"]["output"]>>;
-  subjectNames?: Maybe<Array<Scalars["String"]["output"]>>;
   supportedLanguages: Array<Scalars["String"]["output"]>;
   tags: Array<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
@@ -699,6 +695,7 @@ export type GQLImageV3 = {
 
 export type GQLLearningpath = {
   __typename?: "Learningpath";
+  basedOn?: Maybe<Scalars["String"]["output"]>;
   canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
   coverphoto?: Maybe<GQLLearningpathCoverphoto>;
@@ -1110,6 +1107,7 @@ export type GQLMyNdlaGroup = {
 
 export type GQLMyNdlaLearningpath = {
   __typename?: "MyNdlaLearningpath";
+  basedOn?: Maybe<Scalars["String"]["output"]>;
   canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
   coverphoto?: Maybe<GQLLearningpathCoverphoto>;
@@ -2157,6 +2155,7 @@ export type GQLLearningpathMenu_LearningpathFragment = {
   id: number;
   title: string;
   lastUpdated: string;
+  basedOn?: string;
   isMyNDLAOwner: boolean;
   copyright: {
     __typename?: "LearningpathCopyright";
@@ -2663,6 +2662,26 @@ export type GQLMastHeadQueryVariables = Exact<{
 export type GQLMastHeadQuery = {
   __typename?: "Query";
   root?: { __typename?: "Node" } & GQLMastheadDrawer_RootFragment;
+};
+
+export type GQLContextQueryVariables = Exact<{
+  contextId: Scalars["String"]["input"];
+}>;
+
+export type GQLContextQuery = {
+  __typename?: "Query";
+  node?: {
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    context?: {
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      rootId: string;
+      parentIds: Array<string>;
+      url: string;
+    };
+  };
 };
 
 export type GQLDynamicMenuQueryVariables = Exact<{ [key: string]: never }>;
@@ -4192,26 +4211,6 @@ export type GQLUpdatePersonalDataMutationVariables = Exact<{
 export type GQLUpdatePersonalDataMutation = {
   __typename?: "Mutation";
   updatePersonalData: { __typename?: "MyNdlaPersonalData" } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
-};
-
-export type GQLContextQueryVariables = Exact<{
-  contextId: Scalars["String"]["input"];
-}>;
-
-export type GQLContextQuery = {
-  __typename?: "Query";
-  node?: {
-    __typename?: "Node";
-    id: string;
-    nodeType: string;
-    context?: {
-      __typename?: "TaxonomyContext";
-      contextId: string;
-      rootId: string;
-      parentIds: Array<string>;
-      url: string;
-    };
-  };
 };
 
 export type GQLSearchContextFragment = {
