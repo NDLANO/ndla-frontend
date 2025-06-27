@@ -7,8 +7,6 @@
  */
 
 import "../../style/index.css";
-import { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import { BrowserRouter } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
@@ -19,6 +17,7 @@ import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
+import { renderOrHydrate } from "../../renderOrHydrate";
 import { initSentry } from "../../util/sentry";
 
 const { config, serverPath, chunks } = window.DATA;
@@ -27,15 +26,6 @@ initSentry(config);
 
 const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 const i18n = initializeI18n(i18nInstance, abbreviation);
-
-const renderOrHydrate = (container: Document | Element, children: ReactNode) => {
-  if (config.disableSSR) {
-    const root = createRoot(container);
-    root.render(children);
-  } else {
-    hydrateRoot(container, children);
-  }
-};
 
 renderOrHydrate(
   document,
