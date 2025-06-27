@@ -79,7 +79,7 @@ export const ArticleStep = ({
         articleLanguage: article.language,
         contentType: getContentType(learningpathStep.resource),
       }),
-      getArticleScripts(article, i18n.language),
+      getArticleScripts(article),
     ];
   }, [data?.article, i18n.language, learningpathStep.resource, subjectId]);
 
