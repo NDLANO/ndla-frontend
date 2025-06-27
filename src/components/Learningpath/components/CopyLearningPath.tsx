@@ -53,12 +53,12 @@ const CopyLearningPath = ({ learningpath }: Props) => {
 
   const onCopyLearningPath = async (user: GQLMyNdlaPersonalDataFragmentFragment) => {
     try {
-      const contributors = learningpath.copyright.contributors
-        .map((c) => ({ name: c.name, type: c.type }))
-        .concat({
+      const contributors = [
+        {
           type: "writer",
           name: user.displayName,
-        });
+        },
+      ];
       const res = await copyLearningPath({
         variables: {
           learningpathId: learningpath.id,
