@@ -9,8 +9,9 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/r/yrkesfaglig-fordypning-hs-hsf-vg1/arsplan-helse--og-oppvekstfag/53a49f710c");
+test.beforeEach(async ({ page, waitGraphql }) => {
+  await page.goto("/r/yrkesfaglig-fordypning-hs-hsf-vg1/arsplan-helse--og-oppvekstfag/53a49f710c?disableSSR=true");
+  await waitGraphql();
 });
 
 test("contains content", async ({ page }) => {

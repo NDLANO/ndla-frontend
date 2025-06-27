@@ -14,7 +14,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import SkipToMainContent from "./components/SkipToMainContent";
 import { MastheadMenu } from "./MastheadMenu";
-import MastheadSearch from "./MastheadSearchV2";
+import MastheadSearch from "./MastheadSearch";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { BannerAlerts } from "../../components/BannerAlerts";
 import FeideLoginButton from "../../components/FeideLoginButton";

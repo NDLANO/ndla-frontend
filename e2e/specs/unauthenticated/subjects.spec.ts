@@ -11,9 +11,9 @@ import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page, waitGraphql }) => {
   await page.goto("/?disableSSR=true");
+  await waitGraphql();
 
   await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
-  await waitGraphql();
   await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();
   await waitGraphql();
 

@@ -13,7 +13,8 @@ test.beforeEach(async ({ page }) => {
   await page.goto("/subject:20?disableSSR=true");
 });
 
-test("film page has content", async ({ page }) => {
+test("film page has content", async ({ page, waitGraphql }) => {
+  await waitGraphql();
   await expect(page.getByRole("link", { name: "Fun Factory", exact: true }).first()).toBeVisible({ timeout: 10000 });
   await expect(page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link")).toHaveCount(8);
 });
