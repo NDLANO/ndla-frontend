@@ -22,7 +22,12 @@ import { useUpdateLearningpath } from "../../../mutations/learningpathMutations"
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+
+export const Component = () => {
+  return <PrivateRoute element={<EditLearningpathTitlePage />} />;
+};
 
 export const EditLearningpathTitlePage = () => {
   const [updatePath] = useUpdateLearningpath();

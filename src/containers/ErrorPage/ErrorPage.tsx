@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { NdlaLogoText } from "@ndla/primitives";
-import { MissingRouterContext, SafeLink } from "@ndla/safelink";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Status } from "../../components";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
@@ -26,24 +26,24 @@ const ErrorMessageMain = styled("main", {
 const ErrorPage = () => {
   const { t } = useTranslation();
   return (
-    <MissingRouterContext value={true}>
-      <Status code={INTERNAL_SERVER_ERROR}>
-        <title>NDLA</title>
-        <meta name="description" content={t("meta.description")} />
-        <MastheadContainer>
-          <SafeLink to="/" aria-label="NDLA" title="NDLA">
-            <NdlaLogoText />
-          </SafeLink>
-        </MastheadContainer>
-        <PageLayout asChild>
-          <ErrorMessageMain>
-            <DefaultErrorMessage applySkipToContentId />
-          </ErrorMessageMain>
-        </PageLayout>
-        <Footer />
-      </Status>
-    </MissingRouterContext>
+    <Status code={INTERNAL_SERVER_ERROR}>
+      <title>NDLA</title>
+      <meta name="description" content={t("meta.description")} />
+      <MastheadContainer>
+        <SafeLink to="/" aria-label="NDLA" title="NDLA">
+          <NdlaLogoText />
+        </SafeLink>
+      </MastheadContainer>
+      <PageLayout asChild>
+        <ErrorMessageMain>
+          <DefaultErrorMessage applySkipToContentId />
+        </ErrorMessageMain>
+      </PageLayout>
+      <Footer />
+    </Status>
   );
 };
+
+export const Component = ErrorPage;
 
 export default ErrorPage;
