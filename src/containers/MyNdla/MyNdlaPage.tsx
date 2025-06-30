@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
@@ -17,7 +17,6 @@ import { CampaignBlock } from "@ndla/ui";
 import { keyBy } from "@ndla/util";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
 import { isStudent } from "./Folders/util";
-import { sortSubjectsByRecentlyFavourited } from "./myNdlaUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
@@ -73,7 +72,7 @@ const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
-  const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.slice(0, 4) ?? [], {
+  const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.toReversed().slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
   const { data: recentlyUsedResources } = useRecentlyUsedResources(!authenticated);
@@ -87,13 +86,6 @@ const MyNdlaPage = () => {
       skip: !recentlyUsedResources?.allFolderResources.length,
     },
   );
-
-  const sortedSubjects = useMemo(() => {
-    return sortSubjectsByRecentlyFavourited(
-      recentFavouriteSubjectsQuery.data?.subjects ?? [],
-      user?.favoriteSubjects ?? [],
-    );
-  }, [recentFavouriteSubjectsQuery.data?.subjects, user?.favoriteSubjects]);
 
   useEffect(() => {
     if (!authContextLoaded) return;
@@ -159,7 +151,7 @@ const MyNdlaPage = () => {
             <h2>{t("myNdla.favoriteSubjects.title")}</h2>
           </Heading>
           <GridList>
-            {sortedSubjects.map((subject) => (
+            {recentFavouriteSubjectsQuery.data.subjects.map((subject) => (
               <SubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
             ))}
           </GridList>
