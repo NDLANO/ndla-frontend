@@ -20,7 +20,6 @@ import { BaseNameProvider } from "../../components/BaseNameContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
-import { ToastProvider } from "../../components/ToastContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { Document } from "../../Document";
@@ -93,9 +92,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
                   <AlertsProvider>
                     <BaseNameProvider value={basename}>
                       <AuthenticationContext>
-                        <ToastProvider>
-                          <StaticRouterProvider router={router} context={context} hydrate={false} />
-                        </ToastProvider>
+                        <StaticRouterProvider router={router} context={context} hydrate={false} />
                       </AuthenticationContext>
                     </BaseNameProvider>
                   </AlertsProvider>

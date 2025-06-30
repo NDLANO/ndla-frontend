@@ -30,7 +30,6 @@ import AuthenticationContext from "./components/AuthenticationContext";
 import { BaseNameProvider } from "./components/BaseNameContext";
 import ResponseContext from "./components/ResponseContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
-import { ToastProvider } from "./components/ToastContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { Document } from "./Document";
 import { entryPoints } from "./entrypoints";
@@ -77,9 +76,7 @@ renderOrHydrate(
               <AlertsProvider>
                 <BaseNameProvider value={basename}>
                   <AuthenticationContext>
-                    <ToastProvider>
-                      <RouterProvider router={router} />
-                    </ToastProvider>
+                    <RouterProvider router={router} />
                   </AuthenticationContext>
                 </BaseNameProvider>
               </AlertsProvider>
