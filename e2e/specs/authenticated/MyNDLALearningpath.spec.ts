@@ -46,7 +46,7 @@ test("can find all steps", async ({ page }) => {
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
 
@@ -62,7 +62,7 @@ test("can create text step", async ({ page, waitGraphql, harCheckpoint }) => {
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
 
   const textSteps = await page.getByRole("listitem").getByText(TEXT_STEP).count();
@@ -82,7 +82,7 @@ test("can create article step", async ({ page, waitGraphql }) => {
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
   const amountArticleSteps = await page.getByRole("listitem").getByText(ARTICLE_STEP).count();
 
@@ -115,7 +115,7 @@ test("can create external step", async ({ page, waitGraphql }) => {
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
   const externalSteps = await page.getByRole("listitem").getByText(EXTERNAL_STEP).count();
 
@@ -142,7 +142,7 @@ test("can create folder step", async ({ page, waitGraphql }) => {
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Legg til innhold" })).toBeInViewport();
 
   const amountArticleSteps = await page.getByRole("listitem").getByText(ARTICLE_STEP).count();
@@ -171,7 +171,7 @@ test("shows warning dialog when closing form and text form is dirty", async ({ p
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
@@ -189,7 +189,7 @@ test("shows warning dialog when closing form and article form is dirty", async (
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
@@ -211,7 +211,7 @@ test("shows warning dialog when closing form and external form is dirty", async 
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
@@ -231,7 +231,7 @@ test("shows warning dialog when closing form and folder form is dirty", async ({
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
@@ -253,7 +253,7 @@ test("shows warning dialog when navigating and text form is dirty", async ({ pag
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.getByRole("group");
@@ -270,7 +270,7 @@ test("shows warning dialog when navigating and article form is dirty", async ({ 
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
@@ -292,7 +292,7 @@ test("shows warning dialog when navigating and external form is dirty", async ({
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
@@ -312,7 +312,7 @@ test("shows warning dialog when navigating and folder form is dirty", async ({ p
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Legg til steg" }).click();
   const groups = page.locator("form").getByRole("group");
@@ -336,7 +336,7 @@ test("can preview learningpath", async ({ page, waitGraphql }) => {
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
 
-  await expect(page.getByRole("heading")).toHaveText(learningpathTitle ?? "");
+  await expect(page.getByRole("heading", { name: learningpathTitle ?? "" })).toBeVisible();
 
   await page.getByRole("link", { name: "Gå videre" }).click();
   await waitGraphql();
@@ -421,7 +421,6 @@ test("can delete learningpath", async ({ page, waitGraphql, harCheckpoint }) => 
   await harCheckpoint();
   await page.getByRole("dialog").getByRole("button", { name: "Slett læringssti" }).click();
   await waitGraphql();
-  await harCheckpoint();
 
   await expect(page.getByRole("main").getByRole("listitem")).toHaveCount(paths - 1);
 });
