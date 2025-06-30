@@ -6,15 +6,16 @@
  *
  */
 
-/*  eslint-disable no-console */
-
 import config from "./config";
+import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
 import app from "./server/server";
+import log from "./util/logger";
 
 if (!config.isVercel) {
-  app.listen(config.port, () => {
-    console.log(`> Started on port ${config.port}`);
+  const server = app.listen(config.port, () => {
+    log.info(`> Started on port ${config.port}`);
   });
+  process.on("SIGTERM", () => gracefulShutdown(server));
 }
 
 export default app;

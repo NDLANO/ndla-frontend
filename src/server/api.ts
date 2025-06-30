@@ -25,12 +25,13 @@ import { ABOUT_PATH, AUTOLOGIN_COOKIE, FILM_PAGE_URL, UKR_PAGE_URL, programmeRed
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
-import { OK, BAD_REQUEST } from "../statusCodes";
+import { BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
 import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
 import log from "../util/logger";
 import { constructNewPath } from "../util/urlHelper";
+import { healthRouter } from "./routes/healthRouter";
 
 const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
 const router = express.Router();
@@ -49,9 +50,7 @@ router.get("/.well-known/security.txt", (_, res) => {
   res.sendFile(`security.txt`, { root: "build/public/static" });
 });
 
-router.get("/health", (_, res) => {
-  res.status(OK).json({ status: OK, text: "Health check ok" });
-});
+router.use(healthRouter);
 
 router.get(["/film", "/:lang/film"], (_, res) => {
   res.redirect(FILM_PAGE_URL);
