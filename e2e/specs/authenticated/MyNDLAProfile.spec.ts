@@ -9,8 +9,9 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/minndla/profile");
+test.beforeEach(async ({ page, waitGraphql }) => {
+  await page.goto("/minndla/profile?disableSSR=true");
+  await waitGraphql();
 });
 
 test("has name, school and profile image", async ({ page }) => {

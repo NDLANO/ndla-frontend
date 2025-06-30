@@ -9,8 +9,9 @@
 import { expect } from "@playwright/test";
 import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
-  await page.goto("/subject:20?disableSSR=true");
+test.beforeEach(async ({ page, waitGraphql }) => {
+  await page.goto("/f/ndla-film/24d0e0db3c02?disableSSR=true");
+  await waitGraphql();
 });
 
 test("film page has content", async ({ page }) => {

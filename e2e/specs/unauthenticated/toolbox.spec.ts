@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
 
 test("shows students", async ({ page, waitGraphql }) => {
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Verktøykassa - for elever" }).click();
+  await page.getByRole("link", { name: "Verktøykassa for elever" }).click();
   await waitGraphql();
   await expect(page.getByRole("heading", { name: "Verktøykassa – for elever" })).toBeVisible();
 
@@ -27,7 +27,7 @@ test("shows students", async ({ page, waitGraphql }) => {
 
 test("shows teachers", async ({ page, waitGraphql }) => {
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Verktøykassa - for lærere" }).click();
+  await page.getByRole("link", { name: "Verktøykassa for lærere" }).click();
   await waitGraphql();
   await expect(page.getByRole("heading", { name: "Verktøykassa – for lærere" })).toBeVisible();
 
