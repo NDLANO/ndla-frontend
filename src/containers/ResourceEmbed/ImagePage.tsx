@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import ResourceEmbed from "./components/ResourceEmbed";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
-const ImagePage = () => {
+export const ImagePage = () => {
   const { imageId } = useParams();
 
   if (!imageId || !parseInt(imageId)) {
@@ -20,4 +20,4 @@ const ImagePage = () => {
   return <ResourceEmbed id={imageId} type="image" />;
 };
 
-export default ImagePage;
+export const Component = ImagePage;

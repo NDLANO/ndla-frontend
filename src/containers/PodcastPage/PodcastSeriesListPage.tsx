@@ -65,7 +65,7 @@ export const getPage = (searchObject: ParsedQuery) => {
   return Number(searchObject.page) || 1;
 };
 
-const PodcastSeriesListPage = () => {
+export const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const navigate = useNavigate();
@@ -218,4 +218,4 @@ const podcastSeriesListPageQuery = gql`
   }
 `;
 
-export default PodcastSeriesListPage;
+export const Component = PodcastSeriesListPage;

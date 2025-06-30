@@ -12,3 +12,5 @@ import { FILM_PAGE_URL } from "../../constants";
 export const FilmRedirectPage = () => {
   return <Navigate to={FILM_PAGE_URL} replace />;
 };
+
+export const Component = FilmRedirectPage;
