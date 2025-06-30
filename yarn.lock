@@ -772,7 +772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.25.0, @babel/runtime@npm:^7.7.6":
+"@babel/runtime@npm:^7.0.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.25.0":
   version: 7.26.9
   resolution: "@babel/runtime@npm:7.26.9"
   dependencies:
@@ -9093,15 +9093,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"history@npm:^5.3.0":
-  version: 5.3.0
-  resolution: "history@npm:5.3.0"
-  dependencies:
-    "@babel/runtime": "npm:^7.7.6"
-  checksum: 10c0/812ec839386222d6437bd78d9f05db32e47d105ada0ad8834b32626919dd2fee7a10001bc489510f93a8069d02f118214bd8d42a82f7cf9daf8e84fbcbbb2016
-  languageName: node
-  linkType: hard
-
 "hoist-non-react-statics@npm:^3.3.2":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
@@ -11033,7 +11024,6 @@ __metadata:
     graphql: "npm:^16.10.0"
     graphql-tag: "npm:^2.12.6"
     helmet: "npm:^8.1.0"
-    history: "npm:^5.3.0"
     html-react-parser: "npm:^5.2.0"
     i18next: "npm:^24.2.2"
     is-hotkey: "npm:^0.2.0"
