@@ -57,14 +57,6 @@ const { versionHash } = queryString.parse(window.location.search);
 const i18n = initializeI18n(i18nInstance, abbreviation);
 const client = createApolloClient(abbreviation, versionHash);
 
-const LanguageWrapper = ({ basename }: { basename?: string }) => {
-  return (
-    <BrowserRouter key={basename} basename={basename}>
-      <App base={basename} />
-    </BrowserRouter>
-  );
-};
-
 const renderOrHydrate = (container: Element | Document, children: ReactNode) => {
   if (config.disableSSR) {
     const root = createRoot(container);
@@ -86,7 +78,9 @@ renderOrHydrate(
         <ResponseContext value={{ status: serverResponse }}>
           <VersionHashProvider value={versionHash}>
             <SiteThemeProvider value={window.DATA.siteTheme}>
-              <LanguageWrapper basename={basename} />
+              <BrowserRouter basename={basename}>
+                <App base={basename} />
+              </BrowserRouter>
             </SiteThemeProvider>
           </VersionHashProvider>
         </ResponseContext>
