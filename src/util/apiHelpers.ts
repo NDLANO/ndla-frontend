@@ -262,6 +262,6 @@ export const createApolloLinks = (lang: string, versionHash?: any, requestPath?:
   return ApolloLink.from([
     errorLink,
     headersLink,
-    navigator?.webdriver ? new HttpLink({ uri }) : new BatchHttpLink({ uri }),
+    typeof navigator !== "undefined" && navigator.webdriver ? new HttpLink({ uri }) : new BatchHttpLink({ uri }),
   ]);
 };
