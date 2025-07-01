@@ -138,7 +138,7 @@ type RouteFunc = (req: Request) => Promise<{ data: any; status: number }>;
 const handleRequest = async (req: Request, res: Response, next: NextFunction, route: RouteFunc) => {
   try {
     const { data, status } = await route(req);
-    sendResponse(res, data, status);
+    sendResponse(req, res, data, status);
   } catch (err) {
     next(err);
   }

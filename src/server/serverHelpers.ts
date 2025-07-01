@@ -10,6 +10,8 @@ import { Request, Response } from "express";
 import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
 import { LocaleType } from "../interfaces";
 import { ManifestChunk } from "vite";
+import { NDLAError } from "../util/error/NDLAError";
+import handleError from "../util/handleError";
 
 interface RenderLocationReturn {
   status: number;
@@ -31,7 +33,11 @@ export type RenderFunc = (req: Request, chunks?: ManifestChunk[]) => Promise<Ren
 
 export type RootRenderFunc = (req: Request, renderer: string, chunks: ManifestChunk[]) => Promise<RenderReturn>;
 
-export const sendResponse = (res: Response, data: any, status = OK) => {
+export const sendResponse = (req: Request, res: Response, data: any, status = OK) => {
+  if (status >= 500) {
+    handleError(new NDLAError(`Returning code ${status} for ${req.url}`), req.url, { statusCode: status });
+  }
+
   if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {
     res.writeHead(status, data);
     res.end();
