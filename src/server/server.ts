@@ -26,6 +26,7 @@ import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
 import { getRouteChunks } from "./getManifestChunks";
 import { activeRequestsMiddleware } from "./middleware/activeRequestsMiddleware";
+import { healthRouter } from "./routes/healthRouter";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -83,6 +84,7 @@ app.use(
 );
 
 app.use(api);
+app.use(healthRouter);
 
 let manifest: Manifest = {};
 

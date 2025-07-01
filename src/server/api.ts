@@ -31,7 +31,6 @@ import { BadRequestError } from "../util/error/StatusError";
 import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
 import log from "../util/logger";
 import { constructNewPath } from "../util/urlHelper";
-import { healthRouter } from "./routes/healthRouter";
 
 const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
 const router = express.Router();
@@ -49,8 +48,6 @@ router.get("/robots.txt", (req, res) => {
 router.get("/.well-known/security.txt", (_, res) => {
   res.sendFile(`security.txt`, { root: "build/public/static" });
 });
-
-router.use(healthRouter);
 
 router.get(["/film", "/:lang/film"], (_, res) => {
   res.redirect(FILM_PAGE_URL);
