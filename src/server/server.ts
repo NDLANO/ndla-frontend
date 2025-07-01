@@ -23,7 +23,7 @@ import { getLocaleInfoFromPath } from "../i18n";
 import { privateRoutes, routes } from "../routes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
-import handleError from "../util/handleError";
+import handleError, { ensureError } from "../util/handleError";
 import { getRouteChunks } from "./getManifestChunks";
 import { activeRequestsMiddleware } from "./middleware/activeRequestsMiddleware";
 import { healthRouter } from "./routes/healthRouter";
@@ -221,8 +221,7 @@ async function sendInternalServerError(req: Request, res: Response, statusCode: 
     const { data } = await errorRoute(req);
     res.status(statusCode).send(data);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error("Something went wrong when retrieving errorRoute.", e);
+    handleError(ensureError(e), req.path, { statusCode });
     res.status(statusCode).send("Internal server error");
   }
 }

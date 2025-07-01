@@ -9,6 +9,7 @@
 import { Request } from "express";
 import { Issuer, generators, Client } from "openid-client";
 import config, { getEnvironmentVariabel } from "../../config";
+import log from "../../util/logger";
 
 const handleConfigTypes = (configVariable: string | boolean | undefined): string => {
   if (typeof configVariable === "string") {
@@ -27,11 +28,9 @@ const getIssuer = async () => {
   if (storedIssuer) {
     return storedIssuer;
   }
-  // eslint-disable-next-line no-console
-  console.info("Issuer does not exist. Trying to refetch");
+  log.info("Issuer does not exist. Trying to refetch");
   storedIssuer = await Issuer.discover(OPENID_DOMAIN);
-  // eslint-disable-next-line no-console
-  console.info("Issuer refetch:", storedIssuer ? "Success" : "Failed");
+  log.info("Issuer refetch:", storedIssuer ? "Success" : "Failed");
   return storedIssuer;
 };
 
