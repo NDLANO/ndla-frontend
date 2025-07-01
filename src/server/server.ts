@@ -25,6 +25,8 @@ import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError from "../util/handleError";
 import { getRouteChunks } from "./getManifestChunks";
+import { activeRequestsMiddleware } from "./middleware/activeRequestsMiddleware";
+import { healthRouter } from "./routes/healthRouter";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -57,6 +59,7 @@ const metricsMiddleware = promBundle({
 });
 
 app.use(metricsMiddleware);
+app.use(activeRequestsMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -81,6 +84,7 @@ app.use(
 );
 
 app.use(api);
+app.use(healthRouter);
 
 let manifest: Manifest = {};
 

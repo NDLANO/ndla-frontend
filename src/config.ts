@@ -130,6 +130,7 @@ export type ConfigType = {
   arenaDomain: string;
   autologinCookieEnabled: boolean;
   loginHint: string | undefined;
+  gracePeriodSeconds: number;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -167,6 +168,7 @@ const getServerSideConfig = (): ConfigType => {
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
     autologinCookieEnabled: getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false)),
+    gracePeriodSeconds: parseInt(getEnvironmentVariabel("READINESS_PROBE_DETECTION_SECONDS", "7")),
   };
 };
 

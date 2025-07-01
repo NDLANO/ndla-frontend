@@ -25,7 +25,7 @@ import { ABOUT_PATH, AUTOLOGIN_COOKIE, FILM_PAGE_URL, UKR_PAGE_URL, programmeRed
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
-import { OK, BAD_REQUEST } from "../statusCodes";
+import { BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
 import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
@@ -47,10 +47,6 @@ router.get("/robots.txt", (req, res) => {
 
 router.get("/.well-known/security.txt", (_, res) => {
   res.sendFile(`security.txt`, { root: "build/public/static" });
-});
-
-router.get("/health", (_, res) => {
-  res.status(OK).json({ status: OK, text: "Health check ok" });
 });
 
 router.get(["/film", "/:lang/film"], (_, res) => {
