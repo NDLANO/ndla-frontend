@@ -10,8 +10,9 @@ import { defineConfig } from "vite";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 
-export default defineConfig(() => {
+export default defineConfig(({ isSsrBuild, mode }) => {
   const componentVersion = process.env.COMPONENT_VERSION ?? "SNAPSHOT";
+  const isDevelopment = mode === "development";
   return {
     test: {
       include: ["src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
@@ -61,6 +62,7 @@ export default defineConfig(() => {
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
+      ...(isDevelopment ? {} : { __IS_SSR_BUILD__: JSON.stringify(isSsrBuild) }),
     },
   };
 });

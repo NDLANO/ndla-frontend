@@ -12,6 +12,7 @@ import { LocaleType } from "../interfaces";
 import { ManifestChunk } from "vite";
 import { NDLAError } from "../util/error/NDLAError";
 import handleError from "../util/handleError";
+import { LoggerContext } from "./middleware/loggerContext";
 
 interface RenderLocationReturn {
   status: number;
@@ -36,11 +37,12 @@ export type RootRenderFunc = (
   res: Response,
   renderer: string,
   chunks: ManifestChunk[],
+  ctx: LoggerContext,
 ) => Promise<RenderReturn>;
 
 export const sendResponse = (req: Request, res: Response, data: any, status = OK) => {
   if (status >= 500) {
-    handleError(new NDLAError(`Returning code ${status} for ${req.url}`), req.url, { statusCode: status });
+    handleError(new NDLAError(`Returning code ${status} for ${req.url}`), { statusCode: status });
   }
 
   if (status === MOVED_PERMANENTLY || status === TEMPORARY_REDIRECT) {

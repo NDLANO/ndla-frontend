@@ -13,7 +13,8 @@ import { LogLevel } from "../../interfaces";
 let winstonLogger: Logger | undefined;
 
 // NOTE: The winston setup does not run in a browser, so lets not import it there.
-if (import.meta.env?.SSR) {
+declare const __IS_SSR_BUILD__: boolean;
+if (typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) {
   import("./winston").then((w) => {
     winstonLogger = w.winstonLogger;
   });

@@ -207,11 +207,11 @@ function getCache() {
   return cache;
 }
 
-export const createApolloClient = (language = "nb", versionHash?: any, path?: string) => {
+export const createApolloClient = (language = "nb", versionHash?: any) => {
   const cache = getCache();
 
   return new ApolloClient({
-    link: createApolloLinks(language, versionHash, path),
+    link: createApolloLinks(language, versionHash),
     cache,
     ssrMode: true,
     defaultOptions: {
@@ -228,7 +228,7 @@ export const createApolloClient = (language = "nb", versionHash?: any, path?: st
   });
 };
 
-export const createApolloLinks = (lang: string, versionHash?: any, requestPath?: string) => {
+export const createApolloLinks = (lang: string, versionHash?: any) => {
   const cookieString = config.isClient ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
@@ -250,12 +250,12 @@ export const createApolloLinks = (lang: string, versionHash?: any, requestPath?:
     if (graphQLErrors) {
       graphQLErrors.forEach((err) => {
         if (!config.isClient || err.extensions?.status !== 404) {
-          handleError(new NDLAGraphQLError(err, operation), requestPath);
+          handleError(new NDLAGraphQLError(err, operation));
         }
       });
     }
     if (networkError) {
-      handleError(new NDLANetworkError(networkError, operation), requestPath);
+      handleError(new NDLANetworkError(networkError, operation));
     }
   });
 
