@@ -64,11 +64,11 @@ type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId"
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;
 
-const getApolloClient = (locale: string, req: express.Request) => {
+const getApolloClient = (locale: string) => {
   if (apolloClient && locale === storedLocale) {
     return apolloClient;
   } else {
-    apolloClient = createApolloClient(locale, undefined, req.url);
+    apolloClient = createApolloClient(locale, undefined);
     storedLocale = locale;
     return apolloClient;
   }
@@ -131,7 +131,7 @@ const embedOembedQuery = gql`
 `;
 
 const getEmbedObject = async (lang: string, embedId: string, embedType: string, req: express.Request) => {
-  const client = getApolloClient(lang, req);
+  const client = getApolloClient(lang);
 
   const embed = await client.query<GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables>({
     query: embedOembedQuery,
@@ -197,7 +197,7 @@ export async function oembedArticleRoute(req: express.Request): Promise<OembedRo
     }
     return getOembedResponse(req, title, iframeSrc);
   } catch (error) {
-    handleError(ensureError(error), req.url);
+    handleError(ensureError(error));
 
     const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;

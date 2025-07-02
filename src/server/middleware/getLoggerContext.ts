@@ -1,0 +1,26 @@
+/**
+ * Copyright (c) 2025-present, NDLA.
+ *
+ * This source code is licensed under the GPLv3 license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import config from "../../config";
+import { LoggerContext } from "./loggerContext";
+
+declare const __IS_SSR_BUILD__: boolean;
+export const getLoggerContext = async (): Promise<LoggerContext | undefined> => {
+  if (typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) {
+    const { getLoggerContext } = await import("./loggerContextMiddleware");
+    return getLoggerContext();
+  }
+
+  if (config.isClient) {
+    return {
+      requestPath: `${window.location.pathname}${window.location.search}`,
+      correlationID: undefined,
+    };
+  }
+  throw new Error("LoggerContext is not available in this environment");
+};
