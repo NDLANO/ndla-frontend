@@ -17,7 +17,7 @@ import ResponseContext from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
-import { isAccessDeniedError } from "../../util/handleError";
+import { isAccessDeniedError, isNotFoundError } from "../../util/handleError";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
@@ -69,6 +69,9 @@ export const PlainArticlePage = () => {
   if (error) {
     if (isAccessDeniedError(error)) {
       return <AccessDeniedPage />;
+    }
+    if (isNotFoundError(error)) {
+      return <NotFoundPage />;
     }
     return <DefaultErrorMessagePage />;
   }
