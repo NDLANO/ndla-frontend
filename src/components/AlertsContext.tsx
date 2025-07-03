@@ -11,6 +11,7 @@ import { useQuery } from "@apollo/client";
 import { partition, uniq } from "@ndla/util";
 import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
 import { alertsQuery } from "../queries";
+import log from "../util/logger";
 
 interface AlertsContextProps {
   openAlerts: GQLAlertsQuery["alerts"];
@@ -37,8 +38,7 @@ const getClosedAlerts = (): number[] => {
     }
     return [];
   } catch {
-    // eslint-disable-next-line no-console
-    console.error("Could not read closedAlerts from localStorage.");
+    log.error("Could not read closedAlerts from localStorage.");
     return [];
   }
 };
@@ -49,8 +49,7 @@ const setClosedAlert = (id: number) => {
     const updated = uniq([...stored, id]);
     localStorage?.setItem("closedAlerts", JSON.stringify(updated));
   } catch {
-    // eslint-disable-next-line no-console
-    console.error("Could not save closedAlerts to localStorage.");
+    log.error("Could not save closedAlerts to localStorage.");
   }
 };
 
@@ -59,8 +58,7 @@ const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
     const ids = alerts.map((alert) => alert.number);
     localStorage.setItem("closedAlerts", JSON.stringify(ids));
   } catch {
-    // eslint-disable-next-line no-console
-    console.error("Could not save closedAlerts to localStorage.");
+    log.error("Could not save closedAlerts to localStorage.");
   }
 };
 
