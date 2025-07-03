@@ -20,6 +20,7 @@ import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from
 import handleError, { ensureError } from "../../util/handleError";
 import { parseOembedUrl } from "../../util/urlHelper";
 import { OembedResponse } from "../../interfaces";
+import { NotFoundError } from "../../util/error/StatusError";
 
 type OembedRouteResponse =
   | { data: OembedResponse; status: typeof OK }
@@ -27,13 +28,23 @@ type OembedRouteResponse =
 
 const baseUrl = apiResourceUrl("/taxonomy/v1");
 
-const fetchNode = (id: string, locale: string): Promise<Node> =>
-  fetch(`${baseUrl}/nodes/${id}?language=${locale}`).then((r) => resolveJsonOrRejectWithError(r) as Promise<Node>);
+const fetchNode = async (id: string, locale: string): Promise<Node> => {
+  const response = await fetch(`${baseUrl}/nodes/${id}?language=${locale}`);
+  const notFoundError = new NotFoundError(`Couldn't find node with id ${id}`);
+  if (response.status === 404) return Promise.reject(notFoundError);
+  const node = await resolveJsonOrRejectWithError<Node>(response);
+  if (!node) return Promise.reject(notFoundError);
+  return node;
+};
 
-const queryNodeByContexts = (contextId: string, locale: string): Promise<Node> =>
-  fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`)
-    .then((r) => resolveJsonOrRejectWithError(r) as Promise<Node[]>)
-    .then((nodes) => nodes[0] || Promise.reject(new Error("No node found")));
+const queryNodeByContexts = async (contextId: string, locale: string): Promise<Node> => {
+  const response = await fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`);
+  const notFoundError = new NotFoundError(`No node found for contextId ${contextId} and locale ${locale}`);
+  if (response.status === 404) return Promise.reject(notFoundError);
+  const nodes = (await resolveJsonOrRejectWithError<Node[]>(response)) ?? [];
+  if (!nodes[0]) return Promise.reject(notFoundError);
+  return nodes[0];
+};
 
 function getOembedResponse(
   req: express.Request,

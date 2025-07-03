@@ -26,3 +26,10 @@ export class BadRequestError extends StatusError {
     super(message, 400);
   }
 }
+
+export class NotFoundError extends StatusError {
+  logLevel: LogLevel = "info";
+  constructor(message: string) {
+    super(message, 404);
+  }
+}
