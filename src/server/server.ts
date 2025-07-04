@@ -27,7 +27,7 @@ import handleError, { ensureError } from "../util/handleError";
 import { getRouteChunks } from "./getManifestChunks";
 import { activeRequestsMiddleware } from "./middleware/activeRequestsMiddleware";
 import { healthRouter } from "./routes/healthRouter";
-import loggerContextMiddleware, { getLoggerContext } from "./middleware/loggerContextMiddleware";
+import loggerContextMiddleware, { getLoggerContextStore } from "./middleware/loggerContextMiddleware";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -95,7 +95,7 @@ if (isProduction) {
 }
 
 const renderRoute = async (req: Request, res: Response, renderer: string, chunks: ManifestChunk[]) => {
-  const ctx = getLoggerContext();
+  const ctx = getLoggerContextStore();
   if (!ctx) {
     throw new Error("Logger context is not available");
   }

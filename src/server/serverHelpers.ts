@@ -12,7 +12,7 @@ import { LocaleType } from "../interfaces";
 import { ManifestChunk } from "vite";
 import { NDLAError } from "../util/error/NDLAError";
 import handleError from "../util/handleError";
-import { LoggerContext } from "./middleware/loggerContext";
+import { LoggerContext } from "../util/logger/loggerContext";
 
 interface RenderLocationReturn {
   status: number;

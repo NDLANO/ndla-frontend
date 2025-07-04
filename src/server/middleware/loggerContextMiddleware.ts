@@ -9,7 +9,7 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import { NextFunction, Request, Response } from "express";
 import { uuid } from "@ndla/util";
-import { LoggerContext } from "./loggerContext";
+import { LoggerContext } from "../../util/logger/loggerContext";
 
 const asyncLocalStorage = new AsyncLocalStorage<LoggerContext>();
 
@@ -35,7 +35,7 @@ const loggerContextMiddleware = (req: Request, _res: Response, next: NextFunctio
   });
 };
 
-export function getLoggerContext(): LoggerContext | undefined {
+export function getLoggerContextStore(): LoggerContext | undefined {
   return asyncLocalStorage.getStore();
 }
 
