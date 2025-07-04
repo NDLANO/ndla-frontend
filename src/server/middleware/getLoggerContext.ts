@@ -9,7 +9,6 @@
 import config from "../../config";
 import { LoggerContext } from "./loggerContext";
 
-declare const __IS_SSR_BUILD__: boolean;
 export const getLoggerContext = async (): Promise<LoggerContext | undefined> => {
   if (typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) {
     const { getLoggerContext } = await import("./loggerContextMiddleware");
