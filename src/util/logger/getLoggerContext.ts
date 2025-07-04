@@ -21,5 +21,7 @@ export const getLoggerContext = async (): Promise<LoggerContext | undefined> => 
       correlationID: undefined,
     };
   }
+
+  if (config.runtimeType === "test") return undefined;
   throw new Error("LoggerContext is not available in this environment");
 };
