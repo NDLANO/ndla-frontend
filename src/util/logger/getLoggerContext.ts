@@ -11,8 +11,8 @@ import { LoggerContext } from "./loggerContext";
 
 export const getLoggerContext = async (): Promise<LoggerContext | undefined> => {
   if (typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) {
-    const { getLoggerContext } = await import("./loggerContextMiddleware");
-    return getLoggerContext();
+    const { getLoggerContextStore } = await import("../../server/middleware/loggerContextMiddleware");
+    return getLoggerContextStore();
   }
 
   if (config.isClient) {

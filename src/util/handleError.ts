@@ -6,7 +6,6 @@
  *
  */
 
-import { ApolloError } from "@apollo/client";
 import * as Sentry from "@sentry/react";
 import { ErrorType, UnknownError } from "./error";
 import { NDLAError } from "./error/NDLAError";
@@ -15,8 +14,8 @@ import log from "./logger";
 import config from "../config";
 import { unreachable } from "./guards";
 import { LogLevel } from "../interfaces";
-import { LoggerContext } from "../server/middleware/loggerContext";
-import { getLoggerContext } from "../server/middleware/getLoggerContext";
+import { LoggerContext } from "./logger/loggerContext";
+import { getLoggerContext } from "./logger/getLoggerContext";
 
 type SingleGQLError = {
   status?: number;
@@ -95,8 +94,9 @@ const getMessage = (error: UnknownError): string => {
   return "Got error without message";
 };
 
-const getStatus = (extraContext: Record<string, unknown>, error: UnknownError): number | undefined => {
-  if (typeof extraContext.statusCode === "number") return extraContext.statusCode;
+const getStatus = (extraContext: object | undefined, error: UnknownError): number | undefined => {
+  if (extraContext && "statusCode" in extraContext && typeof extraContext.statusCode === "number")
+    return extraContext.statusCode;
   if (error instanceof StatusError) return error.status;
   if (error instanceof Error && "status" in error && typeof error.status === "number") {
     return error.status;
@@ -104,10 +104,7 @@ const getStatus = (extraContext: Record<string, unknown>, error: UnknownError): 
   return undefined;
 };
 
-const getErrorLog = (
-  error: UnknownError,
-  extraContext: Record<string, unknown>,
-): ApolloError | Error | string | unknown => {
+export const getErrorLog = (error: UnknownError, extraContext: object | undefined): object | string => {
   const ctx = { ...extraContext, statusCode: getStatus(extraContext, error) };
   if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
 
@@ -171,13 +168,9 @@ const deriveContext = (error: ErrorType): Record<string, unknown> => {
   return {};
 };
 
-const logServerError = async (
-  error: ErrorType,
-  loggerContext: LoggerContext | undefined,
-  extraContext: Record<string, unknown>,
-) => {
+const logServerError = async (error: ErrorType, extraContext: Record<string, unknown>) => {
   const derivedContext = deriveContext(error);
-  const ctx = { ...extraContext, ...loggerContext, ...derivedContext };
+  const ctx = { ...extraContext, ...derivedContext };
   const logLevel = deriveLogLevel(error);
   const err = getErrorLog(error, ctx);
   switch (logLevel) {
@@ -212,11 +205,11 @@ export const ensureError = (unknownError: UnknownError): ErrorType => {
 };
 
 const handleError = async (error: ErrorType, extraContext: Record<string, unknown> = {}) => {
-  const ctx = await getLoggerContext();
   if (config.runtimeType === "production" && config.isClient) {
+    const ctx = await getLoggerContext();
     sendToSentry(error, ctx, extraContext);
   } else if (!config.isClient) {
-    await logServerError(error, ctx, extraContext);
+    await logServerError(error, extraContext);
   } else {
     console.error(error); // eslint-disable-line no-console
   }
