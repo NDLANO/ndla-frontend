@@ -31,18 +31,18 @@ const baseUrl = apiResourceUrl("/taxonomy/v1");
 const fetchNode = async (id: string, locale: string): Promise<Node> => {
   const response = await fetch(`${baseUrl}/nodes/${id}?language=${locale}`);
   const notFoundError = new NotFoundError(`Couldn't find node with id ${id}`);
-  if (response.status === 404) return Promise.reject(notFoundError);
+  if (response.status === 404) throw notFoundError;
   const node = await resolveJsonOrRejectWithError<Node>(response);
-  if (!node) return Promise.reject(notFoundError);
+  if (!node) throw notFoundError;
   return node;
 };
 
 const queryNodeByContexts = async (contextId: string, locale: string): Promise<Node> => {
   const response = await fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`);
   const notFoundError = new NotFoundError(`No node found for contextId ${contextId} and locale ${locale}`);
-  if (response.status === 404) return Promise.reject(notFoundError);
+  if (response.status === 404) throw notFoundError;
   const nodes = (await resolveJsonOrRejectWithError<Node[]>(response)) ?? [];
-  if (!nodes[0]) return Promise.reject(notFoundError);
+  if (!nodes[0]) throw notFoundError;
   return nodes[0];
 };
 
