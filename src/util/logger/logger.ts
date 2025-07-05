@@ -39,6 +39,12 @@ class NDLALogger {
     });
   }
 
+  async getMetaWrapper(metaInput: Loggable[]): Promise<object | undefined> {
+    const logMeta = await this.getMeta(metaInput);
+    if (logMeta === undefined) return {};
+    return { logMeta };
+  }
+
   errorToObject(message: Error): object {
     const errorLog = getErrorLog(message, {});
     if (typeof errorLog === "string") {
@@ -65,16 +71,16 @@ class NDLALogger {
   async getMessage(message: Loggable, metaInput: Loggable[], ctx: LoggerContext | undefined): Promise<object> {
     if (message instanceof Error) {
       const errorMessage = this.errorToObject(message);
-      const logMeta = await this.getMeta(metaInput);
-      return { ...ctx, logMeta, ...errorMessage };
+      const logMeta = await this.getMetaWrapper(metaInput);
+      return { ...ctx, ...logMeta, ...errorMessage };
     }
 
     const maybeError = this.findErrorInMeta(metaInput);
-    const logMeta = await this.getMeta(maybeError?.newMetaInput);
+    const logMeta = await this.getMetaWrapper(maybeError?.newMetaInput);
     const errorMsg = maybeError.error ? this.errorToObject(maybeError.error) : undefined;
 
-    if (typeof message === "object") return { ...ctx, logMeta, ...errorMsg, ...message };
-    return { ...ctx, logMeta, ...errorMsg, message };
+    if (typeof message === "object") return { ...ctx, ...logMeta, ...errorMsg, ...message };
+    return { ...ctx, ...logMeta, ...errorMsg, message };
   }
 
   /** Logging method which logs with console on client and with winston on server */
