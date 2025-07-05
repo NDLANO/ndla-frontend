@@ -49,8 +49,7 @@ class NDLALogger {
   }
 
   findErrorInMeta(metaInput: Loggable[]): { error: Error | undefined; newMetaInput: Loggable[] } {
-    let i = 0;
-    for (const item of metaInput) {
+    for (const [i, item] of metaInput.entries()) {
       if (item instanceof Error) {
         return { error: item, newMetaInput: metaInput.toSpliced(i, 1) };
       } else if (typeof item === "object" && item !== null) {
@@ -59,7 +58,6 @@ class NDLALogger {
           return { error, newMetaInput: metaInput.toSpliced(i, 1) };
         }
       }
-      i++;
     }
     return { error: undefined, newMetaInput: metaInput };
   }
