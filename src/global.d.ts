@@ -13,3 +13,5 @@ When typescript files are compiled the compiler will look for a .d.ts file for t
 these files it crash and complain that there is no given type any for the specific import/js-file. 
 */
 declare module "*";
+
+declare const __IS_SSR_BUILD__: boolean;
