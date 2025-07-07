@@ -281,17 +281,14 @@ export type GQLCompetenceGoal = {
 
 export type GQLConcept = {
   __typename?: "Concept";
-  articleIds: Array<Scalars["Int"]["output"]>;
-  articles?: Maybe<Array<GQLMeta>>;
   conceptType: Scalars["String"]["output"];
   content: Scalars["String"]["output"];
   copyright?: Maybe<GQLConceptCopyright>;
   created: Scalars["String"]["output"];
   glossData?: Maybe<GQLGloss>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   source?: Maybe<Scalars["String"]["output"]>;
-  subjectIds?: Maybe<Array<Scalars["String"]["output"]>>;
-  subjectNames?: Maybe<Array<Scalars["String"]["output"]>>;
   supportedLanguages: Array<Scalars["String"]["output"]>;
   tags: Array<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
