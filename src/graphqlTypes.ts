@@ -2665,6 +2665,26 @@ export type GQLMastHeadQuery = {
   root?: { __typename?: "Node" } & GQLMastheadDrawer_RootFragment;
 };
 
+export type GQLContextQueryVariables = Exact<{
+  contextId: Scalars["String"]["input"];
+}>;
+
+export type GQLContextQuery = {
+  __typename?: "Query";
+  node?: {
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    context?: {
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      rootId: string;
+      parentIds: Array<string>;
+      url: string;
+    };
+  };
+};
+
 export type GQLDynamicMenuQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLDynamicMenuQuery = {
@@ -3142,6 +3162,7 @@ export type GQLResourcePageQuery = {
     __typename?: "Node";
     relevanceId?: string;
     breadcrumbs: Array<string>;
+    supportedLanguages: Array<string>;
     context?: { __typename?: "TaxonomyContext"; contextId: string; url: string };
     contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string }>;
   } & GQLMovedResourcePage_NodeFragment &
@@ -4192,26 +4213,6 @@ export type GQLUpdatePersonalDataMutationVariables = Exact<{
 export type GQLUpdatePersonalDataMutation = {
   __typename?: "Mutation";
   updatePersonalData: { __typename?: "MyNdlaPersonalData" } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
-};
-
-export type GQLContextQueryVariables = Exact<{
-  contextId: Scalars["String"]["input"];
-}>;
-
-export type GQLContextQuery = {
-  __typename?: "Query";
-  node?: {
-    __typename?: "Node";
-    id: string;
-    nodeType: string;
-    context?: {
-      __typename?: "TaxonomyContext";
-      contextId: string;
-      rootId: string;
-      parentIds: Array<string>;
-      url: string;
-    };
-  };
 };
 
 export type GQLSearchContextFragment = {

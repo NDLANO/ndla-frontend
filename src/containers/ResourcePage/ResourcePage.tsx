@@ -59,6 +59,7 @@ const resourcePageQuery = gql`
         contextId
         url
       }
+      supportedLanguages
       ...MovedResourcePage_Node
       ...ArticlePage_Node
       ...LearningpathPage_Node
@@ -70,7 +71,7 @@ const resourcePageQuery = gql`
   ${LearningpathPage.fragments.resource}
 `;
 const ResourcePage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const { contextId, stepId } = useParams();
 
@@ -119,6 +120,13 @@ const ResourcePage = () => {
 
   if (!data || !data.node || !data.node.url) {
     return <NotFoundPage />;
+  }
+
+  if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
+    if (typeof window !== "undefined") {
+      i18n.changeLanguage("nb");
+      window.location.pathname = location.pathname;
+    }
   }
 
   if (
