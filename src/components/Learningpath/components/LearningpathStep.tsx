@@ -26,7 +26,7 @@ const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?
 const urlIsLocalNdla = (url: string) => /^http:\/\/(proxy.ndla-local|localhost):30017/.test(url);
 const urlIsNDLAUrl = (url: string) => urlIsNDLAApiUrl(url) || urlIsNDLAEnvUrl(url) || urlIsLocalNdla(url);
 
-const regex = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
+const regex = new RegExp(`^\\/(${supportedLanguages.join("|")})($|\\/)`, "");
 
 const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefined] => {
   const url = _url.split("/article-iframe")?.[1]?.replace(regex, "")?.replace("article/", "")?.split("?")?.[0];
