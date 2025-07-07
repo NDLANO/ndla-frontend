@@ -225,17 +225,14 @@ type CompetenceGoal {
 }
 
 type Concept {
-  articleIds: [Int!]!
-  articles: [Meta!]
   conceptType: String!
   content: String!
   copyright: ConceptCopyright
   created: String!
   glossData: Gloss
+  htmlTitle: String!
   id: Int!
   source: String
-  subjectIds: [String!]
-  subjectNames: [String!]
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
