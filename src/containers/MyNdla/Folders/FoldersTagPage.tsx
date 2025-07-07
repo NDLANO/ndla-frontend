@@ -29,6 +29,7 @@ import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
 
@@ -38,7 +39,11 @@ const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   },
 });
 
-const FoldersTagsPage = () => {
+export const Component = () => {
+  return <PrivateRoute element={<FoldersTagsPage />} />;
+};
+
+export const FoldersTagsPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { folders, loading } = useFolders();
@@ -159,5 +164,3 @@ const Resources = ({ resources }: ResourcesProps) => {
     </BlockWrapper>
   );
 };
-
-export default FoldersTagsPage;

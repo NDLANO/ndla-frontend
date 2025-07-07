@@ -12,6 +12,7 @@ import { useComponentSize } from "@ndla/hooks";
 import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
+import { ToastProvider } from "../../components/ToastContext";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 import { usePrevious } from "../../util/utilityHooks";
@@ -49,7 +50,7 @@ const Layout = () => {
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
-    <>
+    <ToastProvider>
       <TitleAnnouncer />
       {metaChildren}
       <Masthead />
@@ -57,7 +58,9 @@ const Layout = () => {
         <Outlet />
       </PageLayout>
       <Footer />
-    </>
+    </ToastProvider>
   );
 };
 export default Layout;
+
+export const Component = Layout;

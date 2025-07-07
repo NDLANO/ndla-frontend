@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import ResourceEmbed from "./components/ResourceEmbed";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
-const H5pPage = () => {
+export const H5pPage = () => {
   const { h5pId } = useParams();
 
   if (!h5pId) {
@@ -20,4 +20,4 @@ const H5pPage = () => {
   return <ResourceEmbed id={h5pId} type="h5p" />;
 };
 
-export default H5pPage;
+export const Component = H5pPage;

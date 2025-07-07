@@ -7,25 +7,14 @@
  */
 
 import EmbedIframePage from "./EmbedIframePage";
-import { BaseNameProvider } from "../components/BaseNameContext";
 import { PageLayout } from "../components/Layout/PageContainer";
-import { isValidLocale } from "../i18n";
-import { LocaleType } from "../interfaces";
 
-interface Props {
-  basename?: string;
-  embedType?: string;
-  embedId?: string;
-  locale?: LocaleType;
-}
-const EmbedIframePageContainer = ({ basename, embedType, embedId }: Props) => {
+export const EmbedIframePageContainer = () => {
   return (
-    <BaseNameProvider value={isValidLocale(basename) ? basename : ""}>
-      <PageLayout>
-        <EmbedIframePage embedId={embedId} embedType={embedType} />
-      </PageLayout>
-    </BaseNameProvider>
+    <PageLayout>
+      <EmbedIframePage />
+    </PageLayout>
   );
 };
 
-export default EmbedIframePageContainer;
+export const Component = EmbedIframePageContainer;
