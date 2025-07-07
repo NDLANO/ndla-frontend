@@ -80,7 +80,7 @@ export function parseOembedUrl(url: string) {
 
     return matchRoute<OembedReturnParams>(path, oembedRoutes, isValidLocale(paths[1]));
   } catch (error) {
-    log.warn(`Error parsing oEmbed URL '${url}'`, { url, error });
+    log.warn(`Error parsing oEmbed URL '${url}'`, error, { url });
     return;
   }
 }
