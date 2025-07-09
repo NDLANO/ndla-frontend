@@ -31,7 +31,12 @@ export type RenderReturn = RenderLocationReturn | RenderDataReturn;
 
 export type RenderFunc = (req: Request, chunks?: ManifestChunk[]) => Promise<RenderReturn>;
 
-export type RootRenderFunc = (req: Request, renderer: string, chunks: ManifestChunk[]) => Promise<RenderReturn>;
+export type RootRenderFunc = (
+  req: Request,
+  res: Response,
+  renderer: string,
+  chunks: ManifestChunk[],
+) => Promise<RenderReturn>;
 
 export const sendResponse = (req: Request, res: Response, data: any, status = OK) => {
   if (status >= 500) {

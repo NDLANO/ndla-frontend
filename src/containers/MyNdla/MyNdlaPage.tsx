@@ -68,7 +68,7 @@ const StyledArrowRightLine = styled(ArrowRightLine, {
   },
 });
 
-const MyNdlaPage = () => {
+export const MyNdlaPage = () => {
   const { user, authContextLoaded, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
@@ -222,4 +222,4 @@ const MyNdlaPage = () => {
   );
 };
 
-export default MyNdlaPage;
+export const Component = MyNdlaPage;

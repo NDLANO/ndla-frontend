@@ -8,21 +8,26 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { StaticRouter } from "react-router-dom/server";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
+import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
+import { BaseNameProvider } from "../../components/BaseNameContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, initializeI18n, isValidLocale } from "../../i18n";
-import EmbedIframePageContainer from "../../iframe/EmbedIframePageContainer";
+import { iframeEmbedRoutes } from "../../iframe/embedIframeRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
+import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
+
+const { query, dataRoutes } = createStaticHandler(iframeEmbedRoutes);
 
 export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
   const lang = req.params.lang ?? "";
@@ -58,14 +63,25 @@ export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
   const i18n = initializeI18n(i18nInstance, locale ?? (config.defaultLocale as LocaleType));
   const context: RedirectInfo = {};
 
+  const fetchRequest = createFetchRequest(req);
+  const routerContext = await query(fetchRequest);
+
+  if (routerContext instanceof Response) {
+    throw routerContext;
+  }
+
+  const router = createStaticRouter(dataRoutes, routerContext);
+
   const Page = (
     <Document language={locale ?? config.defaultLocale} chunks={chunks} devEntrypoint={entryPoints.iframeEmbed}>
       <RedirectContext value={context}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
-            <StaticRouter location={req.url}>
-              <EmbedIframePageContainer {...initialProps} />
-            </StaticRouter>
+            <BaseNameProvider value={isValidLocale(lang) ? "lang" : ""}>
+              <MissingRouterContext value={true}>
+                <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
+              </MissingRouterContext>
+            </BaseNameProvider>
           </ApolloProvider>
         </I18nextProvider>
       </RedirectContext>

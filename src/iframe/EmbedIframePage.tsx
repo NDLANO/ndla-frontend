@@ -6,22 +6,17 @@
  *
  */
 
+import { useParams } from "react-router-dom";
 import PostResizeMessage from "./PostResizeMessage";
-import Scripts from "../components/Scripts/Scripts";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import ResourceEmbed, { StandaloneEmbed } from "../containers/ResourceEmbed/components/ResourceEmbed";
 
-interface Props {
-  embedId?: string;
-  embedType?: string;
-}
-
 const supportedEmbedTypes: StandaloneEmbed[] = ["concept", "video", "audio", "image", "h5p"];
-const EmbedIframePage = ({ embedId, embedType }: Props) => {
+const EmbedIframePage = () => {
+  const { embedId, embedType } = useParams();
   if (embedId && supportedEmbedTypes.some((t) => t === embedType)) {
     return (
       <>
-        <Scripts />
         <PostResizeMessage />
         <ResourceEmbed id={embedId} type={embedType as StandaloneEmbed} isOembed />
       </>

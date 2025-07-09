@@ -52,3 +52,5 @@ export const SearchPage = () => {
     </PageContainer>
   );
 };
+
+export const Component = SearchPage;

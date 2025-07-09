@@ -139,7 +139,7 @@ const frontpageQuery = gql`
   ${structuredArticleDataFragment}
 `;
 
-const WelcomePage = () => {
+export const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -240,4 +240,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export const Component = WelcomePage;

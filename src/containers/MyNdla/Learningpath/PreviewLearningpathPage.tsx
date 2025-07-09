@@ -27,6 +27,7 @@ import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 
 const TextWrapper = styled("div", {
   base: {
@@ -50,6 +51,10 @@ const previewLearningpathQuery = gql`
   ${Learningpath.fragments.learningpath}
   ${Learningpath.fragments.learningpathStep}
 `;
+
+export const Component = () => {
+  return <PrivateRoute element={<PreviewLearningpathPage />} />;
+};
 
 export const PreviewLearningpathPage = () => {
   const { t } = useTranslation();

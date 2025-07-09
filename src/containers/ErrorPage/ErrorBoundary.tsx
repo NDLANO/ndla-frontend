@@ -24,7 +24,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(_: Error) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
@@ -49,7 +49,7 @@ export class PageErrorBoundary extends Component<Props, State> {
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(_: Error) {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
