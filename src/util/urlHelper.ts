@@ -89,7 +89,7 @@ export const toHref = (location: Location) => {
   return `${location.pathname}${location.search}`;
 };
 
-const LANGUAGE_REGEXP = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
+const LANGUAGE_REGEXP = new RegExp(`^\\/(${supportedLanguages.join("|")})($|\\/)`, "");
 
 export const constructNewPath = (pathname: string, newLocale?: string) => {
   const path = pathname.replace(LANGUAGE_REGEXP, "");
