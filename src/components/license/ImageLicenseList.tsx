@@ -117,7 +117,7 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
                 {t("license.download")}
               </SafeLinkButton>
               <CopyTextButton
-                stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" frameborder="0" src="${image.src}" allowfullscreen=""></iframe>`}
+                stringToCopy={`<iframe title="${image.title}" aria-label="${image.title}" height="400" width="500" style="border: none;" allowfullscreen="" src="${image.src}"></iframe>`}
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />
