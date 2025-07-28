@@ -36,7 +36,6 @@ export const AboutPage = () => {
     skip: !slug,
     variables: {
       slug,
-      transformArgs: { prettyUrl: true },
     },
   });
 

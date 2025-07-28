@@ -70,7 +70,6 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
         showVisualElement: "true",
         path: location.pathname,
         isOembed,
-        prettyUrl: true,
       },
     },
     skip: !articleId,

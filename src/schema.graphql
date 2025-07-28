@@ -599,6 +599,7 @@ type ImageV3 {
 }
 
 type Learningpath {
+  basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
   coverphoto: LearningpathCoverphoto
@@ -846,7 +847,6 @@ type Mutation {
     absoluteUrl: Boolean
     content: String!
     draftConcept: Boolean
-    prettyUrl: Boolean
     previewH5p: Boolean
     subject: String
     visualElement: String
@@ -878,6 +878,7 @@ type MyNdlaGroup {
 }
 
 type MyNdlaLearningpath {
+  basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
   coverphoto: LearningpathCoverphoto
@@ -1500,7 +1501,6 @@ input TransformedArticleContentInput {
   draftConcept: Boolean
   isOembed: String
   path: String
-  prettyUrl: Boolean
   previewH5p: Boolean
   showVisualElement: String
   subjectId: String
