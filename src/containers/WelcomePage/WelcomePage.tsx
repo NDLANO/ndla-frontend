@@ -154,9 +154,7 @@ export const WelcomePage = () => {
     }
   }, [authContextLoaded, t, trackPageView, user]);
 
-  const fpQuery = useQuery<GQLFrontpageDataQuery>(frontpageQuery, {
-    variables: { transformArgs: { prettyUrl: true } },
-  });
+  const fpQuery = useQuery<GQLFrontpageDataQuery>(frontpageQuery);
 
   const [article] = useMemo(() => {
     const _article = fpQuery.data?.frontpage?.article;

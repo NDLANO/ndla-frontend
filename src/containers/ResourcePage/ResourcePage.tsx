@@ -79,7 +79,6 @@ export const ResourcePage = () => {
       contextId,
       transformArgs: {
         contextId,
-        prettyUrl: true,
       },
     },
     skip: !isValidContextId(contextId),
