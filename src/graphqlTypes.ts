@@ -286,6 +286,7 @@ export type GQLConcept = {
   copyright?: Maybe<GQLConceptCopyright>;
   created: Scalars["String"]["output"];
   glossData?: Maybe<GQLGloss>;
+  htmlTitle: Scalars["String"]["output"];
   id: Scalars["Int"]["output"];
   source?: Maybe<Scalars["String"]["output"]>;
   supportedLanguages: Array<Scalars["String"]["output"]>;
@@ -2655,35 +2656,6 @@ export type GQLLearningpathPage_NodeFragment = {
   } & GQLLearningpath_LearningpathFragment;
 };
 
-export type GQLMastHeadQueryVariables = Exact<{
-  subjectId: Scalars["String"]["input"];
-}>;
-
-export type GQLMastHeadQuery = {
-  __typename?: "Query";
-  root?: { __typename?: "Node" } & GQLMastheadDrawer_RootFragment;
-};
-
-export type GQLContextQueryVariables = Exact<{
-  contextId: Scalars["String"]["input"];
-}>;
-
-export type GQLContextQuery = {
-  __typename?: "Query";
-  node?: {
-    __typename?: "Node";
-    id: string;
-    nodeType: string;
-    context?: {
-      __typename?: "TaxonomyContext";
-      contextId: string;
-      rootId: string;
-      parentIds: Array<string>;
-      url: string;
-    };
-  };
-};
-
 export type GQLDynamicMenuQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLDynamicMenuQuery = {
@@ -2712,118 +2684,6 @@ export type GQLCurrentContextQuery = {
     name: string;
     context?: { __typename?: "TaxonomyContext"; contextId: string; rootId: string; root: string };
   };
-};
-
-export type GQLAboutMenuFragment = {
-  __typename?: "FrontpageMenu";
-  articleId: number;
-  hideLevel?: boolean;
-  article: { __typename?: "Article"; id: number; title: string; slug?: string };
-};
-
-export type GQLAboutMenu_FrontpageMenuFragment = {
-  __typename?: "FrontpageMenu";
-  menu?: Array<
-    {
-      __typename?: "FrontpageMenu";
-      menu?: Array<
-        {
-          __typename?: "FrontpageMenu";
-          menu?: Array<
-            {
-              __typename?: "FrontpageMenu";
-              menu?: Array<{ __typename?: "FrontpageMenu" } & GQLAboutMenuFragment>;
-            } & GQLAboutMenuFragment
-          >;
-        } & GQLAboutMenuFragment
-      >;
-    } & GQLAboutMenuFragment
-  >;
-} & GQLAboutMenuFragment;
-
-export type GQLDefaultMenu_RootFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  nodeType: string;
-};
-
-export type GQLDrawerContent_RootFragment = { __typename?: "Node" } & GQLSubjectMenu_RootFragment;
-
-export type GQLDrawerContent_FrontpageMenuFragment = {
-  __typename?: "FrontpageMenu";
-} & GQLAboutMenu_FrontpageMenuFragment;
-
-export type GQLDrawerContent_ProgrammePageFragment = {
-  __typename?: "ProgrammePage";
-} & GQLProgrammeMenu_ProgrammePageFragment;
-
-export type GQLMastheadFrontpageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLMastheadFrontpageQuery = {
-  __typename?: "Query";
-  frontpage?: { __typename?: "FrontpageMenu" } & GQLDrawerContent_FrontpageMenuFragment;
-};
-
-export type GQLMastheadProgrammeQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLMastheadProgrammeQuery = {
-  __typename?: "Query";
-  programmes?: Array<{ __typename?: "ProgrammePage" } & GQLDrawerContent_ProgrammePageFragment>;
-};
-
-export type GQLMastheadDrawer_RootFragment = { __typename?: "Node" } & GQLDefaultMenu_RootFragment &
-  GQLDrawerContent_RootFragment;
-
-export type GQLProgrammeMenu_ProgrammePageFragment = {
-  __typename?: "ProgrammePage";
-  id: string;
-  contextId?: string;
-  url?: string;
-  contentUri?: string;
-  title: { __typename?: "Title"; title: string; language: string };
-};
-
-export type GQLSubjectMenu_RootFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  allTopics?: Array<{ __typename?: "Node"; id: string; name: string; parentId?: string; url?: string }>;
-} & GQLTopicMenu_RootFragment;
-
-export type GQLTopicMenu_RootFragment = { __typename?: "Node"; id: string; name: string; url?: string };
-
-export type GQLTopicMenu_NodeFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  relevanceId?: string;
-  rank?: number;
-};
-
-export type GQLTopicMenuResourcesQueryVariables = Exact<{
-  subjectId: Scalars["String"]["input"];
-  topicId: Scalars["String"]["input"];
-}>;
-
-export type GQLTopicMenuResourcesQuery = {
-  __typename?: "Query";
-  topic?: {
-    __typename?: "Node";
-    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-    children?: Array<
-      {
-        __typename?: "Node";
-        rank?: number;
-        relevanceId?: string;
-        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-      } & GQLTopicMenu_NodeFragment
-    >;
-  };
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLMovedResourceQueryVariables = Exact<{
@@ -3593,13 +3453,13 @@ export type GQLFrontpageDataQuery = {
       updated: string;
       published: string;
       language: string;
+      htmlTitle: string;
       transformedContent: {
         __typename?: "TransformedArticleContent";
         content: string;
         metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
       };
-    } & GQLLicenseBox_ArticleFragment &
-      GQLStructuredArticleDataFragment;
+    } & GQLStructuredArticleDataFragment;
   };
 };
 

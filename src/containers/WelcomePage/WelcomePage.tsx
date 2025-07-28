@@ -17,7 +17,6 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import LicenseBox from "../../components/license/LicenseBox";
 import { useSiteTheme } from "../../components/SiteThemeContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -126,22 +125,21 @@ const frontpageQuery = gql`
         updated
         published
         language
+        htmlTitle
         transformedContent(transformArgs: $transformArgs) {
           content
           metaData {
             copyText
           }
         }
-        ...LicenseBox_Article
         ...StructuredArticleData
       }
     }
   }
-  ${LicenseBox.fragments.article}
   ${structuredArticleDataFragment}
 `;
 
-const WelcomePage = () => {
+export const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
@@ -242,4 +240,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export const Component = WelcomePage;

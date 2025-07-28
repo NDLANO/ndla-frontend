@@ -16,7 +16,7 @@ test.beforeEach(async ({ page }) => {
 test("contains content", async ({ page, waitGraphql }) => {
   await waitGraphql();
   await page.getByRole("button").getByText("Meny").click();
-  await page.getByRole("menuitem", { name: "Tverrfaglige tema" }).first().click();
+  await page.getByRole("link", { name: "Tverrfaglige tema" }).first().click();
   await waitGraphql();
   await page.waitForLoadState();
   const heading = page.getByRole("heading").getByText("Tverrfaglige temaer");

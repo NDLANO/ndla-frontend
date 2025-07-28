@@ -38,6 +38,7 @@ import {
   useUpdateLearningpathStep,
 } from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
+import PrivateRoute from "../../../PrivateRoute/PrivateRoute";
 import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
 import { FormValues } from "../types";
 import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
@@ -249,6 +250,10 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
     return <FolderStepForm />;
   }
   return null;
+};
+
+export const Component = () => {
+  return <PrivateRoute element={<LearningpathStepForm />} />;
 };
 
 export default LearningpathStepForm;

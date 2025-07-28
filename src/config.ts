@@ -128,9 +128,9 @@ export type ConfigType = {
   sentrydsn: string;
   formbricksId: string;
   arenaDomain: string;
-  enableNewMasthead: boolean;
   autologinCookieEnabled: boolean;
   loginHint: string | undefined;
+  gracePeriodSeconds: number;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -166,9 +166,9 @@ const getServerSideConfig = (): ConfigType => {
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
-    enableNewMasthead: getEnvironmentVariabel("ENABLE_NEW_MASTHEAD", false),
     autologinCookieEnabled: getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false)),
+    gracePeriodSeconds: parseInt(getEnvironmentVariabel("READINESS_PROBE_DETECTION_SECONDS", "7")),
   };
 };
 

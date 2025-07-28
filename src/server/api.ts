@@ -25,7 +25,7 @@ import { ABOUT_PATH, AUTOLOGIN_COOKIE, FILM_PAGE_URL, UKR_PAGE_URL, programmeRed
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
 import { privateRoutes } from "../routes";
-import { OK, BAD_REQUEST } from "../statusCodes";
+import { BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
 import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
@@ -49,10 +49,6 @@ router.get("/.well-known/security.txt", (_, res) => {
   res.sendFile(`security.txt`, { root: "build/public/static" });
 });
 
-router.get("/health", (_, res) => {
-  res.status(OK).json({ status: OK, text: "Health check ok" });
-});
-
 router.get(["/film", "/:lang/film"], (_, res) => {
   res.redirect(FILM_PAGE_URL);
 });
@@ -68,7 +64,7 @@ router.get("/ukr", (_req, res) => {
 router.get("/oembed", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
   const { status, data } = await oembedArticleRoute(req);
-  sendResponse(res, data, status);
+  sendResponse(req, res, data, status);
 });
 
 router.get(["/:lang/login", "/login"], async (req, res) => {
@@ -190,8 +186,8 @@ router.get("/lti/config.xml", async (_req, res) => {
   res.send(ltiConfig());
 });
 
-router.get("/utdanningsprogram-sitemap.txt", async (_req, res) => {
-  sendResponse(res, undefined, 410);
+router.get("/utdanningsprogram-sitemap.txt", async (req, res) => {
+  sendResponse(req, res, undefined, 410);
 });
 
 router.get(["/podkast/:seriesId/feed.xml", `/podkast/:"seriesId"_:seriesTitle/feed.xml`], podcastFeedRoute);
@@ -238,8 +234,8 @@ router.get(
   },
 );
 
-router.get("/*splat/search/apachesolr_search*secondsplat", (_, res) => {
-  sendResponse(res, undefined, 410);
+router.get("/*splat/search/apachesolr_search*secondsplat", (req, res) => {
+  sendResponse(req, res, undefined, 410);
 });
 
 export default router;
