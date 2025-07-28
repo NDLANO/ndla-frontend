@@ -1043,7 +1043,6 @@ export type GQLMutationTransformArticleContentArgs = {
   absoluteUrl?: InputMaybe<Scalars["Boolean"]["input"]>;
   content: Scalars["String"]["input"];
   draftConcept?: InputMaybe<Scalars["Boolean"]["input"]>;
-  prettyUrl?: InputMaybe<Scalars["Boolean"]["input"]>;
   previewH5p?: InputMaybe<Scalars["Boolean"]["input"]>;
   subject?: InputMaybe<Scalars["String"]["input"]>;
   visualElement?: InputMaybe<Scalars["String"]["input"]>;
@@ -1981,7 +1980,6 @@ export type GQLTransformedArticleContentInput = {
   draftConcept?: InputMaybe<Scalars["Boolean"]["input"]>;
   isOembed?: InputMaybe<Scalars["String"]["input"]>;
   path?: InputMaybe<Scalars["String"]["input"]>;
-  prettyUrl?: InputMaybe<Scalars["Boolean"]["input"]>;
   previewH5p?: InputMaybe<Scalars["Boolean"]["input"]>;
   showVisualElement?: InputMaybe<Scalars["String"]["input"]>;
   subjectId?: InputMaybe<Scalars["String"]["input"]>;

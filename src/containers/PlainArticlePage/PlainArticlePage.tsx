@@ -49,7 +49,6 @@ export const PlainArticlePage = () => {
           showVisualElement: "true",
           path: pathname,
           isOembed: "false",
-          prettyUrl: true,
         },
       },
     },

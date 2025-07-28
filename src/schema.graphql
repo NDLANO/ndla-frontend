@@ -847,7 +847,6 @@ type Mutation {
     absoluteUrl: Boolean
     content: String!
     draftConcept: Boolean
-    prettyUrl: Boolean
     previewH5p: Boolean
     subject: String
     visualElement: String
@@ -1502,7 +1501,6 @@ input TransformedArticleContentInput {
   draftConcept: Boolean
   isOembed: String
   path: String
-  prettyUrl: Boolean
   previewH5p: Boolean
   showVisualElement: String
   subjectId: String
