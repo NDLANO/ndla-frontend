@@ -2486,14 +2486,7 @@ export type GQLAllMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage?: { __typename?: "MetaImage"; url: string };
-          contexts: Array<{
-            __typename?: "SearchContext";
-            contextId: string;
-            contextType: string;
-            path: string;
-            url: string;
-            rootId: string;
-          }>;
+          contexts: Array<{ __typename?: "SearchContext"; contextId: string; url: string; rootId: string }>;
         }
       | {
           __typename?: "LearningpathSearchResult";
@@ -2501,28 +2494,14 @@ export type GQLAllMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage?: { __typename?: "MetaImage"; url: string };
-          contexts: Array<{
-            __typename?: "SearchContext";
-            contextId: string;
-            contextType: string;
-            path: string;
-            url: string;
-            rootId: string;
-          }>;
+          contexts: Array<{ __typename?: "SearchContext"; contextId: string; url: string; rootId: string }>;
         }
       | {
           __typename?: "NodeSearchResult";
           id: string;
           metaDescription: string;
           title: string;
-          contexts: Array<{
-            __typename?: "SearchContext";
-            contextId: string;
-            contextType: string;
-            path: string;
-            url: string;
-            rootId: string;
-          }>;
+          contexts: Array<{ __typename?: "SearchContext"; contextId: string; url: string; rootId: string }>;
         }
     >;
   };
@@ -2593,13 +2572,7 @@ export type GQLResourceTypeMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage?: { __typename?: "MetaImage"; url: string };
-          contexts: Array<{
-            __typename?: "SearchContext";
-            contextId: string;
-            contextType: string;
-            url: string;
-            rootId: string;
-          }>;
+          contexts: Array<{ __typename?: "SearchContext"; contextId: string; url: string; rootId: string }>;
         }
       | {
           __typename?: "LearningpathSearchResult";
@@ -2607,26 +2580,14 @@ export type GQLResourceTypeMoviesQuery = {
           metaDescription: string;
           title: string;
           metaImage?: { __typename?: "MetaImage"; url: string };
-          contexts: Array<{
-            __typename?: "SearchContext";
-            contextId: string;
-            contextType: string;
-            url: string;
-            rootId: string;
-          }>;
+          contexts: Array<{ __typename?: "SearchContext"; contextId: string; url: string; rootId: string }>;
         }
       | {
           __typename?: "NodeSearchResult";
           id: string;
           metaDescription: string;
           title: string;
-          contexts: Array<{
-            __typename?: "SearchContext";
-            contextId: string;
-            contextType: string;
-            url: string;
-            rootId: string;
-          }>;
+          contexts: Array<{ __typename?: "SearchContext"; contextId: string; url: string; rootId: string }>;
         }
     >;
   };
