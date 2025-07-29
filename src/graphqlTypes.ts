@@ -2154,6 +2154,7 @@ export type GQLLearningpathMenu_LearningpathFragment = {
   id: number;
   title: string;
   lastUpdated: string;
+  basedOn?: string;
   isMyNDLAOwner: boolean;
   copyright: {
     __typename?: "LearningpathCopyright";
