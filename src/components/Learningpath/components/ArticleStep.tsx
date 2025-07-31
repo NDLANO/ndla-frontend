@@ -56,7 +56,6 @@ export const ArticleStep = ({
         transformArgs: {
           path: location.pathname,
           subjectId,
-          prettyUrl: true,
         },
       },
       skip:

@@ -14,9 +14,6 @@ import type { ManifestChunk } from "vite";
 export type InitialProps = {
   articleId?: string;
   taxonomyId?: string;
-  isOembed?: string;
-  status?: "success" | "error";
-  loading?: boolean;
   basename?: string;
   locale?: LocaleType;
   ltiData?: LtiData;

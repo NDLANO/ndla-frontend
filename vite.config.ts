@@ -6,7 +6,7 @@
  *
  */
 
-import { defineConfig, splitVendorChunkPlugin } from "vite";
+import { defineConfig } from "vite";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 
@@ -25,7 +25,6 @@ export default defineConfig(() => {
           configFile: "./babel.config.cjs",
         },
       }),
-      splitVendorChunkPlugin(),
       sentryVitePlugin({
         authToken: process.env.SENTRY_AUTH_TOKEN,
         org: process.env.SENTRY_ORG ?? "ndlano",

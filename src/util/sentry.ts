@@ -56,6 +56,9 @@ const sentryIgnoreErrors: SentryIgnore[] = [
   { error: "Request timeout de_wordsDistributor.getValue" },
   { error: "Request timeout fr_wordsDistributor.getValue" },
   { error: "Request timeout ru_wordsDistributor.getValue" },
+  { error: "Request timeout ToolbarStatus" },
+  { error: "Request timeout getSelectedText" },
+  { error: "Object Not Found Matching Id" },
 ];
 
 export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => {
@@ -91,8 +94,14 @@ export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => 
   });
 
   if (ignoreEntry) {
+    // https://github.com/getsentry/sentry-javascript/issues/3440
     // https://github.com/getsentry/sentry/issues/61469
     // https://github.com/matomo-org/matomo/issues/22836
+    return null;
+  }
+
+  // OneNote can fail in a million ways. They are probably not our problem.
+  if (document.referrer && document.referrer.includes("noc-onenote.officeapps.live.com")) {
     return null;
   }
 

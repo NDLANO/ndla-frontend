@@ -6,7 +6,7 @@
  *
  */
 
-import { useEffect, useContext, useMemo } from "react";
+import { useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { ArrowRightLine } from "@ndla/icons";
@@ -19,9 +19,9 @@ import { useFavouriteSubjects } from "../../../mutations/folderMutations";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../../AllSubjectsPage/SubjectLink";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { MenuItemProps } from "../components/SettingsMenu";
-import { sortSubjectsByRecentlyFavourited } from "../myNdlaUtils";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -48,18 +48,18 @@ const LoadingItem = styled(Skeleton, {
   },
 });
 
-const FavoriteSubjectsPage = () => {
+export const Component = () => {
+  return <PrivateRoute element={<FavoriteSubjectsPage />} />;
+};
+
+export const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
   const { user, authContextLoaded } = useContext(AuthContext);
-  const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects ?? [], {
+  const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.toReversed() ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
-
-  const sortedSubjects = useMemo(() => {
-    return sortSubjectsByRecentlyFavourited(favouriteSubjectsQuery.data?.subjects ?? [], user?.favoriteSubjects ?? []);
-  }, [favouriteSubjectsQuery.data?.subjects, user?.favoriteSubjects]);
 
   useEffect(() => {
     if (!authContextLoaded) return;
@@ -95,7 +95,7 @@ const FavoriteSubjectsPage = () => {
         <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>
       ) : (
         <GridList>
-          {sortedSubjects.map((subject) => (
+          {favouriteSubjectsQuery.data.subjects.map((subject) => (
             <SubjectLink subject={subject} key={subject.id} favorites={user?.favoriteSubjects ?? []} />
           ))}
         </GridList>
@@ -103,5 +103,3 @@ const FavoriteSubjectsPage = () => {
     </StyledMyNdlaPageWrapper>
   );
 };
-
-export default FavoriteSubjectsPage;

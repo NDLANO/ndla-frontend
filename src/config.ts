@@ -89,13 +89,6 @@ export const feideDomain = (ndlaEnvironment: string): string => {
   }
 };
 
-const logglyApiKey = (): string | undefined => {
-  if (process.env.NODE_ENV === "test") {
-    return "";
-  }
-  return getEnvironmentVariabel("LOGGLY_API_KEY");
-};
-
 const loginHint = (ndlaEnvironment: string, autologinCookieEnabled: boolean): string | undefined => {
   if (!autologinCookieEnabled) return undefined;
   switch (ndlaEnvironment) {
@@ -116,7 +109,6 @@ export type ConfigType = {
   port: string;
   redirectPort: string;
   logEnvironment: string;
-  logglyApiKey: string | undefined;
   disableSSR: boolean;
   isNdlaProdEnvironment: boolean;
   ndlaApiUrl: string;
@@ -130,16 +122,15 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   isVercel: boolean;
   monsidoToken: string;
-  enableNodeBB: boolean;
   runtimeType: RuntimeType;
   isClient: boolean;
   debugGraphQLCache: boolean;
   sentrydsn: string;
   formbricksId: string;
   arenaDomain: string;
-  enableNewMasthead: boolean;
   autologinCookieEnabled: boolean;
   loginHint: string | undefined;
+  gracePeriodSeconds: number;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -153,7 +144,6 @@ const getServerSideConfig = (): ConfigType => {
     port: getEnvironmentVariabel("NDLA_FRONTEND_PORT", "3000"),
     redirectPort: getEnvironmentVariabel("NDLA_REDIRECT_PORT", "3001"),
     logEnvironment: getEnvironmentVariabel("NDLA_ENVIRONMENT", "local"),
-    logglyApiKey: logglyApiKey(),
     disableSSR: getEnvironmentVariabel("DISABLE_SSR", false),
     isNdlaProdEnvironment: ndlaEnvironment === "prod",
     ndlaApiUrl: getEnvironmentVariabel("NDLA_API_URL", apiDomain(ndlaEnvironment)),
@@ -167,7 +157,6 @@ const getServerSideConfig = (): ConfigType => {
     matomoTagmanagerId: getEnvironmentVariabel("MATOMO_TAGMANAGER_ID", ""),
     isVercel: getEnvironmentVariabel("IS_VERCEL", false),
     monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
-    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", true),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
@@ -177,9 +166,9 @@ const getServerSideConfig = (): ConfigType => {
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
     arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
-    enableNewMasthead: getEnvironmentVariabel("ENABLE_NEW_MASTHEAD", false),
     autologinCookieEnabled: getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false)),
+    gracePeriodSeconds: parseInt(getEnvironmentVariabel("READINESS_PROBE_DETECTION_SECONDS", "7")),
   };
 };
 

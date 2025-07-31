@@ -12,6 +12,7 @@ import { AddLine } from "@ndla/icons";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { routes } from "../../../../routeHelpers";
+import PrivateRoute from "../../../PrivateRoute/PrivateRoute";
 
 const AddSafeLinkButton = styled(SafeLinkButton, {
   base: {
@@ -28,4 +29,8 @@ export const EditLearningpathNewStepLink = () => {
       {t("myNdla.learningpath.form.steps.add")}
     </AddSafeLinkButton>
   );
+};
+
+export const Component = () => {
+  return <PrivateRoute element={<EditLearningpathNewStepLink />} />;
 };

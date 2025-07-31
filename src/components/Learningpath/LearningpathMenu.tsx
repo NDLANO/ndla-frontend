@@ -15,6 +15,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
 import { LearningpathContext } from "./learningpathUtils";
+import config from "../../config";
 import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
 import formatDate from "../../util/formatDate";
@@ -227,6 +228,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
         published={lastUpdated}
         bylineType="learningPath"
         bylineSuffix={learningpath.isMyNDLAOwner ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
+        learningpathCopiedFrom={config.ndlaFrontendDomain + learningpath.basedOn}
       />
     </>
   );
@@ -252,6 +254,7 @@ LearningpathMenu.fragments = {
         title
         seqNo
       }
+      basedOn
       isMyNDLAOwner
     }
   `,

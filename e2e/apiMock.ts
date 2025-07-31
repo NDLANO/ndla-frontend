@@ -65,7 +65,6 @@ export const test = Ptest.extend<ExtendedTestOptions>({
       updateContent: "embed",
     });
 
-    await page.goto("/");
     await use(page);
 
     await page.close();

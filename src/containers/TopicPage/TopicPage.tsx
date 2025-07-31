@@ -84,10 +84,9 @@ export const TopicPage = () => {
       rootId: MULTIDISCIPLINARY_SUBJECT_ID,
       transformArgs: {
         showVisualElement: "true",
-        prettyUrl: true,
       },
     },
-    skip: !!contextId && !isValidContextId(contextId),
+    skip: !isValidContextId(contextId),
   });
 
   if (query.loading) {
@@ -133,3 +132,5 @@ export const TopicPage = () => {
 
   return <TopicContainer node={node} subjectType={subjectType} />;
 };
+
+export const Component = TopicPage;

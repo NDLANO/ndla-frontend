@@ -21,7 +21,12 @@ import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useCreateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+
+export const Component = () => {
+  return <PrivateRoute element={<NewLearningpathPage />} />;
+};
 
 export const NewLearningpathPage = () => {
   const { t, i18n } = useTranslation();

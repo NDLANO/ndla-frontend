@@ -40,8 +40,7 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLContributorInfoFragment, GQLCopyrightInfoFragment, GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
-import { copyrightInfoFragment } from "../../queries";
+import { GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { publisher } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
@@ -51,7 +50,7 @@ interface RouteParams extends TypedParams {
   id: string;
 }
 
-const PodcastSeriesPage = () => {
+export const PodcastSeriesPage = () => {
   const { id } = useTypedParams<RouteParams>();
   const {
     error,
@@ -87,22 +86,6 @@ const PodcastSeriesPage = () => {
   const url = `${config?.ndlaFrontendDomain}/podkast/${podcastSeries.id}`;
   const rssUrl = `${url}/feed.xml`;
 
-  const mapType = (type: string, arr?: GQLContributorInfoFragment[]) =>
-    arr?.map((item) => ({
-      "@type": type,
-      name: item.name,
-    }));
-
-  const getCopyrightData = (copyright: GQLCopyrightInfoFragment) => {
-    const { creators, rightsholders, license, processors } = copyright;
-    return {
-      license: license?.url,
-      author: mapType("Person", creators),
-      copyrightHolder: mapType("Organization", rightsholders),
-      contributor: mapType("Person", processors),
-    };
-  };
-
   const podcastSeriesJSONLd = () => {
     const seriesData = {
       "@context": "https://schema.org",
@@ -133,10 +116,16 @@ const PodcastSeriesPage = () => {
           url: url,
         },
         ...publisher,
-        ...getCopyrightData(episode.copyright),
+        license: episode?.copyright?.license?.url,
+        author: episode?.copyright?.creators.map((c) => ({ "@type": "Person", name: c.name })),
+        copyrightHolder: episode?.copyright?.rightsholders.map((c) => ({ "@type": "Organization", name: c.name })),
+        contributor: episode?.copyright?.processors.map((c) => ({ "@type": "Person", name: c.name })),
       };
     });
-    const data = [seriesData, ...(episodes || [])];
+    const data = {
+      ...seriesData,
+      "@graph": episodes ?? [],
+    };
     return JSON.stringify(data);
   };
 
@@ -264,15 +253,31 @@ const podcastSeriesPageQuery = gql`
         introduction
       }
           copyright {
-
-        ...CopyrightInfo
+            license {
+              license
+              url
+              description
+            }
+            creators {
+              name
+              type
+            }
+            processors {
+              name
+              type
+            }
+            rightsholders {
+              name
+              type
+            }
+            origin
+            processed
       }
       }
       hasRSS
     }
     ${ResourceEmbedLicenseContent.fragments.metaData}
-    ${copyrightInfoFragment}
   }
 `;
 
-export default PodcastSeriesPage;
+export const Component = PodcastSeriesPage;

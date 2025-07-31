@@ -147,3 +147,5 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
     </StyledPageContainer>
   );
 };
+
+export const Component = CollectionPage;
