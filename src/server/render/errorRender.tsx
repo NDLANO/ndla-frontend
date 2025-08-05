@@ -8,20 +8,22 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { StaticRouter } from "react-router-dom/server";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
+import { errorRoutes } from "../../appRoutes";
 import { RedirectInfo } from "../../components/RedirectContext";
-import Scripts from "../../components/Scripts/Scripts";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
-import ErrorPage from "../../containers/ErrorPage";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
-import { getHtmlLang, getLocaleObject } from "../../i18n";
+import { getHtmlLang, getLocaleInfoFromPath, getLocaleObject, initializeI18n } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
+import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
+
+const { query, dataRoutes } = createStaticHandler(errorRoutes);
 
 export const errorRender: RenderFunc = async (req, chunks) => {
   const context: RedirectInfo = {};
@@ -29,16 +31,24 @@ export const errorRender: RenderFunc = async (req, chunks) => {
   const lang = getHtmlLang(req.params.lang ?? "");
   const locale = getLocaleObject(lang).abbreviation;
   const siteTheme = getSiteTheme();
+  const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
+  const i18n = initializeI18n(i18nInstance, abbreviation);
+
+  const fetchRequest = createFetchRequest(req);
+  const routerContext = await query(fetchRequest);
+
+  if (routerContext instanceof Response) {
+    throw routerContext;
+  }
+
+  const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.error}>
-      <I18nextProvider i18n={i18nInstance}>
+      <I18nextProvider i18n={i18n}>
         <MissingRouterContext value={true}>
           <SiteThemeProvider value={siteTheme}>
-            <StaticRouter location={req.url}>
-              <Scripts />
-              <ErrorPage />
-            </StaticRouter>
+            <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
           </SiteThemeProvider>
         </MissingRouterContext>
       </I18nextProvider>

@@ -81,7 +81,7 @@ const containsFolder = (folder: GQLFolder): boolean => {
   return !!folder.subfolders.find((subfolder) => containsFolder(subfolder)) || folder.resources.length > 0;
 };
 
-const SharedFolderPage = () => {
+export const SharedFolderPage = () => {
   const { folderId = "" } = useParams();
   const { t } = useTranslation();
 
@@ -206,4 +206,4 @@ const SharedFolderPage = () => {
   );
 };
 
-export default SharedFolderPage;
+export const Component = SharedFolderPage;

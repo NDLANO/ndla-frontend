@@ -233,7 +233,7 @@ const Learningpath = ({
               >
                 <FavoriteButton path={path} />
               </AddResourceToFolderModal>
-              {!resourcePath && user?.role === "employee" && <CopyLearningPath learningpath={learningpath} />}
+              {user?.role === "employee" && <CopyLearningPath learningpath={learningpath} />}
             </ContentTypeWrapper>
             <Text textStyle="label.large">
               {`${t("learningPath.youAreInALearningPath")}:`}
