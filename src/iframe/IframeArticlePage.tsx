@@ -56,7 +56,7 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
         articleLanguage: propArticle.language,
         contentType: getContentType(node),
       }),
-      getArticleScripts(propArticle, locale),
+      getArticleScripts(propArticle),
     ];
   }, [propArticle, locale, node]);
 
