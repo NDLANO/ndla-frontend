@@ -35,9 +35,9 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
   const steps = learningpath.learningsteps;
 
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
+    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
-        window.MathJax.typeset();
+        window.MathJax.typesetPromise();
       } catch (err) {
         // do nothing
       }
