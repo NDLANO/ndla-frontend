@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
+import { RedirectExternal } from "../../components";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
@@ -17,7 +18,7 @@ import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { findAccessDeniedErrors } from "../../util/handleError";
-import { isValidContextId } from "../../util/urlHelper";
+import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage from "../ArticlePage/ArticlePage";
 import LearningpathPage from "../LearningpathPage/LearningpathPage";
@@ -122,10 +123,7 @@ export const ResourcePage = () => {
   }
 
   if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
-    if (typeof window !== "undefined") {
-      i18n.changeLanguage("nb");
-      window.location.pathname = location.pathname;
-    }
+    return <RedirectExternal to={constructNewPath(location.pathname, data.node.supportedLanguages[0])} />;
   }
 
   if (
