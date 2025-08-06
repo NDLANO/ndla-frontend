@@ -8,6 +8,7 @@
 
 import { ReactNode } from "react";
 import type { ManifestChunk } from "vite";
+import Scripts from "./components/Scripts/Scripts";
 import config from "./config";
 
 interface Props {
@@ -92,6 +93,7 @@ export const Document = ({ language, children, chunks = [], devEntrypoint }: Pro
             __html: config.isClient ? "" : `window.DATA = "$WINDOW_DATA"`,
           }}
         ></script>
+        <Scripts />
         {!!entryPoint && <script type="module" src={`/${entryPoint.file}`}></script>}
         {css.map((file) => (
           <link rel="stylesheet" href={`/${file}`} key={file} />

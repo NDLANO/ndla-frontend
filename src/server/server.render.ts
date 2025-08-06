@@ -14,7 +14,7 @@ import { iframeEmbedRender } from "./render/iframeEmbedRender";
 import { ltiRender } from "./render/ltiRender";
 import { RootRenderFunc } from "./serverHelpers";
 
-const render: RootRenderFunc = (req: Request, renderer: string, chunks) => {
+const render: RootRenderFunc = (req: Request, _res, renderer: string, chunks) => {
   if (renderer === "default") {
     return defaultRender(req, chunks);
   } else if (renderer === "lti") {

@@ -7,16 +7,19 @@ exports[`ErrorPage renderers correctly 1`] = `
     id="masthead"
   >
     <div
-      class="d_flex jc_space-between ai_center py_small px_medium gap_xsmall ta_center tabletDown:p_small"
+      class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.pageMax --gutter_spacing.small tablet:--gutter_spacing.medium py_xsmall"
     >
       <div
-        class="d_flex w_100% jc_center"
+        class="d_flex jc_space-between ai_center"
+        id="masthead-content"
       >
         <a
-          aria-label="Nasjonal digital læringsarena"
+          aria-label="NDLA"
           class=""
-          data-unstyled=""
+          data-discover="true"
           href="/"
+          tabindex="0"
+          title="NDLA"
         >
           <svg
             aria-hidden="true"
@@ -81,7 +84,9 @@ exports[`ErrorPage renderers correctly 1`] = `
       >
         <a
           class=""
+          data-discover="true"
           href="/"
+          tabindex="0"
         >
           Gå til forsiden
         </a>
@@ -237,8 +242,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      data-discover="true"
                       href="/f/ukrainian-resources-in-norwegian-social-science/1022072a8411"
                       rel="noopener noreferrer"
+                      tabindex="0"
                     >
                       Ukrainsk
                     </a>
@@ -246,8 +253,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      data-discover="true"
                       href="/samling/sma"
                       rel="noopener noreferrer"
+                      tabindex="0"
                     >
                       Sørsamisk
                     </a>
@@ -255,8 +264,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   <li>
                     <a
                       class="d_inline c_text.onAction textStyle_body.link td_underline [&_svg]:ms_xsmall hover:td_none focusVisible:td_none"
+                      data-discover="true"
                       href="/samling/se"
                       rel="noopener noreferrer"
+                      tabindex="0"
                     >
                       Nordsamisk
                     </a>

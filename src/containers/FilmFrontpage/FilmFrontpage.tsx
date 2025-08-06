@@ -87,7 +87,7 @@ const FilmFrontpage = () => {
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
   const { data: { filmfrontpage, node } = {}, loading } = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
-    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID, prettyUrl: true } },
+    variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
   });
 
   const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);

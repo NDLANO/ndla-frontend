@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 import ResourceEmbed from "./components/ResourceEmbed";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
-const ConceptPage = () => {
+export const ConceptPage = () => {
   const { conceptId } = useParams();
   if (!conceptId || !parseInt(conceptId)) {
     return <NotFoundPage />;
@@ -19,4 +19,4 @@ const ConceptPage = () => {
   return <ResourceEmbed id={conceptId} type="concept" />;
 };
 
-export default ConceptPage;
+export const Component = ConceptPage;

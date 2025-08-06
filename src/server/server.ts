@@ -23,8 +23,10 @@ import { getLocaleInfoFromPath } from "../i18n";
 import { privateRoutes, routes } from "../routes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
-import handleError from "../util/handleError";
+import handleError, { ensureError } from "../util/handleError";
 import { getRouteChunks } from "./getManifestChunks";
+import { activeRequestsMiddleware } from "./middleware/activeRequestsMiddleware";
+import { healthRouter } from "./routes/healthRouter";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -57,6 +59,7 @@ const metricsMiddleware = promBundle({
 });
 
 app.use(metricsMiddleware);
+app.use(activeRequestsMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -81,6 +84,7 @@ app.use(
 );
 
 app.use(api);
+app.use(healthRouter);
 
 let manifest: Manifest = {};
 
@@ -88,7 +92,7 @@ if (isProduction) {
   manifest = (await import(`../../build/public/.vite/manifest.json`)).default;
 }
 
-const renderRoute = async (req: Request, renderer: string, chunks: ManifestChunk[]) => {
+const renderRoute = async (req: Request, res: Response, renderer: string, chunks: ManifestChunk[]) => {
   let render: RootRenderFunc;
   if (!isProduction) {
     try {
@@ -104,7 +108,7 @@ const renderRoute = async (req: Request, renderer: string, chunks: ManifestChunk
     render = (await import(`../../build/server/server.render.js`)).default;
   }
 
-  const response = await render(req, renderer, chunks);
+  const response = await render(req, res, renderer, chunks);
   if ("location" in response) {
     return {
       status: response.status,
@@ -129,23 +133,24 @@ ${htmlData}`,
   }
 };
 
-type RouteFunc = (req: Request) => Promise<{ data: any; status: number }>;
+type RouteFunc = (req: Request, res: Response) => Promise<{ data: any; status: number }>;
 
 const handleRequest = async (req: Request, res: Response, next: NextFunction, route: RouteFunc) => {
   try {
-    const { data, status } = await route(req);
-    sendResponse(res, data, status);
+    const { data, status } = await route(req, res);
+    sendResponse(req, res, data, status);
   } catch (err) {
     next(err);
   }
 };
 
-const defaultRoute = async (req: Request) => renderRoute(req, "default", getRouteChunks(manifest, "default"));
-const ltiRoute = async (req: Request) => renderRoute(req, "lti", getRouteChunks(manifest, "lti"));
-const iframeEmbedRoute = async (req: Request) =>
-  renderRoute(req, "iframeEmbed", getRouteChunks(manifest, "iframeEmbed"));
-const iframeArticleRoute = async (req: Request) =>
-  renderRoute(req, "iframeArticle", getRouteChunks(manifest, "iframeArticle"));
+const defaultRoute = async (req: Request, res: Response) =>
+  renderRoute(req, res, "default", getRouteChunks(manifest, "default"));
+const ltiRoute = async (req: Request, res: Response) => renderRoute(req, res, "lti", getRouteChunks(manifest, "lti"));
+const iframeEmbedRoute = async (req: Request, res: Response) =>
+  renderRoute(req, res, "iframeEmbed", getRouteChunks(manifest, "iframeEmbed"));
+const iframeArticleRoute = async (req: Request, res: Response) =>
+  renderRoute(req, res, "iframeArticle", getRouteChunks(manifest, "iframeArticle"));
 
 app.get(["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"], async (req, res, next) => {
   handleRequest(req, res, next, iframeEmbedRoute);
@@ -198,7 +203,8 @@ app.get(["/", "/*splat"], (req, res, next) => {
   return handleRequest(req, res, next, defaultRoute);
 });
 
-const errorRoute = async (req: Request) => renderRoute(req, "error", getRouteChunks(manifest, "error"));
+const errorRoute = async (req: Request, res: Response) =>
+  renderRoute(req, res, "error", getRouteChunks(manifest, "error"));
 
 const getStatusCodeToReturn = (err?: Error): number => {
   if (err && "status" in err && typeof err.status === "number") {
@@ -214,11 +220,10 @@ async function sendInternalServerError(req: Request, res: Response, statusCode: 
   }
 
   try {
-    const { data } = await errorRoute(req);
+    const { data } = await errorRoute(req, res);
     res.status(statusCode).send(data);
   } catch (e) {
-    // eslint-disable-next-line no-console
-    console.error("Something went wrong when retrieving errorRoute.", e);
+    handleError(ensureError(e), req.path, { statusCode });
     res.status(statusCode).send("Internal server error");
   }
 }

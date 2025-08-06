@@ -43,7 +43,6 @@ const Error = () => {
 interface Props {
   articleId?: string;
   taxonomyId?: string;
-  status?: "success" | "error";
   isOembed?: string;
 }
 
@@ -60,7 +59,7 @@ const iframePageQuery = gql`
   ${iframeArticlePageFragments.article}
 `;
 
-export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) => {
+export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
   const redirectContext = useContext(RedirectContext);
   const { loading, data, error } = useQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
@@ -71,13 +70,12 @@ export const IframePage = ({ status, taxonomyId, articleId, isOembed }: Props) =
         showVisualElement: "true",
         path: location.pathname,
         isOembed,
-        prettyUrl: true,
       },
     },
     skip: !articleId,
   });
 
-  if (status !== "success" || !articleId) {
+  if (!articleId) {
     return <Error />;
   }
 

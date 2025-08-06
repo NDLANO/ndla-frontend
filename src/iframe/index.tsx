@@ -7,10 +7,8 @@
  */
 
 import "../style/index.css";
-import { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
@@ -26,11 +24,14 @@ import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
-import IframePageContainer from "./IframePageContainer";
+import { AlertsProvider } from "../components/AlertsContext";
+import { BaseNameProvider } from "../components/BaseNameContext";
 import { Document } from "../Document";
 import { entryPoints } from "../entrypoints";
-import { initializeI18n } from "../i18n";
+import { initializeI18n, isValidLocale } from "../i18n";
+import { iframeArticleRoutes } from "./iframeArticleRoutes";
 import { createApolloClient } from "../util/apiHelpers";
+import { renderOrHydrate } from "../util/renderOrHydrate";
 import { initSentry } from "../util/sentry";
 
 const { config, initialProps, chunks } = window.DATA;
@@ -42,25 +43,22 @@ const language = initialProps.locale ?? config.defaultLocale;
 const client = createApolloClient(language);
 const i18n = initializeI18n(i18nInstance, language);
 
-const renderOrHydrate = (container: Document | Element, children: ReactNode) => {
-  if (config.disableSSR) {
-    const root = createRoot(container);
-    root.render(children);
-  } else {
-    hydrateRoot(container, children);
-  }
-};
+const router = createBrowserRouter(iframeArticleRoutes);
+
 renderOrHydrate(
   document,
   <Document language={language} chunks={chunks} devEntrypoint={entryPoints.iframeArticle}>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
-        <BrowserRouter>
-          <MissingRouterContext value={true}>
-            <IframePageContainer {...initialProps} />
-          </MissingRouterContext>
-        </BrowserRouter>
+        <BaseNameProvider value={isValidLocale(initialProps.basename) ? initialProps.basename : ""}>
+          <AlertsProvider>
+            <MissingRouterContext value={true}>
+              <RouterProvider router={router} />
+            </MissingRouterContext>
+          </AlertsProvider>
+        </BaseNameProvider>
       </ApolloProvider>
     </I18nextProvider>
   </Document>,
+  iframeArticleRoutes,
 );
