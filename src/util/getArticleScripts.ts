@@ -29,22 +29,19 @@ export function getArticleScripts(
   if (article && article.transformedContent?.content.indexOf("<math") > -1 && config.isClient) {
     if (!window.MathJax) {
       window.MathJax = {
-        chtml: {
-          mathmlSpacing: false,
-        },
+        loader: { load: ["[mml]/mml3"] },
         options: {
           enableMenu: true,
           menuOptions: {
             settings: {
-              assistiveMml: false,
-              collapsible: false,
-              explorer: true,
+              showSRE: false,
+              enrich: true,
+              speech: true,
             },
           },
           sre: {
             domain: "mathspeak",
             style: "sbrief",
-            speech: "shallow",
             locale: locale,
             structure: false,
           },
@@ -55,7 +52,7 @@ export function getArticleScripts(
     }
 
     scripts.push({
-      src: "https://cdn.jsdelivr.net/npm/mathjax@4.0.0-beta.7/mml-chtml.js",
+      src: "https://cdn.jsdelivr.net/npm/mathjax@4.0.0/mml-chtml.js",
       type: "text/javascript",
       async: true,
       defer: true,
