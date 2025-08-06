@@ -14,6 +14,7 @@ import FavoriteButton from "./FavoritesButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { TransformedBaseArticle } from "../../util/transformArticle";
 import CompetenceGoals from "../CompetenceGoals";
+import Disclaimer from "../Disclaimer";
 import LicenseBox from "../license/LicenseBox";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 
@@ -95,6 +96,9 @@ const Article = ({
           </AddResourceToFolderModal>
         ) : null
       }
+      disclaimer={
+        article.transformedDisclaimer?.content ? <Disclaimer disclaimer={article.transformedDisclaimer} /> : null
+      }
     >
       {children}
     </UIArticle>
@@ -127,6 +131,9 @@ Article.fragments = {
         }
       }
       language
+      transformedDisclaimer {
+        content
+      }
       ...LicenseBox_Article
     }
     ${LicenseBox.fragments.article}

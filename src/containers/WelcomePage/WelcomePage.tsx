@@ -17,13 +17,14 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import LicenseBox from "../../components/license/LicenseBox";
+import { useSiteTheme } from "../../components/SiteThemeContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { siteThemeToHeroVariant } from "../../util/siteTheme";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
@@ -124,25 +125,25 @@ const frontpageQuery = gql`
         updated
         published
         language
+        htmlTitle
         transformedContent(transformArgs: $transformArgs) {
           content
           metaData {
             copyText
           }
         }
-        ...LicenseBox_Article
         ...StructuredArticleData
       }
     }
   }
-  ${LicenseBox.fragments.article}
   ${structuredArticleDataFragment}
 `;
 
-const WelcomePage = () => {
+export const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
+  const siteTheme = useSiteTheme();
 
   useEffect(() => {
     if (authContextLoaded) {
@@ -153,9 +154,7 @@ const WelcomePage = () => {
     }
   }, [authContextLoaded, t, trackPageView, user]);
 
-  const fpQuery = useQuery<GQLFrontpageDataQuery>(frontpageQuery, {
-    variables: { transformArgs: { prettyUrl: true } },
-  });
+  const fpQuery = useQuery<GQLFrontpageDataQuery>(frontpageQuery);
 
   const [article] = useMemo(() => {
     const _article = fpQuery.data?.frontpage?.article;
@@ -203,7 +202,7 @@ const WelcomePage = () => {
         description={t("meta.description")}
         imageUrl={`${config.ndlaFrontendDomain}/static/metaimage.png`}
       />
-      <Hero variant="brand1Moderate">
+      <Hero variant={siteThemeToHeroVariant(siteTheme)}>
         <StyledHeroBackground />
         <StyledPageContainer asChild consumeCss>
           <main>
@@ -239,4 +238,4 @@ const WelcomePage = () => {
   );
 };
 
-export default WelcomePage;
+export const Component = WelcomePage;

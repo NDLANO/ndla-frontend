@@ -6,7 +6,6 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -14,6 +13,7 @@ import { useQuery } from "@apollo/client";
 import { FileCopyLine, PresentationLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
+import { keyBy } from "@ndla/util";
 import { SaveLink } from "./components/SaveLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -26,9 +26,9 @@ import ListResource from "../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
+import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../../mutations/folderMutations";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
-import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../MyNdla/folderMutations";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -81,7 +81,7 @@ const containsFolder = (folder: GQLFolder): boolean => {
   return !!folder.subfolders.find((subfolder) => containsFolder(subfolder)) || folder.resources.length > 0;
 };
 
-const SharedFolderPage = () => {
+export const SharedFolderPage = () => {
   const { folderId = "" } = useParams();
   const { t } = useTranslation();
 
@@ -89,8 +89,6 @@ const SharedFolderPage = () => {
 
   const { folder, loading, error } = useGetSharedFolder({
     id: folderId,
-    includeResources: true,
-    includeSubfolders: true,
   });
 
   const { data: folderData } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
@@ -145,7 +143,7 @@ const SharedFolderPage = () => {
           type="website"
           title={folder.name}
           imageUrl={metaWithMetaImage?.metaImage?.url}
-          description={t("myNdla.sharedFolder.description")}
+          description={folder.description ?? t("myNdla.sharedFolder.description")}
         >
           <meta name="robots" content="noindex, nofollow" />
         </SocialMediaMetadata>
@@ -191,7 +189,7 @@ const SharedFolderPage = () => {
                 <ListResource
                   id={resource.id}
                   resourceImage={{
-                    src: resourceMeta?.metaImage?.url ?? "",
+                    src: resourceMeta?.metaImage?.url,
                     alt: "",
                   }}
                   link={getResourceMetaPath(resource, resourceMeta)}
@@ -208,4 +206,4 @@ const SharedFolderPage = () => {
   );
 };
 
-export default SharedFolderPage;
+export const Component = SharedFolderPage;

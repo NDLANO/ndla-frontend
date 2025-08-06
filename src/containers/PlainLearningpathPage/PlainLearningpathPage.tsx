@@ -28,7 +28,7 @@ const plainLearningpathPageQuery = gql`
   ${plainLearningpathContainerFragments.learningpath}
 `;
 
-const PlainLearningpathPage = () => {
+export const PlainLearningpathPage = () => {
   const { learningpathId, stepId } = useTypedParams<MatchParams>();
 
   const { data, loading } = useQuery<GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables>(
@@ -52,4 +52,4 @@ const PlainLearningpathPage = () => {
   );
 };
 
-export default PlainLearningpathPage;
+export const Component = PlainLearningpathPage;

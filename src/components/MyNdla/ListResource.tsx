@@ -39,7 +39,7 @@ export interface ListResourceProps {
   id: string;
   link: string;
   title: string;
-  resourceImage: { src: string; alt: string };
+  resourceImage: { src: string | undefined; alt: string };
   resourceTypes: { id: string; name: string }[];
   description?: string;
   menu?: ReactNode;
@@ -125,6 +125,8 @@ const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
   },
 });
 
+const learningpathMapping: Record<string, string> = { learningpath: constants.contentTypes.LEARNING_PATH };
+
 const ListResource = ({
   id,
   link,
@@ -148,6 +150,7 @@ const ListResource = ({
     return (
       constants.contentTypeMapping[firstContentType] ??
       resourceEmbedTypeMapping[firstContentType] ??
+      learningpathMapping[firstContentType] ??
       constants.contentTypeMapping.default!
     );
   }, [firstContentType]);
@@ -162,7 +165,7 @@ const ListResource = ({
         nonInteractive={nonInteractive}
       >
         <Skeleton>
-          <ListItemImage src="" alt="" />
+          <ListItemImage alt="" />
         </Skeleton>
         <StyledListItemContent>
           <TitleWrapper>

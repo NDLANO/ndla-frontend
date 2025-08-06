@@ -9,29 +9,27 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import {
-  PencilLine,
-  DeleteBinLine,
-  CloseLine,
-  AddLine,
-  ArrowRightLine,
-  ExternalLinkLine,
-  ShareLine,
-} from "@ndla/icons";
+import { PencilLine, DeleteBinLine, CloseLine, AddLine, ArrowRightLine, ShareLine, FileCopyLine } from "@ndla/icons";
 import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
 import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
 import { useToast } from "../../../../components/ToastContext";
+import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
-import { routes, toLearningPath } from "../../../../routeHelpers";
+import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../../../../mutations/learningpathMutations";
+import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
-import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../learningpathMutations";
 import { myLearningpathQuery } from "../learningpathQueries";
-import { copyLearningpathSharingLink, LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "../utils";
+import {
+  copyLearningpathSharingLink,
+  LEARNINGPATH_READY_FOR_SHARING,
+  LEARNINGPATH_SHARED,
+  learningpathListItemId,
+} from "../utils";
 
 export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
   const toast = useToast();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [updateLearningpathStatus] = useUpdateLearningpathStatus();
   const [onDeleteLearningpath] = useDeleteLearningpath();
@@ -68,18 +66,32 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
           learningpath={learningpath}
           onClose={close}
           onDelete={async () => {
+            const el = document.getElementById(learningpathListItemId(learningpath.id));
+            const focusEl = [el?.nextElementSibling, el?.previousElementSibling]
+              .find((el) => el?.tagName === "LI")
+              ?.querySelector("a");
+
             const res = await onDeleteLearningpath({
               variables: { id: learningpath.id },
               refetchQueries: [{ query: myLearningpathQuery }],
             });
             // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
-            if (res.errors?.length === 0) {
+            if (!res.errors?.length) {
               toast.create({
                 title: t("myNdla.learningpath.toast.deleted", {
                   name: learningpath.title,
                 }),
               });
               close();
+              setTimeout(() => {
+                (focusEl ?? document.getElementById(SKIP_TO_CONTENT_ID))?.focus();
+              }, 1000);
+            } else {
+              toast.create({
+                title: t("myNdla.learningpath.toast.deletedFailed", {
+                  name: learningpath.title,
+                }),
+              });
             }
           }}
         />
@@ -93,13 +105,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
       text: t("myNdla.learningpath.menu.share"),
       value: "shareLearningPath",
       icon: <ShareLine />,
-      modalContent: (close) => (
-        <LearningpathShareDialogContent
-          learningpath={learningpath}
-          onClose={close}
-          onCopyText={() => copyLearningpathSharingLink(learningpath.id)}
-        />
-      ),
+      modalContent: (close) => <LearningpathShareDialogContent learningpath={learningpath} onClose={close} />,
       onClick: !isShared
         ? async () => {
             const res = await updateLearningpathStatus({
@@ -110,7 +116,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
             });
 
             // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
-            if (res.errors?.length === 0) {
+            if (!res.errors?.length) {
               toast.create({
                 title: t("myNdla.learningpath.toast.shared"),
               });
@@ -152,10 +158,10 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
     const linkLearningpath: MenuItemProps = {
       type: "action",
       text: t("myNdla.learningpath.menu.copy"),
-      icon: <ExternalLinkLine />,
+      icon: <FileCopyLine />,
       value: "copyLearningPathLink",
       onClick: () => {
-        navigator.clipboard.writeText(toLearningPath(learningpath.id));
+        copyLearningpathSharingLink(learningpath.id, i18n.language);
         toast.create({
           title: t("myNdla.resource.linkCopied"),
         });
@@ -174,7 +180,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
     }
 
     return [editLearningpath, shareLearningpath, deleteLearningpath];
-  }, [onDeleteLearningpath, learningpath, navigate, t, toast, updateLearningpathStatus]);
+  }, [onDeleteLearningpath, learningpath, navigate, t, toast, updateLearningpathStatus, i18n]);
 
   return actionItems;
 };

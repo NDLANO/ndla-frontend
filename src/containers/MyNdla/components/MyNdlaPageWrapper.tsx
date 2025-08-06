@@ -16,6 +16,7 @@ import { PageContainer } from "../../../components/Layout/PageContainer";
 interface Props extends ComponentPropsWithoutRef<"div">, JsxStyleProps {
   menuItems?: MenuItemProps[];
   showButtons?: boolean;
+  type?: "default" | "learningpath";
 }
 
 const StyledPageContainer = styled(PageContainer, {
@@ -24,12 +25,27 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-const MyNdlaPageWrapper = ({ menuItems, showButtons, children, ...rest }: Props) => {
+const StyledMain = styled("main", {
+  base: {},
+  variants: {
+    variant: {
+      default: {},
+      learningpath: {
+        maxWidth: "surface.contentMax",
+        display: "flex",
+        flexDirection: "column",
+        gap: "medium",
+      },
+    },
+  },
+});
+
+const MyNdlaPageWrapper = ({ menuItems, type = "default", showButtons, children, ...rest }: Props) => {
   return (
     <>
       <Toolbar menuItems={menuItems} showButtons={showButtons} />
-      <StyledPageContainer {...rest} padding="small" asChild consumeCss>
-        <main>{children}</main>
+      <StyledPageContainer {...rest} padding="small" asChild={type === "default"} consumeCss={type === "default"}>
+        <StyledMain variant={type}>{children}</StyledMain>
       </StyledPageContainer>
     </>
   );

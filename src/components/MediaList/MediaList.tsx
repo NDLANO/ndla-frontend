@@ -9,7 +9,7 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  COPYRIGHTED,
+  rights,
   getLicenseByAbbreviation,
   getLicenseRightByAbbreviation,
   getResourceTypeNamespace,
@@ -18,7 +18,6 @@ import {
   type MetaType,
 } from "@ndla/licenses";
 import { Heading, Text } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
 import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
@@ -68,7 +67,7 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
   const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
 
-  const licenseRightsText = license.rights[0] === COPYRIGHTED ? "restrictedUseText" : "licenseText";
+  const licenseRightsText = license.rights[0] === rights.COPYRIGHTED ? "restrictedUseText" : "licenseText";
   return (
     <div>
       <MediaListLicenseButtonWrapper>
@@ -86,7 +85,9 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
           {`. ${description}`}
         </Text>
       )}
-      <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
+      {license.rights.length > 1 && (
+        <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
+      )}
     </div>
   );
 };
@@ -160,35 +161,13 @@ export const MediaListItemActions = styled("div", {
   },
 });
 
-const isLink = (url: string) => url.startsWith("http") || url.startsWith("https");
-
-interface HandleLinkProps {
-  url: string;
-  children: ReactNode;
-  type: ItemTypeWithDescription["metaType"];
-}
-
-const licenceTag = (type: ItemTypeWithDescription["metaType"], url: boolean): string | undefined =>
-  ({
-    title: "dct:title",
-    author: "cc:attributionName",
-    copyrightHolder: "cc:copyrightHolder",
-    contributor: "cc:contributor",
-    other: url ? "cc:attributionURL" : undefined,
-  })[type];
-
-export const HandleLink = ({ url, children, type }: HandleLinkProps) => {
-  const tag = licenceTag(type, isLink(url));
-
-  if (isLink(url)) {
-    return (
-      <SafeLink to={url} target="_blank" rel={`noopener noreferrer ${tag}`}>
-        {children}
-      </SafeLink>
-    );
-  }
-  // eslint-disable-next-line react/no-unknown-property
-  return <span property={tag}>{children}</span>;
+const licenseMap: Record<MetaType, string | undefined> = {
+  title: "dct:title",
+  author: "cc:attributionName",
+  copyrightHolder: "cc:copyrightHolder",
+  contributor: "cc:contributor",
+  other: undefined,
+  otherWithoutDescription: undefined,
 };
 
 export type ItemType = ItemTypeWithDescription | DescriptionlessItemType;
@@ -219,9 +198,8 @@ const ItemText = ({ item }: { item: ItemType }) => {
   return (
     <Text textStyle="body.medium">
       {`${item.label}: `}
-      <HandleLink url={item.description} type={item.metaType}>
-        {item.description}
-      </HandleLink>
+      {/* eslint-disable-next-line react/no-unknown-property */}
+      <span property={licenseMap[item.metaType]}>{item.description}</span>
     </Text>
   );
 };

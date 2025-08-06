@@ -25,17 +25,17 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import MyPreferences from "./components/MyPreferences";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { useBaseName } from "../../../components/BaseNameContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
+import MyNdlaTitle from "../../../components/MyNdla/MyNdlaTitle";
+import { useDeletePersonalData } from "../../../mutations/userMutations";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { constructNewPath } from "../../../util/urlHelper";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyContactArea from "../components/MyContactArea";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import MyNdlaTitle from "../components/MyNdlaTitle";
 import { UserInfo } from "../components/UserInfo";
-import { useDeletePersonalData } from "../userMutations";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -61,7 +61,20 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const MyProfilePage = () => {
+const DisclaimerContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    maxWidth: "surface.xlarge",
+  },
+});
+
+export const Component = () => {
+  return <PrivateRoute element={<MyProfilePage />} />;
+};
+
+export const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const basename = useBaseName();
@@ -92,7 +105,14 @@ const MyProfilePage = () => {
           primaryOrg: user?.groups.find((g) => g.isPrimarySchool)?.displayName ?? user?.organization,
         }}
       />
-      {!!user && <MyPreferences user={user} />}
+      {!!user && (
+        <DisclaimerContainer>
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t(`myNdla.myProfile.disclaimerTitle.${user.role}`)}</h2>
+          </Heading>
+          <Text textStyle="body.large">{t(`myNdla.myProfile.disclaimerText.${user.role}`)}</Text>
+        </DisclaimerContainer>
+      )}
       <InfoContainer>
         {!!user && (
           <>
@@ -149,5 +169,3 @@ const MyProfilePage = () => {
     </StyledMyNdlaPageWrapper>
   );
 };
-
-export default MyProfilePage;

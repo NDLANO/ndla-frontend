@@ -30,13 +30,12 @@ const aboutPageQuery = gql`
   ${aboutPageFragments.frontpageMenu}
 `;
 
-const AboutPage = () => {
+export const AboutPage = () => {
   const { slug } = useTypedParams<{ slug: string }>();
   const { error, loading, data } = useQuery<GQLAboutPageQuery, GQLAboutPageQueryVariables>(aboutPageQuery, {
     skip: !slug,
     variables: {
       slug,
-      transformArgs: { prettyUrl: true },
     },
   });
 
@@ -56,7 +55,7 @@ const AboutPage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  return <AboutPageContent article={data.article} frontpage={data.frontpage} />;
+  return <AboutPageContent key={data.article.slug} article={data.article} frontpage={data.frontpage} />;
 };
 
-export default AboutPage;
+export const Component = AboutPage;

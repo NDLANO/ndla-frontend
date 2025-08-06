@@ -7,16 +7,16 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/?disableSSR=true");
 });
 
-test("shows students", async ({ page }) => {
+test("shows students", async ({ page, waitGraphql }) => {
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Verktøykassa - for elever" }).click();
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await page.getByRole("link", { name: "Verktøykassa for elever" }).click();
+  await waitGraphql();
   await expect(page.getByRole("heading", { name: "Verktøykassa – for elever" })).toBeVisible();
 
   const navList = page.getByRole("navigation", { name: "Emner" }).getByRole("list");
@@ -25,10 +25,10 @@ test("shows students", async ({ page }) => {
   await expect(navList.getByRole("link")).toHaveCount(16);
 });
 
-test("shows teachers", async ({ page }) => {
+test("shows teachers", async ({ page, waitGraphql }) => {
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Verktøykassa - for lærere" }).click();
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await page.getByRole("link", { name: "Verktøykassa for lærere" }).click();
+  await waitGraphql();
   await expect(page.getByRole("heading", { name: "Verktøykassa – for lærere" })).toBeVisible();
 
   const navList = page.getByRole("navigation", { name: "Emner" }).getByRole("list");

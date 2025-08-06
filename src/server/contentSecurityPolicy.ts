@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { IncomingMessage } from "http";
 import { matchPath } from "react-router-dom";
 import config from "../config";
@@ -195,11 +196,14 @@ const frameSrc = (() => {
     "jeopardylabs.com",
     "*.uio.no",
     "*.maps.arcgis.com",
+    "*.arcgis.com",
     "arcg.is",
     "norgeskart.no",
     "kartiskolen.no",
     "norgeibilder.no",
     "video.qbrick.com",
+    "www.norskpetroleum.no",
+    "pub.dialogapi.no",
   ];
   if (config.runtimeType === "development") {
     return [
@@ -242,7 +246,7 @@ const contentSecurityPolicy = {
         if (isEmbeddable || req.url?.startsWith("/lti")) {
           return "*";
         }
-        return "'self' https://tall.ndla.no https://tall.test.ndla.no";
+        return "'self' https://tall.ndla.no https://tall.test.ndla.no https://exam.net https://*.exam.net";
       },
     ],
     styleSrc: [

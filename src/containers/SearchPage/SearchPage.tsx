@@ -1,91 +1,56 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import sortBy from "lodash/sortBy";
-import queryString from "query-string";
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { constants } from "@ndla/ui";
-import { converSearchStringToObject } from "./searchHelpers";
-import SearchInnerPage, { getStateSearchParams } from "./SearchInnerPage";
+import { gql, useQuery } from "@apollo/client";
+import { useTracker } from "@ndla/tracker";
+import { SearchContainer } from "./SearchContainer";
 import { AuthContext } from "../../components/AuthenticationContext";
-import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import { GQLSearchPageQuery } from "../../graphqlTypes";
-import { searchPageQuery } from "../../queries";
-import { searchSubjects } from "../../util/searchHelpers";
+import { GQLSearchResourceTypesQuery } from "../../graphqlTypes";
 import { getAllDimensions } from "../../util/trackingUtil";
 
-const SearchPage = () => {
-  const { t, i18n } = useTranslation();
+const searchResourceTypesQuery = gql`
+  query searchResourceTypes {
+    resourceTypes {
+      ...SearchContainer_ResourceTypeDefinition
+    }
+  }
+  ${SearchContainer.fragments.resourceTypeDefinition}
+`;
+
+export const SearchPage = () => {
+  const { t } = useTranslation();
+
+  const resourceTypesQuery = useQuery<GQLSearchResourceTypesQuery>(searchResourceTypesQuery);
+
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const searchParams = converSearchStringToObject(location, i18n.language);
-
-  const { data, loading } = useQuery<GQLSearchPageQuery>(searchPageQuery);
-
-  const sortedArchivedRemovedSubjects = useMemo(() => {
-    return sortBy(
-      data?.subjects?.filter(
-        (s) => s.metadata.customFields.subjectCategory !== constants.subjectCategories.ARCHIVE_SUBJECTS,
-      ),
-      (s) => s.name,
-    );
-  }, [data?.subjects]);
 
   useEffect(() => {
-    if (!loading && authContextLoaded) {
+    if (authContextLoaded) {
       trackPageView({
         title: t("htmlTitles.searchPage"),
         dimensions: getAllDimensions({ user }),
       });
     }
-  }, [authContextLoaded, loading, t, trackPageView, user]);
-
-  if (loading) {
-    return <ContentPlaceholder />;
-  }
-
-  const subjectItems = searchSubjects(searchParams.query, sortedArchivedRemovedSubjects, searchParams.subjects);
-
-  const handleSearchParamsChange = (searchParams: Record<string, any>) => {
-    navigate({
-      pathname: "/search",
-      search: queryString.stringify({
-        ...queryString.parse(location.search),
-        ...getStateSearchParams(searchParams),
-      }),
-    });
-  };
+  }, [authContextLoaded, t, trackPageView, user]);
 
   return (
-    <>
-      <HelmetWithTracker title={t("htmlTitles.searchPage")} />
-      <PageContainer>
-        <SearchInnerPage
-          handleSearchParamsChange={handleSearchParamsChange}
-          query={searchParams.query}
-          subjectIds={searchParams.subjects}
-          selectedFilters={searchParams.selectedFilters?.split(",") ?? ["all"]}
-          activeSubFilters={searchParams.activeSubFilters?.split(",") ?? []}
-          subjectItems={subjectItems}
-          subjects={data?.subjects}
-          resourceTypes={data?.resourceTypes}
-          location={location}
-        />
-      </PageContainer>
-    </>
+    <PageContainer>
+      <title>{t("htmlTitles.searchPage")}</title>
+      <SearchContainer
+        resourceTypes={resourceTypesQuery.data?.resourceTypes ?? []}
+        resourceTypesLoading={resourceTypesQuery.loading}
+      />
+    </PageContainer>
   );
 };
 
-export default SearchPage;
+export const Component = SearchPage;

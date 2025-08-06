@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { LocaleType } from "./interfaces";
 
 type RuntimeType = "test" | "development" | "production";
 
@@ -69,11 +68,11 @@ export const arenaDomain = (ndlaEnvironment: string): string => {
   switch (ndlaEnvironment) {
     case "dev":
     case "local":
-      return "https://grupper.test.ndla.no";
+      return "arena.test.ndla.no";
     case "prod":
-      return "https://grupper.ndla.no";
+      return "arena.ndla.no";
     default:
-      return `https://grupper.${ndlaEnvironmentHostname}.ndla.no`;
+      return `arena.${ndlaEnvironmentHostname}.ndla.no`;
   }
 };
 
@@ -90,22 +89,26 @@ export const feideDomain = (ndlaEnvironment: string): string => {
   }
 };
 
-const logglyApiKey = (): string | undefined => {
-  if (process.env.NODE_ENV === "test") {
-    return "";
+const loginHint = (ndlaEnvironment: string, autologinCookieEnabled: boolean): string | undefined => {
+  if (!autologinCookieEnabled) return undefined;
+  switch (ndlaEnvironment) {
+    case "local":
+    case "dev":
+      return undefined;
+    default:
+      return "feide|all";
   }
-  return getEnvironmentVariabel("LOGGLY_API_KEY");
 };
 
 export type ConfigType = {
-  defaultLocale: LocaleType;
+  defaultLocale: string;
   componentName: string;
+  componentVersion: string;
   ndlaEnvironment: string;
   host: string;
   port: string;
   redirectPort: string;
   logEnvironment: string;
-  logglyApiKey: string | undefined;
   disableSSR: boolean;
   isNdlaProdEnvironment: boolean;
   ndlaApiUrl: string;
@@ -119,30 +122,28 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   isVercel: boolean;
   monsidoToken: string;
-  arenaModeratorGroup: string;
-  arenaAdminGroup: string;
-  enableNodeBB: boolean;
   runtimeType: RuntimeType;
   isClient: boolean;
   debugGraphQLCache: boolean;
   sentrydsn: string;
   formbricksId: string;
-  learningpathEnabled: boolean;
-  externalArena: boolean;
   arenaDomain: string;
+  autologinCookieEnabled: boolean;
+  loginHint: string | undefined;
+  gracePeriodSeconds: number;
 };
 
 const getServerSideConfig = (): ConfigType => {
   const ndlaEnvironment = getEnvironmentVariabel("NDLA_ENVIRONMENT", "dev");
   return {
-    defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb") as LocaleType,
+    defaultLocale: getEnvironmentVariabel("NDLA_DEFAULT_LOCALE", "nb"),
     componentName: "ndla-frontend",
+    componentVersion: getEnvironmentVariabel("COMPONENT_VERSION") ?? "SNAPSHOT",
     ndlaEnvironment,
     host: getEnvironmentVariabel("NDLA_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariabel("NDLA_FRONTEND_PORT", "3000"),
     redirectPort: getEnvironmentVariabel("NDLA_REDIRECT_PORT", "3001"),
     logEnvironment: getEnvironmentVariabel("NDLA_ENVIRONMENT", "local"),
-    logglyApiKey: logglyApiKey(),
     disableSSR: getEnvironmentVariabel("DISABLE_SSR", false),
     isNdlaProdEnvironment: ndlaEnvironment === "prod",
     ndlaApiUrl: getEnvironmentVariabel("NDLA_API_URL", apiDomain(ndlaEnvironment)),
@@ -156,9 +157,6 @@ const getServerSideConfig = (): ConfigType => {
     matomoTagmanagerId: getEnvironmentVariabel("MATOMO_TAGMANAGER_ID", ""),
     isVercel: getEnvironmentVariabel("IS_VERCEL", false),
     monsidoToken: getEnvironmentVariabel("MONSIDO_TOKEN", ""),
-    arenaModeratorGroup: getEnvironmentVariabel("ARENA_MODERATOR_GROUP", "Global Moderators"),
-    arenaAdminGroup: getEnvironmentVariabel("ARENA_ADMIN_GROUP", "ADMIN"),
-    enableNodeBB: getEnvironmentVariabel("ENABLE_NODEBB", false),
     runtimeType: getEnvironmentVariabel("NODE_ENV", "development") as RuntimeType,
     isClient: false,
     debugGraphQLCache: getEnvironmentVariabel("DEBUG_GRAPHQL_CACHE", false),
@@ -167,9 +165,10 @@ const getServerSideConfig = (): ConfigType => {
       "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
     ),
     formbricksId: getEnvironmentVariabel("FORMBRICKS_ID", ""),
-    learningpathEnabled: getEnvironmentVariabel("MYNDLA_LEARNINGPATH_ENABLED", false),
-    externalArena: getEnvironmentVariabel("EXTERNAL_ARENA", false),
-    arenaDomain: arenaDomain(ndlaEnvironment),
+    arenaDomain: getEnvironmentVariabel("ARENA_DOMAIN", arenaDomain(ndlaEnvironment)),
+    autologinCookieEnabled: getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false),
+    loginHint: loginHint(ndlaEnvironment, getEnvironmentVariabel("AUTOLOGIN_COOKIE_ENABLED", false)),
+    gracePeriodSeconds: parseInt(getEnvironmentVariabel("READINESS_PROBE_DETECTION_SECONDS", "7")),
   };
 };
 

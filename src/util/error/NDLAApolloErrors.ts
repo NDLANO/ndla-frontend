@@ -8,7 +8,7 @@
 
 import { GraphQLFormattedError } from "graphql";
 import { Operation } from "@apollo/client";
-import { NetworkError } from "@apollo/client/errors";
+import type { NetworkError } from "@apollo/client/errors";
 import { NDLAError } from "./NDLAError";
 import { getLogLevelFromStatusCode } from "../handleError";
 
@@ -50,6 +50,7 @@ export class NDLANetworkError extends NDLAError {
     const operationInfo = {
       operationName: operation.operationName,
       variables: operation.variables,
+      extensions: operation.extensions,
     };
 
     this.logContext = {

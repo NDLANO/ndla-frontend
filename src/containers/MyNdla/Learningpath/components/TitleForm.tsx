@@ -8,19 +8,9 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import {
-  Button,
-  FieldErrorMessage,
-  FieldHelper,
-  FieldInput,
-  FieldLabel,
-  FieldRoot,
-  Heading,
-  Text,
-} from "@ndla/primitives";
+import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldRoot, Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { ImagePicker } from "./ImagePicker";
 import { routes } from "../../../../routeHelpers";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
@@ -35,7 +25,7 @@ const StyledForm = styled("form", {
 
 export interface TitleFormValues {
   title: string;
-  imageUrl: string;
+  imageUrl: string | undefined;
 }
 interface Props {
   onSave: (data: TitleFormValues) => Promise<void>;
@@ -48,10 +38,10 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
 
-  const { control, setValue, resetField, handleSubmit } = useForm<TitleFormValues>({
+  const { control, handleSubmit } = useForm<TitleFormValues>({
     values: {
       title: initialValues?.title ?? "",
-      imageUrl: initialValues?.imageUrl ?? "",
+      imageUrl: initialValues?.imageUrl ?? undefined,
     },
   });
 
@@ -76,9 +66,9 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
         }}
         render={({ field, fieldState }) => (
           <FieldRoot invalid={!!fieldState.error?.message}>
-            <FieldLabel fontWeight="bold" textStyle="label.large">
+            {/* <FieldLabel fontWeight="bold" textStyle="label.large">
               {t("validation.fields.title")}
-            </FieldLabel>
+            </FieldLabel> */}
             <FieldHelper>{t("myNdla.learningpath.form.title.titleHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <FieldInput {...field} />
@@ -86,7 +76,8 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
           </FieldRoot>
         )}
       />
-      <Controller
+      {/* May be added later
+        <Controller
         control={control}
         name="imageUrl"
         rules={{
@@ -108,13 +99,15 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
             />
           </>
         )}
-      />
+      /> */}
       {!initialValues ? (
         <Stack direction="row" justify="space-between">
           <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
             {t("cancel")}
           </SafeLinkButton>
-          <Button type="submit">{t("myNdla.learningpath.form.next")}</Button>
+          <Button variant="secondary" type="submit">
+            {t("myNdla.learningpath.form.next")}
+          </Button>
         </Stack>
       ) : null}
     </StyledForm>

@@ -6,7 +6,7 @@
  *
  */
 
-import { forwardRef } from "react";
+import { type Ref } from "react";
 import { HTMLArkProps, ark } from "@ark-ui/react";
 import { PageContent, PageContentVariantProps } from "@ndla/primitives";
 import { css, cva } from "@ndla/styled-system/css";
@@ -63,8 +63,10 @@ export type PageContainerProps = HTMLArkProps<"div"> &
   PageContentVariantProps &
   PageContainerVariantProps;
 
-export const PageContainer = forwardRef<HTMLDivElement, PageContainerProps>(
-  ({ padding, css: cssProp, ...props }, ref) => (
-    <PageContent css={css.raw(pageContainerRecipe.raw({ padding }), cssProp)} {...props} ref={ref} />
-  ),
+interface Props extends PageContainerProps {
+  ref?: Ref<HTMLDivElement>;
+}
+
+export const PageContainer = ({ padding, css: cssProp, ...props }: Props) => (
+  <PageContent css={css.raw(pageContainerRecipe.raw({ padding }), cssProp)} {...props} />
 );

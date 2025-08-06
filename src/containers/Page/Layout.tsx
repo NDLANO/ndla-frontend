@@ -7,22 +7,23 @@
  */
 
 import { CSSProperties, useEffect, useMemo, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { Outlet, useLocation } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
 import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
+import { ToastProvider } from "../../components/ToastContext";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
+import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 import { usePrevious } from "../../util/utilityHooks";
-import Masthead from "../Masthead";
+import { Masthead } from "../Masthead/Masthead";
 
 const Layout = () => {
-  const { t } = useTranslation();
   const { pathname } = useLocation();
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
   const htmlRef = useRef<HTMLHtmlElement | null>(null);
+  const isSticky = useIsMastheadSticky();
 
   useEffect(() => {
     if (!prevPathname || pathname === prevPathname) {
@@ -37,10 +38,10 @@ const Layout = () => {
   useEffect(() => {
     if (!htmlRef.current) {
       htmlRef.current = document.querySelector("html");
-    } else {
+    } else if (isSticky) {
       htmlRef.current.style.scrollPaddingTop = `${height}px`;
     }
-  }, [height]);
+  }, [height, isSticky]);
 
   const mastheadHeightVar = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
 
@@ -49,16 +50,17 @@ const Layout = () => {
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
 
   return (
-    <>
+    <ToastProvider>
       <TitleAnnouncer />
       {metaChildren}
-      <meta name="description" content={t("meta.description")} />
       <Masthead />
       <PageLayout style={mastheadHeightVar}>
         <Outlet />
       </PageLayout>
       <Footer />
-    </>
+    </ToastProvider>
   );
 };
 export default Layout;
+
+export const Component = Layout;

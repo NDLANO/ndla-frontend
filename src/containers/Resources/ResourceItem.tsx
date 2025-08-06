@@ -83,7 +83,9 @@ export type Resource = {
   };
 };
 
-const getListItemColorTheme = (contentType?: ContentType): NonNullable<ListItemVariantProps["colorTheme"]> => {
+const getListItemColorTheme = (
+  contentType?: ContentType,
+): Exclude<NonNullable<ListItemVariantProps["colorTheme"]>, "neutral"> => {
   switch (contentType) {
     case contentTypes.TASKS_AND_ACTIVITIES:
     case contentTypes.ASSESSMENT_RESOURCES:
@@ -213,7 +215,7 @@ export const ResourceItem = ({
         hidden={!!hidden && !active}
       >
         <StyledListItemImage
-          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url ?? ""}
+          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url}
           alt=""
           sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}

@@ -14,7 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 
 interface Props extends Omit<IconButtonProps, "type"> {
   sortableId: string;
-  type: "folder" | "resource" | "category";
+  type: "folder" | "resource" | "category" | "learningpathstep";
   name: string;
 }
 
@@ -35,11 +35,11 @@ const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
   const { listeners, setActivatorNodeRef } = useSortable({ id: sortableId });
   return (
     <StyledDragHandle
+      tabIndex={0}
       {...rest}
       aria-label={t(`myNdla.${type}.dragHandle`, { name })}
       type={"button"}
       variant="clear"
-      tabIndex={0}
       {...listeners}
       ref={setActivatorNodeRef}
     >

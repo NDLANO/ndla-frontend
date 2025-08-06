@@ -6,8 +6,7 @@
  *
  */
 
-import { MemoryRouter } from "react-router-dom";
-import { StaticRouter } from "react-router-dom/server.js";
+import { MemoryRouter, StaticRouter } from "react-router-dom";
 import { render } from "@testing-library/react";
 import RedirectContext from "../RedirectContext";
 import RedirectExternal from "../RedirectExternal";
@@ -15,11 +14,11 @@ import RedirectExternal from "../RedirectExternal";
 test("External redirect for static router", () => {
   const context = {};
   render(
-    <RedirectContext.Provider value={context}>
+    <RedirectContext value={context}>
       <StaticRouter location="">
         <RedirectExternal to="https://google.com/" />
       </StaticRouter>
-    </RedirectContext.Provider>,
+    </RedirectContext>,
   );
 
   expect(context).toEqual({
@@ -30,11 +29,11 @@ test("External redirect for static router", () => {
 test("External redirect for static router with basename", () => {
   const context = {};
   render(
-    <RedirectContext.Provider value={context}>
+    <RedirectContext value={context}>
       <StaticRouter basename="nb" location={"/nb"}>
         <RedirectExternal to="https://google.com/" />
       </StaticRouter>
-    </RedirectContext.Provider>,
+    </RedirectContext>,
   );
 
   expect(context).toEqual({

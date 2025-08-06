@@ -7,79 +7,28 @@
  */
 
 import config from "../../../config";
-import { FormType, FormValues } from "./components/LearningpathStepForm";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
+import { FormValues } from "./types";
 
-export const sharedLearningpathLink = (id: number) => `${config.ndlaFrontendDomain}/learningpath/${id}`;
+export const sharedLearningpathLink = (id: number, language?: string) => {
+  const languageParam = language ? `/${language}` : "";
+  return `${config.ndlaFrontendDomain}${languageParam}/learningpaths/${id}`;
+};
 
-export const copyLearningpathSharingLink = (id: number) =>
-  window.navigator.clipboard.writeText(sharedLearningpathLink(id));
+export const copyLearningpathSharingLink = (id: number, language?: string) =>
+  window.navigator.clipboard.writeText(sharedLearningpathLink(id, language));
 
 export const LEARNINGPATH_SHARED = "UNLISTED";
 export const LEARNINGPATH_PRIVATE = "PRIVATE";
 export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";
 
-export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment) => {
-  if (!step?.resource && !step?.oembed && !step?.embedUrl) {
-    return "text";
-  }
-
-  if (step?.resource || step.embedUrl?.url.includes("resource")) {
-    return "resource";
-  }
-
-  if (step?.embedUrl?.embedType === "external") {
-    return "external";
-  }
-  return undefined;
+export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment): FormValues["type"] => {
+  if (!step?.resource && !step?.oembed && !step?.embedUrl) return "text";
+  if (step?.resource || step.embedUrl?.url.includes("resource")) return "resource";
+  if (step?.embedUrl?.embedType === "external") return "external";
+  return "text";
 };
 
-export const formValues: (type?: FormType, step?: GQLMyNdlaLearningpathStepFragment) => Partial<FormValues> = (
-  type?: FormType,
-  step?: GQLMyNdlaLearningpathStepFragment,
-) => ({
-  type: type ?? "",
-  title: step?.title ?? "",
-  introduction: step?.introduction ?? "",
-  embedUrl: step?.embedUrl?.url ?? "",
-  shareable: !!step?.embedUrl?.url,
-  description: step?.description ?? "<p></p>",
-});
-
-export const getValuesFromStep = (type: FormType, step?: GQLMyNdlaLearningpathStepFragment) => {
-  const formType = getFormTypeFromStep(step);
-  const isInitialType = formType === type;
-  return formValues(type, isInitialType ? step : undefined);
-};
-
-export const formValuesToGQLInput = (values: FormValues) => {
-  if (values.type === "text") {
-    return {
-      type: "TEXT",
-      title: values.title,
-      introduction: values.introduction,
-      description: values.description,
-    };
-  }
-
-  if (values.type === "external") {
-    return {
-      type: "TEXT",
-      title: values.title,
-      introduction: values.introduction,
-      embedUrl: {
-        url: values.url,
-        embedType: "external",
-      },
-    };
-  }
-
-  return {
-    type: "TEXT",
-    title: values.title,
-    embedUrl: {
-      url: values.embedUrl,
-      embedType: "iframe",
-    },
-  };
-};
+export const learningpathListItemId = (id: number) => `learningpath-${id}`;
+export const learningpathStepEditButtonId = (id: number) => `edit-button-${id}`;
+export const learningpathStepCloseButtonId = (id: number) => `close-button-${id}`;

@@ -138,7 +138,7 @@ const LoadingShimmer = () => {
     return (
       <Skeleton key={index}>
         <StyledSafeLinkCard data-current={false} onMouseDown={(e) => e.preventDefault()} to={""}>
-          <StyledImg src={""} loading="eager" alt="" />
+          <StyledImg loading="eager" alt="" />
           <StyledText textStyle="label.large" fontWeight="bold"></StyledText>
         </StyledSafeLinkCard>
       </Skeleton>
@@ -148,7 +148,7 @@ const LoadingShimmer = () => {
 
 const MainImageShimmer = () => (
   <Skeleton>
-    <StyledImage src={""} sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw" alt="" />
+    <StyledImage sizes="(min-width: 1140px) 1140px, (min-width: 720px) 100vw, 100vw" alt="" />
   </Skeleton>
 );
 
@@ -175,7 +175,7 @@ const FilmSlideshow = ({ slideshow }: Props) => {
           {!currentSlide?.metaImage?.url ? (
             <MainImageShimmer />
           ) : (
-            <StyledImage src={currentSlide?.metaImage?.url ?? ""} sizes="(min-width: 1140px) 1140, 1140px" alt="" />
+            <StyledImage src={currentSlide?.metaImage?.url} sizes="(min-width: 1140px) 1140, 1140px" alt="" />
           )}
           {!!currentSlide && (
             <StyledInfoContainer>

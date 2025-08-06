@@ -6,7 +6,7 @@
  *
  */
 
-import groupBy from "lodash/groupBy";
+import { groupBy } from "@ndla/util";
 import { GQLNodeWithMetadataFragment } from "../../graphqlTypes";
 
 export const subjectLetters = [
@@ -52,7 +52,7 @@ export const groupSubjects = (subjects: GQLNodeWithMetadataFragment[]): GroupedS
     groupBy(subjects, (subject) => {
       const firstChar = subject.name[0]?.toUpperCase();
       const isLetter = firstChar?.match(/[A-Z\WÆØÅ]+/);
-      return isLetter ? firstChar : "#";
+      return isLetter && firstChar ? firstChar : "#";
     }),
   )
     .map((group) => ({ label: group[0], subjects: group[1] }))

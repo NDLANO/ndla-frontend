@@ -30,6 +30,7 @@ interface Props {
   title?: string;
   content?: ReactNode;
   masthead?: boolean;
+  loginIngress?: string;
 }
 
 const LinkText = styled(Text, {
@@ -47,7 +48,7 @@ const StyledDialogBody = styled(DialogBody, {
   },
 });
 
-const LoginModalContent = ({ title, content, masthead = false }: Props) => {
+const LoginModalContent = ({ title, content, masthead = false, loginIngress }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -59,7 +60,7 @@ const LoginModalContent = ({ title, content, masthead = false }: Props) => {
       </DialogHeader>
       <StyledDialogBody>
         {content}
-        <Text textStyle="body.xlarge">{parse(t("myNdla.myPage.loginIngress"))}</Text>
+        <Text textStyle="body.xlarge">{loginIngress ?? parse(t("myNdla.myPage.loginIngress"))}</Text>
         <LinkText>
           {t("myNdla.myPage.loginText")}
           <SafeLink target="_blank" to="https://ndla.no/article/personvernerklaering">

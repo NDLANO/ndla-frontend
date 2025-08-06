@@ -11,12 +11,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons";
-import { Button, PageContent } from "@ndla/primitives";
+import { BleedPageContent, Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
 import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
+import { BannerAlerts } from "../components/BannerAlerts";
 import { useLtiData } from "../components/LtiContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
@@ -25,7 +26,6 @@ import { LocaleType } from "../interfaces";
 import { getArticleScripts } from "../util/getArticleScripts";
 import { getContentType } from "../util/getContentType";
 import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
-import { getAllDimensions } from "../util/trackingUtil";
 import { transformArticle } from "../util/transformArticle";
 
 interface Props {
@@ -62,15 +62,13 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
 
   useEffect(() => {
     if (propArticle?.id) return;
-    const dimensions = getAllDimensions({ article: propArticle });
     trackPageView({
-      dimensions,
       title: getDocumentTitle({ article: propArticle }),
     });
   }, [propArticle, node, trackPageView]);
 
-  const path = node?.url;
-  const contentUrl = path ? `${config.ndlaFrontendDomain}${path}` : undefined;
+  const url = node?.url;
+  const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
   const contentType =
     article.articleType === "standard"
@@ -80,6 +78,11 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
         : undefined;
   return (
     <PageContent variant="content">
+      {
+        <BleedPageContent>
+          <BannerAlerts />
+        </BleedPageContent>
+      }
       <title>{getDocumentTitle({ article: propArticle })}</title>
       <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (
@@ -139,7 +142,6 @@ export const iframeArticlePageFragments = {
     fragment IframeArticlePage_Node on Node {
       id
       name
-      path
       url
       resourceTypes {
         id

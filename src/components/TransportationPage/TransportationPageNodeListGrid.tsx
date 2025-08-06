@@ -22,6 +22,9 @@ export const TransportationPageNodeListGrid = styled("ol", {
     },
     tabletWideDown: {
       gridTemplateColumns: "1fr",
+      "&:has(> :last-child:nth-child(2))": {
+        gridTemplateColumns: "repeat(1, 1fr)",
+      },
     },
   },
 });

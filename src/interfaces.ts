@@ -1,20 +1,19 @@
 /**
- * Copyright (c) 2021-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { NormalizedCacheObject } from "@apollo/client";
 import { ConfigType } from "./config";
 import { LocaleValues } from "./constants";
+import type { ManifestChunk } from "vite";
 
 export type InitialProps = {
   articleId?: string;
   taxonomyId?: string;
-  isOembed?: string;
-  status?: "success" | "error";
-  loading?: boolean;
   basename?: string;
   locale?: LocaleType;
   ltiData?: LtiData;
@@ -26,6 +25,8 @@ export interface WindowData {
   initialProps: InitialProps;
   ltiData?: LtiData;
   serverPath?: string;
+  chunks?: ManifestChunk[];
+  siteTheme?: SiteTheme;
   serverQuery?: {
     [key: string]: string | number | boolean | undefined | null;
   };
@@ -42,6 +43,8 @@ export interface Author {
 }
 
 export type LocaleType = (typeof LocaleValues)[number];
+
+export type SiteTheme = "brand1" | "brand2" | "brand3" | "brand4" | "brand5";
 
 export type Breadcrumb = { to: string; name: string };
 
@@ -80,4 +83,7 @@ export interface OembedResponse {
   width: number;
   title: string;
   html: string;
+  iframeSrc: string;
 }
+
+export type LogLevel = "error" | "warn" | "info";

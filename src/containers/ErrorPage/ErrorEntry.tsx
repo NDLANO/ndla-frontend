@@ -7,55 +7,37 @@
  */
 
 import "../../style/index.css";
-import { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
-import { getCookie, setCookie } from "@ndla/util";
-import ErrorPage from "./ErrorPage";
-import Scripts from "../../components/Scripts/Scripts";
-import { STORED_LANGUAGE_COOKIE_KEY } from "../../constants";
+import { errorRoutes } from "../../appRoutes";
+import { SiteThemeProvider } from "../../components/SiteThemeContext";
+import { Document } from "../../Document";
+import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
+import { renderOrHydrate } from "../../util/renderOrHydrate";
 import { initSentry } from "../../util/sentry";
 
-const { config, serverPath } = window.DATA;
+const { config, serverPath, chunks } = window.DATA;
 
 initSentry(config);
 
 const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
+const i18n = initializeI18n(i18nInstance, abbreviation);
 
-const maybeStoredLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie);
-// Set storedLanguage to a sane value if non-existent
-if (maybeStoredLanguage === null || maybeStoredLanguage === undefined) {
-  setCookie({
-    cookieName: STORED_LANGUAGE_COOKIE_KEY,
-    cookieValue: abbreviation,
-    lax: true,
-  });
-}
-const storedLanguage = getCookie(STORED_LANGUAGE_COOKIE_KEY, document.cookie)!;
-
-const i18n = initializeI18n(i18nInstance, storedLanguage);
-
-const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
-  if (config.disableSSR) {
-    const root = createRoot(container);
-    root.render(children);
-  } else {
-    hydrateRoot(container, children);
-  }
-};
+const router = createBrowserRouter(errorRoutes);
 
 renderOrHydrate(
-  document.getElementById("root")!,
-  <I18nextProvider i18n={i18n}>
-    <BrowserRouter>
-      <MissingRouterContext.Provider value={true}>
-        <Scripts />
-        <ErrorPage />
-      </MissingRouterContext.Provider>
-    </BrowserRouter>
-  </I18nextProvider>,
+  document,
+  <Document language={abbreviation} chunks={chunks} devEntrypoint={entryPoints.error}>
+    <I18nextProvider i18n={i18n}>
+      <MissingRouterContext value={true}>
+        <SiteThemeProvider value={window.DATA.siteTheme}>
+          <RouterProvider router={router} />
+        </SiteThemeProvider>
+      </MissingRouterContext>
+    </I18nextProvider>
+  </Document>,
+  errorRoutes,
 );

@@ -24,9 +24,11 @@ import {
 import { NoSSR } from "@ndla/util";
 import Article from "../../components/Article";
 import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
+import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import LicenseBox from "../../components/license/LicenseBox";
+import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
@@ -58,9 +60,15 @@ const ResourcesPageContent = styled("div", {
   },
 });
 
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
+
 const StyledPageContent = styled(PageContent, {
   base: {
-    overflowX: "hidden",
+    overflowX: "clip",
     paddingBlockStart: "xxlarge",
     gap: "xsmall",
   },
@@ -100,16 +108,12 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
 
   useEffect(() => {
     if (!node?.article || !authContextLoaded) return;
-    const dimensions = getAllDimensions({
-      article: node.article,
-      filter: root?.name,
-      user,
-    });
+    const dimensions = getAllDimensions({ user });
     trackPageView({
       dimensions,
       title: pageTitle,
     });
-  }, [authContextLoaded, root, t, node.article, node.url, trackPageView, user, pageTitle]);
+  }, [authContextLoaded, node.article, trackPageView, user, pageTitle]);
 
   const breadCrumbs = useMemo(() => {
     return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
@@ -197,8 +201,23 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                 )
               }
               lang={article.language === "nb" ? "no" : article.language}
+              heartButton={
+                !!node.url &&
+                !!article.id && (
+                  <AddResourceToFolderModal
+                    resource={{
+                      id: `${article.id}`,
+                      path: node.url,
+                      resourceType: "multidisciplinary",
+                    }}
+                  >
+                    <FavoriteButton path={node.url} />
+                  </AddResourceToFolderModal>
+                )
+              }
+              contentType="multidisciplinary"
             />
-            <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
+            <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
             <ArticleFooter>
               <ArticleByline
                 footnotes={article.transformedContent.metaData?.footnotes ?? []}

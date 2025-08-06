@@ -6,6 +6,7 @@
  *
  */
 
+import { useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { MovedTopicPage } from "./MovedTopicPage";
 import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
@@ -14,7 +15,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
-import { getSubjectType, useUrnIds } from "../../routeHelpers";
+import { getSubjectType } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
@@ -75,18 +76,17 @@ export const topicPageQuery = gql`
 `;
 
 export const TopicPage = () => {
-  const { contextId, subjectId, topicId } = useUrnIds();
+  const { contextId } = useParams();
   const query = useQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {
-      id: topicId,
-      rootId: subjectId ?? MULTIDISCIPLINARY_SUBJECT_ID,
       contextId: contextId,
+      // TODO: Is it wise to hardcode this? Should it always be set? Multidisciplinary breaks if we don't have it.
+      rootId: MULTIDISCIPLINARY_SUBJECT_ID,
       transformArgs: {
         showVisualElement: "true",
-        prettyUrl: true,
       },
     },
-    skip: !!contextId && !isValidContextId(contextId),
+    skip: !isValidContextId(contextId),
   });
 
   if (query.loading) {
@@ -97,7 +97,7 @@ export const TopicPage = () => {
     return <MovedTopicPage nodes={query.data.node.alternateNodes} />;
   }
 
-  if (!query.data || query.error) {
+  if (query.error) {
     handleError(query.error);
     const accessDeniedErrors = findAccessDeniedErrors(query.error);
     if (accessDeniedErrors.length) {
@@ -105,19 +105,17 @@ export const TopicPage = () => {
         (e) => !e.path?.includes("resources") && !e.path?.includes("children"),
       );
 
-      if (nonRecoverableError) {
-        return <ForbiddenPage />;
-      }
-    } else if (isNotFoundError(query.error)) {
-      return <NotFoundPage />;
-    } else return <DefaultErrorMessagePage />;
+      if (nonRecoverableError) return <ForbiddenPage />;
+    }
+
+    if (isNotFoundError(query.error)) return <NotFoundPage />;
   }
 
-  if (!query.data?.node) {
-    return <DefaultErrorMessagePage />;
+  if (query.error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+    return <NotFoundPage />;
   }
 
-  if (!query.data?.node.article) {
+  if (!query.data?.node?.article) {
     return <NotFoundPage />;
   }
 
@@ -134,3 +132,5 @@ export const TopicPage = () => {
 
   return <TopicContainer node={node} subjectType={subjectType} />;
 };
+
+export const Component = TopicPage;

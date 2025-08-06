@@ -23,6 +23,7 @@ import {
   licenseAttributes,
 } from "@ndla/ui";
 import AboutPageFooter from "./AboutPageFooter";
+import { findBreadcrumb } from "./aboutPageUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -40,12 +41,6 @@ interface Props {
   frontpage: GQLAboutPage_FrontpageMenuFragment;
 }
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "hidden",
-  },
-});
-
 const StyledHeroContent = styled(HeroContent, {
   base: {
     "& a:focus-within": {
@@ -54,24 +49,17 @@ const StyledHeroContent = styled(HeroContent, {
   },
 });
 
-export const findBreadcrumb = (
-  menu: GQLAboutPage_FrontpageMenuFragment[],
-  slug: string | undefined,
-  currentPath: GQLAboutPage_FrontpageMenuFragment[] = [],
-): GQLAboutPage_FrontpageMenuFragment[] => {
-  for (const item of menu) {
-    const newPath = currentPath.concat(item);
-    if (item.article.slug?.toLowerCase() === slug?.toLowerCase()) {
-      return newPath;
-    } else if (item.menu?.length) {
-      const foundPath = findBreadcrumb(item.menu as GQLAboutPage_FrontpageMenuFragment[], slug, newPath);
-      if (foundPath.length) {
-        return foundPath;
-      }
-    }
-  }
-  return [];
-};
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
 
 const getBreadcrumb = (slug: string | undefined, frontpage: GQLAboutPage_FrontpageMenuFragment, t: TFunction) => {
   const crumbs = findBreadcrumb(frontpage.menu as GQLAboutPage_FrontpageMenuFragment[], slug);
@@ -99,7 +87,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
 
   useEffect(() => {
     if (_article && authContextLoaded) {
-      const dimensions = getAllDimensions({ article: _article, user });
+      const dimensions = getAllDimensions({ user });
       trackPageView({ dimensions, title: getDocumentTitle(t, _article.title) });
     }
   }, [_article, authContextLoaded, t, trackPageView, user]);
@@ -170,7 +158,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
                   <Text textStyle="body.xlarge">{article.transformedContent.introduction}</Text>
                 )}
               </ArticleHeader>
-              <ArticleContent>{article.transformedContent.content}</ArticleContent>
+              <StyledArticleContent>{article.transformedContent.content}</StyledArticleContent>
               <ArticleFooter>
                 <AccordionRoot multiple>
                   <ArticleBylineAccordionItem accordionTitle={t("article.useContent")} value="rulesForUse">

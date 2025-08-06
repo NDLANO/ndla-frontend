@@ -86,7 +86,6 @@ const metaToProperties = (
     return {
       title: concept.title,
       description: concept.content,
-      imageUrl: concept.metaImageUrl,
       type: concept.__typename === "GlossLicense" ? "gloss" : "concept",
     };
   } else if (type === "h5p") {
@@ -175,7 +174,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
         description={properties?.description}
         imageUrl={properties?.imageUrl}
       >
-        <meta name="robots" content="noindex, nofollow" />
+        {type !== "video" && <meta name="robots" content="noindex, nofollow" />}
       </SocialMediaMetadata>
       <main>
         <ContentTypeHero contentType={type}>

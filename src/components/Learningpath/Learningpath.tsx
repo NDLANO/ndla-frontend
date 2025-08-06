@@ -6,12 +6,10 @@
  *
  */
 
-import { useMemo, useRef, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { transform } from "@ndla/article-converter";
 import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
-import { getLicenseByAbbreviation } from "@ndla/licenses";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -24,56 +22,75 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ArticleContent, ArticleHeader, ArticleWrapper, ContentTypeBadge, HomeBreadcrumb, LicenseLink } from "@ndla/ui";
+import { ContentTypeBadge, HomeBreadcrumb } from "@ndla/ui";
 import { contains } from "@ndla/util";
-import LastLearningpathStepInfo from "./LastLearningpathStepInfo";
-import LearningpathEmbed, { EmbedPageContent } from "./LearningpathEmbed";
 import LearningpathMenu from "./LearningpathMenu";
+import type { LearningpathContext } from "./learningpathUtils";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
-  GQLLearningpath_ResourceTypeDefinitionFragment,
   GQLLearningpathPage_NodeFragment,
 } from "../../graphqlTypes";
-import { Breadcrumb as BreadcrumbType } from "../../interfaces";
-import { toLearningPath } from "../../routeHelpers";
+import { Breadcrumb } from "../../interfaces";
+import { routes, toLearningPath } from "../../routeHelpers";
 import FavoriteButton from "../Article/FavoritesButton";
-import { PageContainer, PageLayout } from "../Layout/PageContainer";
+import { AuthContext } from "../AuthenticationContext";
+import { PageContainer } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
+import CopyLearningPath from "./components/CopyLearningPath";
+import { LearningpathStep } from "./components/LearningpathStep";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
   resource?: GQLLearningpathPage_NodeFragment;
-  resourceTypes?: GQLLearningpath_ResourceTypeDefinitionFragment[];
   skipToContentId?: string;
-  breadcrumbItems: BreadcrumbType[];
+  breadcrumbItems: Breadcrumb[];
   resourcePath?: string;
+  context?: LearningpathContext;
 }
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
     position: "relative",
     background: "background.subtle",
+    minHeight: "100vh",
     gap: "large",
+  },
+  variants: {
+    rounded: {
+      true: {
+        borderRadius: "xsmall",
+      },
+    },
   },
 });
 
 const ContentWrapper = styled("div", {
   base: {
     display: "grid",
-    gridTemplateRows: "auto auto 1fr",
-    gridAutoFlow: "column dense",
-    gridTemplateColumns: "minmax(200px, 1fr) minmax(300px, 3fr)",
-    gridTemplateAreas: `
+    gap: "medium",
+  },
+  variants: {
+    context: {
+      preview: {
+        display: "flex",
+        flexDirection: "column",
+      },
+      default: {
+        gridTemplateRows: "auto auto 1fr",
+        gridAutoFlow: "column dense",
+        gridTemplateColumns: "minmax(200px, 1fr) minmax(300px, 3fr)",
+        gridTemplateAreas: `
 "meta   content"
 "steps  content"
 ".      content"
 `,
-    gap: "medium",
-    desktopDown: {
-      display: "flex",
-      flexDirection: "column",
+        desktopDown: {
+          display: "flex",
+          flexDirection: "column",
+        },
+      },
     },
   },
 });
@@ -116,9 +133,15 @@ const StyledAccordionRoot = styled(AccordionRoot, {
     position: "sticky",
     zIndex: "sticky",
     top: "var(--masthead-height)",
-    marginInline: "small",
-    desktop: {
-      display: "none",
+  },
+  variants: {
+    context: {
+      default: {
+        desktop: {
+          display: "none",
+        },
+      },
+      preview: {},
     },
   },
 });
@@ -163,158 +186,143 @@ const Learningpath = ({
   resource,
   skipToContentId,
   breadcrumbItems,
+  context = "default",
 }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [accordionValue, setAccordionValue] = useState<string[]>();
   const accordionRef = useRef<HTMLDivElement>(null);
+  const { user } = useContext(AuthContext);
 
-  const previousStep = learningpath.learningsteps[learningpathStep.seqNo - 1];
-  const nextStep = learningpath.learningsteps[learningpathStep.seqNo + 1];
+  const index = learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id);
+  const previousStep = learningpath.learningsteps[index - 1];
+  const nextStep = learningpath.learningsteps[index + 1];
 
   const menu = useMemo(
-    () => <LearningpathMenu resourcePath={resourcePath} learningpath={learningpath} currentStep={learningpathStep} />,
-    [learningpath, learningpathStep, resourcePath],
+    () => (
+      <LearningpathMenu
+        resourcePath={resourcePath}
+        learningpath={learningpath}
+        currentIndex={index}
+        context={context}
+      />
+    ),
+    [context, index, learningpath, resourcePath],
   );
   const parents = resource?.context?.parents || [];
   const root = parents[0];
+  const path = resourcePath ? resourcePath : toLearningPath(learningpath.id);
 
   return (
-    <PageLayout asChild consumeCss>
-      <main>
-        <StyledPageContainer variant="wide" gutters="tabletUp">
-          {!!breadcrumbItems.length && (
-            <BreadcrumbWrapper>
-              <HomeBreadcrumb items={breadcrumbItems} />
-            </BreadcrumbWrapper>
-          )}
-          <ContentWrapper>
-            <MetaWrapper data-testid="learningpath-meta">
-              <ContentTypeWrapper>
-                <ContentTypeBadge contentType="learning-path" />
-                {!!resourcePath && (
-                  <AddResourceToFolderModal
-                    resource={{
-                      id: learningpath.id.toString(),
-                      path: resourcePath,
-                      resourceType: "learningpath",
-                    }}
-                  >
-                    <FavoriteButton path={resourcePath} />
-                  </AddResourceToFolderModal>
-                )}
-              </ContentTypeWrapper>
-              <Text textStyle="label.large">
-                {`${t("learningPath.youAreInALearningPath")}:`}
-                <br />
-                <strong>{learningpath.title}</strong>
-              </Text>
-            </MetaWrapper>
-            <StyledAccordionRoot
-              ref={accordionRef}
-              id={learningpathStep.id.toString()}
-              value={accordionValue}
-              onValueChange={(details) => setAccordionValue(details.value)}
-              variant="bordered"
-              multiple
-              onBlur={(e) => {
-                // automatically close the accordion when focus leaves the accordion on mobile.
-                if (!contains(accordionRef.current, e.relatedTarget ?? e.target)) {
-                  setAccordionValue([]);
-                }
-              }}
-            >
-              <StyledAccordionItem value="menu">
-                <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
-                  <h2>
-                    <AccordionItemTrigger>
-                      {t("learningpathPage.accordionTitle")}
-                      <AccordionItemIndicator asChild>
-                        <ArrowDownShortLine />
-                      </AccordionItemIndicator>
-                    </AccordionItemTrigger>
-                  </h2>
-                </Heading>
-                <StyledAccordionItemContent>{menu}</StyledAccordionItemContent>
-              </StyledAccordionItem>
-            </StyledAccordionRoot>
-            <MenuWrapper>{menu}</MenuWrapper>
-            <StyledPageContent variant="article" gutters="never">
-              {(!!learningpathStep.description || !!learningpathStep.showTitle) && (
-                <EmbedPageContent variant="content">
-                  <ArticleWrapper>
-                    {!!learningpathStep.showTitle && (
-                      <ArticleHeader>
-                        <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>
-                          {learningpathStep.title}
-                        </Heading>
-                        <LicenseLink
-                          license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)}
-                        />
-                      </ArticleHeader>
-                    )}
-                    <ArticleContent>
-                      {!!learningpathStep.description && (
-                        <section>{transform(learningpathStep.description, {})}</section>
-                      )}
-                    </ArticleContent>
-                  </ArticleWrapper>
-                </EmbedPageContent>
-              )}
-              <LearningpathEmbed
-                key={learningpathStep.id}
-                skipToContentId={!learningpathStep.showTitle ? skipToContentId : undefined}
-                subjectId={root?.id}
-                learningpathStep={learningpathStep}
-                breadcrumbItems={breadcrumbItems}
+    <StyledPageContainer variant="wide" gutters="tabletUp" rounded={context === "preview"}>
+      {!!breadcrumbItems.length && (
+        <BreadcrumbWrapper>
+          <HomeBreadcrumb items={breadcrumbItems} />
+        </BreadcrumbWrapper>
+      )}
+      <ContentWrapper context={context}>
+        {context === "default" && (
+          <MetaWrapper data-testid="learningpath-meta">
+            <ContentTypeWrapper>
+              <ContentTypeBadge contentType="learning-path" />
+              <AddResourceToFolderModal
+                resource={{
+                  id: learningpath.id.toString(),
+                  path: path,
+                  resourceType: "learningpath",
+                }}
               >
-                <LastLearningpathStepInfo
-                  seqNo={learningpathStep.seqNo}
-                  numberOfLearningSteps={learningpath.learningsteps.length - 1}
-                  title={learningpath.title}
-                  resource={resource}
-                />
-              </LearningpathEmbed>
-              <PageButtonsContainer>
-                {previousStep ? (
-                  <SafeLinkButton
-                    to={toLearningPath(learningpath.id, previousStep.id, resourcePath)}
-                    variant="secondary"
-                    aria-label={t("learningPath.previousArrow")}
-                  >
-                    <ArrowLeftLine />
-                    {previousStep.title}
-                  </SafeLinkButton>
-                ) : (
-                  <div />
-                )}
-                {nextStep ? (
-                  <SafeLinkButton
-                    to={toLearningPath(learningpath.id, nextStep.id, resourcePath)}
-                    variant="secondary"
-                    aria-label={t("learningPath.nextArrow")}
-                  >
-                    {nextStep.title}
-                    <ArrowRightLine />
-                  </SafeLinkButton>
-                ) : (
-                  <div />
-                )}
-              </PageButtonsContainer>
-            </StyledPageContent>
-          </ContentWrapper>
-        </StyledPageContainer>
-      </main>
-    </PageLayout>
+                <FavoriteButton path={path} />
+              </AddResourceToFolderModal>
+              {user?.role === "employee" && <CopyLearningPath learningpath={learningpath} />}
+            </ContentTypeWrapper>
+            <Text textStyle="label.large">
+              {`${t("learningPath.youAreInALearningPath")}:`}
+              <br />
+              <strong>{learningpath.title}</strong>
+            </Text>
+          </MetaWrapper>
+        )}
+        <StyledAccordionRoot
+          ref={accordionRef}
+          id={learningpathStep.id.toString()}
+          value={accordionValue}
+          onValueChange={(details) => setAccordionValue(details.value)}
+          variant="bordered"
+          context={context}
+          multiple
+          onBlur={(e) => {
+            // automatically close the accordion when focus leaves the accordion on mobile.
+            if (!contains(accordionRef.current, e.relatedTarget ?? e.target)) {
+              setAccordionValue([]);
+            }
+          }}
+        >
+          <StyledAccordionItem value="menu">
+            <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
+              <span>
+                <AccordionItemTrigger>
+                  {t("learningpathPage.accordionTitle")}
+                  <AccordionItemIndicator asChild>
+                    <ArrowDownShortLine />
+                  </AccordionItemIndicator>
+                </AccordionItemTrigger>
+              </span>
+            </Heading>
+            <StyledAccordionItemContent>{menu}</StyledAccordionItemContent>
+          </StyledAccordionItem>
+        </StyledAccordionRoot>
+        {context === "default" && <MenuWrapper>{menu}</MenuWrapper>}
+        <StyledPageContent variant="article" gutters="never">
+          <LearningpathStep
+            resource={resource}
+            subjectId={root?.id}
+            learningpath={learningpath}
+            breadcrumbItems={breadcrumbItems}
+            skipToContentId={skipToContentId}
+            learningpathStep={learningpathStep}
+          />
+          {/* TODO: How should this handle long titles on smaller screens? */}
+          <PageButtonsContainer>
+            {previousStep ? (
+              <SafeLinkButton
+                to={
+                  context === "preview"
+                    ? routes.myNdla.learningpathPreview(learningpath.id, previousStep.id)
+                    : toLearningPath(learningpath.id, previousStep.id, resourcePath)
+                }
+                variant="secondary"
+                aria-label={t("learningPath.previousArrow")}
+              >
+                <ArrowLeftLine />
+                {previousStep.title}
+              </SafeLinkButton>
+            ) : (
+              <div />
+            )}
+            {nextStep ? (
+              <SafeLinkButton
+                to={
+                  context === "preview"
+                    ? routes.myNdla.learningpathPreview(learningpath.id, nextStep.id)
+                    : toLearningPath(learningpath.id, nextStep.id, resourcePath)
+                }
+                variant="secondary"
+                aria-label={t("learningPath.nextArrow")}
+              >
+                {nextStep.title}
+                <ArrowRightLine />
+              </SafeLinkButton>
+            ) : (
+              <div />
+            )}
+          </PageButtonsContainer>
+        </StyledPageContent>
+      </ContentWrapper>
+    </StyledPageContainer>
   );
 };
 
 Learningpath.fragments = {
-  resourceType: gql`
-    fragment Learningpath_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...LastLearningpathStepInfo_ResourceTypeDefinition
-    }
-    ${LastLearningpathStepInfo.fragments.resourceType}
-  `,
   learningpathStep: gql`
     fragment Learningpath_LearningpathStep on LearningpathStep {
       seqNo
@@ -325,11 +333,11 @@ Learningpath.fragments = {
       license {
         license
       }
-      ...LearningpathEmbed_LearningpathStep
       ...LearningpathMenu_LearningpathStep
+      ...LearningpathStep_LearningpathStep
     }
     ${LearningpathMenu.fragments.step}
-    ${LearningpathEmbed.fragments.learningpathStep}
+    ${LearningpathStep.fragments.learningpathStep}
   `,
   learningpath: gql`
     fragment Learningpath_Learningpath on Learningpath {

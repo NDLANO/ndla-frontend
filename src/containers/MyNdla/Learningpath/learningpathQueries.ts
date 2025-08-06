@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, QueryHookOptions, useQuery } from "@apollo/client";
+import { gql, QueryHookOptions, useLazyQuery, useQuery } from "@apollo/client";
 import {
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
@@ -16,10 +16,10 @@ import {
   GQLOpengraphQuery,
   GQLOpengraphQueryVariables,
 } from "../../../graphqlTypes";
-import { learningpathFragment, learningpathStepOembed } from "./learningpathFragments";
+import { learningpathFragment, learningpathStepOembed } from "../../../fragments/learningpathFragments";
 
 export const myLearningpathQuery = gql`
-  query MyLearningpaths {
+  query MyLearningpaths($includeSteps: Boolean = false) {
     myLearningpaths {
       ...MyNdlaLearningpath
     }
@@ -30,7 +30,7 @@ export const myLearningpathQuery = gql`
 export const useMyLearningpaths = () => useQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
 
 export const learningpathQuery = gql`
-  query myNdlaLearningpath($pathId: String!) {
+  query myNdlaLearningpath($pathId: String!, $includeSteps: Boolean = true) {
     myNdlaLearningpath(pathId: $pathId) {
       ...MyNdlaLearningpath
     }
@@ -67,4 +67,4 @@ const opengraphQuery = gql`
 `;
 
 export const useFetchOpengraph = (options?: QueryHookOptions<GQLOpengraphQuery, GQLOpengraphQueryVariables>) =>
-  useQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);
+  useLazyQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);

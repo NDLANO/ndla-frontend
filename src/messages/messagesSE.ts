@@ -9,6 +9,20 @@
 const titleTemplate = "NDLA";
 
 const messages = {
+  languages: {
+    // Adds to list from frontend-packages
+    ar: "Arabisk",
+    la: "Latin",
+    no: "Norsk",
+    so: "Somali",
+    ti: "Tigrinja",
+    und: "Udefinert",
+    ukr: "Ukrainsk",
+    prs: "Dari",
+    san: "Sanskrit",
+    heb: "Hebraisk",
+    pli: "Pali",
+  },
   htmlTitles: {
     titleTemplate,
     welcomePage: `Ovdasiidu - ${titleTemplate}`,
@@ -28,13 +42,8 @@ const messages = {
     myFolderPage: `{{folderName}} - ${titleTemplate}`,
     myTagPage: `#{{tag}} - ${titleTemplate}`,
     myTagsPage: `Mu lihput - ${titleTemplate}`,
+    sharedFolderPage: `{{name}} - ${titleTemplate}`,
     aboutPage: `{{name}} - ${titleTemplate}`,
-    arenaPage: `Arena - ${titleTemplate}`,
-    arenaAdminPage: `Administrer Arena - ${titleTemplate}`,
-    arenaTopicPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaPostPage: `{{name}} - Arena - ${titleTemplate}`,
-    arenaNewTopicPage: `Ođđa reivvet - Arena - ${titleTemplate}`,
-    arenaNewCategoryPage: `Ny kategori - Arena - ${titleTemplate}`,
     learningpathsPage: `Mine læringsstier - ${titleTemplate}`,
     learningpathPage: `{{name}}  - ${titleTemplate}`,
     learningpathEditStepsPage: `Rediger steg - {{name}} - Læringssti - ${titleTemplate}`,
@@ -59,14 +68,92 @@ const messages = {
     subtitle: "Guldal ja oahpa!",
     pagination: "Podkastsider",
   },
-  subjectsPage: { tabFilter: { label: "Hvilke fag vil du vise?", all: "Alle fag og ressurser" } },
+  subjectsPage: {
+    tabFilter: {
+      label: "Hvilke fag vil du vise?",
+      all: "Alle fag og ressurser",
+    },
+    subjectGroup: 'Joavku "{{ category }}"',
+    myFavoriteSubjects: "Dine favorittfag",
+    scrollToGroup: "Njuike jovkui",
+    errorDescription: "Šállošat, boasttuvuohta čuožžilii fágaid viežžamis.",
+    allSubjects: "Buot fágat",
+    alphabeticSort: "Fágat alfabehtalaččat",
+    addConfirmed: "{{subject}} lea lasihuvvon oiddotfágan",
+    removeConfirmed: "{{subject}} lea sihkkojuvvon oiddotfágain",
+    addFavorite: "Lasit oiddotfága",
+    removeFavorite: "Sihko oiddotfága",
+    confirmRemove: "Leat go sihkar ahte áiggut sihkkut {{subject}} oiddotfágain?",
+    subjectFavoritePitch: "Háliidat go dán fága merket oiddotfágan?",
+    subjectFavoriteGuide:
+      "Vai galggat sáhttit merket fága oiddohin, fertet logget sisa Mu NDLAii. Fága gávnnat bajimusas siiddus go leat sisaloggen.",
+  },
+  topicsPage: {
+    topics: "Fáttát",
+  },
   searchPage: {
     title: "Søk på ndla.no",
-    filterSearch: "Filtrer søket ditt:",
     subjectLetter: "Fag som starter på {{letter}}",
-    resourceTypeFilter: "Ressurstyper",
+    pagination: "Søkeresultater",
+    querySuggestion: "Søk heller etter ",
+    showingResults: {
+      hits: "Viser treff {{from}}-{{to}} av {{total}}",
+      query: "for",
+      noHits: "Ingen treff",
+    },
+    traits: {
+      VIDEO: "Video",
+      AUDIO: "Lyd",
+      H5P: "Interaktiv oppgave",
+      PODCAST: "Podkast",
+    },
+    context: {
+      dialogTrigger: "+ {{count}} flere steder",
+      dialogHeading: "Ressursen er brukt flere steder",
+    },
+    filtersHeading: "Tilpass søket ditt",
+    subjectFilter: {
+      heading: "Filtrer på fag",
+      trigger: "Velg fag",
+      dialogTitle: "Filtrer søket",
+      removeFilter: "Fjern {{subject}}",
+    },
+    traitFilter: {
+      heading: "Vis sider med",
+    },
+    grepFilter: {
+      heading: "Filtrer på kompetansemål",
+      removeFilter: "Fjern {{code}}",
+    },
+    resourceTypeFilter: {
+      title: "Velg sidetype",
+      showSubtypes: "Vis undertyper for {{parent}}",
+      resourceLabel: "Ressurs",
+      subjectLabel: "Fag",
+      topicLabel: "Emne",
+      allLabel: "Vis alle",
+      hits: "{{count}} treff",
+    },
+    programmeFilter: { title: "Velg utdanningsprogram" },
+    noHitsShort: "Du ohcamii ii lean deaivva: {{query}}",
+    search: "Oza",
+    searchFieldPlaceholder: "Oza fágaáššiin, bargobihtáin ja doaimmain dahje oahppanbálgáin",
+    searchFieldPlaceholderShort: "Oza",
+    searchResultListMessages: {
+      noResultHeading: "Hmm, ii lean sisdoallu...",
+      noResultDescription:
+        'Dađi bahábut mis ii leat mihkkege fállat dás. Jus dáhtut evttohit sisdoalu dán fáttás, sáhtát geavahit "Jeara NDLA:s" maid gávnnat vulogeahčen olgeš beale šearpmas.',
+    },
+    searchFilterMessages: {
+      coreRelevance: "Guovddášávnnas",
+      supplementaryRelevance: "Lassiávnnas",
+    },
+    resultType: {
+      showingSearchPhrase: "Čájeha deaivama",
+      showingCompetenceGoalSearchPhrase: "Čájeha bohtosiid gealbomihtuid ektui {text}",
+    },
   },
-  myndla: {
+  myNdla: {
     tagsTitle: "Mine emneknagger",
     campaignBlock: {
       title: "Geahččal min ságastallanbottu",
@@ -79,40 +166,113 @@ const messages = {
         "Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene. Logg inn for å få tilgang til praterobotene.",
     },
     resource: {
-      addedToFolder: 'Ressurs er lagt i "{{folder}}"',
       added: "Lagt til",
+      addedFailed: "Klarte ikke å legge til ressursen",
       removed: "Fjernet",
       showTags: "Vis emneknagger",
       tagsDialogTitle: "Emneknagger knyttet til ressurs {{title}}",
       noTags: "Ingen emneknagger.",
+      add: "Legg til mappe/emneknagg",
+      remove: "Fjern",
+      removeTitle: "Fjern ressurs",
+      confirmRemove: "Er du sikker på at du ønsker å fjerne ressursen fra denne mappen?",
+      copyLink: "Kopier lenke til siden",
+      linkCopied: "Kopiert til utklippstavle",
+      addToMyNdla: "Legg i Min NDLA",
+      addedToMyNdla: "Lagt i Min NDLA",
+      copyToMyNdla: "Kopier til Min NDLA",
+      addedToFolder: "Ressurs er lagt i ",
+      removedFromFolder: 'Fjernet fra "{{folderName}}"',
+      removedFromFolderFailed: 'Klarte ikke å fjerne ressurs fra "{{folderName}}"',
+      titleUpdated: "Tittel oppdatert",
+      tagsUpdated: "Emneknagger oppdatert",
+      tagsUpdatedFailed: "Klarte ikke å oppdatere emneknagger",
+      show: "Vis",
+      save: "Lagre ressurs",
+      onDragStart: "Plukket opp ressursen {{name}}. Ressursen er på posisjon {{index}} av {{length}}",
+      onDragOver: "Ressursen {{name}} ble flyttet til posisjon {{index}} av {{length}}",
+      onDragOverMissingOver: "Ressursen {{name}} er ikke lenger over et slippbart område",
+      onDragEnd: "Ressursen {{name}} ble sluppet på posisjon {{index}} av {{length}}",
+      onDragEndMissingOver: "Ressursen {{name}} ble sluppet",
+      onDragCancel: "Flytting avbrutt. Ressursen {{name}} ble sluppet",
+      dragHandle: "Sorter ressursen {{name}}",
     },
-  },
-  myNdla: {
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttes ikke",
       resourceRemovedTitle: "Ressurs ikke tilgjengelig",
+      folderCopied: "Mappen har blitt kopiert.",
+      info: "Denne mappa inneholder fagstoff og oppgaver fra NDLA, samlet av {{shared}}.",
+      shared: "Denne mappa inneholder fagstoff og oppgaver fra NDLA, samlet av {{sharedBy}}.",
+      aTeacher: "en lærer",
+      firstShared: "Mappa ble delt første gang {{date}}",
+      learningpathUnsupported:
+        "Læringsstier og tverrfaglige caser kan ikke vises direkte i delte mapper. Dersom du trykker på lenka i navigasjonsmenyen til venstre, vil stien åpnes i en ny fane.",
+      drawerButton: "Vis mapper og ressurser",
+      drawerTitle: "Mapper og ressurser",
+      description:
+        "I denne delte mappa finner du fagstoff og oppgaver fra NDLA. Artiklene er samlet inn og satt i rekkefølge av en lærer.",
+      willOpenInNewTab: "Åpnes i ny fane.",
+    },
+    acceptedShareName: {
+      title: "Nå viser vi navnet ditt når du deler",
+      subtitle: "Vi har endret visningen på delte mapper. Nå vises navnet ditt på alle delte mapper og læringsstier.",
+      description:
+        "Dersom du ikke ønsker at navnet ditt skal være synlig kan du avslutte deling av mapper og læringsstier.",
+      button: "OK",
+      accept: {
+        error: "Kunne ikke lagre",
+      },
     },
     arena: {
-      notification: {
-        description:
-          "Velkommen inn i arenaen for lærere i videregående opplæring! Dette er <em>din</em> arena: et faglig møtested for diskusjon, inspirasjon, deling og utviklende samarbeid.",
+      title: "Arenaen",
+      accept: {
+        success: "Du har nå tilgang til Arenaen",
+        error: "Klarte ikke å godta vilkårene.",
+        title: "Velkommen til arenaen",
+        pitch1: "Her kan du diskutere og samarbeide med lærere fra hele Norge.",
+        pitch2:
+          "Her inne skal vi dele og inspirere hverandre - bare husk å respektere personvern og sørg for at alt innhold er lovlig!",
+        listTitle: "Kort oppsummert:",
+        list1: "Ikke del egne eller andres personvernopplysninger",
+        list2: "Sørg for at det du deler er lovlig å dele.",
+        list3: "Hvis du deler innhold du har skrevet selv kan andre dele det videre, så lenge de siterer deg.",
+        terms: "Les mer i våre brukervilkår.",
+        privacyPolicy:
+          "Når du oppretter en bruker i NDLA Arena, vil vi behandle dine personopplysninger. Du kan lese mer om vår behandling av personopplysninger i ",
+        privacyPolicyLink: "vår personvernerklæring.",
+        acceptButton: "Godta",
       },
-      reported: "Innhold rapportert",
-      error: "En feil oppstod",
-      userUpdated: "Bruker oppdatert",
     },
     goToMyNdla: "Gå til Min NDLA",
+    learningpathstep: {
+      onDragStart: "Plukket opp læringsstisteget {{name}}. Læringsstisteget er på posisjon {{index}} av {{length}}",
+      onDragOver: "Læringsstisteget {{name}} ble flyttet til posisjon {{index}} av {{length}}",
+      onDragOverMissingOver: "Læringsstisteget {{name}} er ikke lenger over et slippbart område",
+      onDragEnd: "Læringsstisteget {{name}} ble sluppet på posisjon {{index}} av {{length}}",
+      onDragEndMissingOver: "Læringsstisteget {{name}} ble sluppet",
+      onDragCancel: "Flytting avbrutt. Læringsstisteget {{name}} ble sluppet",
+      dragHandle: "Sorter læringsstisteg {{name}}",
+      error: "Noe gikk galt ved flytting av læringsstisteget",
+    },
     learningpath: {
       newLearningpath: "Ny læringssti",
+      editLearningpath: "Rediger læringssti",
+      editLearningpathTitle: "Rediger læringsstitittel",
+      alert: {
+        title: "Du har ulagrede endringer i steget",
+        content: "Du har ulagrede endringer i steget. Om du fortsetter vil du miste endringene dine.",
+        continue: "Fortsett",
+        cancel: "Avbryt",
+      },
       form: {
         delete: "Slett",
-        next: "Neste",
+        next: "Gå videre",
         back: "Forrige",
         deleteStep: "Slett trinn",
         deleteBody: "Innholdet kan ikke gjenopprettes",
         navigation: "Skjemanavigering",
         title: {
-          titleHelper: "Gi trinnet i læringsstien en beskrivende tittel",
+          titleHelper: "Gi læringsstien en beskrivende tittel",
           imageTitle: "Bildetittel",
           copyright: "Opphav",
           metaImage: "Metabilde",
@@ -122,10 +282,9 @@ const messages = {
         },
         content: {
           title: "Legg til innhold",
-          subTitle: "Legg til innhold til læringsstien",
           resource: {
             label: "Artikkel fra NDLA",
-            labelHelper: "Søk etter artikkel eller lim inn en lenke",
+            labelHelper: "Søk etter artikkel",
           },
           text: {
             title: {
@@ -140,6 +299,9 @@ const messages = {
               label: "Innhold",
               labelHelper: "Skriv eller lim inn innholdet ditt her.",
             },
+            copyright:
+              "Alt du skriver i en læringssti på NDLA blir publisert under lisensen CC BY-SA. Dette betyr at andre kan bruke, tilpasse og bygge videre på arbeidet ditt, så lenge de gir deg kreditering.",
+            copyrightLink: "Les mer om NDLA og deling av innhold her",
           },
           external: {
             title: {
@@ -160,8 +322,11 @@ const messages = {
             checkbox: "Innholdet jeg har lenket til er lovlig å dele.",
           },
           folder: {
+            noResources: "Du har ikke lagt til noen ressurser i mappene dine ennå.",
             label: "Søk i Mine mapper",
-            labelHelper: "Velg innhold fra mappene mine",
+            labelHelper: "Velg innhold fra mappene dine",
+            placeholder: "Søk etter ressurser som ligger i dine mapper",
+            error: "Noe gikk galt ved henting av ressurser",
           },
         },
         options: {
@@ -172,7 +337,7 @@ const messages = {
         },
         steps: {
           next: "Neste: {{ next }}",
-          title: "Tittel og beskrivelse",
+          title: "Tittel",
           content: "Legg til innhold",
           preview: "Se igjennom",
           save: "Lagre og del",
@@ -196,10 +361,19 @@ const messages = {
         copy: "Kopier lenke",
       },
       toast: {
+        createdFailed: "Klarte ikke opprette læringssti.",
         deleted: 'Læringsstien "{{ name }}" er slettet.',
-        unshared: 'Lærringsstien "{{ name }}" er ikke lenger delt.',
-        copy: 'Kopiert lenken til læringsstien "{{ name }}"',
+        deletedFailed: 'Kunne ikke slette læringstien "{{ name }}".',
+        unshared: 'Læringsstien "{{ name }}" er ikke lenger delt.',
+        unshareFailed: "Kunne ikke avslutte deling av læringsstien.",
+        copy: 'Kopiert lenken til læringsstien "{{ name }}".',
         shared: "Læringsstien er delt.",
+        shareFailed: "Kunne ikke dele læringsstien.",
+        createdStep: 'Et steg med tittel "{{ name }}" ble opprettet.',
+        deletedStep: 'Et steg med tittel "{{ name }}" ble slettet.',
+        deletedStepFailed: 'Kunne ikke slette steget med tittel "{{ name }}".',
+        createdStepFailed: 'Kunne ikke opprette steg med tittel "{{ name }}".',
+        updateStepFailed: 'Kunne ikke oppdatere steget med tittel "{{ name }}".',
       },
       status: {
         shared: "Delt",
@@ -214,8 +388,6 @@ const messages = {
       sharing: {
         description: {
           shared:
-            "Når du deler en læringssti, lager du ei lenke som er åpen for alle som har lenka. Du kan endre innholdet eller avslutte delinga når du ønsker det.",
-          private:
             "Nå kan du dele denne lenka med elever eller andre lærere. Hvis du gjør endringer i læringsstien, blir de synlige for alle du har delt lenka med.",
           copy: "Trykk på lenka for å kopiere",
         },
@@ -226,12 +398,267 @@ const messages = {
           preview: "Forhåndsvis læringssti",
         },
       },
+      saveLearningpath: {
+        saveAndClose: "Lagre og lukk",
+        pageHeading: "Lagre og del",
+        pageDescription:
+          "Lagre og del læringsstien din. Når du deler en læringssti, lager du en delbar lenke som du kan sende til elever eller lærere. Læringsstien din vil være tilgjengelig for alle som har lenken. Du kan endre innholdet eller avslutte delinga når du ønsker det.",
+      },
+      previewLearningpath: {
+        pageHeading: "Preview",
+        pageDescription: "Preview the learning path you have created.",
+        noSteps: "You haven't added any steps to the learning path yet.",
+      },
+      copy: {
+        title: "Kopier læringssti",
+        description:
+          "Ved å kopiere en læringssti, legges den til i listen over dine læringsstier. Du kan deretter redigere og tilpasse stien slik du ønsker.",
+        button: "Kopier til mine læringsstier",
+        success: { title: "Kopiert", description: "Læringsstien er kopiert til " },
+        error: "Noe gikk galt ved kopiering av læringsstien",
+        loginCopyPitch: "Ønsker du å kopiere denne læringsstien?",
+      },
     },
+    description:
+      "Min NDLA: Organiser fagstoffet på din måte! Bruk NDLAs praterobot (AI/KI). Lagre og del med kolleger og elever.",
+    mainMenu: "Hovedmeny",
+    myNDLA: "Min NDLA",
+    myNDLAMenu: "Min NDLA meny",
+    support: "Brukerstøtte",
+    resources_one: "{{count}} ressurs",
+    resources_other: "{{count}} ressurser",
+    folders_one: "{{count}} mappe",
+    folders_other: "{{count}} mapper",
+    settings: "Innstillinger",
+    showEditOptions: "Vis redigeringsmuligheter",
+    folder: {
+      folder: "Mappe",
+      navigation: "Mappenavigasjon",
+      delete: "Slett mappe",
+      deleteShort: "Slett",
+      edit: "Rediger mappe",
+      editShort: "Rediger",
+      copy: "Kopier mappe",
+      open: "Åpne mappe",
+      close: "Lukk mappe",
+      updated: "Mappen har blitt oppdatert",
+      updatedFailed: "Klarte ikke å oppdatere mappen",
+      defaultPageDescription: "Legg til beskrivelse ved å redigere mappen",
+      missingName: "Skriv navn på mappe",
+      folderDeleted: '"{{folderName}}" er slettet',
+      folderDeletedFailed: 'Klarte ikke å slette "{{folderName}}"',
+      folderCreated: '"{{folderName}}" er opprettet',
+      folderCreatedFailed: 'Klarte ikke å opprette "{{folderName}}"',
+      onDragStart: "Plukket opp mappen {{name}}. Mappen er på posisjon {{index}} av {{length}}",
+      onDragOver: "Mappen {{name}} ble flyttet til posisjon {{index}} av {{length}}",
+      onDragOverMissingOver: "Mappen {{name}} er ikke lenger over et slippbart område",
+      onDragEnd: "Mappen {{name}} ble sluppet på posisjon {{index}} av {{length}}",
+      onDragEndMissingOver: "Mappen {{name}} ble sluppet",
+      onDragCancel: "Flytting avbrutt. Mappen {{name}} ble sluppet",
+      dragHandle: "Sorter mappen {{name}}",
+      professional: "en fagperson",
+      sharedWarning: "Navn og beskrivelse blir synlig for alle du deler mappen med.",
+      sharing: {
+        share: "Del mappe",
+        shared: "Delt",
+        sharedBy: "Delt av ",
+        sharedByAnonymous: "anonym lærer",
+        sharedFolder: "Delt mappe",
+        unShare: "Delingen er avsluttet. Mappen er ikke lenger delt.",
+        unShareFailed: "Klarte ikke å avslutte delingen. Mappen er ennå delt.",
+        copyLink: "Kopier lenke til mappa",
+        removeLink: "Fjern lenke til mappe",
+        link: "Lenken er kopiert",
+        savedLink: "Lenke til  {{ name }} er lagt til i Mine mapper.",
+        savedLinkFailed: "Klarte ikke å legge til lenke til Mine mapper.",
+        unSavedLink: "Lenke til  {{ name }} er fjernet fra Mine mapper.",
+        unSavedLinkFailed: "Klarte ikke å fjerne fra Mine mapper.",
+        sharedHeader: "Denne mappa er delt",
+        folderShared: "Denne mappa er delt.",
+        folderSharedFailed: "Klarte ikke å dele mappen.",
+        description: {
+          copy: "Trykk på lenke for å kopiere",
+          private:
+            "Når du deler ei mappe, lager du ei lenke som er åpen for alle som har lenka. Du kan endre innholdet eller avslutte delinga når du ønsker det. ",
+          shared:
+            "Nå kan du dele denne lenka med elever eller andre lærere. Hvis du gjør endringer i mappa, blir de synlige for alle du har delt lenka med.",
+        },
+        warning: {
+          authenticated:
+            "Denne mappen er delt av {{ name }}, og  inneholder fagstoff, oppgaver og lenker til tekster fra både NDLA og andre nettsteder.",
+          unauthenticated:
+            "Denne mappen er delt av {{ name }}, og  inneholder fagstoff, oppgaver og lenker til tekster fra både NDLA og andre nettsteder. Logg inn på Min NDLA for å kopiere mappen eller lagre lenken.",
+        },
+        button: {
+          share: "Del mappe",
+          shareShort: "Del",
+          preview: "Forhåndsvis mappe",
+          previewShort: "Forhåndsvis",
+          goTo: "Gå til delt mappe",
+          unShare: "Avslutt deling",
+          shareLink: "Kopier lenke",
+          saveLink: "Lagre lenken",
+          unSaveLink: "Fjern lenken",
+        },
+        save: {
+          warning:
+            "Dette lager en lenke til mappen i Mine mapper. Du kan enkelt finne den igjen ved å gå til Mine mapper i menyen i Min NDLA.",
+          header: "Lagre lenke til denne mappen",
+          save: "Lagre lenke til delt mappe",
+        },
+        previewInformation:
+          "Forhåndsvisning av delt mappe. Mappa blir ikke tilgjengelig for andre før du setter den som delt.",
+      },
+    },
+    iconMenu: {
+      folders: "Mapper",
+      tags: "Emneknagger",
+      subjects: "Favorittfag",
+      profile: "Profil",
+      more: "Mer",
+      learningpath: "Læringsstier",
+    },
+    tagList: "Emneknagger",
+    tags_one: "{{count}} emneknagg",
+    tags_other: "{{count}} emneknagger",
+    moreTags_one: "Vis en emneknagg til",
+    moreTags_other: "Vis {{count}} emneknagger til",
+    confirmDeleteFolder:
+      "Er du sikker på at du vil slette mappen? Dersom mappen har undermapper vil disse også slettes. Handlingen kan ikke endres.",
+    confirmDeleteTag: "Er du sikker på at du vil slette emneknagg? Denne handlingen kan ikke endres.",
+    myFolders: "Mine mapper",
+    sharedByOthersFolders: "Mapper andre har delt",
+    myTags: "Mine emneknagger",
+    mySubjects: "Mine fag",
+    newFolder: "Ny mappe",
+    newFolderShort: "Ny",
+    newFolderUnder: "Lag ny mappe under {{folderName}}",
+    myAccount: "Min konto",
+    favourites: "Favoritter",
+    addToFavourites: "Legg til i mine favoritter",
+    alreadyFavourited: "Allerede lagt til i mine favoritter",
+    alreadyInFolder: "Finnes allerede i mappen. Du kan fortsatt lagre nye emneknagger.",
+    addInSharedFolder: "Denne mappen er delt. Innhold du legger til vil også bli delt.",
+    noFolderSelected: "Velg eller opprett ny mappe for å lagre ressursen",
+    examLockInfo: "Redigering av innhold på Min NDLA er deaktivert for elever i eksamensperioden.",
+    copyFolderDisclaimer:
+      "Dette lager en kopi av mappen. Eventuelle endringer i originalmappen vil ikke bli oppdatert her.",
+    loginCopyFolderPitch: "Ønsker du å kopiere denne mappen?",
+    loginSaveFolderLinkPitch: "Ønsker du å lagre lenken til denne delte mappen?",
+    help: "Hjelp",
+    more: "Flere valg",
+    selectView: "Velg visning",
+    listView: "Listevisning",
+    detailView: "Detaljert listevisning",
+    shortView: "Kort visning",
+    userPictureAltText: "Profilbilde",
+    myPage: {
+      noRecents: "Du har ikke lagt til noen ressurser ennå. Slik kommer du i gang:",
+      imageAlt:
+        "Halvnært bilde av jente som holder et nettbrett i hendene. Oppå nettbrettet ligger det ei samling fargeprøver i ulike former og farger. Grafikk.",
+      confirmDeleteAccount: "Er du sikker på at du vil slette kontoen?",
+      confirmDeleteAccountButton: "Slett konto",
+      myPage: "Min side",
+      deleteAccount: "Slett brukerprofil",
+      loginPitch:
+        "Velkommen til Min NDLA! Her kan du lagre favorittressursene dine fra NDLA, organisere dem og dele dem med andre. Logg inn med din Feide-konto for å komme i gang.",
+      loginPitchButton: "Logg inn i Min NDLA",
+      logout: "Logg ut av Min NDLA",
+      loginIngress:
+        "Her kan du organisere fagstoffet på <b>din</b> måte! Bruk hjerteknappen til å markere dine favorittfag eller ressurser, og finne dem enkelt igjen.",
+      loginText:
+        "For å kunne bruke tjenesten Min NDLA må du være elev eller jobbe på en skole i et fylke som er med i NDLA-samarbeidet.",
+      loginTextLink: "Les vår personvernerklæring her",
+      loginTerms: "Logg på med Feide for å få tilgang. Ved å logge på godkjenner du våre vilkår for bruk",
+      loginResourcePitch: "Ønsker du å favorittmerke denne ressursen?",
+      loginWelcome: "Velkommen til Min NDLA!",
+      welcome:
+        "Velkommen til Min NDLA! Nå kan du lagre favorittressursene dine fra NDLA og organisere dem i mapper og med emneknagger.",
+      read: { read: "Les", our: " vår." },
+      privacy: "personvernerklæringa",
+      privacyLink: "https://ndla.no/article/personvernerklaering",
+      questions: { question: "Lurer du på noe?", ask: "Spør NDLA" },
+      wishToDelete: "Vil du ikke ha brukerprofil hos oss lenger?",
+      terms: {
+        terms: "Vilkår for bruk",
+        term1: "Ikke skriv personsensitiv informasjon eller persondata i tekstfelt.",
+        term2: "Ikke skriv noe støtende i tekstfelt.",
+        term3: "NDLA forbeholder seg retten til å oppdatere eller slette utdaterte ressurser.",
+      },
+      recentFavourites: {
+        title: "Nylig lagt til i mine mapper",
+        link: "Se alle mappene dine",
+        search: "Søk etter ressurser",
+        unauthorized: "Oops. Her var det tomt! Hjertemerk noen ressurser for å vise dem her.",
+      },
+      favouriteSubjects: {
+        noFavorites:
+          "Ingen favorittfag? Bruk hjerteknappen for å legge til favorittfag, så finner du dem enkelt igjen!",
+        search: "Se alle fag",
+        viewAll: "Se alle favorittfag",
+      },
+      feide: "Dette henter vi om deg gjennom Feide",
+      feideWrongInfo:
+        "Dersom informasjon er feil, så må dette oppdateres av vertsorganisasjon/skoleeier som brukeren tilhører. Oversikt over brukerstøtte finnes her: feide.no/brukerstotte",
+    },
+    myProfile: {
+      title: "Min profil",
+      disclaimerTitle: {
+        employee: "Hvor brukes navnet mitt?",
+        student: "Hvor brukes navnet mitt?",
+      },
+      disclaimerText: {
+        employee:
+          "Navnet ditt vises når du deler en mappe eller en læringssti. Dersom du ikke ønsker å dele navnet ditt kan du avslutte deling av mapper eller læringsstier.",
+        student: "Navnet ditt vises bare for deg selv når du er logget inn.",
+      },
+      editButtonText: "Endre profilbilde",
+      modalTexts: {
+        title: "Last opp nytt profilbilde",
+        uploadSection: {
+          title: "Dra og slipp",
+          subTitle: "eller trykk for å laste opp bilde",
+        },
+        fileName: "Opplastet fil:",
+        fileTypes: "Godkjente filtyper: PNG, JPG (Maks 5MB)",
+        savePicture: "Lagre profilbilde",
+        deletePicture: "Slett profilbilde",
+      },
+    },
+    favoriteSubjects: {
+      title: "Mine fag",
+      subjects_one: "{{count}} fag",
+      subjects_other: "{{count}} fag",
+      noFavorites: "Hjertemerk fag, så dukker de opp her.",
+      goToAllSubjects: "Gå til alle fag",
+    },
+    tools: "Verktøy",
+    simpleList: "Enkel liste",
+    detailedList: "Med ingress",
   },
   ndlaFilm: {
+    heading: "NDLA film",
+    slideBackwardsLabel: "Rulle maŋos",
+    slideForwardsLabel: "Rulle ovddas",
     films: "Filmer",
     topics: "Emner",
     filterFilms: "Filtrer filmer",
+    about: {
+      more: "Loga eanet NDLA filmma birra",
+    },
+    search: {
+      categoryFromNdla: "NDLA válljenmunni",
+    },
+  },
+  filmfrontpage: {
+    resourcetype: {
+      documentary: "Dokumentára",
+      featureFilm: "Guoimmuhanfilbma",
+      series: "Tv-ráidu",
+      shortFilm: "Oanehis filbma",
+      all: "Buot filmmat A-Å",
+    },
+    allMovieGroupTitleLabel: "Filmmat mat álget {{letter}}",
   },
   validation: {
     fields: {
@@ -248,6 +675,13 @@ const messages = {
     notUnique: "Gávdno juo",
     maxLength: "Dát fealta sáhttá sisttisdoallat eanemus {{count}} mearkkat",
     maxLengthField: "$t(validation.fields.{{field}}) sáhttá sisttisdoallat {{count}} mearkkat",
+    properUrl: "Dette feltet kan kun innholde en gyldig lenke. Eks: https://ndla.no",
+  },
+  lti: {
+    embed: "Deavdde",
+    notSupported:
+      "Ii lean vejolaš bidjat sisdoalu sisa automáhtalaččat. Kopiere gáldokoda vulobealde ja bija iežat siidui.",
+    goBack: "Tilbake til LTI-søk",
   },
   resourcepageTitles: {
     video: "Video",
@@ -257,43 +691,6 @@ const messages = {
   },
   contentTypes: {
     multidisciplinary: "Fágaidrasttideaddji fáddá",
-  },
-  markdownEditor: {
-    link: {
-      url: "Lenkeadresse",
-      text: "Lenketekst",
-      error: {
-        url: {
-          empty: "Lenkeadressa kan ikke være tom",
-          invalid: "Ugyldig lenkeadresse. Følg formatet https://ndla.no",
-        },
-        text: {
-          empty: "Lenketeksta kan ikke være tom",
-        },
-      },
-    },
-    toolbar: {
-      bold: {
-        active: "Váldde eret buoiddes fontta",
-        inactive: "Lasit buoiddes fontta",
-      },
-      italic: {
-        active: "Váldde eret vinjučála fontta",
-        inactive: "Lasit vinjučála fontta",
-      },
-      unorderedList: {
-        active: "Váldde eret čuoggátávvala",
-        inactive: "Lasit čuoggátávvala",
-      },
-      orderedList: {
-        active: "Váldde eret nummáraston listtu",
-        inactive: "Lasit nummárastojuvvon listtu",
-      },
-      link: {
-        active: "Váldde eret liŋkka",
-        inactive: "Lasit liŋkka",
-      },
-    },
   },
   tabs: {
     competenceGoals: "Kategorier",
@@ -306,6 +703,50 @@ const messages = {
   masthead: {
     search: "Søk på ndla.no",
     moreHits: "Vis flere treff",
+    skipToContent: "Njuike sisdollui",
+    activeSubjectSearch: "Søk i faget",
+    menuOptions: {
+      programme: "Oahppoprográmma",
+      subjects: "Fága",
+      multidisciplinarySubjects: "Fágaidrasttildeaddji fáddá",
+      toolboxStudents: "Reaidokássa - ohppiide",
+      toolboxTeachers: "Reaidokássa - oahpaheddjiide",
+      film: "NDLA Filbma",
+    },
+    menu: {
+      button: "Fállu",
+      goToMainMenu: "Mana váldofállui",
+      search: "Oza",
+      title: "Hva kan vi hjelpe deg med?",
+      modalLabel: "Vállje sisdoalu",
+      open: "Åpne meny",
+      close: "Lukk meny",
+      myNdla: {
+        yourFavouriteSubjects: "Dine favorittfag",
+        viewAllFavouriteSubjects: "Se alle favorittfag",
+        loggedInAs: "Logget inn som",
+        myNdla: "Min NDLA",
+        arena: "Arenaen",
+        chatRobot: "Praterobot",
+      },
+      links: {
+        education: {
+          title: "Fag og utdanningsprogram",
+          programmes: "Utdanningsprogram",
+          subjects: "Alle fag",
+          multidisciplinary: "Tverrfaglige tema",
+          film: "NDLA Film",
+        },
+        tips: {
+          title: "Tips og råd",
+          studentToolbox: "Verktøykassa for elever",
+          teacherToolbox: "Verktøykassa for lærere",
+        },
+        dynamic: {
+          title: "Om oss",
+        },
+      },
+    },
   },
   pagination: { next: "Neste", prev: "Forrige" },
   programmePage: {
@@ -317,13 +758,26 @@ const messages = {
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",
   },
+  toolboxPage: {
+    introduction:
+      "Maid mearkkaša bargat suokkardeaddji vugiin? Mo sáhtát buorebut oahppat? Mo galgá joavkobarggu oažžut doaibmat? Reaidokássas gávdnet sihke oahppit ja oahpaheaddjit resurssaid mat leat guoskevaččat buot fágaide, ja mat dorjot oahppanbarggu ja ovdánahttet máhtu, gálgga ja ipmárdusa. ",
+  },
   welcomePage: {
     programmes: "Utdanningsprogram",
+    resetSearch: "Sihko ohcama",
+    heading: {
+      heading: "Našunála digitála oahppanarena",
+    },
   },
   learningpathPage: {
     accordionTitle: "Innhold i læringssti",
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",
+    externalWarning:
+      "Denne læringsstien er utarbeidet av en ekstern lærer, som har det redaksjonelle ansvaret. Vær oppmerksom på at den kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
+    externalLink: "Åpne i nytt vindu",
+    bylineSuffix:
+      "Læringsstien er satt sammen av en lærer. NDLA har ikke redaksjonelt ansvar for denne stien. Stien kan inneholde tekster og lenker som ikke kommer fra ndla.no.",
   },
   movedResourcePage: {
     title: "Siden har flyttet, men du finner den her:",
@@ -334,7 +788,7 @@ const messages = {
     errorDescription: "Du har ikke tilgang til denne sida",
   },
   collectionPage: {
-    title: `Ressursar på $t(languages.{{language}})`,
+    title: "Ressursar på {{language}}",
     noSubjects: "Vi har ikkje nokon ressursar på dette språket enda.",
   },
   date: {
@@ -354,6 +808,173 @@ const messages = {
       year: "år",
       years: "år",
     },
+  },
+  richTextEditor: {
+    plugin: {
+      link: {
+        edit: "Rediger lenke",
+        create: "Opprett lenke",
+        popoverTitle: "Lenke til {{domain}}",
+        form: {
+          textLabel: "Tekst",
+          urlLabel: "URL",
+        },
+      },
+      span: {
+        language: "Språk",
+      },
+      heading: {
+        label: "Velg teksttype",
+        "normal-text": "Normal",
+        "heading-2": "Overskrift 2",
+        "heading-3": "Overskrift 3",
+      },
+    },
+  },
+  treeStructure: {
+    maxFoldersAlreadyAdded: "Vuollemáhpaid badjerádji lea olahuvvon",
+    newFolder: {
+      placeholder: "Čále nama máhppii",
+      folderName: "Máhpa namma",
+    },
+  },
+  competenceGoals: {
+    competenceGoalTitle: "Mihttun lea ahte oahppi galgá máhttit:",
+    licenseData: "Sisttisdoallá dáhta dán vuolde",
+    licenseFrom: "biddjon olahanmuddui",
+    competenceGoalResourceSearchText: "Vis ressursar til {{code}}",
+    coreResourceSearchText: "Vis ressurser til kjerneelement {{code}}",
+    competenceTabLK20label: "Gealbomihttomearri",
+    competenceTabCorelabel: "Guovddášelemeanta",
+    modalText: "Suokkar oahppoplánačanastagaid",
+    showCompetenceGoals: "Čájet gealbomihttomeari",
+    competenceGoalItem: {
+      title: "Gealbomihttomearit ja árvvoštallan",
+    },
+  },
+  subjectFrontPage: {
+    buildsOn: "Duddjo dása",
+    connectedTo: "Oktasaš prográmmafáddán lea",
+    leadsTo: "Dát doalvu",
+  },
+  learningPath: {
+    nextArrow: "Mana boahtte lávkái",
+    previousArrow: "Mana ovddit lávkái",
+    youAreInALearningPath: "Don leat dál muhtin oahppobálgás",
+    lastUpdated: "Maŋemus ođastuvvon",
+    lastStep: {
+      heading: "Maŋemus ceahkki oahppobálgás",
+      headingSmall: "Don leat dál oahppobálgá maŋemus ceahkis {{learningPathName}}",
+      topicHeading: "Mana fáddái:",
+      subjectHeading: "Mana fágii:",
+    },
+  },
+  createdBy: {
+    content: "Resursa",
+    text: "lea vižžojuvvon",
+  },
+  tagSelector: {
+    placeholder: "Čále fáddágilkora",
+  },
+  notFoundPage: {
+    title: "Siidu ii gávdno",
+    errorDescription: "Šállošat, eat gávnna siiddu masa geahččalit beassat.",
+  },
+  unpublishedResourcePage: {
+    title: "Ressursen er avpublisert",
+    errorDescription: "Beklager, ressursen du prøvde å komme til er avpublisert.",
+  },
+  messageBoxInfo: {
+    noContent: "Mis ii dađibahábut leat makkárge prográmmafága vuos.",
+    resources: "Dát ii leat ollislaš oahpponeavvu, muhto resursačoakkáldat man sávvat dutnje leat ávkin.",
+    subjectOutdated: "Dát fága čuovvu oahppoplána mii ii gusto šat.",
+    subjectBeta: "Dát fága lea betaveršuvnnas. Mii lasihit resurssaid dađistaga",
+    frontPageExpired:
+      "Ii leat oahpahus šat fágain mat eai leat gustovaččat, muhto sáhttá ain leat vejolaš váldit eksámena fágas privatistan.",
+  },
+  programmes: {
+    header: "Maid háliidat oahppat odne?",
+    description: "Vállje oahppoprográmma vai oainnát iežat fágaid",
+    grades: "Ceahkki",
+  },
+  common: {
+    subject_one: "Fága",
+    subject_other: "Fágat",
+  },
+  resource: {
+    noCoreResourcesAvailableUnspecific: "Ii leat makkárge guovddášávnnas olamuttus.",
+    noCoreResourcesAvailable: "Ii leat guovddášávnnas čuovvovačča ovddas {{name}}.",
+    activateAdditionalResources: "Lassiávnnas",
+    label: "Oahppanresurssat",
+    tooltipCoreTopic: "Guovddášávnnas",
+    tooltipAdditionalTopic: "Lassiávnnas",
+    additionalTooltip: "Lassiávnnas",
+    trait: {
+      audio: "Jietna",
+      h5p: "Interaktiiva",
+      podcast: "Podkásta",
+      video: "Video",
+    },
+  },
+  navigation: {
+    additionalTopic: "Lassifáddá",
+  },
+  siteNav: {
+    close: "Lukk søk",
+  },
+  labels: {
+    other: "Eará",
+  },
+  multidisciplinarySubject: {
+    subjectsLinksDescription: "Keisa mii gullá",
+  },
+  frontpageMenu: {
+    allsubjects: "Buot fágat",
+  },
+  frontpageMultidisciplinarySubject: {
+    text: "Oahppoplána golbma fágaidrasttideaddji fáttáin leat vuolggasadjin áigeguovdilis hástalusat servvodagas mat gáibidit beroštumi ja rahčamuša ovttaskas olbmuin ja searvevuođas lagasbirrasis, našunálalaččat ja máilmmeviidosaččat.",
+  },
+  footer: {
+    vision: "Ovttas hábmet boahtteáiggi oahppama",
+    linksHeader: "Oktavuohta",
+    info: "Neahttabáiki lea ráhkaduvvon NDLA bokte rabas gáldokodain.",
+    editorInChief: "Vásttolaš doaimmaheaddji:",
+    availabilityLink: "Beasatlašvuođajulggaštus",
+    privacyLink: "Persovdnasuodjalusjulggaštus ja diehtočoahkku (gáhkožat)",
+    cookiesLink: "Julggaštus diehtočoahku ektui (gáhkožat)",
+    aboutWebsite: "Neahttabáikki birra",
+    followUs: "Čuovo min",
+    socialMediaLinks: {
+      facebook: "NDLA Facebookas",
+      newsletter: "Dieđit iežat min ođasreivvii",
+      youtube: "NDLA Youtubas",
+      linkedin: "NDLA LinkedInas",
+      instagram: "NDLA Instagramas",
+    },
+    ndlaLinks: {
+      omNdla: "NDLA birra",
+      aboutNdla: "NDLA birra",
+      contact: "Kontakt oss",
+    },
+    otherLanguages: "Andre språk",
+  },
+  user: {
+    loggedInAs: "Don leat sisaloggejuvvon {{role}}.",
+    role: {
+      employee: "bargi",
+      student: "oahppi",
+    },
+    buttonLogIn: "Logge sisa Feide bokte",
+    buttonLogOut: "Logge olggos",
+    resource: {
+      accessDenied: "Šállošat, muhto dát resursa lea dušše oahpaheddjiide mat leat loggen sisa Feide bokte.",
+    },
+    primarySchool: "váldoskuvla",
+    name: "Namma",
+    mail: "Eboasta",
+    username: "Geavahan namma",
+    wrongUserInfoDisclaimer:
+      "Jus leat boasttudieđut, de ferte organisašuvdna/skuvlaeaiggát masá geavaheaddji gullá ođasmahttit dan. Visogova geavaheaddjidoarjaga ektui gávnnat dás: ",
   },
 };
 

@@ -19,7 +19,9 @@ import { NoSSR } from "@ndla/util";
 import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
 import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
+import CompetenceGoals from "../../components/CompetenceGoals";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -102,14 +104,10 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
 
   useEffect(() => {
     if (authContextLoaded && node.article) {
-      const dimensions = getAllDimensions({
-        article: node.article,
-        filter: node.breadcrumbs[0],
-        user,
-      });
+      const dimensions = getAllDimensions({ user });
       trackPageView({ dimensions, title: pageTitle });
     }
-  }, [authContextLoaded, node.article, node.breadcrumbs, pageTitle, trackPageView, user]);
+  }, [authContextLoaded, node.article, pageTitle, trackPageView, user]);
 
   const breadcrumbs = useMemo(() => {
     if (!node.context) return [];
@@ -167,11 +165,20 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               )}
             </HeadingWrapper>
             {!!(node.article?.htmlIntroduction?.length || node.meta?.metaDescription?.length) && (
-              <Text textStyle="body.large">
-                {node.article?.htmlIntroduction?.length
-                  ? parse(node.article.htmlIntroduction)
-                  : node.meta?.metaDescription}
+              <Text textStyle="body.large" asChild consumeCss>
+                <div>
+                  {node.article?.htmlIntroduction?.length
+                    ? parse(node.article.htmlIntroduction)
+                    : node.meta?.metaDescription}
+                </div>
               </Text>
+            )}
+            {!!node.article?.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
+              <CompetenceGoals
+                codes={node.article.grepCodes}
+                subjectId={node.context?.rootId}
+                supportedLanguages={node.article.supportedLanguages}
+              />
             )}
           </HeaderWrapper>
           <TransportationPageVisualElement embed={embedMeta} metaImage={node.article?.metaImage} />
@@ -183,7 +190,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         ) : node.children?.length ? (
           <NodeGridWrapper aria-labelledby={headingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={headingId}>
-              <h2>{t("topicPage.topics")}</h2>
+              <h2>{t("topicsPage.topics")}</h2>
             </Heading>
             <StyledTransportationPageNodeListGrid>
               {node.children.map((node) => (
@@ -200,6 +207,9 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               </PageContent>
             </BleedPageContent>
           </NoSSR>
+        )}
+        {!!node.article?.transformedContent.metaData?.images && (
+          <ImageLicenseAccordion imageLicenses={node.article.transformedContent.metaData.images} />
         )}
       </StyledPageContainer>
     </main>

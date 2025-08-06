@@ -1,13 +1,6 @@
 name: CI
 on: [push, pull_request]
 env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.CI_AWS_CLIENT_ID }}
-  AWS_DEFAULT_REGION: "eu-west-1"
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.CI_AWS_CLIENT_SECRET }}
-  NDLA_AWS_ECR_REPO: ${{ secrets.NDLA_AWS_ECR_REPO }}
-  CI_RELEASE_ROLE: ${{ secrets.CI_RELEASE_ROLE }}
-  DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-  DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
   NDLA_RELEASES: ${{ secrets.NDLA_RELEASES }}
   GH_TOKEN: ${{ secrets.CI_NOW_GH_TOKEN }}
   VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -23,19 +16,11 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "20.13.1"
-      - name: "Login to ECR repo"
-        run: RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
-          AWS_ACCESS_KEY_ID=$(echo $RES | jq -r .Credentials.AccessKeyId)
-          AWS_SECRET_ACCESS_KEY=$(echo $RES | jq -r .Credentials.SecretAccessKey)
-          AWS_SESSION_TOKEN=$(echo $RES | jq -r .Credentials.SessionToken)
-          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $NDLA_AWS_ECR_REPO
-      - name: "Login to dockerhub"
-        run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
+          node-version: "22.15.0"
       - name: "Enable yarn v4"
         run: |
           corepack enable
-          yarn set version 4.5.1
+          yarn set version 4.9.2
       - uses: actions/cache@v3
         with:
           path: |
@@ -58,19 +43,11 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: "20.13.1"
+          node-version: "20.19.1"
       - name: "Enable yarn v4"
         run: |
           corepack enable
-          yarn set version 4.5.1
-      - name: "Login to ECR repo"
-        run: RES=$(aws sts assume-role --role-arn $CI_RELEASE_ROLE --role-session-name github-actions-ecr-login)
-          AWS_ACCESS_KEY_ID=$(echo $RES | jq -r .Credentials.AccessKeyId)
-          AWS_SECRET_ACCESS_KEY=$(echo $RES | jq -r .Credentials.SecretAccessKey)
-          AWS_SESSION_TOKEN=$(echo $RES | jq -r .Credentials.SessionToken)
-          aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $NDLA_AWS_ECR_REPO
-      - name: "Login to dockerhub"
-        run: echo $DOCKER_HUB_PASSWORD | docker login --username $DOCKER_HUB_USERNAME --password-stdin
+          yarn set version 4.9.2
       - name: "Install"
         run: yarn install --immutable
       - name: "Build"

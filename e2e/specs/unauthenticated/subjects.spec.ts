@@ -7,15 +7,18 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
-test.beforeEach(async ({ page }) => {
+test.beforeEach(async ({ page, waitGraphql }) => {
   await page.goto("/?disableSSR=true");
 
   await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await waitGraphql();
   await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();
-  await mockWaitResponse(page, "**/graphql-api/graphql");
+  await waitGraphql();
+
+  const competenceButton = page.getByRole("button").getByText("Vis kompetansemål");
+  await expect(competenceButton).not.toBeDisabled();
 });
 
 test("should have valid breadcrumbs", async ({ page }) => {

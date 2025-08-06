@@ -8,7 +8,7 @@
 
 import type { Logger } from "winston";
 import config from "../../config";
-import { LogLevel } from "../error/index";
+import { LogLevel } from "../../interfaces";
 
 let winstonLogger: Logger | undefined;
 

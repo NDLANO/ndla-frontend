@@ -32,6 +32,7 @@ import { useArticleCopyText, useNavigateToHash } from "../../components/Article/
 import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
+import Disclaimer from "../../components/Disclaimer";
 import LicenseBox from "../../components/license/LicenseBox";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -75,17 +76,23 @@ const ResourcesPageContent = styled("div", {
   },
 });
 
-const StyledPageContent = styled(PageContent, {
-  base: {
-    overflowX: "hidden",
-  },
-});
-
 const StyledHeroContent = styled(HeroContent, {
   base: {
     "& a:focus-within": {
       outlineColor: "currentcolor",
     },
+  },
+});
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
   },
 });
 
@@ -100,11 +107,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
 
   useEffect(() => {
     if (!loading && authContextLoaded) {
-      const dimensions = getAllDimensions({
-        article: resource?.article,
-        filter: root?.name,
-        user,
-      });
+      const dimensions = getAllDimensions({ user });
       trackPageView({
         dimensions,
         title: getDocumentTitle(t, resource, root),
@@ -228,8 +231,13 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                   )
                 }
                 lang={article.language === "nb" ? "no" : article.language}
+                disclaimer={
+                  article.transformedDisclaimer?.content ? (
+                    <Disclaimer disclaimer={article.transformedDisclaimer} />
+                  ) : null
+                }
               />
-              <ArticleContent>{article.transformedContent.content ?? ""}</ArticleContent>
+              <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
               <ArticleFooter>
                 <ArticleByline
                   footnotes={article.transformedContent.metaData?.footnotes ?? []}

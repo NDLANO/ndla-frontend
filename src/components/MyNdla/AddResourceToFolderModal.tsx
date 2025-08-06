@@ -12,8 +12,8 @@ import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, Dialo
 import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 import ListResource from "./ListResource";
 import LoginModalContent from "./LoginModalContent";
-import { useFolderResourceMeta } from "../../containers/MyNdla/folderMutations";
 import { GQLFolder } from "../../graphqlTypes";
+import { useFolderResourceMeta } from "../../mutations/folderMutations";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -61,7 +61,7 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
                 link={resource.path}
                 title={meta?.title ?? ""}
                 resourceImage={{
-                  src: meta?.metaImage?.url ?? "",
+                  src: meta?.metaImage?.url,
                   alt: meta?.metaImage?.alt ?? "",
                 }}
                 resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}

@@ -8,7 +8,7 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, Location } from "react-router-dom";
+import { Navigate, useLocation, Location, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -16,7 +16,6 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
-import { useUrnIds } from "../../routeHelpers";
 import { findAccessDeniedErrors } from "../../util/handleError";
 import { isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
@@ -48,7 +47,6 @@ const resourcePageQuery = gql`
   ) {
     resourceTypes {
       ...ArticlePage_ResourceType
-      ...LearningpathPage_ResourceTypeDefinition
     }
     node(id: $resourceId, rootId: $subjectId, parentId: $topicId, contextId: $contextId) {
       relevanceId
@@ -69,26 +67,21 @@ const resourcePageQuery = gql`
   ${MovedResourcePage.fragments.resource}
   ${ArticlePage.fragments.resource}
   ${ArticlePage.fragments.resourceType}
-  ${LearningpathPage.fragments.resourceType}
   ${LearningpathPage.fragments.resource}
 `;
-const ResourcePage = () => {
+export const ResourcePage = () => {
   const { t } = useTranslation();
   const location = useLocation();
-  const { contextId, subjectId, resourceId, topicId, stepId } = useUrnIds();
+  const { contextId, stepId } = useParams();
 
   const { error, loading, data } = useQuery<GQLResourcePageQuery>(resourcePageQuery, {
     variables: {
-      subjectId,
-      topicId,
-      resourceId,
       contextId,
       transformArgs: {
-        subjectId,
-        prettyUrl: true,
+        contextId,
       },
     },
-    skip: !!contextId && !isValidContextId(contextId),
+    skip: !isValidContextId(contextId),
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
@@ -108,20 +101,22 @@ const ResourcePage = () => {
     }
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
-    redirectContext.status = 410;
-    return <UnpublishedResourcePage />;
-  }
-
   if (responseContext?.status === 410) {
     return <UnpublishedResourcePage />;
   }
 
-  if (!data) {
+  if (error?.graphQLErrors) {
+    if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
+      redirectContext.status = 410;
+      return <UnpublishedResourcePage />;
+    }
+    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+      return <NotFoundPage />;
+    }
     return <DefaultErrorMessagePage />;
   }
 
-  if (!data.node || !data.node.url) {
+  if (!data || !data.node || !data.node.url) {
     return <NotFoundPage />;
   }
 
@@ -154,6 +149,7 @@ const ResourcePage = () => {
   if (isLearningPathResource(node)) {
     return (
       <LearningpathPage
+        key={data.node.url}
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
         data={{ ...data, relevance }}
@@ -163,6 +159,7 @@ const ResourcePage = () => {
   }
   return (
     <ArticlePage
+      key={data.node.url}
       skipToContentId={SKIP_TO_CONTENT_ID}
       resource={data.node}
       relevance={relevance}
@@ -172,4 +169,4 @@ const ResourcePage = () => {
   );
 };
 
-export default ResourcePage;
+export const Component = ResourcePage;

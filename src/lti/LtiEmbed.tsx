@@ -6,6 +6,7 @@
  *
  */
 
+import { useLtiData } from "../components/LtiContext";
 import { LtiData, LtiItem } from "../interfaces";
 import LtiBasicLaunch from "./components/LtiBasicLaunch";
 import LtiDeepLinking from "./components/LtiDeepLinking";
@@ -15,7 +16,9 @@ interface Props {
   item: LtiItem;
   ltiData?: LtiData;
 }
-const LtiEmbed = ({ ltiData = {}, item }: Props) => {
+const LtiEmbed = ({ ltiData: ltiDataProp, item }: Props) => {
+  const _ltiData = useLtiData()?.ltiData;
+  const ltiData = ltiDataProp ?? _ltiData ?? {};
   switch (ltiData?.lti_message_type) {
     case "basic-lti-launch-request":
       return <LtiBasicLaunch ltiData={ltiData} item={item} />;

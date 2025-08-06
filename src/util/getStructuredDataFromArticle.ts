@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { COPYRIGHTED, getLicenseByAbbreviation } from "@ndla/licenses";
+import { licenses, getLicenseByAbbreviation } from "@ndla/licenses";
 import config from "../config";
 import { AcquireLicensePage } from "../constants";
 import {
@@ -128,7 +128,7 @@ const getCopyrightDataImage = (
 ): StructuredData => {
   const { creators, rightsholders, license, processors } = copyright;
 
-  const isCopyrighted = license.license?.toLocaleLowerCase() === COPYRIGHTED;
+  const isCopyrighted = license.license === licenses.COPYRIGHTED;
 
   const licenseUrl = isCopyrighted ? getLicenseByAbbreviation(license.license, language).url : license?.url;
 
@@ -317,7 +317,7 @@ const getStructuredDataFromArticle = (
 ) => {
   const inLanguage = article.supportedLanguages?.includes(language)
     ? language
-    : article.supportedLanguages?.[0] ?? language;
+    : (article.supportedLanguages?.[0] ?? language);
   const educationalAlignment = getAllignments(article);
   const articleData: StructuredData = {
     ...structuredDataBase,

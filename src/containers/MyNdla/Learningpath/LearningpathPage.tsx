@@ -15,9 +15,14 @@ import { LearningpathList } from "./components/LearningpathList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 
-const LearningpathPage = () => {
+export const Component = () => {
+  return <PrivateRoute element={<LearningpathPage />} />;
+};
+
+export const LearningpathPage = () => {
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const { user } = useContext(AuthContext);
@@ -28,7 +33,7 @@ const LearningpathPage = () => {
   }, [t, trackPageView, user]);
 
   return (
-    <MyNdlaPageWrapper menuItems={menuItems}>
+    <MyNdlaPageWrapper menuItems={menuItems} type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathsPage")} />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.learningpath.title")}
@@ -38,5 +43,3 @@ const LearningpathPage = () => {
     </MyNdlaPageWrapper>
   );
 };
-
-export default LearningpathPage;

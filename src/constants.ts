@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2017-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 export const RESOURCE_TYPE_LEARNING_PATH = "urn:resourcetype:learningPath";
 export const RESOURCE_TYPE_SUBJECT_MATERIAL = "urn:resourcetype:subjectMaterial";
 export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = "urn:resourcetype:tasksAndActivities";
@@ -16,8 +17,6 @@ export const RELEVANCE_CORE = "urn:relevance:core";
 export const RELEVANCE_SUPPLEMENTARY = "urn:relevance:supplementary";
 
 export const NOT_FOUND_PAGE_PATH = "/404";
-export const FILM_PAGE_PATH = "/subject:20";
-export const UKR_PAGE_PATH = "/subject:27e8623d-c092-4f00-9a6f-066438d6c466";
 export const FILM_ID = "urn:subject:20";
 export const MULTIDISCIPLINARY_SUBJECT_ID = "urn:subject:d1fe9d0a-a54d-49db-a4c2-fd5463a7c9e7";
 export const TOOLBOX_TEACHER_SUBJECT_ID = "urn:subject:1:9bb7b427-3f5b-4c45-9719-efc509f3d9cc";
@@ -31,7 +30,6 @@ export const UKR_PAGE_URL = "/f/ukrainian-resources-in-norwegian-social-science/
 
 export const SKIP_TO_CONTENT_ID = "SkipToContentId";
 export const SUPPORTED_LANGUAGES = ["nb", "nn", "en", "se"];
-export const STORED_LANGUAGE_COOKIE_KEY = "language";
 
 export const PROGRAMME_PATH = "/utdanning";
 export const ABOUT_PATH = "/om";
@@ -55,6 +53,7 @@ export const AcquireLicensePage =
   "https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering";
 
 export const MY_NDLA_CONTENT_WIDTH = 1440;
+export const AUTOLOGIN_COOKIE = "autologin";
 
 export const programmeRedirects: Record<string, string> = {
   "bygg-og-anleggsteknikk": "847f59182173",
@@ -75,4 +74,4 @@ export const programmeRedirects: Record<string, string> = {
   "teknologi-og-industrifag": "a920d0b5cbbb",
 };
 
-export const validContextIdRegExp = new RegExp(/[a-f0-9]{10,12}/);
+export const validContextIdRegExp = new RegExp(/^[a-f0-9]{10,12}/);

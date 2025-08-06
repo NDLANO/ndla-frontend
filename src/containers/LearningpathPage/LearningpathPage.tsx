@@ -1,10 +1,11 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
+
 import { TFunction } from "i18next";
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,6 +13,7 @@ import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { PageLayout } from "../../components/Layout/PageContainer";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import {
@@ -52,17 +54,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   useEffect(() => {
     if (loading || !data || !authContextLoaded) return;
-    const { node } = data;
-    const learningpath = node?.learningpath;
-    const firstStep = learningpath?.learningsteps?.[0];
-    const currentStep = learningpath?.learningsteps?.find((ls) => `${ls.id}` === stepId);
-    const learningstep = currentStep || firstStep;
-    const dimensions = getAllDimensions({
-      learningpath,
-      learningstep,
-      filter: node?.context?.parents?.[0]?.name,
-      user,
-    });
+    const dimensions = getAllDimensions({ user });
     trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
   }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
 
@@ -94,14 +86,18 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}
       />
-      <Learningpath
-        skipToContentId={skipToContentId}
-        learningpath={learningpath}
-        learningpathStep={learningpathStep}
-        resource={node}
-        resourcePath={node.url}
-        breadcrumbItems={breadcrumbItems}
-      />
+      <PageLayout asChild consumeCss>
+        <main>
+          <Learningpath
+            skipToContentId={skipToContentId}
+            learningpath={learningpath}
+            learningpathStep={learningpathStep}
+            resource={node}
+            resourcePath={node.url}
+            breadcrumbItems={breadcrumbItems}
+          />
+        </main>
+      </PageLayout>
     </>
   );
 };
@@ -123,12 +119,6 @@ const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
 };
 
 LearningpathPage.fragments = {
-  resourceType: gql`
-    fragment LearningpathPage_ResourceTypeDefinition on ResourceTypeDefinition {
-      ...Learningpath_ResourceTypeDefinition
-    }
-    ${Learningpath.fragments.resourceType}
-  `,
   resource: gql`
     fragment LearningpathPage_Node on Node {
       id

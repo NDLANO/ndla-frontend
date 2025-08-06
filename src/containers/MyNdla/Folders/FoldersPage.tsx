@@ -6,7 +6,6 @@
  *
  */
 
-import isEqual from "lodash/isEqual";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
@@ -21,11 +20,12 @@ import ResourceList from "./components/ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import FoldersPageTitle from "../../../components/MyNdla/FoldersPageTitle";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { foldersPageQuery, useFolder } from "../../../mutations/folderMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { foldersPageQuery, useFolder } from "../folderMutations";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -74,7 +74,11 @@ const TagSafeLink = styled(SafeLinkButton, {
   },
 });
 
-const FoldersPage = () => {
+export const Component = () => {
+  return <PrivateRoute element={<FoldersPage />} />;
+};
+
+export const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const { user, authContextLoaded, examLock } = useContext(AuthContext);
@@ -89,11 +93,11 @@ const FoldersPage = () => {
   }, [folderId, selectedFolder?.name, t]);
 
   const folders: GQLFolder[] = useMemo(
-    () => (selectedFolder ? selectedFolder.subfolders : (data?.folders.folders as GQLFolder[]) ?? []),
+    () => (selectedFolder ? selectedFolder.subfolders : ((data?.folders.folders as GQLFolder[]) ?? [])),
     [selectedFolder, data?.folders],
   );
   const sharedByOthersFolders = useMemo(
-    () => (!selectedFolder ? data?.folders.sharedFolders ?? [] : []),
+    () => (!selectedFolder ? (data?.folders.sharedFolders ?? []) : []),
     [selectedFolder, data?.folders.sharedFolders],
   );
 
@@ -128,11 +132,12 @@ const FoldersPage = () => {
   useEffect(() => {
     const folderIds = folders.map((f) => f.id).sort();
     const prevFolderIds = previousFolders.map((f) => f.id).sort();
-    if (!isEqual(folderIds, prevFolderIds) && focusId) {
+    const isEqual = folderIds.length === prevFolderIds.length && folderIds.every((v, i) => v === prevFolderIds[i]);
+    if (!isEqual && focusId) {
       setTimeout(() => document.getElementById(`folder-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(), 0);
       setFocusId(undefined);
       setPreviousFolders(folders);
-    } else if (!isEqual(folderIds, prevFolderIds) && folderIds.length === 1 && prevFolderIds?.length === 1) {
+    } else if (!isEqual && folderIds.length === 1 && prevFolderIds?.length === 1) {
       const id = folders[0]?.id;
       if (id) {
         setTimeout(() => document.getElementById(`folder-${id}`)?.getElementsByTagName("a")?.[0]?.focus(), 0);
@@ -180,7 +185,7 @@ const FoldersPage = () => {
       {!selectedFolder && tags.length ? (
         <>
           <TagsHeading asChild consumeCss textStyle="heading.small">
-            <h2>{t("myndla.tagsTitle")}</h2>
+            <h2>{t("myNdla.tagsTitle")}</h2>
           </TagsHeading>
           <nav aria-labelledby="tags-header">
             <StyledUl>
@@ -198,5 +203,3 @@ const FoldersPage = () => {
     </StyledMyNdlaPageWrapper>
   );
 };
-
-export default FoldersPage;

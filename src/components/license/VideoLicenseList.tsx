@@ -6,7 +6,6 @@
  *
  */
 
-import uniqBy from "lodash/uniqBy";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
@@ -15,6 +14,7 @@ import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -52,6 +52,14 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
       label: t("title"),
       description: video.title,
       metaType: metaTypes.title,
+    });
+  }
+
+  if (video.copyright?.origin) {
+    items.push({
+      label: t("source"),
+      description: video.copyright.origin,
+      metaType: metaTypes.other,
     });
   }
 

@@ -6,32 +6,20 @@
  *
  */
 
-import { readFile, writeFile } from "fs/promises";
-import { Page, test as Ptest, TestInfo } from "@playwright/test";
+import { test as Ptest } from "@playwright/test";
+import { API_REGEX, createCheckpoint, getMockdataFilename, removeSensitiveDataFromHar } from "./utils";
 
-const mockDir = "e2e/apiMocks/";
-
-const apiTestRegex = "https://api.test.ndla.no/(?!image-api/raw.*).*";
-const localhostGraphqlRegex = "http://localhost:4000/graphql-api/graphql";
-
-interface ExtendParams {
+interface ExtendedTestOptions {
   harCheckpoint: () => Promise<void>;
+  waitGraphql: () => Promise<void>;
 }
-const regex = new RegExp(`^(${apiTestRegex}|${localhostGraphqlRegex})$`);
-
-const mockFile = ({ titlePath, title: test_name }: TestInfo) => {
-  const [, SPEC_GROUP, SPEC_NAME] = titlePath[0].split("/");
-  return `${mockDir}${SPEC_GROUP}_${SPEC_NAME}_${test_name.replace(/\s/g, "_")}.har`;
-};
-
-const checkpoint = (index: number) => ({ "x-playwright-checkpoint": `${index}` });
 
 /**
  * Extending the playwright test object with a checkpoint function.
  * The checkpoint function helps us differentiate between subsequent
  * requests, and allows us to more easily mock recurring calls.
  */
-export const test = Ptest.extend<ExtendParams>({
+export const test = Ptest.extend<ExtendedTestOptions>({
   harCheckpoint: [
     async ({ context, page }, use) => {
       let checkpointIndex = 0;
@@ -39,41 +27,44 @@ export const test = Ptest.extend<ExtendParams>({
       // Appending the checkpoint index to the request headers
       // Only appended for the stored headers in the HAR file
       await context.route(
-        regex,
+        API_REGEX,
         async (route, request) =>
           await route.fallback({
             headers: {
               ...request.headers(),
-              ...checkpoint(checkpointIndex),
+              ...createCheckpoint(checkpointIndex),
             },
           }),
       );
 
       // Appending the checkpoint index to the request headers
-      if (process.env.RECORD_FIXTURES === "true") {
-        await page.setExtraHTTPHeaders(checkpoint(checkpointIndex));
-      }
+      await page.setExtraHTTPHeaders(createCheckpoint(checkpointIndex));
 
       // Appending the new checkpoint index to the request headers
       await use(async () => {
         checkpointIndex += 1;
-        if (process.env.RECORD_FIXTURES === "true") {
-          await page.setExtraHTTPHeaders(checkpoint(checkpointIndex));
-        }
+        await page.setExtraHTTPHeaders(createCheckpoint(checkpointIndex));
       });
     },
     { auto: true, scope: "test" },
   ],
+  waitGraphql: async ({ page }, use) => {
+    await use(async () => {
+      if (process.env.RECORD_FIXTURES === "true") {
+        await page.waitForResponse("**/graphql-api/graphql");
+      }
+    });
+  },
   page: async ({ page }, use, testInfo) => {
     // Creating the API mocking for the wanted API's
-    await page.routeFromHAR(mockFile(testInfo), {
+    const mockdataFilename = getMockdataFilename(testInfo);
+    await page.routeFromHAR(mockdataFilename, {
       update: process.env.RECORD_FIXTURES === "true",
       updateMode: "minimal",
-      url: regex,
+      url: API_REGEX,
       updateContent: "embed",
     });
 
-    await page.goto("/");
     await use(page);
 
     await page.close();
@@ -84,20 +75,8 @@ export const test = Ptest.extend<ExtendParams>({
 
     // Removing sensitive data from the HAR file after saving. Har files are saved on close.
     if (process.env.RECORD_FIXTURES === "true") {
-      await removeSensitiveData(mockFile(testInfo));
+      const mockdataFilename = getMockdataFilename(testInfo);
+      await removeSensitiveDataFromHar(mockdataFilename);
     }
   },
 });
-
-export const mockWaitResponse = async (page: Page, url: string) => {
-  if (process.env.RECORD_FIXTURES === "true") {
-    await page.waitForResponse(url);
-  }
-};
-
-// Method to remove sensitive data from the HAR file
-// Currently only working to write har file as a single line
-const removeSensitiveData = async (fileName: string) => {
-  const data = JSON.parse(await readFile(fileName, "utf8"));
-  await writeFile(fileName, JSON.stringify(data), "utf8");
-};

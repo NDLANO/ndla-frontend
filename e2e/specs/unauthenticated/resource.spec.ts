@@ -7,18 +7,18 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/subject:1:94dfe81f-9e11-45fc-ab5a-fba63784d48e/topic:2:117982/resource:1:117868?disableSSR=true");
+  await page.goto("/r/yrkesfaglig-fordypning-hs-hsf-vg1/arsplan-helse--og-oppvekstfag/53a49f710c?disableSSR=true");
 });
 
-test("contains content", async ({ page }) => {
-  await mockWaitResponse(page, "**/graphql-api/*");
+test("contains content", async ({ page, waitGraphql }) => {
+  await waitGraphql();
   await expect(page.getByLabel("Brødsmulesti").getByRole("listitem")).toHaveCount(4);
   await expect(page.getByLabel("Brødsmulesti").getByRole("listitem").getByRole("link")).toHaveCount(3);
 
-  const heading = page.getByRole("heading").getByText("Muntlig eksamen MIK 1");
+  const heading = page.getByRole("heading").getByText("Årsplan helse- og oppvekstfag");
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 

@@ -12,16 +12,22 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { Spinner, Heading, Button } from "@ndla/primitives";
 import { Stack } from "@ndla/styled-system/jsx";
 import { useTracker, HelmetWithTracker } from "@ndla/tracker";
-import { AuthContext } from "../../../components/AuthenticationContext";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { routes } from "../../../routeHelpers";
-import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleFormValues, TitleForm } from "./components/TitleForm";
-import { useUpdateLearningpath } from "./learningpathMutations";
 import { useFetchLearningpath } from "./learningpathQueries";
+import { AuthContext } from "../../../components/AuthenticationContext";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { SKIP_TO_CONTENT_ID } from "../../../constants";
+import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
+import { routes } from "../../../routeHelpers";
+import { getAllDimensions } from "../../../util/trackingUtil";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+
+export const Component = () => {
+  return <PrivateRoute element={<EditLearningpathTitlePage />} />;
+};
 
 export const EditLearningpathTitlePage = () => {
   const [updatePath] = useUpdateLearningpath();
@@ -73,11 +79,15 @@ export const EditLearningpathTitlePage = () => {
     return <Navigate to={routes.myNdla.learningpath} />;
   }
 
+  if (!data.myNdlaLearningpath.canEdit) {
+    return <NotFoundPage />;
+  }
+
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathEditTitlePage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.newLearningpath")}` }]}
+        breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpathTitle")}` }]}
         page="learningpath"
       />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
@@ -88,11 +98,11 @@ export const EditLearningpathTitlePage = () => {
         onSave={onSaveTitle}
         initialValues={{
           title: data.myNdlaLearningpath.title,
-          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl ?? "",
+          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl,
         }}
       />
       <Stack justify="flex-end" direction="row">
-        <Button type="submit" form="titleForm">
+        <Button variant="secondary" type="submit" form="titleForm">
           {t("myNdla.learningpath.form.next")}
         </Button>
       </Stack>

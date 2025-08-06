@@ -79,12 +79,10 @@ ResourceEmbedLicenseContent.fragments = {
     fragment ResourceEmbedLicenseContent_Meta on ResourceMetaData {
       concepts {
         content
-        metaImageUrl
         ...ConceptLicenseList_ConceptLicense
       }
       glosses {
         content
-        metaImageUrl
         ...GlossLicenseList_GlossLicense
       }
       h5ps {

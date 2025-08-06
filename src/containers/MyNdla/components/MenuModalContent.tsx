@@ -10,17 +10,15 @@ import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { Portal, useDialogContext } from "@ark-ui/react";
-import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { ForumOutlined } from "@ndla/icons";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink from "./NavigationLink";
-import { BellIcon } from "./NotificationButton";
 import { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import { routes } from "../../../routeHelpers";
-import { useTemporaryArenaNotifications } from "../Arena/components/temporaryNodebbHooks";
 import { menuLinks } from "../MyNdlaLayout";
+import { AcceptArenaDialog } from "./AcceptArenaDialog";
 
 const MenuItems = styled("ul", {
   base: {
@@ -85,7 +83,6 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
   const location = useLocation();
   const { setOpen } = useDialogContext();
   const { user } = useContext(AuthContext);
-  const { notifications } = useTemporaryArenaNotifications(!user?.arenaEnabled);
   const links = useMemo(
     () =>
       menuLinks(t, location, user).map(
@@ -109,21 +106,6 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
         },
       ),
     [t, location, user, setOpen],
-  );
-
-  const notificationLink = useMemo(
-    () => (
-      <li>
-        <SafeLinkButton variant="tertiary" to={routes.myNdla.notifications} onClick={() => setOpen(false)}>
-          <BellIcon
-            amountOfUnreadNotifications={notifications?.items?.filter(({ isRead }) => !isRead).length ?? 0}
-            left={true}
-          />
-          {t("myNdla.arena.notification.title")}
-        </SafeLinkButton>
-      </li>
-    ),
-    [notifications?.items, setOpen, t],
   );
 
   return (
@@ -164,7 +146,18 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
                       </Button>
                     </li>
                   ))}
-                  {!!user?.arenaEnabled && notificationLink}
+                  {!!user?.arenaEnabled && !user?.arenaAccepted && (
+                    <AcceptArenaDialog>
+                      <li>
+                        <DialogTrigger asChild>
+                          <Button variant="tertiary">
+                            <ForumOutlined />
+                            {t("myNdla.arena.title")}
+                          </Button>
+                        </DialogTrigger>
+                      </li>
+                    </AcceptArenaDialog>
+                  )}
                 </ToolMenu>
               </>
             ) : null}

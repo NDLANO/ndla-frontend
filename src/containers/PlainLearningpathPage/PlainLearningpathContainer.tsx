@@ -13,6 +13,7 @@ import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { PageLayout } from "../../components/Layout/PageContainer";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
@@ -45,10 +46,7 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
 
   useEffect(() => {
     if (learningpath && authContextLoaded) {
-      const learningstep = stepId
-        ? learningpath.learningsteps?.find((step) => `${step.id}` === stepId)
-        : learningpath.learningsteps?.[0];
-      const dimensions = getAllDimensions({ learningpath, user, learningstep });
+      const dimensions = getAllDimensions({ user });
       trackPageView({ dimensions, title: getDocumentTitle(learningpath, t) });
     }
   }, [authContextLoaded, learningpath, stepId, t, trackPageView, user]);
@@ -69,12 +67,16 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.url}
       />
-      <Learningpath
-        learningpath={learningpath}
-        learningpathStep={currentStep}
-        skipToContentId={skipToContentId}
-        breadcrumbItems={[]}
-      />
+      <PageLayout asChild consumeCss>
+        <main>
+          <Learningpath
+            learningpath={learningpath}
+            learningpathStep={currentStep}
+            skipToContentId={skipToContentId}
+            breadcrumbItems={[]}
+          />
+        </main>
+      </PageLayout>
     </>
   );
 };

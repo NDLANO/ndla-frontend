@@ -6,44 +6,29 @@
  *
  */
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router-dom";
-import { AddLine } from "@ndla/icons";
-import { Button, Heading, Spinner, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
-import { Stack, styled } from "@ndla/styled-system/jsx";
+import { Heading, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { FormValues, LearningpathStepForm } from "./components/LearningpathStepForm";
-import { useCreateLearningpathStep } from "./learningpathMutations";
-import { learningpathQuery, useFetchLearningpath } from "./learningpathQueries";
-import { formValuesToGQLInput } from "./utils";
+import { LearningpathStepper } from "./components/LearningpathStepper";
+import EditLearningpathStepsPageContent from "./EditLearningpathStepsPageContent";
+import { useFetchLearningpath } from "./learningpathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import { LearningpathStepListItem } from "./components/LearningpathStepListItem";
-import { LearningpathStepper } from "./components/LearningpathStepper";
 
-const StyledOl = styled("ol", {
-  base: {
-    listStyle: "none",
-    width: "100%",
-  },
-});
-
-const AddButton = styled(Button, {
-  base: {
-    width: "100%",
-  },
-});
+export const Component = () => {
+  return <PrivateRoute element={<EditLearningpathStepsPage />} />;
+};
 
 export const EditLearningpathStepsPage = () => {
-  const [isCreating, setIsCreating] = useState(false);
-
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const { learningpathId } = useParams();
   const { user } = useContext(AuthContext);
@@ -53,28 +38,12 @@ export const EditLearningpathStepsPage = () => {
     skip: !learningpathId,
   });
 
-  const [createStep] = useCreateLearningpathStep();
-
   useEffect(() => {
     trackPageView({
       title: t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title }),
       dimensions: getAllDimensions({ user }),
     });
   }, [data?.myNdlaLearningpath?.title, t, trackPageView, user]);
-
-  const onSaveStep = async (values: FormValues) => {
-    if (data?.myNdlaLearningpath?.id) {
-      const transformedData = formValuesToGQLInput(values);
-      await createStep({
-        variables: {
-          learningpathId: data.myNdlaLearningpath.id,
-          params: { ...transformedData, language: i18n.language, showTitle: false },
-        },
-        refetchQueries: [{ query: learningpathQuery, variables: { pathId: data.myNdlaLearningpath.id.toString() } }],
-      });
-      setIsCreating(false);
-    }
-  };
 
   if (loading) {
     return <Spinner aria-label={t("loading")} />;
@@ -84,48 +53,22 @@ export const EditLearningpathStepsPage = () => {
     return <Navigate to={routes.myNdla.learningpath} />;
   }
 
+  if (!data.myNdlaLearningpath.canEdit) {
+    return <NotFoundPage />;
+  }
+
   return (
-    <MyNdlaPageWrapper>
+    <MyNdlaPageWrapper type="learningpath">
       <HelmetWithTracker title={t("htmlTitles.learningpathEditStepsPage", { name: data?.myNdlaLearningpath?.title })} />
       <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.newLearningpath")}` }]}
+        breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpath")}` }]}
         page="learningpath"
       />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {data.myNdlaLearningpath.title}
       </Heading>
       <LearningpathStepper step="content" learningpathId={data.myNdlaLearningpath.id} />
-      <Stack gap="medium" justify="left">
-        <Heading textStyle="heading.small" asChild consumeCss>
-          <h2>{t("myNdla.learningpath.form.content.title")}</h2>
-        </Heading>
-        <Text textStyle="body.large">{t("myNdla.learningpath.form.content.subTitle")}</Text>
-        <StyledOl>
-          {data.myNdlaLearningpath.learningsteps.map((step) => (
-            <LearningpathStepListItem learningpathId={data.myNdlaLearningpath?.id ?? -1} step={step} key={step.id} />
-          ))}
-        </StyledOl>
-        {!isCreating ? (
-          <AddButton variant="secondary" onClick={() => setIsCreating(true)}>
-            <AddLine />
-            {t("myNdla.learningpath.form.steps.add")}
-          </AddButton>
-        ) : (
-          <LearningpathStepForm
-            learningpathId={data.myNdlaLearningpath.id}
-            onClose={() => setIsCreating(false)}
-            onSave={onSaveStep}
-          />
-        )}
-      </Stack>
-      <Stack justify="space-between" direction="row">
-        <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(data.myNdlaLearningpath.id)}>
-          {t("myNdla.learningpath.form.back")}
-        </SafeLinkButton>
-        <SafeLinkButton to={routes.myNdla.learningpathPreview(data.myNdlaLearningpath.id)}>
-          {t("myNdla.learningpath.form.next")}
-        </SafeLinkButton>
-      </Stack>
+      <EditLearningpathStepsPageContent learningpath={data.myNdlaLearningpath} />
     </MyNdlaPageWrapper>
   );
 };

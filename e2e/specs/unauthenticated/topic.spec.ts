@@ -7,33 +7,33 @@
  */
 
 import { expect } from "@playwright/test";
-import { test, mockWaitResponse } from "../../apiMock";
+import { test } from "../../apiMock";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/?disableSSR=true");
 });
 
-test("contains article header and introduction", async ({ page }) => {
-  await mockWaitResponse(page, "**/graphql-api/*");
+test("contains article header and introduction", async ({ page, waitGraphql }) => {
+  await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Fag", exact: true }).click();
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await page.getByRole("link", { name: "Alle fag", exact: true }).click();
+  await waitGraphql();
   await page.getByText("ALLE FAG").last().click();
   await page.getByRole("link", { name: "Medieuttrykk 3" }).last().click();
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await waitGraphql();
   await page
     .getByRole("navigation", { name: "Emner" })
     .getByRole("listitem")
     .getByRole("link", { name: "Idéskaping og mediedesign" })
     .click();
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await waitGraphql();
   await expect(page.getByRole("heading", { name: "Idéskaping og mediedesign", exact: true })).toBeVisible();
 });
 
-test("show have functioning language box", async ({ page }) => {
-  await mockWaitResponse(page, "**/graphql-api/*");
+test("show have functioning language box", async ({ page, waitGraphql }) => {
+  await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
-  await page.getByRole("menuitem", { name: "Fag", exact: true }).click();
+  await page.getByRole("link", { name: "Alle fag", exact: true }).click();
   await page.getByText("ALLE FAG").last().click();
   await page.getByRole("link", { name: "Medieuttrykk 3" }).last().click();
   await page
@@ -42,7 +42,7 @@ test("show have functioning language box", async ({ page }) => {
     .getByRole("link", { name: "Tverrfaglige medieoppdrag" })
     .click();
 
-  await mockWaitResponse(page, "**/graphql-api/*");
+  await waitGraphql();
 
   await expect(page.getByRole("heading", { name: "Tverrfaglige medieoppdrag", exact: true })).toBeVisible();
 });

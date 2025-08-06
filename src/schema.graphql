@@ -5,177 +5,6 @@ type AggregationResult {
   values: [BucketResult!]!
 }
 
-type ArenaBreadcrumb {
-  id: Int!
-  name: String!
-  type: String!
-}
-
-type ArenaCategory {
-  breadcrumbs: [CategoryBreadcrumb!]!
-  children: [ArenaCategory!]
-  description: String!
-  disabled: Boolean!
-  htmlDescription: String!
-  id: Int!
-  name: String!
-  parentCategoryId: Int
-  postCount: Int!
-  slug: String!
-  topicCount: Int!
-  topics: [ArenaTopic!]
-  voteCount: Int
-}
-
-type ArenaCategoryV2 implements ArenaCategoryV2Base {
-  breadcrumbs: [CategoryBreadcrumb!]!
-  categoryCount: Int
-  description: String!
-  id: Int!
-  isFollowing: Boolean!
-  parentCategoryId: Int
-  postCount: Int!
-  subcategories: [TopiclessArenaCategoryV2!]
-  title: String!
-  topicCount: Int!
-  topics: [ArenaTopicV2!]
-  visible: Boolean!
-  voteCount: Int
-}
-
-interface ArenaCategoryV2Base {
-  breadcrumbs: [CategoryBreadcrumb!]!
-  description: String!
-  id: Int!
-  isFollowing: Boolean!
-  parentCategoryId: Int
-  postCount: Int!
-  title: String!
-  topicCount: Int!
-  visible: Boolean!
-  voteCount: Int
-}
-
-type ArenaFlag {
-  created: String!
-  flagger: ArenaUserV2
-  id: Int!
-  isResolved: Boolean!
-  reason: String!
-  resolved: String
-}
-
-type ArenaNewPostNotificationV2 {
-  id: Int!
-  isRead: Boolean!
-  notificationTime: String!
-  post: ArenaPostV2!
-  topicId: Int!
-  topicTitle: String!
-}
-
-type ArenaNotification {
-  bodyShort: String!
-  datetimeISO: String!
-  from: Int!
-  image: String
-  importance: Int!
-  notificationId: String!
-  path: String!
-  postId: Int!
-  read: Boolean!
-  readClass: String!
-  subject: String!
-  topicId: Int!
-  topicTitle: String!
-  type: String!
-  user: ArenaUser!
-}
-
-type ArenaPost {
-  content: String!
-  deleted: Boolean!
-  flagId: Int
-  id: Int!
-  isMainPost: Boolean!
-  replies: [ArenaPost!]!
-  timestamp: String!
-  toPid: Int
-  topicId: Int!
-  upvoted: Boolean!
-  upvotes: Int!
-  user: ArenaUser
-}
-
-type ArenaPostV2 {
-  content: String!
-  contentAsHTML: String
-  created: String!
-  flags: [ArenaFlag!]
-  id: Int!
-  owner: ArenaUserV2
-  replies: [ArenaPostV2!]!
-  topicId: Int!
-  updated: String!
-  upvoted: Boolean!
-  upvotes: Int!
-}
-
-type ArenaTopic {
-  breadcrumbs: [ArenaBreadcrumb!]!
-  categoryId: Int!
-  deleted: Boolean!
-  id: Int!
-  isFollowing: Boolean
-  locked: Boolean!
-  pinned: Boolean!
-  postCount: Int!
-  posts: [ArenaPost!]!
-  slug: String!
-  timestamp: String!
-  title: String!
-  voteCount: Int!
-}
-
-type ArenaTopicV2 {
-  categoryId: Int!
-  created: String!
-  id: Int!
-  isFollowing: Boolean!
-  isLocked: Boolean!
-  isPinned: Boolean!
-  postCount: Int!
-  posts: PaginatedPosts
-  title: String!
-  updated: String!
-  voteCount: Int!
-}
-
-type ArenaUser {
-  displayName: String!
-  groupTitleArray: [String!]
-  id: Int!
-  location: String
-  profilePicture: String
-  slug: String!
-  username: String!
-}
-
-type ArenaUserV2 {
-  displayName: String!
-  groups: [String!]!
-  id: Int!
-  location: String!
-  username: String!
-}
-
-input ArenaUserV2Input {
-  arenaEnabled: Boolean
-  arenaGroups: [String!]
-  favoriteSubjects: [String!]
-  shareName: Boolean
-}
-
 type Article {
   articleType: String!
   availability: String
@@ -207,6 +36,7 @@ type Article {
   tags: [String!]
   title: String!
   transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
+  transformedDisclaimer(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
 }
 
@@ -239,9 +69,10 @@ type ArticleRequiredLibrary {
 }
 
 type ArticleSearchResult implements SearchResult {
+  context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
   metaImage: MetaImage
   supportedLanguages: [String!]!
@@ -394,19 +225,14 @@ type CompetenceGoal {
 }
 
 type Concept {
-  articleIds: [Int!]!
-  articles: [Meta!]
   conceptType: String!
   content: String!
   copyright: ConceptCopyright
   created: String!
   glossData: Gloss
+  htmlTitle: String!
   id: Int!
-  image: ImageLicense
-  metaImage: MetaImage
   source: String
-  subjectIds: [String!]
-  subjectNames: [String!]
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
@@ -435,17 +261,8 @@ type ConceptLicense {
   content: String
   copyright: ConceptCopyright
   id: String!
-  metaImageUrl: String
   src: String
   title: String!
-}
-
-type ConceptResult {
-  concepts: [Concept!]!
-  language: String!
-  page: Int
-  pageSize: Int!
-  totalCount: Int!
 }
 
 type ConfigMetaBoolean {
@@ -511,7 +328,6 @@ type EditorNote {
 }
 
 type Element {
-  explanation: [String]!
   reference: Reference!
 }
 
@@ -783,6 +599,7 @@ type ImageV3 {
 }
 
 type Learningpath {
+  basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
   coverphoto: LearningpathCoverphoto
@@ -791,6 +608,7 @@ type Learningpath {
   duration: Int
   id: Int!
   isBasedOn: Int
+  isMyNDLAOwner: Boolean!
   lastUpdated: String!
   learningstepUrl: String!
   learningsteps: [LearningpathStep!]!
@@ -802,6 +620,16 @@ type Learningpath {
   tags: [String!]!
   title: String!
   verificationStatus: String!
+}
+
+input LearningpathCopyInput {
+  copyright: LearningpathCopyrightInput
+  coverPhotoMetaUrl: String
+  description: String
+  duration: Int
+  language: String!
+  tags: [String!]
+  title: String!
 }
 
 type LearningpathCopyright {
@@ -836,18 +664,19 @@ type LearningpathFolderResourceMeta implements FolderResourceMeta {
 input LearningpathNewInput {
   copyright: LearningpathCopyrightInput!
   coverPhotoMetaUrl: String
-  description: String!
-  duration: Int!
+  description: String
+  duration: Int
   introduction: String
   language: String!
-  tags: [String!]!
+  tags: [String!]
   title: String!
 }
 
 type LearningpathSearchResult implements SearchResult {
+  context: SearchContext
   contexts: [SearchContext!]!
   htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
   metaImage: MetaImage
   supportedLanguages: [String!]!
@@ -856,13 +685,19 @@ type LearningpathSearchResult implements SearchResult {
   url: String!
 }
 
+type LearningpathSeqNo {
+  seqNo: Int!
+}
+
 type LearningpathStep {
   description: String
   embedUrl: LearningpathStepEmbedUrl
   id: Int!
+  introduction: String
   license: License
   metaUrl: String!
   oembed: LearningpathStepOembed
+  opengraph: ExternalOpengraph
   resource(parentId: String, rootId: String): Resource
   revision: Int!
   seqNo: Int!
@@ -933,11 +768,6 @@ input LicenseInput {
   url: String
 }
 
-type ListingPage {
-  subjects: [Subject!]
-  tags: [String!]
-}
-
 type Manuscript {
   language: String!
   manuscript: String!
@@ -971,7 +801,6 @@ type Movie {
   id: String!
   metaDescription: String!
   metaImage: MetaImage
-  path: String!
   resourceTypes: [ResourceType!]!
   title: String!
   url: String!
@@ -1001,68 +830,28 @@ type Mutation {
     resourceType: String!
     tags: [String!]
   ): FolderResource!
-  addPostUpvote(postId: Int!): Int!
-  addPostUpvoteV2(postId: Int!): Int!
+  copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
-  deleteCategory(categoryId: Int!): Int!
   deleteFolder(id: String!): String!
   deleteFolderResource(folderId: String!, resourceId: String!): String!
   deleteLearningpath(id: Int!): Boolean
-  deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): [String!]
+  deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): Boolean
   deletePersonalData: Boolean!
-  deletePost(postId: Int!): Int!
-  deletePostV2(postId: Int!): Int!
-  deleteTopic(topicId: Int!): Int!
-  deleteTopicV2(topicId: Int!): Int!
   favoriteSharedFolder(folderId: String!): String!
-  followCategory(categoryId: Int!): ArenaCategoryV2!
-  followTopic(topicId: Int!): ArenaTopicV2!
-  markAllNotificationsAsRead: Boolean!
-  markNotificationAsRead(topicIds: [Int!]!): [Int!]!
-  markNotificationsAsReadV2(notificationIds: [Int!]!): [Int!]!
-  newArenaCategory(description: String!, parentCategoryId: Int, title: String!, visible: Boolean!): ArenaCategoryV2!
-  newArenaTopic(categoryId: Int!, content: String!, title: String!): ArenaTopic!
-  newArenaTopicV2(
-    categoryId: Int!
-    content: String!
-    isLocked: Boolean
-    isPinned: Boolean
-    title: String!
-  ): ArenaTopicV2!
-  newFlag(id: Int!, reason: String!, type: String!): Int!
-  newFlagV2(postId: Int!, reason: String!): Int!
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
   newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
-  removePostUpvote(postId: Int!): Int!
-  removePostUpvoteV2(postId: Int!): Int!
-  replyToTopic(content: String!, postId: Int, topicId: Int!): ArenaPost!
-  replyToTopicV2(content: String!, postId: Int, topicId: Int!): ArenaPostV2!
-  resolveFlag(flagId: Int!): ArenaFlag!
-  sortArenaCategories(parentId: Int, sortedIds: [Int!]!): [ArenaCategoryV2!]!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
   sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
   sortSavedSharedFolders(sortedIds: [String!]!): SortResult!
-  subscribeToTopic(topicId: Int!): Int!
   transformArticleContent(
     absoluteUrl: Boolean
     content: String!
     draftConcept: Boolean
-    prettyUrl: Boolean
     previewH5p: Boolean
     subject: String
     visualElement: String
   ): String!
   unFavoriteSharedFolder(folderId: String!): String!
-  unfollowCategory(categoryId: Int!): ArenaCategoryV2!
-  unfollowTopic(topicId: Int!): ArenaTopicV2!
-  unsubscribeFromTopic(topicId: Int!): Int!
-  updateArenaCategory(
-    categoryId: Int!
-    description: String!
-    parentCategoryId: Int
-    title: String!
-    visible: Boolean!
-  ): ArenaCategoryV2!
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
   updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
@@ -1073,11 +862,12 @@ type Mutation {
     learningstepId: Int!
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
-  updateOtherArenaUser(data: ArenaUserV2Input!, userId: Int!): MyNdlaPersonalData!
-  updatePersonalData(favoriteSubjects: [String], shareName: Boolean): MyNdlaPersonalData!
-  updatePost(content: String!, postId: Int!, title: String): ArenaPost!
-  updatePostV2(content: String!, postId: Int!): ArenaPostV2!
-  updateTopicV2(content: String!, isLocked: Boolean, isPinned: Boolean, title: String!, topicId: Int!): ArenaTopicV2!
+  updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
+  updatePersonalData(
+    arenaAccepted: Boolean
+    favoriteSubjects: [String]
+    shareNameAccepted: Boolean
+  ): MyNdlaPersonalData!
 }
 
 type MyNdlaGroup {
@@ -1088,6 +878,7 @@ type MyNdlaGroup {
 }
 
 type MyNdlaLearningpath {
+  basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
   coverphoto: LearningpathCoverphoto
@@ -1096,6 +887,7 @@ type MyNdlaLearningpath {
   duration: Int
   id: Int!
   isBasedOn: Int
+  isMyNDLAOwner: Boolean!
   lastUpdated: String!
   learningstepUrl: String!
   learningsteps: [MyNdlaLearningpathStep!]!
@@ -1117,6 +909,7 @@ type MyNdlaLearningpathStep {
   license: License
   metaUrl: String!
   oembed: LearningpathStepOembed
+  opengraph: ExternalOpengraph
   resource(parentId: String, rootId: String): Resource
   revision: Int!
   seqNo: Int!
@@ -1128,8 +921,8 @@ type MyNdlaLearningpathStep {
 }
 
 type MyNdlaPersonalData {
+  arenaAccepted: Boolean!
   arenaEnabled: Boolean!
-  arenaGroups: [String!]!
   displayName: String!
   email: String!
   favoriteSubjects: [String!]!
@@ -1138,7 +931,7 @@ type MyNdlaPersonalData {
   id: Int!
   organization: String!
   role: String!
-  shareName: Boolean!
+  shareNameAccepted: Boolean!
   username: String!
 }
 
@@ -1179,8 +972,6 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parentId: String
-  path: String
-  paths: [String!]!
   rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
@@ -1189,36 +980,20 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   url: String
 }
 
+type NodeSearchResult implements SearchResult {
+  context: SearchContext
+  contexts: [SearchContext!]!
+  htmlTitle: String!
+  id: String!
+  metaDescription: String!
+  metaImage: MetaImage
+  supportedLanguages: [String!]!
+  title: String!
+  url: String!
+}
+
 type Owner {
   name: String!
-}
-
-type PaginatedArenaNewPostNotificationV2 {
-  items: [ArenaNewPostNotificationV2!]!
-  page: Int!
-  pageSize: Int!
-  totalCount: Int!
-}
-
-type PaginatedArenaUsers {
-  items: [ArenaUserV2!]!
-  page: Int!
-  pageSize: Int!
-  totalCount: Int!
-}
-
-type PaginatedPosts {
-  items: [ArenaPostV2!]!
-  page: Int!
-  pageSize: Int!
-  totalCount: Int!
-}
-
-type PaginatedTopics {
-  items: [ArenaTopicV2!]!
-  page: Int!
-  pageSize: Int!
-  totalCount: Int!
 }
 
 type PodcastLicense {
@@ -1302,42 +1077,12 @@ type Query {
   aiEnabledOrgs: ConfigMetaStringList
   alerts: [UptimeAlert]
   allFolderResources(size: Int): [FolderResource!]!
-  arenaAllFlags(page: Int, pageSize: Int): PaginatedPosts!
-  arenaCategories: [ArenaCategory!]!
-  arenaCategoriesV2(filterFollowed: Boolean): [ArenaCategoryV2!]!
-  arenaCategory(categoryId: Int!, page: Int!): ArenaCategory
-  arenaCategoryV2(categoryId: Int!, page: Int, pageSize: Int): ArenaCategoryV2
   arenaEnabledOrgs: ConfigMetaStringList
-  arenaNotifications: [ArenaNotification!]!
-  arenaNotificationsV2(page: Int, pageSize: Int): PaginatedArenaNewPostNotificationV2!
-  arenaPostInContext(pageSize: Int, postId: Int!): ArenaTopicV2
-  arenaRecentTopics: [ArenaTopic!]!
-  arenaRecentTopicsV2(page: Int, pageSize: Int): PaginatedTopics!
-  arenaTopic(page: Int, topicId: Int!): ArenaTopic
-  arenaTopicV2(page: Int, pageSize: Int, topicId: Int!): ArenaTopicV2
-  arenaTopicsByUser(userSlug: String!): [ArenaTopic!]!
-  arenaTopicsByUserV2(page: Int, pageSize: Int, userId: Int!): PaginatedTopics!
-  arenaUser(username: String!): ArenaUser
-  arenaUserById(id: Int!): ArenaUser
-  arenaUserV2(username: String!): ArenaUserV2
   article(id: String!): Article
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
   competenceGoals(codes: [String], language: String): [CompetenceGoal!]
-  concept(id: Int!): Concept
-  conceptSearch(
-    conceptType: String
-    exactMatch: Boolean
-    fallback: Boolean
-    ids: [Int!]
-    language: String
-    page: Int
-    pageSize: Int
-    query: String
-    subjects: String
-    tags: String
-  ): ConceptResult
   coreElement(code: String!, language: String): CoreElement
   coreElements(codes: [String], language: String): [CoreElement!]
   examLockStatus: ConfigMetaBoolean!
@@ -1355,6 +1100,7 @@ type Query {
     grepCodes: String
     language: String
     levels: String
+    license: String
     page: Int
     pageSize: Int
     query: String
@@ -1362,12 +1108,10 @@ type Query {
     subjects: String
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
-  imageSearch(page: Int, pageSize: Int, query: String): ImageSearch!
+  imageSearch(license: String, page: Int, pageSize: Int, query: String): ImageSearch!
   imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath
   learningpathStepOembed(url: String!): LearningpathStepOembed!
-  listArenaUserV2(filterTeachers: Boolean, page: Int, pageSize: Int, query: String): PaginatedArenaUsers!
-  listingPage(subjects: String): ListingPage
   myLearningpaths: [MyNdlaLearningpath!]
   myNdlaLearningpath(pathId: String!): MyNdlaLearningpath
   node(contextId: String, id: String, parentId: String, rootId: String): Node
@@ -1393,7 +1137,6 @@ type Query {
   resourceTypes: [ResourceTypeDefinition!]
   search(
     aggregatePaths: [String!]
-    contextFilters: String
     contextTypes: String
     fallback: String
     filterInactive: Boolean
@@ -1402,29 +1145,33 @@ type Query {
     language: String
     languageFilter: String
     levels: String
+    license: String
+    nodeTypes: String
     page: Int
     pageSize: Int
     query: String
     relevance: String
     resourceTypes: String
+    resultTypes: String
     sort: String
     subjects: String
+    traits: [String!]
   ): Search
   searchWithoutPagination(
-    contextFilters: String
     contextTypes: String
     fallback: String
     ids: [Int!]
     language: String
     languageFilter: String
     levels: String
+    license: String
     query: String
     relevance: String
     resourceTypes: String
     sort: String
     subjects: String
   ): SearchWithoutPagination
-  sharedFolder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): SharedFolder!
+  sharedFolder(id: String!): SharedFolder!
   subject(id: String!): Subject
   subjectCollection(language: String!): [Subject!]
   subjectpage(id: Int!): SubjectPage
@@ -1460,8 +1207,6 @@ type Resource implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parents: [Topic!]
-  path: String
-  paths: [String!]!
   rank: Int
   relevanceId: String
   resourceTypes: [ResourceType!]
@@ -1503,7 +1248,6 @@ type ResourceTypeDefinition {
 
 type Search {
   aggregations: [AggregationResult!]!
-  concepts: ConceptResult
   language: String!
   page: Int
   pageSize: Int!
@@ -1518,9 +1262,7 @@ type SearchContext {
   contextType: String!
   isActive: Boolean!
   isPrimary: Boolean!
-  isVisible: Boolean!
   language: String!
-  parentIds: [String!]!
   path: String!
   publicId: String!
   relevance: String!
@@ -1538,16 +1280,16 @@ type SearchContextResourceTypes {
 }
 
 interface SearchResult {
+  context: SearchContext
   contexts: [SearchContext!]!
-  htmlTitle: String!
-  id: Int!
+  id: String!
   metaDescription: String!
-  metaImage: MetaImage
   supportedLanguages: [String!]!
   title: String!
-  traits: [String!]!
   url: String!
 }
+
+union SearchResultUnion = ArticleSearchResult | LearningpathSearchResult | NodeSearchResult
 
 type SearchSuggestion {
   length: Int!
@@ -1594,8 +1336,6 @@ type Subject implements TaxBase & TaxonomyEntity {
   metadata: TaxonomyMetadata!
   name: String!
   nodeType: String!
-  path: String
-  paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
@@ -1637,6 +1377,8 @@ type SubjectPageBanner {
 
 type SubjectPageVisualElement {
   alt: String
+  imageLicense: ImageLicense
+  imageUrl: String
   type: String!
   url: String!
 }
@@ -1659,7 +1401,6 @@ type Tags {
 interface TaxBase {
   id: String!
   name: String!
-  path: String
   url: String
 }
 
@@ -1670,8 +1411,8 @@ type TaxonomyContext {
   name: String!
   parentIds: [String!]!
   parents: [TaxonomyCrumb!]
-  path: String!
   relevance: String!
+  root: String!
   rootId: String!
   url: String!
 }
@@ -1680,7 +1421,6 @@ type TaxonomyCrumb implements TaxBase {
   contextId: String!
   id: String!
   name: String!
-  path: String!
   url: String!
 }
 
@@ -1695,8 +1435,6 @@ interface TaxonomyEntity {
   metadata: TaxonomyMetadata!
   name: String!
   nodeType: String!
-  path: String
-  paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   supportedLanguages: [String!]!
@@ -1737,29 +1475,12 @@ type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   name: String!
   nodeType: String!
   parentId: String
-  path: String
-  paths: [String!]!
   relevanceId: String
   resourceTypes: [ResourceType!]
   subtopics: [Topic!]
   supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
   url: String
-}
-
-type TopiclessArenaCategoryV2 implements ArenaCategoryV2Base {
-  breadcrumbs: [CategoryBreadcrumb!]!
-  categoryCount: Int
-  description: String!
-  id: Int!
-  isFollowing: Boolean!
-  parentCategoryId: Int
-  postCount: Int!
-  subcategories: [TopiclessArenaCategoryV2!]
-  title: String!
-  topicCount: Int!
-  visible: Boolean!
-  voteCount: Int
 }
 
 type Transcription {
@@ -1776,10 +1497,10 @@ type TransformedArticleContent {
 
 input TransformedArticleContentInput {
   absoluteUrl: Boolean
+  contextId: String
   draftConcept: Boolean
   isOembed: String
   path: String
-  prettyUrl: Boolean
   previewH5p: Boolean
   showVisualElement: String
   subjectId: String

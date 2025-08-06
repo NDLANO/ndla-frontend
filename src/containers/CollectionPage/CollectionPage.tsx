@@ -6,7 +6,6 @@
  *
  */
 
-import groupBy from "lodash/groupBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
@@ -15,6 +14,7 @@ import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
+import { groupBy } from "@ndla/util";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
@@ -39,11 +39,6 @@ const collectionPageQuery = gql`
       url
       metadata {
         customFields
-      }
-      subjectpage {
-        about {
-          title
-        }
       }
     }
   }
@@ -96,13 +91,16 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
 
-  const metaTitle = useMemo(() => t("collectionPage.title", { language: collectionLanguage }), [collectionLanguage, t]);
+  const metaTitle = useMemo(
+    () => t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() }),
+    [collectionLanguage, t],
+  );
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
 
   const subjectCategories = useMemo(() => {
     const transformedSubjects = subjects?.map((subject) => ({
       ...subject,
-      label: subject.subjectpage?.about?.title ?? subject.name ?? "",
+      label: subject.name ?? "",
       url: subject.url,
       metadata: {
         ...subject.metadata,
@@ -122,7 +120,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
       dimensions,
       title: pageTitle,
     });
-  }, [authContextLoaded, pageTitle, t, trackPageView, user]);
+  }, [authContextLoaded, pageTitle, trackPageView, user]);
 
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
@@ -133,7 +131,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
           {/* TODO: Use semantic tokens */}
           <StyledImage src={IMAGE_URL} alt="" height="400" width="1128" />
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-            {t("collectionPage.title", { language: collectionLanguage })}
+            {t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() })}
           </Heading>
         </div>
         {subjectCategories.length ? (
@@ -149,3 +147,5 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
     </StyledPageContainer>
   );
 };
+
+export const Component = CollectionPage;

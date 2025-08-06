@@ -6,32 +6,32 @@
  *
  */
 
-import keyBy from "lodash/keyBy";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router-dom";
 import { FolderLine, LinkMedium } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
+import { keyBy } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
 import ListResource from "../../../components/MyNdla/ListResource";
+import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import MyNdlaTitle, { TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import { GQLFolderResource } from "../../../graphqlTypes";
+import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/folderMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { usePrevious } from "../../../util/utilityHooks";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import MyNdlaBreadcrumb from "../components/MyNdlaBreadcrumb";
+import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import MyNdlaTitle from "../components/MyNdlaTitle";
 import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
-import TitleWrapper from "../components/TitleWrapper";
-import { useFolders, useFolderResourceMetaSearch } from "../folderMutations";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -39,7 +39,11 @@ const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   },
 });
 
-const FoldersTagsPage = () => {
+export const Component = () => {
+  return <PrivateRoute element={<FoldersTagsPage />} />;
+};
+
+export const FoldersTagsPage = () => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { folders, loading } = useFolders();
@@ -149,7 +153,7 @@ const Resources = ({ resources }: ResourcesProps) => {
             description={meta?.description ?? ""}
             resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
             resourceImage={{
-              src: meta?.metaImage?.url ?? "",
+              src: meta?.metaImage?.url,
               alt: "",
             }}
             menu={<SettingsMenu menuItems={createMenuItems(resource)} />}
@@ -160,5 +164,3 @@ const Resources = ({ resources }: ResourcesProps) => {
     </BlockWrapper>
   );
 };
-
-export default FoldersTagsPage;

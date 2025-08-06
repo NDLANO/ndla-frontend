@@ -63,7 +63,9 @@ const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
 type MovieType = NonNullable<GQLAllMoviesQuery["searchWithoutPagination"]>["results"][0];
 
 const groupMovies = (movies: MovieType[]) => {
-  const sortedMovies = movies.toSorted((a, b) => a.title.localeCompare(b.title, "nb"));
+  const sortedMovies: Exclude<MovieType, { __typename: "NodeSearchResult" | undefined }>[] = movies
+    .filter((movie) => movie.__typename !== "NodeSearchResult")
+    .toSorted((a, b) => a.title.localeCompare(b.title, "nb"));
 
   const grouped = sortedMovies.reduce<Record<string, MovieType[]>>((acc, movie) => {
     const firstChar = movie.title[0]?.toUpperCase() ?? "";
@@ -152,9 +154,10 @@ const AllMoviesAlphabetically = () => {
             const context = movie.contexts.find((c) => c.rootId === FILM_ID);
             return (
               <StyledSafeLink to={context?.url ?? ""} key={movie.id}>
-                {!!movie.metaImage?.url && (
-                  <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />
-                )}
+                {(movie.__typename === "ArticleSearchResult" || movie.__typename === "LearningpathSearchResult") &&
+                  !!movie.metaImage?.url && (
+                    <MovieImage alt="" loading="lazy" sizes={"100px"} src={movie.metaImage.url} />
+                  )}
                 <MovieTextWrapper>
                   <Heading textStyle="title.small" asChild consumeCss data-title="">
                     <h3>{movie.title}</h3>
@@ -180,18 +183,24 @@ const allMoviesQuery = gql`
       fallback: "true"
       subjects: "urn:subject:20"
       contextTypes: "standard"
+      sort: "title"
     ) {
       results {
         id
         metaDescription
-        metaImage {
-          url
+        ... on ArticleSearchResult {
+          metaImage {
+            url
+          }
+        }
+        ... on LearningpathSearchResult {
+          metaImage {
+            url
+          }
         }
         title
         contexts {
           contextId
-          contextType
-          path
           url
           rootId
         }

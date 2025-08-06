@@ -23,16 +23,16 @@ test("That invalid urls return status 400", async ({ page }) => {
   ];
 
   for (const url of invalidUrls) {
-    const response = await page.goto(url);
+    const response = await page.request.get(url, { failOnStatusCode: false });
     expect(response).toBeDefined();
     expect(response!.status()).toBe(400);
   }
 });
 
-test("That server doesn't crash when throwing an error", async ({ request }) => {
-  const res = await request.get("/logout");
+test("That server doesn't crash when throwing an error", async ({ page }) => {
+  const res = await page.request.get("/logout", { failOnStatusCode: false });
   expect(res.status()).toBe(400);
 
-  const res2 = await request.get("/logout");
+  const res2 = await page.request.get("/logout", { failOnStatusCode: false });
   expect(res2.status()).toBe(400);
 });

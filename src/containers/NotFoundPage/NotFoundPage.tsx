@@ -54,3 +54,5 @@ export const NotFoundPage = () => {
     </PageContainer>
   );
 };
+
+export const Component = NotFoundPage;

@@ -19,6 +19,8 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import CompetenceGoals from "../../components/CompetenceGoals";
 import FavoriteSubject from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
+import ImageLicenseList from "../../components/license/ImageLicenseList";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import SubjectLinks from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -121,10 +123,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
 
   useEffect(() => {
     if (!authContextLoaded || loading) return;
-    const dimensions = getAllDimensions({
-      filter: node.name,
-      user,
-    });
+    const dimensions = getAllDimensions({ user });
     trackPageView({
       dimensions,
       title: htmlTitle(node.name, [t("htmlTitles.titleTemplate")]),
@@ -159,7 +158,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
       <SocialMediaMetadata
         title={node.name}
         description={node.subjectpage?.metaDescription}
-        imageUrl={about?.visualElement.url}
+        imageUrl={about?.visualElement.imageUrl}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
       />
       <StyledSubjectWrapper>
@@ -218,7 +217,7 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
         {!!node.nodes?.length && (
           <StyledNav aria-labelledby={headingId}>
             <Heading id={headingId} textStyle="heading.small" asChild consumeCss>
-              <h2>{t("topicPage.topics")}</h2>
+              <h2>{t("topicsPage.topics")}</h2>
             </Heading>
             <TransportationPageNodeListGrid>
               {node.nodes.map((node) => (
@@ -226,6 +225,9 @@ const SubjectContainer = ({ node, subjectType, loading }: Props) => {
               ))}
             </TransportationPageNodeListGrid>
           </StyledNav>
+        )}
+        {!!about?.visualElement.imageLicense && (
+          <ImageLicenseAccordion imageLicenses={[about.visualElement.imageLicense]} />
         )}
       </StyledPageContainer>
     </main>
@@ -263,6 +265,10 @@ export const subjectContainerFragments = {
             type
             alt
             url
+            imageUrl
+            imageLicense {
+              ...ImageLicenseList_ImageLicense
+            }
           }
         }
         ...SubjectLinks_SubjectPage
@@ -270,6 +276,7 @@ export const subjectContainerFragments = {
       ...FavoriteSubject_Node
     }
     ${TransportationNode.fragments.node}
+    ${ImageLicenseList.fragments.image}
     ${FavoriteSubject.fragments.node}
     ${SubjectLinks.fragments.subjectPage}
   `,

@@ -1,72 +1,52 @@
 /**
- * Copyright (c) 2016-present, NDLA.
+ * Copyright (c) 2025-present, NDLA.
  *
  * This source code is licensed under the GPLv3 license found in the
  * LICENSE file in the root directory of this source tree.
  *
  */
 
-import { useMemo } from "react";
+import { FormEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CloseLine, CheckLine } from "@ndla/icons";
+import { gql, useQuery } from "@apollo/client";
+import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
 import {
-  CheckboxControl,
-  CheckboxGroup,
-  CheckboxHiddenInput,
-  CheckboxIndicator,
-  CheckboxLabel,
-  CheckboxRoot,
-  Spinner,
-  Heading,
   Button,
-  FieldsetRoot,
-  FieldsetLegend,
+  FieldInput,
+  FieldLabel,
+  FieldRoot,
+  Heading,
+  IconButton,
+  InputContainer,
+  PaginationContext,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationNextTrigger,
+  PaginationPrevTrigger,
+  PaginationRoot,
+  Spinner,
+  Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HomeBreadcrumb } from "@ndla/ui";
-import SearchHeader from "./components/SearchHeader";
-import { SearchResultGroup } from "./components/SearchResults";
-import { SearchGroup, sortResourceTypes, TypeFilter } from "./searchHelpers";
-import { SearchCompetenceGoal, SearchCoreElements } from "./SearchInnerPage";
-import { groupCompetenceGoals } from "../../components/CompetenceGoals";
-import { CompetenceItem, CoreElementType } from "../../components/CompetenceGoalTab";
-import { LanguageSelector } from "../../components/LanguageSelector";
-import { GQLSubjectInfoFragment } from "../../graphqlTypes";
-import { supportedLanguages } from "../../i18n";
+import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
+import { GrepFilter } from "./GrepFilter";
+import { ProgrammeFilter } from "./ProgrammeFilter";
+import { ResourceTypeFilter } from "./ResourceTypeFilter";
+import { SearchResult } from "./SearchResult";
+import { ALL_NODE_TYPES, defaultNodeType, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
+import { SubjectFilter } from "./SubjectFilter";
+import { TraitFilter } from "./TraitFilter";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
+import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
+import {
+  GQLSearchPageQueryVariables,
+  GQLSearchContainer_ResourceTypeDefinitionFragment,
+  GQLSearchPageQuery,
+} from "../../graphqlTypes";
+import { preferredLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
-
-const StyledLanguageSelector = styled(LanguageSelector, { base: { alignSelf: "center" } });
-
-const CompetenceWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "small",
-  },
-});
-const CompetenceItemWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxsmall",
-  },
-});
-
-const FiltersWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "small",
-    flexWrap: "wrap",
-  },
-});
-
-const SearchPanel = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
+import { useLtiContext } from "../../LtiContext";
 
 const StyledMain = styled("main", {
   base: {
@@ -76,199 +56,467 @@ const StyledMain = styled("main", {
   },
 });
 
-const SearchGroupWrapper = styled("div", {
+const SearchFieldWrapper = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
+    width: "100%",
+  },
+});
+
+const FiltersWrapper = styled("section", {
+  base: {
+    marginBlockStart: "large",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    // TODO: This is a weird value
+    width: "360px",
+    desktopDown: {
+      width: "100%",
+    },
+  },
+});
+
+const MobilePaginationButtonContainer = styled("div", {
+  base: {
+    display: "flex",
+    gap: "3xsmall",
+    justifyContent: "center",
+    tablet: {
+      display: "none",
+    },
+  },
+});
+
+const StyledFieldRoot = styled(FieldRoot, {
+  base: {
+    width: "100%",
+  },
+});
+
+const StyledPaginationRoot = styled(PaginationRoot, {
+  base: {
+    marginBlockStart: "xsmall",
+    tabletDown: {
+      display: "none",
+    },
+  },
+});
+
+const FormWrapper = styled("div", {
   base: {
     display: "flex",
     flexDirection: "column",
-    gap: "xxlarge",
+    gap: "3xsmall",
   },
 });
 
-const StyledCheckboxGroup = styled(CheckboxGroup, {
+const searchPageQueryFragment = gql`
+  # TODO: Rename this once we delete old search
+  query searchPage(
+    $query: String
+    $page: Int
+    $pageSize: Int
+    $contextTypes: String
+    $language: String
+    $ids: [Int!]
+    $resourceTypes: String
+    $levels: String
+    $sort: String
+    $fallback: String
+    $subjects: String
+    $languageFilter: String
+    $relevance: String
+    $grepCodes: String
+    $traits: [String!]
+    $aggregatePaths: [String!]
+    $filterInactive: Boolean
+    $license: String
+    $resultTypes: String
+    $nodeTypes: String
+  ) {
+    search(
+      query: $query
+      page: $page
+      pageSize: $pageSize
+      contextTypes: $contextTypes
+      language: $language
+      ids: $ids
+      resourceTypes: $resourceTypes
+      levels: $levels
+      sort: $sort
+      fallback: $fallback
+      subjects: $subjects
+      languageFilter: $languageFilter
+      relevance: $relevance
+      grepCodes: $grepCodes
+      traits: $traits
+      aggregatePaths: $aggregatePaths
+      filterInactive: $filterInactive
+      license: $license
+      resultTypes: $resultTypes
+      nodeTypes: $nodeTypes
+    ) {
+      page
+      pageSize
+      language
+      totalCount
+      results {
+        ...SearchResult_SearchResult
+      }
+      aggregations {
+        values {
+          ...ResourceTypeFilter_BucketResult
+        }
+      }
+    }
+  }
+  ${SearchResult.fragments.searchResult}
+  ${ResourceTypeFilter.fragments.bucketResult}
+`;
+
+const ContentWrapper = styled("div", {
   base: {
     display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
+    gap: "medium",
+    width: "100%",
+    flexDirection: "column",
+    desktop: {
+      flexDirection: "row",
+    },
   },
 });
 
-const StyledFieldsetRoot = styled(FieldsetRoot, {
+const ResultsWrapper = styled("div", {
   base: {
-    gap: "small",
+    flex: "1",
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
   },
 });
 
-const filterGroups = (searchGroups: SearchGroup[], selectedFilters: string[]) => {
-  const showAll = selectedFilters.includes("all");
-  return searchGroups.filter((group) => {
-    const isSelected = selectedFilters.includes(group.type);
-    return (showAll || isSelected) && !!group.items.length;
-  });
+const StyledButton = styled(Button, {
+  base: {
+    tabletWideDown: {
+      "& span": {
+        display: "none",
+      },
+    },
+  },
+});
+
+const getTypeVariables = (
+  resourceTypes: string | null,
+  allResourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[] | undefined,
+  nodeType: string,
+) => {
+  if (nodeType === ALL_NODE_TYPES) {
+    return {
+      resultTypes: "node,article,learningpath",
+      contextTypes: "standard,learningpath,topic-article",
+      // we're only interested in subject nodes, as topics are handled through context types
+      nodeTypes: "SUBJECT",
+    };
+  } else if (nodeType === TOPIC_NODE_TYPE) {
+    return {
+      contextTypes: "topic-article",
+    };
+  } else if (nodeType === SUBJECT_NODE_TYPE) {
+    return {
+      resultTypes: "node",
+      nodeTypes: "SUBJECT",
+    };
+  }
+
+  const actualResourceTypes = resourceTypes
+    ?.split(",")
+    .map((id) => `urn:resourcetype:${id}`)
+    .join(",");
+
+  const flattenedResourceTypes = allResourceTypes
+    ?.flatMap((rt) => (rt.subtypes?.length ? rt.subtypes.map((st) => st.id) : rt.id))
+    .join(",");
+
+  return {
+    resourceTypes: actualResourceTypes ?? flattenedResourceTypes,
+    contextTypes: "standard,learningpath",
+  };
 };
 
 interface Props {
-  handleSearchParamsChange: (updates: Record<string, any>) => void;
-  handleSubFilterClick: (type: string, filterIds: string[]) => void;
-  handleFilterToggle: (type: string[]) => void;
-  handleShowMore: (type: string) => void;
-  query?: string;
-  subjectIds: string[];
-  subjects?: GQLSubjectInfoFragment[];
-  competenceGoals: SearchCompetenceGoal[];
-  coreElements: SearchCoreElements[];
-  suggestion?: string;
-  typeFilter: Record<string, TypeFilter>;
-  searchGroups: SearchGroup[];
-  loading: boolean;
-  isLti?: boolean;
-  selectedFilters: string[];
+  resourceTypes: GQLSearchContainer_ResourceTypeDefinitionFragment[];
+  resourceTypesLoading: boolean;
 }
-const SearchContainer = ({
-  handleSearchParamsChange,
-  handleSubFilterClick,
-  handleFilterToggle,
-  handleShowMore,
-  query,
-  subjectIds,
-  subjects,
-  suggestion,
-  typeFilter,
-  searchGroups,
-  loading,
-  isLti,
-  competenceGoals,
-  coreElements,
-  selectedFilters,
-}: Props) => {
-  const { t, i18n } = useTranslation();
-  const grepElements = useMemo(() => [...competenceGoals, ...coreElements], [competenceGoals, coreElements]);
 
-  const filterButtonItems = Object.keys(typeFilter).reduce(
-    (acc, cur) => {
-      if (searchGroups.find((group) => group.type === cur)?.items?.length || selectedFilters.includes(cur)) {
-        acc.push({ value: cur, label: t(`contentTypes.${cur}`) });
-      }
-      return acc;
+export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) => {
+  const [searchParams, setSearchParams] = useStableSearchPageParams();
+  const [query, setQuery] = useState(decodeURIComponent(searchParams.get("query") ?? ""));
+  const [page, setPage] = useState(() => {
+    const maybePage = parseInt(searchParams.get("page") ?? "1");
+    return maybePage ?? 1;
+  });
+  const focusRef = useRef<HTMLHeadingElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const filterHeadingId = useId();
+  const isLti = useLtiContext();
+  const { t, i18n } = useTranslation();
+  const paginationTranslations = usePaginationTranslations();
+
+  const queryParams: GQLSearchPageQueryVariables = useMemo(() => {
+    const subjectList =
+      searchParams
+        .get("subjects")
+        ?.split(",")
+        .map((s) => `urn:subject:${s}`) ?? [];
+
+    const programmeList = searchParams.get("programmes")?.split(",") ?? [];
+    const subjectsParam = [...subjectList, ...programmeList];
+    const subjects = subjectsParam.length ? subjectsParam.join(",") : undefined;
+
+    const queryParam = searchParams.get("query");
+    return {
+      query: queryParam ? decodeURIComponent(queryParam) : undefined,
+      language: i18n.language,
+      page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
+      subjects,
+      pageSize: 10,
+      aggregatePaths: ["context.resourceTypes.id"],
+      traits: searchParams.get("traits") ?? undefined,
+      fallback: "true",
+      license: "all",
+      grepCodes: searchParams.get("grepCodes") ?? undefined,
+      filterInactive: !subjectsParam.length,
+      ...getTypeVariables(
+        searchParams.get("resourceTypes"),
+        isLti ? resourceTypes : undefined,
+        searchParams.get("type") ?? defaultNodeType(isLti),
+      ),
+    };
+  }, [i18n.language, isLti, resourceTypes, searchParams]);
+
+  const searchQuery = useQuery<GQLSearchPageQuery, GQLSearchPageQueryVariables>(searchPageQueryFragment, {
+    variables: queryParams,
+  });
+
+  useEffect(() => {
+    const pageParam = parseInt(searchParams.get("page") ?? "1");
+    if (pageParam !== page) {
+      setPage(pageParam);
+    }
+  }, [page, searchParams]);
+
+  useEffect(() => {
+    const queryParam = searchParams.get("query");
+    if (queryParam) {
+      setQuery(queryParam ? decodeURIComponent(queryParam) : "");
+    }
+  }, [searchParams]);
+
+  const data = searchQuery.data ?? searchQuery.previousData;
+
+  const handleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setSearchParams({ query: encodeURIComponent(query) });
     },
-    [{ value: "all", label: t("searchPage.resultType.all") }] as { value: string; label: string }[],
+    [query, setSearchParams],
   );
 
-  const onGrepRemove = (grepValue: string) => {
-    handleSearchParamsChange({
-      grepCodes: grepElements.filter((grep) => grep.id !== grepValue).map((grep) => grep.id),
-    });
-  };
+  const resultsTranslation = useMemo(() => {
+    if (!data?.search) return undefined;
+    const res = [];
 
-  const sortedFilterItems = sortResourceTypes(filterButtonItems, "value");
-  const sortedSearchGroups = sortResourceTypes(searchGroups, "type");
-  const filteredSortedSearchGroups = filterGroups(sortedSearchGroups, selectedFilters);
-  const competenceGoalsMetadata = groupCompetenceGoals(competenceGoals, false, "LK06");
-
-  const mappedCoreElements: CoreElementType["elements"] = coreElements.map((element) => ({
-    title: element.title,
-    text: element.description ?? "",
-    id: element.id,
-    url: "",
-  }));
+    if (data.search.totalCount) {
+      const from = Math.max(page * data.search.pageSize - (data.search.pageSize - 1), 0);
+      const to = Math.min((page || 1) * data.search.pageSize, data.search.totalCount);
+      res.push(t("searchPage.showingResults.hits", { from, to, total: data.search.totalCount }));
+    } else {
+      res.push(t("searchPage.showingResults.noHits"));
+    }
+    const currentQuery = searchParams.get("query");
+    if (currentQuery?.length) {
+      res.push(t("searchPage.showingResults.query"));
+      // TODO: Should we account for the possibility that the query is wrapped in quotes? If so, how should we display it?
+      // Keep query out of the translation string to avoid escaping issues
+      res.push(`"${decodeURIComponent(currentQuery)}"`);
+    }
+    return res.filter(Boolean).join(" ");
+  }, [data?.search, page, searchParams, t]);
 
   return (
     <StyledMain>
       {!isLti && (
         <HomeBreadcrumb
           items={[
-            {
-              name: t("breadcrumb.toFrontpage"),
-              to: "/",
-            },
+            { name: t("breadcrumb.toFrontpage"), to: "/" },
             { to: "/search", name: t("searchPage.search") },
           ]}
         />
       )}
-      <SearchPanel>
-        <SearchHeader
-          query={query}
-          suggestion={suggestion}
-          subjectIds={subjectIds}
-          handleSearchParamsChange={handleSearchParamsChange}
-          subjects={subjects}
-          noResults={!(sortedFilterItems.length > 1)}
-          loading={loading}
-          isLti={isLti}
-        />
-        {(!!coreElements.length || !!competenceGoalsMetadata?.length) && (
-          <CompetenceWrapper>
-            {!!competenceGoalsMetadata?.length && (
-              <CompetenceItemWrapper>
-                <Heading textStyle="title.large" asChild consumeCss>
-                  <h2>{t("competenceGoals.competenceGoalItem.title")}</h2>
-                </Heading>
-                {competenceGoalsMetadata.map((goal, index) => (
-                  <CompetenceItem item={goal} key={index} />
-                ))}
-              </CompetenceItemWrapper>
+      <ContentWrapper>
+        <ResultsWrapper>
+          <Heading id={SKIP_TO_CONTENT_ID} srOnly={isLti} ref={focusRef} tabIndex={-1}>
+            {t("searchPage.title")}
+          </Heading>
+          <FormWrapper>
+            <form action="/search/" onSubmit={handleSubmit}>
+              <SearchFieldWrapper>
+                <StyledFieldRoot>
+                  <FieldLabel srOnly>{t("searchPage.title")}</FieldLabel>
+                  <InputContainer>
+                    <FieldInput
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      ref={inputRef}
+                      placeholder={t("searchPage.searchFieldPlaceholder")}
+                      type="search"
+                      autoComplete="off"
+                      name="search"
+                    />
+                    {!!query && (
+                      <IconButton
+                        variant="clear"
+                        aria-label={t("welcomePage.resetSearch")}
+                        title={t("welcomePage.resetSearch")}
+                        onClick={() => {
+                          setQuery("");
+                          setSearchParams({ query: null });
+                          inputRef.current?.focus();
+                        }}
+                      >
+                        <CloseLine />
+                      </IconButton>
+                    )}
+                  </InputContainer>
+                </StyledFieldRoot>
+                <IconButton type="submit" aria-label={t("searchPage.search")} title={t("searchPage.search")}>
+                  <SearchLine />
+                </IconButton>
+              </SearchFieldWrapper>
+            </form>
+            {!!resultsTranslation && (
+              <Text textStyle="label.small" aria-live="polite" role="status">
+                {resultsTranslation}
+              </Text>
             )}
-            {!!coreElements?.length && (
-              <CompetenceItemWrapper>
-                <Heading textStyle="title.large" asChild consumeCss>
-                  <h2>{t("competenceGoals.competenceTabCorelabel")}</h2>
-                </Heading>
-                <CompetenceItem item={{ elements: mappedCoreElements }} />
-              </CompetenceItemWrapper>
-            )}
-            {!!grepElements.length && (
-              <FiltersWrapper>
-                {grepElements.map((grep) => (
-                  <Button key={grep.id} variant="primary" size="small" onClick={() => onGrepRemove(grep.id)}>
-                    {grep.id}
-                    <CloseLine />
-                  </Button>
-                ))}
-              </FiltersWrapper>
-            )}
-          </CompetenceWrapper>
-        )}
-        <div aria-live="polite">{!!loading && searchGroups.length === 0 && <Spinner aria-label={t("loading")} />}</div>
-        {sortedFilterItems.length > 1 && (
-          <StyledFieldsetRoot>
-            <FieldsetLegend textStyle="title.small">{t("searchPage.filterSearch")}</FieldsetLegend>
-            <StyledCheckboxGroup value={selectedFilters} onValueChange={handleFilterToggle}>
-              {sortedFilterItems.map((item) => (
-                <CheckboxRoot key={item.value} value={item.value} variant="chip">
-                  <CheckboxControl>
-                    <CheckboxIndicator asChild>
-                      <CheckLine />
-                    </CheckboxIndicator>
-                  </CheckboxControl>
-                  <CheckboxLabel>{item.label}</CheckboxLabel>
-                  <CheckboxHiddenInput />
-                </CheckboxRoot>
-              ))}
-            </StyledCheckboxGroup>
-          </StyledFieldsetRoot>
-        )}
-      </SearchPanel>
-      {!!searchGroups?.length && (
-        <SearchGroupWrapper>
-          {filteredSortedSearchGroups.map((group) => (
-            <SearchResultGroup
-              key={`searchresultgroup-${group.type}`}
-              group={group}
-              handleSubFilterClick={handleSubFilterClick}
-              handleShowMore={handleShowMore}
-              loading={loading}
-              typeFilter={typeFilter}
-            />
-          ))}
+            {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
+          </FormWrapper>
+          <ul>
+            {data?.search?.results.map((result) => (
+              <SearchResult searchResult={result} key={result.id} />
+            ))}
+          </ul>
+          {!!data?.search && data.search.totalCount > data.search.pageSize && (
+            <StyledPaginationRoot
+              page={page}
+              onPageChange={(details) => {
+                setPage(details.page);
+                setSearchParams({ page: details.page === 1 ? null : details.page.toString() });
+              }}
+              onClick={() => focusRef.current?.focus()}
+              count={Math.min(data.search.totalCount, 10000)}
+              pageSize={data?.search?.pageSize ?? 0}
+              translations={paginationTranslations}
+              siblingCount={1}
+              aria-label={t("searchPage.pagination")}
+            >
+              <PaginationPrevTrigger asChild>
+                <StyledButton variant="tertiary" aria-label={t("pagination.prev")} title={t("pagination.prev")}>
+                  <ArrowLeftShortLine />
+                  <span>{t("pagination.prev")}</span>
+                </StyledButton>
+              </PaginationPrevTrigger>
+              <PaginationContext>
+                {(pagination) =>
+                  pagination.pages.map((page, index) =>
+                    page.type === "page" ? (
+                      <PaginationItem key={index} {...page} asChild>
+                        <Button variant={page.value === pagination.page ? "primary" : "tertiary"}>{page.value}</Button>
+                      </PaginationItem>
+                    ) : (
+                      <PaginationEllipsis key={index} index={index} asChild>
+                        <Text asChild consumeCss>
+                          <div>&#8230;</div>
+                        </Text>
+                      </PaginationEllipsis>
+                    ),
+                  )
+                }
+              </PaginationContext>
+              <PaginationNextTrigger asChild>
+                <StyledButton variant="tertiary" aria-label={t("pagination.next")} title={t("pagination.next")}>
+                  <span>{t("pagination.next")}</span>
+                  <ArrowRightShortLine />
+                </StyledButton>
+              </PaginationNextTrigger>
+            </StyledPaginationRoot>
+          )}
+          <MobilePaginationButtonContainer>
+            <Button
+              variant="tertiary"
+              aria-label={t("pagination.prev")}
+              title={t("pagination.prev")}
+              disabled={page === 1}
+              onClick={() => {
+                const prevPage = page - 1;
+                setPage(prevPage);
+                setSearchParams({ page: prevPage === 1 ? null : prevPage.toString() });
+                focusRef.current?.focus();
+              }}
+            >
+              <ArrowLeftShortLine />
+              <span>{t("pagination.prev")}</span>
+            </Button>
+            <Button
+              variant="tertiary"
+              aria-label={t("pagination.next")}
+              title={t("pagination.next")}
+              disabled={!data?.search || Math.min(data.search.totalCount, 10000) <= page * data.search.pageSize}
+              onClick={() => {
+                const nextPage = page + 1;
+                setPage(nextPage);
+                setSearchParams({ page: nextPage.toString() });
+                focusRef.current?.focus();
+              }}
+            >
+              <span>{t("pagination.next")}</span>
+              <ArrowRightShortLine />
+            </Button>
+          </MobilePaginationButtonContainer>
+        </ResultsWrapper>
+        <FiltersWrapper aria-labelledby={filterHeadingId}>
+          <Heading id={filterHeadingId} textStyle="title.medium" asChild consumeCss>
+            <h2>{t("searchPage.filtersHeading")}</h2>
+          </Heading>
+          {!isLti && <ProgrammeFilter />}
+          <ResourceTypeFilter
+            bucketResult={data?.search?.aggregations?.[0]?.values ?? []}
+            resourceTypes={resourceTypes}
+            resourceTypesLoading={resourceTypesLoading}
+          />
+          <GrepFilter />
+          <TraitFilter />
+          <SubjectFilter />
           {!!isLti && (
-            <StyledLanguageSelector
-              languages={supportedLanguages}
+            <LanguageSelectorSelect
+              languages={preferredLanguages}
               onValueChange={(details) => i18n.changeLanguage(details.value[0] as LocaleType)}
             />
           )}
-        </SearchGroupWrapper>
-      )}
+        </FiltersWrapper>
+      </ContentWrapper>
     </StyledMain>
   );
 };
 
-export default SearchContainer;
+SearchContainer.fragments = {
+  resourceTypeDefinition: gql`
+    fragment SearchContainer_ResourceTypeDefinition on ResourceTypeDefinition {
+      ...ResourceTypeFilter_ResourceTypeDefinition
+    }
+    ${ResourceTypeFilter.fragments.resourceTypeDefinition}
+  `,
+};

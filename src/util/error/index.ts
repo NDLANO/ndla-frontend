@@ -9,5 +9,5 @@
 import { ApolloError } from "@apollo/client";
 import { NDLAError } from "./NDLAError";
 
-export type ErrorType = ApolloError | Error | NDLAError | string | unknown;
-export type LogLevel = "error" | "warn" | "info";
+export type ErrorType = ApolloError | Error | NDLAError;
+export type UnknownError = ErrorType | unknown;

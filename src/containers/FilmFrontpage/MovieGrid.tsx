@@ -12,6 +12,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import FilmContentCard from "./FilmContentCard";
+import { FILM_ID } from "../../constants";
 import {
   GQLResourceTypeMoviesQuery,
   GQLResourceTypeMoviesQueryVariables,
@@ -107,20 +108,23 @@ export const MovieGrid = ({ resourceType }: Props) => {
       ) : (
         <MovieListing>
           {resourceTypeMovies.data?.searchWithoutPagination?.results?.map((movie, index) => {
-            const context = movie.contexts.find((c) => c.contextType === "standard");
-            return (
-              <StyledFilmContentCard
-                style={{ "--index": index } as CSSProperties}
-                key={`${resourceType.id}-${index}`}
-                movie={{
-                  id: movie.id,
-                  metaImage: movie.metaImage,
-                  resourceTypes: [],
-                  title: movie.title,
-                  url: context?.url ?? "",
-                }}
-              />
-            );
+            if (movie.__typename === "ArticleSearchResult" || movie.__typename === "LearningpathSearchResult") {
+              const context = movie.contexts.find((c) => c.rootId === FILM_ID);
+              return (
+                <StyledFilmContentCard
+                  style={{ "--index": index } as CSSProperties}
+                  key={`${resourceType.id}-${index}`}
+                  movie={{
+                    id: movie.id,
+                    metaImage: movie.metaImage,
+                    resourceTypes: [],
+                    title: movie.title,
+                    url: context?.url ?? "",
+                  }}
+                />
+              );
+            }
+            return null;
           })}
         </MovieListing>
       )}
@@ -165,17 +169,24 @@ const resourceTypeMoviesQuery = gql`
       fallback: "true"
       subjects: "urn:subject:20"
       contextTypes: "standard"
+      sort: "title"
     ) {
       results {
         id
         metaDescription
-        metaImage {
-          url
+        ... on ArticleSearchResult {
+          metaImage {
+            url
+          }
+        }
+        ... on LearningpathSearchResult {
+          metaImage {
+            url
+          }
         }
         title
         contexts {
           contextId
-          contextType
           url
           rootId
         }

@@ -41,7 +41,7 @@ const getFormat = () => {
     let logLine = `[${coloredLevel}] ${timestamp}: ${message}`;
     const extras = info[Symbol.for("splat")];
     let metaObj = rest;
-    extras.forEach((e: any, index: number) => {
+    extras?.forEach((e: any, index: number) => {
       if (typeof e === "object" && Array.isArray(e)) {
         metaObj[`array[${index}]`] = e;
       } else if (typeof e === "object") {

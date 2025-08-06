@@ -6,15 +6,14 @@
  *
  */
 
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD } from "../../constants";
 import FilmFrontpage from "../../containers/FilmFrontpage/FilmFrontpage";
 import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
-import { getSubjectType, useUrnIds } from "../../routeHelpers";
+import { getSubjectType } from "../../routeHelpers";
 import { isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -24,7 +23,7 @@ const subjectPageQuery = gql`
       ...SubjectContainer_Node
     }
     nodes(metadataFilterKey: $metadataFilterKey, metadataFilterValue: $metadataFilterValue, filterVisible: true) {
-      path
+      url
       metadata {
         customFields
       }
@@ -33,31 +32,29 @@ const subjectPageQuery = gql`
   ${subjectContainerFragments.subject}
 `;
 
-const SubjectPage = () => {
-  const { contextId, subjectId } = useUrnIds();
+export const SubjectPage = () => {
+  const { contextId } = useParams();
   const {
     error,
     loading,
     data: newData,
     previousData,
   } = useQuery<GQLSubjectPageQuery, GQLSubjectPageQueryVariables>(subjectPageQuery, {
-    variables: {
-      subjectId: subjectId,
-      contextId: contextId,
-      metadataFilterKey: OLD_SUBJECT_PAGE_REDIRECT_CUSTOM_FIELD,
-      metadataFilterValue: subjectId,
-    },
-    skip: !!contextId && !isValidContextId(contextId),
+    variables: { contextId: contextId },
+    skip: !isValidContextId(contextId),
   });
 
   const data = newData ?? previousData;
 
-  if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
-    return <NotFoundPage />;
+  if (error?.graphQLErrors) {
+    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+      return <NotFoundPage />;
+    }
+    return <DefaultErrorMessagePage />;
   }
 
   if (!data && !loading) {
-    return <DefaultErrorMessagePage />;
+    return <NotFoundPage />;
   }
 
   if (!data) {
@@ -69,7 +66,7 @@ const SubjectPage = () => {
     if (!redirect) {
       return <NotFoundPage />;
     } else {
-      return <Navigate to={redirect.path || ""} replace />;
+      return <Navigate to={redirect.url || ""} replace />;
     }
   }
   const subjectType = getSubjectType(data.node.id);
@@ -80,4 +77,4 @@ const SubjectPage = () => {
   return <SubjectContainer node={data.node} subjectType={subjectType} loading={loading} />;
 };
 
-export default SubjectPage;
+export const Component = SubjectPage;

@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
+import { licenses } from "@ndla/licenses";
 import { Button, Image, Spinner, Text } from "@ndla/primitives";
 import { HStack, Stack, styled, VStack } from "@ndla/styled-system/jsx";
 import { IImageMetaInformationV3DTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
@@ -40,14 +41,12 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
   }, [fetchImage, imageId]);
 
   const [refetch] = useImageSearch({
-    variables: { page: 1, pageSize: 16 },
+    variables: { page: 1, pageSize: 16, license: licenses.CC_BY_SA_4 },
   });
 
-  const onFetchImage = async (imageId: number) =>
-    (await fetchImage({ variables: { id: imageId.toString() } })).data?.imageV3 as IImageMetaInformationV3DTO;
-
   const onSearchImage = async (query?: string, page?: number) =>
-    (await refetch({ variables: { query, page } }))?.data?.imageSearch as ISearchResultV3DTO;
+    (await refetch({ variables: { query, page, license: licenses.CC_BY_SA_4 } }))?.data
+      ?.imageSearch as ISearchResultV3DTO;
 
   const onRemove = () => {
     onSelectImage(undefined);
@@ -61,7 +60,6 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
       translations={searchImageTranslations}
       searchImages={onSearchImage}
       onImageSelect={onSelectImage}
-      fetchImage={onFetchImage}
       noResults={<Text>{t("myNdla.learningpath.form.title.noResult")}</Text>}
       //TODO: Handle error?
       onError={() => {}}

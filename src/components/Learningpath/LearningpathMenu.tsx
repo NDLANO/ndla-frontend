@@ -10,19 +10,21 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { CheckLine } from "@ndla/icons";
+import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
-import {
-  GQLLearningpathMenu_LearningpathFragment,
-  GQLLearningpathMenu_LearningpathStepFragment,
-} from "../../graphqlTypes";
-import { toLearningPath } from "../../routeHelpers";
+import { LearningpathContext } from "./learningpathUtils";
+import config from "../../config";
+import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
+import { routes, toLearningPath } from "../../routeHelpers";
+import formatDate from "../../util/formatDate";
 
 interface Props {
   resourcePath: string | undefined;
   learningpath: GQLLearningpathMenu_LearningpathFragment;
-  currentStep: GQLLearningpathMenu_LearningpathStepFragment;
+  currentIndex: number;
+  context?: LearningpathContext;
 }
 
 const StepperList = styled("ol", {
@@ -89,8 +91,15 @@ const StepIndicatorWrapper = styled("div", {
     display: "flex",
     alignItems: "center",
     background: "background.default",
-    desktop: {
-      background: "background.subtle",
+  },
+  variants: {
+    context: {
+      default: {
+        desktop: {
+          background: "background.subtle",
+        },
+      },
+      preview: {},
     },
   },
 });
@@ -110,11 +119,18 @@ const StepIndicator = styled("div", {
     transitionProperty: "background",
     transitionDuration: "fast",
     transitionTimingFunction: "default",
-    desktop: {
-      background: "background.subtle",
-    },
     "&[data-completed='true']": {
       background: "surface.brand.3.moderate",
+    },
+  },
+  variants: {
+    context: {
+      default: {
+        desktop: {
+          background: "background.subtle",
+        },
+      },
+      preview: {},
     },
   },
 });
@@ -130,25 +146,33 @@ const ListItem = styled("li", {
         bottom: "0",
         width: "100%",
         height: "50%",
-        desktop: {
-          background: "background.subtle",
+      },
+    },
+  },
+  variants: {
+    context: {
+      default: {
+        _last: {
+          _after: {
+            desktop: {
+              background: "background.subtle",
+            },
+          },
         },
       },
+      preview: {},
     },
   },
 });
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
-const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) => {
+const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
-  const lastUpdatedDate = new Date(learningpath.lastUpdated);
-
-  const lastUpdatedString = `${lastUpdatedDate.getDate()}.${lastUpdatedDate.getMonth() + 1 < 10 ? "0" : ""}${
-    lastUpdatedDate.getMonth() + 1
-  }.${lastUpdatedDate.getFullYear()}`;
+  const currentStep = learningpath.learningsteps[currentIndex];
+  const lastUpdated = formatDate(learningpath.lastUpdated, i18n.language);
 
   const updateViewedSteps = () => {
     if (learningpath && currentStep?.seqNo !== undefined) {
@@ -164,7 +188,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) =>
   useEffect(() => {
     updateViewedSteps();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStep.id]);
+  }, [currentStep?.id]);
 
   return (
     <>
@@ -172,16 +196,25 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) =>
         <Track />
         <StepperList>
           {learningpath.learningsteps.map((step, index) => (
-            <ListItem key={step.id}>
+            <ListItem key={step.id} context={context}>
               <StyledSafeLink
-                to={toLearningPath(learningpath.id, step.id, resourcePath)}
-                aria-current={index === currentStep.seqNo ? "page" : undefined}
+                to={
+                  context === "preview"
+                    ? routes.myNdla.learningpathPreview(learningpath.id, step.id)
+                    : toLearningPath(learningpath.id, step.id, resourcePath)
+                }
+                aria-current={index === currentIndex ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
                 aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
               >
-                <StepIndicatorWrapper>
-                  <StepIndicator data-indicator="" data-completed={!!viewedSteps[step.id]} aria-hidden>
-                    {viewedSteps[step.id] && index !== currentStep.seqNo ? <CheckLine size="small" /> : index + 1}
+                <StepIndicatorWrapper context={context}>
+                  <StepIndicator
+                    data-indicator=""
+                    data-completed={!!viewedSteps[step.id]}
+                    aria-hidden
+                    context={context}
+                  >
+                    {viewedSteps[step.id] && index !== currentIndex ? <CheckLine size="small" /> : index + 1}
                   </StepIndicator>
                 </StepIndicatorWrapper>
                 <span data-link-text="">{step.title}</span>
@@ -192,8 +225,10 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentStep }: Props) =>
       </StyledNav>
       <ArticleByline
         authors={learningpath.copyright.contributors}
-        published={lastUpdatedString}
+        published={lastUpdated}
         bylineType="learningPath"
+        bylineSuffix={learningpath.isMyNDLAOwner ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
+        learningpathCopiedFrom={config.ndlaFrontendDomain + learningpath.basedOn}
       />
     </>
   );
@@ -217,7 +252,10 @@ LearningpathMenu.fragments = {
       learningsteps {
         id
         title
+        seqNo
       }
+      basedOn
+      isMyNDLAOwner
     }
   `,
   step: gql`

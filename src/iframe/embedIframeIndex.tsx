@@ -7,10 +7,8 @@
  */
 
 import "../style/index.css";
-import { ReactNode } from "react";
-import { createRoot, hydrateRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { MissingRouterContext } from "@ndla/safelink";
 import { i18nInstance } from "@ndla/ui";
@@ -26,49 +24,38 @@ import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
-import EmbedIframePageContainer from "./EmbedIframePageContainer";
-import { initializeI18n } from "../i18n";
-import { LocaleType, LtiData } from "../interfaces";
+import { BaseNameProvider } from "../components/BaseNameContext";
+import { Document } from "../Document";
+import { entryPoints } from "../entrypoints";
+import { initializeI18n, isValidLocale } from "../i18n";
+import { iframeEmbedRoutes } from "./embedIframeRoutes";
 import { createApolloClient } from "../util/apiHelpers";
+import { renderOrHydrate } from "../util/renderOrHydrate";
 import { initSentry } from "../util/sentry";
 
-type EmbedInitialProps = {
-  embedId?: string;
-  embedType?: string;
-  isOembed?: string;
-  status?: "success" | "error";
-  loading?: boolean;
-  basename?: string;
-  locale?: LocaleType;
-  ltiData?: LtiData;
-};
-
-const { config, initialProps } = window.DATA;
+const { config, initialProps, chunks } = window.DATA;
 
 initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
 
-const client = createApolloClient(language, undefined, window.location.pathname);
+const client = createApolloClient(language, undefined, `${window.location.pathname}${window.location.search}`);
 const i18n = initializeI18n(i18nInstance, language);
 
-const renderOrHydrate = (container: HTMLElement, children: ReactNode) => {
-  if (config.disableSSR) {
-    const root = createRoot(container);
-    root.render(children);
-  } else {
-    hydrateRoot(container, children);
-  }
-};
+const router = createBrowserRouter(iframeEmbedRoutes);
+
 renderOrHydrate(
-  document.getElementById("root")!,
-  <I18nextProvider i18n={i18n}>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
-        <MissingRouterContext.Provider value={true}>
-          <EmbedIframePageContainer {...(initialProps as EmbedInitialProps)} />
-        </MissingRouterContext.Provider>
-      </BrowserRouter>
-    </ApolloProvider>
-  </I18nextProvider>,
+  document,
+  <Document language={language} chunks={chunks} devEntrypoint={entryPoints.iframeEmbed}>
+    <I18nextProvider i18n={i18n}>
+      <ApolloProvider client={client}>
+        <MissingRouterContext value={true}>
+          <BaseNameProvider value={isValidLocale(language) ? language : ""}>
+            <RouterProvider router={router} />
+          </BaseNameProvider>
+        </MissingRouterContext>
+      </ApolloProvider>
+    </I18nextProvider>
+  </Document>,
+  iframeEmbedRoutes,
 );

@@ -17,6 +17,7 @@ import { GQLFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount } from "../../../../util/folderHelpers";
 import DragHandle from "../../components/DragHandle";
 import SettingsMenu from "../../components/SettingsMenu";
+import { DraggableListItem } from "../../Learningpath/components/DraggableListItem";
 
 interface Props {
   folder: GQLFolder;
@@ -27,23 +28,6 @@ interface Props {
   folderRefId?: string;
   isFavorited?: boolean;
 }
-
-export const DraggableListItem = styled("li", {
-  base: {
-    display: "flex",
-    position: "relative",
-    listStyle: "none",
-    alignItems: "center",
-    gap: "xxsmall",
-  },
-  variants: {
-    isDragging: {
-      true: {
-        zIndex: "docked",
-      },
-    },
-  },
-});
 
 export const DragWrapper = styled("div", {
   base: {

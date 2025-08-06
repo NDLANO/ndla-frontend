@@ -37,11 +37,11 @@ const programmePageQuery = gql`
   ${ProgrammeContainer.fragments.programme}
 `;
 
-const ProgrammePage = () => {
+export const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const { programme, contextId, grade } = useTypedParams<MatchParams>();
 
-  const { loading, data } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
+  const { loading, data, error } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
     variables: { contextId: contextId },
     skip: programme?.includes("__") || !isValidContextId(contextId),
   });
@@ -59,11 +59,15 @@ const ProgrammePage = () => {
     return <ContentPlaceholder padding="large" />;
   }
 
-  if (!data) {
-    return <DefaultErrorMessagePage />;
+  if (error?.graphQLErrors) {
+    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+      return <NotFoundPage />;
+    } else {
+      return <DefaultErrorMessagePage />;
+    }
   }
 
-  if (!data.programme) {
+  if (!data || !data.programme) {
     return <NotFoundPage />;
   }
 
@@ -75,4 +79,4 @@ const ProgrammePage = () => {
   );
 };
 
-export default ProgrammePage;
+export const Component = ProgrammePage;

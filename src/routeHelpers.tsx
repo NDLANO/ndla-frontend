@@ -6,7 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
 import { useParams } from "react-router-dom";
 import {
   ABOUT_PATH,
@@ -20,48 +19,6 @@ import { GQLTaxBase, GQLTaxonomyCrumb } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
 
 export const removeUrn = (str?: string) => str?.replace("urn:", "") ?? "";
-
-interface MatchParams extends TypedParams {
-  subjectId?: string;
-  topicPath?: string;
-  topicId?: string;
-  resourceId?: string;
-  articleId?: string;
-  topic1?: string;
-  topic2?: string;
-  topic3?: string;
-  topic4?: string;
-  programme?: string;
-  contextId?: string;
-  slug?: string;
-}
-
-export const useUrnIds = () => {
-  const params = useTypedParams<MatchParams>();
-  const subjectId = params.subjectId ? `urn:subject${params.subjectId}` : undefined;
-  const topicList = useMemo(() => {
-    return [
-      params.topic1 ? `urn:topic${params.topic1}` : "",
-      params.topic2 ? `urn:topic${params.topic2}` : "",
-      params.topic3 ? `urn:topic${params.topic3}` : "",
-      params.topic4 ? `urn:topic${params.topic4}` : "",
-      params.topicId ? `urn:topic${params.topicId}` : "",
-    ].filter((s) => !!s.length);
-  }, [params.topicId, params.topic1, params.topic2, params.topic3, params.topic4]);
-
-  return {
-    subjectId,
-    topicList,
-    resourceId: params.resourceId ? `urn:resource${params.resourceId}` : undefined,
-    articleId: params.articleId,
-    topicId: topicList[topicList.length - 1],
-    programme: params.programme,
-    contextId: params.contextId,
-    stepId: params.stepId,
-    subjectType: subjectId ? getSubjectType(subjectId) : undefined,
-    slug: params.slug,
-  };
-};
 
 export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 
@@ -81,11 +38,6 @@ export const getSubjectType = (subjectId?: string): SubjectType => {
 
 const LEARNINGPATHS = "/learningpaths";
 
-type Resource = {
-  path: string;
-  id: string;
-};
-
 export function toLearningPath(pathId?: string | number, stepId?: string | number, resourcePath?: string) {
   if (resourcePath) {
     return stepId ? `${resourcePath}/${stepId}` : resourcePath;
@@ -97,16 +49,6 @@ export function toLearningPath(pathId?: string | number, stepId?: string | numbe
     return `${LEARNINGPATHS}/${pathId}`;
   }
   return LEARNINGPATHS;
-}
-
-export function toArticle(articleId: number, resource: Resource, subjectTopicPath: string) {
-  if (subjectTopicPath) {
-    return `${subjectTopicPath}/${removeUrn(resource.id)}`;
-  }
-  if (resource) {
-    return resource.path;
-  }
-  return `/article/${articleId}`;
 }
 
 export const toAbout = (slug = "") => `${ABOUT_PATH}/${slug}`;
@@ -143,16 +85,8 @@ export const routes = {
   myNdla: {
     root: "/minndla",
     profile: "/minndla/profile",
-    arena: "/minndla/arena",
     folders: "/minndla/folders",
     subjects: "/minndla/subjects",
-    notifications: "/minndla/arena/notifications",
-    admin: "/minndla/admin",
-    adminFlags: "/minndla/admin/flags",
-    adminUsers: "/minndla/admin/users",
-    arenaCategory: (categoryId: number) => `/minndla/arena/category/${categoryId}`,
-    arenaTopic: (topicId?: number) => `/minndla/arena/topic/${topicId}`,
-    arenaUser: (username: string) => `/minndla/arena/user/${username}`,
     folder: (folderId: string) => `/minndla/folders/${folderId}`,
     tag: (tag: string) => `/minndla/folders/tag/${encodeURIComponent(tag)}`,
     tags: "/minndla/folders/tag",
@@ -160,7 +94,12 @@ export const routes = {
     learningpathNew: "/minndla/learningpaths/new",
     learningpathEditTitle: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/title`,
     learningpathEditSteps: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/steps`,
-    learningpathPreview: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/preview`,
+    learningpathEditStep: (learningpathId: number, stepId: number | string) =>
+      `/minndla/learningpaths/${learningpathId}/edit/steps/${stepId}`,
+    learningpathPreview: (learningpathId: number, stepId?: number) => {
+      const path = `/minndla/learningpaths/${learningpathId}/preview`;
+      return stepId ? `${path}/${stepId}` : path;
+    },
     learningpathSave: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/save`,
   },
 };

@@ -8,9 +8,6 @@
 
 import { Text, Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import UserAvatar from "./UserAvatar";
-import { isStudent, withRole } from "../Folders/util";
-import EditProfilePicture from "../MyProfile/components/EditProfilePicture";
 
 type UserProp = {
   username?: string;
@@ -21,7 +18,6 @@ type UserProp = {
 
 type MyContractAreaProps = {
   user: UserProp;
-  showProfileButton?: boolean;
 };
 
 const MyContactAreaContainer = styled("div", {
@@ -38,41 +34,14 @@ const MyContactAreaContainer = styled("div", {
   },
 });
 
-const AvatarContainer = styled("div", {
-  base: {
-    maxHeight: "surface.xsmall",
-    maxWidth: "surface.xsmall",
-  },
-});
-
-const MobileButtonContainer = styled("div", {
-  base: {
-    paddingBlockStart: "4xsmall",
-    display: "block",
-    tablet: {
-      display: "none",
-    },
-  },
-});
-
-const MyContactArea = ({ user, showProfileButton }: MyContractAreaProps) => {
+const MyContactArea = ({ user }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
-      {!isStudent(user as withRole) && (
-        <AvatarContainer>
-          <UserAvatar userName={user.displayName} />
-        </AvatarContainer>
-      )}
       <Heading textStyle="heading.medium" asChild consumeCss>
         <h2>{user.displayName}</h2>
       </Heading>
       <Text textStyle="title.medium">{user.primaryOrg}</Text>
       {/* TODO: Vurdere om vi også skal hente fylkesorganisasjonen og legge den her, ref design */}
-      {!!showProfileButton && !isStudent(user as withRole) && (
-        <MobileButtonContainer>
-          <EditProfilePicture />
-        </MobileButtonContainer>
-      )}
     </MyContactAreaContainer>
   );
 };

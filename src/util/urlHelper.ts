@@ -6,34 +6,19 @@
  *
  */
 
-import { matchPath, Params, PathMatch, Location } from "react-router-dom";
+import { matchPath, Params, Location } from "react-router-dom";
 import { validContextIdRegExp } from "../constants";
-import { GQLTaxBase } from "../graphqlTypes";
 import { isValidLocale, supportedLanguages } from "../i18n";
 import { oembedRoutes } from "../routes";
-
-type OembedParams =
-  | "subjectId"
-  | "topicId"
-  | "resourceId"
-  | "stepId"
-  | "contextId"
-  | "articleId"
-  | "lang"
-  | "topicOrResourceId"
-  | "audioId"
-  | "videoId"
-  | "imageId"
-  | "conceptId"
-  | "h5pId";
+import log from "./logger";
 
 type OembedReturnParams =
   | "subjectId"
   | "topicId"
   | "resourceId"
-  | "stepId"
   | "contextId"
   | "articleId"
+  | "nodeId"
   | "lang"
   | "audioId"
   | "videoId"
@@ -41,79 +26,79 @@ type OembedReturnParams =
   | "conceptId"
   | "h5pId";
 
-const matchUrl = (pathname: string, lang: boolean = false): PathMatch<OembedReturnParams> | null => {
-  const possiblePaths = lang ? oembedRoutes.map((r) => `/:lang/${r}`) : oembedRoutes;
-
-  let match: PathMatch<OembedParams> | undefined;
-  for (let i = 0; i < possiblePaths.length; i++) {
-    const attempt = possiblePaths[i] ?? "";
-    const m = matchPath<OembedParams, string>(attempt, pathname);
-    if (m) {
-      match = m;
-      break;
-    }
-  }
-  if (!match) {
-    return null;
-  }
-
-  if (match.params.topicOrResourceId) {
-    const missingParam: {
-      resourceId?: string;
-      topicId?: string;
-    } = match.params.topicOrResourceId.startsWith(":resource")
-      ? { resourceId: match.params.topicOrResourceId.replace(":resource", "") }
-      : { topicId: match.params.topicOrResourceId.replace(":topic", "") };
-    const params: Params<OembedParams> = match.params;
-    return {
-      ...match,
-      params: {
-        ...params,
-        ...missingParam,
-      },
-    };
-  } else return match;
+const matchRoute = <ParamKey extends string = string>(
+  pathname: string,
+  paths: string[],
+  lang = false,
+): Params<ParamKey> | undefined => {
+  const possiblePaths = lang ? paths.map((r) => `/:lang/${r}`) : paths;
+  const match = possiblePaths.find((p) => matchPath(p, pathname));
+  return match ? matchPath(match, pathname)?.params : undefined;
 };
 
-export function parseOembedUrl(url: string, ignoreLocale: boolean = false) {
-  const { pathname } = new URL(url);
-  const paths = pathname.split("/");
-  if (paths[1]) {
-    paths[1] = paths[1] === "unknown" ? "nb" : paths[1];
-  }
-  if (paths.includes("subjects")) {
-    paths.splice(paths.indexOf("subjects"), 1);
-  }
-  if (ignoreLocale && isValidLocale(paths[1])) {
-    paths.splice(1, 1);
-  }
-  const path = paths.join("/");
+const SUBJECT_REGEX = /^subject:(\d+:)?[a-z\-0-9]+$/;
+const RESOURCE_REGEX = /^resource:(\d+:)?[a-z\-0-9]+$/;
+const TOPIC_REGEX = /^topic:(\d+:)?[a-z\-0-9]+$/;
 
-  if (isValidLocale(paths[1])) {
-    return matchUrl(path, true);
+export function parseOembedUrl(url: string) {
+  try {
+    const { pathname } = new URL(url);
+    const paths = pathname.split("/");
+    if (paths[1]) {
+      paths[1] = paths[1] === "unknown" ? "nb" : paths[1];
+    }
+    if (paths.includes("subjects")) {
+      paths.splice(paths.indexOf("subjects"), 1);
+    }
+    const path = paths.join("/");
+
+    if (path.includes("/subject:")) {
+      const params: Partial<Record<OembedReturnParams, string>> = {};
+      // Remove empty string caused by leading slash
+      paths.shift();
+      const locale = isValidLocale(paths[0]) ? paths.shift() : undefined;
+      params.lang = locale;
+      const subjectId = paths.shift();
+      if (!subjectId || !SUBJECT_REGEX.test(subjectId)) return undefined;
+      params.subjectId = `urn:${subjectId}`;
+
+      let valid = true;
+      for (const p of paths) {
+        if (RESOURCE_REGEX.test(p)) {
+          params.resourceId = `urn:${p}`;
+        } else if (TOPIC_REGEX.test(p)) {
+          params.topicId = `urn:${p}`;
+        } else {
+          valid = false;
+          break;
+        }
+      }
+      return valid && params.subjectId && (params.resourceId || params.topicId)
+        ? (params as Params<OembedReturnParams>)
+        : undefined;
+    }
+
+    return matchRoute<OembedReturnParams>(path, oembedRoutes, isValidLocale(paths[1]));
+  } catch (error) {
+    log.warn(`Error parsing oEmbed URL '${url}'`, { url, error });
+    return;
   }
-  return matchUrl(path, false);
 }
 
 export const toHref = (location: Location) => {
   return `${location.pathname}${location.search}`;
 };
 
+const LANGUAGE_REGEXP = new RegExp(`^\\/(${supportedLanguages.join("|")})($|\\/)`, "");
+
 export const constructNewPath = (pathname: string, newLocale?: string) => {
-  const regex = new RegExp(`\\/(${supportedLanguages.join("|")})($|\\/)`, "");
-  const path = pathname.replace(regex, "");
+  const path = pathname.replace(LANGUAGE_REGEXP, "");
   const fullPath = path.startsWith("/") ? path : `/${path}`;
   const localePrefix = newLocale ? `/${newLocale}` : "";
   return `${localePrefix}${fullPath}`;
 };
 
-export const isCurrentPage = (pathname: string, taxBase: Pick<GQLTaxBase, "path" | "url">) => {
-  let path = pathname.replace(/\/$/, ""); // Remove trailing slash if present
-  const match = matchUrl(path);
-  if (match?.params.stepId) {
-    path = path.replace(/\/\d+$/, ""); // Remove last numeric segment if stepId
-  }
-  return path === taxBase.path || decodeURIComponent(path) === taxBase.url;
-};
-
 export const isValidContextId = (id?: string) => validContextIdRegExp.test(id ?? "");
+
+export const URL_REGEX =
+  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zæøåA-ZÆØÅ0-9()@:%_\\+.~#?&\\/=]*)$/;
