@@ -13,21 +13,24 @@ import { iframeArticleRender } from "./render/iframeArticleRender";
 import { iframeEmbedRender } from "./render/iframeEmbedRender";
 import { ltiRender } from "./render/ltiRender";
 import { RootRenderFunc } from "./serverHelpers";
+import { withCtx } from "./middleware/loggerContextMiddleware";
 
-const render: RootRenderFunc = (req: Request, _res, renderer: string, chunks) => {
-  if (renderer === "default") {
-    return defaultRender(req, chunks);
-  } else if (renderer === "lti") {
-    return ltiRender(req, chunks);
-  } else if (renderer === "iframeEmbed") {
-    return iframeEmbedRender(req, chunks);
-  } else if (renderer === "iframeArticle") {
-    return iframeArticleRender(req, chunks);
-  } else if (renderer === "error") {
-    return errorRender(req, chunks);
-  } else {
-    return defaultRender(req, chunks);
-  }
+const render: RootRenderFunc = (req: Request, _res, renderer: string, chunks, ctx) => {
+  return withCtx(ctx, () => {
+    if (renderer === "default") {
+      return defaultRender(req, chunks);
+    } else if (renderer === "lti") {
+      return ltiRender(req, chunks);
+    } else if (renderer === "iframeEmbed") {
+      return iframeEmbedRender(req, chunks);
+    } else if (renderer === "iframeArticle") {
+      return iframeArticleRender(req, chunks);
+    } else if (renderer === "error") {
+      return errorRender(req, chunks);
+    } else {
+      return defaultRender(req, chunks);
+    }
+  });
 };
 
 export default render;

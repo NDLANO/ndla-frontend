@@ -59,7 +59,7 @@ export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
     };
   }
 
-  const client = createApolloClient(locale, undefined, req.url);
+  const client = createApolloClient(locale, undefined);
   const i18n = initializeI18n(i18nInstance, locale ?? (config.defaultLocale as LocaleType));
   const context: RedirectInfo = {};
 

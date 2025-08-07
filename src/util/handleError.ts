@@ -6,7 +6,6 @@
  *
  */
 
-import { ApolloError } from "@apollo/client";
 import * as Sentry from "@sentry/react";
 import { ErrorType, UnknownError } from "./error";
 import { NDLAError } from "./error/NDLAError";
@@ -15,6 +14,8 @@ import log from "./logger";
 import config from "../config";
 import { unreachable } from "./guards";
 import { LogLevel } from "../interfaces";
+import { LoggerContext } from "./logger/loggerContext";
+import { getLoggerContext } from "./logger/getLoggerContext";
 
 type SingleGQLError = {
   status?: number;
@@ -93,15 +94,23 @@ const getMessage = (error: UnknownError): string => {
   return "Got error without message";
 };
 
-const getErrorLog = (
-  error: UnknownError,
-  extraContext: Record<string, unknown>,
-): ApolloError | Error | string | unknown => {
-  if (!error) return { ...extraContext, message: `Unknown error: ${JSON.stringify(error)}` };
+const getStatus = (extraContext: object | undefined, error: UnknownError): number | undefined => {
+  if (extraContext && "statusCode" in extraContext && typeof extraContext.statusCode === "number")
+    return extraContext.statusCode;
+  if (error instanceof StatusError) return error.status;
+  if (error instanceof Error && "status" in error && typeof error.status === "number") {
+    return error.status;
+  }
+  return undefined;
+};
+
+export const getErrorLog = (error: UnknownError, extraContext: object | undefined): object | string => {
+  const ctx = { ...extraContext, statusCode: getStatus(extraContext, error) };
+  if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
 
   if (error instanceof StatusError) {
     return {
-      ...extraContext,
+      ...ctx,
       message: getMessage(error),
       json: error.json,
       status: error.status,
@@ -112,7 +121,7 @@ const getErrorLog = (
 
   if (error instanceof Error) {
     return {
-      ...extraContext,
+      ...ctx,
       message: getMessage(error),
       stack: error.stack,
       name: error.name,
@@ -120,11 +129,11 @@ const getErrorLog = (
   }
 
   if (typeof error === "object") {
-    return { ...error, ...extraContext, message: getMessage(error) };
+    return { ...error, ...ctx, message: getMessage(error) };
   }
 
   if (typeof error === "string") {
-    return { ...extraContext, message: getMessage(error) };
+    return { ...ctx, message: getMessage(error) };
   }
 
   return error;
@@ -159,13 +168,9 @@ const deriveContext = (error: ErrorType): Record<string, unknown> => {
   return {};
 };
 
-const logServerError = async (
-  error: ErrorType,
-  requestPath: string | undefined,
-  extraContext: Record<string, unknown>,
-) => {
+const logServerError = async (error: ErrorType, extraContext: Record<string, unknown>) => {
   const derivedContext = deriveContext(error);
-  const ctx = { ...extraContext, requestPath, ...derivedContext };
+  const ctx = { ...extraContext, ...derivedContext };
   const logLevel = deriveLogLevel(error);
   const err = getErrorLog(error, ctx);
   switch (logLevel) {
@@ -184,8 +189,12 @@ const logServerError = async (
   }
 };
 
-const sendToSentry = (error: ErrorType, requestPath: string | undefined, extraContext: Record<string, unknown>) => {
-  const errorContext = { error, requestPath, ...extraContext };
+const sendToSentry = (
+  error: ErrorType,
+  loggerContext: LoggerContext | undefined,
+  extraContext: Record<string, unknown>,
+) => {
+  const errorContext = { error, ...loggerContext, ...extraContext };
   Sentry.setContext("NDLA Context", errorContext);
   Sentry.captureException(error);
 };
@@ -195,11 +204,12 @@ export const ensureError = (unknownError: UnknownError): ErrorType => {
   return new NDLAError(String(unknownError));
 };
 
-const handleError = async (error: ErrorType, requestPath?: string, extraContext: Record<string, unknown> = {}) => {
+const handleError = async (error: ErrorType, extraContext: Record<string, unknown> = {}) => {
   if (config.runtimeType === "production" && config.isClient) {
-    sendToSentry(error, requestPath, extraContext);
+    const ctx = await getLoggerContext();
+    sendToSentry(error, ctx, extraContext);
   } else if (!config.isClient) {
-    await logServerError(error, requestPath, extraContext);
+    await logServerError(error, extraContext);
   } else {
     console.error(error); // eslint-disable-line no-console
   }

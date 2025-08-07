@@ -27,6 +27,7 @@ import handleError, { ensureError } from "../util/handleError";
 import { getRouteChunks } from "./getManifestChunks";
 import { activeRequestsMiddleware } from "./middleware/activeRequestsMiddleware";
 import { healthRouter } from "./routes/healthRouter";
+import loggerContextMiddleware, { getLoggerContextStore } from "./middleware/loggerContextMiddleware";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -60,6 +61,7 @@ const metricsMiddleware = promBundle({
 
 app.use(metricsMiddleware);
 app.use(activeRequestsMiddleware);
+app.use(loggerContextMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(
@@ -93,6 +95,10 @@ if (isProduction) {
 }
 
 const renderRoute = async (req: Request, res: Response, renderer: string, chunks: ManifestChunk[]) => {
+  const ctx = getLoggerContextStore();
+  if (!ctx) {
+    throw new Error("Logger context is not available");
+  }
   let render: RootRenderFunc;
   if (!isProduction) {
     try {
@@ -108,7 +114,7 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunks
     render = (await import(`../../build/server/server.render.js`)).default;
   }
 
-  const response = await render(req, res, renderer, chunks);
+  const response = await render(req, res, renderer, chunks, ctx);
   if ("location" in response) {
     return {
       status: response.status,
@@ -223,7 +229,7 @@ async function sendInternalServerError(req: Request, res: Response, statusCode: 
     const { data } = await errorRoute(req, res);
     res.status(statusCode).send(data);
   } catch (e) {
-    handleError(ensureError(e), req.path, { statusCode });
+    handleError(ensureError(e), { statusCode });
     res.status(statusCode).send("Internal server error");
   }
 }
@@ -242,7 +248,7 @@ app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
   // NOTE: Even though the next parameter is not used, it is required to define the error handler
   vite?.ssrFixStacktrace(err);
   const statusCode = getStatusCodeToReturn(err);
-  handleError(err, req.path, { statusCode });
+  handleError(err, { statusCode });
   sendInternalServerError(req, res, statusCode);
 });
 

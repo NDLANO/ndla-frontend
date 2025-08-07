@@ -6,7 +6,6 @@
  *
  */
 
-import { Request } from "express";
 import { gql, ApolloClient, NormalizedCacheObject } from "@apollo/client/core";
 import config from "../config";
 import { GQLPodcastSeriesQuery } from "../graphqlTypes";
@@ -15,18 +14,18 @@ import { createApolloClient } from "../util/apiHelpers";
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;
 
-const getApolloClient = (locale: string, req: Request) => {
+const getApolloClient = (locale: string) => {
   if (apolloClient && locale === storedLocale) {
     return apolloClient;
   } else {
-    apolloClient = createApolloClient(locale, undefined, req.url);
+    apolloClient = createApolloClient(locale, undefined);
     storedLocale = locale;
     return apolloClient;
   }
 };
 
-const podcastRssFeed = async (seriesId: number, req: Request): Promise<string> => {
-  const client = getApolloClient("nb", req);
+const podcastRssFeed = async (seriesId: number): Promise<string> => {
+  const client = getApolloClient("nb");
 
   const { data: { podcastSeries } = {} } = await client.query<GQLPodcastSeriesQuery>({
     query: podcastSeriesQuery,

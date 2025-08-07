@@ -39,7 +39,7 @@ initSentry(config);
 
 const language = initialProps.locale ?? config.defaultLocale;
 
-const client = createApolloClient(language, undefined, `${window.location.pathname}${window.location.search}`);
+const client = createApolloClient(language, undefined);
 const i18n = initializeI18n(i18nInstance, language);
 
 const router = createBrowserRouter(iframeEmbedRoutes);

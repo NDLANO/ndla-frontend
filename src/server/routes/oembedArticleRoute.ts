@@ -20,6 +20,7 @@ import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from
 import handleError, { ensureError } from "../../util/handleError";
 import { parseOembedUrl } from "../../util/urlHelper";
 import { OembedResponse } from "../../interfaces";
+import { NotFoundError } from "../../util/error/StatusError";
 
 type OembedRouteResponse =
   | { data: OembedResponse; status: typeof OK }
@@ -27,13 +28,23 @@ type OembedRouteResponse =
 
 const baseUrl = apiResourceUrl("/taxonomy/v1");
 
-const fetchNode = (id: string, locale: string): Promise<Node> =>
-  fetch(`${baseUrl}/nodes/${id}?language=${locale}`).then((r) => resolveJsonOrRejectWithError(r) as Promise<Node>);
+const fetchNode = async (id: string, locale: string): Promise<Node> => {
+  const response = await fetch(`${baseUrl}/nodes/${id}?language=${locale}`);
+  const notFoundError = new NotFoundError(`Couldn't find node with id ${id}`);
+  if (response.status === 404) throw notFoundError;
+  const node = await resolveJsonOrRejectWithError<Node>(response);
+  if (!node) throw notFoundError;
+  return node;
+};
 
-const queryNodeByContexts = (contextId: string, locale: string): Promise<Node> =>
-  fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`)
-    .then((r) => resolveJsonOrRejectWithError(r) as Promise<Node[]>)
-    .then((nodes) => nodes[0] || Promise.reject(new Error("No node found")));
+const queryNodeByContexts = async (contextId: string, locale: string): Promise<Node> => {
+  const response = await fetch(`${baseUrl}/nodes?contextId=${contextId}&language=${locale}`);
+  const notFoundError = new NotFoundError(`No node found for contextId ${contextId} and locale ${locale}`);
+  if (response.status === 404) throw notFoundError;
+  const nodes = (await resolveJsonOrRejectWithError<Node[]>(response)) ?? [];
+  if (!nodes[0]) throw notFoundError;
+  return nodes[0];
+};
 
 function getOembedResponse(
   req: express.Request,
@@ -64,11 +75,11 @@ type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId"
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 let storedLocale: string;
 
-const getApolloClient = (locale: string, req: express.Request) => {
+const getApolloClient = (locale: string) => {
   if (apolloClient && locale === storedLocale) {
     return apolloClient;
   } else {
-    apolloClient = createApolloClient(locale, undefined, req.url);
+    apolloClient = createApolloClient(locale, undefined);
     storedLocale = locale;
     return apolloClient;
   }
@@ -131,7 +142,7 @@ const embedOembedQuery = gql`
 `;
 
 const getEmbedObject = async (lang: string, embedId: string, embedType: string, req: express.Request) => {
-  const client = getApolloClient(lang, req);
+  const client = getApolloClient(lang);
 
   const embed = await client.query<GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables>({
     query: embedOembedQuery,
@@ -197,7 +208,7 @@ export async function oembedArticleRoute(req: express.Request): Promise<OembedRo
     }
     return getOembedResponse(req, title, iframeSrc);
   } catch (error) {
-    handleError(ensureError(error), req.url);
+    handleError(ensureError(error));
 
     const typedError = error as { status?: number; message?: string };
     const status = typedError.status || INTERNAL_SERVER_ERROR;

@@ -9,39 +9,105 @@
 import type { Logger } from "winston";
 import config from "../../config";
 import { LogLevel } from "../../interfaces";
+import { getLoggerContext } from "./getLoggerContext";
+import { getErrorLog } from "../handleError";
+import { LoggerContext } from "./loggerContext";
 
 let winstonLogger: Logger | undefined;
 
 // NOTE: The winston setup does not run in a browser, so lets not import it there.
-if (import.meta.env?.SSR) {
+if (typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) {
   import("./winston").then((w) => {
     winstonLogger = w.winstonLogger;
   });
 }
 
+export type Loggable = string | object | Error | unknown;
+
 class NDLALogger {
-  /** Logging method which logs with console on client and with winston on server */
-  log(level: LogLevel, message: any, ...meta: any[]) {
-    if (!config.isClient && winstonLogger) {
-      winstonLogger[level](message, ...meta);
-    } else {
-      // eslint-disable-next-line no-console
-      console[level](message, ...meta);
+  private async getMeta(metaInput: Loggable[]): Promise<object | undefined> {
+    const metaObjects = await Promise.all(
+      metaInput.map((m) => {
+        return this.getMessage(m, [], undefined);
+      }),
+    );
+
+    if (metaObjects.length === 0) return undefined;
+    if (metaObjects.length === 1) return metaObjects[0];
+    return metaObjects.reduce((acc, curr) => {
+      return { ...acc, ...curr };
+    });
+  }
+
+  /** Derive the actual logged context from meta input to the logger */
+  private async getMetaWrapper(metaInput: Loggable[]): Promise<object | undefined> {
+    const logMeta = await this.getMeta(metaInput);
+    if (logMeta === undefined) return {};
+    return { logMeta };
+  }
+
+  private errorToObject(message: Error): object {
+    const errorLog = getErrorLog(message, {});
+    if (typeof errorLog === "string") {
+      return { message: errorLog };
     }
 
-    return this;
+    return { ...errorLog };
   }
 
-  info(message: any, ...meta: any[]) {
-    return this.log("info", message, ...meta);
+  /** Since errors are kind of special in javascript we do some extra logic to find potential error data to be logged */
+  findErrorInMeta(metaInput: Loggable[]): { error: Error | undefined; newMetaInput: Loggable[] } {
+    for (const [i, item] of metaInput.entries()) {
+      if (item instanceof Error) {
+        return { error: item, newMetaInput: metaInput.toSpliced(i, 1) };
+      } else if (typeof item === "object" && item !== null) {
+        const error = Object.values(item).find((value) => value instanceof Error);
+        if (error instanceof Error) {
+          return { error, newMetaInput: metaInput.toSpliced(i, 1) };
+        }
+      }
+    }
+    return { error: undefined, newMetaInput: metaInput };
   }
 
-  error(message: any, ...meta: any[]) {
-    return this.log("error", message, ...meta);
+  /** Determine the actual message to be logged from the input & the context store */
+  private async getMessage(message: Loggable, metaInput: Loggable[], ctx: LoggerContext | undefined): Promise<object> {
+    if (message instanceof Error) {
+      const errorMessage = this.errorToObject(message);
+      const logMeta = await this.getMetaWrapper(metaInput);
+      return { ...ctx, ...logMeta, ...errorMessage };
+    }
+
+    const maybeError = this.findErrorInMeta(metaInput);
+    const logMeta = await this.getMetaWrapper(maybeError?.newMetaInput);
+    const errorMsg = maybeError.error ? this.errorToObject(maybeError.error) : undefined;
+
+    if (typeof message === "object") return { ...ctx, ...logMeta, ...errorMsg, ...message };
+    return { ...ctx, ...logMeta, ...errorMsg, message };
   }
 
-  warn(message: any, ...meta: any[]) {
-    return this.log("warn", message, ...meta);
+  /** Logging method which logs with console on client and with winston on server */
+  private async log(level: LogLevel, message: Loggable, ...meta: Loggable[]): Promise<void> {
+    const ctx = await getLoggerContext();
+    const msg = await this.getMessage(message, meta, ctx);
+    if (!config.isClient && winstonLogger) {
+      winstonLogger[level](msg);
+    } else {
+      // eslint-disable-next-line no-console
+      console[level](msg, ...meta);
+    }
+  }
+
+  info(message: Loggable, ...meta: Loggable[]): void {
+    this.log("info", message, ...meta);
+  }
+
+  error(message: Loggable, ...meta: Loggable[]): void {
+    this.log("error", message, ...meta);
+  }
+
+  warn(message: Loggable, ...meta: Loggable[]): void {
+    this.log("warn", message, ...meta);
   }
 }
 
