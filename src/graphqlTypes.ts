@@ -2980,6 +2980,7 @@ export type GQLResourcePageQuery = {
     __typename?: "Node";
     relevanceId?: string;
     breadcrumbs: Array<string>;
+    supportedLanguages: Array<string>;
     context?: { __typename?: "TaxonomyContext"; contextId: string; url: string };
     contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string }>;
   } & GQLMovedResourcePage_NodeFragment &

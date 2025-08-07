@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
+import { RedirectExternal } from "../../components";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
@@ -17,7 +18,7 @@ import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { findAccessDeniedErrors } from "../../util/handleError";
-import { isValidContextId } from "../../util/urlHelper";
+import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage from "../ArticlePage/ArticlePage";
 import LearningpathPage from "../LearningpathPage/LearningpathPage";
@@ -59,6 +60,7 @@ const resourcePageQuery = gql`
         contextId
         url
       }
+      supportedLanguages
       ...MovedResourcePage_Node
       ...ArticlePage_Node
       ...LearningpathPage_Node
@@ -70,7 +72,7 @@ const resourcePageQuery = gql`
   ${LearningpathPage.fragments.resource}
 `;
 export const ResourcePage = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const location = useLocation();
   const { contextId, stepId } = useParams();
 
@@ -118,6 +120,10 @@ export const ResourcePage = () => {
 
   if (!data || !data.node || !data.node.url) {
     return <NotFoundPage />;
+  }
+
+  if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
+    return <RedirectExternal to={constructNewPath(location.pathname, data.node.supportedLanguages[0])} />;
   }
 
   if (
