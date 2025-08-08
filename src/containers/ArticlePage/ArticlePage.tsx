@@ -133,9 +133,9 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
   useNavigateToHash(article?.transformedContent.content);
 
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
+    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
-        window.MathJax.typeset();
+        window.MathJax.typesetPromise();
       } catch (err) {
         // do nothing
       }
