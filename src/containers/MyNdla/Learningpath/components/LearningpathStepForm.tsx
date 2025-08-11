@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
@@ -63,6 +63,7 @@ interface Props {
 }
 
 export const LearningpathStepForm = ({ step }: Props) => {
+  const [focusStepId, setFocusStepId] = useState<string | undefined>(undefined);
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { learningpathId: learningpathIdParam } = useParams();
   const { t, i18n } = useTranslation();
@@ -89,6 +90,12 @@ export const LearningpathStepForm = ({ step }: Props) => {
       setTimeout(() => wrapperRef.current?.querySelector("input")?.focus(), 0);
     }
   }, [step]);
+
+  useEffect(() => {
+    if (!focusStepId || !learningpathId || methods.formState.isSubmitting) return;
+    navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
+    setFocusStepId(undefined);
+  }, [focusStepId, learningpathId, methods.formState.isSubmitting, navigate]);
 
   if (!learningpathId) return null;
 
@@ -124,8 +131,8 @@ export const LearningpathStepForm = ({ step }: Props) => {
         },
       });
       if (!res.errors?.length) {
-        const focusStepId = step ? learningpathStepEditButtonId(step.id) : undefined;
-        navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
+        methods.reset();
+        setFocusStepId(step ? learningpathStepEditButtonId(step.id) : undefined);
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.updateStepFailed", { name: values.title }) });
       }
