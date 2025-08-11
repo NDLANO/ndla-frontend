@@ -100,6 +100,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
       const res = await createStep({
         variables: {
           learningpathId: learningpathId,
+          // @ts-expect-error We use null instead of undefined to delete fields
           params: { ...transformedData, language: i18n.language, showTitle: false },
         },
       });
@@ -118,6 +119,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
         variables: {
           learningpathId: learningpathId,
           learningstepId: step.id,
+          // @ts-expect-error We use null instead of undefined to delete fields
           params: { ...transformedData, language: i18n.language, revision: step?.revision },
         },
       });
@@ -233,10 +235,10 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
         resource={
           step?.resource
             ? {
+                articleId: step.articleId,
                 resourceTypes: step.resource.resourceTypes,
                 title: step.title,
                 breadcrumbs: step.resource.breadcrumbs,
-                url: step.embedUrl?.url ?? "",
               }
             : undefined
         }

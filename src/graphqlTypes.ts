@@ -3459,6 +3459,7 @@ export type GQLMyNdlaLearningpathStepFragment = {
   id: number;
   title: string;
   seqNo: number;
+  articleId?: number;
   description?: string;
   introduction?: string;
   type: string;
