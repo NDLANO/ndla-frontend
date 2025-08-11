@@ -196,8 +196,12 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
       open={open}
       onValueChange={(details) => {
         const item = details.items[0];
-        if (item) {
-          onResourceSelect({ path: item.path ?? "", title: item.meta?.title ?? "" });
+        if (item?.resourceType === "article") {
+          onResourceSelect({
+            articleId: parseInt(item.resourceId),
+            path: item.path ?? "",
+            title: item.meta?.title ?? "",
+          });
         }
       }}
       selectionBehavior="preserve"

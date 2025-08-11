@@ -114,10 +114,10 @@ export const LearningpathStepForm = ({ step }: Props) => {
 
       if (!res.errors?.length) {
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
-        const focusStepId = res.data?.newLearningpathStep.id
-          ? learningpathStepEditButtonId(res.data?.newLearningpathStep.id)
-          : undefined;
-        navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
+        methods.reset();
+        setFocusStepId(
+          res.data?.newLearningpathStep.id ? learningpathStepEditButtonId(res.data?.newLearningpathStep.id) : undefined,
+        );
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
       }
