@@ -9,12 +9,13 @@
 import { GQLResourceType } from "../../../../graphqlTypes";
 
 export interface ResourceData {
+  articleId?: number;
   title: string;
   breadcrumbs?: string[];
   resourceTypes?: Pick<GQLResourceType, "id" | "name">[];
-  url: string;
 }
 export interface FolderResource {
+  articleId?: number;
   title: string;
   path: string;
 }
