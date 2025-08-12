@@ -793,6 +793,7 @@ export type GQLLearningpathSeqNo = {
 
 export type GQLLearningpathStep = {
   __typename?: "LearningpathStep";
+  articleId?: Maybe<Scalars["Int"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
   id: Scalars["Int"]["output"];
@@ -823,6 +824,7 @@ export type GQLLearningpathStepEmbedUrl = {
 };
 
 export type GQLLearningpathStepNewInput = {
+  articleId?: InputMaybe<Scalars["Int"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
   introduction?: InputMaybe<Scalars["String"]["input"]>;
@@ -843,6 +845,7 @@ export type GQLLearningpathStepOembed = {
 };
 
 export type GQLLearningpathStepUpdateInput = {
+  articleId?: InputMaybe<Scalars["Int"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
   introduction?: InputMaybe<Scalars["String"]["input"]>;
@@ -1132,6 +1135,7 @@ export type GQLMyNdlaLearningpath = {
 
 export type GQLMyNdlaLearningpathStep = {
   __typename?: "MyNdlaLearningpathStep";
+  articleId?: Maybe<Scalars["Int"]["output"]>;
   description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
   id: Scalars["Int"]["output"];
@@ -3453,6 +3457,7 @@ export type GQLMyNdlaLearningpathStepFragment = {
   id: number;
   title: string;
   seqNo: number;
+  articleId?: number;
   description?: string;
   introduction?: string;
   type: string;

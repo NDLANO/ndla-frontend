@@ -14,11 +14,10 @@ import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/prim
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { FolderResourcePicker } from "./FolderResourcePicker";
-import config from "../../../../config";
-import { useFetchOembed } from "../learningpathQueries";
 import { FolderResource } from "./folderTypes";
 import { ResourceFormValues } from "./ResourceStepForm";
 import { StepSafeLink } from "./StepSafeLink";
+import config from "../../../../config";
 
 const TextWrapper = styled("div", {
   base: {
@@ -55,6 +54,7 @@ const PathText = styled(Text, {
 
 export interface FolderFormValues {
   type: "folder";
+  articleId?: number;
   embedUrl: string;
   title: string;
 }
@@ -63,22 +63,17 @@ export const FolderStepForm = () => {
   const [resource, setResource] = useState<FolderResource | undefined>(undefined);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
-  const { refetch } = useFetchOembed({ skip: true });
   const { setValue } = useFormContext<ResourceFormValues>();
 
   const onResourceSelect = async (selectedResource: FolderResource) => {
-    const data = await refetch({ url: `${config.ndlaFrontendDomain}${selectedResource.path}` });
-    const iframe = data.data?.learningpathStepOembed.html;
-    const url = new DOMParser().parseFromString(iframe, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
-
-    setValue("embedUrl", url, { shouldDirty: true });
+    setValue("articleId", selectedResource.articleId, { shouldDirty: true });
     setValue("title", selectedResource.title, { shouldDirty: true });
     setResource(selectedResource);
     setFocusId("remove-resource");
   };
 
   const onResourceRemove = () => {
-    setValue("embedUrl", "", { shouldDirty: true });
+    setValue("articleId", undefined, { shouldDirty: true });
     setValue("title", "", { shouldDirty: true });
     setResource(undefined);
     setFocusId("resource-input");

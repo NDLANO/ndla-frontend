@@ -37,6 +37,7 @@ export const toFormValues = <T extends FormValues["type"]>(
         type: type,
         title: step?.title ?? "",
         embedUrl: step?.embedUrl?.url ?? "",
+        articleId: step?.articleId,
       };
     default:
       return unreachable(type);
@@ -50,6 +51,8 @@ export const formValuesToGQLInput = (values: FormValues) => {
       title: values.title,
       introduction: values.introduction,
       description: serializeFromRichText(values.description),
+      embedUrl: null,
+      articleId: null,
     };
   }
 
@@ -58,6 +61,8 @@ export const formValuesToGQLInput = (values: FormValues) => {
       type: "TEXT",
       title: values.title,
       introduction: values.introduction,
+      description: null,
+      articleId: null,
       embedUrl: {
         url: values.url,
         embedType: "external",
@@ -65,12 +70,28 @@ export const formValuesToGQLInput = (values: FormValues) => {
     };
   }
 
+  if (values.type === "resource") {
+    return {
+      type: "TEXT",
+      title: values.title,
+      articleId: values.articleId,
+      introduction: null,
+      description: null,
+      embedUrl: values.articleId ? null : { url: values.embedUrl, embedType: "iframe" },
+    };
+  }
+
   return {
     type: "TEXT",
     title: values.title,
-    embedUrl: {
-      url: values.embedUrl,
-      embedType: "iframe",
-    },
+    articleId: values.articleId,
+    introduction: null,
+    description: null,
+    embedUrl: values.articleId
+      ? null
+      : {
+          url: values.embedUrl,
+          embedType: "iframe",
+        },
   };
 };

@@ -41,6 +41,7 @@ export const learningpathStepFragment = gql`
     id
     title
     seqNo
+    articleId
     description
     introduction
     type
