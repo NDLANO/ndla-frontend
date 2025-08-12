@@ -228,7 +228,7 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
         published={lastUpdated}
         bylineType="learningPath"
         bylineSuffix={learningpath.isMyNDLAOwner ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
-        learningpathCopiedFrom={config.ndlaFrontendDomain + learningpath.basedOn}
+        learningpathCopiedFrom={learningpath.basedOn ? config.ndlaFrontendDomain + learningpath.basedOn : undefined}
       />
     </>
   );
