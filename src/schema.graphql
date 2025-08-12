@@ -690,6 +690,7 @@ type LearningpathSeqNo {
 }
 
 type LearningpathStep {
+  articleId: Int
   description: String
   embedUrl: LearningpathStepEmbedUrl
   id: Int!
@@ -714,6 +715,7 @@ type LearningpathStepEmbedUrl {
 }
 
 input LearningpathStepNewInput {
+  articleId: Int
   description: String
   embedUrl: LearningpathEmbedInput
   introduction: String
@@ -733,6 +735,7 @@ type LearningpathStepOembed {
 }
 
 input LearningpathStepUpdateInput {
+  articleId: Int
   description: String
   embedUrl: LearningpathEmbedInput
   introduction: String
@@ -902,6 +905,7 @@ type MyNdlaLearningpath {
 }
 
 type MyNdlaLearningpathStep {
+  articleId: Int
   description: String
   embedUrl: LearningpathStepEmbedUrl
   id: Int!
@@ -1069,6 +1073,7 @@ type ProgrammePage {
   id: String!
   metaDescription: String
   mobileImage: MetaImage
+  supportedLanguages: [String!]!
   title: Title!
   url: String
 }
