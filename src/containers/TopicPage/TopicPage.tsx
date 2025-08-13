@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { MovedTopicPage } from "./MovedTopicPage";
 import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
@@ -79,6 +79,7 @@ export const topicPageQuery = gql`
 
 export const TopicPage = () => {
   const { contextId } = useParams();
+  const location = useLocation();
   const { i18n } = useTranslation();
   const query = useQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {

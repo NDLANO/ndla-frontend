@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
 import { RedirectExternal } from "../../components/";
@@ -41,6 +41,7 @@ const programmePageQuery = gql`
 
 export const ProgrammePage = () => {
   const { i18n } = useTranslation();
+  const location = useLocation();
   const { programme, contextId, grade } = useTypedParams<MatchParams>();
 
   const { loading, data, error } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
 import { RedirectExternal } from "../../components";
@@ -36,6 +36,7 @@ const subjectPageQuery = gql`
 
 export const SubjectPage = () => {
   const { contextId } = useParams();
+  const location = useLocation();
   const { i18n } = useTranslation();
   const {
     error,
