@@ -32,7 +32,7 @@ export const Component = () => {
 export const EditLearningpathTitlePage = () => {
   const [updatePath] = useUpdateLearningpath();
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const { learningpathId } = useParams();
   const { user } = useContext(AuthContext);
@@ -62,7 +62,7 @@ export const EditLearningpathTitlePage = () => {
             title,
             coverPhotoMetaUrl: imageUrl,
             description: " ",
-            language: i18n.language,
+            language: data.myNdlaLearningpath.supportedLanguages[0] ?? "nb",
 
             revision: data.myNdlaLearningpath.revision,
           },
