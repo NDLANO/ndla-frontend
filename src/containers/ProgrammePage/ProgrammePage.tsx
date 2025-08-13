@@ -7,14 +7,15 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
+import { RedirectExternal } from "../../components/";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
-import { isValidContextId } from "../../util/urlHelper";
+import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface MatchParams extends TypedParams {
@@ -31,6 +32,7 @@ const programmePageQuery = gql`
           title
         }
       }
+      supportedLanguages
       ...ProgrammeContainer_Programme
     }
   }
@@ -39,6 +41,7 @@ const programmePageQuery = gql`
 
 export const ProgrammePage = () => {
   const { i18n } = useTranslation();
+  const location = useLocation();
   const { programme, contextId, grade } = useTypedParams<MatchParams>();
 
   const { loading, data, error } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
@@ -69,6 +72,10 @@ export const ProgrammePage = () => {
 
   if (!data || !data.programme) {
     return <NotFoundPage />;
+  }
+
+  if (i18n.language === "se" && !data?.programme.supportedLanguages?.includes("se")) {
+    return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
 
   const selectedGrade =

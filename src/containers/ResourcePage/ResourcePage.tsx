@@ -123,7 +123,7 @@ export const ResourcePage = () => {
   }
 
   if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
-    return <RedirectExternal to={constructNewPath(location.pathname, data.node.supportedLanguages[0])} />;
+    return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
 
   if (

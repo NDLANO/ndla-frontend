@@ -6,15 +6,17 @@
  *
  */
 
-import { Navigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
+import { RedirectExternal } from "../../components";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import FilmFrontpage from "../../containers/FilmFrontpage/FilmFrontpage";
 import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
-import { isValidContextId } from "../../util/urlHelper";
+import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const subjectPageQuery = gql`
@@ -34,6 +36,8 @@ const subjectPageQuery = gql`
 
 export const SubjectPage = () => {
   const { contextId } = useParams();
+  const location = useLocation();
+  const { i18n } = useTranslation();
   const {
     error,
     loading,
@@ -68,6 +72,9 @@ export const SubjectPage = () => {
     } else {
       return <Navigate to={redirect.url || ""} replace />;
     }
+  }
+  if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
+    return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
   const subjectType = getSubjectType(data.node.id);
   if (subjectType === "film") {

@@ -6,18 +6,20 @@
  *
  */
 
-import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useLocation, useParams } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { MovedTopicPage } from "./MovedTopicPage";
 import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
+import { RedirectExternal } from "../../components";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
 import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
-import { isValidContextId } from "../../util/urlHelper";
+import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -77,6 +79,8 @@ export const topicPageQuery = gql`
 
 export const TopicPage = () => {
   const { contextId } = useParams();
+  const location = useLocation();
+  const { i18n } = useTranslation();
   const query = useQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
     variables: {
       contextId: contextId,
@@ -122,6 +126,9 @@ export const TopicPage = () => {
   const { node } = query.data;
   if (node.nodeType !== "TOPIC") {
     return <DefaultErrorMessagePage />;
+  }
+  if (i18n.language === "se" && !node.supportedLanguages?.includes("se")) {
+    return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
   const parents = node.context?.parents || [];
   const subjectType = getSubjectType(node.context?.rootId);
