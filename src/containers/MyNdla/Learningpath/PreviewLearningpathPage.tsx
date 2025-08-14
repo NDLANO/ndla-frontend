@@ -58,7 +58,7 @@ export const Component = () => {
 
 export const PreviewLearningpathPage = () => {
   const { t } = useTranslation();
-  const { learningpathId, stepId } = useParams();
+  const { learningpathId, stepIdOrNew } = useParams();
   const { user } = useContext(AuthContext);
   const { trackPageView } = useTracker();
 
@@ -83,12 +83,12 @@ export const PreviewLearningpathPage = () => {
     return <PageSpinner />;
   }
 
-  if (!learningpathQuery.data?.learningpath || (stepId && isNaN(Number(stepId)))) {
+  if (!learningpathQuery.data?.learningpath || (stepIdOrNew && isNaN(Number(stepIdOrNew)))) {
     return <DefaultErrorMessagePage />;
   }
 
   const learningpath = learningpathQuery.data.learningpath;
-  const numericStepId = stepId ? Number(stepId) : undefined;
+  const numericStepId = stepIdOrNew ? Number(stepIdOrNew) : undefined;
 
   // If stepId is provided, find it. If not, fall back to the first step.
   const learningpathStep = numericStepId

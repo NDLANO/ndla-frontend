@@ -31,14 +31,13 @@ import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathFragment, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import {
   useCreateLearningpathStep,
   useDeleteLearningpathStep,
   useUpdateLearningpathStep,
 } from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
-import PrivateRoute from "../../../PrivateRoute/PrivateRoute";
 import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
 import { FormValues } from "../types";
 import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
@@ -60,12 +59,13 @@ const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
 
 interface Props {
   step?: GQLMyNdlaLearningpathStepFragment;
+  learningPath: GQLMyNdlaLearningpathFragment;
 }
 
-export const LearningpathStepForm = ({ step }: Props) => {
+export const LearningpathStepForm = ({ step, learningPath }: Props) => {
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { learningpathId: learningpathIdParam } = useParams();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -95,12 +95,13 @@ export const LearningpathStepForm = ({ step }: Props) => {
   const onSave = async (values: FormValues) => {
     if (!learningpathId) return;
     const transformedData = formValuesToGQLInput(values);
+    const language = learningPath.supportedLanguages[0] ?? "nb";
 
     if (!step) {
       const res = await createStep({
         variables: {
           learningpathId: learningpathId,
-          params: { ...transformedData, language: i18n.language, showTitle: false },
+          params: { ...transformedData, language, showTitle: false },
         },
       });
 
@@ -118,7 +119,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
         variables: {
           learningpathId: learningpathId,
           learningstepId: step.id,
-          params: { ...transformedData, language: i18n.language, revision: step?.revision },
+          params: { ...transformedData, language, revision: step?.revision },
         },
       });
       if (!res.errors?.length) {
@@ -250,10 +251,6 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
     return <FolderStepForm />;
   }
   return null;
-};
-
-export const Component = () => {
-  return <PrivateRoute element={<LearningpathStepForm />} />;
 };
 
 export default LearningpathStepForm;

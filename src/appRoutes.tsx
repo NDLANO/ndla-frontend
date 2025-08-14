@@ -157,15 +157,7 @@ export const routes: RouteObject[] = [
                     lazy: () => import("./containers/MyNdla/Learningpath/EditLearningpathStepsPage"),
                     children: [
                       {
-                        index: true,
-                        lazy: () => import("./containers/MyNdla/Learningpath/components/EditLearningpathNewStepLink"),
-                      },
-                      {
-                        path: "new",
-                        lazy: () => import("./containers/MyNdla/Learningpath/components/LearningpathStepForm"),
-                      },
-                      {
-                        path: ":stepId",
+                        path: ":stepIdOrNew",
                         element: null,
                       },
                     ],
