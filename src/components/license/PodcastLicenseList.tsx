@@ -115,7 +115,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
                 {t("license.download")}
               </SafeLinkButton>
               <CopyTextButton
-                stringToCopy={`<iframe title="${podcast.title}" aria-label="${podcast.title}" height="400" width="500" frameborder="0" src="${podcast.src}" allowfullscreen=""></iframe>`}
+                stringToCopy={`<iframe title="${podcast.title}" aria-label="${podcast.title}" height="400" width="500" allow="fullscreen" style="border: none;" src="${podcast.src}"></iframe>`}
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />
