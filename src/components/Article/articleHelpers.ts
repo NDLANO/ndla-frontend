@@ -44,7 +44,7 @@ export const useNavigateToHash = (articleContent: ReactNode | undefined) => {
   const isMastheadSticky = useIsMastheadSticky();
 
   useEffect(() => {
-    if (location.hash && articleContent) {
+    if (location.hash) {
       setTimeout(() => {
         const element = document.getElementById(location.hash.slice(1));
         const elementTop = element?.getBoundingClientRect().top ?? 0;
@@ -52,6 +52,7 @@ export const useNavigateToHash = (articleContent: ReactNode | undefined) => {
         const absoluteTop = elementTop - bodyTop;
         const scrollPosition = isMastheadSticky ? absoluteTop - height - 20 : absoluteTop - 20;
 
+        element?.focus();
         window.scrollTo({
           top: scrollPosition,
           behavior: "smooth",
