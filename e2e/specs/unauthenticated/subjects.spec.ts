@@ -16,6 +16,7 @@ test.beforeEach(async ({ page, waitGraphql }) => {
   await waitGraphql();
   await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();
   await waitGraphql();
+  await expect(page.getByRole("heading", { name: "Mediesamfunnet 1" })).toBeVisible();
 
   const competenceButton = page.getByRole("button").getByText("Vis kompetansemål");
   await expect(competenceButton).not.toBeDisabled();
