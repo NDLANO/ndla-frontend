@@ -37,7 +37,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
-import config from "../../../../config";
+import { ResourceData } from "./folderTypes";
 import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
@@ -46,13 +46,8 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
 import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResourceFragment } from "../../../../graphqlTypes";
-import { OembedResponse } from "../../../../interfaces";
 import { searchQuery } from "../../../../queries";
 import { contentTypeMapping } from "../../../../util/getContentType";
-import { useFetchOembed } from "../learningpathQueries";
-import { ResourceData } from "./folderTypes";
-import { resolveJsonOrRejectWithError } from "../../../../util/apiHelpers";
-import { urlIsNDLAUrl } from "../../../../util/ndlaUrl";
 
 const HitsWrapper = styled("div", {
   base: {
@@ -146,8 +141,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
     fetchPolicy: "no-cache",
   });
 
-  const { refetch } = useFetchOembed({ skip: true });
-
   const paginationTranslations = usePaginationTranslations();
   const comboboxTranslations = useComboboxTranslations();
 
@@ -177,37 +170,15 @@ export const ResourcePicker = ({ setResource }: Props) => {
     [searchHits],
   );
 
-  const setResourceFromNdlaUrl = async (url: string) => {
-    const res = await fetch(`/oembed?url=${url}`);
-    const oembedData = await resolveJsonOrRejectWithError<OembedResponse>(res);
-    if (oembedData) {
-      const { title, iframeSrc: url } = oembedData;
-      setResource({
-        title,
-        url,
-      });
-    }
-  };
-
   const onQueryChange = (val: string) => {
-    if (urlIsNDLAUrl(val)) {
-      setResourceFromNdlaUrl(val);
-      return;
-    }
-
     setSearchObject({ query: val, page: 1, pageSize: 10 });
     debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
   };
 
-  const onResourceSelect = async (resource: Omit<GQLSearchResourceFragment, "__typename" | "id">) => {
-    const path = resource.contexts?.[0]?.url;
-    const data = await refetch({ url: `${config.ndlaFrontendDomain}${path}` });
-    const iframe = data.data?.learningpathStepOembed.html;
-    const url = new DOMParser().parseFromString(iframe, "text/html").getElementsByTagName("iframe")[0]?.src ?? "";
-
+  const onResourceSelect = async (resource: Omit<GQLSearchResourceFragment, "__typename">) => {
     setResource({
+      articleId: parseInt(resource.id),
       title: resource.title,
-      url: url,
       resourceTypes: resource.contexts?.[0]?.resourceTypes,
       breadcrumbs: resource.contexts?.[0]?.breadcrumbs,
     });

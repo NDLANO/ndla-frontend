@@ -17,11 +17,13 @@ import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
 import { StepSafeLink } from "./StepSafeLink";
+import config from "../../../../config";
 import { contentTypeMapping } from "../../../../util/getContentType";
 
 export interface ResourceFormValues {
   type: "resource";
   embedUrl: string;
+  articleId?: number;
   title: string;
 }
 
@@ -37,7 +39,7 @@ export const ResourceStepForm = ({ resource }: ResourceFormProps) => {
 
   const onSelectResource = (resource: ResourceData) => {
     setSelectedResource(resource);
-    setValue("embedUrl", resource.url, { shouldDirty: true });
+    setValue("articleId", resource.articleId, { shouldDirty: true });
     setValue("title", resource.title, { shouldDirty: true });
     setFocusId("remove-resource");
   };
@@ -125,7 +127,11 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   return (
     <ResourceWrapper>
       <TextWrapper>
-        <StepSafeLink to={selectedResource.url} target="_blank" css={linkOverlay.raw()}>
+        <StepSafeLink
+          to={`${config.ndlaFrontendDomain}/article/${selectedResource.articleId}`}
+          target="_blank"
+          css={linkOverlay.raw()}
+        >
           <Text fontWeight="bold">
             {selectedResource.title}
             <ExternalLinkLine size="small" />
