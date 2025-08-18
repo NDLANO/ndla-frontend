@@ -8,7 +8,7 @@
 
 import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useHref, useLocation } from "react-router-dom";
 import { useComponentSize } from "@ndla/hooks";
 import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import config from "../../config";
@@ -20,6 +20,8 @@ export const useArticleCopyText = (
   article: Pick<GQLArticle, "id" | "title" | "published" | "copyright"> | undefined,
 ) => {
   const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const href = useHref(location);
   if (!article) return undefined;
   const [day, month, year] = article.published.split(".").map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
@@ -27,7 +29,7 @@ export const useArticleCopyText = (
     article.title,
     undefined,
     published,
-    `${config.ndlaFrontendDomain}/article/${article.id}`,
+    `${config.ndlaFrontendDomain}${href}`,
     article.copyright,
     i18n.language,
     "",
