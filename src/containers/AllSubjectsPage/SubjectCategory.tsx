@@ -25,7 +25,7 @@ export const GridList = styled("ul", {
   },
 });
 
-const LetterHeader = styled("div", {
+const LetterHeader = styled(Heading, {
   base: {
     background: "surface.brand.1.subtle",
     borderRadius: "xsmall",
@@ -53,10 +53,8 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
 
   return (
     <li aria-owns={`subject-${label}`} aria-labelledby={`subject-header-${label}`}>
-      <LetterHeader id={`subject-header-${label}`}>
-        <Heading asChild consumeCss textStyle="title.medium">
-          <h2>{label.toUpperCase()}</h2>
-        </Heading>
+      <LetterHeader id={`subject-header-${label}`} asChild consumeCss textStyle="title.medium" tabIndex={-1}>
+        <h2>{label.toUpperCase()}</h2>
       </LetterHeader>
       <StyledGridList
         id={`subject-${label}`}

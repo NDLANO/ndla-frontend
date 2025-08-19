@@ -21,6 +21,7 @@ import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
 import { filterSubjects, groupSubjects } from "./utils";
+import { useNavigateToHash } from "../../components/Article/articleHelpers";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { PageContainer } from "../../components/Layout/PageContainer";
@@ -99,6 +100,8 @@ export const AllSubjectsPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useContext(AuthContext);
+
+  useNavigateToHash(undefined);
 
   const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
