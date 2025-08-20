@@ -6,7 +6,7 @@
  *
  */
 
-import { FormEvent, useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
@@ -63,6 +63,7 @@ interface Props {
 }
 
 export const LearningpathStepForm = ({ step, learningPath }: Props) => {
+  const [focusStepId, setFocusStepId] = useState<string | undefined>(undefined);
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { learningpathId: learningpathIdParam } = useParams();
   const { t } = useTranslation();
@@ -90,6 +91,12 @@ export const LearningpathStepForm = ({ step, learningPath }: Props) => {
     }
   }, [step]);
 
+  useEffect(() => {
+    if (!focusStepId || !learningpathId || methods.formState.isSubmitting) return;
+    navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
+    setFocusStepId(undefined);
+  }, [focusStepId, learningpathId, methods.formState.isSubmitting, navigate]);
+
   if (!learningpathId) return null;
 
   const onSave = async (values: FormValues) => {
@@ -101,16 +108,17 @@ export const LearningpathStepForm = ({ step, learningPath }: Props) => {
       const res = await createStep({
         variables: {
           learningpathId: learningpathId,
+          // @ts-expect-error We use null instead of undefined to delete fields
           params: { ...transformedData, language, showTitle: false },
         },
       });
 
       if (!res.errors?.length) {
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
-        const focusStepId = res.data?.newLearningpathStep.id
-          ? learningpathStepEditButtonId(res.data?.newLearningpathStep.id)
-          : undefined;
-        navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
+        methods.reset();
+        setFocusStepId(
+          res.data?.newLearningpathStep.id ? learningpathStepEditButtonId(res.data?.newLearningpathStep.id) : undefined,
+        );
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.createdStepFailed", { name: values.title }) });
       }
@@ -119,12 +127,13 @@ export const LearningpathStepForm = ({ step, learningPath }: Props) => {
         variables: {
           learningpathId: learningpathId,
           learningstepId: step.id,
+          // @ts-expect-error We use null instead of undefined to delete fields
           params: { ...transformedData, language, revision: step?.revision },
         },
       });
       if (!res.errors?.length) {
-        const focusStepId = step ? learningpathStepEditButtonId(step.id) : undefined;
-        navigate(routes.myNdla.learningpathEditSteps(learningpathId), { state: { focusStepId } });
+        methods.reset();
+        setFocusStepId(step ? learningpathStepEditButtonId(step.id) : undefined);
       } else {
         toast.create({ title: t("myNdla.learningpath.toast.updateStepFailed", { name: values.title }) });
       }
@@ -234,10 +243,10 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
         resource={
           step?.resource
             ? {
+                articleId: step.articleId,
                 resourceTypes: step.resource.resourceTypes,
                 title: step.title,
                 breadcrumbs: step.resource.breadcrumbs,
-                url: step.embedUrl?.url ?? "",
               }
             : undefined
         }

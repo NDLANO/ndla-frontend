@@ -16,8 +16,10 @@ test.beforeEach(async ({ page }) => {
 test("menu is displayed", async ({ page, waitGraphql }) => {
   await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
   await waitGraphql();
+  await expect(page.getByRole("link", { name: "Mediesamfunnet 1" })).toBeVisible();
   await page.getByRole("link", { name: "Mediesamfunnet 1" }).last().click();
   await waitGraphql();
+  await expect(page.getByRole("heading", { name: "Mediesamfunnet 1" })).toBeVisible();
   await page.getByTestId("masthead-menu-button").click();
   await waitGraphql();
   expect(page.getByRole("link", { name: "Mediesamfunnet 1" })).toBeDefined();
