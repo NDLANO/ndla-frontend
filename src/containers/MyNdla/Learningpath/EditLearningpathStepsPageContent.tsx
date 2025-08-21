@@ -34,7 +34,7 @@ import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
-import { LocationState } from "./types";
+import { LearningPathOutletContext, LocationState } from "./types";
 
 const StyledOl = styled("ol", {
   base: {
@@ -137,7 +137,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
                   <DraggableLearningpathStepListItem
                     key={step.id.toString()}
                     step={step}
-                    learningpathId={learningpath.id}
+                    learningPath={learningpath}
                     index={index}
                   />
                 ))}
@@ -145,7 +145,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
             </SortableContext>
           </DndContext>
         )}
-        <Outlet />
+        <Outlet context={{ learningPath: learningpath } satisfies LearningPathOutletContext} />
       </Stack>
       <Stack justify="space-between" direction="row">
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(learningpath.id)}>

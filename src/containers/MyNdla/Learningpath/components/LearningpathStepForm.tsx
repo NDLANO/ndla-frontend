@@ -9,7 +9,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import {
   Button,
   FieldErrorMessage,
@@ -30,8 +30,9 @@ import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
 import { useToast } from "../../../../components/ToastContext";
+import config from "../../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathFragment, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import {
   useCreateLearningpathStep,
   useDeleteLearningpathStep,
@@ -40,7 +41,7 @@ import {
 import { routes } from "../../../../routeHelpers";
 import PrivateRoute from "../../../PrivateRoute/PrivateRoute";
 import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
-import { FormValues } from "../types";
+import { FormValues, LearningPathOutletContext } from "../types";
 import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
 
 const ContentForm = styled("form", {
@@ -60,13 +61,14 @@ const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
 
 interface Props {
   step?: GQLMyNdlaLearningpathStepFragment;
+  learningPath: GQLMyNdlaLearningpathFragment;
 }
 
-export const LearningpathStepForm = ({ step }: Props) => {
+export const LearningpathStepForm = ({ step, learningPath }: Props) => {
   const [focusStepId, setFocusStepId] = useState<string | undefined>(undefined);
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { learningpathId: learningpathIdParam } = useParams();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -80,7 +82,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
   });
 
   useEffect(() => {
-    wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "start" });
+    wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, []);
 
   const learningpathId = learningpathIdParam ? Number(learningpathIdParam) : undefined;
@@ -102,13 +104,14 @@ export const LearningpathStepForm = ({ step }: Props) => {
   const onSave = async (values: FormValues) => {
     if (!learningpathId) return;
     const transformedData = formValuesToGQLInput(values);
+    const language = learningPath.supportedLanguages[0] ?? config.defaultLocale;
 
     if (!step) {
       const res = await createStep({
         variables: {
           learningpathId: learningpathId,
           // @ts-expect-error We use null instead of undefined to delete fields
-          params: { ...transformedData, language: i18n.language, showTitle: false },
+          params: { ...transformedData, language, showTitle: false },
         },
       });
 
@@ -127,7 +130,7 @@ export const LearningpathStepForm = ({ step }: Props) => {
           learningpathId: learningpathId,
           learningstepId: step.id,
           // @ts-expect-error We use null instead of undefined to delete fields
-          params: { ...transformedData, language: i18n.language, revision: step?.revision },
+          params: { ...transformedData, language, revision: step?.revision },
         },
       });
       if (!res.errors?.length) {
@@ -262,7 +265,8 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
 };
 
 export const Component = () => {
-  return <PrivateRoute element={<LearningpathStepForm />} />;
+  const { learningPath } = useOutletContext<LearningPathOutletContext>();
+  return <PrivateRoute element={<LearningpathStepForm learningPath={learningPath} />} />;
 };
 
 export default LearningpathStepForm;
