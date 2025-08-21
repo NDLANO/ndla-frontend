@@ -82,7 +82,7 @@ export const LearningpathStepForm = ({ step, learningPath }: Props) => {
   });
 
   useEffect(() => {
-    wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "start" });
+    wrapperRef.current?.parentElement?.scrollIntoView({ behavior: "smooth", block: "center" });
   }, []);
 
   const learningpathId = learningpathIdParam ? Number(learningpathIdParam) : undefined;
