@@ -9,7 +9,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import {
   Button,
   FieldErrorMessage,
@@ -39,8 +39,9 @@ import {
   useUpdateLearningpathStep,
 } from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
+import PrivateRoute from "../../../PrivateRoute/PrivateRoute";
 import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
-import { FormValues } from "../types";
+import { FormValues, LearningPathOutletContext } from "../types";
 import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
 
 const ContentForm = styled("form", {
@@ -261,6 +262,11 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
     return <FolderStepForm />;
   }
   return null;
+};
+
+export const Component = () => {
+  const { learningPath } = useOutletContext<LearningPathOutletContext>();
+  return <PrivateRoute element={<LearningpathStepForm learningPath={learningPath} />} />;
 };
 
 export default LearningpathStepForm;

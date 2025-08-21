@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import {
   closestCenter,
   DndContext,
@@ -25,28 +25,20 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { AddLine } from "@ndla/icons";
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
-import LearningpathStepForm from "./components/LearningpathStepForm";
 import { useToast } from "../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
-import { LocationState } from "./types";
+import { LearningPathOutletContext, LocationState } from "./types";
 
 const StyledOl = styled("ol", {
   base: {
     listStyle: "none",
-    width: "100%",
-  },
-});
-
-const AddSafeLinkButton = styled(SafeLinkButton, {
-  base: {
     width: "100%",
   },
 });
@@ -58,7 +50,7 @@ interface Props {
 export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
   const { t } = useTranslation();
-  const { stepIdOrNew } = useParams();
+  const { stepId } = useParams();
 
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
   const toast = useToast();
@@ -73,11 +65,11 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
 
   useEffect(() => {
     const locationState = location.state as LocationState;
-    const focusId = locationState?.focusStepId ?? (stepIdOrNew !== "new" ? stepIdOrNew : undefined);
+    const focusId = locationState?.focusStepId ?? stepId;
     if (!focusId) return;
     const focusElement = document.getElementById(focusId.toString());
     setTimeout(() => focusElement?.focus(), 0);
-  }, [location, stepIdOrNew]);
+  }, [location, stepId]);
 
   const announcements = useMemo(
     () => makeDndTranslations("learningpathstep", t, sortedLearningpathSteps.length),
@@ -153,14 +145,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
             </SortableContext>
           </DndContext>
         )}
-        {stepIdOrNew === "new" ? (
-          <LearningpathStepForm learningPath={learningpath} />
-        ) : (
-          <AddSafeLinkButton to={routes.myNdla.learningpathEditStep(learningpath.id, "new")} variant="secondary">
-            <AddLine />
-            {t("myNdla.learningpath.form.steps.add")}
-          </AddSafeLinkButton>
-        )}
+        <Outlet context={{ learningPath: learningpath } satisfies LearningPathOutletContext} />
       </Stack>
       <Stack justify="space-between" direction="row">
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(learningpath.id)}>

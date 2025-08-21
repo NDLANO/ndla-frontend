@@ -73,9 +73,9 @@ interface LearningpathStepListItemProps {
 
 export const DraggableLearningpathStepListItem = ({ step, learningPath, index }: LearningpathStepListItemProps) => {
   const { t } = useTranslation();
-  const { stepIdOrNew } = useParams();
+  const { stepId } = useParams();
 
-  const isEditingStep = useMemo(() => step.id === Number(stepIdOrNew), [step.id, stepIdOrNew]);
+  const isEditingStep = useMemo(() => step.id === Number(stepId), [step.id, stepId]);
 
   const sortableId = step.id.toString();
   const { attributes, setNodeRef, transform, transition, isDragging, items } = useSortable({
@@ -99,10 +99,10 @@ export const DraggableLearningpathStepListItem = ({ step, learningPath, index }:
         name={step.title}
         disabled={items.length < 2}
         type="learningpathstep"
-        isHidden={!!stepIdOrNew}
-        aria-hidden={stepIdOrNew ? true : undefined}
+        isHidden={!!stepId}
+        aria-hidden={stepId ? true : undefined}
         {...attributes}
-        tabIndex={stepIdOrNew ? -1 : attributes.tabIndex}
+        tabIndex={stepId ? -1 : attributes.tabIndex}
       />
       <DragWrapper>
         <ContentWrapper editing={isEditingStep}>
