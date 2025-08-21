@@ -17,6 +17,7 @@ import { TitleFormValues, TitleForm } from "./components/TitleForm";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
@@ -62,7 +63,7 @@ export const EditLearningpathTitlePage = () => {
             title,
             coverPhotoMetaUrl: imageUrl,
             description: " ",
-            language: data.myNdlaLearningpath.supportedLanguages[0] ?? "nb",
+            language: data.myNdlaLearningpath.supportedLanguages[0] ?? config.defaultLocale,
 
             revision: data.myNdlaLearningpath.revision,
           },

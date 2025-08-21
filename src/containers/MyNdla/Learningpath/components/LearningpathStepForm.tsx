@@ -30,6 +30,7 @@ import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
 import { useToast } from "../../../../components/ToastContext";
+import config from "../../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathFragment, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import {
@@ -102,7 +103,7 @@ export const LearningpathStepForm = ({ step, learningPath }: Props) => {
   const onSave = async (values: FormValues) => {
     if (!learningpathId) return;
     const transformedData = formValuesToGQLInput(values);
-    const language = learningPath.supportedLanguages[0] ?? "nb";
+    const language = learningPath.supportedLanguages[0] ?? config.defaultLocale;
 
     if (!step) {
       const res = await createStep({
