@@ -10849,10 +10849,10 @@ __metadata:
     react-router-dom: "npm:^7.6.1"
     serialize-javascript: "npm:^6.0.2"
     sirv: "npm:^3.0.1"
-    slate: "npm:^0.112.0"
-    slate-dom: "npm:^0.112.2"
-    slate-history: "npm:^0.110.3"
-    slate-react: "npm:^0.112.1"
+    slate: "npm:^0.118.1"
+    slate-dom: "npm:^0.118.1"
+    slate-history: "npm:^0.113.1"
+    slate-react: "npm:^0.117.4"
     source-map-support: "npm:^0.5.9"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
@@ -13271,9 +13271,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-dom@npm:^0.112.2":
-  version: 0.112.2
-  resolution: "slate-dom@npm:0.112.2"
+"slate-dom@npm:^0.118.1":
+  version: 0.118.1
+  resolution: "slate-dom@npm:0.118.1"
   dependencies:
     "@juggle/resize-observer": "npm:^3.4.0"
     direction: "npm:^1.0.4"
@@ -13284,18 +13284,18 @@ __metadata:
     tiny-invariant: "npm:1.3.1"
   peerDependencies:
     slate: ">=0.99.0"
-  checksum: 10c0/e2f2df40468a9c025467d32d69916e427297e8bd8b192863ff03cb5747bec66d3bcf599afc0a07dc1c9225f92bfeb414b9607d4f8e229a6c6df4d806558af851
+  checksum: 10c0/f6cfc02f75d984c437513285bfdeb2c5ea04a9b3152bf10e83d30a0312d41d2666173fbd4e7d756d64cce0da30c8fbf3619d5267bc5d0ea52c6b77505f2c30e6
   languageName: node
   linkType: hard
 
-"slate-history@npm:^0.110.3":
-  version: 0.110.3
-  resolution: "slate-history@npm:0.110.3"
+"slate-history@npm:^0.113.1":
+  version: 0.113.1
+  resolution: "slate-history@npm:0.113.1"
   dependencies:
     is-plain-object: "npm:^5.0.0"
   peerDependencies:
     slate: ">=0.65.3"
-  checksum: 10c0/cd427263daa257840598118d9f2e7a5d239640505f30a0024b61f0491b0a70a41209a27662bf1adb65f60b4aa482c00d44356f89f0360ba5ed63a37e17534a6f
+  checksum: 10c0/cb3de172d391db7bfa023a1844f778b39a323c1e4b3b32e2d6ca73a0edec2ae9afd147b766d555e2f8d742716d2ed140550b1ee38e3654eebecac24fc98cc05f
   languageName: node
   linkType: hard
 
@@ -13310,34 +13310,32 @@ __metadata:
   languageName: node
   linkType: hard
 
-"slate-react@npm:^0.112.1":
-  version: 0.112.1
-  resolution: "slate-react@npm:0.112.1"
+"slate-react@npm:^0.117.4":
+  version: 0.117.4
+  resolution: "slate-react@npm:0.117.4"
   dependencies:
     "@juggle/resize-observer": "npm:^3.4.0"
     direction: "npm:^1.0.4"
     is-hotkey: "npm:^0.2.0"
-    is-plain-object: "npm:^5.0.0"
     lodash: "npm:^4.17.21"
     scroll-into-view-if-needed: "npm:^3.1.0"
     tiny-invariant: "npm:1.3.1"
   peerDependencies:
     react: ">=18.2.0"
     react-dom: ">=18.2.0"
-    slate: ">=0.99.0"
-    slate-dom: ">=0.110.2"
-  checksum: 10c0/5d53f037d75323f21733ba8a6d2afa860ccb20bbc28591e30ca8a32e1080436ab6796bb667cdf2c7292ac52dedc8680e9977b913ebd9fef808cefdf5a94e0af1
+    slate: ">=0.114.0"
+    slate-dom: ">=0.116.0"
+  checksum: 10c0/d7bd7eaa7ce37bbf3c63a4aab67d1125d9e08f936b29faed8e8cd8c6dbcf7bcef9354c6028c5bba9b5fc9a3719e3017be322d0b69c788f953d7447b3c45c3770
   languageName: node
   linkType: hard
 
-"slate@npm:^0.112.0":
-  version: 0.112.0
-  resolution: "slate@npm:0.112.0"
+"slate@npm:^0.118.1":
+  version: 0.118.1
+  resolution: "slate@npm:0.118.1"
   dependencies:
     immer: "npm:^10.0.3"
-    is-plain-object: "npm:^5.0.0"
     tiny-warning: "npm:^1.0.3"
-  checksum: 10c0/e31dc1eb13c20505d243398bb91efeb8a8ef602eef6c8d4b55f616a39dd80ba4405916a4e40f30b0aa4ba8fbfd52a83508ecb947ad4b4cbc68d8e1f6b518eb96
+  checksum: 10c0/5004e3cb455317755057158d5a9ff9913539d1222135a2012af7ef7788cf330f074d8423d16e5f1899fd77ad2286ec03975cf929f1f8fcf80a24c99d99758a52
   languageName: node
   linkType: hard
 
