@@ -380,50 +380,48 @@ const MyNdlaPart = () => {
   const location = useLocation();
   return (
     <MyNdlaWrapper>
-      {!!authenticated && !!user ? (
-        <>
-          <StyledText>
-            <Text textStyle="body.medium" asChild consumeCss>
-              <span>{t("masthead.menu.myNdla.loggedInAs")}</span>
-            </Text>
-            <Text textStyle="title.large" asChild consumeCss>
-              <span>{user.displayName}</span>
-            </Text>
-          </StyledText>
-          <ButtonsContainer>
+      <ButtonsContainer>
+        {!!authenticated && !!user ? (
+          <>
+            <StyledText>
+              <Text textStyle="body.medium" asChild consumeCss>
+                <span>{t("masthead.menu.myNdla.loggedInAs")}</span>
+              </Text>
+              <Text textStyle="title.large" asChild consumeCss>
+                <span>{user.displayName}</span>
+              </Text>
+            </StyledText>
+            <LogoutSafeLinkButton to={`/logout?state=${toHref(location)}`} reloadDocument>
+              <LogoutBoxRightLine />
+              {t("user.buttonLogOut")}
+            </LogoutSafeLinkButton>
             <MyNdlaSafeLinkButton to={routes.myNdla.root} variant="secondary">
               <HeartLine />
               {t("masthead.menu.myNdla.myNdla")}
             </MyNdlaSafeLinkButton>
-            {!!user?.arenaEnabled && !!user?.arenaAccepted && (
-              <MyNdlaSafeLinkButton
-                to={`https://${config.arenaDomain}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="secondary"
-              >
-                <ForumOutlined />
-                {t("masthead.menu.myNdla.arena")}
-                <ExternalLinkLine />
-              </MyNdlaSafeLinkButton>
-            )}
-            <MyNdlaSafeLinkButton to={getChatRobotUrl()} target="_blank" rel="noopener noreferrer" variant="secondary">
-              <RobotFill />
-              {t("masthead.menu.myNdla.chatRobot")}
-              <ExternalLinkLine />
-            </MyNdlaSafeLinkButton>
-          </ButtonsContainer>
-          <LogoutSafeLinkButton to={`/logout?state=${toHref(location)}`} reloadDocument>
-            <LogoutBoxRightLine />
-            {t("user.buttonLogOut")}
-          </LogoutSafeLinkButton>
-        </>
-      ) : (
-        <MyNdlaSafeLinkButton variant="secondary" to={`/login?state=${routes.myNdla.root}`} reloadDocument>
-          <UserLine />
-          {t("masthead.menu.myNdla.myNdla")}
+          </>
+        ) : (
+          <MyNdlaSafeLinkButton to={`/login?state=${routes.myNdla.root}`} variant="secondary" reloadDocument>
+            <UserLine />
+            {t("masthead.menu.myNdla.myNdla")}
+          </MyNdlaSafeLinkButton>
+        )}
+        <MyNdlaSafeLinkButton
+          to={`https://${config.arenaDomain}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="secondary"
+        >
+          <ForumOutlined />
+          {t("masthead.menu.myNdla.arena")}
+          <ExternalLinkLine />
         </MyNdlaSafeLinkButton>
-      )}
+        <MyNdlaSafeLinkButton to={getChatRobotUrl()} target="_blank" rel="noopener noreferrer" variant="secondary">
+          <RobotFill />
+          {t("masthead.menu.myNdla.chatRobot")}
+          <ExternalLinkLine />
+        </MyNdlaSafeLinkButton>
+      </ButtonsContainer>
     </MyNdlaWrapper>
   );
 };
