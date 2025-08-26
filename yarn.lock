@@ -2657,11 +2657,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/editor-components@npm:^0.0.41":
-  version: 0.0.41
-  resolution: "@ndla/editor-components@npm:0.0.41"
+"@ndla/editor-components@npm:^0.0.42":
+  version: 0.0.42
+  resolution: "@ndla/editor-components@npm:0.0.42"
   dependencies:
-    "@ndla/editor": "npm:^0.0.29"
+    "@ndla/editor": "npm:^0.0.30"
     "@ndla/primitives": "npm:^1.0.93-alpha.0"
     "@ndla/styled-system": "npm:^0.0.35"
     "@zag-js/react": "npm:^1.0.0"
@@ -2672,13 +2672,13 @@ __metadata:
     slate-dom: ">= 0.112.0"
     slate-history: ">= 0.110.3"
     slate-react: ">= 0.112.0"
-  checksum: 10c0/1b8db8610cbdc95912b932593946c8c5f311c849a1d4fafee34335b1f228c80dd2eb5b8ee37f5508c4e86a65df6225c2987c56710f3c23ee59f426db5764d1bc
+  checksum: 10c0/a44c2de7253dd78aa168b210bc1122bb862c850edb3bcf895eb1507b443436d332108fdae9f3b80ebb48960fa9c9cd4509876ea7d512a273f865f5a275d6d812
   languageName: node
   linkType: hard
 
-"@ndla/editor@npm:^0.0.29":
-  version: 0.0.29
-  resolution: "@ndla/editor@npm:0.0.29"
+"@ndla/editor@npm:^0.0.30":
+  version: 0.0.30
+  resolution: "@ndla/editor@npm:0.0.30"
   dependencies:
     escape-html: "npm:^1.0.3"
     he: "npm:^1.2.0"
@@ -2693,7 +2693,7 @@ __metadata:
     slate-dom: ">= 0.112.0"
     slate-history: ">= 0.110.3"
     slate-react: ">= 0.112.0"
-  checksum: 10c0/b9a16a855a251da56658abce55f4926f683dfb721820b29fdf4f35fc5e2b5f5a799c4d103cc890eec4ad557c6b01b05f333e6f812fd1cd0b481a33ce58f3b971
+  checksum: 10c0/a0f6b8fb5908bd8db3d873a9d9548f328b3a21c00ec20fc6b14d3529246a128c6bf34a9dfaa199fe64b584b4849db9d3d6d90484ea090ea4781eb36a0687546a
   languageName: node
   linkType: hard
 
@@ -2819,10 +2819,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^1.0.56":
-  version: 1.0.56
-  resolution: "@ndla/types-backend@npm:1.0.56"
-  checksum: 10c0/61dd52f27dca36342755c031ccbb719204a8dc11e878fbd18b7de8a668aab026d49db5ab98228a4ed8d27bb1fe88fc7f80f40839922912542b561116af949787
+"@ndla/types-backend@npm:^1.0.67":
+  version: 1.0.67
+  resolution: "@ndla/types-backend@npm:1.0.67"
+  checksum: 10c0/de74ac12866c5a4502658ecdcc0f4875475cb3a2ae98c1bd0619eb32e414987d5e158589a6dda46148e010c003e04e3a3cc32727e368da2f3026313ad414d4e9
   languageName: node
   linkType: hard
 
@@ -10817,8 +10817,8 @@ __metadata:
     "@juggle/resize-observer": "npm:^3.4.0"
     "@ndla/article-converter": "npm:^10.0.136-alpha.0"
     "@ndla/core": "npm:^6.0.1-alpha.0"
-    "@ndla/editor": "npm:^0.0.29"
-    "@ndla/editor-components": "npm:^0.0.41"
+    "@ndla/editor": "npm:^0.0.30"
+    "@ndla/editor-components": "npm:^0.0.42"
     "@ndla/hooks": "npm:^2.1.12"
     "@ndla/icons": "npm:^8.0.61-alpha.0"
     "@ndla/image-search": "npm:^11.0.110-alpha.0"
@@ -10829,7 +10829,7 @@ __metadata:
     "@ndla/scripts": "npm:^3.0.3"
     "@ndla/styled-system": "npm:^0.0.35"
     "@ndla/tracker": "npm:^5.0.23-alpha.0"
-    "@ndla/types-backend": "npm:^1.0.56"
+    "@ndla/types-backend": "npm:^1.0.67"
     "@ndla/types-embed": "npm:^5.0.16-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
     "@ndla/ui": "npm:^56.0.133-alpha.0"
