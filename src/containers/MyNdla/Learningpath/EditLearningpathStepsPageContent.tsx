@@ -52,12 +52,12 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
   const { t } = useTranslation();
   const { stepId } = useParams();
-
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
   const toast = useToast();
   const headingRef = useRef<HTMLHeadingElement>(null);
-
   const location = useLocation();
+
+  const language = learningpath.supportedLanguages[0] ?? config.defaultLocale;
 
   useEffect(() => {
     if (!learningpath.learningsteps) return;
@@ -138,19 +138,16 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
                   <DraggableLearningpathStepListItem
                     key={step.id.toString()}
                     step={step}
-                    learningPath={learningpath}
+                    learningpathId={learningpath.id}
                     index={index}
+                    language={language}
                   />
                 ))}
               </StyledOl>
             </SortableContext>
           </DndContext>
         )}
-        <Outlet
-          context={
-            { language: learningpath.supportedLanguages[0] ?? config.defaultLocale } satisfies LearningPathOutletContext
-          }
-        />
+        <Outlet context={{ language } satisfies LearningPathOutletContext} />
       </Stack>
       <Stack justify="space-between" direction="row">
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(learningpath.id)}>

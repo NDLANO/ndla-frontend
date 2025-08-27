@@ -16,7 +16,7 @@ import { Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { DraggableListItem } from "./DraggableListItem";
-import { GQLMyNdlaLearningpathFragment, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import DragHandle from "../../components/DragHandle";
 import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";
@@ -66,12 +66,18 @@ const StyledDragHandle = styled(DragHandle, {
 });
 
 interface LearningpathStepListItemProps {
-  learningPath: GQLMyNdlaLearningpathFragment;
+  learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
   index: number;
+  language: string;
 }
 
-export const DraggableLearningpathStepListItem = ({ step, learningPath, index }: LearningpathStepListItemProps) => {
+export const DraggableLearningpathStepListItem = ({
+  step,
+  learningpathId,
+  index,
+  language,
+}: LearningpathStepListItemProps) => {
   const { t } = useTranslation();
   const { stepId } = useParams();
 
@@ -116,7 +122,7 @@ export const DraggableLearningpathStepListItem = ({ step, learningPath, index }:
             <SafeLinkButton
               variant="tertiary"
               id={learningpathStepEditButtonId(step.id)}
-              to={routes.myNdla.learningpathEditStep(learningPath.id, step.id)}
+              to={routes.myNdla.learningpathEditStep(learningpathId, step.id)}
               state={{ focusStepId: learningpathStepCloseButtonId(step.id) }}
             >
               {t("myNdla.learningpath.form.steps.edit")}
@@ -126,7 +132,7 @@ export const DraggableLearningpathStepListItem = ({ step, learningPath, index }:
             <SafeLinkButton
               variant="tertiary"
               id={learningpathStepCloseButtonId(step.id)}
-              to={routes.myNdla.learningpathEditSteps(learningPath.id)}
+              to={routes.myNdla.learningpathEditSteps(learningpathId)}
               state={{ focusStepId: learningpathStepEditButtonId(step.id) }}
             >
               <CloseLine />
@@ -134,7 +140,7 @@ export const DraggableLearningpathStepListItem = ({ step, learningPath, index }:
             </SafeLinkButton>
           )}
         </ContentWrapper>
-        {!!isEditingStep && <LearningpathStepForm step={step} learningPath={learningPath} />}
+        {!!isEditingStep && <LearningpathStepForm step={step} language={language} />}
       </DragWrapper>
     </DraggableListItem>
   );
