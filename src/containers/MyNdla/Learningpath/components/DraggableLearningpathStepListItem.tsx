@@ -69,9 +69,15 @@ interface LearningpathStepListItemProps {
   learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
   index: number;
+  language: string;
 }
 
-export const DraggableLearningpathStepListItem = ({ step, learningpathId, index }: LearningpathStepListItemProps) => {
+export const DraggableLearningpathStepListItem = ({
+  step,
+  learningpathId,
+  index,
+  language,
+}: LearningpathStepListItemProps) => {
   const { t } = useTranslation();
   const { stepId } = useParams();
 
@@ -134,7 +140,7 @@ export const DraggableLearningpathStepListItem = ({ step, learningpathId, index 
             </SafeLinkButton>
           )}
         </ContentWrapper>
-        {!!isEditingStep && <LearningpathStepForm step={step} />}
+        {!!isEditingStep && <LearningpathStepForm step={step} language={language} />}
       </DragWrapper>
     </DraggableListItem>
   );

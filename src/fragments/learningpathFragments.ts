@@ -82,6 +82,7 @@ export const learningpathFragment = gql`
     status
     madeAvailable
     revision
+    supportedLanguages
     coverphoto {
       url
       metaUrl
