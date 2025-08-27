@@ -6,7 +6,6 @@
  *
  */
 
-import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { ExternalFormValues } from "./components/ExternalStepForm";
 import { FolderFormValues } from "./components/FolderStepForm";
 import { ResourceFormValues } from "./components/ResourceStepForm";
@@ -19,5 +18,5 @@ export interface LocationState {
 }
 
 export interface LearningPathOutletContext {
-  learningPath: GQLMyNdlaLearningpathFragment;
+  language: string;
 }

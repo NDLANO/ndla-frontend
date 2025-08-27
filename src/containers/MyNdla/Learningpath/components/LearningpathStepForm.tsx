@@ -30,9 +30,8 @@ import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
 import { useToast } from "../../../../components/ToastContext";
-import config from "../../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { GQLMyNdlaLearningpathFragment, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import {
   useCreateLearningpathStep,
   useDeleteLearningpathStep,
@@ -61,10 +60,10 @@ const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
 
 interface Props {
   step?: GQLMyNdlaLearningpathStepFragment;
-  learningPath: GQLMyNdlaLearningpathFragment;
+  language: string;
 }
 
-export const LearningpathStepForm = ({ step, learningPath }: Props) => {
+export const LearningpathStepForm = ({ step, language }: Props) => {
   const [focusStepId, setFocusStepId] = useState<string | undefined>(undefined);
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { learningpathId: learningpathIdParam } = useParams();
@@ -104,7 +103,6 @@ export const LearningpathStepForm = ({ step, learningPath }: Props) => {
   const onSave = async (values: FormValues) => {
     if (!learningpathId) return;
     const transformedData = formValuesToGQLInput(values);
-    const language = learningPath.supportedLanguages[0] ?? config.defaultLocale;
 
     if (!step) {
       const res = await createStep({
@@ -265,8 +263,8 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
 };
 
 export const Component = () => {
-  const { learningPath } = useOutletContext<LearningPathOutletContext>();
-  return <PrivateRoute element={<LearningpathStepForm learningPath={learningPath} />} />;
+  const { language } = useOutletContext<LearningPathOutletContext>();
+  return <PrivateRoute element={<LearningpathStepForm language={language} />} />;
 };
 
 export default LearningpathStepForm;

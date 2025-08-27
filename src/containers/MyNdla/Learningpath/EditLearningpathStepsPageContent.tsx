@@ -35,6 +35,7 @@ import { useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathM
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
 import { LearningPathOutletContext, LocationState } from "./types";
+import config from "../../../config";
 
 const StyledOl = styled("ol", {
   base: {
@@ -145,7 +146,11 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
             </SortableContext>
           </DndContext>
         )}
-        <Outlet context={{ learningPath: learningpath } satisfies LearningPathOutletContext} />
+        <Outlet
+          context={
+            { language: learningpath.supportedLanguages[0] ?? config.defaultLocale } satisfies LearningPathOutletContext
+          }
+        />
       </Stack>
       <Stack justify="space-between" direction="row">
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(learningpath.id)}>
