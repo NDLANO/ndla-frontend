@@ -39,6 +39,13 @@ export const Document = ({ language, children, chunks = [], devEntrypoint }: Pro
         <link rel="icon" type="image/png" sizes="32x32" href={`/static/favicon-${faviconEnvironment}-32x32.png`} />
         <link rel="icon" type="image/png" sizes="16x16" href={`/static/favicon-${faviconEnvironment}-16x16.png`} />
         <link
+          rel="preload"
+          href={`/locales/${language}/translation.json`}
+          as="fetch"
+          type="application/json"
+          crossOrigin="anonymous"
+        />
+        <link
           rel="apple-touch-icon"
           type="image/png"
           sizes="180x180"

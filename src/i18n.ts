@@ -6,13 +6,10 @@
  *
  */
 
-import { i18n } from "i18next";
+import { createInstance, i18n, InitOptions, ReadCallback, Services } from "i18next";
+import { initReactI18next } from "react-i18next";
 import config from "./config";
 import { LocaleType } from "./interfaces";
-import en from "./messages/messagesEN";
-import nb from "./messages/messagesNB";
-import nn from "./messages/messagesNN";
-import se from "./messages/messagesSE";
 
 export const supportedLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
 export const preferredLanguages: LocaleType[] = ["nb", "nn"];
@@ -79,14 +76,39 @@ export const getLocaleInfoFromPath = (path: string): RetType => {
   };
 };
 
-export const initializeI18n = (i18n: i18n, language: string): i18n => {
-  const instance = i18n.cloneInstance({
-    lng: language,
-    supportedLngs: preferredLanguages,
-  });
-  i18n.addResourceBundle("en", "translation", en, true, true);
-  i18n.addResourceBundle("nb", "translation", nb, true, true);
-  i18n.addResourceBundle("nn", "translation", nn, true, true);
-  i18n.addResourceBundle("se", "translation", se, true, true);
-  return instance;
+export const initializeI18n = (locale: string): i18n => {
+  const i18nInstance = createInstance({
+    lng: locale,
+    supportedLngs: supportedLanguages,
+    backend: {
+      loadPath: "/locales/{{lng}}/{{ns}}.json",
+    },
+  })
+    .use(initReactI18next)
+    .use(I18nBackend);
+  i18nInstance.init();
+  return i18nInstance as i18n;
 };
+
+class I18nBackend {
+  services: Services;
+  options: any;
+  allOptions: InitOptions;
+  static type: "backend";
+
+  constructor(services: Services, options: object = {}, allOptions: InitOptions = {}) {
+    this.services = services;
+    this.options = options;
+    this.allOptions = allOptions;
+  }
+  init() {}
+
+  read(language: string, namespace: string, callback: ReadCallback) {
+    return fetch(`/locales/${language}/${namespace}.json`)
+      .then((res) => res.json())
+      .then((data) => callback(null, data))
+      .catch((err) => callback(err, false));
+  }
+}
+
+I18nBackend.type = "backend";

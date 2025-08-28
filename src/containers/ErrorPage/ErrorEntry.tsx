@@ -10,7 +10,6 @@ import "../../style/index.css";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
-import { i18nInstance } from "@ndla/ui";
 import { errorRoutes } from "../../appRoutes";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { Document } from "../../Document";
@@ -24,7 +23,7 @@ const { config, serverPath, chunks } = window.DATA;
 initSentry(config);
 
 const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
-const i18n = initializeI18n(i18nInstance, abbreviation);
+const i18n = initializeI18n(abbreviation);
 
 const router = createBrowserRouter(errorRoutes);
 

@@ -31,6 +31,7 @@ import { BadRequestError } from "../util/error/StatusError";
 import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
 import log from "../util/logger";
 import { constructNewPath } from "../util/urlHelper";
+import { stringifiedLanguages } from "./locales/locales";
 
 const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
 const router = express.Router();
@@ -200,6 +201,15 @@ router.post("/lti/oauth", async (req, res) => {
   }
   res.setHeader("Cache-Control", "private");
   res.send(JSON.stringify(generateOauthData(query.url, body)));
+});
+
+router.get("/locales/:lang/:ns.json", (req, res) => {
+  if (!isValidLocale(req.params.lang) || req.params.ns !== "translation") {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.json(stringifiedLanguages[req.params.lang]);
 });
 
 /** Handle different paths to a node in old ndla. */

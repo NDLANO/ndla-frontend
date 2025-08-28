@@ -23,7 +23,6 @@ import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
-import { i18nInstance } from "@ndla/ui";
 import { routes } from "./appRoutes";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
@@ -56,10 +55,11 @@ const basename = isValidLocale(paths[1] ?? "") ? `${paths[1]}` : undefined;
 
 const { versionHash } = queryString.parse(window.location.search);
 
-const i18n = initializeI18n(i18nInstance, abbreviation);
 const client = createApolloClient(abbreviation, versionHash);
 
 const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
+
+const i18nInstance = initializeI18n(abbreviation);
 
 renderOrHydrate(
   document,
@@ -68,7 +68,7 @@ renderOrHydrate(
     language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
     devEntrypoint={entryPoints.default}
   >
-    <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={i18nInstance}>
       <ApolloProvider client={client}>
         <ResponseContext value={{ status: serverResponse }}>
           <VersionHashProvider value={versionHash}>

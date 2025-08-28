@@ -10,16 +10,16 @@ import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
 import { MissingRouterContext } from "@ndla/safelink";
-import { i18nInstance } from "@ndla/ui";
 import { errorRoutes } from "../../appRoutes";
 import { RedirectInfo } from "../../components/RedirectContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
-import { getHtmlLang, getLocaleInfoFromPath, getLocaleObject, initializeI18n } from "../../i18n";
+import { getHtmlLang, getLocaleInfoFromPath, getLocaleObject } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
+import { initializeI18n } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
@@ -32,7 +32,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
   const locale = getLocaleObject(lang).abbreviation;
   const siteTheme = getSiteTheme();
   const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
-  const i18n = initializeI18n(i18nInstance, abbreviation);
+  const i18n = initializeI18n(abbreviation);
 
   const fetchRequest = createFetchRequest(req);
   const routerContext = await query(fetchRequest);

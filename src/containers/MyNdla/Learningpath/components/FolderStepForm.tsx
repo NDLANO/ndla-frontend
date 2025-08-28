@@ -6,9 +6,9 @@
  *
  */
 
-import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -60,6 +60,7 @@ export interface FolderFormValues {
 }
 
 export const FolderStepForm = () => {
+  const { t } = useTranslation();
   const [resource, setResource] = useState<FolderResource | undefined>(undefined);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
 

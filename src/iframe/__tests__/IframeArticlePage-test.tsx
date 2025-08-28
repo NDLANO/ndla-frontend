@@ -6,14 +6,13 @@
  *
  */
 
-import { I18nextProvider, Translation } from "react-i18next";
+import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router-dom";
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { render } from "@testing-library/react";
-import { i18nInstance } from "@ndla/ui";
-import { initializeI18n } from "../../i18n";
 import { alertsQuery } from "../../queries";
 import IframeArticlePage from "../IframeArticlePage";
+import { initializeI18nTest } from "../../__tests__/i18nTestHelpers";
 
 window._mtm = [];
 
@@ -198,7 +197,7 @@ test("IframeArticlePage with article renderers correctly", () => {
     published: "2018-01-09T18:43:48Z",
     supportedLanguages: ["nb"],
   };
-  const i18n = initializeI18n(i18nInstance, "nb");
+  const i18n = initializeI18nTest(locale);
   const { asFragment } = render(
     <I18nextProvider i18n={i18n}>
       <MockedProvider mocks={mockedResponses}>
@@ -209,25 +208,16 @@ test("IframeArticlePage with article renderers correctly", () => {
             hash: "",
           }}
         >
-          <I18nextProvider i18n={i18nInstance}>
-            <Translation>
-              {(_, { i18n }) => {
-                i18n.language = locale;
-                return (
-                  <IframeArticlePage
-                    locale={locale}
-                    node={{
-                      id: "urn:resource:1",
-                      name: "Politiske skillelinjer",
-                      url: "/r/naturfag/politiske-skillelinjer/asdfw323",
-                      resourceTypes: [],
-                    }}
-                    article={article}
-                  />
-                );
-              }}
-            </Translation>
-          </I18nextProvider>
+          <IframeArticlePage
+            locale={locale}
+            node={{
+              id: "urn:resource:1",
+              name: "Politiske skillelinjer",
+              url: "/r/naturfag/politiske-skillelinjer/asdfw323",
+              resourceTypes: [],
+            }}
+            article={article}
+          />
         </StaticRouter>
       </MockedProvider>
     </I18nextProvider>,

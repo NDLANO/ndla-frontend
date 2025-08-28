@@ -11,7 +11,6 @@ import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
-import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
 import { routes } from "../../appRoutes";
 import { AlertsProvider } from "../../components/AlertsContext";
@@ -24,11 +23,12 @@ import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
-import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
+import { getLocaleInfoFromPath, isValidLocale } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
+import { initializeI18n } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
@@ -65,7 +65,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
   }
 
   const client = createApolloClient(locale, versionHash);
-  const i18n = initializeI18n(i18nInstance, locale);
+  const instance = initializeI18n(locale);
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};
 
@@ -84,7 +84,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
   const Page = (
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default}>
       <RedirectContext value={redirectContext}>
-        <I18nextProvider i18n={i18n}>
+        <I18nextProvider i18n={instance}>
           <ApolloProvider client={client}>
             <ResponseContext value={responseContext}>
               <VersionHashProvider value={versionHash}>
