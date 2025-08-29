@@ -7,8 +7,7 @@
  */
 
 import { ReactNode } from "react";
-import { useLocation, Location } from "react-router";
-import { useBaseName } from "./BaseNameContext";
+import { useLocation, useHref } from "react-router";
 import config from "../config";
 import { preferredLocales, isValidLocale } from "../i18n";
 
@@ -45,11 +44,6 @@ export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
   return trackableContent.supportedLanguages.filter((language) => isValidLocale(language));
 };
 
-export const getOgUrl = (location: Pick<Location, "pathname">, basename: string) => {
-  const ogBaseName = basename === "" ? "" : `/${basename}`;
-  return `${config.ndlaFrontendDomain}${ogBaseName}${location.pathname}`;
-};
-
 interface TrackableContent {
   supportedLanguages?: string[];
 }
@@ -76,7 +70,7 @@ const SocialMediaMetadata = ({
   type = "article",
 }: Props) => {
   const location = useLocation();
-  const basename = useBaseName();
+  const href = useHref(location);
   return (
     <>
       <link rel="canonical" href={getCanonicalUrl(path ? path : location.pathname)} />
@@ -92,7 +86,7 @@ const SocialMediaMetadata = ({
       <meta property="og:type" content={type} />
       <meta name="twitter:site" content="@ndla_no" />
       <meta name="twitter:creator" content="@ndla_no" />
-      <meta property="og:url" content={getOgUrl(location, basename)} />
+      <meta property="og:url" content={`${config.ndlaFrontendDomain}${href}`} />
       {!!title && <meta property="og:title" content={`${title} - NDLA`} />}
       {!!description && <meta property="og:description" content={description} />}
       {!!description && <meta name="description" content={description} />}
