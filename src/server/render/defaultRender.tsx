@@ -15,7 +15,6 @@ import { disableSSR } from "./renderHelpers";
 import { routes } from "../../appRoutes";
 import { AlertsProvider } from "../../components/AlertsContext";
 import AuthenticationContext from "../../components/AuthenticationContext";
-import { BaseNameProvider } from "../../components/BaseNameContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
@@ -90,11 +89,9 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
               <VersionHashProvider value={versionHash}>
                 <SiteThemeProvider value={siteTheme}>
                   <AlertsProvider>
-                    <BaseNameProvider value={basename}>
-                      <AuthenticationContext>
-                        <StaticRouterProvider router={router} context={context} hydrate={false} />
-                      </AuthenticationContext>
-                    </BaseNameProvider>
+                    <AuthenticationContext>
+                      <StaticRouterProvider router={router} context={context} hydrate={false} />
+                    </AuthenticationContext>
                   </AlertsProvider>
                 </SiteThemeProvider>
               </VersionHashProvider>

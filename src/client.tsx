@@ -26,7 +26,6 @@ import "@fontsource/source-serif-pro/index.css";
 import { routes } from "./appRoutes";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
-import { BaseNameProvider } from "./components/BaseNameContext";
 import ResponseContext from "./components/ResponseContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
@@ -74,11 +73,9 @@ renderOrHydrate(
           <VersionHashProvider value={versionHash}>
             <SiteThemeProvider value={window.DATA.siteTheme}>
               <AlertsProvider>
-                <BaseNameProvider value={basename}>
-                  <AuthenticationContext>
-                    <RouterProvider router={router} />
-                  </AuthenticationContext>
-                </BaseNameProvider>
+                <AuthenticationContext>
+                  <RouterProvider router={router} />
+                </AuthenticationContext>
               </AlertsProvider>
             </SiteThemeProvider>
           </VersionHashProvider>

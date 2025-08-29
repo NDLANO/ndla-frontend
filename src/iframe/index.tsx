@@ -24,10 +24,9 @@ import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import { AlertsProvider } from "../components/AlertsContext";
-import { BaseNameProvider } from "../components/BaseNameContext";
 import { Document } from "../Document";
 import { entryPoints } from "../entrypoints";
-import { initializeI18n, isValidLocale } from "../i18n";
+import { initializeI18n } from "../i18n";
 import { iframeArticleRoutes } from "./iframeArticleRoutes";
 import { createApolloClient } from "../util/apiHelpers";
 import { renderOrHydrate } from "../util/renderOrHydrate";
@@ -49,13 +48,11 @@ renderOrHydrate(
   <Document language={language} chunks={chunks} devEntrypoint={entryPoints.iframeArticle}>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
-        <BaseNameProvider value={isValidLocale(initialProps.basename) ? initialProps.basename : ""}>
-          <AlertsProvider>
-            <MissingRouterContext value={true}>
-              <RouterProvider router={router} />
-            </MissingRouterContext>
-          </AlertsProvider>
-        </BaseNameProvider>
+        <AlertsProvider>
+          <MissingRouterContext value={true}>
+            <RouterProvider router={router} />
+          </MissingRouterContext>
+        </AlertsProvider>
       </ApolloProvider>
     </I18nextProvider>
   </Document>,

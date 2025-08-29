@@ -23,10 +23,9 @@ import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
-import { BaseNameProvider } from "../components/BaseNameContext";
 import { Document } from "../Document";
 import { entryPoints } from "../entrypoints";
-import { initializeI18n, isValidLocale } from "../i18n";
+import { initializeI18n } from "../i18n";
 import { iframeEmbedRoutes } from "./embedIframeRoutes";
 import { createApolloClient } from "../util/apiHelpers";
 import { renderOrHydrate } from "../util/renderOrHydrate";
@@ -49,9 +48,7 @@ renderOrHydrate(
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <MissingRouterContext value={true}>
-          <BaseNameProvider value={isValidLocale(language) ? language : ""}>
-            <RouterProvider router={router} />
-          </BaseNameProvider>
+          <RouterProvider router={router} />
         </MissingRouterContext>
       </ApolloProvider>
     </I18nextProvider>
