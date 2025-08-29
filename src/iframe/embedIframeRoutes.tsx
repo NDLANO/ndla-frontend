@@ -6,7 +6,7 @@
  *
  */
 
-import { RouteObject } from "react-router-dom";
+import { RouteObject } from "react-router";
 import { ErrorElement } from "../RouteErrorElement";
 
 export const iframeEmbedRoutes: RouteObject[] = [

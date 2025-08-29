@@ -9,7 +9,7 @@
 import queryString, { ParsedQuery } from "query-string";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 import { gql, useApolloClient, useQuery } from "@apollo/client";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {

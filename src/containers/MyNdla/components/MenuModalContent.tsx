@@ -8,7 +8,7 @@
 
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { Portal, useDialogContext } from "@ark-ui/react";
 import { ForumOutlined } from "@ndla/icons";
 import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";

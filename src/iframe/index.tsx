@@ -8,10 +8,9 @@
 
 import "../style/index.css";
 import { I18nextProvider } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client";
 import { MissingRouterContext } from "@ndla/safelink";
-import { i18nInstance } from "@ndla/ui";
 import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-sans-pro/400-italic.css";
 import "@fontsource/source-sans-pro/300.css";
@@ -41,7 +40,7 @@ initSentry(config);
 const language = initialProps.locale ?? config.defaultLocale;
 
 const client = createApolloClient(language);
-const i18n = initializeI18n(i18nInstance, language);
+const i18n = initializeI18n(language);
 
 const router = createBrowserRouter(iframeArticleRoutes);
 

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { MovedTopicPage } from "./MovedTopicPage";
 import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";

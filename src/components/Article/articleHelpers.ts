@@ -8,7 +8,7 @@
 
 import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router-dom";
+import { useHref, useLocation } from "react-router";
 import { useComponentSize } from "@ndla/hooks";
 import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import config from "../../config";

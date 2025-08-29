@@ -9,7 +9,7 @@
 import { TFunction } from "i18next";
 import { useMemo, useContext, useEffect, useState, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
-import { Location, Outlet, useLocation } from "react-router-dom";
+import { Location, Outlet, useLocation } from "react-router";
 import {
   BookReadFill,
   BookReadLine,

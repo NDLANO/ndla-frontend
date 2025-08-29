@@ -6,7 +6,7 @@
  *
  */
 
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { FILM_PAGE_URL } from "../../constants";
 
 export const FilmRedirectPage = () => {

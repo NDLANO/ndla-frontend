@@ -10,7 +10,7 @@ import path from "node:path";
 import express, { NextFunction, Request, Response } from "express";
 import promBundle from "express-prom-bundle";
 import helmet from "helmet";
-import { matchPath } from "react-router-dom";
+import { matchPath } from "react-router";
 import serialize from "serialize-javascript";
 import { Manifest, ManifestChunk, ViteDevServer } from "vite";
 import { getCookie } from "@ndla/util";

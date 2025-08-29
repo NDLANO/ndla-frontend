@@ -7,7 +7,7 @@
  */
 
 import { ReactElement, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { NoSSR } from "@ndla/util";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { useBaseName } from "../../components/BaseNameContext";

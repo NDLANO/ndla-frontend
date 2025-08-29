@@ -6,7 +6,7 @@
  *
  */
 
-import { useRouteError } from "react-router-dom";
+import { useRouteError } from "react-router";
 import config from "./config";
 import ErrorPage from "./containers/ErrorPage";
 import handleError from "./util/handleError";

@@ -8,7 +8,7 @@
 
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router";
 import { FolderLine, LinkMedium } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";

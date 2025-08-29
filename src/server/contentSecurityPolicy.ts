@@ -7,7 +7,7 @@
  */
 
 import { IncomingMessage } from "http";
-import { matchPath } from "react-router-dom";
+import { matchPath } from "react-router";
 import config from "../config";
 import { embedRoutes } from "../routes";
 

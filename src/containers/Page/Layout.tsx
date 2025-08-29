@@ -7,7 +7,7 @@
  */
 
 import { CSSProperties, useEffect, useMemo, useRef } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router";
 import { useComponentSize } from "@ndla/hooks";
 import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";

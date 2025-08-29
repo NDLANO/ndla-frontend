@@ -8,7 +8,7 @@
 
 import { CSSProperties, useContext, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { usePopoverContext } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";

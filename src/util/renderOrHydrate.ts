@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from "react";
-import { matchRoutes, RouteObject } from "react-router-dom";
+import { matchRoutes, RouteObject } from "react-router";
 import config from "../config";
 import { createRoot, hydrateRoot } from "react-dom/client";
 

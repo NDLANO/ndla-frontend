@@ -6,7 +6,7 @@
  *
  */
 
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import IframePage from "./IframePage";
 import { PageLayout } from "../components/Layout/PageContainer";
 

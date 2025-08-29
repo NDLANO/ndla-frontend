@@ -8,7 +8,7 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";

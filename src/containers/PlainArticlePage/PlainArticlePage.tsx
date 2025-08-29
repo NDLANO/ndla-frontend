@@ -7,7 +7,7 @@
  */
 
 import { useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";

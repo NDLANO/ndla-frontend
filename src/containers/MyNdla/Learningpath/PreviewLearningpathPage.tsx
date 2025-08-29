@@ -8,7 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";

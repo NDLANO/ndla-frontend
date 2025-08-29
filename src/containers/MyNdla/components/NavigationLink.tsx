@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { ExternalLinkLine } from "@ndla/icons";
 import { SafeLink, SafeLinkButtonProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

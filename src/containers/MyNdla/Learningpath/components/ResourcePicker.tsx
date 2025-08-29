@@ -7,9 +7,9 @@
  */
 
 import parse from "html-react-parser";
-import { t } from "i18next";
 import { debounce } from "lodash-es";
 import { useState, useMemo, RefObject, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
@@ -120,6 +120,7 @@ interface Props {
 const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
 
 export const ResourcePicker = ({ setResource }: Props) => {
+  const { t } = useTranslation();
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);

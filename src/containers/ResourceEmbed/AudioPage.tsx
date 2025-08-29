@@ -6,7 +6,7 @@
  *
  */
 
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import ResourceEmbed from "./components/ResourceEmbed";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 

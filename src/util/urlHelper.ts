@@ -6,7 +6,7 @@
  *
  */
 
-import { matchPath, Params, Location } from "react-router-dom";
+import { matchPath, Params, Location } from "react-router";
 import { validContextIdRegExp } from "../constants";
 import { isValidLocale, supportedLanguages } from "../i18n";
 import { oembedRoutes } from "../routes";

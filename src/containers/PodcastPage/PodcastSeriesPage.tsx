@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
 import { ArrowDownShortLine } from "@ndla/icons";

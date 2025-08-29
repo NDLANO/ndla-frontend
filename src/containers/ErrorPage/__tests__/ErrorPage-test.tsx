@@ -7,11 +7,10 @@
  */
 
 import { I18nextProvider } from "react-i18next";
-import { StaticRouter } from "react-router-dom";
+import { StaticRouter } from "react-router";
 import { render } from "@testing-library/react";
-import { i18nInstance } from "@ndla/ui";
-import { initializeI18n } from "../../../i18n";
 import ErrorPage from "../ErrorPage";
+import { initializeI18nTest } from "../../../__tests__/i18nTestHelpers";
 
 vi.mock("../../../config.ts", () => {
   return {
@@ -23,7 +22,7 @@ vi.mock("../../../config.ts", () => {
 });
 
 test("ErrorPage renderers correctly", () => {
-  const i18n = initializeI18n(i18nInstance, "nb");
+  const i18n = initializeI18nTest("nb");
   const { asFragment } = render(
     <I18nextProvider i18n={i18n}>
       <StaticRouter location="">
