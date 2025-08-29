@@ -6,16 +6,17 @@
  *
  */
 
-import { RouteObject } from "react-router";
+import { RouteObjectWithImportPath } from "../interfaces";
 import { ErrorElement } from "../RouteErrorElement";
 
-export const iframeEmbedRoutes: RouteObject[] = [
+export const iframeEmbedRoutes: RouteObjectWithImportPath[] = [
   {
     path: "/embed-iframe/:lang?/:embedType/:embedId",
     errorElement: <ErrorElement />,
     children: [
       {
         index: true,
+        importPath: "src/iframe/EmbedIframePageContainer.tsx",
         lazy: () => import("./EmbedIframePageContainer"),
       },
     ],
