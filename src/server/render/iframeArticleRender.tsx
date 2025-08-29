@@ -24,19 +24,21 @@ import { iframeArticleRoutes } from "../../iframe/iframeArticleRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
+import { getRouteChunks } from "../getManifestChunks";
 import { initializeI18n } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
 const { query, dataRoutes } = createStaticHandler(iframeArticleRoutes);
 
-export const iframeArticleRender: RenderFunc = async (req, chunks) => {
+export const iframeArticleRender: RenderFunc = async (req, manifest) => {
   const lang = req.params.lang ?? "";
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
 
   const noSSR = disableSSR(req);
+  const chunks = getRouteChunks(manifest, "iframeArticle", []);
 
   const initialProps = {
     basename: lang,

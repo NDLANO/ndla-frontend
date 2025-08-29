@@ -12,7 +12,7 @@ import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import { matchPath } from "react-router";
 import serialize from "serialize-javascript";
-import { Manifest, ManifestChunk, ViteDevServer } from "vite";
+import { Manifest, ViteDevServer } from "vite";
 import { getCookie } from "@ndla/util";
 import api from "./api";
 import contentSecurityPolicy from "./contentSecurityPolicy";
@@ -24,7 +24,6 @@ import { privateRoutes, routes } from "../routes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import handleError, { ensureError } from "../util/handleError";
-import { getRouteChunks } from "./getManifestChunks";
 import { activeRequestsMiddleware } from "./middleware/activeRequestsMiddleware";
 import { healthRouter } from "./routes/healthRouter";
 import loggerContextMiddleware, { getLoggerContextStore } from "./middleware/loggerContextMiddleware";
@@ -94,7 +93,7 @@ if (isProduction) {
   manifest = (await import(`../../build/public/.vite/manifest.json`)).default;
 }
 
-const renderRoute = async (req: Request, res: Response, renderer: string, chunks: ManifestChunk[]) => {
+const renderRoute = async (req: Request, res: Response, renderer: string, manifest: Manifest) => {
   const ctx = getLoggerContextStore();
   if (!ctx) {
     throw new Error("Logger context is not available");
@@ -114,7 +113,7 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunks
     render = (await import(`../../build/server/server.render.js`)).default;
   }
 
-  const response = await render(req, res, renderer, chunks, ctx);
+  const response = await render(req, res, renderer, manifest, ctx);
   if ("location" in response) {
     return {
       status: response.status,
@@ -150,13 +149,10 @@ const handleRequest = async (req: Request, res: Response, next: NextFunction, ro
   }
 };
 
-const defaultRoute = async (req: Request, res: Response) =>
-  renderRoute(req, res, "default", getRouteChunks(manifest, "default"));
-const ltiRoute = async (req: Request, res: Response) => renderRoute(req, res, "lti", getRouteChunks(manifest, "lti"));
-const iframeEmbedRoute = async (req: Request, res: Response) =>
-  renderRoute(req, res, "iframeEmbed", getRouteChunks(manifest, "iframeEmbed"));
-const iframeArticleRoute = async (req: Request, res: Response) =>
-  renderRoute(req, res, "iframeArticle", getRouteChunks(manifest, "iframeArticle"));
+const defaultRoute = async (req: Request, res: Response) => renderRoute(req, res, "default", manifest);
+const ltiRoute = async (req: Request, res: Response) => renderRoute(req, res, "lti", manifest);
+const iframeEmbedRoute = async (req: Request, res: Response) => renderRoute(req, res, "iframeEmbed", manifest);
+const iframeArticleRoute = async (req: Request, res: Response) => renderRoute(req, res, "iframeArticle", manifest);
 
 app.get(["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"], async (req, res, next) => {
   handleRequest(req, res, next, iframeEmbedRoute);
@@ -209,8 +205,7 @@ app.get(["/", "/*splat"], (req, res, next) => {
   return handleRequest(req, res, next, defaultRoute);
 });
 
-const errorRoute = async (req: Request, res: Response) =>
-  renderRoute(req, res, "error", getRouteChunks(manifest, "error"));
+const errorRoute = async (req: Request, res: Response) => renderRoute(req, res, "error", manifest);
 
 const getStatusCodeToReturn = (err?: Error): number => {
   if (err && "status" in err && typeof err.status === "number") {
