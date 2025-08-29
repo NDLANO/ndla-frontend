@@ -23,19 +23,22 @@ import { iframeEmbedRoutes } from "../../iframe/embedIframeRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
+import { getRouteChunks } from "../getManifestChunks";
 import { initializeI18n } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
 const { query, dataRoutes } = createStaticHandler(iframeEmbedRoutes);
 
-export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
+export const iframeEmbedRender: RenderFunc = async (req, manifest) => {
   const lang = req.params.lang ?? "";
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { embedType, embedId } = req.params;
 
   const noSSR = disableSSR(req);
+
+  const chunks = getRouteChunks(manifest, "iframeEmbed", []);
 
   const initialProps = { basename: lang, embedType, embedId, locale };
 
