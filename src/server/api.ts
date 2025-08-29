@@ -9,7 +9,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { errors as oidcErrors } from "openid-client";
-import { matchPath } from "react-router-dom";
+import { matchPath } from "react-router";
 import { IMyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
 import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";

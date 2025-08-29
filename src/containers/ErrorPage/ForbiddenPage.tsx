@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { LinkProps, useNavigate } from "react-router-dom";
+import { LinkProps, useNavigate } from "react-router";
 import {
   Button,
   ErrorMessageActions,

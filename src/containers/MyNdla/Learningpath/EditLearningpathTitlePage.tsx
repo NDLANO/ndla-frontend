@@ -8,7 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router";
 import { Spinner, Heading, Button } from "@ndla/primitives";
 import { Stack } from "@ndla/styled-system/jsx";
 import { useTracker, HelmetWithTracker } from "@ndla/tracker";

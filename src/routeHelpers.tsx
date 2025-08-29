@@ -6,7 +6,7 @@
  *
  */
 
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import {
   ABOUT_PATH,
   FILM_ID,

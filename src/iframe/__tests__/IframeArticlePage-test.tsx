@@ -7,7 +7,7 @@
  */
 
 import { I18nextProvider } from "react-i18next";
-import { StaticRouter } from "react-router-dom";
+import { StaticRouter } from "react-router";
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { render } from "@testing-library/react";
 import { alertsQuery } from "../../queries";

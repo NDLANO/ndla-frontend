@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router-dom";
+import { useHref, useLocation } from "react-router";
 import { GlobalLine } from "@ndla/icons";
 import { Button, ButtonProps } from "@ndla/primitives";
 import { constructNewPath } from "../../util/urlHelper";

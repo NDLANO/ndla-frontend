@@ -8,7 +8,7 @@
 
 import "../../style/index.css";
 import { I18nextProvider } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import { MissingRouterContext } from "@ndla/safelink";
 import { errorRoutes } from "../../appRoutes";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";

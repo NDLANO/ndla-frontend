@@ -7,7 +7,7 @@
  */
 
 import { ReactNode } from "react";
-import { useLocation, Location } from "react-router-dom";
+import { useLocation, Location } from "react-router";
 import { useBaseName } from "./BaseNameContext";
 import config from "../config";
 import { preferredLocales, isValidLocale } from "../i18n";

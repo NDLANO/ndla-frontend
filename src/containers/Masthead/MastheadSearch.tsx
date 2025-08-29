@@ -11,7 +11,7 @@ import { debounce } from "lodash-es";
 import queryString from "query-string";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";

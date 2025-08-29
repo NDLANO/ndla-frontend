@@ -7,7 +7,7 @@
  */
 
 import express from "express";
-import { Params } from "react-router-dom";
+import { Params } from "react-router";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { gql } from "@apollo/client/core";
 import { Node } from "@ndla/types-taxonomy";

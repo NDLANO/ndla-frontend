@@ -8,7 +8,7 @@
 
 import "../style/index.css";
 import { I18nextProvider } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client";
 import { MissingRouterContext } from "@ndla/safelink";
 import "@fontsource/source-sans-pro/index.css";
