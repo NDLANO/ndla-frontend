@@ -6,7 +6,7 @@
  *
  */
 
-import { getAlternateLanguages, getAlternateUrl, getCanonicalUrl, getOgUrl } from "../SocialMediaMetadata";
+import { getAlternateLanguages, getAlternateUrl, getCanonicalUrl } from "../SocialMediaMetadata";
 
 test("getAlternateLanguages with article", () => {
   const alternateLanguages = getAlternateLanguages({
@@ -43,14 +43,4 @@ test("getCanonicalUrl with iframe-url and nb language", () => {
 test("getCanonicalUrl with iframe-url and no language", () => {
   const canonicalUrl = getCanonicalUrl("/article-iframe/urn:topic:123/1");
   expect(canonicalUrl).toMatch("https://test.ndla.no/article-iframe/urn:topic:123/1");
-});
-
-test("getOgUrl with no basename", () => {
-  const ogUrl = getOgUrl({ pathname: "/article/123" }, "");
-  expect(ogUrl).toMatch("https://test.ndla.no/article/123");
-});
-
-test("getOgUrl with nb basename", () => {
-  const ogUrl = getOgUrl({ pathname: "/article/123" }, "nb");
-  expect(ogUrl).toMatch("https://test.ndla.no/nb/article/123");
 });
