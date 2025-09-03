@@ -7,10 +7,8 @@
  */
 
 import { TFunction } from "i18next";
-import queryString from "query-string";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -29,6 +27,7 @@ import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
 import { nodeWithMetadataFragment } from "../../queries";
+import { useStableSearchParams } from "../../util/useStableSearchParams";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
 
@@ -97,8 +96,7 @@ const allSubjectsQuery = gql`
 
 export const AllSubjectsPage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [params, setParams] = useStableSearchParams();
   const { user } = useContext(AuthContext);
 
   useNavigateToHash(undefined);
@@ -106,17 +104,10 @@ export const AllSubjectsPage = () => {
   const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const { filter } = queryString.parse(location.search, { arrayFormat: "none" });
-  const [selectedFilter, _setSelectedFilter] = useState<string>(filter?.[0] ?? ACTIVE_SUBJECTS);
+  const selectedFilter = params.get("filter") ?? ACTIVE_SUBJECTS;
 
   const setFilter = (value: string) => {
-    const searchObject = queryString.parse(location.search);
-    _setSelectedFilter(value);
-    const search = queryString.stringify({
-      ...searchObject,
-      filter: value,
-    });
-    navigate(`${location.pathname}?${search}`);
+    setParams({ filter: value }, { replace: true });
   };
 
   const favoriteSubjects = user?.favoriteSubjects;

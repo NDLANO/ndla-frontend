@@ -7,7 +7,6 @@
  */
 
 import "./style/index.css";
-import queryString from "query-string";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client";
@@ -52,7 +51,8 @@ const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 const paths = window.location.pathname.split("/");
 const basename = isValidLocale(paths[1] ?? "") ? `${paths[1]}` : undefined;
 
-const { versionHash } = queryString.parse(window.location.search);
+const url = new URL(window.location.href);
+const versionHash = url.searchParams.get("versionHash");
 
 const client = createApolloClient(abbreviation, versionHash);
 

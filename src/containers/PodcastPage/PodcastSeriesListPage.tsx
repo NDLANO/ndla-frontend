@@ -6,10 +6,8 @@
  *
  */
 
-import queryString, { ParsedQuery } from "query-string";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useLocation } from "react-router";
 import { gql, useApolloClient, useQuery } from "@apollo/client";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
@@ -33,6 +31,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
+import { useStableSearchParams } from "../../util/useStableSearchParams";
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
@@ -58,29 +57,21 @@ const StyledButton = styled(Button, {
   },
 });
 
-export const getPageSize = (searchObject: ParsedQuery) => {
-  return Number(searchObject["page-size"]) || 5;
-};
-export const getPage = (searchObject: ParsedQuery) => {
-  return Number(searchObject.page) || 1;
-};
+const PAGE_SIZE = 5;
 
 export const PodcastSeriesListPage = () => {
   const { t } = useTranslation();
-  const location = useLocation();
-  const navigate = useNavigate();
   const componentTranslations = usePaginationTranslations();
-  const searchObject = queryString.parse(location.search);
+  const [queryParams, setQueryParams] = useStableSearchParams();
 
-  const page = getPage(searchObject);
-  const pageSize = getPageSize(searchObject);
+  const page = parseInt(queryParams.get("page") ?? "") || 1;
 
   const apolloClient = useApolloClient();
 
   const { error, loading, data } = useQuery<GQLPodcastSeriesListPageQuery>(podcastSeriesListPageQuery, {
     variables: {
       page: page,
-      pageSize: pageSize,
+      pageSize: PAGE_SIZE,
       fallback: true,
     },
   });
@@ -89,29 +80,20 @@ export const PodcastSeriesListPage = () => {
 
   useEffect(() => {
     const nextPage = page + 1;
-    if (nextPage <= pageSize) {
+    if (nextPage <= PAGE_SIZE) {
       apolloClient.query({
         query: podcastSeriesListPageQuery,
         variables: {
           page: nextPage,
-          pageSize: pageSize,
+          pageSize: PAGE_SIZE,
           fallback: true,
         },
       });
     }
-  }, [page, pageSize, apolloClient]);
+  }, [page, apolloClient]);
 
-  const onQueryPush = (newSearchObject: object) => {
-    const oldSearchObject = queryString.parse(location.search);
-
-    const searchQuery = {
-      ...oldSearchObject,
-      ...newSearchObject,
-    };
-
-    // Remove unused/empty query params
-    Object.keys(searchQuery).forEach((key) => searchQuery[key] === "" && delete searchQuery[key]);
-    navigate(`/podkast?${queryString.stringify(searchQuery)}`);
+  const onPageChange = (page: number) => {
+    setQueryParams({ page: page.toString() });
   };
 
   if (!data && !loading) {
@@ -164,9 +146,9 @@ export const PodcastSeriesListPage = () => {
         </section>
         <PaginationRoot
           page={page}
-          onPageChange={(details) => onQueryPush({ ...searchObject, page: details.page })}
+          onPageChange={(details) => onPageChange(details.page)}
           count={data?.podcastSeriesSearch?.totalCount ?? 0}
-          pageSize={pageSize}
+          pageSize={PAGE_SIZE}
           translations={componentTranslations}
           siblingCount={2}
           aria-label={t("podcastPage.paginationNav")}
