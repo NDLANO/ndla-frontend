@@ -2655,11 +2655,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/editor-components@npm:^0.0.45":
-  version: 0.0.45
-  resolution: "@ndla/editor-components@npm:0.0.45"
+"@ndla/editor-components@npm:^0.0.46":
+  version: 0.0.46
+  resolution: "@ndla/editor-components@npm:0.0.46"
   dependencies:
-    "@ndla/editor": "npm:^0.0.32"
+    "@ndla/editor": "npm:^0.0.33"
     "@ndla/primitives": "npm:^1.0.96-alpha.0"
     "@ndla/styled-system": "npm:^0.0.37"
     "@zag-js/react": "npm:^1.21.7"
@@ -2670,13 +2670,13 @@ __metadata:
     slate-dom: ">= 0.112.0"
     slate-history: ">= 0.110.3"
     slate-react: ">= 0.112.0"
-  checksum: 10c0/58f3c44e2605c66f3320eb9762d70c79c46f832060bafc102864f4ccd2b9c7e9638ed51aa930fcc63ee2385e0d7868146c7400604795b09d130745e26d1b664f
+  checksum: 10c0/0a43664792e1a3ae3a1fd09b22f86e10e0f5ae5a22f730fcd93f005aa151476707ee58fcf0201698ca29d4c736e3322c914a4389c100e66f19e3f3a48e3d5e4c
   languageName: node
   linkType: hard
 
-"@ndla/editor@npm:^0.0.32":
-  version: 0.0.32
-  resolution: "@ndla/editor@npm:0.0.32"
+"@ndla/editor@npm:^0.0.33":
+  version: 0.0.33
+  resolution: "@ndla/editor@npm:0.0.33"
   dependencies:
     escape-html: "npm:^1.0.3"
     he: "npm:^1.2.0"
@@ -2691,7 +2691,7 @@ __metadata:
     slate-dom: ">= 0.112.0"
     slate-history: ">= 0.110.3"
     slate-react: ">= 0.112.0"
-  checksum: 10c0/5b3697ee79937eadce1ecc36fe868292187e5154242f864ca923c7b0041e7733b8c8d301285b4cb3ff87d62aeec123c58e1a8085a3f69ce7f6b731d8043b9118
+  checksum: 10c0/e662fb820b8f765f0430c2feed33c8639d3283aeca8b9e16a1fe0e3764ff6e615f272a23176577153100b6f0c4fbbe7f9596d458d0e2b5dc6bb82e07ae950b0c
   languageName: node
   linkType: hard
 
@@ -10803,8 +10803,8 @@ __metadata:
     "@juggle/resize-observer": "npm:^3.4.0"
     "@ndla/article-converter": "npm:^10.0.141-alpha.0"
     "@ndla/core": "npm:^6.0.3-alpha.0"
-    "@ndla/editor": "npm:^0.0.32"
-    "@ndla/editor-components": "npm:^0.0.45"
+    "@ndla/editor": "npm:^0.0.33"
+    "@ndla/editor-components": "npm:^0.0.46"
     "@ndla/hooks": "npm:^2.1.14"
     "@ndla/icons": "npm:^8.0.63-alpha.0"
     "@ndla/image-search": "npm:^11.0.113-alpha.0"
