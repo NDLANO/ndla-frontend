@@ -104,7 +104,7 @@ const messages = {
     traits: {
       VIDEO: "Video",
       AUDIO: "Lyd",
-      H5P: "Interaktiv oppgave",
+      H5P: "Interaktivt innhold",
       PODCAST: "Podkast",
     },
     context: {
