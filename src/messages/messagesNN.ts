@@ -279,6 +279,10 @@ const messages = {
           noResult: "Ingen søketreff for bilete",
           imageRequired: "Ver vennleg å velje eit bilete.",
         },
+        metadata: {
+          title: "Metadata",
+          introductionHelper: "Innhaldet her vil visast på framsida av læringsstien din.",
+        },
         content: {
           title: "Legg til innhald",
           resource: {
@@ -770,6 +774,7 @@ const messages = {
     },
   },
   learningpathPage: {
+    introduction: "Introduksjon",
     accordionTitle: "Innhald i læringssti",
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",

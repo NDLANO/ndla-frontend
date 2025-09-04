@@ -607,6 +607,7 @@ type Learningpath {
   description: String!
   duration: Int
   id: Int!
+  introduction: String
   isBasedOn: Int
   isMyNDLAOwner: Boolean!
   lastUpdated: String!
@@ -691,6 +692,7 @@ type LearningpathSeqNo {
 
 type LearningpathStep {
   articleId: Int
+  copyright: LearningpathCopyright
   description: String
   embedUrl: LearningpathStepEmbedUrl
   id: Int!
@@ -716,6 +718,7 @@ type LearningpathStepEmbedUrl {
 
 input LearningpathStepNewInput {
   articleId: Int
+  copyright: LearningpathCopyrightInput
   description: String
   embedUrl: LearningpathEmbedInput
   introduction: String
@@ -736,6 +739,7 @@ type LearningpathStepOembed {
 
 input LearningpathStepUpdateInput {
   articleId: Int
+  copyright: LearningpathCopyrightInput
   description: String
   embedUrl: LearningpathEmbedInput
   introduction: String
@@ -753,6 +757,7 @@ input LearningpathUpdateInput {
   deleteMessage: Boolean
   description: String
   duration: Int
+  introduction: String
   language: String!
   revision: Int!
   tags: [String!]
@@ -889,6 +894,7 @@ type MyNdlaLearningpath {
   description: String!
   duration: Int
   id: Int!
+  introduction: String
   isBasedOn: Int
   isMyNDLAOwner: Boolean!
   lastUpdated: String!
@@ -906,6 +912,7 @@ type MyNdlaLearningpath {
 
 type MyNdlaLearningpathStep {
   articleId: Int
+  copyright: LearningpathCopyright
   description: String
   embedUrl: LearningpathStepEmbedUrl
   id: Int!

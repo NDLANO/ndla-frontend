@@ -23,8 +23,9 @@ import formatDate from "../../util/formatDate";
 interface Props {
   resourcePath: string | undefined;
   learningpath: GQLLearningpathMenu_LearningpathFragment;
-  currentIndex: number;
+  currentIndex: number | undefined;
   context?: LearningpathContext;
+  hasIntroduction: boolean;
 }
 
 const StepperList = styled("ol", {
@@ -167,20 +168,29 @@ const ListItem = styled("li", {
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
-const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }: Props) => {
+const INTRODUCTION_ID = "intro";
+
+const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context, hasIntroduction }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t, i18n } = useTranslation();
 
-  const currentStep = learningpath.learningsteps[currentIndex];
+  const currentStep = currentIndex !== undefined ? learningpath.learningsteps[currentIndex] : undefined;
   const lastUpdated = formatDate(learningpath.lastUpdated, i18n.language);
 
   const updateViewedSteps = () => {
-    if (learningpath && currentStep?.seqNo !== undefined) {
+    const viewedId =
+      learningpath && currentStep?.seqNo !== undefined
+        ? currentStep.id
+        : hasIntroduction && !currentIndex
+          ? INTRODUCTION_ID
+          : undefined;
+
+    if (viewedId) {
       const storageKey = `${LEARNING_PATHS_STORAGE_KEY}_${learningpath.id}`;
       const currentViewedSteps = window.localStorage?.getItem(storageKey);
       const updatedViewedSteps = currentViewedSteps ? JSON.parse(currentViewedSteps) : {};
       setViewedSteps(updatedViewedSteps);
-      updatedViewedSteps[currentStep.id] = true;
+      updatedViewedSteps[viewedId] = true;
       window.localStorage?.setItem(storageKey, JSON.stringify(updatedViewedSteps));
     }
   };
@@ -195,6 +205,32 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
       <StyledNav aria-label={t("learningpathPage.learningsteps")}>
         <Track />
         <StepperList>
+          {!!hasIntroduction && (
+            <ListItem context={context}>
+              <StyledSafeLink
+                to={
+                  context === "preview"
+                    ? routes.myNdla.learningpathPreview(learningpath.id)
+                    : toLearningPath(learningpath.id, undefined, resourcePath)
+                }
+                aria-current={currentIndex === undefined ? "page" : undefined}
+                data-last={!learningpath.learningsteps.length}
+                aria-label={`${t("learningpathPage.introduction")}${viewedSteps[INTRODUCTION_ID] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+              >
+                <StepIndicatorWrapper context={context}>
+                  <StepIndicator
+                    data-indicator=""
+                    data-completed={!!viewedSteps[INTRODUCTION_ID]}
+                    aria-hidden
+                    context={context}
+                  >
+                    {viewedSteps[INTRODUCTION_ID] && currentIndex !== undefined ? <CheckLine size="small" /> : 1}
+                  </StepIndicator>
+                </StepIndicatorWrapper>
+                <span data-link-text="">{t("learningpathPage.introduction")}</span>
+              </StyledSafeLink>
+            </ListItem>
+          )}
           {learningpath.learningsteps.map((step, index) => (
             <ListItem key={step.id} context={context}>
               <StyledSafeLink
@@ -214,7 +250,11 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context }:
                     aria-hidden
                     context={context}
                   >
-                    {viewedSteps[step.id] && index !== currentIndex ? <CheckLine size="small" /> : index + 1}
+                    {viewedSteps[step.id] && index !== currentIndex ? (
+                      <CheckLine size="small" />
+                    ) : (
+                      index + (hasIntroduction ? 2 : 1)
+                    )}
                   </StepIndicator>
                 </StepIndicatorWrapper>
                 <span data-link-text="">{step.title}</span>
@@ -239,6 +279,7 @@ LearningpathMenu.fragments = {
     fragment LearningpathMenu_Learningpath on Learningpath {
       id
       title
+      introduction
       lastUpdated
       copyright {
         license {

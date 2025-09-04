@@ -280,6 +280,10 @@ const messages = {
           noResult: "No images matches your search query",
           imageRequired: "Please choose an image.",
         },
+        metadata: {
+          title: "Meta data",
+          introductionHelper: "This content will be displayed on the front page of your learning path",
+        },
         content: {
           title: "Append content",
           resource: {
@@ -773,6 +777,7 @@ const messages = {
     },
   },
   learningpathPage: {
+    introduction: "Introduction",
     accordionTitle: "Learning path content",
     learningsteps: "Steps",
     stepCompleted: "Completed",
