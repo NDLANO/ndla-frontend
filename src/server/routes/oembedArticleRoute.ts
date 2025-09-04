@@ -7,7 +7,7 @@
  */
 
 import express from "express";
-import { Params } from "react-router";
+import { matchPath, Params } from "react-router";
 import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { gql } from "@apollo/client/core";
 import { Node } from "@ndla/types-taxonomy";
@@ -18,9 +18,11 @@ import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphql
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
 import handleError, { ensureError } from "../../util/handleError";
-import { parseOembedUrl } from "../../util/urlHelper";
 import { OembedResponse } from "../../interfaces";
 import { NotFoundError } from "../../util/error/StatusError";
+import { isValidLocale } from "../../i18n";
+import { oembedRoutes } from "../../routes";
+import log from "../../util/logger";
 
 type OembedRouteResponse =
   | { data: OembedResponse; status: typeof OK }
@@ -152,6 +154,79 @@ const getEmbedObject = async (lang: string, embedId: string, embedType: string, 
   const iframeSrc = `${config.ndlaFrontendDomain}/embed-iframe/${lang}/${embedType}/${embedId}`;
   return getOembedResponse(req, title, iframeSrc);
 };
+
+type OembedReturnParams =
+  | "subjectId"
+  | "topicId"
+  | "resourceId"
+  | "contextId"
+  | "articleId"
+  | "nodeId"
+  | "lang"
+  | "audioId"
+  | "videoId"
+  | "imageId"
+  | "conceptId"
+  | "h5pId";
+
+const matchRoute = <ParamKey extends string = string>(
+  pathname: string,
+  paths: string[],
+  lang = false,
+): Params<ParamKey> | undefined => {
+  const possiblePaths = lang ? paths.map((r) => `/:lang/${r}`) : paths;
+  const match = possiblePaths.find((p) => matchPath(p, pathname));
+  return match ? matchPath(match, pathname)?.params : undefined;
+};
+
+const SUBJECT_REGEX = /^subject:(\d+:)?[a-z\-0-9]+$/;
+const RESOURCE_REGEX = /^resource:(\d+:)?[a-z\-0-9]+$/;
+const TOPIC_REGEX = /^topic:(\d+:)?[a-z\-0-9]+$/;
+
+export function parseOembedUrl(url: string) {
+  try {
+    const { pathname } = new URL(url);
+    const paths = pathname.split("/");
+    if (paths[1]) {
+      paths[1] = paths[1] === "unknown" ? "nb" : paths[1];
+    }
+    if (paths.includes("subjects")) {
+      paths.splice(paths.indexOf("subjects"), 1);
+    }
+    const path = paths.join("/");
+
+    if (path.includes("/subject:")) {
+      const params: Partial<Record<OembedReturnParams, string>> = {};
+      // Remove empty string caused by leading slash
+      paths.shift();
+      const locale = isValidLocale(paths[0]) ? paths.shift() : undefined;
+      params.lang = locale;
+      const subjectId = paths.shift();
+      if (!subjectId || !SUBJECT_REGEX.test(subjectId)) return undefined;
+      params.subjectId = `urn:${subjectId}`;
+
+      let valid = true;
+      for (const p of paths) {
+        if (RESOURCE_REGEX.test(p)) {
+          params.resourceId = `urn:${p}`;
+        } else if (TOPIC_REGEX.test(p)) {
+          params.topicId = `urn:${p}`;
+        } else {
+          valid = false;
+          break;
+        }
+      }
+      return valid && params.subjectId && (params.resourceId || params.topicId)
+        ? (params as Params<OembedReturnParams>)
+        : undefined;
+    }
+
+    return matchRoute<OembedReturnParams>(path, oembedRoutes, isValidLocale(paths[1]));
+  } catch (error) {
+    log.warn(`Error parsing oEmbed URL '${url}'`, error, { url });
+    return;
+  }
+}
 
 export async function oembedArticleRoute(req: express.Request): Promise<OembedRouteResponse> {
   const { url } = req.query;
