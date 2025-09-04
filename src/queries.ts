@@ -126,17 +126,6 @@ export const searchQuery = gql`
   ${searchResultFragment}
 `;
 
-export const alertsQuery = gql`
-  query alerts {
-    alerts {
-      title
-      body
-      closable
-      number
-    }
-  }
-`;
-
 export const nodeWithMetadataFragment = gql`
   fragment NodeWithMetadata on Node {
     id
