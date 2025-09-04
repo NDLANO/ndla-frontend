@@ -12,7 +12,7 @@ import { useParams, useNavigate } from "react-router";
 import { FolderLine, LinkMedium } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { keyBy } from "@ndla/util";
+import { keyBy, usePrevious } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
@@ -27,7 +27,6 @@ import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/fold
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import { usePrevious } from "../../../util/utilityHooks";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import PrivateRoute from "../../PrivateRoute/PrivateRoute";
 import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
