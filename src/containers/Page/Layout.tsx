@@ -9,13 +9,13 @@
 import { CSSProperties, useEffect, useMemo, useRef } from "react";
 import { Outlet, useLocation } from "react-router";
 import { useComponentSize } from "@ndla/hooks";
+import { usePrevious } from "@ndla/util";
 import { Footer } from "./components/Footer";
 import TitleAnnouncer from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { ToastProvider } from "../../components/ToastContext";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
-import { usePrevious } from "../../util/utilityHooks";
 import { Masthead } from "../Masthead/Masthead";
 
 const Layout = () => {
