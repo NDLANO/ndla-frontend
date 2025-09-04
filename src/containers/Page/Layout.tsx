@@ -7,7 +7,7 @@
  */
 
 import { CSSProperties, useEffect, useMemo, useRef } from "react";
-import { Outlet, useLocation } from "react-router";
+import { Outlet, ScrollRestoration, useLocation } from "react-router";
 import { useComponentSize } from "@ndla/hooks";
 import { usePrevious } from "@ndla/util";
 import { Footer } from "./components/Footer";
@@ -52,6 +52,7 @@ const Layout = () => {
   return (
     <ToastProvider>
       <TitleAnnouncer />
+      <ScrollRestoration />
       {metaChildren}
       <Masthead />
       <PageLayout style={mastheadHeightVar}>

@@ -8,7 +8,6 @@
 
 import parse from "html-react-parser";
 import { debounce } from "lodash-es";
-import queryString from "query-string";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useParams } from "react-router";
@@ -325,9 +324,7 @@ const MastheadSearch = () => {
     );
   }, [query.length, searchResult.search?.results]);
 
-  const searchString = queryString.stringify({
-    query: query && query.length > 0 ? encodeURIComponent(query) : undefined,
-  });
+  const searchString = new URLSearchParams(query?.length ? { query: encodeURIComponent(query) } : undefined).toString();
 
   const onSearch = (evt?: FormEvent) => {
     evt?.preventDefault();
