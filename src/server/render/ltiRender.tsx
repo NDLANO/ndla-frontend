@@ -7,11 +7,14 @@
  */
 
 import { renderToString } from "react-dom/server";
+import { matchRoutes } from "react-router";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, getLocaleObject } from "../../i18n";
+import { routes } from "../../lti/routes";
 import { BAD_REQUEST, OK } from "../../statusCodes";
+import { getRouteChunks } from "../getManifestChunks";
 import { RenderFunc } from "../serverHelpers";
 
 const bodyFields: Record<string, { required: boolean; value?: any }> = {
@@ -54,7 +57,7 @@ export function parseAndValidateParameters(body: any) {
     : { valid: false, messages: errorMessages };
 }
 
-export const ltiRender: RenderFunc = async (req, chunks) => {
+export const ltiRender: RenderFunc = async (req, manifest) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   const lang = getHtmlLang(req.params.lang ?? "");
@@ -71,6 +74,13 @@ export const ltiRender: RenderFunc = async (req, chunks) => {
       };
     }
   }
+
+  const lazyMatches = matchRoutes(routes, req.path)?.filter((m) => m.route.lazy);
+  const chunks = getRouteChunks(
+    manifest,
+    "lti",
+    (lazyMatches?.map((m) => m.route.importPath).filter((ip) => !!ip) ?? []) as string[],
+  );
 
   const htmlContent = renderToString(
     <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.lti}>
