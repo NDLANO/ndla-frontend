@@ -17,6 +17,7 @@ import { TitleFormValues, TitleForm } from "./components/TitleForm";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
@@ -51,21 +52,27 @@ export const EditLearningpathTitlePage = () => {
     });
   }, [data?.myNdlaLearningpath?.title, t, trackPageView, user]);
 
-  const onSaveTitle = async ({ title, imageUrl }: TitleFormValues) => {
+  const onSaveTitle = async ({ title, imageUrl, introduction: formIntroduction }: TitleFormValues) => {
+    const learningpath = data?.myNdlaLearningpath;
+    if (!learningpath) return;
+    const serializedIntroduction = serializeFromRichText(formIntroduction);
+    const introduction = serializedIntroduction === "<section></section>" ? null : serializedIntroduction;
     if (
-      data?.myNdlaLearningpath &&
-      (data.myNdlaLearningpath.title !== title || data.myNdlaLearningpath.coverphoto?.url !== imageUrl)
+      learningpath.title !== title ||
+      learningpath.coverphoto?.url !== imageUrl ||
+      learningpath.introduction !== introduction
     ) {
       await updatePath({
         variables: {
-          learningpathId: data.myNdlaLearningpath.id,
+          learningpathId: learningpath.id,
           params: {
             title,
             coverPhotoMetaUrl: imageUrl,
             description: " ",
-            language: data.myNdlaLearningpath.supportedLanguages[0] ?? config.defaultLocale,
-
-            revision: data.myNdlaLearningpath.revision,
+            //@ts-expect-error - this is null instead of undefined
+            introduction: introduction,
+            language: learningpath.supportedLanguages[0] ?? config.defaultLocale,
+            revision: learningpath.revision,
           },
         },
       });
@@ -100,6 +107,7 @@ export const EditLearningpathTitlePage = () => {
         initialValues={{
           title: data.myNdlaLearningpath.title,
           imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl,
+          introduction: deserializeToRichText(data.myNdlaLearningpath.introduction ?? ""),
         }}
       />
       <Stack justify="flex-end" direction="row">

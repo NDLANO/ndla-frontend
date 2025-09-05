@@ -38,11 +38,12 @@ import { AuthContext } from "../AuthenticationContext";
 import { PageContainer } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 import CopyLearningPath from "./components/CopyLearningPath";
+import { LearningpathIntroduction } from "./components/LearningpathIntroduction";
 import { LearningpathStep } from "./components/LearningpathStep";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
-  learningpathStep: GQLLearningpath_LearningpathStepFragment;
+  learningpathStep: GQLLearningpath_LearningpathStepFragment | undefined;
   resource?: GQLLearningpathPage_NodeFragment;
   skipToContentId?: string;
   breadcrumbItems: Breadcrumb[];
@@ -193,9 +194,11 @@ const Learningpath = ({
   const accordionRef = useRef<HTMLDivElement>(null);
   const { user } = useContext(AuthContext);
 
-  const index = learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id);
-  const previousStep = learningpath.learningsteps[index - 1];
-  const nextStep = learningpath.learningsteps[index + 1];
+  const index = learningpathStep
+    ? learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id)
+    : undefined;
+  const previousStep = index !== undefined ? learningpath.learningsteps[index - 1] : undefined;
+  const nextStep = index !== undefined ? learningpath.learningsteps[index + 1] : learningpath.learningsteps[0];
 
   const menu = useMemo(
     () => (
@@ -204,6 +207,7 @@ const Learningpath = ({
         learningpath={learningpath}
         currentIndex={index}
         context={context}
+        hasIntroduction={!!learningpath.introduction?.length}
       />
     ),
     [context, index, learningpath, resourcePath],
@@ -244,7 +248,7 @@ const Learningpath = ({
         )}
         <StyledAccordionRoot
           ref={accordionRef}
-          id={learningpathStep.id.toString()}
+          id={learningpathStep?.id.toString()}
           value={accordionValue}
           onValueChange={(details) => setAccordionValue(details.value)}
           variant="bordered"
@@ -273,28 +277,33 @@ const Learningpath = ({
         </StyledAccordionRoot>
         {context === "default" && <MenuWrapper>{menu}</MenuWrapper>}
         <StyledPageContent variant="article" gutters="never">
-          <LearningpathStep
-            resource={resource}
-            subjectId={root?.id}
-            learningpath={learningpath}
-            breadcrumbItems={breadcrumbItems}
-            skipToContentId={skipToContentId}
-            learningpathStep={learningpathStep}
-          />
+          {!learningpathStep && !!learningpath.introduction?.length && (
+            <LearningpathIntroduction learningpath={learningpath} />
+          )}
+          {!!learningpathStep && (
+            <LearningpathStep
+              resource={resource}
+              subjectId={root?.id}
+              learningpath={learningpath}
+              breadcrumbItems={breadcrumbItems}
+              skipToContentId={skipToContentId}
+              learningpathStep={learningpathStep}
+            />
+          )}
           {/* TODO: How should this handle long titles on smaller screens? */}
           <PageButtonsContainer>
-            {previousStep ? (
+            {previousStep || (learningpathStep && learningpath.introduction?.length) ? (
               <SafeLinkButton
                 to={
                   context === "preview"
-                    ? routes.myNdla.learningpathPreview(learningpath.id, previousStep.id)
-                    : toLearningPath(learningpath.id, previousStep.id, resourcePath)
+                    ? routes.myNdla.learningpathPreview(learningpath.id, previousStep?.id)
+                    : toLearningPath(learningpath.id, previousStep?.id, resourcePath)
                 }
                 variant="secondary"
                 aria-label={t("learningPath.previousArrow")}
               >
                 <ArrowLeftLine />
-                {previousStep.title}
+                {previousStep?.title ?? t("learningpathPage.introduction")}
               </SafeLinkButton>
             ) : (
               <div />

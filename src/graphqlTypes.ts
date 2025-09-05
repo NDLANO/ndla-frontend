@@ -704,6 +704,7 @@ export type GQLLearningpath = {
   description: Scalars["String"]["output"];
   duration?: Maybe<Scalars["Int"]["output"]>;
   id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
   isBasedOn?: Maybe<Scalars["Int"]["output"]>;
   isMyNDLAOwner: Scalars["Boolean"]["output"];
   lastUpdated: Scalars["String"]["output"];
@@ -794,6 +795,7 @@ export type GQLLearningpathSeqNo = {
 export type GQLLearningpathStep = {
   __typename?: "LearningpathStep";
   articleId?: Maybe<Scalars["Int"]["output"]>;
+  copyright?: Maybe<GQLLearningpathCopyright>;
   description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
   id: Scalars["Int"]["output"];
@@ -825,6 +827,7 @@ export type GQLLearningpathStepEmbedUrl = {
 
 export type GQLLearningpathStepNewInput = {
   articleId?: InputMaybe<Scalars["Int"]["input"]>;
+  copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
   introduction?: InputMaybe<Scalars["String"]["input"]>;
@@ -846,6 +849,7 @@ export type GQLLearningpathStepOembed = {
 
 export type GQLLearningpathStepUpdateInput = {
   articleId?: InputMaybe<Scalars["Int"]["input"]>;
+  copyright?: InputMaybe<GQLLearningpathCopyrightInput>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   embedUrl?: InputMaybe<GQLLearningpathEmbedInput>;
   introduction?: InputMaybe<Scalars["String"]["input"]>;
@@ -863,6 +867,7 @@ export type GQLLearningpathUpdateInput = {
   deleteMessage?: InputMaybe<Scalars["Boolean"]["input"]>;
   description?: InputMaybe<Scalars["String"]["input"]>;
   duration?: InputMaybe<Scalars["Int"]["input"]>;
+  introduction?: InputMaybe<Scalars["String"]["input"]>;
   language: Scalars["String"]["input"];
   revision: Scalars["Int"]["input"];
   tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
@@ -1118,6 +1123,7 @@ export type GQLMyNdlaLearningpath = {
   description: Scalars["String"]["output"];
   duration?: Maybe<Scalars["Int"]["output"]>;
   id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
   isBasedOn?: Maybe<Scalars["Int"]["output"]>;
   isMyNDLAOwner: Scalars["Boolean"]["output"];
   lastUpdated: Scalars["String"]["output"];
@@ -1136,6 +1142,7 @@ export type GQLMyNdlaLearningpath = {
 export type GQLMyNdlaLearningpathStep = {
   __typename?: "MyNdlaLearningpathStep";
   articleId?: Maybe<Scalars["Int"]["output"]>;
+  copyright?: Maybe<GQLLearningpathCopyright>;
   description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
   id: Scalars["Int"]["output"];
@@ -2165,6 +2172,7 @@ export type GQLLearningpathMenu_LearningpathFragment = {
   __typename?: "Learningpath";
   id: number;
   title: string;
+  introduction?: string;
   lastUpdated: string;
   basedOn?: string;
   isMyNDLAOwner: boolean;
@@ -2702,6 +2710,7 @@ export type GQLPreviewLearningpathQuery = {
     __typename?: "Learningpath";
     id: number;
     canEdit: boolean;
+    introduction?: string;
     learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
 };
@@ -3490,6 +3499,7 @@ export type GQLMyNdlaLearningpathFragment = {
   id: number;
   title: string;
   description: string;
+  introduction?: string;
   created: string;
   canEdit: boolean;
   status: string;

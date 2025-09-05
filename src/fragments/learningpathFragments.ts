@@ -77,6 +77,7 @@ export const learningpathFragment = gql`
     id
     title
     description
+    introduction
     created
     canEdit
     status

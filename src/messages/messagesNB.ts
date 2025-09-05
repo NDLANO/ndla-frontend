@@ -279,6 +279,10 @@ const messages = {
           noResult: "Ingen bilder treffer søketeksten din",
           imageRequired: "Vennligst velg et bilde.",
         },
+        metadata: {
+          title: "Metadata",
+          introductionHelper: "Innholdet her vil vises på forsiden av læringsstien din.",
+        },
         content: {
           title: "Legg til innhold",
           resource: {
@@ -771,6 +775,7 @@ const messages = {
     },
   },
   learningpathPage: {
+    introduction: "Introduksjon",
     accordionTitle: "Innhold i læringssti",
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",
