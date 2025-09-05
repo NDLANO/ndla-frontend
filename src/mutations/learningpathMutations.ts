@@ -44,7 +44,7 @@ export const useDeleteLearningpath = (
     ...options,
     onCompleted: (_data, methodOptions) => {
       const normalizedId = client.cache.identify({
-        __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+        __ref: `MyNdlaLearningpath:${methodOptions?.variables?.id}`,
       });
       client.cache.evict({ id: normalizedId });
       client.cache.gc();
@@ -71,7 +71,7 @@ export const useUpdateLearningpathStatus = (
       ...options,
       onCompleted: (_data, methodOptions) => {
         const normalizedId = client.cache.identify({
-          __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+          __ref: `MyNdlaLearningpath:${methodOptions?.variables?.id}`,
         });
         client.cache.modify({
           id: normalizedId,
@@ -184,29 +184,30 @@ export const useUpdateLearningpathStep = (
         });
         client.cache.modify({
           id: client.cache.identify({
-            __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStep}`,
+            __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningstepId}`,
           }),
           fields: {
             description: () => {
-              return methodOptions?.variables?.description;
+              return methodOptions?.variables?.params?.description;
             },
             introduction: () => {
-              return methodOptions?.variables?.introudction;
+              return methodOptions?.variables?.params?.introduction;
             },
             title: () => {
-              return methodOptions?.variables?.title;
+              return methodOptions?.variables?.params?.title;
             },
             embedUrl: () => {
               return {
-                url: methodOptions?.variables?.embedUrl,
-                embedType: methodOptions?.variables?.embedType,
+                url: methodOptions?.variables?.params?.embedUrl,
+                // TODO: ??
+                embedType: "iframe",
               };
             },
             type: () => {
-              return methodOptions?.variables?.type;
+              return methodOptions?.variables?.params?.type;
             },
             revision: () => {
-              return methodOptions?.variables?.revision;
+              return methodOptions?.variables?.params?.revision;
             },
           },
         });
@@ -240,8 +241,8 @@ export const useDeleteLearningpathStep = (
             __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
           }),
           fields: {
-            revision: () => {
-              return methodOptions?.variables?.revision;
+            revision: (val) => {
+              return val + 1;
             },
           },
         });
@@ -283,10 +284,10 @@ export const useUpdateLearningpath = (
           }),
           fields: {
             title: () => {
-              return methodOptions?.variables?.title;
+              return methodOptions?.variables?.params?.title;
             },
             coverPhotoMetaUrl: () => {
-              return methodOptions?.variables?.coverPhotoMetaUrl;
+              return methodOptions?.variables?.params?.coverPhotoMetaUrl;
             },
           },
         });
@@ -320,18 +321,14 @@ const updateLearningpathStepSeqNo = gql`
   }
 `;
 
-export const useUpdateLearningpathStepSeqNo = (
-  options?: useMutation.Options<
-    GQLUpdateLearningpathStepSeqNoMutation,
-    GQLUpdateLearningpathStepSeqNoMutationVariables
-  >,
-) => {
+export const useUpdateLearningpathStepSeqNo = () => {
   const client = useApolloClient();
   return useMutation<GQLUpdateLearningpathStepSeqNoMutation, GQLUpdateLearningpathStepSeqNoMutationVariables>(
     updateLearningpathStepSeqNo,
     {
-      ...options,
       onCompleted: (_data, methodOptions) => {
+        const seqNo = methodOptions?.variables?.seqNo;
+        if (seqNo === undefined) return;
         client.cache.evict({
           id: "ROOT_QUERY",
           fieldName: "learningpath",
@@ -351,7 +348,7 @@ export const useUpdateLearningpathStepSeqNo = (
               // Remove from old position
               updatedStepsOrder.splice(fromIndex, 1);
               // Add to new position
-              updatedStepsOrder.splice(methodOptions?.variables?.seqNo, 0, movedElement);
+              updatedStepsOrder.splice(seqNo, 0, movedElement);
               return updatedStepsOrder;
             },
           },
@@ -361,8 +358,8 @@ export const useUpdateLearningpathStepSeqNo = (
             __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStepId}`,
           }),
           fields: {
-            revision: () => {
-              return methodOptions?.variables?.revision;
+            revision: (val) => {
+              return val + 1;
             },
           },
         });

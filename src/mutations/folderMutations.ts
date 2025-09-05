@@ -6,7 +6,7 @@
  *
  */
 
-import { ApolloCache, gql, Reference } from "@apollo/client";
+import { ApolloCache, ErrorLike, gql, Reference } from "@apollo/client";
 import { useApolloClient, useMutation, useQuery } from "@apollo/client/react";
 import {
   GQLAddFolderMutation,
@@ -355,14 +355,12 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   folders: GQLFolder[];
   sharedFolders: GQLSharedFolder[];
   loading: boolean;
-  error?: ApolloError;
+  error?: ErrorLike;
 } => {
-  const { cache } = useApolloClient();
+  // const { cache } = useApolloClient();
+  // TODO: Consider re-adding cache.gc
   const { data, loading, error } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
     skip,
-    onCompleted: () => {
-      cache.gc();
-    },
   });
 
   const folders = (data?.folders.folders ?? []) as GQLFolder[];
@@ -402,7 +400,7 @@ export const useGetSharedFolder = ({
 }: UseSharedFolder): {
   folder?: GQLFolder;
   loading: boolean;
-  error?: ApolloError;
+  error?: ErrorLike;
 } => {
   const { data, loading, error } = useQuery<GQLSharedFolderQuery, GQLSharedFolderQueryVariables>(sharedFolderQuery, {
     variables: { id },
@@ -428,12 +426,9 @@ export const recentlyUsedQuery = gql`
 
 export const useRecentlyUsedResources = (skip?: boolean) => {
   const { cache } = useApolloClient();
-  return useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, {
-    onCompleted: () => {
-      cache.gc();
-    },
-    skip: skip,
-  });
+  // TODO: I don't like doing this beforehand
+  cache.gc();
+  return useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, { skip });
 };
 
 export const favouriteSubjects = gql`
@@ -677,12 +672,11 @@ const favoriteSharedFolderMutation = gql`
   }
 `;
 
-export const useFavoriteSharedFolder = (folderId: string) => {
+export const useFavoriteSharedFolder = () => {
   const client = useApolloClient();
   return useMutation<GQLFavoriteSharedFolderMutation, GQLMutationFavoriteSharedFolderArgs>(
     favoriteSharedFolderMutation,
     {
-      variables: { folderId },
       refetchQueries: [{ query: recentlyUsedQuery }],
       onCompleted: ({ favoriteSharedFolder: folderId }) => {
         client.cache.modify({
