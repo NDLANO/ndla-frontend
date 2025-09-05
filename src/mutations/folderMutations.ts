@@ -52,7 +52,6 @@ import {
   GQLUpdateFolderResourceMutation,
   GQLUpdateFolderStatusMutation,
 } from "../graphqlTypes";
-import { nodeWithMetadataFragment } from "../queries";
 
 export const folderResourceFragment = gql`
   fragment FolderResourceFragment on FolderResource {
@@ -444,13 +443,17 @@ export const useRecentlyUsedResources = (skip?: boolean) => {
   });
 };
 
-export const favouriteSubjects = gql`
+const favouriteSubjects = gql`
   query favouriteSubjects($ids: [String!]!) {
     subjects: nodes(nodeType: "SUBJECT", ids: $ids) {
-      ...NodeWithMetadata
+      id
+      name
+      url
+      metadata {
+        customFields
+      }
     }
   }
-  ${nodeWithMetadataFragment}
 `;
 
 export const useFavouriteSubjects = (
