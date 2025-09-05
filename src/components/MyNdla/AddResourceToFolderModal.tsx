@@ -6,10 +6,18 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useState } from "react";
+import { ReactNode, useCallback, useContext, useState, lazy, Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
-import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Spinner,
+} from "@ndla/primitives";
+import type { ResourceAttributes } from "./AddResourceToFolder";
 import ListResource from "./ListResource";
 import LoginModalContent from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
@@ -17,6 +25,8 @@ import { useFolderResourceMeta } from "../../mutations/folderMutations";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
+
+const AddResourceToFolder = lazy(() => import("./AddResourceToFolder"));
 
 interface Props {
   defaultOpenFolder?: GQLFolder;
@@ -44,7 +54,9 @@ const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Pro
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
+            <Suspense fallback={<Spinner />}>
+              <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
+            </Suspense>
           </DialogBody>
         </DialogContent>
       ) : (
