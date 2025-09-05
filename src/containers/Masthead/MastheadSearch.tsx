@@ -43,10 +43,9 @@ import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopov
 import {
   GQLCurrentContextQuery,
   GQLCurrentContextQueryVariables,
-  GQLSearchQuery,
-  GQLSearchQueryVariables,
+  GQLMastheadSearchQuery,
+  GQLMastheadSearchQueryVariables,
 } from "../../graphqlTypes";
-import { searchQuery } from "../../queries";
 import { isValidContextId } from "../../util/urlHelper";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
@@ -199,6 +198,45 @@ const currentContextQueryDef = gql`
   }
 `;
 
+const searchQuery = gql`
+  query mastheadSearch($query: String, $language: String) {
+    search(
+      query: $query
+      language: $language
+      contextTypes: "standard,learningpath,topic-article,node"
+      fallback: "true"
+      filterInactive: true
+      license: "all"
+      nodeTypes: "SUBJECT"
+      page: 1
+      pageSize: 10
+      resultTypes: "node,article,learningpath"
+    ) {
+      results {
+        id
+        title
+        url
+        metaDescription
+        ... on ArticleSearchResult {
+          htmlTitle
+        }
+        ... on LearningpathSearchResult {
+          htmlTitle
+        }
+        contexts {
+          contextId
+          isPrimary
+          breadcrumbs
+          url
+          resourceTypes {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
 const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
@@ -262,26 +300,15 @@ const MastheadSearch = () => {
     return () => window.removeEventListener("keydown", onSlashPressed);
   }, [dialogState.open]);
 
-  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
-    searchQuery,
-    { fetchPolicy: "no-cache" },
-  );
+  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<
+    GQLMastheadSearchQuery,
+    GQLMastheadSearchQueryVariables
+  >(searchQuery, { fetchPolicy: "no-cache" });
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
       runSearch({
-        variables: {
-          query: delayedSearchQuery,
-          contextTypes: "standard,learningpath,topic-article,node",
-          fallback: "true",
-          filterInactive: true,
-          license: "all",
-          language: i18n.language,
-          nodeTypes: "SUBJECT",
-          page: 1,
-          pageSize: 10,
-          resultTypes: "node,article,learningpath",
-        },
+        variables: { query: delayedSearchQuery, language: i18n.language },
       });
     }
   }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps

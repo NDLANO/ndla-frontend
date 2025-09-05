@@ -25,7 +25,6 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
-import { nodeWithMetadataFragment } from "../../queries";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
@@ -87,10 +86,14 @@ const StyledList = styled("ul", {
 const allSubjectsQuery = gql`
   query allSubjects {
     nodes(nodeType: "SUBJECT", filterVisible: true) {
-      ...NodeWithMetadata
+      id
+      name
+      url
+      metadata {
+        customFields
+      }
     }
   }
-  ${nodeWithMetadataFragment}
 `;
 
 const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;

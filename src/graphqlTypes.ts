@@ -2665,6 +2665,67 @@ export type GQLCurrentContextQuery = {
   };
 };
 
+export type GQLMastheadSearchQueryVariables = Exact<{
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  language?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type GQLMastheadSearchQuery = {
+  __typename?: "Query";
+  search?: {
+    __typename?: "Search";
+    results: Array<
+      | {
+          __typename?: "ArticleSearchResult";
+          htmlTitle: string;
+          id: string;
+          title: string;
+          url: string;
+          metaDescription: string;
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            isPrimary: boolean;
+            breadcrumbs: Array<string>;
+            url: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string }>;
+          }>;
+        }
+      | {
+          __typename?: "LearningpathSearchResult";
+          htmlTitle: string;
+          id: string;
+          title: string;
+          url: string;
+          metaDescription: string;
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            isPrimary: boolean;
+            breadcrumbs: Array<string>;
+            url: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string }>;
+          }>;
+        }
+      | {
+          __typename?: "NodeSearchResult";
+          id: string;
+          title: string;
+          url: string;
+          metaDescription: string;
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            isPrimary: boolean;
+            breadcrumbs: Array<string>;
+            url: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string }>;
+          }>;
+        }
+    >;
+  };
+};
+
 export type GQLMovedResourceQueryVariables = Exact<{
   resourceId: Scalars["String"]["input"];
 }>;
@@ -2713,6 +2774,70 @@ export type GQLPreviewLearningpathQuery = {
     introduction?: string;
     learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
+};
+
+export type GQLResourcePickerSearchQueryVariables = Exact<{
+  query?: InputMaybe<Scalars["String"]["input"]>;
+  page?: InputMaybe<Scalars["Int"]["input"]>;
+  pageSize: Scalars["Int"]["input"];
+  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type GQLResourcePickerSearchQuery = {
+  __typename?: "Query";
+  search?: {
+    __typename?: "Search";
+    pageSize: number;
+    page?: number;
+    language: string;
+    totalCount: number;
+    results: Array<
+      | {
+          __typename?: "ArticleSearchResult";
+          htmlTitle: string;
+          id: string;
+          url: string;
+          title: string;
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            isPrimary: boolean;
+            url: string;
+            breadcrumbs: Array<string>;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          }>;
+        }
+      | {
+          __typename?: "LearningpathSearchResult";
+          htmlTitle: string;
+          id: string;
+          url: string;
+          title: string;
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            isPrimary: boolean;
+            url: string;
+            breadcrumbs: Array<string>;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          }>;
+        }
+      | {
+          __typename?: "NodeSearchResult";
+          id: string;
+          url: string;
+          title: string;
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            isPrimary: boolean;
+            url: string;
+            breadcrumbs: Array<string>;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          }>;
+        }
+    >;
+  };
 };
 
 export type GQLMyLearningpathsQueryVariables = Exact<{
@@ -4056,112 +4181,6 @@ export type GQLUpdatePersonalDataMutationVariables = Exact<{
 export type GQLUpdatePersonalDataMutation = {
   __typename?: "Mutation";
   updatePersonalData: { __typename?: "MyNdlaPersonalData" } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
-};
-
-export type GQLSearchContextFragment = {
-  __typename?: "SearchContext";
-  contextId: string;
-  publicId: string;
-  language: string;
-  url: string;
-  breadcrumbs: Array<string>;
-  rootId: string;
-  root: string;
-  relevance: string;
-  relevanceId: string;
-  isPrimary: boolean;
-  resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
-};
-
-type GQLSearchResource_ArticleSearchResult_Fragment = {
-  __typename?: "ArticleSearchResult";
-  htmlTitle: string;
-  traits: Array<string>;
-  id: string;
-  title: string;
-  supportedLanguages: Array<string>;
-  url: string;
-  metaDescription: string;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
-};
-
-type GQLSearchResource_LearningpathSearchResult_Fragment = {
-  __typename?: "LearningpathSearchResult";
-  htmlTitle: string;
-  traits: Array<string>;
-  id: string;
-  title: string;
-  supportedLanguages: Array<string>;
-  url: string;
-  metaDescription: string;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
-};
-
-type GQLSearchResource_NodeSearchResult_Fragment = {
-  __typename?: "NodeSearchResult";
-  id: string;
-  title: string;
-  supportedLanguages: Array<string>;
-  url: string;
-  metaDescription: string;
-  contexts: Array<{ __typename?: "SearchContext" } & GQLSearchContextFragment>;
-};
-
-export type GQLSearchResourceFragment =
-  | GQLSearchResource_ArticleSearchResult_Fragment
-  | GQLSearchResource_LearningpathSearchResult_Fragment
-  | GQLSearchResource_NodeSearchResult_Fragment;
-
-export type GQLSearchQueryVariables = Exact<{
-  query?: InputMaybe<Scalars["String"]["input"]>;
-  page?: InputMaybe<Scalars["Int"]["input"]>;
-  pageSize?: InputMaybe<Scalars["Int"]["input"]>;
-  contextTypes?: InputMaybe<Scalars["String"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
-  ids?: InputMaybe<Array<Scalars["Int"]["input"]> | Scalars["Int"]["input"]>;
-  resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
-  levels?: InputMaybe<Scalars["String"]["input"]>;
-  sort?: InputMaybe<Scalars["String"]["input"]>;
-  fallback?: InputMaybe<Scalars["String"]["input"]>;
-  subjects?: InputMaybe<Scalars["String"]["input"]>;
-  languageFilter?: InputMaybe<Scalars["String"]["input"]>;
-  relevance?: InputMaybe<Scalars["String"]["input"]>;
-  grepCodes?: InputMaybe<Scalars["String"]["input"]>;
-  traits?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
-  license?: InputMaybe<Scalars["String"]["input"]>;
-  resultTypes?: InputMaybe<Scalars["String"]["input"]>;
-  nodeTypes?: InputMaybe<Scalars["String"]["input"]>;
-}>;
-
-export type GQLSearchQuery = {
-  __typename?: "Query";
-  search?: {
-    __typename?: "Search";
-    pageSize: number;
-    page?: number;
-    language: string;
-    totalCount: number;
-    results: Array<
-      | ({ __typename?: "ArticleSearchResult" } & GQLSearchResource_ArticleSearchResult_Fragment)
-      | ({ __typename?: "LearningpathSearchResult" } & GQLSearchResource_LearningpathSearchResult_Fragment)
-      | ({ __typename?: "NodeSearchResult" } & GQLSearchResource_NodeSearchResult_Fragment)
-    >;
-    suggestions: Array<{
-      __typename?: "SuggestionResult";
-      suggestions: Array<{
-        __typename?: "SearchSuggestion";
-        options: Array<{ __typename?: "SuggestOption"; text: string }>;
-      }>;
-    }>;
-    aggregations: Array<{
-      __typename?: "AggregationResult";
-      values: Array<{ __typename?: "BucketResult"; value: string }>;
-    }>;
-  };
 };
 
 export type GQLNodeWithMetadataFragment = {
