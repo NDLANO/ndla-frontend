@@ -2053,6 +2053,13 @@ export type GQLWithArticle = {
   meta?: Maybe<GQLMeta>;
 };
 
+export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLAlertsQuery = {
+  __typename?: "Query";
+  alerts?: Array<{ __typename?: "UptimeAlert"; title: string; body?: string; closable: boolean; number: number }>;
+};
+
 export type GQLArticle_ArticleFragment = {
   __typename?: "Article";
   id: number;
@@ -4145,13 +4152,6 @@ export type GQLSearchQuery = {
       values: Array<{ __typename?: "BucketResult"; value: string }>;
     }>;
   };
-};
-
-export type GQLAlertsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLAlertsQuery = {
-  __typename?: "Query";
-  alerts?: Array<{ __typename?: "UptimeAlert"; title: string; body?: string; closable: boolean; number: number }>;
 };
 
 export type GQLNodeWithMetadataFragment = {
