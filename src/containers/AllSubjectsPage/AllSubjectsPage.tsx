@@ -14,11 +14,10 @@ import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { ErrorMessage, constants } from "@ndla/ui";
-import { sortBy } from "@ndla/util";
+import { groupBy, sortBy } from "@ndla/util";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
-import { filterSubjects, groupSubjects } from "./utils";
 import { useNavigateToHash } from "../../components/Article/articleHelpers";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -94,6 +93,8 @@ const allSubjectsQuery = gql`
   ${nodeWithMetadataFragment}
 `;
 
+const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
+
 export const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchParams();
@@ -113,8 +114,20 @@ export const AllSubjectsPage = () => {
   const favoriteSubjects = user?.favoriteSubjects;
   const sortedSubjects = useMemo(() => sortBy(subjectsQuery.data?.nodes, (s) => s.name), [subjectsQuery.data?.nodes]);
   const groupedSubjects = useMemo(() => {
-    const filteredSubjects = filterSubjects(sortedSubjects, selectedFilter);
-    return groupSubjects(filteredSubjects);
+    const filteredSubjects = sortedSubjects.filter((sub) => {
+      const fields = sub.metadata.customFields;
+      return selectedFilter === "all" ? fields.subjectCategory : fields.subjectCategory === selectedFilter;
+    });
+
+    const grouped = groupBy(filteredSubjects, (sub) => {
+      const firstChar = sub.name[0]?.toUpperCase();
+      return firstChar?.match(LETTER_REGEXP) ? firstChar : "#";
+    });
+
+    return sortBy(
+      Object.entries(grouped).map((g) => ({ label: g[0], subjects: g[1] })),
+      (g) => g.label,
+    );
   }, [sortedSubjects, selectedFilter]);
 
   const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);

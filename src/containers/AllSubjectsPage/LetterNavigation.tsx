@@ -10,7 +10,39 @@ import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { subjectLetters } from "./utils";
+
+const subjectLetters = [
+  "#",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+  "Æ",
+  "Ø",
+  "Å",
+];
 
 const LetterNavigationWrapper = styled("ul", {
   base: {
