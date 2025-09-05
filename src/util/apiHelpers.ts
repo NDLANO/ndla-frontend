@@ -9,14 +9,15 @@
 import {
   ApolloClient,
   ApolloLink,
+  CombinedGraphQLErrors,
   FieldFunctionOptions,
   HttpLink,
   InMemoryCache,
+  ServerError,
   TypePolicies,
-} from "@apollo/client/core";
+} from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
-import { setContext } from "@apollo/client/link/context";
-import { onError } from "@apollo/client/link/error";
+import { ErrorLink } from "@apollo/client/link/error";
 import { getFeideCookie, isAccessTokenValid } from "./authHelpers";
 import { DebugInMemoryCache } from "./DebugInMemoryCache";
 import { NDLAGraphQLError, NDLANetworkError } from "./error/NDLAApolloErrors";
@@ -24,6 +25,7 @@ import { StatusError } from "./error/StatusError";
 import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
+import { NOT_FOUND } from "../statusCodes";
 
 const apiBaseUrl = (() => {
   if (config.runtimeType === "test") {
@@ -233,35 +235,37 @@ export const createApolloLinks = (lang: string, versionHash?: any) => {
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
-  const versionHeader = versionHash ? { versionHash: versionHash } : {};
+  const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
 
-  const headersLink = setContext(async (_, { headers }) => {
-    return {
-      headers: {
-        ...headers,
-        "Accept-Language": lang,
-        ...versionHeader,
-        ...(accessToken && accessTokenValid ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
-      },
-    };
-  });
+  const headers = {
+    "Accept-Language": lang,
+    ...versionHeader,
+    ...(accessToken && accessTokenValid ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
+  };
 
-  const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-    if (graphQLErrors) {
-      graphQLErrors.forEach((err) => {
-        if (!config.isClient || err.extensions?.status !== 404) {
+  const errorLink = new ErrorLink(({ error, operation }) => {
+    if (CombinedGraphQLErrors.is(error)) {
+      error.errors.forEach((err) => {
+        if (!config.isClient || err.extensions?.status !== NOT_FOUND) {
           handleError(new NDLAGraphQLError(err, operation));
         }
       });
+    } else if (ServerError.is(error)) {
+      handleError(new NDLANetworkError(error, operation));
     }
-    if (networkError) {
-      handleError(new NDLANetworkError(networkError, operation));
-    }
+    // the error is one of the following:
+    // - CombinedProtocolErrors
+    // - LinkError
+    // - LocalStateError
+    // - ServerParseError
+    // - UnconventionalError
+    // I don't think we need special handling for them.
   });
 
   return ApolloLink.from([
     errorLink,
-    headersLink,
-    typeof navigator !== "undefined" && navigator.webdriver ? new HttpLink({ uri }) : new BatchHttpLink({ uri }),
+    typeof navigator !== "undefined" && navigator.webdriver
+      ? new HttpLink({ uri, headers })
+      : new BatchHttpLink({ uri, headers }),
   ]);
 };

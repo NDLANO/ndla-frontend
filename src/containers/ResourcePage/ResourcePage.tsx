@@ -9,7 +9,8 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location, useParams } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { RedirectExternal } from "../../components";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -17,7 +18,7 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import ResponseContext from "../../components/ResponseContext";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
-import { findAccessDeniedErrors } from "../../util/handleError";
+import { findAccessDeniedErrors, isGoneError, isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import ArticlePage from "../ArticlePage/ArticlePage";
@@ -107,12 +108,12 @@ export const ResourcePage = () => {
     return <UnpublishedResourcePage />;
   }
 
-  if (error?.graphQLErrors) {
-    if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
+  if (error) {
+    if (isGoneError(error) && redirectContext) {
       redirectContext.status = 410;
       return <UnpublishedResourcePage />;
     }
-    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+    if (isNotFoundError(error)) {
       return <NotFoundPage />;
     }
     return <DefaultErrorMessagePage />;
@@ -169,7 +170,6 @@ export const ResourcePage = () => {
       skipToContentId={SKIP_TO_CONTENT_ID}
       resource={data.node}
       relevance={relevance}
-      errors={error?.graphQLErrors}
       loading={loading}
     />
   );

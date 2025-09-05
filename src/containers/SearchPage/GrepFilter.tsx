@@ -8,7 +8,8 @@
 
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { CloseLine } from "@ndla/icons";
 import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

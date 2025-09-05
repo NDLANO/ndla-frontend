@@ -6,8 +6,7 @@
  *
  */
 
-import { OperationVariables, Cache } from "@apollo/client";
-import { InMemoryCache } from "@apollo/client/cache";
+import { OperationVariables, Cache, InMemoryCache } from "@apollo/client";
 import handleError from "./handleError";
 
 /**
@@ -33,10 +32,9 @@ export class DebugInMemoryCache extends InMemoryCache {
   ): Cache.DiffResult<TData> {
     const result = super.diff(options);
 
-    if (result.missing) {
-      result.missing.forEach((m) => {
-        this.findNestedStrings(m.missing, [], m);
-      });
+    // TODO: Verify this
+    if (result.missing && typeof result.missing?.missing !== "string") {
+      this.findNestedStrings(result.missing.missing, [], result.missing);
     }
 
     return result;

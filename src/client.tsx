@@ -9,7 +9,7 @@
 import "./style/index.css";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
 import "@fontsource/source-code-pro/400-italic.css";
 import "@fontsource/source-code-pro/700.css";
 import "@fontsource/source-code-pro/index.css";
