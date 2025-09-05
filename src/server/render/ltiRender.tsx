@@ -10,7 +10,7 @@ import { renderToString } from "react-dom/server";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
-import { getHtmlLang, getLocaleObject } from "../../i18n";
+import { getHtmlLang } from "../../i18n";
 import { BAD_REQUEST, OK } from "../../statusCodes";
 import { RenderFunc } from "../serverHelpers";
 
@@ -58,7 +58,6 @@ export const ltiRender: RenderFunc = async (req, chunks) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   const lang = getHtmlLang(req.params.lang ?? "");
-  const locale = getLocaleObject(lang).abbreviation;
   if (isPostRequest) {
     if (!validParameters?.valid) {
       const messages = validParameters?.messages
@@ -66,27 +65,27 @@ export const ltiRender: RenderFunc = async (req, chunks) => {
         .join(",");
       return {
         status: BAD_REQUEST,
-        locale,
+        locale: lang,
         data: { htmlContent: `Bad request. ${messages}` },
       };
     }
   }
 
   const htmlContent = renderToString(
-    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.lti}>
+    <Document language={lang} chunks={chunks} devEntrypoint={entryPoints.lti}>
       {null}
     </Document>,
   );
 
   return {
     status: OK,
-    locale: locale,
+    locale: lang,
     data: {
       htmlContent,
       data: {
         initialProps: {
           ltiData: validParameters?.ltiData,
-          locale,
+          locale: lang,
         },
         chunks,
         config: config,

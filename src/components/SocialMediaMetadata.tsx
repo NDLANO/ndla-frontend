@@ -9,7 +9,7 @@
 import { ReactNode } from "react";
 import { useLocation, useHref } from "react-router";
 import config from "../config";
-import { preferredLocales, isValidLocale } from "../i18n";
+import { isValidLocale, preferredLanguages } from "../i18n";
 
 export const getCanonicalUrl = (pathname: string) => {
   if (!pathname.includes("article-iframe")) {
@@ -36,7 +36,7 @@ export const getAlternateUrl = (pathname: string, alternateLanguage: string) => 
 
 export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
   if (!trackableContent || !trackableContent.supportedLanguages) {
-    return preferredLocales.map((appLocale) => appLocale.abbreviation);
+    return preferredLanguages;
   }
   if (trackableContent?.supportedLanguages?.length === 0) {
     return [];
