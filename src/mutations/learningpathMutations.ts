@@ -6,7 +6,8 @@
  *
  */
 
-import { MutationHookOptions, useMutation, gql, useApolloClient } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useMutation, useApolloClient } from "@apollo/client/react";
 import {
   GQLDeleteLearningpathMutation,
   GQLMutationDeleteLearningpathArgs,
@@ -36,7 +37,7 @@ const deleteLearningpathMutation = gql`
 `;
 
 export const useDeleteLearningpath = (
-  options?: MutationHookOptions<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
+  options?: useMutation.Options<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>(deleteLearningpathMutation, {
@@ -61,7 +62,7 @@ const updateLearningpathStatusMutation = gql`
 `;
 
 export const useUpdateLearningpathStatus = (
-  options?: MutationHookOptions<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>,
+  options?: useMutation.Options<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>(
@@ -95,7 +96,7 @@ const newLearningpathMutation = gql`
 `;
 
 export const useCreateLearningpath = (
-  options?: MutationHookOptions<GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables>,
+  options?: useMutation.Options<GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables>,
 ) => {
   const client = useApolloClient();
   const [createLearningpath, { loading, error }] = useMutation<
@@ -128,7 +129,7 @@ const newLearningpathStepMutation = gql`
 `;
 
 export const useCreateLearningpathStep = (
-  options?: MutationHookOptions<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>,
+  options?: useMutation.Options<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>(
@@ -168,7 +169,7 @@ const updateLearningpathStepMutation = gql`
 `;
 
 export const useUpdateLearningpathStep = (
-  options?: MutationHookOptions<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>,
+  options?: useMutation.Options<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>(
@@ -221,7 +222,7 @@ const deleteLearningpathStepMutation = gql`
 `;
 
 export const useDeleteLearningpathStep = (
-  options?: MutationHookOptions<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
+  options?: useMutation.Options<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>(
@@ -268,7 +269,7 @@ const updateLearningpathMutation = gql`
 `;
 
 export const useUpdateLearningpath = (
-  options?: MutationHookOptions<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>,
+  options?: useMutation.Options<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>(
@@ -304,7 +305,7 @@ const copyLearningpathMutation = gql`
 `;
 
 export const useCopyLearningpathMutation = (
-  options?: MutationHookOptions<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>,
+  options?: useMutation.Options<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>,
 ) => useMutation<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>(copyLearningpathMutation, options);
 
 const updateLearningpathStepSeqNo = gql`
@@ -320,7 +321,7 @@ const updateLearningpathStepSeqNo = gql`
 `;
 
 export const useUpdateLearningpathStepSeqNo = (
-  options?: MutationHookOptions<
+  options?: useMutation.Options<
     GQLUpdateLearningpathStepSeqNoMutation,
     GQLUpdateLearningpathStepSeqNoMutationVariables
   >,

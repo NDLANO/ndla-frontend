@@ -8,7 +8,7 @@
 
 import { GraphQLFormattedError } from "graphql";
 import { Operation } from "@apollo/client";
-import type { NetworkError } from "@apollo/client/errors";
+import type { NetworkError } from "@apollo/client";
 import { NDLAError } from "./NDLAError";
 import { getLogLevelFromStatusCode } from "../handleError";
 

@@ -10,7 +10,7 @@ import parse from "html-react-parser";
 import { debounce } from "lodash-es";
 import { useState, useMemo, RefObject, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {

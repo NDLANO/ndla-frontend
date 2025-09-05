@@ -6,7 +6,8 @@
  *
  */
 
-import { gql, QueryHookOptions, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client/react";
 import {
   GQLImageSearchQuery,
   GQLQueryImageSearchArgs,
@@ -102,10 +103,10 @@ const fetchImageQuery = gql`
   ${imageFragment}
 `;
 
-export const useImageSearch = (options?: QueryHookOptions<GQLImageSearchQuery>) =>
+export const useImageSearch = (options?: useLazyQuery.Options<GQLImageSearchQuery>) =>
   useLazyQuery<GQLImageSearchQuery, GQLQueryImageSearchArgs>(imagesSearchQuery, {
     ...options,
   });
 
-export const useFetchImage = (options?: QueryHookOptions<GQLFetchImageQuery, GQLFetchImageQueryVariables>) =>
+export const useFetchImage = (options?: useLazyQuery.Options<GQLFetchImageQuery, GQLFetchImageQueryVariables>) =>
   useLazyQuery<GQLFetchImageQuery, GQLFetchImageQueryVariables>(fetchImageQuery, options);
