@@ -13,8 +13,8 @@ import nn from "../../messages/messagesNN";
 import se from "../../messages/messagesSE";
 import { preferredLanguages } from "../../i18n";
 import config from "../../config";
-import { LocaleType } from "../../interfaces";
 import { i18nInstanceWithTranslations } from "../../i18nInstanceWithTranslations";
+import { createHash } from "crypto";
 
 export const initializeI18n = (language: string): i18n => {
   const i18nInstance = i18nInstanceWithTranslations.cloneInstance({
@@ -31,9 +31,17 @@ export const initializeI18n = (language: string): i18n => {
 
 const backendI18nInstance = initializeI18n(config.defaultLocale);
 
-export const stringifiedLanguages: Record<LocaleType, any> = {
-  en: backendI18nInstance.getResourceBundle("en", "translation"),
-  nn: backendI18nInstance.getResourceBundle("nn", "translation"),
-  nb: backendI18nInstance.getResourceBundle("nb", "translation"),
-  se: backendI18nInstance.getResourceBundle("se", "translation"),
+const stringifyLanguage = (language: object) => {
+  const stringified = JSON.stringify(language);
+  return {
+    translations: stringified,
+    hash: createHash("md5").update(stringified).digest("hex"),
+  };
 };
+
+export const stringifiedLanguages = {
+  en: stringifyLanguage(backendI18nInstance.getResourceBundle("en", "translation")),
+  nn: stringifyLanguage(backendI18nInstance.getResourceBundle("nn", "translation")),
+  nb: stringifyLanguage(backendI18nInstance.getResourceBundle("nb", "translation")),
+  se: stringifyLanguage(backendI18nInstance.getResourceBundle("se", "translation")),
+} as const;

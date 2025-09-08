@@ -32,20 +32,20 @@ import { createApolloClient } from "../util/apiHelpers";
 import { initSentry } from "../util/sentry";
 
 const {
-  DATA: { initialProps, config, chunks },
+  DATA: { initialProps, config, chunks, hash },
 } = window;
 
 initSentry(config);
 
 const language = config.defaultLocale;
 const client = createApolloClient(language);
-const i18n = initializeI18n(language);
+const i18n = initializeI18n(language, hash);
 
 const router = createMemoryRouter(routes);
 
 const root = createRoot(document);
 root.render(
-  <Document language={language} devEntrypoint={entryPoints.lti} chunks={chunks}>
+  <Document language={language} devEntrypoint={entryPoints.lti} chunks={chunks} hash={hash}>
     <LtiContextProvider ltiData={initialProps.ltiData}>
       <I18nextProvider i18n={i18n}>
         <ApolloProvider client={client}>

@@ -12,6 +12,7 @@ import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
 import { getHtmlLang } from "../../i18n";
 import { BAD_REQUEST, OK } from "../../statusCodes";
+import { stringifiedLanguages } from "../locales/locales";
 import { RenderFunc } from "../serverHelpers";
 
 const bodyFields: Record<string, { required: boolean; value?: any }> = {
@@ -58,6 +59,7 @@ export const ltiRender: RenderFunc = async (req, chunks) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   const lang = getHtmlLang(req.params.lang ?? "");
+  const hash = stringifiedLanguages[lang].hash;
   if (isPostRequest) {
     if (!validParameters?.valid) {
       const messages = validParameters?.messages
@@ -72,7 +74,7 @@ export const ltiRender: RenderFunc = async (req, chunks) => {
   }
 
   const htmlContent = renderToString(
-    <Document language={lang} chunks={chunks} devEntrypoint={entryPoints.lti}>
+    <Document language={lang} chunks={chunks} devEntrypoint={entryPoints.lti} hash={hash}>
       {null}
     </Document>,
   );
@@ -89,6 +91,7 @@ export const ltiRender: RenderFunc = async (req, chunks) => {
         },
         chunks,
         config: config,
+        hash,
       },
     },
   };

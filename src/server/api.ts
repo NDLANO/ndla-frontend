@@ -203,13 +203,14 @@ router.post("/lti/oauth", async (req, res) => {
   res.send(JSON.stringify(generateOauthData(query.url, body)));
 });
 
-router.get("/locales/:lang/:ns.json", (req, res) => {
+router.get("/locales/:lang/:ns-:hash.json", (req, res) => {
   if (!isValidLocale(req.params.lang) || req.params.ns !== "translation") {
     res.sendStatus(BAD_REQUEST);
     return;
   }
   res.setHeader("Cache-Control", "public, max-age=3600");
-  res.json(stringifiedLanguages[req.params.lang]);
+  res.setHeader("Content-Type", "application/json");
+  res.send(stringifiedLanguages[req.params.lang].translations);
 });
 
 /** Handle different paths to a node in old ndla. */

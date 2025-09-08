@@ -25,6 +25,7 @@ export interface WindowData {
   initialProps: InitialProps;
   ltiData?: LtiData;
   serverPath?: string;
+  hash: string;
   chunks?: ManifestChunk[];
   siteTheme?: SiteTheme;
   serverQuery?: {

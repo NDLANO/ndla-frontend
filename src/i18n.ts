@@ -38,11 +38,12 @@ export const getLocaleInfoFromPath = (path: string) => {
   } as const;
 };
 
-export const initializeI18n = (locale: string): i18n => {
+export const initializeI18n = (locale: string, hash: string): i18n => {
   const i18nInstance = createInstance({
     lng: locale,
     supportedLngs: supportedLanguages,
     backend: {
+      hash,
       loadPath: "/locales/{{lng}}/{{ns}}.json",
     },
   })
@@ -62,11 +63,16 @@ class I18nBackend {
     this.services = services;
     this.options = options;
     this.allOptions = allOptions;
+    this.init(services, options, allOptions);
   }
-  init() {}
+  init(services: Services, backendOptions = {}, allOptions: InitOptions = {}) {
+    this.services = services;
+    this.options = backendOptions;
+    this.allOptions = allOptions;
+  }
 
   read(language: string, namespace: string, callback: ReadCallback) {
-    return fetch(`/locales/${language}/${namespace}.json`)
+    return fetch(`/locales/${language}/${namespace}-${this.options.hash}.json`)
       .then((res) => res.json())
       .then((data) => callback(null, data))
       .catch((err) => callback(err, false));
