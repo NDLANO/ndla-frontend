@@ -19,7 +19,7 @@ import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, getLocaleInfoFromPath } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
-import { initializeI18n } from "../locales/locales";
+import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
@@ -32,6 +32,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
   const siteTheme = getSiteTheme();
   const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
   const i18n = initializeI18n(abbreviation);
+  const hash = stringifiedLanguages[lang].hash;
 
   const fetchRequest = createFetchRequest(req);
   const routerContext = await query(fetchRequest);
@@ -43,7 +44,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
   const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
-    <Document language={lang} chunks={chunks} devEntrypoint={entryPoints.error}>
+    <Document language={lang} chunks={chunks} devEntrypoint={entryPoints.error} hash={hash}>
       <I18nextProvider i18n={i18n}>
         <MissingRouterContext value={true}>
           <SiteThemeProvider value={siteTheme}>
@@ -76,6 +77,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
         config: {
           ...config,
         },
+        hash,
       },
     },
   };

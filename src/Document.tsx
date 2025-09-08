@@ -13,6 +13,7 @@ import config from "./config";
 
 interface Props {
   language: string;
+  hash: string;
   children?: ReactNode;
   chunks?: ManifestChunk[];
   devEntrypoint: string;
@@ -26,7 +27,7 @@ const getUniqueCss = (chunks: ManifestChunk[]) => {
   return Array.from(uniq);
 };
 
-export const Document = ({ language, children, chunks = [], devEntrypoint }: Props) => {
+export const Document = ({ language, hash, children, chunks = [], devEntrypoint }: Props) => {
   const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
   const locale = language === "nb" || language === "nn" ? "no" : language;
 
@@ -40,7 +41,7 @@ export const Document = ({ language, children, chunks = [], devEntrypoint }: Pro
         <link rel="icon" type="image/png" sizes="16x16" href={`/static/favicon-${faviconEnvironment}-16x16.png`} />
         <link
           rel="preload"
-          href={`/locales/${language}/translation.json`}
+          href={`/locales/${language}/translation-${hash}.json`}
           as="fetch"
           type="application/json"
           crossOrigin="anonymous"

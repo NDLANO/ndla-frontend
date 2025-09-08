@@ -41,7 +41,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverResponse, chunks },
+  DATA: { config, serverPath, serverResponse, chunks, hash },
 } = window;
 
 initSentry(config);
@@ -58,7 +58,7 @@ const client = createApolloClient(abbreviation, versionHash);
 
 const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
 
-const i18nInstance = initializeI18n(abbreviation);
+const i18nInstance = initializeI18n(abbreviation, hash);
 
 renderOrHydrate(
   document,
@@ -66,6 +66,7 @@ renderOrHydrate(
     chunks={chunks}
     language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
     devEntrypoint={entryPoints.default}
+    hash={hash}
   >
     <I18nextProvider i18n={i18nInstance}>
       <ApolloProvider client={client}>

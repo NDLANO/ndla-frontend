@@ -27,7 +27,7 @@ import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
-import { initializeI18n } from "../locales/locales";
+import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
@@ -45,17 +45,21 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
 
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const noSSR = disableSSR(req);
+  const hash = stringifiedLanguages[locale].hash;
 
   if (noSSR) {
     return {
       status: OK,
       locale,
       data: {
-        htmlContent: renderToString(<Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} />),
+        htmlContent: renderToString(
+          <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} hash={hash} />,
+        ),
         data: {
           config: { ...config, disableSSR: noSSR },
           siteTheme,
           chunks,
+          hash,
           serverPath: req.path,
           serverQuery: req.query,
         },
@@ -81,7 +85,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
   const router = createStaticRouter(dataRoutes, context);
 
   const Page = (
-    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default}>
+    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} hash={hash}>
       <RedirectContext value={redirectContext}>
         <I18nextProvider i18n={instance}>
           <ApolloProvider client={client}>
@@ -121,6 +125,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
       data: {
         siteTheme: siteTheme,
         chunks,
+        hash: stringifiedLanguages[locale].hash,
         serverResponse: redirectContext.status ?? undefined,
         serverPath: req.path,
         serverQuery: req.query,

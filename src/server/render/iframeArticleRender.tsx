@@ -23,7 +23,7 @@ import { iframeArticleRoutes } from "../../iframe/iframeArticleRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
-import { initializeI18n } from "../locales/locales";
+import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
@@ -34,6 +34,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
+  const hash = stringifiedLanguages[locale ?? (config.defaultLocale as LocaleType)].hash;
 
   const noSSR = disableSSR(req);
 
@@ -54,12 +55,14 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
             language={locale ?? config.defaultLocale}
             chunks={chunks}
             devEntrypoint={entryPoints.iframeArticle}
+            hash={hash}
           />,
         ),
         data: {
           chunks,
           config: { ...config, disableSSR: true },
           initialProps,
+          hash,
         },
       },
     };
@@ -79,7 +82,12 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
   const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
-    <Document language={locale ?? config.defaultLocale} chunks={chunks} devEntrypoint={entryPoints.iframeArticle}>
+    <Document
+      language={locale ?? config.defaultLocale}
+      chunks={chunks}
+      devEntrypoint={entryPoints.iframeArticle}
+      hash={hash}
+    >
       <RedirectContext value={context}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
@@ -118,6 +126,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
           disableSSR: noSSR,
         },
         initialProps,
+        hash,
       },
     },
   };
