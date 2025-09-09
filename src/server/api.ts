@@ -20,7 +20,7 @@ import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
-import config, { getEnvironmentVariabel } from "../config";
+import config, { getEnvironmentVariable } from "../config";
 import { ABOUT_PATH, AUTOLOGIN_COOKIE, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
@@ -128,7 +128,7 @@ router.get("/login/success", async (req, res) => {
         email: userInfo.email,
         groups: ["unverified-users"],
       };
-      const nodebbCookieString = jwt.sign(nodebbUser, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
+      const nodebbCookieString = jwt.sign(nodebbUser, getEnvironmentVariable("NODEBB_SECRET", "secret"));
       res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
     }
   } catch (error) {

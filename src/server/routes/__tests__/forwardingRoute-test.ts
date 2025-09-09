@@ -15,7 +15,7 @@ vi.mock("../../../config", () => {
     default: {
       isNdlaProdEnvironment: true,
       learningPathDomain: "https://stier.test.ndla.no",
-      getEnvironmentVariabel: () => {},
+      getEnvironmentVariable: () => {},
       runtimeType: "test",
     },
   };
