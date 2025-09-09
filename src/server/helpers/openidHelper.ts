@@ -8,7 +8,7 @@
 
 import { Request } from "express";
 import { Issuer, generators, Client } from "openid-client";
-import config, { getEnvironmentVariabel } from "../../config";
+import config, { getEnvironmentVariable } from "../../config";
 import log from "../../util/logger";
 
 const handleConfigTypes = (configVariable: string | boolean | undefined): string => {
@@ -19,8 +19,8 @@ const handleConfigTypes = (configVariable: string | boolean | undefined): string
 };
 
 const OPENID_DOMAIN = "https://auth.dataporten.no/.well-known/openid-configuration";
-const FEIDE_CLIENT_ID = handleConfigTypes(getEnvironmentVariabel("FEIDE_CLIENT_ID"));
-const FEIDE_CLIENT_SECRET = handleConfigTypes(getEnvironmentVariabel("FEIDE_CLIENT_SECRET"));
+const FEIDE_CLIENT_ID = handleConfigTypes(getEnvironmentVariable("FEIDE_CLIENT_ID"));
+const FEIDE_CLIENT_SECRET = handleConfigTypes(getEnvironmentVariable("FEIDE_CLIENT_SECRET"));
 
 let storedIssuer: Issuer<Client>;
 

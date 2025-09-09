@@ -7,10 +7,10 @@
  */
 
 import crypto from "crypto";
-import { getEnvironmentVariabel } from "../../config";
+import { getEnvironmentVariable } from "../../config";
 
 export const generateOauthData = (url: string, body: any) => {
-  const consumerSecret = getEnvironmentVariabel("NDLA_LTI_OAUTH_SECRET_KEY", "");
+  const consumerSecret = getEnvironmentVariable("NDLA_LTI_OAUTH_SECRET_KEY", "");
   const nonce = crypto.randomBytes(16).toString("base64");
 
   const data = { ...body, oauth_nonce: nonce };
