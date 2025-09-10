@@ -35,15 +35,6 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   useEffect(() => {
     if (!propArticle || !authContextLoaded) return;
