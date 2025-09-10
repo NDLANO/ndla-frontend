@@ -6,6 +6,7 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
@@ -17,10 +18,11 @@ interface Props {
 }
 
 export const LearningpathIntroduction = ({ learningpath }: Props) => {
+  const { t } = useTranslation();
   return (
     <EmbedPageContent variant="content">
       <ArticleWrapper>
-        <ArticleTitle id={SKIP_TO_CONTENT_ID} title={learningpath.title} contentType="learning-path" />
+        <ArticleTitle id={SKIP_TO_CONTENT_ID} title={t("learningpathPage.introduction")} contentType="learning-path" />
         <ArticleContent>
           {!!learningpath.introduction?.length && <section>{transform(learningpath.introduction, {})}</section>}
         </ArticleContent>
