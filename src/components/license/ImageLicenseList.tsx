@@ -14,7 +14,6 @@ import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -163,10 +162,9 @@ interface Props {
 }
 
 const ImageLicenseList = ({ images, isResourcePage }: Props) => {
-  const unique = useMemo(() => uniqBy(images, (image) => image.id), [images]);
   return (
     <MediaList>
-      {unique.map((image, index) => (
+      {images.map((image, index) => (
         <ImageLicenseInfo image={image} key={`${image.id}-${index}`} isResourcePage={isResourcePage} />
       ))}
     </MediaList>

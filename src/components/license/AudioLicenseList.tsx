@@ -13,7 +13,6 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -146,10 +145,9 @@ interface Props {
 }
 
 const AudioLicenseList = ({ audios }: Props) => {
-  const unique = useMemo(() => uniqBy(audios, (audio) => audio.id), [audios]);
   return (
     <MediaList>
-      {unique.map((audio) => (
+      {audios.map((audio) => (
         <AudioLicenseInfo audio={audio} key={`audio-${audio.id}`} />
       ))}
     </MediaList>
