@@ -147,6 +147,7 @@ const frameSrc = (() => {
     "vimeo.com",
     "*.ndla.filmiundervisning.no",
     "ndla.filmiundervisning.no",
+    "ndla-staging.azurewebsites.net",
     "*.prezi.com",
     "prezi.com",
     "*.commoncraft.com",
