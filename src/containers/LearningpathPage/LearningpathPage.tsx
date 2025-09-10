@@ -72,10 +72,6 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
       ? undefined
       : learningpath.learningsteps?.[0];
 
-  if (!learningpathStep) {
-    return null;
-  }
-
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
 
   return (
