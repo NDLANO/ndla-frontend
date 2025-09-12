@@ -9,7 +9,6 @@
 import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { breakpoints } from "@ndla/core";
-import { PresentationLine } from "@ndla/icons";
 import {
   Badge,
   ListItemContent,
@@ -27,12 +26,6 @@ import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIco
 import { RELEVANCE_CORE } from "../../constants";
 
 const { contentTypes } = constants;
-
-const StyledPresentationLine = styled(PresentationLine, {
-  base: {
-    position: "relative",
-  },
-});
 
 const StyledSafeLink = styled(SafeLink, {
   base: {
@@ -64,7 +57,6 @@ interface Props {
   extraBottomMargin?: boolean;
   showAdditionalResources?: boolean;
   language?: string;
-  access?: "teacher";
   currentResourceContentType?: ContentType;
 }
 
@@ -177,7 +169,6 @@ export const ResourceItem = ({
   active,
   relevanceId,
   showAdditionalResources,
-  access,
   language,
   article,
   learningpath,
@@ -185,22 +176,17 @@ export const ResourceItem = ({
 }: Props & Resource) => {
   const { t } = useTranslation();
   const relevanceElId = useId();
-  const accessId = useId();
   const additional = relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
-  const teacherOnly = access === "teacher";
   const additionalLabel = t("resource.tooltipAdditionalTopic");
 
   const describedBy = useMemo(() => {
     const elements = [];
-    if (teacherOnly) {
-      elements.push(accessId);
-    }
     if (showAdditionalResources) {
       elements.push(relevanceId);
     }
     return elements.length ? elements.join(" ") : undefined;
-  }, [accessId, relevanceId, showAdditionalResources, teacherOnly]);
+  }, [relevanceId, showAdditionalResources]);
 
   if (!learningpath && !article) return null;
 
@@ -235,14 +221,6 @@ export const ResourceItem = ({
             </StyledSafeLink>
           </ListItemHeading>
           <InfoContainer gap="xxsmall">
-            {!!teacherOnly && (
-              <StyledPresentationLine
-                aria-hidden={false}
-                id={accessId}
-                aria-label={t("article.access.onlyTeacher")}
-                title={t("article.access.onlyTeacher")}
-              />
-            )}
             <ContentTypeBadge contentType={contentType} />
             {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
