@@ -13,7 +13,6 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
@@ -149,10 +148,9 @@ interface Props {
 }
 
 const ConceptLicenseList = ({ concepts }: Props) => {
-  const unique = useMemo(() => uniqBy(concepts, (concept) => concept.id), [concepts]);
   return (
     <MediaList>
-      {unique.map((concept, index) => (
+      {concepts.map((concept, index) => (
         <ConceptLicenseInfo type="concept" concept={concept} key={index} />
       ))}
     </MediaList>
@@ -164,11 +162,9 @@ interface GlossLicenseListProps {
 }
 
 export const GlossLicenseList = ({ glosses }: GlossLicenseListProps) => {
-  const unique = useMemo(() => uniqBy(glosses, (gloss) => gloss.id), [glosses]);
-
   return (
     <MediaList>
-      {unique.map((gloss, index) => (
+      {glosses.map((gloss, index) => (
         <ConceptLicenseInfo type="gloss" concept={gloss} key={index} />
       ))}
     </MediaList>

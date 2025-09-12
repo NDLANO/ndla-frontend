@@ -14,7 +14,6 @@ import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -150,10 +149,9 @@ interface Props {
 }
 
 const VideoLicenseList = ({ videos, isResourcePage }: Props) => {
-  const unique = useMemo(() => uniqBy(videos, (video) => video.id), [videos]);
   return (
     <MediaList>
-      {unique.map((video) => (
+      {videos.map((video) => (
         <VideoLicenseInfo video={video} key={`video-${video.id}`} isResourcePage={isResourcePage} />
       ))}
     </MediaList>

@@ -37,14 +37,6 @@ function buildLicenseTabList(
   oembed?: string | undefined,
 ) {
   const metaData = article.transformedContent?.metaData;
-  const images = metaData?.images || [];
-  const audios = metaData?.audios || [];
-  const podcasts = metaData?.podcasts || [];
-  const brightcove = metaData?.brightcoves || [];
-  const h5ps = metaData?.h5ps || [];
-  const concepts = metaData?.concepts || [];
-  const glosses = metaData?.glosses || [];
-  const textblocks = metaData?.textblocks || [];
   const tabs = [];
   const articleTexts: TextItem[] = [
     {
@@ -55,12 +47,9 @@ function buildLicenseTabList(
     },
   ];
 
-  if (textblocks.length > 0 && !textblocks.every((textblock) => !textblock.copyright?.license.license)) {
-    textblocks.forEach((textblock) => {
-      articleTexts.push({
-        title: textblock.title || "",
-        copyright: textblock.copyright,
-      });
+  if (metaData?.textblocks.some((tb) => tb.copyright.license.license)) {
+    metaData.textblocks.forEach((textblock) => {
+      articleTexts.push({ title: textblock.title || "", copyright: textblock.copyright });
     });
   }
 
@@ -70,59 +59,59 @@ function buildLicenseTabList(
     content: <TextLicenseList printUrl={printUrl} texts={articleTexts} />,
   });
 
-  if (images.length > 0 && !images.every((image) => !image.copyright?.license.license)) {
+  if (metaData?.images.some((img) => img.copyright.license.license)) {
     tabs.push({
       title: t("license.tabs.images"),
       id: "images",
-      content: <ImageLicenseList images={images} />,
+      content: <ImageLicenseList images={metaData.images} />,
     });
   }
 
-  if (brightcove.length > 0 && !brightcove.every((bright) => !bright.copyright?.license.license)) {
+  if (metaData?.brightcoves.some((brightcove) => brightcove.copyright?.license.license)) {
     tabs.push({
       title: t("license.tabs.video"),
       id: "video",
-      content: <VideoLicenseList videos={brightcove} />,
+      content: <VideoLicenseList videos={metaData?.brightcoves} />,
     });
   }
 
-  if (audios.length > 0 && !audios.every((audio) => !audio.copyright?.license.license)) {
+  if (metaData?.audios.some((audio) => audio.copyright.license.license)) {
     tabs.push({
       title: t("license.tabs.audio"),
       id: "audio",
-      content: <AudioLicenseList audios={audios} />,
+      content: <AudioLicenseList audios={metaData.audios} />,
     });
   }
 
-  if (podcasts.length > 0 && !podcasts.every((podcast) => !podcast.copyright?.license.license)) {
+  if (metaData?.podcasts.some((podcast) => podcast.copyright.license.license)) {
     tabs.push({
       title: t("license.tabs.podcast"),
       id: "podcast",
-      content: <PodcastLicenseList podcasts={podcasts} />,
+      content: <PodcastLicenseList podcasts={metaData.podcasts} />,
     });
   }
 
-  if (h5ps.length > 0 && !h5ps.every((h5p) => !h5p.copyright?.license.license)) {
+  if (metaData?.h5ps.some((h5p) => h5p.copyright?.license.license)) {
     tabs.push({
       title: t("license.tabs.h5p"),
       id: "h5p",
-      content: <H5pLicenseList h5ps={h5ps} />,
+      content: <H5pLicenseList h5ps={metaData.h5ps} />,
     });
   }
 
-  if (concepts.length > 0 && !concepts.every((concept) => !concept.copyright?.license?.license)) {
+  if (metaData?.concepts.some((concept) => concept.copyright?.license?.license)) {
     tabs.push({
       title: t("license.tabs.concept"),
       id: "concept",
-      content: <ConceptLicenseList concepts={concepts} />,
+      content: <ConceptLicenseList concepts={metaData.concepts} />,
     });
   }
 
-  if (glosses.length > 0 && !glosses.every((gloss) => !gloss.copyright?.license?.license)) {
+  if (metaData?.glosses.some((gloss) => gloss.copyright?.license?.license)) {
     tabs.push({
       title: t("license.tabs.gloss"),
       id: "gloss",
-      content: <GlossLicenseList glosses={glosses} />,
+      content: <GlossLicenseList glosses={metaData.glosses} />,
     });
   }
 

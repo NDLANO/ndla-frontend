@@ -13,7 +13,6 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -118,10 +117,9 @@ interface Props {
 }
 
 const H5pLicenseList = ({ h5ps }: Props) => {
-  const unique = useMemo(() => uniqBy(h5ps, (h5p) => h5p.id), [h5ps]);
   return (
     <MediaList>
-      {unique.map((h5p) => (
+      {h5ps.map((h5p) => (
         <H5pLicenseInfo h5p={h5p} key={`h5p-${h5p.id}`} />
       ))}
     </MediaList>

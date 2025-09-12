@@ -55,6 +55,14 @@ test("IframeArticlePage with article renderers correctly", () => {
         "<section><p>Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.</p></section>",
       metaData: {
         footnotes: [],
+        images: [],
+        brightcoves: [],
+        audios: [],
+        podcasts: [],
+        concepts: [],
+        glosses: [],
+        h5ps: [],
+        textblocks: [],
       },
     },
     concepts: [

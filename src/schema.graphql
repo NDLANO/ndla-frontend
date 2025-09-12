@@ -35,6 +35,7 @@ type Article {
   supportedLanguages: [String!]
   tags: [String!]
   title: String!
+  traits: [String!]!
   transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   transformedDisclaimer(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
@@ -50,16 +51,16 @@ type ArticleFolderResourceMeta implements FolderResourceMeta {
 }
 
 type ArticleMetaData {
-  audios: [AudioLicense!]
-  brightcoves: [BrightcoveLicense!]
-  concepts: [ConceptLicense!]
+  audios: [AudioLicense!]!
+  brightcoves: [BrightcoveLicense!]!
+  concepts: [ConceptLicense!]!
   copyText: String
-  footnotes: [FootNote!]
-  glosses: [GlossLicense!]
-  h5ps: [H5pLicense!]
-  images: [ImageLicense!]
-  podcasts: [PodcastLicense!]
-  textblocks: [TextblockLicense!]
+  footnotes: [FootNote!]!
+  glosses: [GlossLicense!]!
+  h5ps: [H5pLicense!]!
+  images: [ImageLicense!]!
+  podcasts: [PodcastLicense!]!
+  textblocks: [TextblockLicense!]!
 }
 
 type ArticleRequiredLibrary {
@@ -1238,13 +1239,13 @@ input ResourceEmbedInput {
 }
 
 type ResourceMetaData {
-  audios: [AudioLicense!]
-  brightcoves: [BrightcoveLicense!]
-  concepts: [ConceptLicense!]
-  glosses: [GlossLicense!]
-  h5ps: [H5pLicense!]
-  images: [ImageLicense!]
-  podcasts: [PodcastLicense!]
+  audios: [AudioLicense!]!
+  brightcoves: [BrightcoveLicense!]!
+  concepts: [ConceptLicense!]!
+  glosses: [GlossLicense!]!
+  h5ps: [H5pLicense!]!
+  images: [ImageLicense!]!
+  podcasts: [PodcastLicense!]!
 }
 
 type ResourceType {
