@@ -52,7 +52,6 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
           sizes="180x180"
           href={`/static/apple-touch-icon-${faviconEnvironment}.png`}
         />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1 viewport-fit=cover" />
         <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" rel="stylesheet" />

@@ -84,8 +84,6 @@ const SocialMediaMetadata = ({
       ))}
       {children}
       <meta property="og:type" content={type} />
-      <meta name="twitter:site" content="@ndla_no" />
-      <meta name="twitter:creator" content="@ndla_no" />
       <meta property="og:url" content={`${config.ndlaFrontendDomain}${href}`} />
       {!!title && <meta property="og:title" content={`${title} - NDLA`} />}
       {!!description && <meta property="og:description" content={description} />}
