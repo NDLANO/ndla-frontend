@@ -9,10 +9,11 @@
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql, useQuery } from "@apollo/client";
-import { ArrowRightLine } from "@ndla/icons";
-import { Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
+import { ArrowRightLine, ChatHeartLine, HeartLine, MovieLine, RobotFill } from "@ndla/icons";
+import { CardContent, CardHeading, CardRoot, Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -20,8 +21,9 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { useSiteTheme } from "../../components/SiteThemeContext";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
+import { FILM_PAGE_URL, PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";
+import { routes } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { siteThemeToHeroVariant } from "../../util/siteTheme";
@@ -46,15 +48,24 @@ const StyledHeading = styled(Heading, {
 const StyledList = styled("ul", {
   base: {
     display: "grid",
-    columnGap: "xsmall",
-    rowGap: "small",
     listStyle: "none",
     gridTemplateColumns: "1fr",
     tablet: {
       gridTemplateColumns: "repeat(2, 1fr)",
     },
-    desktop: {
-      gridTemplateColumns: "repeat(3, 1fr)",
+  },
+  variants: {
+    variant: {
+      programme: {
+        columnGap: "xsmall",
+        rowGap: "small",
+        desktop: {
+          gridTemplateColumns: "repeat(3, 1fr)",
+        },
+      },
+      quickLink: {
+        gap: "large",
+      },
     },
   },
 });
@@ -106,6 +117,36 @@ const StyledHeroBackground = styled(HeroBackground, {
   },
 });
 
+const StyledCardHeading = styled(CardHeading, {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
+  },
+});
+
+const StyledCardRoot = styled(CardRoot, {
+  variants: {
+    theme: {
+      brand1: {
+        background: "surface.brand.1.subtle",
+      },
+      brand2: {
+        background: "surface.brand.2.subtle",
+      },
+      brand3: {
+        background: "surface.brand.3.subtle",
+      },
+      brand4: {
+        background: "surface.brand.4.subtle",
+      },
+      brand5: {
+        background: "surface.brand.5.subtle",
+      },
+    },
+  },
+});
+
 const frontpageQuery = gql`
   query frontpageData($transformArgs: TransformedArticleContentInput) {
     programmes {
@@ -138,6 +179,13 @@ const frontpageQuery = gql`
   }
   ${structuredArticleDataFragment}
 `;
+
+const quickLinks = [
+  { type: "myNdla", icon: HeartLine, url: routes.myNdla.root },
+  { type: "chatRobot", icon: RobotFill, url: routes.myNdla.root },
+  { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}` },
+  { type: "film", icon: MovieLine, url: FILM_PAGE_URL },
+] as const;
 
 export const WelcomePage = () => {
   const { t, i18n } = useTranslation();
@@ -215,7 +263,7 @@ export const WelcomePage = () => {
               </Text>
             </HeadingWrapper>
             <nav aria-label={t("welcomePage.programmes")} data-testid="programme-list">
-              <StyledList>
+              <StyledList variant="programme">
                 {fpQuery.data?.programmes?.map((programme) => (
                   <li key={programme.id}>
                     <StyledSafeLinkButton to={`${PROGRAMME_PATH}${programme.url}`} variant="secondary">
@@ -223,6 +271,25 @@ export const WelcomePage = () => {
                       <ArrowRightLine />
                     </StyledSafeLinkButton>
                   </li>
+                ))}
+              </StyledList>
+            </nav>
+            <nav aria-label={t("welcomePage.quickLinks")} data-testid="quick-links">
+              <StyledList variant="quickLink">
+                {quickLinks.map((link) => (
+                  <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme}>
+                    <li>
+                      <CardContent>
+                        <StyledCardHeading textStyle="heading.small">
+                          <link.icon size="large" />
+                          <SafeLink to={link.url} css={linkOverlay.raw()}>
+                            {t(`welcomePage.quickLinks.${link.type}.title`)}
+                          </SafeLink>
+                        </StyledCardHeading>
+                        <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
+                      </CardContent>
+                    </li>
+                  </StyledCardRoot>
                 ))}
               </StyledList>
             </nav>
