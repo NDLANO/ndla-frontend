@@ -12,9 +12,9 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
-import { HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
+import { Hero, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { ArticleFooter, ArticleWrapper, ContentTypeHero, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
+import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
 import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -177,7 +177,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
         {type !== "video" && <meta name="robots" content="noindex, nofollow" />}
       </SocialMediaMetadata>
       <main>
-        <ContentTypeHero contentType={type}>
+        <Hero variant="primary">
           {!isOembed && <HeroBackground />}
           <PageContent variant="article">
             {!isOembed && (
@@ -219,7 +219,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
               </ArticleWrapper>
             </PageContent>
           </PageContent>
-        </ContentTypeHero>
+        </Hero>
       </main>
     </>
   );
