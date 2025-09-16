@@ -7,6 +7,7 @@
  */
 
 import { RouteObject } from "react-router";
+import config from "./config";
 import ErrorPage from "./containers/ErrorPage";
 import Layout from "./containers/Page/Layout";
 import { ErrorElement } from "./RouteErrorElement";
@@ -194,7 +195,10 @@ export const routes: RouteObject[] = [
       },
       {
         path: "om/:slug",
-        lazy: () => import("./containers/AboutPage/AboutPage"),
+        lazy: () =>
+          config.enableNewAboutPage
+            ? import("./containers/AboutPageV2/AboutPageV2")
+            : import("./containers/AboutPage/AboutPage"),
       },
       {
         path: "folder/:folderId",

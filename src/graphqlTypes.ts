@@ -2440,11 +2440,87 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   >;
 } & GQLFrontpageMenuFragmentFragment;
 
+export type GQLAboutPageLeaf_ArticleFragment = {
+  __typename?: "Article";
+  id: number;
+  introduction?: string;
+  grepCodes?: Array<string>;
+  htmlIntroduction?: string;
+  created: string;
+  updated: string;
+  slug?: string;
+  language: string;
+  published: string;
+  transformedContent: {
+    __typename?: "TransformedArticleContent";
+    content: string;
+    metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
+  };
+} & GQLLicenseBox_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLAboutPageNode_ArticleFragment = {
+  __typename?: "Article";
+  id: number;
+  title: string;
+  introduction?: string;
+  htmlIntroduction?: string;
+  slug?: string;
+  language: string;
+  created: string;
+  updated: string;
+  published: string;
+  oembed?: string;
+  metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+  transformedContent: {
+    __typename?: "TransformedArticleContent";
+    content: string;
+    metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
+  };
+} & GQLLicenseBox_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLAboutPageNode_FrontpageMenuFragment = {
+  __typename?: "FrontpageMenu";
+  articleId: number;
+  article: { __typename?: "Article"; id: number; title: string; slug?: string; metaDescription: string };
+};
+
+export type GQLAboutPageV2QueryVariables = Exact<{
+  slug: Scalars["String"]["input"];
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+}>;
+
+export type GQLAboutPageV2Query = {
+  __typename?: "Query";
+  article?: { __typename?: "Article" } & GQLAboutPageLeaf_ArticleFragment & GQLAboutPageNode_ArticleFragment;
+  frontpage?: {
+    __typename?: "FrontpageMenu";
+    menu?: Array<
+      {
+        __typename?: "FrontpageMenu";
+        menu?: Array<
+          {
+            __typename?: "FrontpageMenu";
+            menu?: Array<{ __typename?: "FrontpageMenu" } & GQLAboutPageNode_FrontpageMenuFragment>;
+          } & GQLAboutPageNode_FrontpageMenuFragment
+        >;
+      } & GQLAboutPageNode_FrontpageMenuFragment
+    >;
+  } & GQLAboutPageNode_FrontpageMenuFragment;
+};
+
 export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
   __typename?: "Query";
-  nodes?: Array<{ __typename?: "Node" } & GQLNodeWithMetadataFragment>;
+  nodes?: Array<{
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
 };
 
 export type GQLArticlePage_ResourceTypeFragment = {
@@ -2771,7 +2847,6 @@ export type GQLPreviewLearningpathQuery = {
     __typename?: "Learningpath";
     id: number;
     canEdit: boolean;
-    introduction?: string;
     learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
 };
@@ -4035,7 +4110,13 @@ export type GQLFavouriteSubjectsQueryVariables = Exact<{
 
 export type GQLFavouriteSubjectsQuery = {
   __typename?: "Query";
-  subjects?: Array<{ __typename?: "Node" } & GQLNodeWithMetadataFragment>;
+  subjects?: Array<{
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
 };
 
 export type GQLAddResourceToFolderMutationVariables = Exact<{
@@ -4181,14 +4262,6 @@ export type GQLUpdatePersonalDataMutationVariables = Exact<{
 export type GQLUpdatePersonalDataMutation = {
   __typename?: "Mutation";
   updatePersonalData: { __typename?: "MyNdlaPersonalData" } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
-};
-
-export type GQLNodeWithMetadataFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
 };
 
 export type GQLPodcastSeriesQueryVariables = Exact<{
