@@ -54,7 +54,9 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
         />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1 viewport-fit=cover" />
-        <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" as="style" />
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" />
       </head>
       <body>
         <script
