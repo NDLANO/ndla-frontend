@@ -842,6 +842,7 @@ const messages = {
     newFolder: {
       placeholder: "Skriv navn på mappe",
       folderName: "Mappenavn",
+      placedUnder: 'Mappen vil opprettes under "{{folderName}}"',
     },
   },
   competenceGoals: {
