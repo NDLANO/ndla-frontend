@@ -6,50 +6,52 @@
  *
  */
 
-import { memo, type RefObject, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client";
-import { CloseLine, CheckLine } from "@ndla/icons";
-import {
-  IconButton,
-  FieldErrorMessage,
-  FieldHelper,
-  FieldInput,
-  FieldLabel,
-  FieldRoot,
-  InputContainer,
-  Spinner,
-} from "@ndla/primitives";
+import { usePopoverContext } from "@ark-ui/react";
+import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Button, FieldHelper } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { IFolderDTO } from "@ndla/types-backend/myndla-api";
+import { GQLFolder } from "../../graphqlTypes";
 import { getFolder, useAddFolderMutation, useFolders } from "../../mutations/folderMutations";
 import useValidationTranslation from "../../util/useValidationTranslation";
 import { useToast } from "../ToastContext";
 
-interface Props {
-  parentId: string;
-  onClose?: () => void;
-  initialValue?: string;
-  onCreate?: (folder: IFolderDTO, parentId: string) => void;
-  ref: RefObject<HTMLInputElement | null>;
-}
-
-const StyledSpinner = styled(Spinner, {
+const FolderContainer = styled("div", {
   base: {
-    margin: "small",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
   },
 });
 
-const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Props) => {
+const ButtonsWrapper = styled("div", {
+  base: {
+    alignSelf: "flex-end",
+    display: "flex",
+    gap: "3xsmall",
+  },
+});
+
+interface Props {
+  parentFolder: GQLFolder;
+  initialValue?: string;
+  onCreate?: (folder: IFolderDTO) => void;
+}
+
+const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) => {
   const [name, setName] = useState(initialValue);
   const hasWritten = useRef(false);
   const toast = useToast();
   const [error, setError] = useState("");
   const { folders } = useFolders();
   const { cache } = useApolloClient();
+  const { setOpen } = usePopoverContext();
+  const ref = useRef<HTMLInputElement>(null);
   const siblings = useMemo(
-    () => (parentId !== "folders" ? (getFolder(cache, parentId)?.subfolders ?? []) : folders),
-    [parentId, cache, folders],
+    () => (parentFolder.id !== "folders" ? (getFolder(cache, parentFolder.id)?.subfolders ?? []) : folders),
+    [parentFolder?.id, cache, folders],
   );
   const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
   const [addFolder, { loading }] = useAddFolderMutation();
@@ -66,14 +68,14 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
     }
     const res = await addFolder({
       variables: {
-        parentId: parentId === "folders" ? undefined : parentId,
+        parentId: parentFolder.id === "folders" ? undefined : parentFolder.id,
         name,
       },
     });
     const createdFolder = res.data?.addFolder as IFolderDTO | undefined;
     if (createdFolder) {
-      onCreate?.({ ...createdFolder, subfolders: [] }, parentId);
-      onClose?.();
+      onCreate?.({ ...createdFolder, subfolders: [] });
+      setOpen(false);
     }
     if (res.errors?.length) {
       toast.create({ title: "myNdla.folder.toast.folderCreatedFailed" });
@@ -103,10 +105,11 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
   }, [name, validationT, siblingNames]);
 
   return (
-    <FieldRoot required invalid={!!error}>
-      <FieldLabel srOnly>{t("treeStructure.newFolder.folderName")}</FieldLabel>
-      <FieldErrorMessage>{error}</FieldErrorMessage>
-      <InputContainer>
+    <FolderContainer>
+      <FieldRoot required invalid={!!error}>
+        <FieldLabel>{t("treeStructure.newFolder.folderName")}</FieldLabel>
+        <FieldHelper>{t("treeStructure.newFolder.placedUnder", { folderName: parentFolder.name })}</FieldHelper>
+        <FieldErrorMessage>{error}</FieldErrorMessage>
         <FieldInput
           autoComplete="off"
           disabled={loading}
@@ -122,31 +125,23 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
           onKeyDown={(e) => {
             if (e.key === "Escape") {
               e.preventDefault();
-              onClose?.();
+              setOpen(false);
             } else if (e.key === "Enter") {
               e.preventDefault();
               onSave();
             }
           }}
         />
-        {!loading ? (
-          <>
-            {!error && (
-              <IconButton variant="tertiary" aria-label={t("save")} title={t("save")} onClick={onSave}>
-                <CheckLine />
-              </IconButton>
-            )}
-            <IconButton variant="tertiary" aria-label={t("close")} title={t("close")} onClick={onClose}>
-              <CloseLine />
-            </IconButton>
-          </>
-        ) : (
-          <FieldHelper>
-            <StyledSpinner size="small" aria-label={t("loading")} />
-          </FieldHelper>
-        )}
-      </InputContainer>
-    </FieldRoot>
+      </FieldRoot>
+      <ButtonsWrapper>
+        <Button onClick={() => setOpen(false)} variant="secondary">
+          {t("cancel")}
+        </Button>
+        <Button onClick={onSave} loading={loading}>
+          {t("save")}
+        </Button>
+      </ButtonsWrapper>
+    </FolderContainer>
   );
 };
 
