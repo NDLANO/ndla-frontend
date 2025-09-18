@@ -215,7 +215,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
   return new ApolloClient({
     link: createApolloLinks(language, versionHash),
     cache,
-    ssrMode: true,
+    ssrMode: !config.isClient,
     defaultOptions: {
       watchQuery: {
         errorPolicy: "all",
