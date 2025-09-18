@@ -8,7 +8,8 @@
 
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useApolloClient, Reference } from "@apollo/client";
+import { Reference } from "@apollo/client";
+import { useApolloClient } from "@apollo/client/react";
 import { useSensors, useSensor, PointerSensor, KeyboardSensor, DndContext, closestCenter } from "@dnd-kit/core";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";

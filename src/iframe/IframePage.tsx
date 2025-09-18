@@ -9,7 +9,8 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { PageContent } from "@ndla/primitives";
 import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";

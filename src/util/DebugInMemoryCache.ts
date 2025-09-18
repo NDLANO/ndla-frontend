@@ -6,8 +6,7 @@
  *
  */
 
-import { OperationVariables, Cache } from "@apollo/client";
-import { InMemoryCache } from "@apollo/client/cache";
+import { OperationVariables, Cache, InMemoryCache } from "@apollo/client";
 import handleError from "./handleError";
 
 /**

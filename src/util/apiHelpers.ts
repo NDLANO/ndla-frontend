@@ -13,10 +13,10 @@ import {
   HttpLink,
   InMemoryCache,
   TypePolicies,
-} from "@apollo/client/core";
-import { BatchHttpLink } from "@apollo/client/link/batch-http";
-import { setContext } from "@apollo/client/link/context";
-import { onError } from "@apollo/client/link/error";
+  BatchHttpLink,
+  setContext,
+  onError,
+} from "@apollo/client";
 import { getFeideCookie, isAccessTokenValid } from "./authHelpers";
 import { DebugInMemoryCache } from "./DebugInMemoryCache";
 import { NDLAGraphQLError, NDLANetworkError } from "./error/NDLAApolloErrors";

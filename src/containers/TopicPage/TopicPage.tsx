@@ -8,7 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { MovedTopicPage } from "./MovedTopicPage";
 import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";

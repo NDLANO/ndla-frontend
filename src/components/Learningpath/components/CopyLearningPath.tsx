@@ -69,7 +69,7 @@ const CopyLearningPath = ({ learningpath }: Props) => {
           },
         },
       });
-      if (!res.errors?.length) {
+      if (!res.error) {
         setOpen(false);
         toast.create({
           title: t("myNdla.learningpath.copy.success.title"),

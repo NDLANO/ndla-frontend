@@ -113,7 +113,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
         },
       });
 
-      if (!res.errors?.length) {
+      if (!res.error) {
         toast.create({ title: t("myNdla.learningpath.toast.createdStep", { name: values.title }) });
         methods.reset();
         setFocusStepId(
@@ -131,7 +131,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
           params: { ...transformedData, language, revision: step?.revision },
         },
       });
-      if (!res.errors?.length) {
+      if (!res.error) {
         methods.reset();
         setFocusStepId(step ? learningpathStepEditButtonId(step.id) : undefined);
       } else {
@@ -151,7 +151,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
       },
     });
 
-    if (!res.errors?.length) {
+    if (!res.error) {
       closeDialog();
       reset();
       toast.create({ title: t("myNdla.learningpath.toast.deletedStep", { name: step?.title }) });
