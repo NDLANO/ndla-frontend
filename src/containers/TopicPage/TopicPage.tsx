@@ -115,10 +115,6 @@ export const TopicPage = () => {
     if (isNotFoundError(query.error)) return <NotFoundPage />;
   }
 
-  if (query.error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
-    return <NotFoundPage />;
-  }
-
   if (!query.data?.node?.article) {
     return <NotFoundPage />;
   }

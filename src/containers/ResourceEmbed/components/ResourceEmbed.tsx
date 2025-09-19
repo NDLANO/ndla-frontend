@@ -28,6 +28,7 @@ import {
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
+import { isNotFoundError } from "../../../util/handleError";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
@@ -155,7 +156,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
     return <Spinner />;
   }
 
-  if (error?.graphQLErrors.some((e) => e?.extensions?.status === 404)) {
+  if (isNotFoundError(error)) {
     return <NotFoundPage />;
   }
 

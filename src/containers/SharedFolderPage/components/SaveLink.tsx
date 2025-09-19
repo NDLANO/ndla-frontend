@@ -39,12 +39,12 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { id, name } = folder;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
-  const [favoriteSharedFolder] = useFavoriteSharedFolder(id);
+  const [favoriteSharedFolder] = useFavoriteSharedFolder();
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
   const onSaveLink = async (name: string) => {
-    const res = await favoriteSharedFolder();
+    const res = await favoriteSharedFolder({ variables: { folderId: id } });
     if (!res.error) {
       setOpen(false);
       toast.create({

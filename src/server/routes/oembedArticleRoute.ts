@@ -149,6 +149,13 @@ const getEmbedObject = async (lang: string, embedId: string, embedType: string, 
     query: embedOembedQuery,
     variables: { id: embedId, type: embedType },
   });
+  // This will probably never happen. client.query throws on errors I think
+  if (!embed.data) {
+    return {
+      status: NOT_FOUND,
+      data: "Failed to find embed",
+    };
+  }
   const title = getEmbedTitle(embedType, embed.data);
   const iframeSrc = `${config.ndlaFrontendDomain}/embed-iframe/${lang}/${embedType}/${embedId}`;
   return getOembedResponse(req, title, iframeSrc);
