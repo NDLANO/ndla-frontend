@@ -2107,9 +2107,7 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
   organization: string;
   favoriteSubjects: Array<string>;
   role: string;
-  shareNameAccepted: boolean;
   arenaEnabled: boolean;
-  arenaAccepted: boolean;
   groups: Array<{
     __typename?: "MyNdlaGroup";
     id: string;
@@ -2444,7 +2442,13 @@ export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
   __typename?: "Query";
-  nodes?: Array<{ __typename?: "Node" } & GQLNodeWithMetadataFragment>;
+  nodes?: Array<{
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
 };
 
 export type GQLArticlePage_ResourceTypeFragment = {
@@ -2771,7 +2775,6 @@ export type GQLPreviewLearningpathQuery = {
     __typename?: "Learningpath";
     id: number;
     canEdit: boolean;
-    introduction?: string;
     learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
 };
@@ -4035,7 +4038,13 @@ export type GQLFavouriteSubjectsQueryVariables = Exact<{
 
 export type GQLFavouriteSubjectsQuery = {
   __typename?: "Query";
-  subjects?: Array<{ __typename?: "Node" } & GQLNodeWithMetadataFragment>;
+  subjects?: Array<{
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
 };
 
 export type GQLAddResourceToFolderMutationVariables = Exact<{
@@ -4168,27 +4177,15 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   arenaEnabled: boolean;
-  arenaAccepted: boolean;
-  shareNameAccepted: boolean;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
   favoriteSubjects?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
-  shareNameAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {
   __typename?: "Mutation";
   updatePersonalData: { __typename?: "MyNdlaPersonalData" } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
-};
-
-export type GQLNodeWithMetadataFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
 };
 
 export type GQLPodcastSeriesQueryVariables = Exact<{

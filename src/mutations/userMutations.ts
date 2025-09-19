@@ -30,18 +30,12 @@ const personalDataQueryFragment = gql`
     favoriteSubjects
     role
     arenaEnabled
-    arenaAccepted
-    shareNameAccepted
   }
 `;
 
 const updatePersonalDataQuery = gql`
-  mutation updatePersonalData($favoriteSubjects: [String!], $arenaAccepted: Boolean, $shareNameAccepted: Boolean) {
-    updatePersonalData(
-      favoriteSubjects: $favoriteSubjects
-      arenaAccepted: $arenaAccepted
-      shareNameAccepted: $shareNameAccepted
-    ) {
+  mutation updatePersonalData($favoriteSubjects: [String!]) {
+    updatePersonalData(favoriteSubjects: $favoriteSubjects) {
       ...MySubjectMyNdlaPersonalDataFragment
     }
   }
