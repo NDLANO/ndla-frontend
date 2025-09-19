@@ -356,8 +356,6 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   loading: boolean;
   error?: ErrorLike;
 } => {
-  // const { cache } = useApolloClient();
-  // TODO: Consider re-adding cache.gc
   const { data, loading, error } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
     skip,
   });
@@ -424,9 +422,6 @@ export const recentlyUsedQuery = gql`
 `;
 
 export const useRecentlyUsedResources = (skip?: boolean) => {
-  const { cache } = useApolloClient();
-  // TODO: I don't like doing this beforehand
-  cache.gc();
   return useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, { skip });
 };
 
@@ -503,7 +498,7 @@ export const useDeleteFolderMutation = () => {
     },
     onCompleted: ({ deleteFolder: id }) => {
       const normalizedId = client.cache.identify({ id, __typename: "Folder" });
-      client.cache.evict({ id: normalizedId, broadcast: false });
+      client.cache.evict({ id: normalizedId });
       client.cache.gc();
     },
   });
@@ -722,7 +717,7 @@ export const useUnFavoriteSharedFolder = () => {
           id,
           __typename: "SharedFolder",
         });
-        client.cache.evict({ id: normalizedId, broadcast: false });
+        client.cache.evict({ id: normalizedId });
         client.cache.gc();
       },
     },
