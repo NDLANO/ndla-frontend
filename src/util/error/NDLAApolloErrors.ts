@@ -7,13 +7,12 @@
  */
 
 import { GraphQLFormattedError } from "graphql";
-import { Operation } from "@apollo/client";
-import type { NetworkError } from "@apollo/client";
+import type { ApolloLink, ServerError } from "@apollo/client";
 import { NDLAError } from "./NDLAError";
 import { getLogLevelFromStatusCode } from "../handleError";
 
 export class NDLAGraphQLError extends NDLAError {
-  constructor(baseError: GraphQLFormattedError, operation: Operation) {
+  constructor(baseError: GraphQLFormattedError, operation: ApolloLink.Operation) {
     const message = `[GraphQL error]: ${baseError.message}`;
     super(message);
 
@@ -41,7 +40,7 @@ export class NDLAGraphQLError extends NDLAError {
 }
 
 export class NDLANetworkError extends NDLAError {
-  constructor(baseError: NonNullable<NetworkError>, operation: Operation) {
+  constructor(baseError: NonNullable<ServerError>, operation: ApolloLink.Operation) {
     const message = `[Network error]: ${baseError.message}`;
     super(message);
 

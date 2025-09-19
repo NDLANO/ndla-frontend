@@ -29,6 +29,7 @@ import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphql
 import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../../mutations/folderMutations";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
+import { isNotFoundError } from "../../util/handleError";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -128,7 +129,7 @@ export const SharedFolderPage = () => {
   if (loading) {
     return <PageSpinner />;
   }
-  if (error?.graphQLErrors[0]?.extensions?.status === 404) {
+  if (isNotFoundError(error)) {
     return <NotFoundPage />;
   }
   if (error || !folder) {
