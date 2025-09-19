@@ -13,14 +13,23 @@ import {
   FieldFunctionOptions,
   HttpLink,
   InMemoryCache,
+  LocalStateError,
   ServerError,
+  ServerParseError,
   TypePolicies,
+  UnconventionalError,
 } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { ErrorLink } from "@apollo/client/link/error";
 import { getFeideCookie, isAccessTokenValid } from "./authHelpers";
 import { DebugInMemoryCache } from "./DebugInMemoryCache";
-import { NDLAGraphQLError, NDLANetworkError } from "./error/NDLAApolloErrors";
+import {
+  NDLAGraphQLError,
+  ApolloNetworkError,
+  ApolloLocalStateError,
+  ApolloServerParseError,
+  ApolloUnconventionalError,
+} from "./error/NDLAApolloErrors";
 import { StatusError } from "./error/StatusError";
 import handleError from "./handleError";
 import config from "../config";
@@ -251,15 +260,17 @@ export const createApolloLinks = (lang: string, versionHash?: any) => {
         }
       });
     } else if (ServerError.is(error)) {
-      handleError(new NDLANetworkError(error, operation));
+      handleError(new ApolloNetworkError(error, operation));
+    } else if (LocalStateError.is(error)) {
+      handleError(new ApolloLocalStateError(error, operation));
+    } else if (ServerParseError.is(error)) {
+      handleError(new ApolloServerParseError(error, operation));
+    } else if (UnconventionalError.is(error)) {
+      handleError(new ApolloUnconventionalError(error, operation));
+      // This is either a CombinedProtocolError or a non-graphql error somehow. We don't need any special handling for any of them.
+    } else {
+      handleError(error);
     }
-    // the error is one of the following:
-    // - CombinedProtocolErrors
-    // - LinkError
-    // - LocalStateError
-    // - ServerParseError
-    // - UnconventionalError
-    // I don't think we need special handling for them.
   });
 
   return ApolloLink.from([
