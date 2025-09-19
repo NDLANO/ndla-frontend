@@ -2260,7 +2260,6 @@ export type GQLTransportationNode_NodeFragment = {
   id: string;
   name: string;
   url?: string;
-  availability?: string;
   relevanceId?: string;
   meta?: { __typename?: "Meta"; metaDescription?: string };
 };
@@ -2444,7 +2443,13 @@ export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
   __typename?: "Query";
-  nodes?: Array<{ __typename?: "Node" } & GQLNodeWithMetadataFragment>;
+  nodes?: Array<{
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
 };
 
 export type GQLArticlePage_ResourceTypeFragment = {
@@ -2771,7 +2776,6 @@ export type GQLPreviewLearningpathQuery = {
     __typename?: "Learningpath";
     id: number;
     canEdit: boolean;
-    introduction?: string;
     learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
 };
@@ -4035,7 +4039,13 @@ export type GQLFavouriteSubjectsQueryVariables = Exact<{
 
 export type GQLFavouriteSubjectsQuery = {
   __typename?: "Query";
-  subjects?: Array<{ __typename?: "Node" } & GQLNodeWithMetadataFragment>;
+  subjects?: Array<{
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+  }>;
 };
 
 export type GQLAddResourceToFolderMutationVariables = Exact<{
@@ -4183,14 +4193,6 @@ export type GQLUpdatePersonalDataMutation = {
   updatePersonalData: { __typename?: "MyNdlaPersonalData" } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
 };
 
-export type GQLNodeWithMetadataFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-};
-
 export type GQLPodcastSeriesQueryVariables = Exact<{
   id: Scalars["Int"]["input"];
 }>;
@@ -4301,7 +4303,6 @@ export type GQLStructuredArticleDataFragment = {
   published: string;
   updated: string;
   supportedLanguages?: Array<string>;
-  availability?: string;
   copyright: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
   metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
   competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;

@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Additional, PresentationLine } from "@ndla/icons";
+import { Additional } from "@ndla/icons";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -60,12 +60,6 @@ const StyledHeading = styled(Heading, {
   },
 });
 
-const StyledPresentationLine = styled(PresentationLine, {
-  base: {
-    marginInlineEnd: "3xsmall",
-  },
-});
-
 const StyledAdditional = styled(Additional, {
   base: {
     marginInlineStart: "3xsmall",
@@ -78,8 +72,6 @@ export const TransportationNode = ({ node }: Props) => {
     <TopicCard>
       <StyledHeading asChild consumeCss textStyle="title.small">
         <SafeLink to={node.url ?? ""} unstyled css={linkOverlay.raw()}>
-          {/* TODO: Consider adding a label to this */}
-          {node.availability !== "everyone" && <StyledPresentationLine />}
           {node.name}
           {node.relevanceId === RELEVANCE_SUPPLEMENTARY && (
             <StyledAdditional aria-label={t("resource.additionalTooltip")} title={t("resource.additionalTooltip")} />
@@ -97,7 +89,6 @@ TransportationNode.fragments = {
       id
       name
       url
-      availability
       relevanceId
       meta {
         metaDescription

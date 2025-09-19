@@ -973,7 +973,7 @@ const messages = {
     buttonLogIn: "Logg inn med Feide",
     buttonLogOut: "Logg ut",
     resource: {
-      accessDenied: "Vi beklager, men denne ressursen er bare for lærere innlogget med Feide.",
+      accessDenied: "Vi beklager, men du har ikke tilgang til denne siden.",
     },
     primarySchool: "hovedskole",
     name: "Navn",
