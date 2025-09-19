@@ -50,7 +50,12 @@ const getBaseArticle = (): GQLStructuredArticleDataFragment => ({
   },
   title: "Article title",
   transformedContent: {
-    metaData: {},
+    metaData: {
+      images: [],
+      brightcoves: [],
+      podcasts: [],
+      audios: [],
+    },
   },
 });
 
@@ -85,6 +90,9 @@ const getArticleWithImage = (): GQLStructuredArticleDataFragment => ({
           },
         },
       ],
+      brightcoves: [],
+      podcasts: [],
+      audios: [],
     },
   },
 });

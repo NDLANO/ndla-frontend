@@ -10,7 +10,7 @@ import parse from "html-react-parser";
 import { ReactNode } from "react";
 import { transform, TransformOptions } from "@ndla/article-converter";
 import formatDate from "./formatDate";
-import { GQLArticle } from "../graphqlTypes";
+import { GQLArticle, GQLFootNote, GQLTransformedArticleContent } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
 
 function getContent(content: string, { path, isOembed, subject, articleLanguage, contentType }: TransformOptions) {
@@ -27,17 +27,14 @@ function getContent(content: string, { path, isOembed, subject, articleLanguage,
   });
 }
 
+type TransformedContent = Omit<GQLTransformedArticleContent, "metaData"> & {
+  metaData?: { footnotes?: GQLFootNote[]; copyText?: string };
+};
+
 export type BaseArticle = Pick<
   GQLArticle,
-  | "transformedContent"
-  | "created"
-  | "htmlTitle"
-  | "htmlIntroduction"
-  | "updated"
-  | "published"
-  | "requiredLibraries"
-  | "revisionDate"
->;
+  "created" | "htmlTitle" | "htmlIntroduction" | "updated" | "published" | "requiredLibraries" | "revisionDate"
+> & { transformedContent: TransformedContent };
 
 export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "transformedContent"> & {
   transformedContent: T["transformedContent"] & {

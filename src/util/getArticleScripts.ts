@@ -7,7 +7,7 @@
  */
 
 import config from "../config";
-import { GQLArticle } from "../graphqlTypes";
+import { GQLArticleRequiredLibrary, GQLTransformedArticleContent } from "../graphqlTypes";
 
 export interface Scripts {
   key?: string;
@@ -17,10 +17,12 @@ export interface Scripts {
   defer?: boolean;
 }
 
-export function getArticleScripts(
-  article: Pick<GQLArticle, "requiredLibraries" | "transformedContent">,
-  locale = "nb",
-) {
+interface BaseArticle {
+  requiredLibraries?: GQLArticleRequiredLibrary[];
+  transformedContent: Pick<GQLTransformedArticleContent, "content">;
+}
+
+export function getArticleScripts(article: BaseArticle, locale = "nb") {
   const scripts: Array<Scripts> =
     article.requiredLibraries?.map((lib) => ({
       src: lib.url,

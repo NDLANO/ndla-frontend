@@ -13,7 +13,6 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { uniqBy } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
@@ -152,11 +151,9 @@ interface Props {
 }
 
 const PodcastLicenseList = ({ podcasts }: Props) => {
-  const unique = useMemo(() => uniqBy(podcasts, (p) => p.id), [podcasts]);
-
   return (
     <MediaList>
-      {unique.map((podcast, index) => (
+      {podcasts.map((podcast, index) => (
         <PodcastLicenseInfo podcast={podcast} key={`${podcast.id}-${index}`} />
       ))}
     </MediaList>
