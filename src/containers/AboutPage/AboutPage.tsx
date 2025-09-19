@@ -7,7 +7,8 @@
  */
 
 import { useContext } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import AboutPageContent, { aboutPageFragments } from "./AboutPageContent";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -15,6 +16,7 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
 import { useTypedParams } from "../../routeHelpers";
 import { GONE } from "../../statusCodes";
+import { isGoneError } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 const aboutPageQuery = gql`
@@ -45,7 +47,7 @@ export const AboutPage = () => {
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions?.status === GONE) && redirectContext) {
+  if (isGoneError(error) && redirectContext) {
     redirectContext.status = GONE;
   }
 

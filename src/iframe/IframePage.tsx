@@ -9,7 +9,8 @@
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { PageContent } from "@ndla/primitives";
 import { ErrorMessage } from "@ndla/ui";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
@@ -19,6 +20,7 @@ import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import "../style/index.css";
+import { isGoneError } from "../util/handleError";
 
 const Error = () => {
   const { t } = useTranslation();
@@ -82,7 +84,8 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
   if (loading) {
     return null;
   }
-  if (error?.graphQLErrors.some((err) => err.extensions?.status === 410) && redirectContext) {
+
+  if (isGoneError(error) && redirectContext) {
     redirectContext.status = 410;
   }
 

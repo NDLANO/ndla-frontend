@@ -6,7 +6,8 @@
  *
  */
 
-import { MutationHookOptions, useMutation, gql, useApolloClient } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useMutation, useApolloClient } from "@apollo/client/react";
 import {
   GQLDeleteLearningpathMutation,
   GQLMutationDeleteLearningpathArgs,
@@ -36,14 +37,14 @@ const deleteLearningpathMutation = gql`
 `;
 
 export const useDeleteLearningpath = (
-  options?: MutationHookOptions<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
+  options?: useMutation.Options<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>(deleteLearningpathMutation, {
     ...options,
     onCompleted: (_data, methodOptions) => {
       const normalizedId = client.cache.identify({
-        __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+        __ref: `MyNdlaLearningpath:${methodOptions?.variables?.id}`,
       });
       client.cache.evict({ id: normalizedId });
       client.cache.gc();
@@ -61,7 +62,7 @@ const updateLearningpathStatusMutation = gql`
 `;
 
 export const useUpdateLearningpathStatus = (
-  options?: MutationHookOptions<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>,
+  options?: useMutation.Options<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>(
@@ -70,7 +71,7 @@ export const useUpdateLearningpathStatus = (
       ...options,
       onCompleted: (_data, methodOptions) => {
         const normalizedId = client.cache.identify({
-          __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
+          __ref: `MyNdlaLearningpath:${methodOptions?.variables?.id}`,
         });
         client.cache.modify({
           id: normalizedId,
@@ -95,7 +96,7 @@ const newLearningpathMutation = gql`
 `;
 
 export const useCreateLearningpath = (
-  options?: MutationHookOptions<GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables>,
+  options?: useMutation.Options<GQLNewLearningpathMutation, GQLNewLearningpathMutationVariables>,
 ) => {
   const client = useApolloClient();
   const [createLearningpath, { loading, error }] = useMutation<
@@ -128,7 +129,7 @@ const newLearningpathStepMutation = gql`
 `;
 
 export const useCreateLearningpathStep = (
-  options?: MutationHookOptions<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>,
+  options?: useMutation.Options<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLNewLearningpathStepMutation, GQLNewLearningpathStepMutationVariables>(
@@ -168,7 +169,7 @@ const updateLearningpathStepMutation = gql`
 `;
 
 export const useUpdateLearningpathStep = (
-  options?: MutationHookOptions<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>,
+  options?: useMutation.Options<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLUpdateLearningpathStepMutation, GQLUpdateLearningpathStepMutationVariables>(
@@ -183,29 +184,30 @@ export const useUpdateLearningpathStep = (
         });
         client.cache.modify({
           id: client.cache.identify({
-            __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStep}`,
+            __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningstepId}`,
           }),
           fields: {
             description: () => {
-              return methodOptions?.variables?.description;
+              return methodOptions?.variables?.params?.description;
             },
             introduction: () => {
-              return methodOptions?.variables?.introudction;
+              return methodOptions?.variables?.params?.introduction;
             },
             title: () => {
-              return methodOptions?.variables?.title;
+              return methodOptions?.variables?.params?.title;
             },
             embedUrl: () => {
               return {
-                url: methodOptions?.variables?.embedUrl,
-                embedType: methodOptions?.variables?.embedType,
+                url: methodOptions?.variables?.params?.embedUrl,
+                // TODO: ??
+                embedType: "iframe",
               };
             },
             type: () => {
-              return methodOptions?.variables?.type;
+              return methodOptions?.variables?.params?.type;
             },
             revision: () => {
-              return methodOptions?.variables?.revision;
+              return methodOptions?.variables?.params?.revision;
             },
           },
         });
@@ -221,7 +223,7 @@ const deleteLearningpathStepMutation = gql`
 `;
 
 export const useDeleteLearningpathStep = (
-  options?: MutationHookOptions<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
+  options?: useMutation.Options<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLDeleteLearningpathStepMutation, GQLDeleteLearningpathStepMutationVariables>(
@@ -239,8 +241,8 @@ export const useDeleteLearningpathStep = (
             __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
           }),
           fields: {
-            revision: () => {
-              return methodOptions?.variables?.revision;
+            revision: (val) => {
+              return val + 1;
             },
           },
         });
@@ -268,7 +270,7 @@ const updateLearningpathMutation = gql`
 `;
 
 export const useUpdateLearningpath = (
-  options?: MutationHookOptions<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>,
+  options?: useMutation.Options<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>,
 ) => {
   const client = useApolloClient();
   return useMutation<GQLUpdateLearningpathMutation, GQLUpdateLearningpathMutationVariables>(
@@ -282,10 +284,10 @@ export const useUpdateLearningpath = (
           }),
           fields: {
             title: () => {
-              return methodOptions?.variables?.title;
+              return methodOptions?.variables?.params?.title;
             },
             coverPhotoMetaUrl: () => {
-              return methodOptions?.variables?.coverPhotoMetaUrl;
+              return methodOptions?.variables?.params?.coverPhotoMetaUrl;
             },
           },
         });
@@ -304,7 +306,7 @@ const copyLearningpathMutation = gql`
 `;
 
 export const useCopyLearningpathMutation = (
-  options?: MutationHookOptions<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>,
+  options?: useMutation.Options<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>,
 ) => useMutation<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>(copyLearningpathMutation, options);
 
 const updateLearningpathStepSeqNo = gql`
@@ -319,18 +321,14 @@ const updateLearningpathStepSeqNo = gql`
   }
 `;
 
-export const useUpdateLearningpathStepSeqNo = (
-  options?: MutationHookOptions<
-    GQLUpdateLearningpathStepSeqNoMutation,
-    GQLUpdateLearningpathStepSeqNoMutationVariables
-  >,
-) => {
+export const useUpdateLearningpathStepSeqNo = () => {
   const client = useApolloClient();
   return useMutation<GQLUpdateLearningpathStepSeqNoMutation, GQLUpdateLearningpathStepSeqNoMutationVariables>(
     updateLearningpathStepSeqNo,
     {
-      ...options,
       onCompleted: (_data, methodOptions) => {
+        const seqNo = methodOptions?.variables?.seqNo;
+        if (seqNo === undefined) return;
         client.cache.evict({
           id: "ROOT_QUERY",
           fieldName: "learningpath",
@@ -350,7 +348,7 @@ export const useUpdateLearningpathStepSeqNo = (
               // Remove from old position
               updatedStepsOrder.splice(fromIndex, 1);
               // Add to new position
-              updatedStepsOrder.splice(methodOptions?.variables?.seqNo, 0, movedElement);
+              updatedStepsOrder.splice(seqNo, 0, movedElement);
               return updatedStepsOrder;
             },
           },
@@ -360,8 +358,8 @@ export const useUpdateLearningpathStepSeqNo = (
             __ref: `MyNdlaLearningpathStep:${methodOptions?.variables?.learningpathStepId}`,
           }),
           fields: {
-            revision: () => {
-              return methodOptions?.variables?.revision;
+            revision: (val) => {
+              return val + 1;
             },
           },
         });
