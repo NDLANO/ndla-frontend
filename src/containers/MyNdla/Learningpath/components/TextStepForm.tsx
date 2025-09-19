@@ -6,8 +6,8 @@
  *
  */
 
-import { t } from "i18next";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { Descendant } from "slate";
 import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
@@ -27,6 +27,7 @@ export interface TextFormValues {
 }
 
 export const TextStepForm = () => {
+  const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const { control } = useFormContext<TextFormValues>();
 

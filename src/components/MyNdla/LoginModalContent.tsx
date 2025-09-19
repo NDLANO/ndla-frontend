@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import {
   Button,
   DialogBody,

@@ -8,7 +8,7 @@
 
 import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";

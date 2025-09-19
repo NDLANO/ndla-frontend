@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
-import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import Learningpath from "../../components/Learningpath";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
@@ -51,11 +50,11 @@ const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: P
     }
   }, [authContextLoaded, learningpath, stepId, t, trackPageView, user]);
 
-  const currentStep = stepId ? steps.find((step) => step.id.toString() === stepId) : steps[0];
-
-  if (!currentStep) {
-    return <DefaultErrorMessagePage />;
-  }
+  const currentStep = stepId
+    ? steps.find((step) => step.id.toString() === stepId)
+    : learningpath.introduction?.length
+      ? undefined
+      : steps[0];
 
   return (
     <>

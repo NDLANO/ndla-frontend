@@ -8,7 +8,7 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, Location, useParams } from "react-router-dom";
+import { Navigate, useLocation, Location, useParams } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { RedirectExternal } from "../../components";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";

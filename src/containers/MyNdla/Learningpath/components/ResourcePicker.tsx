@@ -7,10 +7,10 @@
  */
 
 import parse from "html-react-parser";
-import { t } from "i18next";
 import { debounce } from "lodash-es";
 import { useState, useMemo, RefObject, useRef } from "react";
-import { useQuery } from "@apollo/client";
+import { useTranslation } from "react-i18next";
+import { gql, useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
@@ -45,8 +45,7 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
-import { GQLSearchQuery, GQLSearchQueryVariables, GQLSearchResourceFragment } from "../../../../graphqlTypes";
-import { searchQuery } from "../../../../queries";
+import { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
 
 const HitsWrapper = styled("div", {
@@ -117,26 +116,66 @@ interface Props {
   setResource: (data: ResourceData) => void;
 }
 
-const DEFAULT_SEARCH_OBJECT = { page: 1, pageSize: 10, query: "" };
+const SEARCH_RESOURCE_TYPES = [
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+  RESOURCE_TYPE_CONCEPT,
+  RESOURCE_TYPE_SOURCE_MATERIAL,
+].join();
+
+const PAGE_SIZE = 10;
+
+const searchQuery = gql`
+  query resourcePickerSearch($query: String, $page: Int, $pageSize: Int!, $resourceTypes: String) {
+    search(query: $query, page: $page, pageSize: $pageSize, resourceTypes: $resourceTypes) {
+      pageSize
+      page
+      language
+      totalCount
+      results {
+        id
+        url
+        title
+        ... on ArticleSearchResult {
+          htmlTitle
+        }
+        ... on LearningpathSearchResult {
+          htmlTitle
+        }
+        contexts {
+          contextId
+          isPrimary
+          url
+          breadcrumbs
+          resourceTypes {
+            id
+            name
+          }
+        }
+      }
+    }
+  }
+`;
+
+const DEFAULT_SEARCH_OBJECT = { page: 1, query: "" };
 
 export const ResourcePicker = ({ setResource }: Props) => {
+  const { t } = useTranslation();
   const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
   const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const { loading, data: searchResult = {} } = useQuery<GQLSearchQuery, GQLSearchQueryVariables>(searchQuery, {
+  const { loading, data: searchResult = {} } = useQuery<
+    GQLResourcePickerSearchQuery,
+    GQLResourcePickerSearchQueryVariables
+  >(searchQuery, {
     variables: {
       query: delayedSearchObject.query,
       page: delayedSearchObject.page,
-      pageSize: delayedSearchObject.pageSize,
-      resourceTypes: [
-        RESOURCE_TYPE_SUBJECT_MATERIAL,
-        RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-        RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-        RESOURCE_TYPE_CONCEPT,
-        RESOURCE_TYPE_SOURCE_MATERIAL,
-      ].join(),
+      pageSize: PAGE_SIZE,
+      resourceTypes: SEARCH_RESOURCE_TYPES,
     },
     fetchPolicy: "no-cache",
   });
@@ -171,17 +210,8 @@ export const ResourcePicker = ({ setResource }: Props) => {
   );
 
   const onQueryChange = (val: string) => {
-    setSearchObject({ query: val, page: 1, pageSize: 10 });
-    debounceCall(() => setDelayedSearchObject({ query: val, page: 1, pageSize: 10 }));
-  };
-
-  const onResourceSelect = async (resource: Omit<GQLSearchResourceFragment, "__typename">) => {
-    setResource({
-      articleId: parseInt(resource.id),
-      title: resource.title,
-      resourceTypes: resource.contexts?.[0]?.resourceTypes,
-      breadcrumbs: resource.contexts?.[0]?.breadcrumbs,
-    });
+    setSearchObject({ query: val, page: 1 });
+    debounceCall(() => setDelayedSearchObject({ query: val, page: 1 }));
   };
 
   return (
@@ -200,7 +230,13 @@ export const ResourcePicker = ({ setResource }: Props) => {
       variant="complex"
       onValueChange={(details) => {
         if (details.items[0]) {
-          onResourceSelect(details.items[0]);
+          const val = details.items[0];
+          setResource({
+            articleId: parseInt(val.id),
+            title: val.title,
+            resourceTypes: val.contexts?.[0]?.resourceTypes,
+            breadcrumbs: val.contexts?.[0]?.breadcrumbs,
+          });
         }
       }}
     >
@@ -267,7 +303,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
               setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));
             }}
             count={Math.min(searchResult.search?.totalCount ?? 0, 1000)}
-            pageSize={searchObject.pageSize}
+            pageSize={PAGE_SIZE}
             translations={paginationTranslations}
             siblingCount={2}
           >

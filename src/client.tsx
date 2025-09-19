@@ -7,9 +7,8 @@
  */
 
 import "./style/index.css";
-import queryString from "query-string";
 import { I18nextProvider } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client";
 import "@fontsource/source-code-pro/400-italic.css";
 import "@fontsource/source-code-pro/700.css";
@@ -23,11 +22,9 @@ import "@fontsource/source-sans-pro/index.css";
 import "@fontsource/source-serif-pro/400-italic.css";
 import "@fontsource/source-serif-pro/700.css";
 import "@fontsource/source-serif-pro/index.css";
-import { i18nInstance } from "@ndla/ui";
 import { routes } from "./appRoutes";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
-import { BaseNameProvider } from "./components/BaseNameContext";
 import ResponseContext from "./components/ResponseContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
@@ -44,7 +41,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverResponse, chunks },
+  DATA: { config, serverPath, serverResponse, chunks, hash },
 } = window;
 
 initSentry(config);
@@ -54,12 +51,14 @@ const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
 const paths = window.location.pathname.split("/");
 const basename = isValidLocale(paths[1] ?? "") ? `${paths[1]}` : undefined;
 
-const { versionHash } = queryString.parse(window.location.search);
+const url = new URL(window.location.href);
+const versionHash = url.searchParams.get("versionHash");
 
-const i18n = initializeI18n(i18nInstance, abbreviation);
 const client = createApolloClient(abbreviation, versionHash);
 
 const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
+
+const i18nInstance = initializeI18n(abbreviation, hash);
 
 renderOrHydrate(
   document,
@@ -67,18 +66,17 @@ renderOrHydrate(
     chunks={chunks}
     language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
     devEntrypoint={entryPoints.default}
+    hash={hash}
   >
-    <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={i18nInstance}>
       <ApolloProvider client={client}>
         <ResponseContext value={{ status: serverResponse }}>
           <VersionHashProvider value={versionHash}>
             <SiteThemeProvider value={window.DATA.siteTheme}>
               <AlertsProvider>
-                <BaseNameProvider value={basename}>
-                  <AuthenticationContext>
-                    <RouterProvider router={router} />
-                  </AuthenticationContext>
-                </BaseNameProvider>
+                <AuthenticationContext>
+                  <RouterProvider router={router} />
+                </AuthenticationContext>
               </AlertsProvider>
             </SiteThemeProvider>
           </VersionHashProvider>

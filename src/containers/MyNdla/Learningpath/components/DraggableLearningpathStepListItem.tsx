@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { PencilLine, CloseLine } from "@ndla/icons";
@@ -69,9 +69,15 @@ interface LearningpathStepListItemProps {
   learningpathId: number;
   step: GQLMyNdlaLearningpathStepFragment;
   index: number;
+  language: string;
 }
 
-export const DraggableLearningpathStepListItem = ({ step, learningpathId, index }: LearningpathStepListItemProps) => {
+export const DraggableLearningpathStepListItem = ({
+  step,
+  learningpathId,
+  index,
+  language,
+}: LearningpathStepListItemProps) => {
   const { t } = useTranslation();
   const { stepId } = useParams();
 
@@ -134,7 +140,7 @@ export const DraggableLearningpathStepListItem = ({ step, learningpathId, index 
             </SafeLinkButton>
           )}
         </ContentWrapper>
-        {!!isEditingStep && <LearningpathStepForm step={step} />}
+        {!!isEditingStep && <LearningpathStepForm step={step} language={language} />}
       </DragWrapper>
     </DraggableListItem>
   );

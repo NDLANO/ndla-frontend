@@ -6,7 +6,6 @@
  *
  */
 
-import queryString from "query-string";
 import { useTranslation } from "react-i18next";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -34,17 +33,25 @@ const getReturnType = (ltiData: LtiData) => {
 };
 const getQuery = (ltiData: LtiData, item: LtiItem) => {
   const baseUrl = config.ndlaEnvironment === "dev" ? "http://localhost:3000" : config.ndlaFrontendDomain;
-  const query = {
+  const returnType = getReturnType(ltiData);
+  const params = new URLSearchParams({
     url: `${baseUrl}/article-iframe/article/${item.id}`,
-    title: item.title,
-    return_type: getReturnType(ltiData),
-    width: ltiData.launch_presentation_width,
-    height: ltiData.launch_presentation_height,
-  };
-  return `${ltiData.launch_presentation_return_url}?${queryString.stringify({
-    ...query,
-    text: query.return_type === "lti_launch_url" ? item.title : undefined,
-  })}`;
+    return_type: returnType,
+  });
+  if (item.title) {
+    params.append("title", item.title);
+  }
+  if (ltiData.launch_presentation_width) {
+    params.append("width", ltiData.launch_presentation_width);
+  }
+  if (ltiData.launch_presentation_height) {
+    params.append("height", ltiData.launch_presentation_height);
+  }
+  if (returnType === "lti_launch_url" && item.title) {
+    params.append("text", item.title);
+  }
+
+  return `${ltiData.launch_presentation_return_url}?${params.toString()}`;
 };
 
 interface Props {

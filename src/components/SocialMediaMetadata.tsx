@@ -7,10 +7,9 @@
  */
 
 import { ReactNode } from "react";
-import { useLocation, Location } from "react-router-dom";
-import { useBaseName } from "./BaseNameContext";
+import { useLocation, useHref } from "react-router";
 import config from "../config";
-import { preferredLocales, isValidLocale } from "../i18n";
+import { isValidLocale, preferredLanguages } from "../i18n";
 
 export const getCanonicalUrl = (pathname: string) => {
   if (!pathname.includes("article-iframe")) {
@@ -37,17 +36,12 @@ export const getAlternateUrl = (pathname: string, alternateLanguage: string) => 
 
 export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
   if (!trackableContent || !trackableContent.supportedLanguages) {
-    return preferredLocales.map((appLocale) => appLocale.abbreviation);
+    return preferredLanguages;
   }
   if (trackableContent?.supportedLanguages?.length === 0) {
     return [];
   }
   return trackableContent.supportedLanguages.filter((language) => isValidLocale(language));
-};
-
-export const getOgUrl = (location: Pick<Location, "pathname">, basename: string) => {
-  const ogBaseName = basename === "" ? "" : `/${basename}`;
-  return `${config.ndlaFrontendDomain}${ogBaseName}${location.pathname}`;
 };
 
 interface TrackableContent {
@@ -76,7 +70,7 @@ const SocialMediaMetadata = ({
   type = "article",
 }: Props) => {
   const location = useLocation();
-  const basename = useBaseName();
+  const href = useHref(location);
   return (
     <>
       <link rel="canonical" href={getCanonicalUrl(path ? path : location.pathname)} />
@@ -90,9 +84,7 @@ const SocialMediaMetadata = ({
       ))}
       {children}
       <meta property="og:type" content={type} />
-      <meta name="twitter:site" content="@ndla_no" />
-      <meta name="twitter:creator" content="@ndla_no" />
-      <meta property="og:url" content={getOgUrl(location, basename)} />
+      <meta property="og:url" content={`${config.ndlaFrontendDomain}${href}`} />
       {!!title && <meta property="og:title" content={`${title} - NDLA`} />}
       {!!description && <meta property="og:description" content={description} />}
       {!!description && <meta name="description" content={description} />}

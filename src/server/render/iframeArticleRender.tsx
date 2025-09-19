@@ -8,23 +8,22 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
 import { MissingRouterContext } from "@ndla/safelink";
-import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
 import { AlertsProvider } from "../../components/AlertsContext";
-import { BaseNameProvider } from "../../components/BaseNameContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
-import { getHtmlLang, initializeI18n, isValidLocale } from "../../i18n";
+import { getHtmlLang, isValidLocale } from "../../i18n";
 import { iframeArticleRoutes } from "../../iframe/iframeArticleRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
+import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
@@ -35,6 +34,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
+  const hash = stringifiedLanguages[locale ?? (config.defaultLocale as LocaleType)].hash;
 
   const noSSR = disableSSR(req);
 
@@ -55,19 +55,21 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
             language={locale ?? config.defaultLocale}
             chunks={chunks}
             devEntrypoint={entryPoints.iframeArticle}
+            hash={hash}
           />,
         ),
         data: {
           chunks,
           config: { ...config, disableSSR: true },
           initialProps,
+          hash,
         },
       },
     };
   }
 
   const client = createApolloClient(locale);
-  const i18n = initializeI18n(i18nInstance, locale ?? config.defaultLocale);
+  const i18n = initializeI18n(locale ?? config.defaultLocale);
   const context: RedirectInfo = {};
 
   const fetchRequest = createFetchRequest(req);
@@ -80,17 +82,20 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
   const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
-    <Document language={locale ?? config.defaultLocale} chunks={chunks} devEntrypoint={entryPoints.iframeArticle}>
+    <Document
+      language={locale ?? config.defaultLocale}
+      chunks={chunks}
+      devEntrypoint={entryPoints.iframeArticle}
+      hash={hash}
+    >
       <RedirectContext value={context}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
-            <BaseNameProvider value={isValidLocale(lang) ? lang : ""}>
-              <AlertsProvider>
-                <MissingRouterContext value={true}>
-                  <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
-                </MissingRouterContext>
-              </AlertsProvider>
-            </BaseNameProvider>
+            <AlertsProvider>
+              <MissingRouterContext value={true}>
+                <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
+              </MissingRouterContext>
+            </AlertsProvider>
           </ApolloProvider>
         </I18nextProvider>
       </RedirectContext>
@@ -121,6 +126,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
           disableSSR: noSSR,
         },
         initialProps,
+        hash,
       },
     },
   };

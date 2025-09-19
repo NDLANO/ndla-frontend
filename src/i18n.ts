@@ -6,87 +6,77 @@
  *
  */
 
-import { i18n } from "i18next";
+import { createInstance, i18n, InitOptions, ReadCallback, Services } from "i18next";
+import { initReactI18next } from "react-i18next";
 import config from "./config";
 import { LocaleType } from "./interfaces";
-import en from "./messages/messagesEN";
-import nb from "./messages/messagesNB";
-import nn from "./messages/messagesNN";
-import se from "./messages/messagesSE";
 
 export const supportedLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
 export const preferredLanguages: LocaleType[] = ["nb", "nn"];
 export const myndlaLanguages: LocaleType[] = ["nb", "nn", "en"];
 
-type LocaleObject = {
-  name: string;
-  abbreviation: LocaleType;
-};
-
-const NB: LocaleObject = {
-  name: "Bokmål",
-  abbreviation: "nb",
-};
-const NN: LocaleObject = {
-  name: "Nynorsk",
-  abbreviation: "nn",
-};
-
-const EN: LocaleObject = {
-  name: "English",
-  abbreviation: "en",
-};
-
-const SE: LocaleObject = {
-  name: "Nordsamisk",
-  abbreviation: "se",
-};
-
-export const appLocales = [NB, NN, EN, SE];
-export const preferredLocales = [NB, NN];
-
-export const getLocaleObject = (localeAbbreviation?: string): LocaleObject => {
-  const locale = appLocales.find((l) => l.abbreviation === localeAbbreviation);
-
-  return locale || NB; // defaults to NB
-};
-
 export const isValidLocale = (localeAbbreviation: string | undefined | null): localeAbbreviation is LocaleType =>
-  appLocales.find((l) => l.abbreviation === localeAbbreviation) !== undefined;
+  !!localeAbbreviation && supportedLanguages.includes(localeAbbreviation as LocaleType);
 
-export const getHtmlLang = (localeAbbreviation?: string): string => {
-  const locale = appLocales.find((l) => l.abbreviation === localeAbbreviation);
-  return locale?.abbreviation ?? config.defaultLocale;
+export const getHtmlLang = (localeAbbreviation?: string): LocaleType => {
+  const locale = supportedLanguages.find((l) => l === localeAbbreviation);
+  return locale ?? (config.defaultLocale as LocaleType);
 };
 
 export const getLangAttributeValue = (lang: string) => {
   return lang === "nn" || lang === "nb" ? "no" : lang;
 };
 
-interface RetType extends LocaleObject {
-  basepath: string;
-  basename: string;
-}
-
-export const getLocaleInfoFromPath = (path: string): RetType => {
+export const getLocaleInfoFromPath = (path: string) => {
   const paths = path.split("/");
   const basename = paths[1] && isValidLocale(paths[1]) ? paths[1] : "";
   const basepath = basename ? path.replace(`/${basename}`, "") : path;
   return {
     basepath: basepath.length === 0 ? "/" : basepath,
     basename,
-    ...getLocaleObject(basename),
-  };
+    abbreviation: getHtmlLang(basename),
+  } as const;
 };
 
-export const initializeI18n = (i18n: i18n, language: string): i18n => {
-  const instance = i18n.cloneInstance({
-    lng: language,
-    supportedLngs: preferredLanguages,
-  });
-  i18n.addResourceBundle("en", "translation", en, true, true);
-  i18n.addResourceBundle("nb", "translation", nb, true, true);
-  i18n.addResourceBundle("nn", "translation", nn, true, true);
-  i18n.addResourceBundle("se", "translation", se, true, true);
-  return instance;
+export const initializeI18n = (locale: string, hash: string): i18n => {
+  const i18nInstance = createInstance({
+    lng: locale,
+    supportedLngs: supportedLanguages,
+    backend: {
+      hash,
+      loadPath: "/locales/{{lng}}/{{ns}}.json",
+    },
+  })
+    .use(initReactI18next)
+    .use(I18nBackend);
+  i18nInstance.init();
+  return i18nInstance as i18n;
 };
+
+class I18nBackend {
+  services: Services;
+  options: any;
+  allOptions: InitOptions;
+  static type: "backend";
+
+  constructor(services: Services, options: object = {}, allOptions: InitOptions = {}) {
+    this.services = services;
+    this.options = options;
+    this.allOptions = allOptions;
+    this.init(services, options, allOptions);
+  }
+  init(services: Services, backendOptions = {}, allOptions: InitOptions = {}) {
+    this.services = services;
+    this.options = backendOptions;
+    this.allOptions = allOptions;
+  }
+
+  read(language: string, namespace: string, callback: ReadCallback) {
+    return fetch(`/locales/${language}/${namespace}-${this.options.hash}.json`)
+      .then((res) => res.json())
+      .then((data) => callback(null, data))
+      .catch((err) => callback(err, false));
+  }
+}
+
+I18nBackend.type = "backend";

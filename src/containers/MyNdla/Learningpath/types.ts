@@ -16,3 +16,7 @@ export type FormValues = TextFormValues | ExternalFormValues | ResourceFormValue
 export interface LocationState {
   focusStepId?: string;
 }
+
+export interface LearningPathOutletContext {
+  language: string;
+}

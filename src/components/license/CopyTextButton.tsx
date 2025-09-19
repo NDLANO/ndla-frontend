@@ -6,64 +6,44 @@
  *
  */
 
-import { Component, ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Button } from "@ndla/primitives";
-import { copyTextToClipboard } from "@ndla/util";
 
 interface Props {
-  stringToCopy?: string;
+  stringToCopy: string;
   copyTitle: string;
   hasCopiedTitle: string;
   children?: ReactNode;
 }
 
-interface State {
-  hasCopied: boolean;
-}
-class CopyTextButton extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { hasCopied: false };
-    this.handleClick = this.handleClick.bind(this);
-  }
+const CopyTextButton = ({ stringToCopy, copyTitle, hasCopiedTitle, children }: Props) => {
+  const [hasCopied, setHasCopied] = useState(false);
 
-  timeout: ReturnType<typeof setTimeout> | undefined;
-  buttonContainer: HTMLSpanElement | null = null;
-
-  componentWillUnmount() {
-    window.clearTimeout(this.timeout!);
-  }
-
-  handleClick() {
-    const { stringToCopy } = this.props;
-    const success = copyTextToClipboard(stringToCopy ?? "", this.buttonContainer!);
-
-    if (success) {
-      this.setState({ hasCopied: true });
-
-      this.timeout = setTimeout(() => {
-        // Reset state after 10 seconds
-        this.setState({ hasCopied: false });
-      }, 10000);
+  const handleClick = async () => {
+    try {
+      await navigator.clipboard.writeText(stringToCopy);
+      setHasCopied(true);
+    } catch (_) {
+      setHasCopied(false);
     }
-  }
+  };
 
-  render() {
-    const { hasCopied } = this.state;
-    const { copyTitle, hasCopiedTitle, children } = this.props;
-    return (
-      <span
-        ref={(r) => {
-          this.buttonContainer = r;
-        }}
-      >
-        <Button variant="secondary" disabled={hasCopied} onClick={this.handleClick} size="small">
-          {children}
-          {hasCopied ? hasCopiedTitle : copyTitle}
-        </Button>
-      </span>
-    );
-  }
-}
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout> | undefined = undefined;
+    if (hasCopied) {
+      timeout = setTimeout(() => setHasCopied(!hasCopied), 10000);
+    }
+    return () => window.clearTimeout(timeout);
+  }, [hasCopied]);
+
+  return (
+    <span>
+      <Button variant="secondary" disabled={hasCopied} onClick={handleClick} size="small">
+        {children}
+        {hasCopied ? hasCopiedTitle : copyTitle}
+      </Button>
+    </span>
+  );
+};
 
 export default CopyTextButton;

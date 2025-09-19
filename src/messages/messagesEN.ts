@@ -104,7 +104,7 @@ const messages = {
     traits: {
       VIDEO: "Video",
       AUDIO: "Audio",
-      H5P: "Interactive task",
+      H5P: "Interactive content",
       PODCAST: "Podcast",
     },
     context: {
@@ -279,6 +279,10 @@ const messages = {
           metaImageHelper: "Add a pciture that represents the learningpath",
           noResult: "No images matches your search query",
           imageRequired: "Please choose an image.",
+        },
+        metadata: {
+          title: "Meta data",
+          introductionHelper: "This content will be displayed on the front page of your learning path",
         },
         content: {
           title: "Append content",
@@ -773,6 +777,7 @@ const messages = {
     },
   },
   learningpathPage: {
+    introduction: "Introduction",
     accordionTitle: "Learning path content",
     learningsteps: "Steps",
     stepCompleted: "Completed",

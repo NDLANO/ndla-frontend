@@ -8,7 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router";
 import { Spinner, Heading, Button } from "@ndla/primitives";
 import { Stack } from "@ndla/styled-system/jsx";
 import { useTracker, HelmetWithTracker } from "@ndla/tracker";
@@ -17,6 +17,8 @@ import { TitleFormValues, TitleForm } from "./components/TitleForm";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
+import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
@@ -32,7 +34,7 @@ export const Component = () => {
 export const EditLearningpathTitlePage = () => {
   const [updatePath] = useUpdateLearningpath();
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { trackPageView } = useTracker();
   const { learningpathId } = useParams();
   const { user } = useContext(AuthContext);
@@ -50,21 +52,27 @@ export const EditLearningpathTitlePage = () => {
     });
   }, [data?.myNdlaLearningpath?.title, t, trackPageView, user]);
 
-  const onSaveTitle = async ({ title, imageUrl }: TitleFormValues) => {
+  const onSaveTitle = async ({ title, imageUrl, introduction: formIntroduction }: TitleFormValues) => {
+    const learningpath = data?.myNdlaLearningpath;
+    if (!learningpath) return;
+    const serializedIntroduction = serializeFromRichText(formIntroduction);
+    const introduction = serializedIntroduction === "<section></section>" ? null : serializedIntroduction;
     if (
-      data?.myNdlaLearningpath &&
-      (data.myNdlaLearningpath.title !== title || data.myNdlaLearningpath.coverphoto?.url !== imageUrl)
+      learningpath.title !== title ||
+      learningpath.coverphoto?.url !== imageUrl ||
+      learningpath.introduction !== introduction
     ) {
       await updatePath({
         variables: {
-          learningpathId: data.myNdlaLearningpath.id,
+          learningpathId: learningpath.id,
           params: {
             title,
             coverPhotoMetaUrl: imageUrl,
             description: " ",
-            language: i18n.language,
-
-            revision: data.myNdlaLearningpath.revision,
+            //@ts-expect-error - this is null instead of undefined
+            introduction: introduction,
+            language: learningpath.supportedLanguages[0] ?? config.defaultLocale,
+            revision: learningpath.revision,
           },
         },
       });
@@ -99,6 +107,7 @@ export const EditLearningpathTitlePage = () => {
         initialValues={{
           title: data.myNdlaLearningpath.title,
           imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl,
+          introduction: deserializeToRichText(data.myNdlaLearningpath.introduction ?? ""),
         }}
       />
       <Stack justify="flex-end" direction="row">

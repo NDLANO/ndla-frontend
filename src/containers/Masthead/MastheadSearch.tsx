@@ -8,10 +8,9 @@
 
 import parse from "html-react-parser";
 import { debounce } from "lodash-es";
-import queryString from "query-string";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router";
 import { gql, useLazyQuery, useQuery } from "@apollo/client";
 import { createListCollection } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";
@@ -44,10 +43,9 @@ import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopov
 import {
   GQLCurrentContextQuery,
   GQLCurrentContextQueryVariables,
-  GQLSearchQuery,
-  GQLSearchQueryVariables,
+  GQLMastheadSearchQuery,
+  GQLMastheadSearchQueryVariables,
 } from "../../graphqlTypes";
-import { searchQuery } from "../../queries";
 import { isValidContextId } from "../../util/urlHelper";
 
 const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
@@ -200,6 +198,45 @@ const currentContextQueryDef = gql`
   }
 `;
 
+const searchQuery = gql`
+  query mastheadSearch($query: String, $language: String) {
+    search(
+      query: $query
+      language: $language
+      contextTypes: "standard,learningpath,topic-article,node"
+      fallback: "true"
+      filterInactive: true
+      license: "all"
+      nodeTypes: "SUBJECT"
+      page: 1
+      pageSize: 10
+      resultTypes: "node,article,learningpath"
+    ) {
+      results {
+        id
+        title
+        url
+        metaDescription
+        ... on ArticleSearchResult {
+          htmlTitle
+        }
+        ... on LearningpathSearchResult {
+          htmlTitle
+        }
+        contexts {
+          contextId
+          isPrimary
+          breadcrumbs
+          url
+          resourceTypes {
+            id
+          }
+        }
+      }
+    }
+  }
+`;
+
 const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
@@ -263,26 +300,15 @@ const MastheadSearch = () => {
     return () => window.removeEventListener("keydown", onSlashPressed);
   }, [dialogState.open]);
 
-  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<GQLSearchQuery, GQLSearchQueryVariables>(
-    searchQuery,
-    { fetchPolicy: "no-cache" },
-  );
+  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<
+    GQLMastheadSearchQuery,
+    GQLMastheadSearchQueryVariables
+  >(searchQuery, { fetchPolicy: "no-cache" });
 
   useEffect(() => {
     if (delayedSearchQuery.length >= 2) {
       runSearch({
-        variables: {
-          query: delayedSearchQuery,
-          contextTypes: "standard,learningpath,topic-article,node",
-          fallback: "true",
-          filterInactive: true,
-          license: "all",
-          language: i18n.language,
-          nodeTypes: "SUBJECT",
-          page: 1,
-          pageSize: 10,
-          resultTypes: "node,article,learningpath",
-        },
+        variables: { query: delayedSearchQuery, language: i18n.language },
       });
     }
   }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
@@ -325,9 +351,7 @@ const MastheadSearch = () => {
     );
   }, [query.length, searchResult.search?.results]);
 
-  const searchString = queryString.stringify({
-    query: query && query.length > 0 ? encodeURIComponent(query) : undefined,
-  });
+  const searchString = new URLSearchParams(query?.length ? { query: encodeURIComponent(query) } : undefined).toString();
 
   const onSearch = (evt?: FormEvent) => {
     evt?.preventDefault();

@@ -31,7 +31,6 @@ import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./Compet
 import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
-import handleError from "../util/handleError";
 
 interface Props {
   supportedLanguages?: string[];
@@ -226,7 +225,6 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
   }, [data?.competenceGoals, data?.coreElements, isOembed, subjectId, t]);
 
   if (error) {
-    handleError(error);
     return null;
   }
 

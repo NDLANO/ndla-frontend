@@ -8,9 +8,13 @@
 
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldRoot, Heading } from "@ndla/primitives";
+import { Descendant } from "slate";
+import { ContentEditableFieldLabel } from "@ndla/editor-components";
+import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import RichTextEditor from "../../../../components/RichTextEditor/RichTextEditor";
+import { deserializeToRichText } from "../../../../components/RichTextEditor/richTextSerialization";
 import { routes } from "../../../../routeHelpers";
 import useValidationTranslation from "../../../../util/useValidationTranslation";
 import FieldLength from "../../components/FieldLength";
@@ -26,6 +30,7 @@ const StyledForm = styled("form", {
 export interface TitleFormValues {
   title: string;
   imageUrl: string | undefined;
+  introduction: Descendant[];
 }
 interface Props {
   onSave: (data: TitleFormValues) => Promise<void>;
@@ -42,13 +47,14 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
     values: {
       title: initialValues?.title ?? "",
       imageUrl: initialValues?.imageUrl ?? undefined,
+      introduction: initialValues?.introduction ?? deserializeToRichText(""),
     },
   });
 
   return (
     <StyledForm onSubmit={handleSubmit(onSave)} id="titleForm">
       <Heading textStyle="heading.small" asChild consumeCss>
-        <h2>{t("myNdla.learningpath.form.steps.title")}</h2>
+        <h2>{t("myNdla.learningpath.form.metadata.title")}</h2>
       </Heading>
       <Controller
         control={control}
@@ -66,13 +72,25 @@ export const TitleForm = ({ onSave, initialValues }: Props) => {
         }}
         render={({ field, fieldState }) => (
           <FieldRoot invalid={!!fieldState.error?.message}>
-            {/* <FieldLabel fontWeight="bold" textStyle="label.large">
+            <FieldLabel fontWeight="bold" textStyle="label.large">
               {t("validation.fields.title")}
-            </FieldLabel> */}
+            </FieldLabel>
             <FieldHelper>{t("myNdla.learningpath.form.title.titleHelper")}</FieldHelper>
             <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
             <FieldInput {...field} />
             <FieldLength value={field.value?.length ?? 0} maxLength={MAX_NAME_LENGTH} />
+          </FieldRoot>
+        )}
+      />
+      <Controller
+        control={control}
+        name="introduction"
+        render={({ field: { value, ...rest }, fieldState }) => (
+          <FieldRoot invalid={!!fieldState.error?.message}>
+            <ContentEditableFieldLabel>{t("validation.fields.introduction")}</ContentEditableFieldLabel>
+            <FieldHelper>{t("myNdla.learningpath.form.metadata.introductionHelper")}</FieldHelper>
+            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+            <RichTextEditor initialValue={value} {...rest} />
           </FieldRoot>
         )}
       />

@@ -6,10 +6,9 @@
  *
  */
 
-import queryString from "query-string";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
@@ -35,11 +34,9 @@ import {
 } from "../MediaList/MediaList";
 
 export const downloadUrl = (imageSrc: string) => {
-  const urlObject = queryString.parseUrl(imageSrc);
-  return `${urlObject.url}?${queryString.stringify({
-    ...urlObject.query,
-    download: true,
-  })}`;
+  const url = new URL(imageSrc);
+  url.searchParams.set("download", "true");
+  return url.toString();
 };
 
 interface ImageLicenseInfoProps {

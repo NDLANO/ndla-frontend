@@ -6,8 +6,8 @@
  *
  */
 
-import { t } from "i18next";
 import { useState, useMemo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
@@ -135,6 +135,7 @@ interface ComboboxProps {
 }
 
 export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [stitchedResources, setStitchedResources] = useState<GQLFolderResourceWithCrumb[]>([]);

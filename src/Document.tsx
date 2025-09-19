@@ -13,6 +13,7 @@ import config from "./config";
 
 interface Props {
   language: string;
+  hash: string;
   children?: ReactNode;
   chunks?: ManifestChunk[];
   devEntrypoint: string;
@@ -26,7 +27,7 @@ const getUniqueCss = (chunks: ManifestChunk[]) => {
   return Array.from(uniq);
 };
 
-export const Document = ({ language, children, chunks = [], devEntrypoint }: Props) => {
+export const Document = ({ language, hash, children, chunks = [], devEntrypoint }: Props) => {
   const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
   const locale = language === "nb" || language === "nn" ? "no" : language;
 
@@ -39,15 +40,23 @@ export const Document = ({ language, children, chunks = [], devEntrypoint }: Pro
         <link rel="icon" type="image/png" sizes="32x32" href={`/static/favicon-${faviconEnvironment}-32x32.png`} />
         <link rel="icon" type="image/png" sizes="16x16" href={`/static/favicon-${faviconEnvironment}-16x16.png`} />
         <link
+          rel="preload"
+          href={`/locales/${language}/translation-${hash}.json`}
+          as="fetch"
+          type="application/json"
+          crossOrigin="anonymous"
+        />
+        <link
           rel="apple-touch-icon"
           type="image/png"
           sizes="180x180"
           href={`/static/apple-touch-icon-${faviconEnvironment}.png`}
         />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1 viewport-fit=cover" />
-        <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" as="style" />
+        <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" />
       </head>
       <body>
         <script

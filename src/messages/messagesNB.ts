@@ -104,7 +104,7 @@ const messages = {
     traits: {
       VIDEO: "Video",
       AUDIO: "Lyd",
-      H5P: "Interaktiv oppgave",
+      H5P: "Interaktivt innhold",
       PODCAST: "Podkast",
     },
     context: {
@@ -278,6 +278,10 @@ const messages = {
           metaImageHelper: "Legg til et bilde som representerer læringsstien din",
           noResult: "Ingen bilder treffer søketeksten din",
           imageRequired: "Vennligst velg et bilde.",
+        },
+        metadata: {
+          title: "Metadata",
+          introductionHelper: "Innholdet her vil vises på forsiden av læringsstien din.",
         },
         content: {
           title: "Legg til innhold",
@@ -771,6 +775,7 @@ const messages = {
     },
   },
   learningpathPage: {
+    introduction: "Introduksjon",
     accordionTitle: "Innhold i læringssti",
     learningsteps: "Læringssteg",
     stepCompleted: "Fullført",

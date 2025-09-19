@@ -7,11 +7,10 @@
  */
 
 import { ReactElement, useContext } from "react";
-import { useLocation } from "react-router-dom";
+import { useHref, useLocation } from "react-router";
 import { NoSSR } from "@ndla/util";
 import { AuthContext } from "../../components/AuthenticationContext";
-import { useBaseName } from "../../components/BaseNameContext";
-import { constructNewPath, toHref } from "../../util/urlHelper";
+import { toHref } from "../../util/urlHelper";
 
 interface Props {
   element: ReactElement | null;
@@ -20,10 +19,10 @@ interface Props {
 const ClientPrivateRoute = ({ element }: Props) => {
   const { authenticated } = useContext(AuthContext);
   const location = useLocation();
-  const basename = useBaseName();
+  const loginHref = useHref(`/login?state=${toHref(location)}`);
 
   if (!authenticated) {
-    window.location.href = constructNewPath(`/login?state=${toHref(location)}`, basename);
+    window.location.href = loginHref;
     return null;
   }
 

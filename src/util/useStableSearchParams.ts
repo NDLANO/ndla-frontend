@@ -7,9 +7,9 @@
  */
 
 import { useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router";
 
-// The purpose of this hook is to provide a stable search params object that is always sorted by key. `useSearchParams` from "react-router-dom" does not guarantee the order of the search params.
+// The purpose of this hook is to provide a stable search params object that is always sorted by key. `useSearchParams` from "react-router" does not guarantee the order of the search params.
 export const useStableSearchParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 

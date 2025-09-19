@@ -58,7 +58,8 @@ export default defineConfig(({ isSsrBuild, mode }) => {
       },
     },
     resolve: {
-      dedupe: ["react-router", "react-router-dom", "i18next", "react-i18next", "@ark-ui/react"],
+      dedupe: ["react-router", "i18next", "react-i18next", "@ark-ui/react", "react", "react-dom"],
+      conditions: ["module-sync"],
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),

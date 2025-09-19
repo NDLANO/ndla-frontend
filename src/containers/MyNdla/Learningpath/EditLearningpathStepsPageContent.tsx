@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router";
 import {
   closestCenter,
   DndContext,
@@ -34,7 +34,8 @@ import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
-import { LocationState } from "./types";
+import { LearningPathOutletContext, LocationState } from "./types";
+import config from "../../../config";
 
 const StyledOl = styled("ol", {
   base: {
@@ -51,12 +52,12 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
   const [sortedLearningpathSteps, setSortedLearningpathSteps] = useState(learningpath.learningsteps ?? []);
   const { t } = useTranslation();
   const { stepId } = useParams();
-
   const [updateLearningpathStepSeqNo] = useUpdateLearningpathStepSeqNo();
   const toast = useToast();
   const headingRef = useRef<HTMLHeadingElement>(null);
-
   const location = useLocation();
+
+  const language = learningpath.supportedLanguages[0] ?? config.defaultLocale;
 
   useEffect(() => {
     if (!learningpath.learningsteps) return;
@@ -139,13 +140,14 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
                     step={step}
                     learningpathId={learningpath.id}
                     index={index}
+                    language={language}
                   />
                 ))}
               </StyledOl>
             </SortableContext>
           </DndContext>
         )}
-        <Outlet />
+        <Outlet context={{ language } satisfies LearningPathOutletContext} />
       </Stack>
       <Stack justify="space-between" direction="row">
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditTitle(learningpath.id)}>

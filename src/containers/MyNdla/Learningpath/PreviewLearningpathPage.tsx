@@ -8,7 +8,7 @@
 
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -90,10 +90,14 @@ export const PreviewLearningpathPage = () => {
   const learningpath = learningpathQuery.data.learningpath;
   const numericStepId = stepId ? Number(stepId) : undefined;
 
-  // If stepId is provided, find it. If not, fall back to the first step.
+  // If stepId is provided, find it.
+  // If the learningpath has an introduction, display it.
+  // If not, fall back to the first step.
   const learningpathStep = numericStepId
     ? learningpath.learningsteps.find((step) => step.id === numericStepId)
-    : learningpath.learningsteps[0];
+    : learningpath.introduction
+      ? undefined
+      : learningpath.learningsteps[0];
 
   // stepId is defined, but not found within the learningpath
   if (!learningpath.canEdit || (numericStepId && numericStepId > 0 && !learningpathStep)) {
@@ -119,7 +123,7 @@ export const PreviewLearningpathPage = () => {
         </Heading>
         <Text>{t("myNdla.learningpath.previewLearningpath.pageDescription")}</Text>
       </TextWrapper>
-      {learningpathStep ? (
+      {learningpathStep || learningpath.introduction?.length ? (
         <Learningpath
           // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
           learningpath={learningpath}

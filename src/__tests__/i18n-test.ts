@@ -6,15 +6,15 @@
  *
  */
 
-import { isValidLocale, getLocaleInfoFromPath, getLocaleObject } from "../i18n";
+import { isValidLocale, getLocaleInfoFromPath, getHtmlLang } from "../i18n";
 
-test("i18n getLocaleObject()", () => {
-  expect(getLocaleObject("nn").abbreviation).toBe("nn");
+test("i18n getHtmlLanguage()", () => {
+  expect(getHtmlLang("nn")).toBe("nn");
 
-  expect(getLocaleObject("nb").abbreviation).toBe("nb");
+  expect(getHtmlLang("nb")).toBe("nb");
 
   // Defaults to nb if locale not found
-  expect(getLocaleObject("ru").abbreviation).toBe("nb");
+  expect(getHtmlLang("ru")).toBe("nb");
 });
 
 test("i18n isValidLocale()", () => {

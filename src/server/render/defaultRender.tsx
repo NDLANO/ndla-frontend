@@ -8,15 +8,13 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router-dom";
+import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client";
 import { renderToStringWithData } from "@apollo/client/react/ssr";
-import { i18nInstance } from "@ndla/ui";
 import { disableSSR } from "./renderHelpers";
 import { routes } from "../../appRoutes";
 import { AlertsProvider } from "../../components/AlertsContext";
 import AuthenticationContext from "../../components/AuthenticationContext";
-import { BaseNameProvider } from "../../components/BaseNameContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
@@ -24,11 +22,12 @@ import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";
-import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "../../i18n";
+import { getLocaleInfoFromPath, isValidLocale } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
+import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
@@ -46,17 +45,21 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
 
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const noSSR = disableSSR(req);
+  const hash = stringifiedLanguages[locale].hash;
 
   if (noSSR) {
     return {
       status: OK,
       locale,
       data: {
-        htmlContent: renderToString(<Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} />),
+        htmlContent: renderToString(
+          <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} hash={hash} />,
+        ),
         data: {
           config: { ...config, disableSSR: noSSR },
           siteTheme,
           chunks,
+          hash,
           serverPath: req.path,
           serverQuery: req.query,
         },
@@ -65,7 +68,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
   }
 
   const client = createApolloClient(locale, versionHash);
-  const i18n = initializeI18n(i18nInstance, locale);
+  const instance = initializeI18n(locale);
   const redirectContext: RedirectInfo = {};
   const responseContext: ResponseInfo = {};
 
@@ -82,19 +85,17 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
   const router = createStaticRouter(dataRoutes, context);
 
   const Page = (
-    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default}>
+    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} hash={hash}>
       <RedirectContext value={redirectContext}>
-        <I18nextProvider i18n={i18n}>
+        <I18nextProvider i18n={instance}>
           <ApolloProvider client={client}>
             <ResponseContext value={responseContext}>
               <VersionHashProvider value={versionHash}>
                 <SiteThemeProvider value={siteTheme}>
                   <AlertsProvider>
-                    <BaseNameProvider value={basename}>
-                      <AuthenticationContext>
-                        <StaticRouterProvider router={router} context={context} hydrate={false} />
-                      </AuthenticationContext>
-                    </BaseNameProvider>
+                    <AuthenticationContext>
+                      <StaticRouterProvider router={router} context={context} hydrate={false} />
+                    </AuthenticationContext>
                   </AlertsProvider>
                 </SiteThemeProvider>
               </VersionHashProvider>
@@ -124,6 +125,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
       data: {
         siteTheme: siteTheme,
         chunks,
+        hash: stringifiedLanguages[locale].hash,
         serverResponse: redirectContext.status ?? undefined,
         serverPath: req.path,
         serverQuery: req.query,

@@ -9,7 +9,7 @@
 import express from "express";
 import jwt from "jsonwebtoken";
 import { errors as oidcErrors } from "openid-client";
-import { matchPath } from "react-router-dom";
+import { matchPath } from "react-router";
 import { IMyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
 import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
@@ -20,7 +20,7 @@ import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
-import config, { getEnvironmentVariabel } from "../config";
+import config, { getEnvironmentVariable } from "../config";
 import { ABOUT_PATH, AUTOLOGIN_COOKIE, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
 import { routes } from "../routeHelpers";
@@ -31,6 +31,7 @@ import { BadRequestError } from "../util/error/StatusError";
 import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
 import log from "../util/logger";
 import { constructNewPath } from "../util/urlHelper";
+import { stringifiedLanguages } from "./locales/locales";
 
 const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
 const router = express.Router();
@@ -127,7 +128,7 @@ router.get("/login/success", async (req, res) => {
         email: userInfo.email,
         groups: ["unverified-users"],
       };
-      const nodebbCookieString = jwt.sign(nodebbUser, getEnvironmentVariabel("NODEBB_SECRET", "secret"));
+      const nodebbCookieString = jwt.sign(nodebbUser, getEnvironmentVariable("NODEBB_SECRET", "secret"));
       res.cookie("nodebb_auth", nodebbCookieString, { expires: new Date(feideCookie.ndla_expires_at), domain });
     }
   } catch (error) {
@@ -200,6 +201,16 @@ router.post("/lti/oauth", async (req, res) => {
   }
   res.setHeader("Cache-Control", "private");
   res.send(JSON.stringify(generateOauthData(query.url, body)));
+});
+
+router.get("/locales/:lang/:ns-:hash.json", (req, res) => {
+  if (!isValidLocale(req.params.lang) || req.params.ns !== "translation") {
+    res.sendStatus(BAD_REQUEST);
+    return;
+  }
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.setHeader("Content-Type", "application/json");
+  res.send(stringifiedLanguages[req.params.lang].translations);
 });
 
 /** Handle different paths to a node in old ndla. */

@@ -68,11 +68,9 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   const learningpathStep = stepId
     ? learningpath.learningsteps?.find((step) => step.id.toString() === stepId.toString())
-    : learningpath.learningsteps?.[0];
-
-  if (!learningpathStep) {
-    return null;
-  }
+    : learningpath.introduction?.length
+      ? undefined
+      : learningpath.learningsteps?.[0];
 
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
 

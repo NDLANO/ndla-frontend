@@ -7,20 +7,17 @@
  */
 
 import { TFunction } from "i18next";
-import queryString from "query-string";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { ErrorMessage, constants } from "@ndla/ui";
-import { sortBy } from "@ndla/util";
+import { groupBy, sortBy } from "@ndla/util";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
 import SubjectCategory from "./SubjectCategory";
-import { filterSubjects, groupSubjects } from "./utils";
 import { useNavigateToHash } from "../../components/Article/articleHelpers";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -28,7 +25,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
-import { nodeWithMetadataFragment } from "../../queries";
+import { useStableSearchParams } from "../../util/useStableSearchParams";
 
 const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
 
@@ -89,16 +86,21 @@ const StyledList = styled("ul", {
 const allSubjectsQuery = gql`
   query allSubjects {
     nodes(nodeType: "SUBJECT", filterVisible: true) {
-      ...NodeWithMetadata
+      id
+      name
+      url
+      metadata {
+        customFields
+      }
     }
   }
-  ${nodeWithMetadataFragment}
 `;
+
+const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
 
 export const AllSubjectsPage = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [params, setParams] = useStableSearchParams();
   const { user } = useContext(AuthContext);
 
   useNavigateToHash(undefined);
@@ -106,24 +108,29 @@ export const AllSubjectsPage = () => {
   const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const { filter } = queryString.parse(location.search, { arrayFormat: "none" });
-  const [selectedFilter, _setSelectedFilter] = useState<string>(filter?.[0] ?? ACTIVE_SUBJECTS);
+  const selectedFilter = params.get("filter") ?? ACTIVE_SUBJECTS;
 
   const setFilter = (value: string) => {
-    const searchObject = queryString.parse(location.search);
-    _setSelectedFilter(value);
-    const search = queryString.stringify({
-      ...searchObject,
-      filter: value,
-    });
-    navigate(`${location.pathname}?${search}`);
+    setParams({ filter: value }, { replace: true });
   };
 
   const favoriteSubjects = user?.favoriteSubjects;
   const sortedSubjects = useMemo(() => sortBy(subjectsQuery.data?.nodes, (s) => s.name), [subjectsQuery.data?.nodes]);
   const groupedSubjects = useMemo(() => {
-    const filteredSubjects = filterSubjects(sortedSubjects, selectedFilter);
-    return groupSubjects(filteredSubjects);
+    const filteredSubjects = sortedSubjects.filter((sub) => {
+      const fields = sub.metadata.customFields;
+      return selectedFilter === "all" ? fields.subjectCategory : fields.subjectCategory === selectedFilter;
+    });
+
+    const grouped = groupBy(filteredSubjects, (sub) => {
+      const firstChar = sub.name[0]?.toUpperCase();
+      return firstChar?.match(LETTER_REGEXP) ? firstChar : "#";
+    });
+
+    return sortBy(
+      Object.entries(grouped).map((g) => ({ label: g[0], subjects: g[1] })),
+      (g) => g.label,
+    );
   }, [sortedSubjects, selectedFilter]);
 
   const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);

@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import ProgrammeContainer from "./ProgrammeContainer";
 import { RedirectExternal } from "../../components/";

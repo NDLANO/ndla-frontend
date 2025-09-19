@@ -8,9 +8,8 @@
 
 import "../../style/index.css";
 import { I18nextProvider } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router";
 import { MissingRouterContext } from "@ndla/safelink";
-import { i18nInstance } from "@ndla/ui";
 import { errorRoutes } from "../../appRoutes";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { Document } from "../../Document";
@@ -19,18 +18,18 @@ import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
 import { renderOrHydrate } from "../../util/renderOrHydrate";
 import { initSentry } from "../../util/sentry";
 
-const { config, serverPath, chunks } = window.DATA;
+const { config, serverPath, chunks, hash } = window.DATA;
 
 initSentry(config);
 
 const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
-const i18n = initializeI18n(i18nInstance, abbreviation);
+const i18n = initializeI18n(abbreviation, hash);
 
 const router = createBrowserRouter(errorRoutes);
 
 renderOrHydrate(
   document,
-  <Document language={abbreviation} chunks={chunks} devEntrypoint={entryPoints.error}>
+  <Document language={abbreviation} chunks={chunks} devEntrypoint={entryPoints.error} hash={hash}>
     <I18nextProvider i18n={i18n}>
       <MissingRouterContext value={true}>
         <SiteThemeProvider value={window.DATA.siteTheme}>

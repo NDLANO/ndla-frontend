@@ -7,10 +7,9 @@
  */
 
 import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
-import { useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { partition, uniq } from "@ndla/util";
 import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
-import { alertsQuery } from "../queries";
 import log from "../util/logger";
 
 interface AlertsContextProps {
@@ -61,6 +60,17 @@ const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
     log.error("Could not save closedAlerts to localStorage.");
   }
 };
+
+const alertsQuery = gql`
+  query alerts {
+    alerts {
+      title
+      body
+      closable
+      number
+    }
+  }
+`;
 
 const AlertsProvider = ({ children }: Props) => {
   const [openAlerts, setOpenAlerts] = useState<GQLUptimeAlert[]>([]);

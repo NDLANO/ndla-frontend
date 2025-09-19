@@ -24,7 +24,7 @@ test("can create learningpaths", async ({ page, harCheckpoint, waitGraphql }) =>
   await expect(page.locator("ol")).toBeVisible();
   const paths = await page.getByRole("main").getByRole("listitem").count();
   await page.getByRole("link", { name: "Ny", exact: true }).click();
-  await page.getByRole("textbox").fill("TEST LÆRINGSSTI");
+  await page.getByRole("textbox").first().fill("TEST LÆRINGSSTI");
   await page.getByRole("button", { name: "Gå videre" }).click();
   await harCheckpoint();
   await waitGraphql();
@@ -37,8 +37,8 @@ test("can edit learningpath title", async ({ page, harCheckpoint }) => {
   const newTitle = Math.random().toString().substring(2, 8);
   await page.getByRole("main").getByRole("listitem").last().getByRole("link").click();
   await page.getByRole("link", { name: "Forrige", exact: true }).click();
-  await page.getByRole("textbox").clear();
-  await page.getByRole("textbox").fill(newTitle);
+  await page.getByRole("textbox").first().clear();
+  await page.getByRole("textbox").first().fill(newTitle);
   await expect(page.getByRole("button", { name: "Gå videre", exact: true })).toBeEnabled();
 });
 

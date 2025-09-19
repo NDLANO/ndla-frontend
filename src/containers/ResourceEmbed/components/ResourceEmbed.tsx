@@ -9,7 +9,7 @@
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
+import { useLocation } from "react-router";
 import { gql, useQuery } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
 import { HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
