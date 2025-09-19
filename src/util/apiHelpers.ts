@@ -249,7 +249,7 @@ export const createApolloLinks = (lang: string, versionHash?: any) => {
   const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
     if (graphQLErrors) {
       graphQLErrors.forEach((err) => {
-        if (!config.isClient || err.extensions?.status !== 404) {
+        if (err.extensions?.status !== 404) {
           handleError(new NDLAGraphQLError(err, operation));
         }
       });

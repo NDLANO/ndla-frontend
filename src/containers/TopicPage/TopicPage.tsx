@@ -18,7 +18,7 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
 import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
-import handleError, { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
+import { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -102,7 +102,6 @@ export const TopicPage = () => {
   }
 
   if (query.error) {
-    handleError(query.error);
     const accessDeniedErrors = findAccessDeniedErrors(query.error);
     if (accessDeniedErrors.length) {
       const nonRecoverableError = accessDeniedErrors.some(

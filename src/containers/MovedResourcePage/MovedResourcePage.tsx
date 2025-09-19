@@ -18,7 +18,6 @@ import NavigationBox from "../../components/NavigationBox";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { contentTypeMapping } from "../../util/getContentType";
-import handleError from "../../util/handleError";
 
 interface Props {
   resource: GQLMovedResourcePage_NodeFragment;
@@ -88,7 +87,6 @@ const MovedResourcePage = ({ resource }: Props) => {
   }
 
   if (error) {
-    handleError(error);
     return <DefaultErrorMessagePage />;
   }
 
