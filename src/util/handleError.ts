@@ -62,8 +62,10 @@ export const InternalServerErrorCodes = [500, 503, 504];
 const isErrorOfType = (error: ErrorLike | undefined | null, errorCodes: number[]): error is CombinedGraphQLErrors => {
   if (!error) return false;
   else if (CombinedGraphQLErrors.is(error)) {
-    //@ts-expect-error - I don't know if `e.status` can actually happen, but we used to check for it.
-    return error.errors.some((e) => errorCodes.includes(e.status) || errorCodes.includes(e.extensions?.status));
+    return error.errors.some(
+      // I don't know if `e.status` can actually happen, but we used to check it
+      (e) => errorCodes.includes((e as any).status as number) || errorCodes.includes(e.extensions?.status as number),
+    );
   } else return false;
 };
 
