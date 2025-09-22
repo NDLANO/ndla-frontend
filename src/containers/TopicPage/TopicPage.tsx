@@ -24,8 +24,8 @@ import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 export const topicPageQuery = gql`
-  query topicPage($id: String, $rootId: String, $contextId: String, $transformArgs: TransformedArticleContentInput) {
-    node(id: $id, rootId: $rootId, contextId: $contextId) {
+  query topicPage($rootId: String, $contextId: String, $transformArgs: TransformedArticleContentInput) {
+    node(rootId: $rootId, contextId: $contextId) {
       id
       name
       supportedLanguages
