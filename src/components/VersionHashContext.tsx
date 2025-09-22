@@ -25,5 +25,5 @@ export const useVersionHash = () => {
   if (context === undefined) {
     return defaultValue;
   }
-  return context;
+  return context ?? defaultValue;
 };
