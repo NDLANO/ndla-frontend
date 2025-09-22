@@ -200,7 +200,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                   />
                 )
               }
-              lang={article.language === "nb" ? "no" : article.language}
+              lang={article.language}
               heartButton={
                 !!node.url &&
                 !!article.id && (

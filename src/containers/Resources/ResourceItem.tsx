@@ -226,7 +226,7 @@ export const ResourceItem = ({
               to={url || ""}
               unstyled
               css={linkOverlay.raw()}
-              lang={language === "nb" ? "no" : language}
+              lang={language}
               aria-current={active ? "page" : undefined}
               title={name}
               aria-describedby={describedBy}
