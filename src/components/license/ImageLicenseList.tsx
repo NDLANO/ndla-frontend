@@ -52,7 +52,10 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
   const safeCopyright = licenseCopyrightToCopyrightType(image.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
+  const items: ItemType[] = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language === "se" ? "nb" : i18n.language,
+  );
 
   const copyText = figureApa7CopyString(
     image.title,

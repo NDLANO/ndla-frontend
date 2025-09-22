@@ -44,7 +44,10 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
   const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
+  const items: ItemType[] = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language === "se" ? "nb" : i18n.language,
+  );
 
   if (audio.title) {
     items.unshift({

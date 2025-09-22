@@ -44,7 +44,10 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
 
   const safeCopyright = licenseCopyrightToCopyrightType(podcast.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
+  const items: ItemType[] = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language === "se" ? "nb" : i18n.language,
+  );
 
   const copyText = figureApa7CopyString(
     podcast.title,

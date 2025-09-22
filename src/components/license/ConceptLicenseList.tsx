@@ -48,7 +48,10 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
 
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
   const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
+  const items: ItemType[] = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language === "se" ? "nb" : i18n.language,
+  );
   if (concept.title) {
     items.unshift({
       label: t("title"),
