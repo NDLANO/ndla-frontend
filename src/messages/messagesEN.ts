@@ -52,6 +52,7 @@ const messages = {
     learningpathSavePage: `Save - {{name}} - Learningpath - ${titleTemplate}`,
     learningpathNewPage: `New Learningpath - ${titleTemplate}`,
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
+    errorPage: `An error occurred - ${titleTemplate}`,
   },
   menu: {
     about: "About us",

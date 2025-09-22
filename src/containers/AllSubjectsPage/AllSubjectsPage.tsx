@@ -13,7 +13,7 @@ import { gql, useQuery } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { ErrorMessage, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import FavoriteSubjects from "./FavoriteSubjects";
 import LetterNavigation from "./LetterNavigation";
@@ -21,6 +21,7 @@ import SubjectCategory from "./SubjectCategory";
 import { useNavigateToHash } from "../../components/Article/articleHelpers";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
+import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import TabFilter from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -136,20 +137,7 @@ export const AllSubjectsPage = () => {
   const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);
 
   if (subjectsQuery.loading) return <ContentPlaceholder />;
-  if (subjectsQuery.error)
-    return (
-      <ErrorMessage
-        illustration={{
-          url: "/static/oops.gif",
-          altText: t("errorMessage.title"),
-        }}
-        messages={{
-          title: t("errorMessage.title"),
-          description: t("subjectsPage.errorDescription"),
-          goToFrontPage: t("errorMessage.goToFrontPage"),
-        }}
-      />
-    );
+  if (subjectsQuery.error) return <DefaultErrorMessagePage />;
 
   return (
     <StyledPageContainer asChild consumeCss>

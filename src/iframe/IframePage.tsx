@@ -10,11 +10,18 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql, useQuery } from "@apollo/client";
-import { PageContent } from "@ndla/primitives";
-import { ErrorMessage } from "@ndla/ui";
+import {
+  ErrorMessageContent,
+  ErrorMessageDescription,
+  ErrorMessageRoot,
+  ErrorMessageTitle,
+  PageContainer,
+} from "@ndla/primitives";
+import { HelmetWithTracker } from "@ndla/tracker";
 import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
 import { Status } from "../components";
 import RedirectContext from "../components/RedirectContext";
+import { SKIP_TO_CONTENT_ID } from "../constants";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
@@ -23,20 +30,20 @@ import "../style/index.css";
 const Error = () => {
   const { t } = useTranslation();
   return (
-    <Status code={INTERNAL_SERVER_ERROR}>
-      <PageContent>
-        <ErrorMessage
-          illustration={{
-            url: "/static/oops.gif",
-            altText: t("errorMessage.title"),
-          }}
-          messages={{
-            title: t("errorMessage.title"),
-            description: t("errorMessage.description"),
-          }}
-        />
-      </PageContent>
-    </Status>
+    <PageContainer asChild consumeCss>
+      <main>
+        <HelmetWithTracker title={t("htmlTitles.errorPage")} />
+        <Status code={INTERNAL_SERVER_ERROR}>
+          <ErrorMessageRoot>
+            <img src="/static/oops.gif" alt={t("errorMessage.title")} />
+            <ErrorMessageContent>
+              <ErrorMessageTitle id={SKIP_TO_CONTENT_ID}>{t("errorMessage.title")}</ErrorMessageTitle>
+              <ErrorMessageDescription>{t("errorMessage.description")}</ErrorMessageDescription>
+            </ErrorMessageContent>
+          </ErrorMessageRoot>
+        </Status>
+      </main>
+    </PageContainer>
   );
 };
 

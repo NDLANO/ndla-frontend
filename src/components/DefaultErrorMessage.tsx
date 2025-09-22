@@ -15,6 +15,7 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { HelmetWithTracker } from "@ndla/tracker";
 import { Status } from "../components";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 import { PageContainer } from "./Layout/PageContainer";
@@ -45,9 +46,11 @@ export const DefaultErrorMessage = ({ applySkipToContentId }: MessageRootProps) 
 };
 
 export const DefaultErrorMessagePage = () => {
+  const { t } = useTranslation();
   return (
     <PageContainer asChild consumeCss>
       <main>
+        <HelmetWithTracker title={t("htmlTitles.errorPage")} />
         <DefaultErrorMessage applySkipToContentId={true} />
       </main>
     </PageContainer>
