@@ -27,7 +27,7 @@ const ErrorPage = () => {
   const { t } = useTranslation();
   return (
     <Status code={INTERNAL_SERVER_ERROR}>
-      <title>NDLA</title>
+      <title>{t("htmlTitles.errorPage")}</title>
       <meta name="description" content={t("meta.description")} />
       <MastheadContainer>
         <SafeLink to="/" aria-label="NDLA" title="NDLA">

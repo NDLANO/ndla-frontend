@@ -52,6 +52,7 @@ const messages = {
     learningpathSavePage: `Lagre - {{name}} - Læringssti - ${titleTemplate}`,
     learningpathNewPage: `Ny læringssti - ${titleTemplate}`,
     collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
+    errorPage: `Ein feil oppstod - ${titleTemplate}`,
   },
   menu: {
     about: "Om oss",
