@@ -9,7 +9,7 @@
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { ALL_ABBREVIATIONS } from "@ndla/licenses";
+import { licenses } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningpathStepper } from "./components/LearningpathStepper";
@@ -53,8 +53,7 @@ export const NewLearningpathPage = () => {
           title: title,
           copyright: {
             license: {
-              // TODO: I don't like this approach. We shouldn't rely on index, it's too brittle
-              license: ALL_ABBREVIATIONS[4],
+              license: licenses.CC_BY_SA_4,
             },
             contributors: [{ name: user.displayName, type: "writer" }],
           },

@@ -45,7 +45,10 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
 
   const safeCopyright = licenseCopyrightToCopyrightType(video.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(safeCopyright, i18n.language);
+  const items: ItemType[] = getGroupedContributorDescriptionList(
+    safeCopyright,
+    i18n.language === "se" ? "nb" : i18n.language,
+  );
   if (video.title) {
     items.unshift({
       label: t("title"),
