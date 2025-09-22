@@ -230,7 +230,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
                     />
                   )
                 }
-                lang={article.language === "nb" ? "no" : article.language}
+                lang={article.language}
                 disclaimer={
                   article.transformedDisclaimer?.content ? (
                     <Disclaimer disclaimer={article.transformedDisclaimer} />

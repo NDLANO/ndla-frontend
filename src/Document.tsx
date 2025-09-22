@@ -29,13 +29,12 @@ const getUniqueCss = (chunks: ManifestChunk[]) => {
 
 export const Document = ({ language, hash, children, chunks = [], devEntrypoint }: Props) => {
   const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
-  const locale = language === "nb" || language === "nn" ? "no" : language;
 
   const [entryPoint, ...importedChunks] = chunks;
   const css = getUniqueCss(chunks);
 
   return (
-    <html lang={locale}>
+    <html lang={language}>
       <head>
         <link rel="icon" type="image/png" sizes="32x32" href={`/static/favicon-${faviconEnvironment}-32x32.png`} />
         <link rel="icon" type="image/png" sizes="16x16" href={`/static/favicon-${faviconEnvironment}-16x16.png`} />

@@ -82,7 +82,7 @@ const Article = ({
           />
         ) : undefined
       }
-      lang={article.language === "nb" ? "no" : article.language}
+      lang={article.language}
       heartButton={
         path && showFavoriteButton ? (
           <AddResourceToFolderModal
