@@ -3119,9 +3119,6 @@ export type GQLResourceEmbedLicenseContent_MetaFragment = {
 };
 
 export type GQLResourcePageQueryVariables = Exact<{
-  topicId?: InputMaybe<Scalars["String"]["input"]>;
-  subjectId?: InputMaybe<Scalars["String"]["input"]>;
-  resourceId?: InputMaybe<Scalars["String"]["input"]>;
   contextId?: InputMaybe<Scalars["String"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
@@ -3497,7 +3494,6 @@ export type GQLTopicContainer_NodeFragment = {
 };
 
 export type GQLTopicPageQueryVariables = Exact<{
-  id?: InputMaybe<Scalars["String"]["input"]>;
   rootId?: InputMaybe<Scalars["String"]["input"]>;
   contextId?: InputMaybe<Scalars["String"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;

@@ -39,17 +39,11 @@ const contextIdInContexts = (contexts: Pick<GQLTaxonomyContext, "contextId">[], 
 };
 
 const resourcePageQuery = gql`
-  query resourcePage(
-    $topicId: String
-    $subjectId: String
-    $resourceId: String
-    $contextId: String
-    $transformArgs: TransformedArticleContentInput
-  ) {
+  query resourcePage($contextId: String, $transformArgs: TransformedArticleContentInput) {
     resourceTypes {
       ...ArticlePage_ResourceType
     }
-    node(id: $resourceId, rootId: $subjectId, parentId: $topicId, contextId: $contextId) {
+    node(contextId: $contextId) {
       relevanceId
       breadcrumbs
       context {
