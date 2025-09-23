@@ -6,7 +6,8 @@
  *
  */
 
-import { gql, QueryHookOptions, useLazyQuery, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client/react";
 import {
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
@@ -39,7 +40,7 @@ export const learningpathQuery = gql`
 `;
 
 export const useFetchLearningpath = (
-  options: QueryHookOptions<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>,
+  options: useQuery.Options<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>,
 ) => useQuery<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>(learningpathQuery, options);
 
 const fetchOembedUrl = gql`
@@ -52,7 +53,7 @@ const fetchOembedUrl = gql`
 `;
 
 export const useFetchOembed = (
-  options?: QueryHookOptions<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>,
+  options: useQuery.Options<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>,
 ) => useQuery<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>(fetchOembedUrl, options);
 
 const opengraphQuery = gql`
@@ -66,5 +67,5 @@ const opengraphQuery = gql`
   }
 `;
 
-export const useFetchOpengraph = (options?: QueryHookOptions<GQLOpengraphQuery, GQLOpengraphQueryVariables>) =>
+export const useFetchOpengraph = (options?: useQuery.Options<GQLOpengraphQuery, GQLOpengraphQueryVariables>) =>
   useLazyQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);

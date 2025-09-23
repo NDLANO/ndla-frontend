@@ -198,7 +198,7 @@ export const MyNdlaLayout = () => {
 
   const onAcceptShareName = async () => {
     const res = await updatePersonalData({ variables: { shareNameAccepted: true } });
-    if (!res.errors?.length) {
+    if (!res.error) {
       // do nothing, everything is fine
     } else {
       toast.create({ title: t("myNdla.shareName.accept.error") });

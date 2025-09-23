@@ -8,7 +8,7 @@
 
 import { memo, type RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient } from "@apollo/client/react";
 import { CloseLine, CheckLine } from "@ndla/icons";
 import {
   IconButton,
@@ -75,7 +75,7 @@ const NewFolder = ({ parentId, onClose, initialValue = "", onCreate, ref }: Prop
       onCreate?.({ ...createdFolder, subfolders: [] }, parentId);
       onClose?.();
     }
-    if (res.errors?.length) {
+    if (res.error) {
       toast.create({ title: "myNdla.folder.toast.folderCreatedFailed" });
     }
   };

@@ -82,55 +82,58 @@ export const useFolderActions = (
     [addFolder, inToolbar, folderId, selectedFolder?.parentId, navigate, toast, t],
   );
 
-  const onDeleteFolder = useCallback(async () => {
-    if (!selectedFolder) return;
+  const onDeleteFolder = useCallback(
+    async (close: VoidFunction) => {
+      if (!selectedFolder) return;
 
-    const res = await deleteFolder({ variables: { id: selectedFolder.id } });
+      const res = await deleteFolder({ variables: { id: selectedFolder.id } });
 
-    if (!res.errors?.length) {
-      if (selectedFolder?.id === folderId) {
-        navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
-          replace: true,
+      if (!res.error) {
+        if (selectedFolder?.id === folderId) {
+          navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
+            replace: true,
+          });
+        }
+
+        toast.create({
+          title: t("myNdla.folder.folderDeleted", {
+            folderName: selectedFolder.name,
+          }),
+        });
+
+        const previousFolderId = folders.indexOf(selectedFolder) - 1;
+        const nextFolderId = folders.indexOf(selectedFolder) + 1;
+        if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
+          setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
+        } else if (folderRefId) {
+          setTimeout(
+            () =>
+              (
+                document.getElementById(folderRefId)?.getElementsByTagName("a")?.[0] ??
+                document.getElementById(folderRefId)
+              )?.focus({ preventScroll: true }),
+            1,
+          );
+        } else if (inToolbar) {
+          document.getElementById("titleAnnouncer")?.focus();
+        }
+      } else {
+        toast.create({
+          title: t("myNdla.folder.folderDeleted", {
+            folderName: selectedFolder.name,
+          }),
         });
       }
-
-      toast.create({
-        title: t("myNdla.folder.folderDeleted", {
-          folderName: selectedFolder.name,
-        }),
-      });
-
-      const previousFolderId = folders.indexOf(selectedFolder) - 1;
-      const nextFolderId = folders.indexOf(selectedFolder) + 1;
-      if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
-        setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
-      } else if (folderRefId) {
-        setTimeout(
-          () =>
-            (
-              document.getElementById(folderRefId)?.getElementsByTagName("a")?.[0] ??
-              document.getElementById(folderRefId)
-            )?.focus({ preventScroll: true }),
-          1,
-        );
-      } else if (inToolbar) {
-        document.getElementById("titleAnnouncer")?.focus();
-      }
       close();
-    } else {
-      toast.create({
-        title: t("myNdla.folder.folderDeleted", {
-          folderName: selectedFolder.name,
-        }),
-      });
-    }
-  }, [selectedFolder, deleteFolder, folderId, toast, t, folders, folderRefId, inToolbar, navigate, setFocusId]);
+    },
+    [selectedFolder, deleteFolder, folderId, toast, t, folders, folderRefId, inToolbar, navigate, setFocusId],
+  );
 
   const onUnFavoriteSharedFolder = useCallback(async () => {
     if (!selectedFolder) return;
 
     const res = await unFavoriteSharedFolder({ variables: { folderId: selectedFolder.id } });
-    if (!res.errors?.length) {
+    if (!res.error) {
       toast.create({
         title: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
       });
@@ -219,7 +222,7 @@ export const useFolderActions = (
                 status: "shared",
               },
             });
-            if (!res.errors?.length) {
+            if (!res.error) {
               toast.create({
                 title: t("myNdla.folder.sharing.folderShared"),
               });
@@ -268,7 +271,7 @@ export const useFolderActions = (
             status: "private",
           },
         });
-        if (!res.errors?.length) {
+        if (!res.error) {
           toast.create({
             title: t("myNdla.folder.sharing.unShare"),
           });
@@ -300,7 +303,7 @@ export const useFolderActions = (
           title={t("myNdla.folder.delete")}
           description={t("myNdla.confirmDeleteFolder")}
           removeText={t("myNdla.folder.delete")}
-          onDelete={onDeleteFolder}
+          onDelete={() => onDeleteFolder(close)}
           onClose={close}
         />
       ),
