@@ -29,9 +29,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:^4.0.4":
-  version: 4.0.4
-  resolution: "@apollo/client@npm:4.0.4"
+"@apollo/client@npm:^4.0.5":
+  version: 4.0.5
+  resolution: "@apollo/client@npm:4.0.5"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.1.1"
     "@wry/caches": "npm:^1.0.0"
@@ -56,7 +56,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: 10c0/0fb502bb565f94cb0fcdc992051f7efe9d3c5a3f6508944bf30e30a6638e0aebffc7d838b7421c65d4d17e07c42843e4bc673d5ca06cc0e96afbc8c8e5600d17
+  checksum: 10c0/7ddc9ffe91c02982a09278191d62b8d89c39dad3b17a2d9f70417c7f23f871164101e89e8f1f0ae174cde1a48a800a173c379e19beeca6c14fed49e92723b93a
   languageName: node
   linkType: hard
 
@@ -8788,10 +8788,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql@npm:^16.10.0":
-  version: 16.10.0
-  resolution: "graphql@npm:16.10.0"
-  checksum: 10c0/303730675538c8bd6c76b447dc6f03e61242e2d2596b408c34759666ec4877409e5593a7a0467d590ac5407b8c663b093b599556a77f24f281abea69ddc53de6
+"graphql@npm:^16.11.0":
+  version: 16.11.0
+  resolution: "graphql@npm:16.11.0"
+  checksum: 10c0/124da7860a2292e9acf2fed0c71fc0f6a9b9ca865d390d112bdd563c1f474357141501c12891f4164fe984315764736ad67f705219c62f7580681d431a85db88
   languageName: node
   linkType: hard
 
@@ -10746,7 +10746,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ndla-frontend@workspace:."
   dependencies:
-    "@apollo/client": "npm:^4.0.4"
+    "@apollo/client": "npm:^4.0.5"
     "@ark-ui/react": "npm:^5.25.0"
     "@babel/core": "npm:^7.28.0"
     "@dnd-kit/core": "npm:^6.3.1"
@@ -10803,7 +10803,7 @@ __metadata:
     eslint-config-ndla: "npm:^6.0.6-alpha.0"
     express: "npm:5.0.0"
     express-prom-bundle: "npm:^8.0.0"
-    graphql: "npm:^16.10.0"
+    graphql: "npm:^16.11.0"
     graphql-tag: "npm:^2.12.6"
     helmet: "npm:^8.1.0"
     html-react-parser: "npm:^5.2.0"
