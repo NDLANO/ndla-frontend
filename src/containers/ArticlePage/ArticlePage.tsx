@@ -50,7 +50,6 @@ import Resources from "../Resources/Resources";
 
 interface Props {
   resource?: GQLArticlePage_NodeFragment;
-  relevance: string;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLFormattedError[];
   loading?: boolean;

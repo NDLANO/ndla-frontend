@@ -26,19 +26,14 @@ import { toBreadcrumbItems } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 
-interface PropData {
-  relevance: string;
-  node?: GQLLearningpathPage_NodeFragment;
-}
-
 interface Props {
   loading: boolean;
-  data: PropData;
+  node: GQLLearningpathPage_NodeFragment | undefined;
   skipToContentId: string;
   stepId?: string;
 }
 
-const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => {
+const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
@@ -53,15 +48,14 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
   });
 
   useEffect(() => {
-    if (loading || !data || !authContextLoaded) return;
+    if (loading || !node || !authContextLoaded) return;
     const dimensions = getAllDimensions({ user });
-    trackPageView({ dimensions, title: getDocumentTitle(t, data, stepId) });
-  }, [authContextLoaded, data, loading, stepId, t, trackPageView, user]);
+    trackPageView({ dimensions, title: getDocumentTitle(t, node, stepId) });
+  }, [authContextLoaded, node, loading, stepId, t, trackPageView, user]);
 
-  if (!data.node || !data.node.learningpath || !data?.node?.learningpath?.learningsteps?.length) {
+  if (!node || !node.learningpath || !node?.learningpath?.learningsteps?.length) {
     return <DefaultErrorMessagePage />;
   }
-  const { node } = data;
   const crumbs = node.context?.parents ?? [];
   const root = crumbs[0];
   const learningpath = node.learningpath!;
@@ -76,7 +70,7 @@ const LearningpathPage = ({ data, skipToContentId, stepId, loading }: Props) => 
 
   return (
     <>
-      <title>{`${getDocumentTitle(t, data, stepId)}`}</title>
+      <title>{`${getDocumentTitle(t, node, stepId)}`}</title>
       {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
         title={getTitle(root, learningpath, learningpathStep)}
@@ -108,9 +102,9 @@ const getTitle = (
   return htmlTitle(learningpath?.title, [learningpathStep?.title, root?.name]);
 };
 
-const getDocumentTitle = (t: TFunction, data: PropData, stepId?: string) => {
-  const subject = data.node?.context?.parents?.[0];
-  const learningpath = data.node?.learningpath;
+const getDocumentTitle = (t: TFunction, node: GQLLearningpathPage_NodeFragment, stepId?: string) => {
+  const subject = node?.context?.parents?.[0];
+  const learningpath = node?.learningpath;
   const maybeStepId = parseInt(stepId ?? "");
   const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);
   return htmlTitle(getTitle(subject, learningpath, step), [t("htmlTitles.titleTemplate")]);
