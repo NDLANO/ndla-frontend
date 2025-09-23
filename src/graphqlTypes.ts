@@ -2261,7 +2261,6 @@ export type GQLTransportationNode_NodeFragment = {
   id: string;
   name: string;
   url?: string;
-  availability?: string;
   relevanceId?: string;
   meta?: { __typename?: "Meta"; metaDescription?: string };
 };
@@ -4301,7 +4300,6 @@ export type GQLStructuredArticleDataFragment = {
   published: string;
   updated: string;
   supportedLanguages?: Array<string>;
-  availability?: string;
   copyright: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
   metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
   competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;

@@ -976,7 +976,7 @@ const messages = {
     buttonLogIn: "Log in with Feide",
     buttonLogOut: "Log out",
     resource: {
-      accessDenied: "We are sorry, but this resource is only available to teachers who are logged in with Feide.",
+      accessDenied: "We are sorry, but you do not have access to this page.",
     },
     primarySchool: "Primary School",
     name: "Name",
