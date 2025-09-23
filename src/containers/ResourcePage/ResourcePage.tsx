@@ -15,7 +15,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
-import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
+import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { findAccessDeniedErrors } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
@@ -66,7 +66,7 @@ const resourcePageQuery = gql`
   ${LearningpathPage.fragments.resource}
 `;
 export const ResourcePage = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const location = useLocation();
   const { contextId, stepId } = useParams();
 
@@ -139,20 +139,13 @@ export const ResourcePage = () => {
     }
   }
 
-  const { node } = data;
-  const relevanceId = node.relevanceId;
-  const relevance =
-    relevanceId === RELEVANCE_SUPPLEMENTARY
-      ? t("searchPage.searchFilterMessages.supplementaryRelevance")
-      : t("searchPage.searchFilterMessages.coreRelevance");
-
-  if (isLearningPathResource(node)) {
+  if (isLearningPathResource(data.node)) {
     return (
       <LearningpathPage
         key={data.node.url}
         skipToContentId={SKIP_TO_CONTENT_ID}
         stepId={stepId}
-        data={{ ...data, relevance }}
+        node={data.node}
         loading={loading}
       />
     );
@@ -162,7 +155,6 @@ export const ResourcePage = () => {
       key={data.node.url}
       skipToContentId={SKIP_TO_CONTENT_ID}
       resource={data.node}
-      relevance={relevance}
       errors={error?.graphQLErrors}
       loading={loading}
     />
