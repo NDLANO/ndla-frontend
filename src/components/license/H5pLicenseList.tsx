@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
-import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
-import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import config from "../../config";
 import { GQLH5pLicenseList_H5pLicenseFragment } from "../../graphqlTypes";
 import {
@@ -36,15 +36,11 @@ interface H5pLicenseInfoProps {
 const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
   const { pathname } = useLocation();
-  const safeCopyright = licenseCopyrightToCopyrightType(h5p.copyright);
   const pageUrl = useMemo(() => `/h5p/${h5p.id}`, [h5p.id]);
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pageUrl, pathname]);
 
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language === "se" ? "nb" : i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(h5p.copyright, t);
   if (h5p.title) {
     items.unshift({
       label: t("title"),

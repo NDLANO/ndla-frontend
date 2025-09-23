@@ -6,20 +6,44 @@
  *
  */
 
-import { licenses } from "@ndla/licenses";
-import { GQLCopyright } from "../../graphqlTypes";
-
-type BaseCopyright = Pick<GQLCopyright, "creators" | "processors" | "rightsholders">;
-export const licenseCopyrightToCopyrightType = <T extends BaseCopyright>(copyright: T | undefined) => {
-  const processors = copyright?.processors ?? [];
-  const rightsholders = copyright?.rightsholders ?? [];
-  const creators = copyright?.creators ?? [];
-  return {
-    ...copyright,
-    processors,
-    rightsholders,
-    creators,
-  };
-};
+import { licenses, metaTypes } from "@ndla/licenses";
+import { GQLConceptCopyright, GQLContributor, GQLLicenseListCopyrightFragment } from "../../graphqlTypes";
+import { TFunction } from "i18next";
 
 export const isCopyrighted = (license?: string) => license === licenses.COPYRIGHTED;
+
+export function mkContributorString(contributors: GQLContributor[], ignoreType: string, t: TFunction) {
+  return contributors
+    .map((contributor) => {
+      const type = contributor.type.toLowerCase();
+      if (type === ignoreType) {
+        return contributor.name;
+      }
+      const translatedType = t(type);
+      return `${translatedType} ${contributor.name}`;
+    })
+    .join(", ");
+}
+
+export function getGroupedContributorDescriptionList(
+  copyright: GQLLicenseListCopyrightFragment | GQLConceptCopyright | undefined,
+  t: TFunction,
+) {
+  return [
+    {
+      label: t("originator"),
+      description: mkContributorString(copyright?.creators ?? [], "originator", t),
+      metaType: metaTypes.author,
+    },
+    {
+      label: t("rightsholder"),
+      description: mkContributorString(copyright?.rightsholders ?? [], "rightsholder", t),
+      metaType: metaTypes.copyrightHolder,
+    },
+    {
+      label: t("processor"),
+      description: mkContributorString(copyright?.processors ?? [], "processor", t),
+      metaType: metaTypes.contributor,
+    },
+  ].filter((item) => item.description !== "");
+}

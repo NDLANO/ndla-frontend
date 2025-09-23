@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
-import { figureApa7CopyString, getGroupedContributorDescriptionList, metaTypes } from "@ndla/licenses";
+import { figureApa7CopyString, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
-import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLAudioLicenseList_AudioLicenseFragment } from "../../graphqlTypes";
@@ -43,11 +43,7 @@ const AudioLicenseInfo = ({ audio }: AudioLicenseInfoProps) => {
 
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
-  const safeCopyright = licenseCopyrightToCopyrightType(audio.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language === "se" ? "nb" : i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(audio.copyright, t);
 
   if (audio.title) {
     items.unshift({
