@@ -38,7 +38,7 @@ export const AcceptArenaDialog = ({ children }: Props) => {
 
   const onAcceptArena = async () => {
     const res = await updatePersonalData({ variables: { arenaAccepted: true } });
-    if (!res.errors?.length) {
+    if (!res.error) {
       toast.create({ title: t("myNdla.arena.accept.success") });
       setOpen(false);
       const openUrl = config.arenaDomain.startsWith("https://") ? config.arenaDomain : `https://${config.arenaDomain}`;

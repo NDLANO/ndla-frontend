@@ -6,16 +6,8 @@
  *
  */
 
-import {
-  ApolloCache,
-  ApolloError,
-  gql,
-  QueryHookOptions,
-  Reference,
-  useApolloClient,
-  useMutation,
-  useQuery,
-} from "@apollo/client";
+import { ApolloCache, gql, Reference } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client/react";
 import {
   GQLAddFolderMutation,
   GQLAddResourceToFolderMutation,
@@ -319,7 +311,7 @@ const folderResourceMetaQuery = gql`
 
 export const useFolderResourceMeta = (
   resource: GQLFolderResourceMetaSearchInput,
-  options?: QueryHookOptions<GQLFolderResourceMetaQuery>,
+  options?: useQuery.Options<GQLFolderResourceMetaQuery>,
 ) => {
   const { data: { folderResourceMeta } = {}, ...rest } = useQuery<GQLFolderResourceMetaQuery>(folderResourceMetaQuery, {
     variables: { resource },
@@ -341,7 +333,7 @@ const folderResourceMetaSearchQuery = gql`
 
 export const useFolderResourceMetaSearch = (
   resources: GQLFolderResourceMetaSearchInput[],
-  options?: QueryHookOptions<GQLFolderResourceMetaSearchQuery>,
+  options?: useQuery.Options<GQLFolderResourceMetaSearchQuery>,
 ) => {
   const { data: { folderResourceMetaSearch: data } = {}, ...rest } = useQuery<GQLFolderResourceMetaSearchQuery>(
     folderResourceMetaSearchQuery,
@@ -377,7 +369,7 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   return { folders, sharedFolders, loading, error };
 };
 
-export const getFolder = (cache: ApolloCache<object>, folderId?: string, shared?: boolean): GQLFolder | null => {
+export const getFolder = (cache: ApolloCache, folderId?: string, shared?: boolean): GQLFolder | null => {
   if (!folderId) return null;
 
   return cache.readFragment({
@@ -458,7 +450,7 @@ const favouriteSubjects = gql`
 
 export const useFavouriteSubjects = (
   ids: string[],
-  options?: Omit<QueryHookOptions<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>, "variables">,
+  options?: Omit<useQuery.Options<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>, "variables">,
 ) =>
   useQuery<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>(favouriteSubjects, {
     variables: { ids },

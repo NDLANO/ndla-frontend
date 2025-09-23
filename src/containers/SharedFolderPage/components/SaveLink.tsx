@@ -45,7 +45,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
 
   const onSaveLink = async (name: string) => {
     const res = await favoriteSharedFolder();
-    if (!res.errors?.length) {
+    if (!res.error) {
       setOpen(false);
       toast.create({
         title: t("myNdla.folder.sharing.savedLink", { name }),

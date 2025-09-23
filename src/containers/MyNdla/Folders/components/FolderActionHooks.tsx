@@ -87,7 +87,7 @@ export const useFolderActions = (
 
     const res = await deleteFolder({ variables: { id: selectedFolder.id } });
 
-    if (!res.errors?.length) {
+    if (!res.error) {
       if (selectedFolder?.id === folderId) {
         navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
           replace: true,
@@ -130,7 +130,7 @@ export const useFolderActions = (
     if (!selectedFolder) return;
 
     const res = await unFavoriteSharedFolder({ variables: { folderId: selectedFolder.id } });
-    if (!res.errors?.length) {
+    if (!res.error) {
       toast.create({
         title: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
       });
@@ -219,7 +219,7 @@ export const useFolderActions = (
                 status: "shared",
               },
             });
-            if (!res.errors?.length) {
+            if (!res.error) {
               toast.create({
                 title: t("myNdla.folder.sharing.folderShared"),
               });
@@ -268,7 +268,7 @@ export const useFolderActions = (
             status: "private",
           },
         });
-        if (!res.errors?.length) {
+        if (!res.error) {
           toast.create({
             title: t("myNdla.folder.sharing.unShare"),
           });

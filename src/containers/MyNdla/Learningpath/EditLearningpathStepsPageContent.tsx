@@ -100,7 +100,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
         const res = await updateLearningpathStepSeqNo({
           variables: { learningpathId: learningpath.id, learningpathStepId: dropped?.id ?? -1, seqNo: newIndex },
         });
-        if (res.errors?.length) {
+        if (res.error) {
           onError();
         }
       }
