@@ -275,7 +275,6 @@ export const structuredArticleDataFragment = gql`
       url
       alt
     }
-    availability
     competenceGoals {
       id
       code
@@ -331,7 +330,7 @@ const getStructuredDataFromArticle = (
     abstract: article.metaDescription,
     audience: {
       "@type": AUDIENCE_TYPE,
-      educationalRole: [article.availability === "teacher" ? "teacher" : "student"],
+      educationalRole: ["student"],
     },
     description: article.metaDescription,
     dateCreated: article.published,
