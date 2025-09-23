@@ -1,24 +1,17 @@
 {
-  "builds": [
-    {
-      "src": "build/public/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "build/server.mjs",
-      "use": "@vercel/node"
-    }
-  ],
+  "regions": ["dub1"],
+  "installCommand": "yarn set version 4.9.2 --yarn-path && yarn install",
+  "outputDirectory": "build",
+  "buildCommand": "yarn build",
   "rewrites": [
-    {
-      "source": "/static/(.*)",
-      "destination": "build/public/static/$1"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/build/server.mjs"
-    }
+    { "source": "/static/(.*)", "destination": "/public/static/$1" },
+    { "source": "/(.*)", "destination": "/api" }
   ],
+  "functions": {
+    "api/index.mjs": {
+      "includeFiles": "build/server.js"
+    }
+  },
   "headers": [
     {
       "source": "/static/(.*)",

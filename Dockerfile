@@ -39,4 +39,4 @@ ARG COMPONENT_VERSION
 ENV COMPONENT_VERSION=$COMPONENT_VERSION
 ENV APPLICATION_NAME="ndla-frontend"
 
-CMD ["node", "build/server.mjs"]
+CMD ["node", "build/server.js"]

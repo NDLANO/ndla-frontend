@@ -14,20 +14,22 @@ import { matchPath } from "react-router";
 import serialize from "serialize-javascript";
 import { Manifest, ManifestChunk, ViteDevServer } from "vite";
 import { getCookie } from "@ndla/util";
-import api from "./api";
-import contentSecurityPolicy from "./contentSecurityPolicy";
-import { RootRenderFunc, sendResponse } from "./serverHelpers";
-import config from "../config";
-import { NOT_FOUND_PAGE_PATH } from "../constants";
-import { getLocaleInfoFromPath } from "../i18n";
-import { privateRoutes, routes } from "../routes";
-import { INTERNAL_SERVER_ERROR } from "../statusCodes";
-import { isAccessTokenValid } from "../util/authHelpers";
-import handleError, { ensureError } from "../util/handleError";
-import { getRouteChunks } from "./getManifestChunks";
-import { activeRequestsMiddleware } from "./middleware/activeRequestsMiddleware";
-import { healthRouter } from "./routes/healthRouter";
-import loggerContextMiddleware, { getLoggerContextStore } from "./middleware/loggerContextMiddleware";
+import config from "./config";
+import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
+import log from "./util/logger";
+import { activeRequestsMiddleware } from "./server/middleware/activeRequestsMiddleware";
+import loggerContextMiddleware, { getLoggerContextStore } from "./server/middleware/loggerContextMiddleware";
+import contentSecurityPolicy from "./server/contentSecurityPolicy";
+import api from "./server/api";
+import { healthRouter } from "./server/routes/healthRouter";
+import { RootRenderFunc, sendResponse } from "./server/serverHelpers";
+import { INTERNAL_SERVER_ERROR } from "./statusCodes";
+import { getRouteChunks } from "./server/getManifestChunks";
+import { getLocaleInfoFromPath } from "./i18n";
+import { privateRoutes, routes } from "./routes";
+import { isAccessTokenValid } from "./util/authHelpers";
+import handleError, { ensureError } from "./util/handleError";
+import { NOT_FOUND_PAGE_PATH } from "./constants";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -91,7 +93,7 @@ app.use(healthRouter);
 let manifest: Manifest = {};
 
 if (isProduction) {
-  manifest = (await import(`../../build/public/.vite/manifest.json`)).default;
+  manifest = (await import(`../build/public/.vite/manifest.json`)).default;
 }
 
 const renderRoute = async (req: Request, res: Response, renderer: string, chunks: ManifestChunk[]) => {
@@ -111,7 +113,7 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunks
       };
     }
   } else {
-    render = (await import(`../../build/server/server.render.js`)).default;
+    render = (await import(`../build/server/server.render.js`)).default;
   }
 
   const response = await render(req, res, renderer, chunks, ctx);
@@ -251,5 +253,12 @@ app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
   handleError(err, { statusCode });
   sendInternalServerError(req, res, statusCode);
 });
+
+if (!config.isVercel) {
+  const server = app.listen(config.port, () => {
+    log.info(`> Started on port ${config.port}`);
+  });
+  process.on("SIGTERM", () => gracefulShutdown(server));
+}
 
 export default app;
