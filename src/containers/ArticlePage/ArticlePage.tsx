@@ -11,11 +11,10 @@ import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
+import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import {
-  ContentTypeHero,
   HomeBreadcrumb,
   ArticleWrapper,
   ArticleTitle,
@@ -50,7 +49,6 @@ import Resources from "../Resources/Resources";
 
 interface Props {
   resource?: GQLArticlePage_NodeFragment;
-  relevance: string;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   errors?: readonly GraphQLFormattedError[];
   loading?: boolean;
@@ -194,7 +192,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
         imageUrl={article.metaImage?.url}
         path={resource.url}
       />
-      <ContentTypeHero contentType={contentType}>
+      <Hero variant="primary">
         <HeroBackground />
         <PageContent variant="article" asChild>
           <StyledHeroContent>{!!root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
@@ -266,7 +264,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
             </ArticleWrapper>
           </PageContent>
         </StyledPageContent>
-      </ContentTypeHero>
+      </Hero>
     </main>
   );
 };

@@ -10,7 +10,7 @@ import { useMemo, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
-import { Divider, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import {
   ArticleByline,
@@ -83,8 +83,11 @@ const HeaderWrapper = styled("div", {
   },
 });
 
-const StyledDivider = styled(Divider, {
+const Divider = styled("div", {
   base: {
+    width: "100%",
+    borderBottom: "1px solid",
+    borderColor: "stroke.default",
     paddingBlockStart: "xsmall",
   },
 });
@@ -182,7 +185,7 @@ const MultidisciplinarySubjectArticle = ({ node }: Props) => {
               subjects={subjectLinks}
             />
           )}
-          <StyledDivider thickness="1px" color="stroke.default" />
+          <Divider />
         </HeaderWrapper>
         <PageContent variant="content" gutters="never" asChild>
           <ArticleWrapper {...licenseProps}>

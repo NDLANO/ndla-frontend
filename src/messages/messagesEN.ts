@@ -776,6 +776,28 @@ const messages = {
     heading: {
       heading: "The Norwegian Digital Learning Arena",
     },
+    quickLinks: {
+      myNdla: {
+        title: "My NDLA",
+        description:
+          "Organize the subject material in your way! Here you can easily favorite articles, your subjects or create learning paths for your students.",
+      },
+      chatRobot: {
+        title: "NDLA chat robot",
+        description:
+          "Do you want to use AI in your education? NDLA has created two chat robots that takes care of your privacy, and can easily be used for work and education.",
+      },
+      arena: {
+        title: "NDLA Arena",
+        description:
+          "Here you can share, discuss and cooperate with other teachers in upper secondary education. The Arena is open for all teachers in the counties NDLA cooperates with.",
+      },
+      film: {
+        title: "NDLA Film",
+        description:
+          "NDLA film is a service in cooperation with Norgesfilm. This service allows you to see a wide range of movies, short films, documentaries and series",
+      },
+    },
   },
   learningpathPage: {
     introduction: "Introduction",
@@ -976,7 +998,7 @@ const messages = {
     buttonLogIn: "Log in with Feide",
     buttonLogOut: "Log out",
     resource: {
-      accessDenied: "We are sorry, but this resource is only available to teachers who are logged in with Feide.",
+      accessDenied: "We are sorry, but you do not have access to this page.",
     },
     primarySchool: "Primary School",
     name: "Name",
