@@ -274,25 +274,27 @@ export const WelcomePage = () => {
                 ))}
               </StyledList>
             </nav>
-            <nav aria-label={t("welcomePage.quickLinks")} data-testid="quick-links">
-              <StyledList variant="quickLink">
-                {quickLinks.map((link) => (
-                  <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme}>
-                    <li>
-                      <CardContent>
-                        <StyledCardHeading textStyle="heading.small">
-                          <link.icon size="large" />
-                          <SafeLink to={link.url} css={linkOverlay.raw()}>
-                            {t(`welcomePage.quickLinks.${link.type}.title`)}
-                          </SafeLink>
-                        </StyledCardHeading>
-                        <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
-                      </CardContent>
-                    </li>
-                  </StyledCardRoot>
-                ))}
-              </StyledList>
-            </nav>
+            {config.quicklinksEnabled ? (
+              <nav aria-label={t("welcomePage.quickLinks")} data-testid="quick-links">
+                <StyledList variant="quickLink">
+                  {quickLinks.map((link) => (
+                    <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme}>
+                      <li>
+                        <CardContent>
+                          <StyledCardHeading textStyle="heading.small">
+                            <link.icon size="large" />
+                            <SafeLink to={link.url} css={linkOverlay.raw()}>
+                              {t(`welcomePage.quickLinks.${link.type}.title`)}
+                            </SafeLink>
+                          </StyledCardHeading>
+                          <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
+                        </CardContent>
+                      </li>
+                    </StyledCardRoot>
+                  ))}
+                </StyledList>
+              </nav>
+            ) : undefined}
             {!!article && (
               <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
                 <ArticleContent>{article.transformedContent.content}</ArticleContent>
