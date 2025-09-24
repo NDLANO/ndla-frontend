@@ -773,6 +773,28 @@ const messages = {
     heading: {
       heading: "Nasjonal digital læringsarena",
     },
+    quickLinks: {
+      myNdla: {
+        title: "Min NDLA",
+        description:
+          "Organiser fagstoffet på din måte! Her kan du enkelt favorisere artiklar, dine fag eller lage læringsstiar til elevane dine.",
+      },
+      chatRobot: {
+        title: "NDLA Praterobot",
+        description:
+          "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukest til jobb og i undervisning.",
+      },
+      arena: {
+        title: "NDLA Arena",
+        description:
+          "Her kan du dele, diskutere og samarbeide med andre lærarar i vidaregåande opplæring. Arenaen er åpen for alle lærarar i NDLAs samarbeidsfylkar.",
+      },
+      film: {
+        title: "NDLA Film",
+        description:
+          "NDLA film er ein teneste i samarbeid med Norgesfilm. Denne tenesta lar deg sjå ein rekke spelefilmar, kortfilmar, dokumentarar og seriar.",
+      },
+    },
   },
   learningpathPage: {
     introduction: "Introduksjon",
