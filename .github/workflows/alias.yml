@@ -6,6 +6,7 @@ on:
 jobs:
   alias:
     name: "Alias vercel deployment"
+    if: github.event.client_payload.git.ref == "master"
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v4"
@@ -15,10 +16,4 @@ jobs:
       - name: "Install vercel"
         run: npm install -g vercel
       - name: "Alias deployment"
-        run: |
-          if [ "${{ github.event.client_payload.git.ref }}" = "master" ]; then
-            ALIAS="${{ github.event.repository.name }}-master"
-          else
-            ALIAS="${{ github.event.repository.name }}-pr-${{ github.event.pull_request.number }}"
-          fi
-          vercel alias ${{ github.event.client_payload.url }} $ALIAS --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel alias ${{ github.event.client_payload.url }} ndla-frontend-master --token=${{ secrets.VERCEL_TOKEN }}
