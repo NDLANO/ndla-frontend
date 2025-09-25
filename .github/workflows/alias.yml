@@ -1,0 +1,24 @@
+name: "vercel alias"
+on:
+  repository_dispatch:
+    types:
+      - "vercel.deployment.success"
+jobs:
+  alias:
+    name: "Alias vercel deployment"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v4"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.15.0"
+      - name: "Install vercel"
+        run: npm install -g vercel
+      - name: "Alias deployment"
+        run: |
+          if [ "${{ github.event.client_payload.git.ref }}" = "master" ]; then
+            ALIAS="$VERCEL_GIT_REPO_SLUG-master"
+          else
+            ALIAS="$VERCEL_GIT_REPO_SLUG-pr-$VERCEL_GIT_PULL_REQUEST_ID"
+          fi
+          vercel --token ${{ secrets.VERCEL_TOKEN }} alias set ${{ github.event.client_payload.url }} $ALIAS
