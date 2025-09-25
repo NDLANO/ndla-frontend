@@ -395,7 +395,7 @@ const MyNdlaPart = () => {
               <HeartLine />
               {t("masthead.menu.myNdla.myNdla")}
             </MyNdlaSafeLinkButton>
-            {!!user?.arenaEnabled && !!user?.arenaAccepted && (
+            {!!user?.arenaEnabled && (
               <MyNdlaSafeLinkButton
                 to={`https://${config.arenaDomain}`}
                 target="_blank"

@@ -10,15 +10,13 @@ import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { Portal, useDialogContext } from "@ark-ui/react";
-import { ForumOutlined } from "@ndla/icons";
-import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Text } from "@ndla/primitives";
+import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import NavigationLink from "./NavigationLink";
 import { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { menuLinks } from "../MyNdlaLayout";
-import { AcceptArenaDialog } from "./AcceptArenaDialog";
 
 const MenuItems = styled("ul", {
   base: {
@@ -146,18 +144,6 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
                       </Button>
                     </li>
                   ))}
-                  {!!user?.arenaEnabled && !user?.arenaAccepted && (
-                    <AcceptArenaDialog>
-                      <li>
-                        <DialogTrigger asChild>
-                          <Button variant="tertiary">
-                            <ForumOutlined />
-                            {t("myNdla.arena.title")}
-                          </Button>
-                        </DialogTrigger>
-                      </li>
-                    </AcceptArenaDialog>
-                  )}
                 </ToolMenu>
               </>
             ) : null}

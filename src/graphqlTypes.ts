@@ -2108,9 +2108,7 @@ export type GQLMyNdlaPersonalDataFragmentFragment = {
   organization: string;
   favoriteSubjects: Array<string>;
   role: string;
-  shareNameAccepted: boolean;
   arenaEnabled: boolean;
-  arenaAccepted: boolean;
   groups: Array<{
     __typename?: "MyNdlaGroup";
     id: string;
@@ -4175,14 +4173,10 @@ export type GQLMySubjectMyNdlaPersonalDataFragmentFragment = {
   favoriteSubjects: Array<string>;
   role: string;
   arenaEnabled: boolean;
-  arenaAccepted: boolean;
-  shareNameAccepted: boolean;
 };
 
 export type GQLUpdatePersonalDataMutationVariables = Exact<{
   favoriteSubjects?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
-  shareNameAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
 }>;
 
 export type GQLUpdatePersonalDataMutation = {
