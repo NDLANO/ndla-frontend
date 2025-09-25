@@ -19,6 +19,6 @@ jobs:
           if [ "${{ github.event.client_payload.git.ref }}" = "master" ]; then
             ALIAS="${{ github.event.repository.name }}-master"
           else
-            ALIAS="${{ github.event.repository.name }}-pr-${{ github.event.number }}"
+            ALIAS="${{ github.event.repository.name }}-pr-${{ github.event.pull_request.number }}"
           fi
           vercel alias ${{ github.event.client_payload.url }} $ALIAS --token=${{ secrets.VERCEL_TOKEN }}
