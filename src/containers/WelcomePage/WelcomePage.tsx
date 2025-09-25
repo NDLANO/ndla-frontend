@@ -126,22 +126,42 @@ const StyledCardHeading = styled(CardHeading, {
 });
 
 const StyledCardRoot = styled(CardRoot, {
+  base: {
+    _hover: {
+      borderColor: "stroke.subtle",
+    },
+  },
   variants: {
     theme: {
       brand1: {
         background: "surface.brand.1.subtle",
+        _hover: {
+          background: "surface.brand.1.subtle/60",
+        },
       },
       brand2: {
         background: "surface.brand.2.subtle",
+        _hover: {
+          background: "surface.brand.2.subtle/60",
+        },
       },
       brand3: {
         background: "surface.brand.3.subtle",
+        _hover: {
+          background: "surface.brand.3.subtle/60",
+        },
       },
       brand4: {
         background: "surface.brand.4.subtle",
+        _hover: {
+          background: "surface.brand.4.subtle/60",
+        },
       },
       brand5: {
         background: "surface.brand.5.subtle",
+        _hover: {
+          background: "surface.brand.5.subtle/60",
+        },
       },
     },
   },
@@ -278,7 +298,7 @@ export const WelcomePage = () => {
               <nav aria-label={t("welcomePage.quickLinks")} data-testid="quick-links">
                 <StyledList variant="quickLink">
                   {quickLinks.map((link) => (
-                    <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme}>
+                    <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} variant="subtle">
                       <li>
                         <CardContent>
                           <StyledCardHeading textStyle="heading.small">
