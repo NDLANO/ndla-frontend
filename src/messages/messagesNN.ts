@@ -758,6 +758,7 @@ const messages = {
     programmeSubjects: "Programfag",
   },
   aboutPage: {
+    menuItems: "Undersidar",
     nav: "Informasjonssider",
   },
   subjectPage: {

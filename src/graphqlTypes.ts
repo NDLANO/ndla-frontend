@@ -2438,6 +2438,76 @@ export type GQLAboutPageFooter_FrontpageMenuFragment = {
   >;
 } & GQLFrontpageMenuFragmentFragment;
 
+export type GQLAboutPageLeaf_ArticleFragment = {
+  __typename?: "Article";
+  id: number;
+  introduction?: string;
+  grepCodes?: Array<string>;
+  htmlIntroduction?: string;
+  created: string;
+  updated: string;
+  slug?: string;
+  language: string;
+  published: string;
+  transformedContent: {
+    __typename?: "TransformedArticleContent";
+    content: string;
+    metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
+  };
+} & GQLLicenseBox_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLAboutPageNode_ArticleFragment = {
+  __typename?: "Article";
+  id: number;
+  title: string;
+  introduction?: string;
+  htmlIntroduction?: string;
+  slug?: string;
+  language: string;
+  created: string;
+  updated: string;
+  published: string;
+  oembed?: string;
+  metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+  transformedContent: {
+    __typename?: "TransformedArticleContent";
+    content: string;
+    metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
+  };
+} & GQLLicenseBox_ArticleFragment &
+  GQLStructuredArticleDataFragment;
+
+export type GQLAboutPageNode_FrontpageMenuFragment = {
+  __typename?: "FrontpageMenu";
+  articleId: number;
+  article: { __typename?: "Article"; id: number; title: string; slug?: string; metaDescription: string };
+};
+
+export type GQLAboutPageV2QueryVariables = Exact<{
+  slug: Scalars["String"]["input"];
+  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
+}>;
+
+export type GQLAboutPageV2Query = {
+  __typename?: "Query";
+  article?: { __typename?: "Article" } & GQLAboutPageLeaf_ArticleFragment & GQLAboutPageNode_ArticleFragment;
+  frontpage?: {
+    __typename?: "FrontpageMenu";
+    menu?: Array<
+      {
+        __typename?: "FrontpageMenu";
+        menu?: Array<
+          {
+            __typename?: "FrontpageMenu";
+            menu?: Array<{ __typename?: "FrontpageMenu" } & GQLAboutPageNode_FrontpageMenuFragment>;
+          } & GQLAboutPageNode_FrontpageMenuFragment
+        >;
+      } & GQLAboutPageNode_FrontpageMenuFragment
+    >;
+  } & GQLAboutPageNode_FrontpageMenuFragment;
+};
+
 export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLAllSubjectsQuery = {
