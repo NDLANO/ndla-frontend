@@ -9,7 +9,7 @@
 import * as esbuild from "esbuild";
 
 await esbuild.build({
-  entryPoints: ["src/index.ts"],
+  entryPoints: ["src/server.ts"],
   bundle: true,
   format: "esm",
   platform: "node",
@@ -18,7 +18,7 @@ await esbuild.build({
   sourcemap: true,
   sourcesContent: false,
   external: ["vite"],
-  outfile: "build/server.mjs",
+  outfile: "build/server.js",
   // Vite automatically handles SSR env variables, covering most of our application.
   // However, we also need to define it here to cover the small portion of our backend that runs outside of Vite.
   define: {
