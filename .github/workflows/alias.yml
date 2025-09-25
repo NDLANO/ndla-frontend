@@ -21,4 +21,4 @@ jobs:
           else
             ALIAS="$VERCEL_GIT_REPO_SLUG-pr-$VERCEL_GIT_PULL_REQUEST_ID"
           fi
-          vercel --token ${{ secrets.VERCEL_TOKEN }} alias set ${{ github.event.client_payload.url }} $ALIAS
+          vercel --token "${{ secrets.VERCEL_TOKEN }}" alias set "${{ github.event.client_payload.url }}" "$ALIAS"
