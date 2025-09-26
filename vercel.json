@@ -1,8 +1,7 @@
 {
   "regions": ["dub1"],
-  "installCommand": "yarn set version 4.9.2 --yarn-path && yarn install",
-  "outputDirectory": "build",
-  "buildCommand": "yarn build",
+  "buildCommand": "",
+  "installCommand": "",
   "rewrites": [
     { "source": "/static/(.*)", "destination": "/public/static/$1" },
     { "source": "/(.*)", "destination": "/api" }

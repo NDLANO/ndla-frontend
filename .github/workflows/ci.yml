@@ -52,6 +52,14 @@ jobs:
         run: yarn install --immutable
       - name: "Build"
         run: yarn build
+      - name: "Deploy to vercel"
+        continue-on-error: true
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
+        uses: ndlano/reusable-workflows/.github/actions/vercel-deploy@main
+        with:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          MASTER_ALIAS: "ndla-frontend-master.vercel.app"
+          REPO_NAME: "ndla-frontend"
       - name: Install Playwright Browsers
         run: yarn playwright install --with-deps chromium
       - name: "E2E"
