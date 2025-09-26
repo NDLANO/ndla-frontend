@@ -11,10 +11,10 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
-import { metaTypes, getGroupedContributorDescriptionList, figureApa7CopyString } from "@ndla/licenses";
+import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
-import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import {
@@ -47,11 +47,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const shouldShowLink = useMemo(() => pathname !== pageUrl, [pathname, pageUrl]);
 
   const src = `${config.ndlaFrontendDomain}/embed-iframe/${i18n.language}/concept/${concept.id}`;
-  const safeCopyright = licenseCopyrightToCopyrightType(concept.copyright);
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language === "se" ? "nb" : i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(concept.copyright, t);
   if (concept.title) {
     items.unshift({
       label: t("title"),

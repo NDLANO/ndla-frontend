@@ -9,12 +9,12 @@
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { FileCopyLine } from "@ndla/icons";
-import { metaTypes, getGroupedContributorDescriptionList } from "@ndla/licenses";
+import { metaTypes } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
 import { printPage } from "@ndla/util";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
-import { isCopyrighted, licenseCopyrightToCopyrightType } from "./licenseHelpers";
+import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
 import {
   MediaList,
@@ -33,12 +33,8 @@ interface TextLicenseInfoProps {
 }
 const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
-  const safeCopyright = licenseCopyrightToCopyrightType(text.copyright);
 
-  const items: ItemType[] = getGroupedContributorDescriptionList(
-    safeCopyright,
-    i18n.language === "se" ? "nb" : i18n.language,
-  );
+  const items: ItemType[] = getGroupedContributorDescriptionList(text.copyright, t);
   if (text.title) {
     items.unshift({
       label: t("title"),
