@@ -6,7 +6,7 @@ on:
 jobs:
   alias:
     name: "Alias vercel deployment"
-    if: github.event.client_payload.git.ref == "master"
+    if: ${{ github.event.client_payload.ref == 'master' }}
     runs-on: ubuntu-latest
     steps:
       - uses: "actions/checkout@v4"
