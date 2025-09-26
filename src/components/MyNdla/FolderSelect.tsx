@@ -15,7 +15,6 @@ import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 const ComboboxContainer = styled("div", {
   base: {
     display: "flex",
-    maxHeight: "surface.xsmall",
   },
 });
 

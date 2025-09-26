@@ -865,6 +865,7 @@ const messages = {
     newFolder: {
       placeholder: "Čále nama máhppii",
       folderName: "Máhpa namma",
+      placedUnder: 'Mappen vil opprettes under "{{folderName}}"',
     },
   },
   competenceGoals: {

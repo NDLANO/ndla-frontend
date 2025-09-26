@@ -868,6 +868,7 @@ const messages = {
     newFolder: {
       placeholder: "Add foldername",
       folderName: "Folder name",
+      placedUnder: 'The folder will be placed under "{{folderName}}"',
     },
   },
   competenceGoals: {
