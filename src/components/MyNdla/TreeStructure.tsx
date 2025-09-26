@@ -254,7 +254,7 @@ export const TreeStructureItem = ({ node, focusId, indexPath, targetResource }: 
                     </TreeBranchIndicator>
                   </TreeBranchTrigger>
                 </IconButton>
-                <FolderLine />
+                <FolderIcon />
                 <TreeBranchText aria-label={ariaLabel} title={ariaLabel}>
                   {node.name}
                 </TreeBranchText>
