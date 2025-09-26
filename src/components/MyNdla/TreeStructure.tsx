@@ -173,9 +173,10 @@ export const TreeStructure = ({
       setTimeout(() => {
         treeView.focus(folder.id);
         setSelectedValue(folder.id);
+        onSelectFolder?.(folder.id);
       });
     },
-    [rootFolderIds, treeView],
+    [onSelectFolder, rootFolderIds, treeView],
   );
 
   const addTooltip = loading
