@@ -58,7 +58,7 @@ const scriptSrc = (() => {
   const defaultScriptSrc = [
     "'self'",
     "'unsafe-inline'",
-    " 'unsafe-eval'",
+    "'unsafe-eval'",
     "http://api-gateway.ndla-local",
     "https://*.ndlah5p.com",
     "https://h5p.org",
@@ -115,7 +115,13 @@ const scriptSrc = (() => {
     "https://app.formbricks.com",
   ];
   if (config.runtimeType === "development") {
-    return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
+    return [
+      ...defaultScriptSrc,
+      "http://localhost:3001",
+      "ws://localhost:3001",
+      "http://localhost:3000",
+      "blob:http://localhost:3000",
+    ];
   }
   // Temp for testing xapi
   if (config.ndlaEnvironment === "test") {
@@ -240,6 +246,7 @@ const contentSecurityPolicy = {
     upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     frameSrc,
+    workerSrc: ["'self'", "blob:"],
     frameAncestors: [
       (req: IncomingMessage) => {
         const isEmbeddable = !!req.url?.length && embedRoutes.some((r) => matchPath(r, req.url || ""));
