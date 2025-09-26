@@ -2,6 +2,7 @@
   "regions": ["dub1"],
   "buildCommand": "",
   "installCommand": "",
+  "outputDirectory": "build",
   "rewrites": [
     { "source": "/static/(.*)", "destination": "/public/static/$1" },
     { "source": "/(.*)", "destination": "/api" }
