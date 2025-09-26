@@ -13,43 +13,13 @@ import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { TransportationPageListItem } from "./TransportationpageListItem";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLTransportationNode_NodeFragment } from "../../graphqlTypes";
 
 interface Props {
   node: GQLTransportationNode_NodeFragment;
 }
-
-const TopicCard = styled("li", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    position: "relative",
-    gap: "3xsmall",
-    padding: "medium",
-    _after: {
-      content: '""',
-      bottom: "0",
-      position: "absolute",
-      width: "100%",
-      background: "stroke.subtle",
-      height: "1px",
-      left: "0",
-      transitionProperty: "height, background",
-      transitionTimingFunction: "ease-in-out",
-      transitionDuration: "superFast",
-    },
-    _hover: {
-      _after: {
-        height: "4xsmall",
-        background: "stroke.hover",
-      },
-    },
-    _active: {
-      background: "surface.active",
-    },
-  },
-});
 
 const StyledHeading = styled(Heading, {
   base: {
@@ -69,7 +39,7 @@ const StyledAdditional = styled(Additional, {
 export const TransportationNode = ({ node }: Props) => {
   const { t } = useTranslation();
   return (
-    <TopicCard>
+    <TransportationPageListItem>
       <StyledHeading asChild consumeCss textStyle="title.small">
         <SafeLink to={node.url ?? ""} unstyled css={linkOverlay.raw()}>
           {node.name}
@@ -79,7 +49,7 @@ export const TransportationNode = ({ node }: Props) => {
         </SafeLink>
       </StyledHeading>
       {!!node.meta?.metaDescription?.length && <Text textStyle="body.large">{node.meta.metaDescription}</Text>}
-    </TopicCard>
+    </TransportationPageListItem>
   );
 };
 

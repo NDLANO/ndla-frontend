@@ -761,6 +761,7 @@ const messages = {
     programmeSubjects: "Programme subjects",
   },
   aboutPage: {
+    menuItems: "Subpages",
     nav: "Information pages",
   },
   subjectPage: {

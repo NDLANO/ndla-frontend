@@ -762,6 +762,7 @@ const messages = {
     topicsTitle: "Emner i {{topic}}",
   },
   aboutPage: {
+    menuItems: "Undersider",
     nav: "Informasjonssider",
   },
   toolboxPage: {

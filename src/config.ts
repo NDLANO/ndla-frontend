@@ -132,6 +132,7 @@ export type ConfigType = {
   loginHint: string | undefined;
   gracePeriodSeconds: number;
   quicklinksEnabled: boolean;
+  enableNewAboutPage: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -171,6 +172,7 @@ const getServerSideConfig = (): ConfigType => {
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false)),
     gracePeriodSeconds: parseInt(getEnvironmentVariable("READINESS_PROBE_DETECTION_SECONDS", "7")),
     quicklinksEnabled: getEnvironmentVariable("QUICKLINKS_ENABLED", true),
+    enableNewAboutPage: getEnvironmentVariable("ENABLE_NEW_ABOUT_PAGE", true),
   };
 };
 
