@@ -18,18 +18,21 @@ test("ltiRender 200 OK ", async () => {
     launch_presentation_height: "800",
     launch_presentation_width: "1200",
   };
-  const response = await ltiRender({
-    params: {
-      lang: "nb",
-      articleId: "26050",
-      resourceId: "urn:resource:123",
-    },
-    body,
-    method: "POST",
-    headers: {
-      "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
-    },
-  } as any as Request);
+  const response = await ltiRender(
+    {
+      params: {
+        lang: "nb",
+        articleId: "26050",
+        resourceId: "urn:resource:123",
+      },
+      body,
+      method: "POST",
+      headers: {
+        "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
+      },
+    } as any as Request,
+    {},
+  );
 
   expect(response.status).toBe(200);
 });
@@ -39,18 +42,21 @@ test("ltiRender 200 OK only required params", async () => {
     lti_message_type: "basic-lti-launch-request",
     lti_version: "LTI-1p0",
   };
-  const response = await ltiRender({
-    params: {
-      lang: "nb",
-      articleId: "26050",
-      resourceId: "urn:resource:123",
-    },
-    body,
-    method: "POST",
-    headers: {
-      "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
-    },
-  } as any as Request);
+  const response = await ltiRender(
+    {
+      params: {
+        lang: "nb",
+        articleId: "26050",
+        resourceId: "urn:resource:123",
+      },
+      body,
+      method: "POST",
+      headers: {
+        "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
+      },
+    } as any as Request,
+    {},
+  );
 
   expect(response.status).toBe(200);
 });
@@ -63,18 +69,21 @@ test("ltiRender 400 BAD REQUEST", async () => {
     launch_presentation_height: "800",
     launch_presentation_width: "1200",
   };
-  const response = await ltiRender({
-    params: {
-      lang: "nb",
-      articleId: "26050",
-      resourceId: "urn:resource:123",
-    },
-    method: "POST",
-    body,
-    headers: {
-      "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
-    },
-  } as any as Request);
+  const response = await ltiRender(
+    {
+      params: {
+        lang: "nb",
+        articleId: "26050",
+        resourceId: "urn:resource:123",
+      },
+      method: "POST",
+      body,
+      headers: {
+        "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
+      },
+    } as any as Request,
+    {},
+  );
 
   expect(response).toMatchSnapshot();
 });
@@ -88,18 +97,21 @@ test("ltiRender 400 BAD REQUEST wrong values", async () => {
     launch_presentation_height: "800",
     launch_presentation_width: "1200",
   };
-  const response = await ltiRender({
-    params: {
-      lang: "nb",
-      articleId: "26050",
-      resourceId: "urn:resource:123",
-    },
-    method: "POST",
-    body,
-    headers: {
-      "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
-    },
-  } as any as Request);
+  const response = await ltiRender(
+    {
+      params: {
+        lang: "nb",
+        articleId: "26050",
+        resourceId: "urn:resource:123",
+      },
+      method: "POST",
+      body,
+      headers: {
+        "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
+      },
+    } as any as Request,
+    {},
+  );
 
   expect(response).toMatchSnapshot();
 });
