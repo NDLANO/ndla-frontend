@@ -360,8 +360,9 @@ const MastheadSearch = () => {
         }
         let traits: string[] = [];
         if (result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult") {
-          traits = result.traits;
+          traits = result.traits.map((trait) => t(`searchPage.traits.${trait}`));
         }
+        traits.unshift(t(`contentTypes.${contentType}`));
         return {
           ...result,
           htmlTitle:
@@ -375,7 +376,7 @@ const MastheadSearch = () => {
         };
       }) ?? []
     );
-  }, [query.length, searchResult.search?.results]);
+  }, [query.length, searchResult.search?.results, t]);
 
   const searchString = new URLSearchParams(query?.length ? { query: encodeURIComponent(query) } : undefined).toString();
 
@@ -520,9 +521,8 @@ const MastheadSearch = () => {
                             )}
                           </TextWrapper>
                           <StyledBadgeContainer>
-                            <Badge key={resource.contentType}>{t(`contentTypes.${resource.contentType}`)}</Badge>
                             {resource.traits.map((trait) => (
-                              <Badge key={trait}>{t(`searchPage.traits.${trait}`)}</Badge>
+                              <Badge key={trait}>{trait}</Badge>
                             ))}
                           </StyledBadgeContainer>
                         </StyledSearchResult>

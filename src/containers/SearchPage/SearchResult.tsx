@@ -88,24 +88,25 @@ export const SearchResult = ({ searchResult }: Props) => {
   const ltiContext = useLtiContext();
   const context = searchResult.context ?? searchResult.contexts?.[0];
 
-  const contentType = useMemo(() => {
-    if (searchResult.__typename === "NodeSearchResult") {
-      // TODO: Should SUBJECT be a part of `contentTypeMapping`?
-      return constants.contentTypes.SUBJECT;
-    }
-    if (context?.resourceTypes?.length) {
-      return constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
-    } else if (context?.url.startsWith("/e")) {
-      return constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
-    }
-    return undefined;
-  }, [context?.resourceTypes, context?.url, searchResult.__typename]);
   const traits = useMemo(() => {
     if (searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult") {
-      return searchResult.traits;
+      return searchResult.traits.map((trait) => t(`searchPage.traits.${trait}`));
     }
     return [];
-  }, [searchResult]);
+  }, [searchResult, t]);
+
+  useMemo(() => {
+    if (searchResult.__typename === "NodeSearchResult") {
+      // TODO: Should SUBJECT be a part of `contentTypeMapping`?
+      traits.push(t("contentTypes.subject"));
+    }
+    if (context?.resourceTypes?.length) {
+      traits.push(t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`));
+    } else if (context?.url.startsWith("/e")) {
+      traits.push(t("contentTypes.topic"));
+    }
+    return undefined;
+  }, [context?.resourceTypes, context?.url, searchResult.__typename, traits, t]);
 
   return (
     <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
@@ -160,14 +161,9 @@ export const SearchResult = ({ searchResult }: Props) => {
           </Text>
         )}
         <StyledBadgeContainer>
-          {!!contentType && (
-            <Badge colorTheme="neutral" key={contentType}>
-              {t(`contentTypes.${contentType}`)}
-            </Badge>
-          )}
           {traits.map((trait) => (
             <Badge colorTheme="neutral" key={trait}>
-              {t(`searchPage.traits.${trait}`)}
+              {trait}
             </Badge>
           ))}
         </StyledBadgeContainer>
