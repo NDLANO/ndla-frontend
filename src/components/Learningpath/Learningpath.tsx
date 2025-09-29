@@ -16,13 +16,14 @@ import {
   AccordionItemIndicator,
   AccordionItemTrigger,
   AccordionRoot,
+  Badge,
   Heading,
   PageContent,
   Text,
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBadge, HomeBreadcrumb } from "@ndla/ui";
+import { HomeBreadcrumb } from "@ndla/ui";
 import { contains } from "@ndla/util";
 import { LearningpathMenu } from "./LearningpathMenu";
 import type { LearningpathContext } from "./learningpathUtils";
@@ -227,7 +228,7 @@ export const Learningpath = ({
         {context === "default" && (
           <MetaWrapper data-testid="learningpath-meta">
             <ContentTypeWrapper>
-              <ContentTypeBadge contentType="learning-path" />
+              <Badge>{t("contentTypes.learningpath")}</Badge>
               <AddResourceToFolderModal
                 resource={{
                   id: learningpath.id.toString(),

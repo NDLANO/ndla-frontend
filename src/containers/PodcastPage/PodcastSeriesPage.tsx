@@ -19,6 +19,7 @@ import {
   AccordionItemIndicator,
   AccordionItemTrigger,
   AccordionRoot,
+  Badge,
   Heading,
   Hero,
   HeroBackground,
@@ -27,15 +28,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import {
-  ArticleContent,
-  ArticleFooter,
-  ArticleHeader,
-  ArticleHGroup,
-  ArticleWrapper,
-  ContentTypeBadge,
-  HomeBreadcrumb,
-} from "@ndla/ui";
+import { ArticleContent, ArticleFooter, ArticleHeader, ArticleHGroup, ArticleWrapper, HomeBreadcrumb } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
@@ -171,7 +164,7 @@ export const PodcastSeriesPage = () => {
               <ArticleWrapper>
                 <ArticleHeader>
                   <ArticleHGroup>
-                    <ContentTypeBadge contentType={"podcast"} />
+                    <Badge>{t("contentTypes.podcast")}</Badge>
                     <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1}>
                       {podcastSeries.title.title}
                     </Heading>

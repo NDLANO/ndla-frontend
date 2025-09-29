@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { MovedTopicPage } from "./MovedTopicPage";
 import { MultidisciplinarySubjectArticle } from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -47,9 +46,6 @@ export const topicPageQuery = gql`
           }
         }
       }
-      alternateNodes {
-        ...MovedTopicPage_Node
-      }
       meta {
         metaDescription
         metaImage {
@@ -73,7 +69,6 @@ export const topicPageQuery = gql`
       ...TopicContainer_Node
     }
   }
-  ${MovedTopicPage.fragments.node}
   ${MultidisciplinarySubjectArticle.fragments.node}
   ${TopicContainer.fragments.node}
 `;
@@ -96,10 +91,6 @@ export const TopicPage = () => {
 
   if (query.loading) {
     return <ContentPlaceholder />;
-  }
-
-  if (query.data?.node?.alternateNodes?.length) {
-    return <MovedTopicPage nodes={query.data.node.alternateNodes} />;
   }
 
   if (query.error) {

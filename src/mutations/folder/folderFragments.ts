@@ -158,5 +158,8 @@ export const folderResourceMetaFragment = gql`
       id
       name
     }
+    ... on ArticleFolderResourceMeta {
+      traits
+    }
   }
 `;

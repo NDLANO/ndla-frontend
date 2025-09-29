@@ -149,9 +149,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
                 {node.name}
               </Heading>
-              {node.relevanceId === RELEVANCE_SUPPLEMENTARY && (
-                <Badge colorTheme="neutral">{t("navigation.additionalTopic")}</Badge>
-              )}
+              {node.relevanceId === RELEVANCE_SUPPLEMENTARY && <Badge>{t("navigation.additionalTopic")}</Badge>}
               {!!node.url && !!articleId && (
                 <AddResourceToFolderModal
                   resource={{

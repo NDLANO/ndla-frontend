@@ -14,7 +14,6 @@ import { ListResource } from "./ListResource";
 import { LoginModalContent } from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
 import { useFolderResourceMeta } from "../../mutations/folder/folderQueries";
-import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
 
@@ -64,7 +63,9 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
                   src: meta?.metaImage?.url,
                   alt: meta?.metaImage?.alt ?? "",
                 }}
-                resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
+                traits={meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined}
+                resourceTypes={meta?.resourceTypes}
+                storedResourceType={resource.resourceType}
               />
             )
           }

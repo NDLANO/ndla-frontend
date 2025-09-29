@@ -7,11 +7,11 @@
  */
 
 import parse from "html-react-parser";
-import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
+import { Badge, CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge } from "@ndla/ui";
+import { TraitsContainer } from "./TraitsContainer";
 
 const StyledCardRoot = styled(CardRoot, {
   base: {
@@ -24,7 +24,6 @@ interface Props {
   title: string;
   url: string;
   ingress: string;
-  contentType?: string;
   metaImage?: {
     url?: string;
     alt?: string;
@@ -34,14 +33,14 @@ interface Props {
     title?: string;
   }[];
   breadcrumbs?: string[];
+  traits?: string[];
 }
 
-export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, metaImage }: Props) => {
+export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, metaImage, traits }: Props) => {
   return (
     <StyledCardRoot>
       {!!metaImage?.url && <CardImage alt={metaImage.alt ?? ""} src={metaImage.url} />}
       <CardContent>
-        <ContentTypeBadge contentType={contentType} />
         <CardHeading asChild consumeCss>
           <SafeLink to={url} unstyled css={linkOverlay.raw()}>
             {title}
@@ -53,6 +52,11 @@ export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, m
             {breadcrumbs.join(" › ")}
           </Text>
         )}
+        <TraitsContainer>
+          {traits?.map((trait) => (
+            <Badge key={trait}>{trait}</Badge>
+          ))}
+        </TraitsContainer>
       </CardContent>
     </StyledCardRoot>
   );

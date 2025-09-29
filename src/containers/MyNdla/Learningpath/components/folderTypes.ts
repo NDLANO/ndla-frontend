@@ -12,6 +12,7 @@ export interface ResourceData {
   articleId?: number;
   title: string;
   breadcrumbs?: string[];
+  traits?: string[];
   resourceTypes?: Pick<GQLResourceType, "id" | "name">[];
 }
 export interface FolderResource {

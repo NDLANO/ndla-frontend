@@ -10,15 +10,16 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
-import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { Badge, FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
 import { StepSafeLink } from "./StepSafeLink";
+import { TraitsContainer } from "../../../../components/TraitsContainer";
 import config from "../../../../config";
 import { contentTypeMapping } from "../../../../util/getContentType";
+import { useListItemTraits } from "../../../../util/listItemTraits";
 
 export interface ResourceFormValues {
   type: "resource";
@@ -123,6 +124,11 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   const { t } = useTranslation();
 
   const contentType = selectedResource.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
+  const listItemTraits = useListItemTraits({
+    contentType,
+    resourceTypes: selectedResource.resourceTypes,
+    traits: selectedResource.traits,
+  });
 
   return (
     <ResourceWrapper>
@@ -147,9 +153,13 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
             {selectedResource.breadcrumbs.join(" > ")}
           </CrumbText>
         )}
+        <TraitsContainer>
+          {listItemTraits.map((trait) => (
+            <Badge key={`${selectedResource.articleId}-${trait}`}>{trait}</Badge>
+          ))}
+        </TraitsContainer>
       </TextWrapper>
       <StyledHStack gap="medium">
-        {!!contentType && <ContentTypeBadge contentType={contentType} />}
         <StyledIconButton
           id="remove-resource"
           aria-label={t("myNdla.learningpath.form.delete")}

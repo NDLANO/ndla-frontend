@@ -28,7 +28,6 @@ import {
   useRecentlyUsedResources,
 } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
-import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../AllSubjectsPage/SubjectLink";
@@ -183,7 +182,9 @@ export const MyNdlaPage = () => {
                       src: meta?.metaImage?.url,
                       alt: "",
                     }}
-                    resourceTypes={getResourceTypesForResource(res.resourceType, meta?.resourceTypes, t)}
+                    traits={meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined}
+                    resourceTypes={meta?.resourceTypes}
+                    storedResourceType={res.resourceType}
                   />
                 </li>
               );

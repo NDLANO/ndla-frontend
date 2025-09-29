@@ -271,7 +271,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
                   </StyledAccordionItemContent>
                 </AccordionItem>
               ) : (
-                <FilterWrapper key={resourceType.id}>
+                <FilterWrapper key={resourceType.id} data-testid={resourceType.id}>
                   <CheckboxRoot
                     value={resourceType.id}
                     checked={currentResourceTypeIds.includes(resourceType.id)}

@@ -241,7 +241,7 @@ test("shows warning dialog when closing form and folder form is dirty", async ({
   await groups.nth(1).locator("input").focus();
   await page.keyboard.press("ArrowDown");
   const item = page.locator('div[data-part="item"]').first();
-  const title = await item.locator("div").locator("div").textContent();
+  const title = await item.locator('div[data-part="item-text"]').textContent();
   await item.click();
   await expect(page.getByRole("link", { name: title ?? "" })).toBeVisible();
   await page.getByRole("link", { name: "Avbryt" }).click();
@@ -322,7 +322,7 @@ test("shows warning dialog when navigating and folder form is dirty", async ({ p
   await groups.nth(1).locator("input").focus();
   await page.keyboard.press("ArrowDown");
   const item = page.locator('div[data-part="item"]').first();
-  const title = await item.locator("div").locator("div").textContent();
+  const title = await item.locator('div[data-part="item-text"]').textContent();
   await item.click();
   await expect(page.getByRole("link", { name: title ?? "" })).toBeVisible();
 

@@ -260,6 +260,7 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
                 resourceTypes: step.resource.resourceTypes,
                 title: step.title,
                 breadcrumbs: step.resource.breadcrumbs,
+                traits: step.resource.article?.traits,
               }
             : undefined
         }

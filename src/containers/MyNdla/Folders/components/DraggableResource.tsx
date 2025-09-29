@@ -22,10 +22,9 @@ import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalCon
 import { ListResource } from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLFolderResourceMetaFragment } from "../../../../graphqlTypes";
 import { useDeleteFolderResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
-import { getResourceTypesForResource } from "../../../../util/folderHelpers";
 import { DragHandle } from "../../components/DragHandle";
 import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
 import { DraggableListItem } from "../../Learningpath/components/DraggableListItem";
@@ -45,7 +44,7 @@ interface Props {
   selectedFolder: GQLFolder;
   loading?: boolean;
   index: number;
-  resourceMeta?: GQLFolderResourceMeta;
+  resourceMeta?: GQLFolderResourceMetaFragment;
   setFocusId: (id: string | undefined) => void;
   resourceRefId?: string;
 }
@@ -200,12 +199,10 @@ export const DraggableResource = ({
     transition,
   };
 
-  const [resourceTypes, resourcePath] = useMemo(() => {
+  const resourcePath = useMemo(() => {
     let resPath = resource.path;
 
-    if (!resourceMeta) return [[], resPath];
-
-    const resTypes = getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t);
+    if (!resourceMeta) return resPath;
 
     if (resourceMeta.resourceTypes.length < 1) {
       if (resource.resourceType === "article" || resource.resourceType === "learningpath") {
@@ -213,8 +210,8 @@ export const DraggableResource = ({
       }
     }
 
-    return [resTypes, resPath];
-  }, [resourceMeta, resource, t]);
+    return resPath;
+  }, [resourceMeta, resource]);
 
   return (
     <DraggableListItem
@@ -241,7 +238,9 @@ export const DraggableResource = ({
             alt: "",
           }}
           link={resourcePath}
-          resourceTypes={resourceTypes}
+          storedResourceType={resource.resourceType}
+          resourceTypes={resourceMeta?.resourceTypes}
+          traits={resourceMeta?.__typename === "ArticleFolderResourceMeta" ? resourceMeta.traits : undefined}
           title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
           description={resourceMeta?.description ?? ""}
           menu={menu}

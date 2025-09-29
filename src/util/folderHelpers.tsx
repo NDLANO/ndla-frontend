@@ -6,9 +6,8 @@
  *
  */
 
-import type { TFunction } from "i18next";
 import { uniqBy, uniq } from "@ndla/util";
-import { GQLFolder, GQLFolderResource, GQLFolderResourceResourceType, GQLSharedFolder } from "../graphqlTypes";
+import { GQLFolder, GQLFolderResource, GQLSharedFolder } from "../graphqlTypes";
 
 export const getAllTags = (allFolders: GQLFolder[]): string[] => {
   const allTags = allFolders.flatMap((f) => f.resources.flatMap((r) => r.tags).concat(getAllTags(f.subfolders)));
@@ -50,15 +49,4 @@ export const getResourcesForTag = (allFolders: GQLFolder[], tag: string): GQLFol
     f.resources.filter((r) => r.tags.some((t) => t === tag)).concat(getResourcesForTag(f.subfolders, tag)),
   );
   return uniqBy(resources, (r) => r.id);
-};
-
-export const getResourceTypesForResource = (
-  resourceType: string,
-  metaResourceTypes: GQLFolderResourceResourceType[] | undefined,
-  t: TFunction,
-): GQLFolderResourceResourceType[] => {
-  if (metaResourceTypes?.length) {
-    return metaResourceTypes;
-  }
-  return [{ id: resourceType, name: t(`contentTypes.${resourceType}`) }];
 };
