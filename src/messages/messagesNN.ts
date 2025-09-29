@@ -778,22 +778,22 @@ const messages = {
       myNdla: {
         title: "Min NDLA",
         description:
-          "Organiser fagstoffet på din måte! Her kan du enkelt favorisere artiklar, dine fag eller lage læringsstiar til elevane dine.",
+          "Skreddarsy din eigen læringssti! Lag mapper, samle favorittar og del fagstoff – enkelt, inspirerande og heilt på din måte.",
       },
       chatRobot: {
-        title: "NDLA Praterobot",
+        title: "NDLA praterobot",
         description:
-          "Vil du bruke KI i undervisninga? NDLA har laga to praterobotar som tek vare på personvernet ditt og trygt kan brukest til jobb og i undervisning.",
+          "Bygg din eigen robot, bruk ein ferdiglagd – eller test bileteroboten! Våre KI-verktøy er trygge og klare til bruk.",
       },
       arena: {
-        title: "NDLA Arena",
+        title: "NDLA arena",
         description:
-          "Her kan du dele, diskutere og samarbeide med andre lærarar i vidaregåande opplæring. Arenaen er åpen for alle lærarar i NDLAs samarbeidsfylkar.",
+          "Del undervisningsopplegg, diskuter fag og samarbeid med andre lærarar! Arenaen er eit fagleg fellesskap for lærarar i vidaregåande opplæring.",
       },
       film: {
-        title: "NDLA Film",
+        title: "NDLA film",
         description:
-          "NDLA film er ein teneste i samarbeid med Norgesfilm. Denne tenesta lar deg sjå ein rekke spelefilmar, kortfilmar, dokumentarar og seriar.",
+          "Sjekk vårt store utval av spelefilmar, dokumentarar, TV-seriar og undervisningsklipp. Vi tilbyr oppgåver til fleire av dei.",
       },
     },
   },
