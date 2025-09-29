@@ -232,8 +232,8 @@ export const routes: RouteObjectWithImportPath[] = [
       {
         path: "om/:slug",
         importPath: config.enableNewAboutPage
-          ? "./containers/AboutPageV2/AboutPageV2"
-          : "./containers/AboutPage/AboutPage",
+          ? "src/containers/AboutPageV2/AboutPageV2.tsx"
+          : "src/containers/AboutPage/AboutPage.tsx",
         lazy: () =>
           config.enableNewAboutPage
             ? import("./containers/AboutPageV2/AboutPageV2")
