@@ -121,7 +121,7 @@ export const SearchResult = ({ searchResult }: Props) => {
         {!!context && (
           <Text color="text.subtle" textStyle="label.small">
             <span aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumbs.join(",")}`}>
-              {context.breadcrumbs.join(" > ")}
+              {context.breadcrumbs.join(" › ")}
             </span>
             {searchResult.contexts.length > 1 && (
               <DialogRoot>
