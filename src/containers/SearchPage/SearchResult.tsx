@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
 import {
+  Badge,
   Button,
   DialogBody,
   DialogContent,
@@ -26,7 +27,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
@@ -49,6 +50,15 @@ const StyledButton = styled(Button, {
   base: {
     marginInlineStart: "3xsmall",
     position: "relative",
+  },
+});
+
+const StyledBadgeContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: "xxsmall",
   },
 });
 
@@ -90,6 +100,12 @@ export const SearchResult = ({ searchResult }: Props) => {
     }
     return undefined;
   }, [context?.resourceTypes, context?.url, searchResult.__typename]);
+  const traits = useMemo(() => {
+    if (searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult") {
+      return searchResult.traits;
+    }
+    return [];
+  }, [searchResult]);
 
   return (
     <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
@@ -143,7 +159,18 @@ export const SearchResult = ({ searchResult }: Props) => {
             )}
           </Text>
         )}
-        {!!contentType && <ContentTypeBadge contentType={contentType} />}
+        <StyledBadgeContainer>
+          {!!contentType && (
+            <Badge colorTheme="neutral" key={contentType}>
+              {t(`contentTypes.${contentType}`)}
+            </Badge>
+          )}
+          {traits.map((trait) => (
+            <Badge colorTheme="neutral" key={trait}>
+              {t(`searchPage.traits.${trait}`)}
+            </Badge>
+          ))}
+        </StyledBadgeContainer>
         {!!ltiContext && (
           <LtiEmbed
             item={{
@@ -166,9 +193,11 @@ SearchResult.fragments = {
       title
       ... on ArticleSearchResult {
         htmlTitle
+        traits
       }
       ... on LearningpathSearchResult {
         htmlTitle
+        traits
       }
       metaDescription
       context {

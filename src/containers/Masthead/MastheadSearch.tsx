@@ -16,6 +16,7 @@ import { createListCollection } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
+  Badge,
   Button,
   ComboboxControl,
   ComboboxInput,
@@ -38,7 +39,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
+import { constants, useComboboxTranslations } from "@ndla/ui";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
 import {
   GQLCurrentContextQuery,
@@ -71,6 +72,24 @@ const StyledButton = styled(Button, {
         display: "none",
       },
     },
+  },
+});
+
+const StyledSearchResult = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xxsmall",
+  },
+});
+
+const StyledBadgeContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: "xxsmall",
   },
 });
 
@@ -217,9 +236,11 @@ const searchQuery = gql`
         url
         metaDescription
         ... on ArticleSearchResult {
+          traits
           htmlTitle
         }
         ... on LearningpathSearchResult {
+          traits
           htmlTitle
         }
         contexts {
@@ -331,6 +352,10 @@ const MastheadSearch = () => {
         } else if (context?.url.startsWith("/e")) {
           contentType = constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
         }
+        let traits: string[] = [];
+        if (result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult") {
+          traits = result.traits;
+        }
         return {
           ...result,
           htmlTitle:
@@ -339,6 +364,7 @@ const MastheadSearch = () => {
               : result.title,
           resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
+          traits,
           path: context?.url ?? result.url,
         };
       }) ?? []
@@ -457,36 +483,43 @@ const MastheadSearch = () => {
                   searchHits.map((resource) => (
                     <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
                       <StyledListItemRoot context="list">
-                        <TextWrapper>
-                          <StyledComboboxItemText>
-                            <SafeLink
-                              to={resource.path}
-                              onClick={onNavigate}
-                              unstyled
-                              css={linkOverlay.raw()}
-                              id="matomo-masthead-search-anchor-element"
-                            >
-                              {resource.htmlTitle}
-                            </SafeLink>
-                          </StyledComboboxItemText>
-                          {resource.contentType === constants.contentTypes.SUBJECT ? (
-                            <Text textStyle="label.small" color="text.subtle">
-                              {resource.metaDescription}
-                            </Text>
-                          ) : (
-                            !!resource.contexts[0] && (
-                              <Text
-                                textStyle="label.small"
-                                color="text.subtle"
-                                css={{ textAlign: "start" }}
-                                aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                        <StyledSearchResult>
+                          <TextWrapper>
+                            <StyledComboboxItemText>
+                              <SafeLink
+                                to={resource.path}
+                                onClick={onNavigate}
+                                unstyled
+                                css={linkOverlay.raw()}
+                                id="matomo-masthead-search-anchor-element"
                               >
-                                {resource.contexts[0].breadcrumbs.join(" / ")}
+                                {resource.htmlTitle}
+                              </SafeLink>
+                            </StyledComboboxItemText>
+                            {resource.contentType === constants.contentTypes.SUBJECT ? (
+                              <Text textStyle="label.small" color="text.subtle">
+                                {resource.metaDescription}
                               </Text>
-                            )
-                          )}
-                        </TextWrapper>
-                        <ContentTypeBadge contentType={resource.contentType} />
+                            ) : (
+                              !!resource.contexts[0] && (
+                                <Text
+                                  textStyle="label.small"
+                                  color="text.subtle"
+                                  css={{ textAlign: "start" }}
+                                  aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                                >
+                                  {resource.contexts[0].breadcrumbs.join(" › ")}
+                                </Text>
+                              )
+                            )}
+                          </TextWrapper>
+                          <StyledBadgeContainer>
+                            <Badge key={resource.contentType}>{t(`contentTypes.${resource.contentType}`)}</Badge>
+                            {resource.traits.map((trait) => (
+                              <Badge key={trait}>{t(`searchPage.traits.${trait}`)}</Badge>
+                            ))}
+                          </StyledBadgeContainer>
+                        </StyledSearchResult>
                       </StyledListItemRoot>
                     </ComboboxItem>
                   ))
