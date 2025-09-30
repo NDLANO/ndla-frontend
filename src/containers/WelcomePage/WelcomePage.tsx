@@ -8,7 +8,8 @@
 
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { ArrowRightLine, ChatHeartLine, HeartLine, MovieLine, RobotFill } from "@ndla/icons";
 import { CardContent, CardHeading, CardRoot, Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";

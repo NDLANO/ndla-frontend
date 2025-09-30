@@ -8,7 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import SubjectContainer, { subjectContainerFragments } from "./SubjectContainer";
 import { RedirectExternal } from "../../components";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -16,6 +17,7 @@ import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import FilmFrontpage from "../../containers/FilmFrontpage/FilmFrontpage";
 import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
+import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -50,8 +52,8 @@ export const SubjectPage = () => {
 
   const data = newData ?? previousData;
 
-  if (error?.graphQLErrors) {
-    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
+  if (error) {
+    if (isNotFoundError(error)) {
       return <NotFoundPage />;
     }
     return <DefaultErrorMessagePage />;

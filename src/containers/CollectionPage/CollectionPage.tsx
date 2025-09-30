@@ -8,7 +8,8 @@
 
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";

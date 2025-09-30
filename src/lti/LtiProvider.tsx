@@ -7,7 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { gql, useApolloClient, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";

@@ -9,8 +9,8 @@
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
-import { ApolloProvider } from "@apollo/client";
-import { renderToStringWithData } from "@apollo/client/react/ssr";
+import { ApolloProvider } from "@apollo/client/react";
+import { prerenderStatic } from "@apollo/client/react/ssr";
 import { MissingRouterContext } from "@ndla/safelink";
 import { disableSSR } from "./renderHelpers";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
@@ -93,7 +93,7 @@ export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
     </Document>
   );
 
-  const html = await renderToStringWithData(Page);
+  const result = await prerenderStatic({ tree: Page, renderFunction: renderToString });
 
   if (context.url) {
     return {
@@ -108,7 +108,7 @@ export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
     status: context.status ?? OK,
     locale: locale ?? (config.defaultLocale as LocaleType),
     data: {
-      htmlContent: html,
+      htmlContent: result.result,
       data: {
         apolloState,
         chunks,

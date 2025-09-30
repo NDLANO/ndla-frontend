@@ -8,7 +8,8 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { AboutPageLeaf } from "./AboutPageLeaf";
 import { AboutPageNode } from "./AboutPageNode";
 import { findBreadcrumb, getBreadcrumb } from "./aboutPageUtils";
@@ -18,6 +19,7 @@ import RedirectContext, { RedirectInfo } from "../../components/RedirectContext"
 import { GQLAboutPageV2Query, GQLAboutPageV2QueryVariables } from "../../graphqlTypes";
 import { useTypedParams } from "../../routeHelpers";
 import { GONE } from "../../statusCodes";
+import { isGoneError } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 // TODO: Rename query
@@ -59,7 +61,7 @@ export const AboutPage = () => {
     return <ContentPlaceholder variant="article" />;
   }
 
-  if (error?.graphQLErrors.some((err) => err.extensions?.status === GONE) && redirectContext) {
+  if (isGoneError(error) && redirectContext) {
     redirectContext.status = GONE;
   }
 
