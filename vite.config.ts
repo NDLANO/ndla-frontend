@@ -35,6 +35,13 @@ export default defineConfig(({ isSsrBuild, mode }) => {
         },
         url: "https://sentry.io/",
         telemetry: false,
+        bundleSizeOptimizations: {
+          excludeDebugStatements: true,
+          excludeReplayIframe: true,
+          excludeReplayShadowDom: true,
+          excludeReplayWorker: true,
+          excludeTracing: true,
+        },
       }),
     ],
     ssr: {
