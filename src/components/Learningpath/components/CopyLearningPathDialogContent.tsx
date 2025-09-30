@@ -6,23 +6,12 @@
  *
  */
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { useDialogContext } from "@ark-ui/react";
 import { FileCopyLine } from "@ndla/icons";
-import {
-  DialogRoot,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  IconButton,
-  DialogTitle,
-  DialogBody,
-  Button,
-  DialogFooter,
-  Text,
-} from "@ndla/primitives";
+import { DialogContent, DialogHeader, DialogTitle, DialogBody, Button, DialogFooter, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
 import { GQLLearningpath_LearningpathFragment, GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
 import { useCopyLearningpathMutation } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
@@ -31,21 +20,15 @@ import { DialogCloseButton } from "../../DialogCloseButton";
 import LoginModalContent from "../../MyNdla/LoginModalContent";
 import { useToast } from "../../ToastContext";
 
-const StyledFileCopyLine = styled(FileCopyLine, {
-  base: {
-    fill: "icon.strong",
-  },
-});
-
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
 }
 
-const CopyLearningPath = ({ learningpath }: Props) => {
+const CopyLearningPathDialogContent = ({ learningpath }: Props) => {
   const { t, i18n } = useTranslation();
   const toast = useToast();
-  const [open, setOpen] = useState(false);
   const { authenticated, user } = useContext(AuthContext);
+  const { setOpen } = useDialogContext();
 
   const [copyLearningPath] = useCopyLearningpathMutation();
 
@@ -69,8 +52,7 @@ const CopyLearningPath = ({ learningpath }: Props) => {
           },
         },
       });
-      if (!res.errors?.length) {
-        setOpen(false);
+      if (!res.errors) {
         toast.create({
           title: t("myNdla.learningpath.copy.success.title"),
           description: (
@@ -80,6 +62,7 @@ const CopyLearningPath = ({ learningpath }: Props) => {
             </div>
           ),
         });
+        setOpen(false);
       } else {
         onError();
       }
@@ -88,41 +71,32 @@ const CopyLearningPath = ({ learningpath }: Props) => {
     }
   };
 
+  if (authenticated && user) {
+    return (
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{t("myNdla.learningpath.copy.title")}</DialogTitle>
+          <DialogCloseButton />
+        </DialogHeader>
+        <DialogBody>
+          <Text>{t("myNdla.learningpath.copy.description")}</Text>
+        </DialogBody>
+        <DialogFooter>
+          <Button onClick={() => onCopyLearningPath(user)}>
+            <FileCopyLine />
+            {t("myNdla.learningpath.copy.button")}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    );
+  }
+
   return (
-    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
-      <DialogTrigger asChild>
-        <IconButton
-          title={t("myNdla.learningpath.copy.title")}
-          aria-label={t("myNdla.learningpath.copy.title")}
-          variant="tertiary"
-        >
-          <StyledFileCopyLine />
-        </IconButton>
-      </DialogTrigger>
-      {authenticated && user ? (
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("myNdla.learningpath.copy.title")}</DialogTitle>
-            <DialogCloseButton />
-          </DialogHeader>
-          <DialogBody>
-            <Text>{t("myNdla.learningpath.copy.description")}</Text>
-          </DialogBody>
-          <DialogFooter>
-            <Button onClick={() => onCopyLearningPath(user)}>
-              <FileCopyLine />
-              {t("myNdla.learningpath.copy.button")}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      ) : (
-        <LoginModalContent
-          title={t("myNdla.learningpath.copy.loginCopyPitch")}
-          loginIngress={t("myNdla.learningpath.copy.description")}
-        />
-      )}
-    </DialogRoot>
+    <LoginModalContent
+      title={t("myNdla.learningpath.copy.loginCopyPitch")}
+      loginIngress={t("myNdla.learningpath.copy.description")}
+    />
   );
 };
 
-export default CopyLearningPath;
+export default CopyLearningPathDialogContent;
