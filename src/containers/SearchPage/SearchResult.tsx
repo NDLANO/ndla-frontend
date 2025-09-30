@@ -95,18 +95,20 @@ export const SearchResult = ({ searchResult }: Props) => {
     return [];
   }, [searchResult, t]);
 
-  useMemo(() => {
+  const contentType = useMemo(() => {
     if (searchResult.__typename === "NodeSearchResult") {
       // TODO: Should SUBJECT be a part of `contentTypeMapping`?
-      traits.push(t("contentTypes.subject"));
+      return t("contentTypes.subject");
     }
     if (context?.resourceTypes?.length) {
-      traits.push(t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`));
+      return t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`);
     } else if (context?.url.startsWith("/e")) {
-      traits.push(t("contentTypes.topic"));
+      return t("contentTypes.topic");
     }
-    return undefined;
-  }, [context?.resourceTypes, context?.url, searchResult.__typename, traits, t]);
+    return constants.contentTypeMapping?.["default"] ?? "default";
+  }, [context?.resourceTypes, context?.url, searchResult.__typename, t]);
+
+  traits.unshift(contentType);
 
   return (
     <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
