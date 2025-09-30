@@ -796,6 +796,7 @@ export type GQLLearningpathSeqNo = {
 export type GQLLearningpathStep = {
   __typename?: "LearningpathStep";
   articleId?: Maybe<Scalars["Int"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
   copyright?: Maybe<GQLLearningpathCopyright>;
   description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
@@ -1101,9 +1102,7 @@ export type GQLMutationUpdateLearningpathStepSeqNoArgs = {
 };
 
 export type GQLMutationUpdatePersonalDataArgs = {
-  arenaAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
   favoriteSubjects?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  shareNameAccepted?: InputMaybe<Scalars["Boolean"]["input"]>;
 };
 
 export type GQLMyNdlaGroup = {
@@ -1143,6 +1142,7 @@ export type GQLMyNdlaLearningpath = {
 export type GQLMyNdlaLearningpathStep = {
   __typename?: "MyNdlaLearningpathStep";
   articleId?: Maybe<Scalars["Int"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
   copyright?: Maybe<GQLLearningpathCopyright>;
   description?: Maybe<Scalars["String"]["output"]>;
   embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
@@ -1169,7 +1169,6 @@ export type GQLMyNdlaLearningpathStepResourceArgs = {
 
 export type GQLMyNdlaPersonalData = {
   __typename?: "MyNdlaPersonalData";
-  arenaAccepted: Scalars["Boolean"]["output"];
   arenaEnabled: Scalars["Boolean"]["output"];
   displayName: Scalars["String"]["output"];
   email: Scalars["String"]["output"];
@@ -1179,7 +1178,6 @@ export type GQLMyNdlaPersonalData = {
   id: Scalars["Int"]["output"];
   organization: Scalars["String"]["output"];
   role: Scalars["String"]["output"];
-  shareNameAccepted: Scalars["Boolean"]["output"];
   username: Scalars["String"]["output"];
 };
 
