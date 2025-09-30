@@ -16,6 +16,7 @@ import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleForm, TitleFormValues } from "./components/TitleForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useCreateLearningpath } from "../../../mutations/learningpathMutations";
@@ -41,7 +42,7 @@ export const NewLearningpathPage = () => {
     trackPageView({ title: t("htmlTitles.learningpathNewPage"), dimensions: getAllDimensions({ user }) });
   }, [t, trackPageView, user]);
 
-  const onSave = async ({ title, imageUrl }: TitleFormValues) => {
+  const onSave = async ({ title, imageUrl, introduction }: TitleFormValues) => {
     if (!user) {
       return;
     }
@@ -51,6 +52,7 @@ export const NewLearningpathPage = () => {
           language: i18n.language,
           coverPhotoMetaUrl: imageUrl,
           title: title,
+          introduction: serializeFromRichText(introduction),
           copyright: {
             license: {
               license: licenses.CC_BY_SA_4,
