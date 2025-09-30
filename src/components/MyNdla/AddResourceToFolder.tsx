@@ -170,7 +170,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
           tags: selectedTags,
         },
       });
-      if (!res.errors?.length) {
+      if (!res.error) {
         onClose();
         toast.create({
           title: t("myNdla.resource.added"),
@@ -185,7 +185,7 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
       const res = await updateFolderResource({
         variables: { id: storedResource.id, tags: selectedTags },
       });
-      if (!res.errors?.length) {
+      if (!res.error) {
         onClose();
         toast.create({
           title: t("myNdla.resource.tagsUpdated"),

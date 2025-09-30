@@ -29,23 +29,18 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
 
   const imageId = imageUrl?.split("/").pop();
 
-  const [fetchImage, { loading, data: image }] = useFetchImage({
-    variables: { id: imageId ?? "0" },
-    skip: !imageId,
-  });
+  const [fetchImage, { loading, data: image }] = useFetchImage();
 
   useEffect(() => {
     if (imageId) {
-      fetchImage();
+      fetchImage({ variables: { id: imageId } });
     }
   }, [fetchImage, imageId]);
 
-  const [refetch] = useImageSearch({
-    variables: { page: 1, pageSize: 16, license: licenses.CC_BY_SA_4 },
-  });
+  const [fetchImages] = useImageSearch();
 
   const onSearchImage = async (query?: string, page?: number) =>
-    (await refetch({ variables: { query, page, license: licenses.CC_BY_SA_4 } }))?.data
+    (await fetchImages({ variables: { query, page: page ?? 1, pageSize: 16, license: licenses.CC_BY_SA_4 } }))?.data
       ?.imageSearch as ISearchResultV3DTO;
 
   const onRemove = () => {

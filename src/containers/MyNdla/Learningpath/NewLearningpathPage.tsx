@@ -63,7 +63,7 @@ export const NewLearningpathPage = () => {
     if (res.data?.newLearningpath.id) {
       navigate(routes.myNdla.learningpathEditSteps(res.data.newLearningpath.id));
     }
-    if (res.errors?.length) {
+    if (res.error) {
       toast.create({ title: t("myNdla.learningpath.toast.createdFailed") });
     }
   };

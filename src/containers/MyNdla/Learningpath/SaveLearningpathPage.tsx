@@ -82,7 +82,7 @@ export const SaveLearningpathPage = () => {
         status: LEARNINGPATH_READY_FOR_SHARING,
       },
     });
-    if (!res.errors?.length) {
+    if (!res.error) {
       toast.create({
         title: t("myNdla.learningpath.toast.unshared", { name: learningpath.title }),
       });
@@ -98,7 +98,7 @@ export const SaveLearningpathPage = () => {
         status: LEARNINGPATH_SHARED,
       },
     });
-    if (!res.errors?.length) {
+    if (!res.error) {
       toast.create({
         title: t("myNdla.learningpath.toast.shared"),
       });

@@ -8,13 +8,15 @@
 
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import ProgrammeContainer from "./ProgrammeContainer";
 import { RedirectExternal } from "../../components/";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { TypedParams, useTypedParams } from "../../routeHelpers";
+import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -62,12 +64,9 @@ export const ProgrammePage = () => {
     return <ContentPlaceholder padding="large" />;
   }
 
-  if (error?.graphQLErrors) {
-    if (error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
-      return <NotFoundPage />;
-    } else {
-      return <DefaultErrorMessagePage />;
-    }
+  if (error) {
+    if (isNotFoundError(error)) return <NotFoundPage />;
+    return <DefaultErrorMessagePage />;
   }
 
   if (!data || !data.programme) {

@@ -9,7 +9,7 @@
 import "./style/index.css";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
 import { routes } from "./appRoutes";
 import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
