@@ -6,9 +6,9 @@
  *
  */
 
-import * as Sentry from "@sentry/react";
 import { deriveLogLevel } from "./handleError";
 import { ConfigType } from "../config";
+import { ErrorEvent, EventHint, init } from "@sentry/react";
 
 const isInformationalError = (exception: unknown): boolean => {
   const logLevel = deriveLogLevel(exception);
@@ -61,7 +61,7 @@ const sentryIgnoreErrors: SentryIgnore[] = [
   { error: "Object Not Found Matching Id" },
 ];
 
-export const beforeSend = (event: Sentry.ErrorEvent, hint: Sentry.EventHint) => {
+export const beforeSend = (event: ErrorEvent, hint: EventHint) => {
   const exception = hint.originalException;
   const infoError = isInformationalError(exception);
   if (infoError) return null;
@@ -116,7 +116,7 @@ export const initSentry = (config: ConfigType) => {
 
   const release = `${config.componentName}@${config.componentVersion}`;
 
-  Sentry.init({
+  init({
     dsn: config.sentrydsn,
     environment: config.ndlaEnvironment,
     normalizeDepth: 20,

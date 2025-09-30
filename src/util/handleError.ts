@@ -6,7 +6,6 @@
  *
  */
 
-import * as Sentry from "@sentry/react";
 import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import log from "./logger";
@@ -18,6 +17,7 @@ import { getLoggerContext } from "./logger/getLoggerContext";
 import { CombinedGraphQLErrors, ErrorLike } from "@apollo/client";
 import { GONE, NOT_FOUND } from "../statusCodes";
 import { GraphQLFormattedError } from "graphql";
+import { captureException, setContext } from "@sentry/react";
 
 type SingleGQLError = {
   status?: number;
@@ -202,8 +202,8 @@ const sendToSentry = (
   extraContext: Record<string, unknown>,
 ) => {
   const errorContext = { error, ...loggerContext, ...extraContext };
-  Sentry.setContext("NDLA Context", errorContext);
-  Sentry.captureException(error);
+  setContext("NDLA Context", errorContext);
+  captureException(error);
 };
 
 export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
