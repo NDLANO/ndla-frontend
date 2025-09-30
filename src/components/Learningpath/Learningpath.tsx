@@ -6,17 +6,20 @@
  *
  */
 
-import { useContext, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
+import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine, FileCopyLine } from "@ndla/icons";
 import {
   AccordionItem,
   AccordionItemContent,
   AccordionItemIndicator,
   AccordionItemTrigger,
   AccordionRoot,
+  DialogRoot,
+  DialogTrigger,
   Heading,
+  IconButton,
   PageContent,
   Text,
 } from "@ndla/primitives";
@@ -37,9 +40,10 @@ import FavoriteButton from "../Article/FavoritesButton";
 import { AuthContext } from "../AuthenticationContext";
 import { PageContainer } from "../Layout/PageContainer";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
-import CopyLearningPath from "./components/CopyLearningPath";
 import { LearningpathIntroduction } from "./components/LearningpathIntroduction";
 import { LearningpathStep } from "./components/LearningpathStep";
+
+const CopyLearningpathDialogContent = lazy(() => import("./components/CopyLearningPathDialogContent"));
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -50,6 +54,12 @@ interface Props {
   resourcePath?: string;
   context?: LearningpathContext;
 }
+
+const StyledFileCopyLine = styled(FileCopyLine, {
+  base: {
+    fill: "icon.strong",
+  },
+});
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
@@ -237,7 +247,22 @@ const Learningpath = ({
               >
                 <FavoriteButton path={path} />
               </AddResourceToFolderModal>
-              {user?.role === "employee" && <CopyLearningPath learningpath={learningpath} />}
+              {user?.role === "employee" && (
+                <DialogRoot>
+                  <DialogTrigger asChild>
+                    <IconButton
+                      title={t("myNdla.learningpath.copy.title")}
+                      aria-label={t("myNdla.learningpath.copy.title")}
+                      variant="tertiary"
+                    >
+                      <StyledFileCopyLine />
+                    </IconButton>
+                  </DialogTrigger>
+                  <Suspense>
+                    <CopyLearningpathDialogContent learningpath={learningpath} />
+                  </Suspense>
+                </DialogRoot>
+              )}
             </ContentTypeWrapper>
             <Text textStyle="label.large">
               {`${t("learningPath.youAreInALearningPath")}:`}
