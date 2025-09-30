@@ -88,27 +88,21 @@ export const SearchResult = ({ searchResult }: Props) => {
   const ltiContext = useLtiContext();
   const context = searchResult.context ?? searchResult.contexts?.[0];
 
-  const traits = useMemo(() => {
-    if (searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult") {
-      return searchResult.traits.map((trait) => t(`searchPage.traits.${trait}`));
-    }
-    return [];
-  }, [searchResult, t]);
-
-  const contentType = useMemo(() => {
+  const articleTraits = useMemo(() => {
+    const traits = [];
     if (searchResult.__typename === "NodeSearchResult") {
-      // TODO: Should SUBJECT be a part of `contentTypeMapping`?
-      return t("contentTypes.subject");
+      traits.push(t("contentTypes.subject"));
     }
     if (context?.resourceTypes?.length) {
-      return t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`);
+      traits.push(t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`));
     } else if (context?.url.startsWith("/e")) {
-      return t("contentTypes.topic");
+      traits.push(t("contentTypes.topic"));
     }
-    return constants.contentTypeMapping?.["default"] ?? "default";
-  }, [context?.resourceTypes, context?.url, searchResult.__typename, t]);
-
-  traits.unshift(contentType);
+    if (searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult") {
+      traits.push(...searchResult.traits.map((trait) => t(`searchPage.traits.${trait}`)));
+    }
+    return traits;
+  }, [context, searchResult, t]);
 
   return (
     <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
@@ -163,7 +157,7 @@ export const SearchResult = ({ searchResult }: Props) => {
           </Text>
         )}
         <StyledBadgeContainer>
-          {traits.map((trait) => (
+          {articleTraits.map((trait) => (
             <Badge colorTheme="neutral" key={trait}>
               {trait}
             </Badge>
