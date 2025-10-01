@@ -7,8 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { debounce } from "lodash-es";
-import { useState, useMemo, RefObject, useRef } from "react";
+import { useState, useMemo, RefObject, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
@@ -48,6 +47,7 @@ import {
 } from "../../../../constants";
 import { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
+import { useDebounce } from "../../../../util/useDebounce";
 
 const HitsWrapper = styled("div", {
   base: {
@@ -98,8 +98,6 @@ const StyledComboboxItem = styled(ComboboxItem, {
     flexWrap: "wrap",
   },
 });
-
-const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
 
 /**
   Copied from Editorial
@@ -159,22 +157,25 @@ const searchQuery = gql`
   }
 `;
 
-const DEFAULT_SEARCH_OBJECT = { page: 1, query: "" };
-
 export const ResourcePicker = ({ setResource }: Props) => {
   const { t } = useTranslation();
-  const [searchObject, setSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const delayedQuery = useDebounce(query, 250);
   const [highlightedValue, setHighlightedValue] = useState<string | null>(null);
-  const [delayedSearchObject, setDelayedSearchObject] = useState(DEFAULT_SEARCH_OBJECT);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setPage(1);
+  }, [delayedQuery]);
 
   const { loading, data: searchResult = {} } = useQuery<
     GQLResourcePickerSearchQuery,
     GQLResourcePickerSearchQueryVariables
   >(searchQuery, {
     variables: {
-      query: delayedSearchObject.query,
-      page: delayedSearchObject.page,
+      query: delayedQuery,
+      page: page,
       pageSize: PAGE_SIZE,
       resourceTypes: SEARCH_RESOURCE_TYPES,
     },
@@ -210,11 +211,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
     [searchHits],
   );
 
-  const onQueryChange = (val: string) => {
-    setSearchObject({ query: val, page: 1 });
-    debounceCall(() => setDelayedSearchObject({ query: val, page: 1 }));
-  };
-
   return (
     <ComboboxRoot
       highlightedValue={highlightedValue}
@@ -222,8 +218,8 @@ export const ResourcePicker = ({ setResource }: Props) => {
       collection={collection}
       translations={comboboxTranslations}
       scrollToIndexFn={(details) => scrollToIndexFn(contentRef, details.index)}
-      onInputValueChange={(details) => onQueryChange(details.inputValue)}
-      inputValue={searchObject.query}
+      onInputValueChange={(details) => setQuery(details.inputValue)}
+      inputValue={query}
       positioning={{ strategy: "fixed" }}
       selectionBehavior="preserve"
       closeOnSelect={false}
@@ -259,9 +255,9 @@ export const ResourcePicker = ({ setResource }: Props) => {
         <HitsWrapper aria-live="assertive">
           <div>
             {!(searchHits.length >= 1) && !loading ? (
-              <Text textStyle="label.small">{t("searchPage.noHitsShort", { query: searchObject.query })}</Text>
+              <Text textStyle="label.small">{t("searchPage.noHitsShort", { query })}</Text>
             ) : (
-              <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${searchObject.query}"`}</Text>
+              <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
             )}
           </div>
         </HitsWrapper>
@@ -298,10 +294,9 @@ export const ResourcePicker = ({ setResource }: Props) => {
         )}
         {searchResult.search && searchResult.search.totalCount > searchResult.search.pageSize ? (
           <StyledPaginationRoot
-            page={searchObject.page}
+            page={page}
             onPageChange={(details) => {
-              setSearchObject((prev) => ({ ...prev, page: details.page }));
-              setDelayedSearchObject((prev) => ({ ...prev, page: details.page }));
+              setPage(details.page);
             }}
             count={Math.min(searchResult.search?.totalCount ?? 0, 1000)}
             pageSize={PAGE_SIZE}
