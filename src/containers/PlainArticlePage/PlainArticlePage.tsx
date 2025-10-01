@@ -7,7 +7,7 @@
  */
 
 import { useContext } from "react";
-import { useLocation } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import PlainArticleContainer, { plainArticleContainerFragments } from "./PlainArticleContainer";
@@ -17,15 +17,10 @@ import RedirectContext from "../../components/RedirectContext";
 import ResponseContext from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables } from "../../graphqlTypes";
-import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { isAccessDeniedError, isGoneError, isNotFoundError } from "../../util/handleError";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
-
-interface MatchParams extends TypedParams {
-  articleId: string;
-}
 
 const plainArticlePageQuery = gql`
   query plainArticlePage($articleId: String!, $transformArgs: TransformedArticleContentInput) {
@@ -37,7 +32,7 @@ const plainArticlePageQuery = gql`
 `;
 
 export const PlainArticlePage = () => {
-  const { articleId } = useTypedParams<MatchParams>();
+  const { articleId } = useParams();
   const { pathname } = useLocation();
   const redirectContext = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
@@ -45,13 +40,14 @@ export const PlainArticlePage = () => {
     plainArticlePageQuery,
     {
       variables: {
-        articleId,
+        articleId: articleId ?? "",
         transformArgs: {
           showVisualElement: "true",
           path: pathname,
           isOembed: "false",
         },
       },
+      skip: !articleId,
     },
   );
 
