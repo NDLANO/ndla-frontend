@@ -3660,6 +3660,7 @@ export type GQLResource_ArticleFragment = {
   updated: string;
   articleType: string;
   title: string;
+  language: string;
 };
 
 export type GQLMyNdlaLearningpathStepFragment = {
@@ -3667,6 +3668,7 @@ export type GQLMyNdlaLearningpathStepFragment = {
   id: number;
   title: string;
   seqNo: number;
+  canEdit: boolean;
   articleId?: number;
   description?: string;
   introduction?: string;
@@ -3676,6 +3678,7 @@ export type GQLMyNdlaLearningpathStepFragment = {
   revision: number;
   embedUrl?: { __typename?: "LearningpathStepEmbedUrl" } & GQLLearningpathStepEmbedUrlFragment;
   oembed?: { __typename?: "LearningpathStepOembed" } & GQLLearningpathStepOembedFragment;
+  opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
   resource?: {
     __typename?: "Resource";
     id: string;
