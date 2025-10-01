@@ -8,6 +8,7 @@
 
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { AboutPageLeaf } from "./AboutPageLeaf";
@@ -17,7 +18,6 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import { GQLAboutPageV2Query, GQLAboutPageV2QueryVariables } from "../../graphqlTypes";
-import { useTypedParams } from "../../routeHelpers";
 import { GONE } from "../../statusCodes";
 import { isGoneError } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -49,10 +49,10 @@ const aboutPageQuery = gql`
 
 export const AboutPage = () => {
   const { t } = useTranslation();
-  const { slug } = useTypedParams<{ slug: string }>();
+  const { slug } = useParams();
   const { error, loading, data } = useQuery<GQLAboutPageV2Query, GQLAboutPageV2QueryVariables>(aboutPageQuery, {
     skip: !slug,
-    variables: { slug },
+    variables: { slug: slug ?? "" },
   });
 
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);

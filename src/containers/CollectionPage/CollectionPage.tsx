@@ -8,6 +8,7 @@
 
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
@@ -24,7 +25,6 @@ import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
-import { useTypedParams } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -59,7 +59,7 @@ const StyledImage = styled(Image, {
 });
 
 export const CollectionPage = () => {
-  const { collectionId } = useTypedParams();
+  const { collectionId } = useParams();
   const isValidLanguage = COLLECTION_LANGUAGES.includes(collectionId ?? "");
 
   const collectionQuery = useQuery<GQLCollectionPageQuery, GQLCollectionPageQueryVariables>(collectionPageQuery, {

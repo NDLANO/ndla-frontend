@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate } from "react-router";
+import { Navigate, useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
@@ -42,23 +42,19 @@ import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
-import { TypedParams, useTypedParams } from "../../routeHelpers";
 import { publisher } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
 import ResourceEmbedLicenseContent from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
-interface RouteParams extends TypedParams {
-  id: string;
-}
-
 export const PodcastSeriesPage = () => {
-  const { id } = useTypedParams<RouteParams>();
+  const { id } = useParams();
   const {
     error,
     loading,
     data: { podcastSeries } = {},
   } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
+    skip: !id,
   });
 
   const embeds = useMemo(() => {
