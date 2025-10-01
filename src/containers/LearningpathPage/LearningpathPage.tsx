@@ -37,15 +37,6 @@ const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => 
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   useEffect(() => {
     if (loading || !node || !authContextLoaded) return;
