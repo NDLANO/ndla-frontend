@@ -17,6 +17,8 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
       <article
         class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
         data-ndla-article=""
+        xmlns:cc="https://creativecommons.org/ns#"
+        xmlns:dct="http://purl.org/dc/terms/"
       >
         <header
           class="d_flex flex-d_column gap_medium ai_flex-start w_100% pbs_xxlarge ov-wrap_anywhere"
@@ -46,7 +48,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
           />
         </header>
         <section
-          class="ndla-article"
+          class="ov-x_visible ndla-article"
         >
           <section>
             <p
