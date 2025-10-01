@@ -11,11 +11,11 @@ import { useTranslation } from "react-i18next";
 import {
   rights,
   getLicenseByAbbreviation,
-  getLicenseRightByAbbreviation,
   getResourceTypeNamespace,
   isCreativeCommonsLicense,
   metaTypes,
   type MetaType,
+  isLicenseRight,
 } from "@ndla/licenses";
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -65,9 +65,11 @@ interface MediaSourceProps {
 export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, children }: MediaSourceProps) => {
   const { i18n, t } = useTranslation();
   const license = getLicenseByAbbreviation(licenseType, i18n.language);
-  const { description } = getLicenseRightByAbbreviation(license.rights[0] ?? "", i18n.language);
 
   const licenseRightsText = license.rights[0] === rights.COPYRIGHTED ? "restrictedUseText" : "licenseText";
+  const description = isLicenseRight(license.rights[0])
+    ? t(`licenses.rights.${license.rights[0]}.description`)
+    : license.rights[0];
   return (
     <div>
       <MediaListLicenseButtonWrapper>
@@ -78,16 +80,14 @@ export const MediaListLicense = ({ licenseType, title, sourceTitle, sourceType, 
         )}
         <div>{children}</div>
       </MediaListLicenseButtonWrapper>
-      {!!description && (
+      {!!isLicenseRight(license.rights[0]) && (
         <Text textStyle="body.medium">
           {`${t(`license.${sourceType}.${licenseRightsText}`)} `}
           <LicenseLink license={license} />
           {`. ${description}`}
         </Text>
       )}
-      {license.rights.length > 1 && (
-        <LicenseBylineDescriptionList licenseRights={license.rights} locale={i18n.language} />
-      )}
+      {license.rights.length > 1 && <LicenseBylineDescriptionList licenseRights={license.rights} />}
     </div>
   );
 };
