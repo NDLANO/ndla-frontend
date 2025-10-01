@@ -7,18 +7,28 @@
  */
 
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { Article as UIArticle } from "@ndla/ui";
+import { HTMLProps } from "@ark-ui/react";
+import { styled } from "@ndla/styled-system/jsx";
+import {
+  ArticleByline,
+  ArticleContent,
+  ArticleFooter,
+  ArticleTitle,
+  ArticleWrapper,
+  licenseAttributes,
+} from "@ndla/ui";
 import { useArticleCopyText, useNavigateToHash } from "./articleHelpers";
-import FavoriteButton from "./FavoritesButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { TransformedBaseArticle } from "../../util/transformArticle";
 import CompetenceGoals from "../CompetenceGoals";
 import Disclaimer from "../Disclaimer";
+import FavoriteButton from "./FavoritesButton";
 import LicenseBox from "../license/LicenseBox";
 import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
 
-interface Props {
+interface Props extends HTMLProps<"div"> {
   id?: string;
   article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
   isTopicArticle?: boolean;
@@ -28,11 +38,14 @@ interface Props {
   subjectId?: string;
   isOembed?: boolean;
   contentTypeLabel?: ReactNode;
-  showFavoriteButton?: boolean;
-  myNdlaResourceType?: string;
   path?: string;
-  oembed: string | undefined;
 }
+
+const StyledArticleContent = styled(ArticleContent, {
+  base: {
+    overflowX: "visible",
+  },
+});
 
 const Article = ({
   path,
@@ -44,11 +57,10 @@ const Article = ({
   id,
   subjectId,
   isOembed = false,
-  showFavoriteButton,
-  myNdlaResourceType = "article",
   contentTypeLabel,
-  oembed,
+  ...rest
 }: Props) => {
+  const { i18n } = useTranslation();
   const copyText = useArticleCopyText(article);
 
   useNavigateToHash(article.transformedContent.content);
@@ -57,51 +69,61 @@ const Article = ({
     return children || null;
   }
 
-  const art = {
-    ...article,
-    content: article.transformedContent?.content ?? "",
-    title: article.transformedContent.title,
-    introduction: article.transformedContent.introduction,
-    footNotes: article.transformedContent?.metaData?.footnotes ?? [],
-  };
+  const authors =
+    article.copyright?.creators.length || article.copyright?.rightsholders.length
+      ? article.copyright.creators
+      : article.copyright?.processors;
+
+  const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 
   return (
-    <UIArticle
-      id={id ?? article.id.toString()}
-      article={art}
-      contentType={contentType}
-      contentTypeLabel={contentTypeLabel}
-      licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={oembed} />}
-      competenceGoals={
-        !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
-          <CompetenceGoals
-            codes={article.grepCodes}
-            subjectId={subjectId}
-            supportedLanguages={article.supportedLanguages}
-            isOembed={isOembed}
-          />
-        ) : undefined
-      }
-      lang={article.language}
-      heartButton={
-        path && showFavoriteButton ? (
-          <AddResourceToFolderModal
-            resource={{
-              id: article.id.toString(),
-              path,
-              resourceType: myNdlaResourceType,
-            }}
-          >
-            <FavoriteButton path={path} />
-          </AddResourceToFolderModal>
-        ) : null
-      }
-      disclaimer={
-        article.transformedDisclaimer?.content ? <Disclaimer disclaimer={article.transformedDisclaimer} /> : null
-      }
-    >
-      {children}
-    </UIArticle>
+    <ArticleWrapper {...licenseProps} {...rest}>
+      <ArticleTitle
+        id={id ?? article.id.toString()}
+        contentType={contentType}
+        contentTypeLabel={contentTypeLabel}
+        heartButton={
+          !!path && (
+            <AddResourceToFolderModal
+              resource={{
+                id: article.id.toString(),
+                path,
+                resourceType: "article",
+              }}
+            >
+              <FavoriteButton path={path} />
+            </AddResourceToFolderModal>
+          )
+        }
+        title={article.transformedContent.title}
+        introduction={article.transformedContent.introduction}
+        competenceGoals={
+          !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
+            <CompetenceGoals
+              codes={article.grepCodes}
+              supportedLanguages={article.supportedLanguages}
+              subjectId={subjectId}
+              isOembed={isOembed}
+            />
+          ) : undefined
+        }
+        lang={article.language}
+        disclaimer={
+          article.transformedDisclaimer.content ? <Disclaimer disclaimer={article.transformedDisclaimer} /> : null
+        }
+      />
+      <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
+      <ArticleFooter>
+        <ArticleByline
+          footnotes={article.transformedContent.metaData?.footnotes ?? []}
+          authors={authors}
+          suppliers={article.copyright?.rightsholders}
+          published={article.published}
+          licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />}
+        />
+        {children}
+      </ArticleFooter>
+    </ArticleWrapper>
   );
 };
 
@@ -115,6 +137,7 @@ Article.fragments = {
       grepCodes
       htmlIntroduction
       htmlTitle
+      oembed
       transformedContent(transformArgs: $transformArgs) {
         content
         metaData {

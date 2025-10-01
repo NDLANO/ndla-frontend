@@ -86,7 +86,7 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
         trackableContent={article}
       />
       <PageContent variant="content">
-        <Article id={skipToContentId} article={article} oembed={undefined} />
+        <Article id={skipToContentId} article={article} />
       </PageContent>
     </div>
   );

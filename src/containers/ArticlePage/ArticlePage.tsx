@@ -13,29 +13,15 @@ import { gql } from "@apollo/client";
 import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import {
-  HomeBreadcrumb,
-  ArticleWrapper,
-  ArticleTitle,
-  ArticleContent,
-  ArticleFooter,
-  ArticleByline,
-  licenseAttributes,
-} from "@ndla/ui";
+import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
-import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
-import FavoriteButton from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
-import CompetenceGoals from "../../components/CompetenceGoals";
-import Disclaimer from "../../components/Disclaimer";
-import LicenseBox from "../../components/license/LicenseBox";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { GQLArticlePage_NodeFragment, GQLArticlePage_ResourceTypeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
+import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
@@ -48,7 +34,6 @@ import Resources from "../Resources/Resources";
 
 interface Props {
   resource?: GQLArticlePage_NodeFragment;
-  resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
   loading?: boolean;
   skipToContentId?: string;
 }
@@ -86,12 +71,6 @@ const StyledPageContent = styled(PageContent, {
   },
 });
 
-const StyledArticleContent = styled(ArticleContent, {
-  base: {
-    overflowX: "visible",
-  },
-});
-
 const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
@@ -124,10 +103,6 @@ const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
     ];
   }, [resource, i18n.language, root?.id]);
 
-  const copyText = useArticleCopyText(article);
-
-  useNavigateToHash(article?.transformedContent.content);
-
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
@@ -155,13 +130,6 @@ const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
   const printUrl = `${config.ndlaFrontendDomain}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource]);
-
-  const authors =
-    article.copyright?.creators.length || article.copyright?.rightsholders.length
-      ? article.copyright.creators
-      : article.copyright?.processors;
-
-  const licenseProps = licenseAttributes(article.copyright?.license?.license, article.language, undefined);
 
   return (
     <main>
@@ -196,69 +164,30 @@ const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">
           <PageContent variant="content" asChild>
-            <ArticleWrapper {...licenseProps}>
-              <ArticleTitle
-                id={skipToContentId ?? article.id.toString()}
-                contentType={contentType}
-                contentTypeLabel={resource.resourceTypes?.[0]?.name}
-                heartButton={
-                  !!resource.url && (
-                    <AddResourceToFolderModal
-                      resource={{
-                        id: article.id.toString(),
-                        path: resource.url,
-                        resourceType: "article",
-                      }}
-                    >
-                      <FavoriteButton path={resource.url} />
-                    </AddResourceToFolderModal>
-                  )
-                }
-                title={article.transformedContent.title}
-                introduction={article.transformedContent.introduction}
-                competenceGoals={
-                  !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
-                    <CompetenceGoals
-                      codes={article.grepCodes}
-                      subjectId={root?.id}
-                      supportedLanguages={article.supportedLanguages}
+            <Article
+              id={skipToContentId ?? article.id.toString()}
+              path={resource.url}
+              article={article}
+              contentType={contentType}
+              contentTypeLabel={resource.resourceTypes?.[0]?.name}
+              printUrl={printUrl}
+              subjectId={root?.id}
+            >
+              {!!parent && (
+                <NoSSR fallback={null}>
+                  <ResourcesPageContent>
+                    <Resources
+                      parentId={parent.id}
+                      rootId={root?.id}
+                      headingType="h2"
+                      subHeadingType="h3"
+                      currentResourceContentType={contentType}
+                      currentResourceId={resource.id}
                     />
-                  )
-                }
-                lang={article.language}
-                disclaimer={
-                  article.transformedDisclaimer?.content ? (
-                    <Disclaimer disclaimer={article.transformedDisclaimer} />
-                  ) : null
-                }
-              />
-              <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
-              <ArticleFooter>
-                <ArticleByline
-                  footnotes={article.transformedContent.metaData?.footnotes ?? []}
-                  authors={authors}
-                  suppliers={article.copyright?.rightsholders}
-                  published={article.published}
-                  licenseBox={
-                    <LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />
-                  }
-                />
-                {!!parent && (
-                  <NoSSR fallback={null}>
-                    <ResourcesPageContent>
-                      <Resources
-                        parentId={parent.id}
-                        rootId={root?.id}
-                        headingType="h2"
-                        subHeadingType="h3"
-                        currentResourceContentType={contentType}
-                        currentResourceId={resource.id}
-                      />
-                    </ResourcesPageContent>
-                  </NoSSR>
-                )}
-              </ArticleFooter>
-            </ArticleWrapper>
+                  </ResourcesPageContent>
+                </NoSSR>
+              )}
+            </Article>
           </PageContent>
         </StyledPageContent>
       </Hero>
@@ -273,12 +202,6 @@ const getDocumentTitle = (
 ) => htmlTitle(resource?.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
 
 ArticlePage.fragments = {
-  resourceType: gql`
-    fragment ArticlePage_ResourceType on ResourceTypeDefinition {
-      ...Resources_ResourceTypeDefinition
-    }
-    ${Resources.fragments.resourceType}
-  `,
   resource: gql`
     fragment ArticlePage_Node on Node {
       id

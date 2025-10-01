@@ -41,9 +41,6 @@ const contextIdInContexts = (contexts: Pick<GQLTaxonomyContext, "contextId">[], 
 
 const resourcePageQuery = gql`
   query resourcePage($contextId: String, $transformArgs: TransformedArticleContentInput) {
-    resourceTypes {
-      ...ArticlePage_ResourceType
-    }
     node(contextId: $contextId) {
       relevanceId
       breadcrumbs
@@ -63,7 +60,6 @@ const resourcePageQuery = gql`
   }
   ${MovedResourcePage.fragments.resource}
   ${ArticlePage.fragments.resource}
-  ${ArticlePage.fragments.resourceType}
   ${LearningpathPage.fragments.resource}
 `;
 export const ResourcePage = () => {
