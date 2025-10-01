@@ -14,15 +14,11 @@ import { embedRoutes } from "../routes";
 const connectSrc = (() => {
   const defaultConnectSrc = [
     " 'self' ",
-    "http://api-gateway.ndla-local",
     "https://*.ndla.no",
-    "https://logs-01.loggly.com",
     "https://edge.api.brightcove.com",
     "https://*.brightcove.com",
     "https://bcsecure01-a.akamaihd.net",
     "https://hlsak-a.akamaihd.net",
-    "https://*.google-analytics.com",
-    "https://*.analytics.google.com",
     "https://*.zendesk.com",
     "https://ekr.zdassets.com",
     "https://ltiredirect.itslearning.com",
@@ -36,6 +32,7 @@ const connectSrc = (() => {
   if (config.runtimeType === "development") {
     return [
       ...defaultConnectSrc,
+      "http://api-gateway.ndla-local",
       "https://devtools.apollodata.com/graphql",
       "http://localhost:3001",
       "ws://localhost:3001",
@@ -59,7 +56,6 @@ const scriptSrc = (() => {
     "'self'",
     "'unsafe-inline'",
     " 'unsafe-eval'",
-    "http://api-gateway.ndla-local",
     "https://*.ndlah5p.com",
     "https://h5p.org",
     "https://*.ndla.no",
@@ -68,9 +64,6 @@ const scriptSrc = (() => {
     "https://players.brightcove.net",
     "*.nrk.no",
     "http://nrk.no",
-    "https://www.googletagmanager.com",
-    "https://www.google-analytics.com",
-    "https://tagmanager.google.com",
     "https://www.youtube.com",
     "https://s.ytimg.com",
     "https://cdn.auth0.com",
@@ -78,7 +71,6 @@ const scriptSrc = (() => {
     "https://httpsak-a.akamaihd.net",
     "*.brightcove.com",
     "*.facebook.net",
-    "*.twitter.com",
     "*.twimg.com",
     "*.brightcove.net",
     "bcove.me",
@@ -115,7 +107,13 @@ const scriptSrc = (() => {
     "https://app.formbricks.com",
   ];
   if (config.runtimeType === "development") {
-    return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
+    return [
+      ...defaultScriptSrc,
+      "http://api-gateway.ndla-local",
+      "http://localhost:3001",
+      "ws://localhost:3001",
+      "http://localhost:3000",
+    ];
   }
   // Temp for testing xapi
   if (config.ndlaEnvironment === "test") {
@@ -127,7 +125,6 @@ const scriptSrc = (() => {
 const frameSrc = (() => {
   const defaultFrameSrc = [
     "blob:",
-    "http://api-gateway.ndla-local",
     "*.nrk.no",
     "nrk.no",
     "*.vg.no",
@@ -155,11 +152,10 @@ const frameSrc = (() => {
     "*.brightcove.net",
     "embed.kahoot.it",
     "fast.wistia.com",
-    "https://khanacademy.org/",
-    "*.khanacademy.org/",
+    "https://khanacademy.org",
+    "*.khanacademy.org",
     "*.vg.no/",
     "*.facebook.com",
-    "*.twitter.com",
     "e.issuu.com",
     "new.livestream.com",
     "livestream.com",
@@ -190,7 +186,6 @@ const frameSrc = (() => {
     "ourworldindata.org",
     "*.sketchup.com",
     "www.gapminder.org",
-    "www.facebook.com",
     "fb.watch",
     "sketchfab.com",
     "jeopardylabs.com",
@@ -208,6 +203,7 @@ const frameSrc = (() => {
   if (config.runtimeType === "development") {
     return [
       ...defaultFrameSrc,
+      "http://api-gateway.ndla-local",
       "http://localhost:3001",
       "ws://localhost:3001",
       "http://localhost:3000",
@@ -254,9 +250,6 @@ const contentSecurityPolicy = {
       "'unsafe-inline'",
       "'unsafe-eval'",
       "https://*.ndla.no",
-      "https://tagmanager.google.com",
-      "*.twitter.com",
-      "*.twimg.com",
       "cdn.jsdelivr.net",
       "*.fontshare.com",
     ],
@@ -265,21 +258,14 @@ const contentSecurityPolicy = {
       "'self'",
       "http://api-gateway.ndla-local",
       "https://*.ndla.no",
-      "https://*.google-analytics.com",
-      "https://*.analytics.google.com",
-      "https://stats.g.doubleclick.net",
       "http://metrics.brightcove.com",
       "https://httpsak-a.akamaihd.net",
+      "https://i.ytimg.com",
       "https://*.boltdns.net",
       "https://www.nrk.no/",
-      "https://ssl.gstatic.com",
-      "https://www.gstatic.com",
       "https://*.clarity.ms",
       "https://ndla.zendesk.com",
       "tracking.monsido.com",
-      "*.facebook.com",
-      "*.twitter.com",
-      "*.twimg.com",
       " data:",
     ],
     mediaSrc: ["'self'", "blob:", "https://*.ndla.no", "*.brightcove.com", "brightcove.com"],
