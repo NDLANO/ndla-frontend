@@ -18,7 +18,7 @@ const Formbricks = () => {
       type="text/javascript"
       dangerouslySetInnerHTML={{
         __html: `
-    !function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="${host}/js/formbricks.umd.cjs";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e),setTimeout(function(){window.formbricks.setup({environmentId: "${config.formbricksId}", appUrl: "${host}"})},500)}();
+    !function(){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src="${host}/js/formbricks.umd.cjs";var e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(t,e),setTimeout(function(){window.formbricks?.setup({environmentId: "${config.formbricksId}", appUrl: "${host}"})},500)}();
 `,
       }}
     />
