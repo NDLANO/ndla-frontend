@@ -19,39 +19,31 @@ import { GONE, NOT_FOUND } from "../statusCodes";
 import { GraphQLFormattedError } from "graphql";
 import { captureException, setContext } from "@sentry/react";
 
-type SingleGQLError = {
+type UnknownError = {
   status?: number;
-  extensions?: { status?: number };
-  path?: string;
 };
 
-type UnknownGQLError = {
-  status?: number;
-  graphQLErrors?: SingleGQLError[] | null;
-};
-
-const getErrorStatuses = (unknownError: Error | unknown | null | undefined): number[] => {
+const getErrorStatuses = (error: unknown): number[] => {
   const statuses: number[] = [];
-  // We cast to our own error type since we append status in graphql-api
-  const error = unknownError as UnknownGQLError | null | undefined;
-
-  if (error !== null && error !== undefined) {
-    if (error?.status) {
-      statuses.push(error.status);
-    } else if (error.graphQLErrors) {
-      error.graphQLErrors.forEach((e) => {
-        if (e.status) {
-          statuses.push(e.status);
-          return;
-        }
-        if (e?.extensions?.status) {
-          statuses.push(e?.extensions.status);
-          return;
-        }
-      });
+  if (error == null) return statuses;
+  const unknownError = error as UnknownError;
+  if (unknownError.status) {
+    statuses.push(unknownError.status);
+  } else if (CombinedGraphQLErrors.is(error)) {
+    if (typeof error.extensions?.status === "number") {
+      statuses.push(error.extensions.status);
     }
+    error.errors.forEach((e) => {
+      const unknownError = e as UnknownError;
+      if (unknownError.status) {
+        statuses.push(unknownError.status);
+        return;
+      }
+      if (typeof e.extensions?.status === "number") {
+        statuses.push(e.extensions.status);
+      }
+    });
   }
-
   return statuses;
 };
 
