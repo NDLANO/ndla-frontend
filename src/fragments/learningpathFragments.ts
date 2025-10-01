@@ -33,6 +33,7 @@ const articleFragment = gql`
     updated
     articleType
     title
+    language
   }
 `;
 
@@ -41,6 +42,7 @@ export const learningpathStepFragment = gql`
     id
     title
     seqNo
+    canEdit
     articleId
     description
     introduction
@@ -53,6 +55,11 @@ export const learningpathStepFragment = gql`
     }
     oembed {
       ...LearningpathStepOembed
+    }
+    opengraph {
+      title
+      description
+      url
     }
     resource {
       id
