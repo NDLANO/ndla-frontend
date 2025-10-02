@@ -49,20 +49,6 @@ const ndlaFrontendDomain = (ndlaEnvironment: string): string => {
   }
 };
 
-const learningPathDomain = (ndlaEnvironment: string): string => {
-  const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
-  switch (ndlaEnvironment) {
-    case "local":
-      return "http://localhost:30007";
-    case "dev":
-      return "https://stier.test.ndla.no";
-    case "prod":
-      return "https://stier.ndla.no";
-    default:
-      return `https://stier.${ndlaEnvironmentHostname}.ndla.no`;
-  }
-};
-
 export const arenaDomain = (ndlaEnvironment: string): string => {
   const ndlaEnvironmentHostname = ndlaEnvironment.replace("_", "-");
   switch (ndlaEnvironment) {
@@ -113,7 +99,6 @@ export type ConfigType = {
   isNdlaProdEnvironment: boolean;
   ndlaApiUrl: string;
   ndlaFrontendDomain: string;
-  learningPathDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
   feideDomain: string;
@@ -149,7 +134,6 @@ const getServerSideConfig = (): ConfigType => {
     isNdlaProdEnvironment: ndlaEnvironment === "prod",
     ndlaApiUrl: getEnvironmentVariable("NDLA_API_URL", apiDomain(ndlaEnvironment)),
     ndlaFrontendDomain: getEnvironmentVariable("FRONTEND_DOMAIN", ndlaFrontendDomain(ndlaEnvironment)),
-    learningPathDomain: getEnvironmentVariable("LEARNINGPATH_DOMAIN", learningPathDomain(ndlaEnvironment)),
     zendeskWidgetKey: getEnvironmentVariable("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariable("LOCAL_GRAPHQL_API", false),
     feideDomain: getEnvironmentVariable("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),

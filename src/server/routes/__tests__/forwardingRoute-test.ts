@@ -14,7 +14,6 @@ vi.mock("../../../config", () => {
   return {
     default: {
       isNdlaProdEnvironment: true,
-      learningPathDomain: "https://stier.test.ndla.no",
       getEnvironmentVariable: () => {},
       runtimeType: "test",
     },
@@ -125,7 +124,7 @@ test("forwardingRoute redirect learningpath with 301 if mapping OK (nb)", async 
     next as NextFunction,
   );
 
-  expect(redirect).toHaveBeenCalledWith(301, `https://stier.test.ndla.no/learningpaths/122/first-step`);
+  expect(redirect).toHaveBeenCalledWith(301, `/learningpaths/122`);
   expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });
@@ -144,7 +143,7 @@ test("forwardingRoute redirect learningpath with 301 if mapping OK (nn)", async 
     next as NextFunction,
   );
 
-  expect(redirect).toHaveBeenCalledWith(301, `https://stier.test.ndla.no/nn/learningpaths/122/first-step`);
+  expect(redirect).toHaveBeenCalledWith(301, `/nn/learningpaths/122`);
   expect(next).not.toHaveBeenCalled();
   expect(nock.pendingMocks()).toStrictEqual([]);
 });

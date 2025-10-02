@@ -6,7 +6,6 @@
  *
  */
 
-import config from "../../config";
 import { GQLResource } from "../../graphqlTypes";
 
 export const URN_ARTICLE = "urn:article:";
@@ -35,7 +34,5 @@ export const getLearningPathIdFromResource = (resource: Pick<GQLResource, "conte
 };
 
 export function getLearningPathUrlFromResource(resource: Pick<GQLResource, "contentUri">, languagePrefix?: string) {
-  return `${config.learningPathDomain}${
-    languagePrefix ? `/${languagePrefix}` : ""
-  }/learningpaths/${getLearningPathIdFromResource(resource)}/first-step`;
+  return `${languagePrefix ? `/${languagePrefix}` : ""}/learningpaths/${getLearningPathIdFromResource(resource)}`;
 }
