@@ -6,7 +6,6 @@
  *
  */
 
-import { useParams } from "react-router";
 import {
   ABOUT_PATH,
   FILM_ID,
@@ -17,8 +16,6 @@ import {
 } from "./constants";
 import { GQLTaxBase, GQLTaxonomyCrumb } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
-
-export const removeUrn = (str?: string) => str?.replace("urn:", "") ?? "";
 
 export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 
@@ -72,12 +69,6 @@ export function toProgramme(programmePath?: string, grade?: string) {
   const gradeString = grade ? `/${grade}` : "";
   return `${PROGRAMME_PATH}${programmePath}${gradeString}`;
 }
-
-export type TypedParams = Record<string, string | undefined>;
-
-export const useTypedParams = <TParams extends TypedParams>() => {
-  return useParams() as TParams;
-};
 
 export const routes = {
   folder: (folderId: string) => `/folder/${folderId}`,

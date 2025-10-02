@@ -23,10 +23,6 @@ export const getHtmlLang = (localeAbbreviation?: string): LocaleType => {
   return locale ?? (config.defaultLocale as LocaleType);
 };
 
-export const getLangAttributeValue = (lang: string) => {
-  return lang === "nn" || lang === "nb" ? "no" : lang;
-};
-
 export const getLocaleInfoFromPath = (path: string) => {
   const paths = path.split("/");
   const basename = paths[1] && isValidLocale(paths[1]) ? paths[1] : "";

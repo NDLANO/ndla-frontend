@@ -8,7 +8,8 @@
 
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,

@@ -9,21 +9,31 @@
 import {
   ApolloClient,
   ApolloLink,
+  CombinedGraphQLErrors,
   FieldFunctionOptions,
   HttpLink,
   InMemoryCache,
+  LocalStateError,
+  ServerError,
+  ServerParseError,
   TypePolicies,
-} from "@apollo/client/core";
+  UnconventionalError,
+} from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
-import { setContext } from "@apollo/client/link/context";
-import { onError } from "@apollo/client/link/error";
+import { ErrorLink } from "@apollo/client/link/error";
 import { getFeideCookie, isAccessTokenValid } from "./authHelpers";
-import { DebugInMemoryCache } from "./DebugInMemoryCache";
-import { NDLAGraphQLError, NDLANetworkError } from "./error/NDLAApolloErrors";
+import {
+  NDLAGraphQLError,
+  ApolloNetworkError,
+  ApolloLocalStateError,
+  ApolloServerParseError,
+  ApolloUnconventionalError,
+} from "./error/NDLAApolloErrors";
 import { StatusError } from "./error/StatusError";
 import handleError from "./handleError";
 import config from "../config";
 import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
+import { NOT_FOUND } from "../statusCodes";
 
 const apiBaseUrl = (() => {
   if (config.runtimeType === "test") {
@@ -198,8 +208,7 @@ const typePolicies: TypePolicies = {
 };
 
 function getCache() {
-  const CacheType = config.debugGraphQLCache ? DebugInMemoryCache : InMemoryCache;
-  const cache: InMemoryCache = new CacheType({ possibleTypes, typePolicies });
+  const cache: InMemoryCache = new InMemoryCache({ possibleTypes, typePolicies });
   if (config.isClient) {
     cache.restore(window.DATA.apolloState);
   }
@@ -213,7 +222,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
   return new ApolloClient({
     link: createApolloLinks(language, versionHash),
     cache,
-    ssrMode: true,
+    ssrMode: !config.isClient,
     defaultOptions: {
       watchQuery: {
         errorPolicy: "all",
@@ -233,35 +242,39 @@ export const createApolloLinks = (lang: string, versionHash?: any) => {
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
-  const versionHeader = versionHash ? { versionHash: versionHash } : {};
+  const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
 
-  const headersLink = setContext(async (_, { headers }) => {
-    return {
-      headers: {
-        ...headers,
-        "Accept-Language": lang,
-        ...versionHeader,
-        ...(accessToken && accessTokenValid ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
-      },
-    };
-  });
+  const headers = {
+    "Accept-Language": lang,
+    ...versionHeader,
+    ...(accessToken && accessTokenValid ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
+  };
 
-  const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
-    if (graphQLErrors) {
-      graphQLErrors.forEach((err) => {
-        if (err.extensions?.status !== 404) {
+  const errorLink = new ErrorLink(({ error, operation }) => {
+    if (CombinedGraphQLErrors.is(error)) {
+      error.errors.forEach((err) => {
+        if (err.extensions?.status !== NOT_FOUND) {
           handleError(new NDLAGraphQLError(err, operation));
         }
       });
-    }
-    if (networkError) {
-      handleError(new NDLANetworkError(networkError, operation));
+    } else if (ServerError.is(error)) {
+      handleError(new ApolloNetworkError(error, operation));
+    } else if (LocalStateError.is(error)) {
+      handleError(new ApolloLocalStateError(error, operation));
+    } else if (ServerParseError.is(error)) {
+      handleError(new ApolloServerParseError(error, operation));
+    } else if (UnconventionalError.is(error)) {
+      handleError(new ApolloUnconventionalError(error, operation));
+      // This is either a CombinedProtocolError or a non-graphql error somehow. We don't need any special handling for any of them.
+    } else {
+      handleError(error);
     }
   });
 
   return ApolloLink.from([
     errorLink,
-    headersLink,
-    typeof navigator !== "undefined" && navigator.webdriver ? new HttpLink({ uri }) : new BatchHttpLink({ uri }),
+    typeof navigator !== "undefined" && navigator.webdriver
+      ? new HttpLink({ uri, headers })
+      : new BatchHttpLink({ uri, headers }),
   ]);
 };

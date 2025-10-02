@@ -6,16 +6,8 @@
  *
  */
 
-import {
-  ApolloCache,
-  ApolloError,
-  gql,
-  QueryHookOptions,
-  Reference,
-  useApolloClient,
-  useMutation,
-  useQuery,
-} from "@apollo/client";
+import { ApolloCache, ErrorLike, gql, Reference } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client/react";
 import {
   GQLAddFolderMutation,
   GQLAddResourceToFolderMutation,
@@ -319,7 +311,7 @@ const folderResourceMetaQuery = gql`
 
 export const useFolderResourceMeta = (
   resource: GQLFolderResourceMetaSearchInput,
-  options?: QueryHookOptions<GQLFolderResourceMetaQuery>,
+  options?: useQuery.Options<GQLFolderResourceMetaQuery>,
 ) => {
   const { data: { folderResourceMeta } = {}, ...rest } = useQuery<GQLFolderResourceMetaQuery>(folderResourceMetaQuery, {
     variables: { resource },
@@ -341,7 +333,7 @@ const folderResourceMetaSearchQuery = gql`
 
 export const useFolderResourceMetaSearch = (
   resources: GQLFolderResourceMetaSearchInput[],
-  options?: QueryHookOptions<GQLFolderResourceMetaSearchQuery>,
+  options?: useQuery.Options<GQLFolderResourceMetaSearchQuery>,
 ) => {
   const { data: { folderResourceMetaSearch: data } = {}, ...rest } = useQuery<GQLFolderResourceMetaSearchQuery>(
     folderResourceMetaSearchQuery,
@@ -362,14 +354,10 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   folders: GQLFolder[];
   sharedFolders: GQLSharedFolder[];
   loading: boolean;
-  error?: ApolloError;
+  error?: ErrorLike;
 } => {
-  const { cache } = useApolloClient();
   const { data, loading, error } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
     skip,
-    onCompleted: () => {
-      cache.gc();
-    },
   });
 
   const folders = (data?.folders.folders ?? []) as GQLFolder[];
@@ -377,7 +365,7 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   return { folders, sharedFolders, loading, error };
 };
 
-export const getFolder = (cache: ApolloCache<object>, folderId?: string, shared?: boolean): GQLFolder | null => {
+export const getFolder = (cache: ApolloCache, folderId?: string, shared?: boolean): GQLFolder | null => {
   if (!folderId) return null;
 
   return cache.readFragment({
@@ -409,7 +397,7 @@ export const useGetSharedFolder = ({
 }: UseSharedFolder): {
   folder?: GQLFolder;
   loading: boolean;
-  error?: ApolloError;
+  error?: ErrorLike;
 } => {
   const { data, loading, error } = useQuery<GQLSharedFolderQuery, GQLSharedFolderQueryVariables>(sharedFolderQuery, {
     variables: { id },
@@ -434,13 +422,7 @@ export const recentlyUsedQuery = gql`
 `;
 
 export const useRecentlyUsedResources = (skip?: boolean) => {
-  const { cache } = useApolloClient();
-  return useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, {
-    onCompleted: () => {
-      cache.gc();
-    },
-    skip: skip,
-  });
+  return useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, { skip });
 };
 
 const favouriteSubjects = gql`
@@ -458,7 +440,7 @@ const favouriteSubjects = gql`
 
 export const useFavouriteSubjects = (
   ids: string[],
-  options?: Omit<QueryHookOptions<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>, "variables">,
+  options?: Omit<useQuery.Options<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>, "variables">,
 ) =>
   useQuery<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>(favouriteSubjects, {
     variables: { ids },
@@ -516,7 +498,7 @@ export const useDeleteFolderMutation = () => {
     },
     onCompleted: ({ deleteFolder: id }) => {
       const normalizedId = client.cache.identify({ id, __typename: "Folder" });
-      client.cache.evict({ id: normalizedId, broadcast: false });
+      client.cache.evict({ id: normalizedId });
       client.cache.gc();
     },
   });
@@ -688,12 +670,11 @@ const favoriteSharedFolderMutation = gql`
   }
 `;
 
-export const useFavoriteSharedFolder = (folderId: string) => {
+export const useFavoriteSharedFolder = () => {
   const client = useApolloClient();
   return useMutation<GQLFavoriteSharedFolderMutation, GQLMutationFavoriteSharedFolderArgs>(
     favoriteSharedFolderMutation,
     {
-      variables: { folderId },
       refetchQueries: [{ query: recentlyUsedQuery }],
       onCompleted: ({ favoriteSharedFolder: folderId }) => {
         client.cache.modify({
@@ -736,7 +717,7 @@ export const useUnFavoriteSharedFolder = () => {
           id,
           __typename: "SharedFolder",
         });
-        client.cache.evict({ id: normalizedId, broadcast: false });
+        client.cache.evict({ id: normalizedId });
         client.cache.gc();
       },
     },

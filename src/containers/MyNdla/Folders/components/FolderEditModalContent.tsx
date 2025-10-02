@@ -8,7 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useApolloClient } from "@apollo/client";
+import { useApolloClient } from "@apollo/client/react";
 import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import FolderForm from "./FolderForm";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
@@ -55,7 +55,7 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
                   description: values.description,
                 },
               });
-              if (!res.errors?.length) {
+              if (!res.error) {
                 onSaved();
                 onClose();
               } else {

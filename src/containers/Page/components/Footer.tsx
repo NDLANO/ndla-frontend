@@ -17,7 +17,6 @@ import { ZendeskButton } from "@ndla/ui";
 import { useSiteTheme } from "../../../components/SiteThemeContext";
 import config from "../../../config";
 import { UKR_PAGE_URL } from "../../../constants";
-import { getLangAttributeValue } from "../../../i18n";
 
 // TODO: Add new translations for the footer.
 
@@ -248,7 +247,6 @@ const MobileLogo = styled(NdlaLogoText, {
 
 export const Footer = () => {
   const { t, i18n } = useTranslation();
-  const zendeskLanguage = getLangAttributeValue(i18n.language);
   const siteTheme = useSiteTheme();
 
   const Logo = i18n.language === "en" ? NdlaLogoEn : NdlaLogoNb;
@@ -301,7 +299,7 @@ export const Footer = () => {
   return (
     <FooterBlock>
       {!!config.zendeskWidgetKey && (
-        <StyledZendesk id="zendesk" locale={zendeskLanguage} widgetKey={config.zendeskWidgetKey}>
+        <StyledZendesk id="zendesk" locale={i18n.language} widgetKey={config.zendeskWidgetKey}>
           <QuestionLine />
           {t("askNDLA")}
         </StyledZendesk>
