@@ -15,7 +15,11 @@ import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
-import { useUpdateLearningpathStatus, useDeleteLearningpath } from "../../../../mutations/learningpathMutations";
+import {
+  useUpdateLearningpathStatus,
+  useDeleteLearningpath,
+  useCopyLearningpathMutation,
+} from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 import { myLearningpathQuery } from "../learningpathQueries";
@@ -33,6 +37,7 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
 
   const [updateLearningpathStatus] = useUpdateLearningpathStatus();
   const [onDeleteLearningpath] = useDeleteLearningpath();
+  const [copyLearningpath] = useCopyLearningpathMutation();
 
   const actionItems: MenuItemProps[] = useMemo(() => {
     if (!learningpath) {
@@ -96,6 +101,33 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
           }}
         />
       ),
+    };
+
+    const cloneLearningpath: MenuItemProps = {
+      type: "action",
+      text: t("myNdla.learningpath.menu.clone"),
+      value: "copyLearningPath",
+      icon: <FileCopyLine />,
+      onClick: async () => {
+        const res = await copyLearningpath({
+          variables: {
+            learningpathId: learningpath.id,
+            params: {
+              title: `${learningpath.title}_Kopi`,
+              language: i18n.language,
+            },
+          },
+        });
+
+        // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
+        if (!res.error) {
+          toast.create({
+            title: t("myNdla.learningpath.toast.cloned", {
+              name: `${learningpath.title}_Kopi`,
+            }),
+          });
+        }
+      },
     };
 
     const isShared = learningpath?.status === LEARNINGPATH_SHARED;
@@ -174,13 +206,14 @@ export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathF
         shareLearningpath,
         previewLearningpath,
         linkLearningpath,
+        cloneLearningpath,
         unShareLearningpath,
         deleteLearningpath,
       ];
     }
 
-    return [editLearningpath, shareLearningpath, deleteLearningpath];
-  }, [onDeleteLearningpath, learningpath, navigate, t, toast, updateLearningpathStatus, i18n]);
+    return [editLearningpath, shareLearningpath, cloneLearningpath, deleteLearningpath];
+  }, [onDeleteLearningpath, learningpath, navigate, t, toast, updateLearningpathStatus, copyLearningpath, i18n]);
 
   return actionItems;
 };

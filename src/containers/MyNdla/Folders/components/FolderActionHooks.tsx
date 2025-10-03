@@ -21,6 +21,7 @@ import config from "../../../../config";
 import { GQLFolder } from "../../../../graphqlTypes";
 import {
   useAddFolderMutation,
+  useCopySharedFolderMutation,
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
   useUnFavoriteSharedFolder,
@@ -44,6 +45,7 @@ export const useFolderActions = (
 
   const [deleteFolder] = useDeleteFolderMutation();
   const [addFolder] = useAddFolderMutation();
+  const [cloneFolder] = useCopySharedFolderMutation();
   const [updateFolderStatus] = useUpdateFolderStatusMutation();
   const [unFavoriteSharedFolder] = useUnFavoriteSharedFolder();
 
@@ -81,6 +83,27 @@ export const useFolderActions = (
     },
     [addFolder, inToolbar, folderId, selectedFolder?.parentId, navigate, toast, t],
   );
+
+  const onFolderCopied = useCallback(async () => {
+    if (!selectedFolder) return;
+    const res = await cloneFolder({
+      variables: { folderId: selectedFolder.id, destinationFolderId: undefined },
+    });
+    const folder = res.data?.copySharedFolder as GQLFolder | undefined;
+    navigate(routes.myNdla.folder(folder?.id ?? ""));
+
+    if (folder) {
+      toast.create({
+        title: t("myNdla.folder.folderCopied", {
+          folderName: folder.name,
+        }),
+      });
+    } else {
+      toast.create({
+        title: t("myNdla.folder.folderCopiedFailed"),
+      });
+    }
+  }, [cloneFolder, selectedFolder, navigate, toast, t]);
 
   const onDeleteFolder = useCallback(
     async (close: VoidFunction) => {
@@ -191,6 +214,14 @@ export const useFolderActions = (
     };
 
     if (!selectedFolder) return [addFolderButton];
+
+    const copyFolder: MenuItemProps = {
+      type: "action",
+      value: "cloneFolderLink",
+      icon: <FileCopyLine />,
+      text: t("myNdla.folder.copy"),
+      onClick: onFolderCopied,
+    };
 
     const editFolder: MenuItemProps = {
       type: "dialog",
@@ -324,10 +355,10 @@ export const useFolderActions = (
     }
 
     if (selectedFolder.status === "shared") {
-      return actions.concat(editFolder, share, previewFolder, copyLink, unShare, deleteOpt);
+      return actions.concat(editFolder, share, previewFolder, copyLink, unShare, copyFolder, deleteOpt);
     }
 
-    return actions.concat(editFolder, share, deleteOpt);
+    return actions.concat(editFolder, share, copyFolder, deleteOpt);
   }, [
     examLock,
     t,
@@ -337,6 +368,7 @@ export const useFolderActions = (
     isFavorited,
     user,
     onFolderAdded,
+    onFolderCopied,
     onFolderUpdated,
     updateFolderStatus,
     toast,

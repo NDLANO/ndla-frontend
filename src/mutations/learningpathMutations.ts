@@ -245,7 +245,22 @@ const copyLearningpathMutation = gql`
 
 export const useCopyLearningpathMutation = (
   options?: useMutation.Options<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>,
-) => useMutation<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>(copyLearningpathMutation, options);
+) => {
+  const client = useApolloClient();
+  return useMutation<GQLCopyLearningpathMutation, GQLCopyLearningpathMutationVariables>(copyLearningpathMutation, {
+    ...options,
+    onCompleted: ({ copyLearningpath }) => {
+      client.cache.modify({
+        fields: {
+          myLearningpaths: (existingPaths = []) =>
+            existingPaths.concat({
+              __ref: client.cache.identify(copyLearningpath),
+            }),
+        },
+      });
+    },
+  });
+};
 
 const updateLearningpathStepSeqNo = gql`
   mutation updateLearningpathStepSeqNo($learningpathId: Int!, $learningpathStepId: Int!, $seqNo: Int!) {

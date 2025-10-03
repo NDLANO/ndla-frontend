@@ -70,6 +70,23 @@ test("can add and delete folder", async ({ page, harCheckpoint, waitGraphql }) =
   await expect(folderList.getByRole("listitem")).toHaveCount(count);
 });
 
+test("can copy own folder", async ({ page }) => {
+  await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
+  const folderList = page.getByRole("main").getByRole("list").first();
+  await expect(folderList).toBeVisible();
+  const count = await folderList.getByRole("listitem").count();
+  expect(count).toBeGreaterThanOrEqual(1);
+
+  const folder = folderList.getByRole("listitem").first();
+
+  await expect(folder).toBeVisible();
+
+  await folder.getByRole("button").last().click();
+  await page.getByRole("menuitem", { name: "Kopier mappe", exact: true }).click();
+
+  await expect(folderList.getByRole("listitem")).toHaveCount(count + 1);
+});
+
 test("can drag and drop folders", async ({ page, harCheckpoint }) => {
   await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
   const folderList = page.getByRole("main").getByRole("list").first();
