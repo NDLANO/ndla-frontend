@@ -364,6 +364,7 @@ const messages = {
         unShare: "Avslutt deling",
         goTo: "Gå til",
         copy: "Kopier lenke",
+        clone: "Kopier sti",
       },
       toast: {
         createdFailed: "Klarte ikkje oppretta læringssti.",
@@ -372,6 +373,7 @@ const messages = {
         unshared: 'Læringsstien "{{ name }}" er ikkje lenger delt.',
         unshareFailed: "Kunne ikkje avslutte delinga av læringsstien.",
         copy: 'Kopierte lenka til læringsstien "{{ name }}".',
+        cloned: 'Kopiert læringsstien til "{{ name }}".',
         shared: "Læringsstien er delt.",
         shareFailed: "Kunne ikkje dele læringsstien.",
         createdStep: 'Eit steg med tittel "{{ name }}" blei oppretta.',

@@ -364,6 +364,7 @@ const messages = {
         unShare: "Stop Sharing",
         goTo: "Go to",
         copy: "Copy Link",
+        clone: "Copy Learning Path",
       },
       toast: {
         createdFailed: "Could not create learningpath.",
@@ -374,6 +375,7 @@ const messages = {
         shared: "The learning path is shared.",
         shareFailed: "Failed to share the learning path.",
         copy: 'Copied the link to the learning path "{{ name }}".',
+        cloned: 'Copied the learning path to "{{ name }}".',
         updateStepFailed: 'Updating step with title "{{ name }}" failed.',
         createdStep: 'A step with title "{{ name }}" was created.',
         deletedStep: 'A step with title "{{ name }}" was deleted.',
