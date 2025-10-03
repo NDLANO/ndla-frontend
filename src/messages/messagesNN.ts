@@ -457,6 +457,8 @@ const messages = {
       folderDeletedFailed: 'Klarte ikkje å slette "{{folderName}}"',
       folderCreated: '"{{folderName}}" er oppretta',
       folderCreatedFailed: 'Klarte ikkje å opprette "{{folderName}}"',
+      folderCopied: "Mappa har blitt kopiert til {{folderName}}",
+      folderCopiedFailed: "Klarte ikkje å kopiere mappa {{folderName}}",
       onDragStart: "Plukka opp mappa {{name}}. Mappa er på posisjon {{index}} av {{length}}",
       onDragOver: "Mappa {{name}} vart flytta til posisjon {{index}} av {{length}}",
       onDragOverMissingOver: "Mappa {{name}} er ikkje lenger over eit område der ho kan sleppast",

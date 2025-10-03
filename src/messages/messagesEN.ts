@@ -458,6 +458,8 @@ const messages = {
       folderDeletedFailed: 'Failed to delete folder "{{folderName}}"',
       folderCreated: '"{{folderName}}" created',
       folderCreatedFailed: 'Failed to create folder "{{folderName}}"',
+      folderCopied: "Folder have been copied to {{folderName}}",
+      folderCopiedFailed: "Failed to copy folder {{folderName}}",
       onDragStart: "Picked up the folder {{name}}. The folder is in position {{index}} of {{length}}",
       onDragOver: "The folder {{name}} was moved into position {{index}} of {{length}}",
       onDragOverMissingOver: "The folder {{name}} is no longer over a droppable area",
