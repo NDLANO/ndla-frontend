@@ -179,7 +179,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
   return (
     <FormProvider {...methods}>
       <ContentForm onSubmit={onSubmit} noValidate ref={wrapperRef}>
-        {step?.canEdit ? (
+        {!step || step?.canEdit ? (
           <>
             <Controller
               name="type"
@@ -229,7 +229,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
             >
               {t("cancel")}
             </SafeLinkButton>
-            <Button type="submit" disabled={!formState.isDirty || formState.isSubmitting || !step?.canEdit}>
+            <Button type="submit" disabled={!formState.isDirty || formState.isSubmitting}>
               {t("save")}
             </Button>
           </HStack>
