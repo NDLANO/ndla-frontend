@@ -643,14 +643,14 @@ const messages = {
     detailedList: "Med ingress",
   },
   ndlaFilm: {
-    heading: "NDLA film",
+    heading: "NDLA Film",
     slideBackwardsLabel: "Scroll bakover",
     slideForwardsLabel: "Scroll fremover",
     films: "Filmer",
     topics: "Emner",
     filterFilms: "Filtrer filmer",
     about: {
-      more: "Les mer om NDLA film",
+      more: "Les mer om NDLA Film",
     },
     search: {
       categoryFromNdla: "Utvalg fra NDLA",
@@ -717,7 +717,7 @@ const messages = {
       multidisciplinarySubjects: "Tverrfaglige tema",
       toolboxStudents: "Verktøykassa - for elever",
       toolboxTeachers: "Verktøykassa - for lærere",
-      film: "NDLA film",
+      film: "NDLA Film",
     },
     menu: {
       button: "Meny",
@@ -782,17 +782,17 @@ const messages = {
           "Skreddersy din egen læringssti! Lag mapper, samle favoritter og del fagstoff – enkelt, inspirerende og helt på din måte.",
       },
       chatRobot: {
-        title: "NDLA praterobot",
+        title: "NDLA Praterobot",
         description:
           "Bygg din egen robot, bruk en ferdiglaget – eller test bilderoboten! Våre KI-verktøy er trygge og klare til bruk.",
       },
       arena: {
-        title: "NDLA arena",
+        title: "NDLA Arena",
         description:
           "Del undervisningsopplegg, diskuter fag og samarbeid med andre lærere! Arenaen er et faglig fellesskap for lærere i videregående opplæring.",
       },
       film: {
-        title: "NDLA film",
+        title: "NDLA Film",
         description:
           "Sjekk vårt store utvalg av spillefilmer, dokumentarer, TV-serier og undervisningsklipp. Vi tilbyr oppgaver til flere av dem.",
       },

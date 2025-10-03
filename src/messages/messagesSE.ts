@@ -642,14 +642,14 @@ const messages = {
     detailedList: "Med ingress",
   },
   ndlaFilm: {
-    heading: "NDLA film",
+    heading: "NDLA Film",
     slideBackwardsLabel: "Rulle maŋos",
     slideForwardsLabel: "Rulle ovddas",
     films: "Filmer",
     topics: "Emner",
     filterFilms: "Filtrer filmer",
     about: {
-      more: "Loga eanet NDLA filmma birra",
+      more: "Loga eanet NDLA Filmma birra",
     },
     search: {
       categoryFromNdla: "NDLA válljenmunni",
@@ -781,17 +781,17 @@ const messages = {
           "Skreddersy din egen læringssti! Lag mapper, samle favoritter og del fagstoff – enkelt, inspirerende og helt på din måte.",
       },
       chatRobot: {
-        title: "NDLA praterobot",
+        title: "NDLA Praterobot",
         description:
           "Bygg din egen robot, bruk en ferdiglaget – eller test bilderoboten! Våre KI-verktøy er trygge og klare til bruk.",
       },
       arena: {
-        title: "NDLA arena",
+        title: "NDLA Arena",
         description:
           "Del undervisningsopplegg, diskuter fag og samarbeid med andre lærere! Arenaen er et faglig fellesskap for lærere i videregående opplæring.",
       },
       film: {
-        title: "NDLA film",
+        title: "NDLA Film",
         description:
           "Sjekk vårt store utvalg av spillefilmer, dokumentarer, TV-serier og undervisningsklipp. Vi tilbyr oppgaver til flere av dem.",
       },
