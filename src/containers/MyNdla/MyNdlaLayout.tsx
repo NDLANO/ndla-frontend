@@ -13,7 +13,8 @@ import { Location, Outlet, useLocation } from "react-router";
 import {
   BookReadFill,
   BookReadLine,
-  Forum,
+  RobotFill,
+  MovieLine,
   ForumOutlined,
   HomeFill,
   HomeLine,
@@ -34,7 +35,7 @@ import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import config from "../../config";
-import { AUTOLOGIN_COOKIE } from "../../constants";
+import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { toHref } from "../../util/urlHelper";
@@ -117,6 +118,14 @@ const StyledSideBar = styled("div", {
   },
 });
 
+const Separator = styled("hr", {
+  base: {
+    height: "1px",
+    color: "stroke.subtle",
+    margin: "small",
+  },
+});
+
 export const Component = () => {
   return (
     <NoSSR fallback={null}>
@@ -144,11 +153,11 @@ export const MyNdlaLayout = () => {
   const menuLink = useMemo(
     () =>
       menuLinks(t, location, user).map(
-        ({ name, shortName, id, icon, to, iconFilled, shownForUser, reloadDocument }) => {
-          if (shownForUser && !shownForUser(user)) {
+        ({ name, shortName, id, icon, to, iconFilled, shownForUser = true, reloadDocument }) => {
+          if (!shownForUser) {
             return null;
           }
-          return (
+          return to !== "" ? (
             <StyledLi key={id}>
               <NavigationLink
                 name={name}
@@ -158,6 +167,10 @@ export const MyNdlaLayout = () => {
                 iconFilled={iconFilled}
                 reloadDocument={reloadDocument}
               />
+            </StyledLi>
+          ) : (
+            <StyledLi key={id}>
+              <Separator key={id} />
             </StyledLi>
           );
         },
@@ -201,7 +214,7 @@ interface MenuLink {
   shortName?: string;
   icon?: ReactElement;
   iconFilled?: ReactElement;
-  shownForUser?: (user: GQLMyNdlaPersonalDataFragmentFragment | undefined) => boolean;
+  shownForUser?: boolean;
   reloadDocument?: boolean;
 }
 
@@ -219,14 +232,6 @@ export const menuLinks = (
     iconFilled: <HomeFill />,
   },
   {
-    id: "subjects",
-    to: routes.myNdla.subjects,
-    name: t("myNdla.favoriteSubjects.title"),
-    shortName: t("myNdla.iconMenu.subjects"),
-    icon: <BookReadLine />,
-    iconFilled: <BookReadFill />,
-  },
-  {
     id: "folders",
     to: routes.myNdla.folders,
     name: t("myNdla.myFolders"),
@@ -235,22 +240,53 @@ export const menuLinks = (
     iconFilled: <FolderFill />,
   },
   {
+    id: "subjects",
+    to: routes.myNdla.subjects,
+    name: t("myNdla.favoriteSubjects.title"),
+    shortName: t("myNdla.iconMenu.subjects"),
+    icon: <BookReadLine />,
+    iconFilled: <BookReadFill />,
+  },
+  {
     id: "learningpaths",
     to: routes.myNdla.learningpath,
     name: t("myNdla.learningpath.title"),
     shortName: t("myNdla.iconMenu.learningpath"),
     icon: <RouteLine />,
     iconFilled: <RouteFill />,
-    shownForUser: (user) => user?.role === "employee",
+    shownForUser: user?.role === "employee",
+  },
+  {
+    id: "separator1",
+    name: "",
+    to: "",
   },
   {
     id: "arena",
     to: `https://${config.arenaDomain}`,
-    name: t("myNdla.arena.title"),
-    shortName: t("myNdla.arena.title"),
+    name: t("welcomePage.quickLinks.arena.title"),
+    shortName: t("welcomePage.quickLinks.arena.title"),
     icon: <ForumOutlined />,
-    iconFilled: <Forum />,
-    shownForUser: (user) => !!user?.arenaEnabled,
+    shownForUser: !!user?.arenaEnabled,
+  },
+  {
+    id: "robot",
+    to: "https://ndla-ki.no",
+    name: t("welcomePage.quickLinks.chatRobot.title"),
+    shortName: t("welcomePage.quickLinks.chatRobot.title"),
+    icon: <RobotFill />,
+  },
+  {
+    id: "film",
+    to: `${FILM_PAGE_URL}`,
+    name: t("welcomePage.quickLinks.film.title"),
+    shortName: t("welcomePage.quickLinks.film.title"),
+    icon: <MovieLine />,
+  },
+  {
+    id: "separator2",
+    name: "",
+    to: "",
   },
   {
     id: "profile",
