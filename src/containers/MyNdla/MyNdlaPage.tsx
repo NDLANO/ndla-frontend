@@ -134,7 +134,7 @@ export const MyNdlaPage = () => {
         }}
         imageSide="right"
         url={{
-          url: authenticated ? getChatRobotUrl() : undefined,
+          url: authenticated ? getChatRobotUrl(user) : undefined,
           text: authenticated ? t("myNdla.campaignBlock.linkText") : undefined,
         }}
         description={

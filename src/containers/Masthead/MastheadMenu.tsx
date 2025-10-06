@@ -23,6 +23,7 @@ import {
   HeartLine,
   LogoutBoxRightLine,
   MenuLine,
+  MovieLine,
   RobotFill,
   UserLine,
 } from "@ndla/icons";
@@ -214,7 +215,6 @@ const educationLinks: LinkType[] = [
   { to: "/", text: "masthead.menu.links.education.programmes" },
   { to: "/subjects", text: "masthead.menu.links.education.subjects" },
   { to: MULTIDISCIPLINARY_URL, text: "masthead.menu.links.education.multidisciplinary" },
-  { to: FILM_PAGE_URL, text: "masthead.menu.links.education.film" },
 ];
 
 const tipLinks: LinkType[] = [
@@ -365,6 +365,7 @@ const ButtonsContainer = styled("div", {
 const MyNdlaSafeLinkButton = styled(NavSafeLinkButton, {
   base: {
     justifyContent: "flex-start",
+    textWrap: "nowrap",
   },
 });
 
@@ -379,6 +380,32 @@ const MyNdlaPart = () => {
   const { user, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
   const location = useLocation();
+  const serviceLinks = useMemo(() => {
+    return (
+      <>
+        <MyNdlaSafeLinkButton
+          to={`https://${config.arenaDomain}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="secondary"
+        >
+          <ForumOutlined />
+          {t("welcomePage.quickLinks.arena.title")}
+          <ExternalLinkLine />
+        </MyNdlaSafeLinkButton>
+        <MyNdlaSafeLinkButton to={getChatRobotUrl(user)} target="_blank" rel="noopener noreferrer" variant="secondary">
+          <RobotFill />
+          {t("welcomePage.quickLinks.chatRobot.title")}
+          <ExternalLinkLine />
+        </MyNdlaSafeLinkButton>
+        <MyNdlaSafeLinkButton to={FILM_PAGE_URL} variant="secondary">
+          <MovieLine />
+          {t("welcomePage.quickLinks.film.title")}
+        </MyNdlaSafeLinkButton>
+      </>
+    );
+  }, [user, t]);
+
   return (
     <MyNdlaWrapper>
       {!!authenticated && !!user ? (
@@ -396,23 +423,7 @@ const MyNdlaPart = () => {
               <HeartLine />
               {t("masthead.menu.myNdla.myNdla")}
             </MyNdlaSafeLinkButton>
-            {!!user?.arenaEnabled && (
-              <MyNdlaSafeLinkButton
-                to={`https://${config.arenaDomain}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                variant="secondary"
-              >
-                <ForumOutlined />
-                {t("masthead.menu.myNdla.arena")}
-                <ExternalLinkLine />
-              </MyNdlaSafeLinkButton>
-            )}
-            <MyNdlaSafeLinkButton to={getChatRobotUrl()} target="_blank" rel="noopener noreferrer" variant="secondary">
-              <RobotFill />
-              {t("masthead.menu.myNdla.chatRobot")}
-              <ExternalLinkLine />
-            </MyNdlaSafeLinkButton>
+            {serviceLinks}
           </ButtonsContainer>
           <LogoutSafeLinkButton to={`/logout?state=${toHref(location)}`} reloadDocument>
             <LogoutBoxRightLine />
@@ -420,10 +431,13 @@ const MyNdlaPart = () => {
           </LogoutSafeLinkButton>
         </>
       ) : (
-        <MyNdlaSafeLinkButton variant="secondary" to={`/login?state=${routes.myNdla.root}`} reloadDocument>
-          <UserLine />
-          {t("masthead.menu.myNdla.myNdla")}
-        </MyNdlaSafeLinkButton>
+        <ButtonsContainer>
+          <MyNdlaSafeLinkButton variant="secondary" to={`/login?state=${routes.myNdla.root}`} reloadDocument>
+            <UserLine />
+            {t("masthead.menu.myNdla.myNdla")}
+          </MyNdlaSafeLinkButton>
+          {serviceLinks}
+        </ButtonsContainer>
       )}
     </MyNdlaWrapper>
   );
