@@ -6,11 +6,19 @@
  *
  */
 
-import { RouteObject } from "react-router";
+import { Outlet, RouteObject } from "react-router";
+import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
+
+const ErrorBoundaryLayout = () => (
+  <PageErrorBoundary>
+    <Outlet />
+  </PageErrorBoundary>
+);
 
 export const routes: RouteObject[] = [
   {
     path: "/",
+    Component: ErrorBoundaryLayout,
     children: [
       {
         index: true,
@@ -28,6 +36,10 @@ export const routes: RouteObject[] = [
             lazy: () => import("./LtiIframePage"),
           },
         ],
+      },
+      {
+        path: "*",
+        lazy: () => import("../containers/NotFoundPage/NotFoundPage"),
       },
     ],
   },
