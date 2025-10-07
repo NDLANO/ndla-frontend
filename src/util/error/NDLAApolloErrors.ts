@@ -7,59 +7,110 @@
  */
 
 import { GraphQLFormattedError } from "graphql";
-import { Operation } from "@apollo/client";
-import type { NetworkError } from "@apollo/client/errors";
+import type {
+  ApolloLink,
+  LocalStateError,
+  OperationVariables,
+  ServerError,
+  ServerParseError,
+  UnconventionalError,
+} from "@apollo/client";
 import { NDLAError } from "./NDLAError";
 import { getLogLevelFromStatusCode } from "../handleError";
 
-export class NDLAGraphQLError extends NDLAError {
-  constructor(baseError: GraphQLFormattedError, operation: Operation) {
-    const message = `[GraphQL error]: ${baseError.message}`;
-    super(message);
+interface OperationInfo {
+  operationName: string | undefined;
+  variables: OperationVariables;
+  extensions: Record<string, any>;
+}
 
-    const errorStatus = baseError.extensions?.status;
+class BaseGraphQLError extends NDLAError {
+  operationInfo: OperationInfo;
+  constructor(name: string, error: GraphQLFormattedError, operation: ApolloLink.Operation) {
+    const message = `[${name} error]: ${error.message}`;
+    super(message);
+    this.operationInfo = {
+      operationName: operation.operationName,
+      variables: operation.variables,
+      extensions: operation.extensions,
+    };
+  }
+}
+
+export class NDLAGraphQLError extends BaseGraphQLError {
+  constructor(error: GraphQLFormattedError, operation: ApolloLink.Operation) {
+    super("GraphQL", error, operation);
+
+    const errorStatus = error.extensions?.status;
 
     if (typeof errorStatus === "number") {
       this.logLevel = getLogLevelFromStatusCode(errorStatus);
     }
 
-    const operationInfo = {
-      operationName: operation.operationName,
-      variables: operation.variables,
-    };
-
     this.logContext = {
       graphqlError: {
-        operationInfo,
-        message,
-        locations: baseError.locations,
-        path: baseError.path,
-        extensions: baseError.extensions,
+        operationInfo: this.operationInfo,
+        locations: error.locations,
+        path: error.path,
+        extensions: error.extensions,
       },
     };
   }
 }
 
-export class NDLANetworkError extends NDLAError {
-  constructor(baseError: NonNullable<NetworkError>, operation: Operation) {
-    const message = `[Network error]: ${baseError.message}`;
-    super(message);
+export class ApolloNetworkError extends BaseGraphQLError {
+  constructor(error: NonNullable<ServerError>, operation: ApolloLink.Operation) {
+    super("Network", error, operation);
 
-    this.stack = baseError.stack;
-
-    const operationInfo = {
-      operationName: operation.operationName,
-      variables: operation.variables,
-      extensions: operation.extensions,
-    };
+    this.stack = error.stack;
 
     this.logContext = {
-      stack: baseError.stack,
-      networkErrorMessage: baseError.message,
-      cause: baseError.cause,
+      stack: error.stack,
+      networkErrorMessage: error.message,
+      cause: error.cause,
       graphqlError: {
-        operationInfo,
+        operationInfo: this.operationInfo,
       },
+    };
+  }
+}
+
+export class ApolloLocalStateError extends BaseGraphQLError {
+  constructor(error: LocalStateError, operation: ApolloLink.Operation) {
+    super("Local State", error, operation);
+    this.stack = error.stack;
+    this.logContext = {
+      stack: error.stack,
+      cause: error.cause,
+      path: error.path,
+      graphqlError: { operationInfo: this.operationInfo },
+    };
+  }
+}
+
+export class ApolloServerParseError extends BaseGraphQLError {
+  constructor(error: ServerParseError, operation: ApolloLink.Operation) {
+    super("Server parse", error, operation);
+    this.stack = error.stack;
+    this.logLevel = getLogLevelFromStatusCode(error.statusCode);
+
+    this.logContext = {
+      stack: error.stack,
+      cause: error.cause,
+      bodyText: error.bodyText,
+      graphqlError: { operationInfo: this.operationInfo },
+    };
+  }
+}
+
+export class ApolloUnconventionalError extends BaseGraphQLError {
+  constructor(error: UnconventionalError, operation: ApolloLink.Operation) {
+    super("Unconventional", error, operation);
+    this.stack = error.stack;
+    this.logContext = {
+      stack: error.stack,
+      cause: error.cause,
+      graphqlError: { operationInfo: this.operationInfo },
     };
   }
 }

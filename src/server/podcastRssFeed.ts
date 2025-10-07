@@ -6,12 +6,12 @@
  *
  */
 
-import { gql, ApolloClient, NormalizedCacheObject } from "@apollo/client/core";
+import { gql, ApolloClient } from "@apollo/client";
 import config from "../config";
 import { GQLPodcastSeriesQuery } from "../graphqlTypes";
 import { createApolloClient } from "../util/apiHelpers";
 
-let apolloClient: ApolloClient<NormalizedCacheObject>;
+let apolloClient: ApolloClient;
 let storedLocale: string;
 
 const getApolloClient = (locale: string) => {

@@ -7,13 +7,13 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { gql, useApolloClient, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
 import { SearchContainer } from "../containers/SearchPage/SearchContainer";
 import { GQLLtiSearchResourceTypesQuery } from "../graphqlTypes";
-import { getLangAttributeValue } from "../i18n";
 import { LtiContextProvider } from "../LtiContext";
 import { createApolloLinks } from "../util/apiHelpers";
 
@@ -43,7 +43,7 @@ export const Component = () => {
   i18n.on("languageChanged", (lang) => {
     client.resetStore();
     client.setLink(createApolloLinks(lang));
-    document.documentElement.lang = getLangAttributeValue(lang);
+    document.documentElement.lang = lang;
   });
 
   return (

@@ -10,7 +10,8 @@ import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { Hero, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
@@ -27,6 +28,7 @@ import {
   GQLResourceEmbedQuery,
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
+import { isNotFoundError } from "../../../util/handleError";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
@@ -154,7 +156,7 @@ const ResourceEmbed = ({ id, type, isOembed }: Props) => {
     return <Spinner />;
   }
 
-  if (error?.graphQLErrors.some((e) => e?.extensions?.status === 404)) {
+  if (isNotFoundError(error)) {
     return <NotFoundPage />;
   }
 

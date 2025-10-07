@@ -8,7 +8,8 @@
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { gql, useApolloClient, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
   Button,

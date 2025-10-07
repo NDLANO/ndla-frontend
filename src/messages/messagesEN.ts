@@ -649,14 +649,14 @@ const messages = {
     detailedList: "With preamble",
   },
   ndlaFilm: {
-    heading: "NDLA film",
+    heading: "NDLA Film",
     slideBackwardsLabel: "Scroll backwards",
     slideForwardsLabel: "Scroll forwards",
     films: "Films",
     topics: "Topics",
     filterFilms: "Filter films",
     about: {
-      more: "Read more about NDLA film",
+      more: "Read more about NDLA Film",
     },
     search: {
       categoryFromNdla: "Selected resources from NDLA",
@@ -723,7 +723,7 @@ const messages = {
       multidisciplinarySubjects: "Multidisciplinary subjects",
       toolboxStudents: "Toolbox - for students",
       toolboxTeachers: "Toolbox - for teachers",
-      film: "NDLA film",
+      film: "NDLA Film",
     },
     menu: {
       button: "Menu",
@@ -800,7 +800,7 @@ const messages = {
       film: {
         title: "NDLA Film",
         description:
-          "NDLA film is a service in cooperation with Norgesfilm. This service allows you to see a wide range of movies, short films, documentaries and series",
+          "NDLA Film is a service in cooperation with Norgesfilm. This service allows you to see a wide range of movies, short films, documentaries and series",
       },
     },
   },

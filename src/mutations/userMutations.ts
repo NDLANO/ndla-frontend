@@ -6,7 +6,8 @@
  *
  */
 
-import { useApolloClient, useMutation, gql } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client/react";
 import { GQLUpdatePersonalDataMutation, GQLUpdatePersonalDataMutationVariables } from "../graphqlTypes";
 
 const deletePersonalDataMutation = gql`

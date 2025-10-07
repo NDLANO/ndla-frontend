@@ -7,11 +7,11 @@
  */
 
 import parse from "html-react-parser";
-import { debounce } from "lodash-es";
 import { useState, useEffect, FormEvent, useMemo, useId, useRef, CSSProperties } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { gql, useLazyQuery, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useLazyQuery, useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
@@ -47,8 +47,7 @@ import {
   GQLMastheadSearchQueryVariables,
 } from "../../graphqlTypes";
 import { isValidContextId } from "../../util/urlHelper";
-
-const debounceCall = debounce((fun: (func?: VoidFunction) => void) => fun(), 250);
+import { useDebounce } from "../../util/useDebounce";
 
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
@@ -245,7 +244,7 @@ const MastheadSearch = () => {
   const { t, i18n } = useTranslation();
   const { contextId } = useParams();
   const [query, setQuery] = useState("");
-  const [delayedSearchQuery, setDelayedQuery] = useState("");
+  const delayedSearchQuery = useDebounce(query, 250);
   const formId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const comboboxTranslations = useComboboxTranslations();
@@ -312,11 +311,6 @@ const MastheadSearch = () => {
       });
     }
   }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const onQueryChange = (query: string) => {
-    setQuery(query);
-    debounceCall(() => setDelayedQuery(query));
-  };
 
   const onNavigate = () => {
     setDialogState({ open: false });
@@ -386,7 +380,7 @@ const MastheadSearch = () => {
             highlightedValue={highlightedValue}
             onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
             inputValue={query}
-            onInputValueChange={(details) => onQueryChange(details.inputValue)}
+            onInputValueChange={(details) => setQuery(details.inputValue)}
             onInteractOutside={(e) => e.preventDefault()}
             positioning={{ strategy: "fixed" }}
             context="composite"

@@ -8,7 +8,8 @@
 
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { MovedTopicPage } from "./MovedTopicPage";
 import MultidisciplinarySubjectArticle from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
@@ -112,10 +113,6 @@ export const TopicPage = () => {
     }
 
     if (isNotFoundError(query.error)) return <NotFoundPage />;
-  }
-
-  if (query.error?.graphQLErrors.some((err) => err.extensions?.status === 404)) {
-    return <NotFoundPage />;
   }
 
   if (!query.data?.node?.article) {

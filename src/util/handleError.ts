@@ -6,8 +6,6 @@
  *
  */
 
-import * as Sentry from "@sentry/react";
-import { ErrorType, UnknownError } from "./error";
 import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import log from "./logger";
@@ -16,40 +14,36 @@ import { unreachable } from "./guards";
 import { LogLevel } from "../interfaces";
 import { LoggerContext } from "./logger/loggerContext";
 import { getLoggerContext } from "./logger/getLoggerContext";
+import { CombinedGraphQLErrors, ErrorLike } from "@apollo/client";
+import { GONE, NOT_FOUND } from "../statusCodes";
+import { GraphQLFormattedError } from "graphql";
+import { captureException, setContext } from "@sentry/react";
 
-type SingleGQLError = {
+type UnknownError = {
   status?: number;
-  extensions?: { status?: number };
-  path?: string;
 };
 
-type UnknownGQLError = {
-  status?: number;
-  graphQLErrors?: SingleGQLError[] | null;
-};
-
-export const getErrorStatuses = (unknownError: UnknownError | null | undefined): number[] => {
+const getErrorStatuses = (error: unknown): number[] => {
   const statuses: number[] = [];
-  // We cast to our own error type since we append status in graphql-api
-  const error = unknownError as UnknownGQLError | null | undefined;
-
-  if (error !== null && error !== undefined) {
-    if (error?.status) {
-      statuses.push(error.status);
-    } else if (error.graphQLErrors) {
-      error.graphQLErrors.forEach((e) => {
-        if (e.status) {
-          statuses.push(e.status);
-          return;
-        }
-        if (e?.extensions?.status) {
-          statuses.push(e?.extensions.status);
-          return;
-        }
-      });
+  if (error == null) return statuses;
+  const unknownError = error as UnknownError;
+  if (unknownError.status) {
+    statuses.push(unknownError.status);
+  } else if (CombinedGraphQLErrors.is(error)) {
+    if (typeof error.extensions?.status === "number") {
+      statuses.push(error.extensions.status);
     }
+    error.errors.forEach((e) => {
+      const unknownError = e as UnknownError;
+      if (unknownError.status) {
+        statuses.push(unknownError.status);
+        return;
+      }
+      if (typeof e.extensions?.status === "number") {
+        statuses.push(e.extensions.status);
+      }
+    });
   }
-
   return statuses;
 };
 
@@ -57,29 +51,34 @@ export const AccessDeniedCodes = [401, 403];
 
 export const InternalServerErrorCodes = [500, 503, 504];
 
-export const isAccessDeniedError = (error: ErrorType | undefined | null): boolean => {
+const isErrorOfType = (error: ErrorLike | undefined | null, errorCodes: number[]): error is CombinedGraphQLErrors => {
   if (!error) return false;
-  const codes = getErrorStatuses(error);
-  return codes.find((c) => AccessDeniedCodes.includes(c)) !== undefined;
+  else if (CombinedGraphQLErrors.is(error)) {
+    return error.errors.some(
+      // I don't know if `e.status` can actually happen, but we used to check it
+      (e) => errorCodes.includes((e as any).status as number) || errorCodes.includes(e.extensions?.status as number),
+    );
+  } else return false;
 };
 
-export const findAccessDeniedErrors = (unknownError: ErrorType | undefined | null): SingleGQLError[] => {
-  // We cast to our own error type since we append status in graphql-api
-  const error = unknownError as UnknownGQLError | null | undefined;
-  const accessDeniedErrors = error?.graphQLErrors?.filter((gqle) => {
-    const code = gqle.status ?? gqle.extensions?.status;
-    return AccessDeniedCodes.includes(code ?? 0);
-  });
-  return accessDeniedErrors ?? [];
+export const isAccessDeniedError = (error: ErrorLike | undefined | null) => isErrorOfType(error, AccessDeniedCodes);
+
+export const findAccessDeniedErrors = (error: ErrorLike | undefined | null): GraphQLFormattedError[] => {
+  if (CombinedGraphQLErrors.is(error)) {
+    return error.errors.filter((err) => {
+      // not sure if `err.status` ever exists
+      const code = (err as any).status ?? err.extensions?.status;
+      return AccessDeniedCodes.includes(code ?? 0);
+    });
+  }
+  return [];
 };
 
-export const isNotFoundError = (error: ErrorType | undefined | null): boolean => {
-  if (!error) return false;
-  const codes = getErrorStatuses(error);
-  return codes.find((c) => c === 404) !== undefined;
-};
+export const isNotFoundError = (error: ErrorLike | undefined | null) => isErrorOfType(error, [NOT_FOUND]);
 
-const getMessage = (error: UnknownError): string => {
+export const isGoneError = (error: ErrorLike | undefined | null) => isErrorOfType(error, [GONE]);
+
+const getMessage = (error: Error | unknown): string => {
   if (error instanceof StatusError && error.message) return error.message;
   if (error instanceof Error && error.message) return error.message;
   if (error instanceof AggregateError) {
@@ -94,7 +93,7 @@ const getMessage = (error: UnknownError): string => {
   return "Got error without message";
 };
 
-const getStatus = (extraContext: object | undefined, error: UnknownError): number | undefined => {
+const getStatus = (extraContext: object | undefined, error: Error | unknown): number | undefined => {
   if (extraContext && "statusCode" in extraContext && typeof extraContext.statusCode === "number")
     return extraContext.statusCode;
   if (error instanceof StatusError) return error.status;
@@ -104,7 +103,7 @@ const getStatus = (extraContext: object | undefined, error: UnknownError): numbe
   return undefined;
 };
 
-export const getErrorLog = (error: UnknownError, extraContext: object | undefined): object | string => {
+export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | undefined): object | string => {
   const ctx = { ...extraContext, statusCode: getStatus(extraContext, error) };
   if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
 
@@ -153,7 +152,7 @@ export const mergeLogLevels = (levels: LogLevel[]): LogLevel | undefined => {
   return undefined;
 };
 
-export const deriveLogLevel = (error: UnknownError): LogLevel | undefined => {
+export const deriveLogLevel = (error: Error | unknown): LogLevel | undefined => {
   if (error instanceof NDLAError) return error.logLevel;
 
   const statusCodes = getErrorStatuses(error);
@@ -161,14 +160,14 @@ export const deriveLogLevel = (error: UnknownError): LogLevel | undefined => {
   return mergeLogLevels(logLevels);
 };
 
-const deriveContext = (error: ErrorType): Record<string, unknown> => {
+const deriveContext = (error: Error): Record<string, unknown> => {
   if (error instanceof NDLAError) {
     return error.logContext;
   }
   return {};
 };
 
-const logServerError = async (error: ErrorType, extraContext: Record<string, unknown>) => {
+const logServerError = async (error: Error, extraContext: Record<string, unknown>) => {
   const derivedContext = deriveContext(error);
   const ctx = { ...extraContext, ...derivedContext };
   const logLevel = deriveLogLevel(error);
@@ -190,21 +189,21 @@ const logServerError = async (error: ErrorType, extraContext: Record<string, unk
 };
 
 const sendToSentry = (
-  error: ErrorType,
+  error: Error,
   loggerContext: LoggerContext | undefined,
   extraContext: Record<string, unknown>,
 ) => {
   const errorContext = { error, ...loggerContext, ...extraContext };
-  Sentry.setContext("NDLA Context", errorContext);
-  Sentry.captureException(error);
+  setContext("NDLA Context", errorContext);
+  captureException(error);
 };
 
-export const ensureError = (unknownError: UnknownError): ErrorType => {
+export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
   if (unknownError instanceof Error) return unknownError;
   return new NDLAError(String(unknownError));
 };
 
-const handleError = async (error: ErrorType, extraContext: Record<string, unknown> = {}) => {
+const handleError = async (error: ErrorLike, extraContext: Record<string, unknown> = {}) => {
   if (config.runtimeType === "production" && config.isClient) {
     const ctx = await getLoggerContext();
     sendToSentry(error, ctx, extraContext);

@@ -7,7 +7,8 @@
  */
 
 import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { partition, uniq } from "@ndla/util";
 import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
 import log from "../util/logger";

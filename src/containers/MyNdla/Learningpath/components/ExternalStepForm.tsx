@@ -50,7 +50,7 @@ export interface ExternalFormValues {
 export const ExternalStepForm = () => {
   const { t } = useTranslation();
   const { control, setValue, watch } = useFormContext<ExternalFormValues>();
-  const [fetchOpengraph] = useFetchOpengraph({ skip: true });
+  const [fetchOpengraph] = useFetchOpengraph();
   const { validationT } = useValidationTranslation();
 
   useEffect(() => {

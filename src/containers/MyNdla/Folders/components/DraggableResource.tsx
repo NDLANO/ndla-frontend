@@ -80,7 +80,7 @@ const DraggableResource = ({
       const res = await deleteFolderResource({
         variables: { folderId: selectedFolder.id, resourceId: resource.id },
       });
-      if (!res.errors?.length) {
+      if (!res.error) {
         toast.create({
           title: t("myNdla.resource.removedFromFolder", {
             folderName: selectedFolder.name,

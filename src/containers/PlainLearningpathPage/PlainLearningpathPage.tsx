@@ -6,18 +6,14 @@
  *
  */
 
-import { gql, useQuery } from "@apollo/client";
+import { useParams } from "react-router";
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import PlainLearningpathContainer, { plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
-import { TypedParams, useTypedParams } from "../../routeHelpers";
-
-interface MatchParams extends TypedParams {
-  learningpathId: string;
-  stepId?: string;
-}
 
 const plainLearningpathPageQuery = gql`
   query plainLearningpathPage($pathId: String!, $transformArgs: TransformedArticleContentInput) {
@@ -29,14 +25,15 @@ const plainLearningpathPageQuery = gql`
 `;
 
 export const PlainLearningpathPage = () => {
-  const { learningpathId, stepId } = useTypedParams<MatchParams>();
+  const { learningpathId, stepId } = useParams();
 
   const { data, loading } = useQuery<GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables>(
     plainLearningpathPageQuery,
     {
       variables: {
-        pathId: learningpathId,
+        pathId: learningpathId ?? "",
       },
+      skip: !learningpathId,
     },
   );
 

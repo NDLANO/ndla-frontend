@@ -6,7 +6,6 @@
  *
  */
 
-import { GraphQLFormattedError } from "graphql";
 import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -50,7 +49,6 @@ import Resources from "../Resources/Resources";
 interface Props {
   resource?: GQLArticlePage_NodeFragment;
   resourceTypes?: GQLArticlePage_ResourceTypeFragment[];
-  errors?: readonly GraphQLFormattedError[];
   loading?: boolean;
   skipToContentId?: string;
 }
@@ -94,7 +92,7 @@ const StyledArticleContent = styled(ArticleContent, {
   },
 });
 
-const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
+const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
@@ -149,8 +147,7 @@ const ArticlePage = ({ resource, errors, skipToContentId, loading }: Props) => {
     );
   }
   if (!resource?.article || !article) {
-    const error = errors?.find((e) => e.path?.includes("resource"));
-    return <ArticleErrorMessage status={(error as any)?.status ?? 404} />;
+    return <ArticleErrorMessage status={404} />;
   }
 
   const contentType = resource ? getContentType(resource) : undefined;

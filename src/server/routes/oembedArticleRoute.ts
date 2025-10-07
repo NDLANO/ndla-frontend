@@ -8,8 +8,7 @@
 
 import express from "express";
 import { matchPath, Params } from "react-router";
-import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
-import { gql } from "@apollo/client/core";
+import { ApolloClient, gql } from "@apollo/client";
 import { Node } from "@ndla/types-taxonomy";
 import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
@@ -74,7 +73,7 @@ function getOembedResponse(
 
 type MatchParams = "contextId" | "resourceId" | "topicId" | "lang" | "articleId" | "nodeId";
 
-let apolloClient: ApolloClient<NormalizedCacheObject>;
+let apolloClient: ApolloClient;
 let storedLocale: string;
 
 const getApolloClient = (locale: string) => {
@@ -150,6 +149,13 @@ const getEmbedObject = async (lang: string, embedId: string, embedType: string, 
     query: embedOembedQuery,
     variables: { id: embedId, type: embedType },
   });
+  // This will probably never happen. client.query throws on errors I think
+  if (!embed.data) {
+    return {
+      status: NOT_FOUND,
+      data: "Failed to find embed",
+    };
+  }
   const title = getEmbedTitle(embedType, embed.data);
   const iframeSrc = `${config.ndlaFrontendDomain}/embed-iframe/${lang}/${embedType}/${embedId}`;
   return getOembedResponse(req, title, iframeSrc);
