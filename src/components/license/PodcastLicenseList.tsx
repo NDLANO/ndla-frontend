@@ -15,7 +15,7 @@ import { figureApa7CopyString, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
-import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
+import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from "../../graphqlTypes";
@@ -108,7 +108,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
           </MediaListLicense>
           {!isCopyrighted(podcast.copyright.license.license) && (
             <MediaListItemActions>
-              <SafeLinkButton to={podcast.src} download variant="secondary" size="small">
+              <SafeLinkButton to={downloadUrl(podcast.src)} download variant="secondary" size="small">
                 <DownloadLine />
                 {t("license.download")}
               </SafeLinkButton>
