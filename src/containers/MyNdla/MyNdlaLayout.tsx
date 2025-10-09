@@ -154,24 +154,21 @@ export const MyNdlaLayout = () => {
   const menuLink = useMemo(
     () =>
       menuLinks(t, location, user).map(
-        ({ name, shortName, id, icon, to, iconFilled, shownForUser = true, reloadDocument }) => {
+        ({ name, shortName, id, icon, to, iconFilled, shownForUser = true, reloadDocument, showSeparator }) => {
           if (!shownForUser) {
             return null;
           }
           return (
             <StyledLi key={id}>
-              {to !== "" ? (
-                <NavigationLink
-                  name={name}
-                  shortName={shortName}
-                  icon={icon}
-                  to={to}
-                  iconFilled={iconFilled}
-                  reloadDocument={reloadDocument}
-                />
-              ) : (
-                <Separator key={id} />
-              )}
+              {showSeparator ? <Separator key={id} aria-hidden={true} /> : null}
+              <NavigationLink
+                name={name}
+                shortName={shortName}
+                icon={icon}
+                to={to}
+                iconFilled={iconFilled}
+                reloadDocument={reloadDocument}
+              />
             </StyledLi>
           );
         },
@@ -217,6 +214,7 @@ interface MenuLink {
   iconFilled?: ReactElement;
   shownForUser?: boolean;
   reloadDocument?: boolean;
+  showSeparator?: boolean;
 }
 
 export const menuLinks = (
@@ -258,17 +256,13 @@ export const menuLinks = (
     shownForUser: user?.role === "employee",
   },
   {
-    id: "separator1",
-    name: "",
-    to: "",
-  },
-  {
     id: "arena",
     to: `https://${config.arenaDomain}`,
     name: t("welcomePage.quickLinks.arena.title"),
     shortName: t("welcomePage.quickLinks.arena.title"),
     icon: <ForumOutlined />,
     shownForUser: !!user?.arenaEnabled,
+    showSeparator: true,
   },
   {
     id: "robot",
@@ -285,17 +279,13 @@ export const menuLinks = (
     icon: <MovieLine />,
   },
   {
-    id: "separator2",
-    name: "",
-    to: "",
-  },
-  {
     id: "profile",
     to: routes.myNdla.profile,
     name: t("myNdla.myProfile.title"),
     shortName: t("myNdla.iconMenu.profile"),
     icon: <UserLine />,
     iconFilled: <UserFill />,
+    showSeparator: true,
   },
   {
     id: "logout-path",
