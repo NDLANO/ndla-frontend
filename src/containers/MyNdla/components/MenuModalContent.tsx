@@ -88,7 +88,7 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
           if (!shownForUser) {
             return null;
           }
-          return to !== "" ? (
+          return (
             <li key={id}>
               <NavigationLink
                 to={to}
@@ -100,7 +100,7 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
                 onClick={() => setOpen(false)}
               />
             </li>
-          ) : undefined;
+          );
         },
       ),
     [t, location, user, setOpen],

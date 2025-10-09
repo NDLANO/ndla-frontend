@@ -261,7 +261,6 @@ export const menuLinks = (
     name: t("welcomePage.quickLinks.arena.title"),
     shortName: t("welcomePage.quickLinks.arena.title"),
     icon: <ForumOutlined />,
-    shownForUser: !!user?.arenaEnabled,
     showSeparator: true,
   },
   {
