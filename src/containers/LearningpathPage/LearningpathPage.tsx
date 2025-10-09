@@ -11,6 +11,7 @@ import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
+import { RedirectExternal } from "../../components";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageLayout } from "../../components/Layout/PageContainer";
@@ -55,6 +56,10 @@ const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => 
 
   if (!node || !node.learningpath || !node?.learningpath?.learningsteps?.length) {
     return <DefaultErrorMessagePage />;
+  }
+  const stepById = node.learningpath.learningsteps.find((step) => step.id.toString() === stepId);
+  if (stepById) {
+    return <RedirectExternal to={`${node.url}/${stepById.seqNo}`} />;
   }
   const crumbs = node.context?.parents ?? [];
   const root = crumbs[0];
