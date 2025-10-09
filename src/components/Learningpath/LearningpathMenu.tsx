@@ -180,12 +180,12 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context, h
   const updateViewedSteps = () => {
     const viewedId =
       learningpath && currentStep?.seqNo !== undefined
-        ? currentStep.id
+        ? currentStep.seqNo
         : hasIntroduction && !currentIndex
           ? INTRODUCTION_ID
           : undefined;
 
-    if (viewedId) {
+    if (viewedId !== undefined) {
       const storageKey = `${LEARNING_PATHS_STORAGE_KEY}_${learningpath.id}`;
       const currentViewedSteps = window.localStorage?.getItem(storageKey);
       const updatedViewedSteps = currentViewedSteps ? JSON.parse(currentViewedSteps) : {};
@@ -232,25 +232,25 @@ const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context, h
             </ListItem>
           )}
           {learningpath.learningsteps.map((step, index) => (
-            <ListItem key={step.id} context={context}>
+            <ListItem key={step.seqNo} context={context}>
               <StyledSafeLink
                 to={
                   context === "preview"
-                    ? routes.myNdla.learningpathPreview(learningpath.id, step.id)
-                    : toLearningPath(learningpath.id, step.id, resourcePath)
+                    ? routes.myNdla.learningpathPreview(learningpath.id, step.seqNo)
+                    : toLearningPath(learningpath.id, step.seqNo, resourcePath)
                 }
                 aria-current={index === currentIndex ? "page" : undefined}
                 data-last={index === learningpath.learningsteps.length - 1}
-                aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+                aria-label={`${step.title}${viewedSteps[step.seqNo] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
               >
                 <StepIndicatorWrapper context={context}>
                   <StepIndicator
                     data-indicator=""
-                    data-completed={!!viewedSteps[step.id]}
+                    data-completed={!!viewedSteps[step.seqNo]}
                     aria-hidden
                     context={context}
                   >
-                    {viewedSteps[step.id] && index !== currentIndex ? (
+                    {viewedSteps[step.seqNo] && index !== currentIndex ? (
                       <CheckLine size="small" />
                     ) : (
                       index + (hasIntroduction ? 2 : 1)

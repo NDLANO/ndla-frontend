@@ -36,10 +36,11 @@ export const getSubjectType = (subjectId?: string): SubjectType => {
 const LEARNINGPATHS = "/learningpaths";
 
 export function toLearningPath(pathId?: string | number, stepId?: string | number, resourcePath?: string) {
+  const stepIdPresent = !isNaN(Number(stepId));
   if (resourcePath) {
-    return stepId ? `${resourcePath}/${stepId}` : resourcePath;
+    return stepIdPresent ? `${resourcePath}/${stepId}` : resourcePath;
   }
-  if (pathId && stepId) {
+  if (pathId && stepIdPresent) {
     return `${LEARNINGPATHS}/${pathId}/steps/${stepId}`;
   }
   if (pathId) {

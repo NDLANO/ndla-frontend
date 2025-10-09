@@ -195,7 +195,7 @@ const Learningpath = ({
   const { user } = useContext(AuthContext);
 
   const index = learningpathStep
-    ? learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id)
+    ? learningpath.learningsteps.findIndex((step) => step.seqNo === learningpathStep.seqNo)
     : undefined;
   const previousStep = index !== undefined ? learningpath.learningsteps[index - 1] : undefined;
   const nextStep = index !== undefined ? learningpath.learningsteps[index + 1] : learningpath.learningsteps[0];
@@ -296,8 +296,8 @@ const Learningpath = ({
               <SafeLinkButton
                 to={
                   context === "preview"
-                    ? routes.myNdla.learningpathPreview(learningpath.id, previousStep?.id)
-                    : toLearningPath(learningpath.id, previousStep?.id, resourcePath)
+                    ? routes.myNdla.learningpathPreview(learningpath.id, previousStep?.seqNo)
+                    : toLearningPath(learningpath.id, previousStep?.seqNo, resourcePath)
                 }
                 variant="secondary"
                 aria-label={t("learningPath.previousArrow")}
@@ -312,8 +312,8 @@ const Learningpath = ({
               <SafeLinkButton
                 to={
                   context === "preview"
-                    ? routes.myNdla.learningpathPreview(learningpath.id, nextStep.id)
-                    : toLearningPath(learningpath.id, nextStep.id, resourcePath)
+                    ? routes.myNdla.learningpathPreview(learningpath.id, nextStep.seqNo)
+                    : toLearningPath(learningpath.id, nextStep.seqNo, resourcePath)
                 }
                 variant="secondary"
                 aria-label={t("learningPath.nextArrow")}

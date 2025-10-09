@@ -61,7 +61,7 @@ const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => 
   const learningpath = node.learningpath!;
 
   const learningpathStep = stepId
-    ? learningpath.learningsteps?.find((step) => step.id.toString() === stepId.toString())
+    ? learningpath.learningsteps?.find((step) => step.seqNo.toString() === stepId.toString())
     : learningpath.introduction?.length
       ? undefined
       : learningpath.learningsteps?.[0];
@@ -106,7 +106,7 @@ const getDocumentTitle = (t: TFunction, node: GQLLearningpathPage_NodeFragment, 
   const subject = node?.context?.parents?.[0];
   const learningpath = node?.learningpath;
   const maybeStepId = parseInt(stepId ?? "");
-  const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);
+  const step = learningpath?.learningsteps.find((step) => step.seqNo === maybeStepId);
   return htmlTitle(getTitle(subject, learningpath, step), [t("htmlTitles.titleTemplate")]);
 };
 
