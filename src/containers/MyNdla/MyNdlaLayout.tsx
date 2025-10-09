@@ -38,6 +38,7 @@ import config from "../../config";
 import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
+import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled(PageLayout, {
@@ -157,20 +158,20 @@ export const MyNdlaLayout = () => {
           if (!shownForUser) {
             return null;
           }
-          return to !== "" ? (
+          return (
             <StyledLi key={id}>
-              <NavigationLink
-                name={name}
-                shortName={shortName}
-                icon={icon}
-                to={to}
-                iconFilled={iconFilled}
-                reloadDocument={reloadDocument}
-              />
-            </StyledLi>
-          ) : (
-            <StyledLi key={id}>
-              <Separator key={id} />
+              {to !== "" ? (
+                <NavigationLink
+                  name={name}
+                  shortName={shortName}
+                  icon={icon}
+                  to={to}
+                  iconFilled={iconFilled}
+                  reloadDocument={reloadDocument}
+                />
+              ) : (
+                <Separator key={id} />
+              )}
             </StyledLi>
           );
         },
@@ -271,7 +272,7 @@ export const menuLinks = (
   },
   {
     id: "robot",
-    to: "https://ndla-ki.no",
+    to: `${getChatRobotUrl(user)}`,
     name: t("welcomePage.quickLinks.chatRobot.title"),
     shortName: t("welcomePage.quickLinks.chatRobot.title"),
     icon: <RobotFill />,
