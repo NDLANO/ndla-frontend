@@ -160,7 +160,7 @@ export const MyNdlaLayout = () => {
           }
           return (
             <StyledLi key={id}>
-              {showSeparator ? <Separator key={id} aria-hidden={true} /> : null}
+              {showSeparator ? <Separator key={`${id}-separator`} aria-hidden={true} /> : null}
               <NavigationLink
                 name={name}
                 shortName={shortName}
