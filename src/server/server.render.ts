@@ -15,20 +15,20 @@ import { ltiRender } from "./render/ltiRender";
 import { RootRenderFunc } from "./serverHelpers";
 import { withCtx } from "./middleware/loggerContextMiddleware";
 
-const render: RootRenderFunc = (req: Request, _res, renderer: string, chunks, ctx) => {
+const render: RootRenderFunc = (req: Request, _res, renderer: string, manifest, ctx) => {
   return withCtx(ctx, () => {
     if (renderer === "default") {
-      return defaultRender(req, chunks);
+      return defaultRender(req, manifest);
     } else if (renderer === "lti") {
-      return ltiRender(req, chunks);
+      return ltiRender(req, manifest);
     } else if (renderer === "iframeEmbed") {
-      return iframeEmbedRender(req, chunks);
+      return iframeEmbedRender(req, manifest);
     } else if (renderer === "iframeArticle") {
-      return iframeArticleRender(req, chunks);
+      return iframeArticleRender(req, manifest);
     } else if (renderer === "error") {
-      return errorRender(req, chunks);
+      return errorRender(req, manifest);
     } else {
-      return defaultRender(req, chunks);
+      return defaultRender(req, manifest);
     }
   });
 };

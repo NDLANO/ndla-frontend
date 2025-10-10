@@ -8,14 +8,16 @@
 
 import { RouteObject } from "react-router";
 import { ErrorBoundary } from "./ErrorBoundary";
+import { RouteObjectWithImportPath } from "../interfaces";
 
-export const routes: RouteObject[] = [
+export const routes: RouteObjectWithImportPath[] = [
   {
     path: "/",
     errorElement: <ErrorBoundary />,
     children: [
       {
         index: true,
+        importPath: "src/lti/LtiProvider.tsx",
         lazy: () => import("./LtiProvider"),
       },
       {
@@ -23,10 +25,12 @@ export const routes: RouteObject[] = [
         children: [
           {
             path: ":lang?/article/:articleId",
+            importPath: "src/lti/LtiIframePage.tsx",
             lazy: () => import("./LtiIframePage"),
           },
           {
             path: ":lang?/:taxonomyId/:articleId",
+            importPath: "src/lti/LtiIframePage.tsx",
             lazy: () => import("./LtiIframePage"),
           },
         ],

@@ -8,7 +8,7 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
+import { createStaticHandler, createStaticRouter, matchRoutes, StaticRouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client/react";
 import { prerenderStatic } from "@apollo/client/react/ssr";
 import { MissingRouterContext } from "@ndla/safelink";
@@ -22,19 +22,27 @@ import { iframeEmbedRoutes } from "../../iframe/embedIframeRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
+import { getRouteChunks } from "../getManifestChunks";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
 const { query, dataRoutes } = createStaticHandler(iframeEmbedRoutes);
 
-export const iframeEmbedRender: RenderFunc = async (req, chunks) => {
+export const iframeEmbedRender: RenderFunc = async (req, manifest) => {
   const lang = req.params.lang ?? "";
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { embedType, embedId } = req.params;
 
   const noSSR = disableSSR(req);
+
+  const lazyMatches = matchRoutes(iframeEmbedRoutes, req.path)?.filter((m) => m.route.lazy);
+  const chunks = getRouteChunks(
+    manifest,
+    "iframeEmbed",
+    (lazyMatches?.map((m) => m.route.importPath).filter((ip) => !!ip) ?? []) as string[],
+  );
 
   const initialProps = { basename: lang, embedType, embedId, locale };
   const hash = stringifiedLanguages[locale ?? (config.defaultLocale as LocaleType)].hash;

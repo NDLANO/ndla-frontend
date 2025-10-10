@@ -104,7 +104,10 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
         <Scripts />
         {!!entryPoint && <script type="module" src={`/${entryPoint.file}`}></script>}
         {css.map((file) => (
-          <link rel="stylesheet" href={`/${file}`} key={file} />
+          <>
+            <link rel="preload" href={`/${file}`} key={`${file}-preload`} as="stylesheet" />
+            <link rel="stylesheet" href={`/${file}`} key={file} />
+          </>
         ))}
         {importedChunks.map((chunk) => (
           <link rel="modulepreload" href={`/${chunk.file}`} key={chunk.file}></link>
