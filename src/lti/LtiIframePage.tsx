@@ -7,6 +7,7 @@
  */
 
 import { useParams } from "react-router";
+import { MissingRouterContext } from "@ndla/safelink";
 import { PageLayout } from "../components/Layout/PageContainer";
 import IframePage from "../iframe/IframePage";
 
@@ -14,7 +15,9 @@ export const Component = () => {
   const { taxonomyId, articleId } = useParams();
   return (
     <PageLayout>
-      <IframePage taxonomyId={taxonomyId} articleId={articleId} />
+      <MissingRouterContext value={true}>
+        <IframePage taxonomyId={taxonomyId} articleId={articleId} />
+      </MissingRouterContext>
     </PageLayout>
   );
 };
