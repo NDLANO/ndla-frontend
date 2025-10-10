@@ -58,6 +58,10 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
         {css.map((file) => (
           <link rel="stylesheet" href={`/${file}`} key={file} />
         ))}
+        {importedChunks.map((chunk) => (
+          <link rel="modulepreload" href={`/${chunk.file}`} key={chunk.file}></link>
+        ))}
+        {!!entryPoint && <script type="module" src={`/${entryPoint.file}`}></script>}
       </head>
       <body>
         <script
@@ -104,10 +108,6 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
           }}
         ></script>
         <Scripts />
-        {!!entryPoint && <script type="module" src={`/${entryPoint.file}`}></script>}
-        {importedChunks.map((chunk) => (
-          <link rel="modulepreload" href={`/${chunk.file}`} key={chunk.file}></link>
-        ))}
         <div id="root">{children}</div>
       </body>
     </html>
