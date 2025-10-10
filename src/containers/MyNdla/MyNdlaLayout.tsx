@@ -13,7 +13,8 @@ import { Location, Outlet, useLocation } from "react-router";
 import {
   BookReadFill,
   BookReadLine,
-  Forum,
+  RobotFill,
+  MovieLine,
   ForumOutlined,
   HomeFill,
   HomeLine,
@@ -34,9 +35,10 @@ import NavigationLink, { MoreButton } from "./components/NavigationLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import config from "../../config";
-import { AUTOLOGIN_COOKIE } from "../../constants";
+import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
+import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
 
 const StyledLayout = styled(PageLayout, {
@@ -117,6 +119,14 @@ const StyledSideBar = styled("div", {
   },
 });
 
+const Separator = styled("hr", {
+  base: {
+    height: "1px",
+    color: "stroke.subtle",
+    margin: "small",
+  },
+});
+
 export const Component = () => {
   return (
     <NoSSR fallback={null}>
@@ -144,12 +154,13 @@ export const MyNdlaLayout = () => {
   const menuLink = useMemo(
     () =>
       menuLinks(t, location, user).map(
-        ({ name, shortName, id, icon, to, iconFilled, shownForUser, reloadDocument }) => {
-          if (shownForUser && !shownForUser(user)) {
+        ({ name, shortName, id, icon, to, iconFilled, shownForUser = true, reloadDocument, showSeparator }) => {
+          if (!shownForUser) {
             return null;
           }
           return (
             <StyledLi key={id}>
+              {showSeparator ? <Separator key={`${id}-separator`} aria-hidden={true} /> : null}
               <NavigationLink
                 name={name}
                 shortName={shortName}
@@ -201,8 +212,9 @@ interface MenuLink {
   shortName?: string;
   icon?: ReactElement;
   iconFilled?: ReactElement;
-  shownForUser?: (user: GQLMyNdlaPersonalDataFragmentFragment | undefined) => boolean;
+  shownForUser?: boolean;
   reloadDocument?: boolean;
+  showSeparator?: boolean;
 }
 
 export const menuLinks = (
@@ -219,14 +231,6 @@ export const menuLinks = (
     iconFilled: <HomeFill />,
   },
   {
-    id: "subjects",
-    to: routes.myNdla.subjects,
-    name: t("myNdla.favoriteSubjects.title"),
-    shortName: t("myNdla.iconMenu.subjects"),
-    icon: <BookReadLine />,
-    iconFilled: <BookReadFill />,
-  },
-  {
     id: "folders",
     to: routes.myNdla.folders,
     name: t("myNdla.myFolders"),
@@ -235,22 +239,43 @@ export const menuLinks = (
     iconFilled: <FolderFill />,
   },
   {
+    id: "subjects",
+    to: routes.myNdla.subjects,
+    name: t("myNdla.favoriteSubjects.title"),
+    shortName: t("myNdla.iconMenu.subjects"),
+    icon: <BookReadLine />,
+    iconFilled: <BookReadFill />,
+  },
+  {
     id: "learningpaths",
     to: routes.myNdla.learningpath,
     name: t("myNdla.learningpath.title"),
     shortName: t("myNdla.iconMenu.learningpath"),
     icon: <RouteLine />,
     iconFilled: <RouteFill />,
-    shownForUser: (user) => user?.role === "employee",
+    shownForUser: user?.role === "employee",
   },
   {
     id: "arena",
     to: `https://${config.arenaDomain}`,
-    name: t("myNdla.arena.title"),
-    shortName: t("myNdla.arena.title"),
+    name: t("welcomePage.quickLinks.arena.title"),
+    shortName: t("welcomePage.quickLinks.arena.title"),
     icon: <ForumOutlined />,
-    iconFilled: <Forum />,
-    shownForUser: (user) => !!user?.arenaEnabled,
+    showSeparator: true,
+  },
+  {
+    id: "robot",
+    to: `${getChatRobotUrl(user)}`,
+    name: t("welcomePage.quickLinks.chatRobot.title"),
+    shortName: t("welcomePage.quickLinks.chatRobot.title"),
+    icon: <RobotFill />,
+  },
+  {
+    id: "film",
+    to: `${FILM_PAGE_URL}`,
+    name: t("welcomePage.quickLinks.film.title"),
+    shortName: t("welcomePage.quickLinks.film.title"),
+    icon: <MovieLine />,
   },
   {
     id: "profile",
@@ -259,6 +284,7 @@ export const menuLinks = (
     shortName: t("myNdla.iconMenu.profile"),
     icon: <UserLine />,
     iconFilled: <UserFill />,
+    showSeparator: true,
   },
   {
     id: "logout-path",

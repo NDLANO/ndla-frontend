@@ -13,10 +13,8 @@ import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitiv
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
-import { CampaignBlock } from "@ndla/ui";
 import { keyBy } from "@ndla/util";
 import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
-import { isStudent } from "./Folders/util";
 import { AuthContext } from "../../components/AuthenticationContext";
 import ListResource from "../../components/MyNdla/ListResource";
 import LoginModalContent from "../../components/MyNdla/LoginModalContent";
@@ -30,7 +28,6 @@ import {
   useRecentlyUsedResources,
 } from "../../mutations/folderMutations";
 import { routes } from "../../routeHelpers";
-import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
@@ -125,26 +122,6 @@ export const MyNdlaPage = () => {
           <LoginModalContent masthead />
         </DialogRoot>
       )}
-      <CampaignBlock
-        title={t("myNdla.campaignBlock.title")}
-        headingLevel="h2"
-        image={{
-          src: "/static/ndla-ai.jpg",
-          alt: "",
-        }}
-        imageSide="right"
-        url={{
-          url: authenticated ? getChatRobotUrl() : undefined,
-          text: authenticated ? t("myNdla.campaignBlock.linkText") : undefined,
-        }}
-        description={
-          !authenticated
-            ? t("myNdla.campaignBlock.ingressUnauthenticated")
-            : isStudent(user)
-              ? t("myNdla.campaignBlock.ingressStudent")
-              : t("myNdla.campaignBlock.ingress")
-        }
-      />
       {!!recentFavouriteSubjectsQuery.data?.subjects?.length && (
         <SectionWrapper>
           <Heading asChild consumeCss textStyle="heading.small">
