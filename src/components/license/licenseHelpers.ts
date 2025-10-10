@@ -10,6 +10,12 @@ import { licenses, metaTypes } from "@ndla/licenses";
 import { GQLConceptCopyright, GQLContributor, GQLLicenseListCopyrightFragment } from "../../graphqlTypes";
 import { TFunction } from "i18next";
 
+export const downloadUrl = (src: string) => {
+  const url = new URL(src);
+  url.searchParams.set("download", "true");
+  return url.toString();
+};
+
 export const isCopyrighted = (license?: string) => license === licenses.COPYRIGHTED;
 
 export function mkContributorString(contributors: GQLContributor[], ignoreType: string, t: TFunction) {

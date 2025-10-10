@@ -16,7 +16,7 @@ import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import CopyTextButton from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
-import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
+import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
@@ -31,12 +31,6 @@ import {
   MediaListLicense,
   MediaListContent,
 } from "../MediaList/MediaList";
-
-export const downloadUrl = (imageSrc: string) => {
-  const url = new URL(imageSrc);
-  url.searchParams.set("download", "true");
-  return url.toString();
-};
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;
