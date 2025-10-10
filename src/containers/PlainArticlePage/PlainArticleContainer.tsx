@@ -36,9 +36,9 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
+    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
-        window.MathJax.typeset();
+        window.MathJax.typesetPromise();
       } catch (err) {
         // do nothing
       }
@@ -86,7 +86,7 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
         trackableContent={article}
       />
       <PageContent variant="content">
-        <Article id={skipToContentId} article={article} oembed={undefined} />
+        <Article id={skipToContentId} article={article} />
       </PageContent>
     </div>
   );

@@ -111,9 +111,9 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
   }, [_article, i18n.language])!;
 
   useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
+    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
-        window.MathJax.typeset();
+        window.MathJax.typesetPromise();
       } catch (err) {
         // do nothing
       }

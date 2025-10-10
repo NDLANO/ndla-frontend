@@ -2075,6 +2075,7 @@ export type GQLArticle_ArticleFragment = {
   grepCodes?: Array<string>;
   htmlIntroduction?: string;
   htmlTitle: string;
+  oembed?: string;
   language: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
@@ -2518,10 +2519,6 @@ export type GQLAllSubjectsQuery = {
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   }>;
 };
-
-export type GQLArticlePage_ResourceTypeFragment = {
-  __typename?: "ResourceTypeDefinition";
-} & GQLResources_ResourceTypeDefinitionFragment;
 
 export type GQLArticlePage_NodeFragment = {
   __typename?: "Node";
@@ -3190,7 +3187,6 @@ export type GQLResourcePageQueryVariables = Exact<{
 
 export type GQLResourcePageQuery = {
   __typename?: "Query";
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLArticlePage_ResourceTypeFragment>;
   node?: {
     __typename?: "Node";
     relevanceId?: string;

@@ -11,7 +11,6 @@ import { gql } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
 import { PageLayout } from "../components/Layout/PageContainer";
-import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
 import { SearchContainer } from "../containers/SearchPage/SearchContainer";
 import { GQLLtiSearchResourceTypesQuery } from "../graphqlTypes";
 import { LtiContextProvider } from "../LtiContext";
@@ -47,7 +46,7 @@ export const Component = () => {
   });
 
   return (
-    <PageErrorBoundary>
+    <>
       <title>{`${t("htmlTitles.lti")}`}</title>
       <StyledPageLayout>
         <LtiContextProvider>
@@ -60,6 +59,6 @@ export const Component = () => {
           />
         </LtiContextProvider>
       </StyledPageLayout>
-    </PageErrorBoundary>
+    </>
   );
 };

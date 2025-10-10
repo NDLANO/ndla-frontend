@@ -6,7 +6,7 @@
  *
  */
 
-import { downloadUrl } from "../ImageLicenseList";
+import { downloadUrl } from "../licenseHelpers";
 
 test("That downloadUrl adds download query param to image source", () => {
   expect(downloadUrl("http://api-gateway.ndla-local/image-api/raw/394537450.jpg?width=200")).toBe(
