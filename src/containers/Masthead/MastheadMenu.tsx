@@ -381,6 +381,10 @@ const MyNdlaPart = () => {
   const { t } = useTranslation();
   const location = useLocation();
 
+  const chatRobotUrl = useMemo(() => {
+    return getChatRobotUrl(user);
+  }, [user]);
+
   return (
     <MyNdlaWrapper>
       {!!authenticated && !!user && (
@@ -416,7 +420,7 @@ const MyNdlaPart = () => {
           {t("welcomePage.quickLinks.arena.title")}
           <ExternalLinkLine />
         </MyNdlaSafeLinkButton>
-        <MyNdlaSafeLinkButton to={getChatRobotUrl(user)} target="_blank" rel="noopener noreferrer" variant="secondary">
+        <MyNdlaSafeLinkButton to={chatRobotUrl} target="_blank" rel="noopener noreferrer" variant="secondary">
           <RobotFill />
           {t("welcomePage.quickLinks.chatRobot.title")}
           <ExternalLinkLine />
