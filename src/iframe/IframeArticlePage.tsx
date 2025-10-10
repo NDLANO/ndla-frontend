@@ -109,7 +109,6 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
           article={article}
           isTopicArticle={article.articleType === "topic-article"}
           isOembed
-          oembed={article?.oembed}
           contentType={contentType}
           contentTypeLabel={node?.resourceTypes?.[0]?.name}
         >

@@ -115,7 +115,6 @@ export const ArticleStep = ({
       <Article
         id={skipToContentId}
         article={article}
-        oembed={data?.article?.oembed}
         contentTypeLabel={resource?.resourceTypes?.[0]?.name}
         contentType={article.articleType === "topic-article" ? "topic-article" : getContentType(resource)}
       >
