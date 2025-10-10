@@ -11,7 +11,6 @@ import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client/react";
 import { routes } from "./appRoutes";
-import { AlertsProvider } from "./components/AlertsContext";
 import AuthenticationContext from "./components/AuthenticationContext";
 import ResponseContext from "./components/ResponseContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
@@ -61,11 +60,9 @@ renderOrHydrate(
         <ResponseContext value={{ status: serverResponse }}>
           <VersionHashProvider value={versionHash}>
             <SiteThemeProvider value={window.DATA.siteTheme}>
-              <AlertsProvider>
-                <AuthenticationContext>
-                  <RouterProvider router={router} />
-                </AuthenticationContext>
-              </AlertsProvider>
+              <AuthenticationContext>
+                <RouterProvider router={router} />
+              </AuthenticationContext>
             </SiteThemeProvider>
           </VersionHashProvider>
         </ResponseContext>
