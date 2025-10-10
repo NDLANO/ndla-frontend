@@ -6,8 +6,7 @@
  *
  */
 
-import { useEffect } from "react";
-import { Outlet, RouteObject, useLocation, useNavigate } from "react-router";
+import { Outlet, RouteObject } from "react-router";
 import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
 
 const ErrorBoundaryLayout = () => (
@@ -15,19 +14,6 @@ const ErrorBoundaryLayout = () => (
     <Outlet />
   </PageErrorBoundary>
 );
-
-// Intercepts links to e.g., related articles and opens them in a new tab, in order to open them in the normal entrypoint
-const ArticleLinkInterceptor = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    window.open(location.pathname, "_blank");
-    navigate(-1);
-  });
-
-  return null;
-};
 
 export const routes: RouteObject[] = [
   {
@@ -53,7 +39,7 @@ export const routes: RouteObject[] = [
       },
       {
         path: "*",
-        Component: ArticleLinkInterceptor,
+        lazy: () => import("../containers/NotFoundPage/NotFoundPage"),
       },
     ],
   },
