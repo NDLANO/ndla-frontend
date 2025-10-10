@@ -20,6 +20,7 @@ test("ltiRender 200 OK ", async () => {
   };
   const response = await ltiRender(
     {
+      path: "/article-iframe/nb/urn:resource:123/26050",
       params: {
         lang: "nb",
         articleId: "26050",
@@ -44,6 +45,7 @@ test("ltiRender 200 OK only required params", async () => {
   };
   const response = await ltiRender(
     {
+      path: "/article-iframe/nb/urn:resource:123/26050",
       params: {
         lang: "nb",
         articleId: "26050",
@@ -71,6 +73,7 @@ test("ltiRender 400 BAD REQUEST", async () => {
   };
   const response = await ltiRender(
     {
+      path: "/article-iframe/nb/urn:resource:123/26050",
       params: {
         lang: "nb",
         articleId: "26050",
@@ -99,6 +102,7 @@ test("ltiRender 400 BAD REQUEST wrong values", async () => {
   };
   const response = await ltiRender(
     {
+      path: "/article-iframe/nb/urn:resource:123/26050",
       params: {
         lang: "nb",
         articleId: "26050",
