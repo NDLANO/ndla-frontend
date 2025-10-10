@@ -6,19 +6,13 @@
  *
  */
 
-import { Outlet, RouteObject } from "react-router";
-import { PageErrorBoundary } from "../containers/ErrorPage/ErrorBoundary";
-
-const ErrorBoundaryLayout = () => (
-  <PageErrorBoundary>
-    <Outlet />
-  </PageErrorBoundary>
-);
+import { RouteObject } from "react-router";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 export const routes: RouteObject[] = [
   {
     path: "/",
-    Component: ErrorBoundaryLayout,
+    errorElement: <ErrorBoundary />,
     children: [
       {
         index: true,
