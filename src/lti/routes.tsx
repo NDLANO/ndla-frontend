@@ -6,7 +6,6 @@
  *
  */
 
-import { RouteObject } from "react-router";
 import { ErrorBoundary } from "./ErrorBoundary";
 import { RouteObjectWithImportPath } from "../interfaces";
 
