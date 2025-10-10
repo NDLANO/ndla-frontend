@@ -380,9 +380,32 @@ const MyNdlaPart = () => {
   const { user, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
   const location = useLocation();
-  const serviceLinks = useMemo(() => {
-    return (
-      <>
+
+  return (
+    <MyNdlaWrapper>
+      {!!authenticated && !!user && (
+        <StyledText>
+          <Text textStyle="body.medium" asChild consumeCss>
+            <span>{t("masthead.menu.myNdla.loggedInAs")}</span>
+          </Text>
+          <Text textStyle="title.large" asChild consumeCss>
+            <span>{user.displayName}</span>
+          </Text>
+        </StyledText>
+      )}
+      <ButtonsContainer>
+        {authenticated && user ? (
+          <MyNdlaSafeLinkButton to={routes.myNdla.root} variant="secondary">
+            <HeartLine />
+            {t("masthead.menu.myNdla.myNdla")}
+          </MyNdlaSafeLinkButton>
+        ) : (
+          <MyNdlaSafeLinkButton variant="secondary" to={`/login?state=${routes.myNdla.root}`} reloadDocument>
+            <UserLine />
+            {t("masthead.menu.myNdla.myNdla")}
+          </MyNdlaSafeLinkButton>
+        )}
+
         <MyNdlaSafeLinkButton
           to={`https://${config.arenaDomain}`}
           target="_blank"
@@ -402,42 +425,12 @@ const MyNdlaPart = () => {
           <MovieLine />
           {t("welcomePage.quickLinks.film.title")}
         </MyNdlaSafeLinkButton>
-      </>
-    );
-  }, [user, t]);
-
-  return (
-    <MyNdlaWrapper>
-      {!!authenticated && !!user ? (
-        <>
-          <StyledText>
-            <Text textStyle="body.medium" asChild consumeCss>
-              <span>{t("masthead.menu.myNdla.loggedInAs")}</span>
-            </Text>
-            <Text textStyle="title.large" asChild consumeCss>
-              <span>{user.displayName}</span>
-            </Text>
-          </StyledText>
-          <ButtonsContainer>
-            <MyNdlaSafeLinkButton to={routes.myNdla.root} variant="secondary">
-              <HeartLine />
-              {t("masthead.menu.myNdla.myNdla")}
-            </MyNdlaSafeLinkButton>
-            {serviceLinks}
-          </ButtonsContainer>
-          <LogoutSafeLinkButton to={`/logout?state=${toHref(location)}`} reloadDocument>
-            <LogoutBoxRightLine />
-            {t("user.buttonLogOut")}
-          </LogoutSafeLinkButton>
-        </>
-      ) : (
-        <ButtonsContainer>
-          <MyNdlaSafeLinkButton variant="secondary" to={`/login?state=${routes.myNdla.root}`} reloadDocument>
-            <UserLine />
-            {t("masthead.menu.myNdla.myNdla")}
-          </MyNdlaSafeLinkButton>
-          {serviceLinks}
-        </ButtonsContainer>
+      </ButtonsContainer>
+      {!!authenticated && !!user && (
+        <LogoutSafeLinkButton to={`/logout?state=${toHref(location)}`} reloadDocument>
+          <LogoutBoxRightLine />
+          {t("user.buttonLogOut")}
+        </LogoutSafeLinkButton>
       )}
     </MyNdlaWrapper>
   );
