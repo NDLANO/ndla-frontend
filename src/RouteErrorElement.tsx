@@ -6,15 +6,20 @@
  *
  */
 
+import { ReactNode } from "react";
 import { useRouteError } from "react-router";
 import config from "./config";
 import ErrorPage from "./containers/ErrorPage";
 import handleError from "./util/handleError";
 
-export const ErrorElement = () => {
+interface Props {
+  children?: ReactNode;
+}
+
+export const ErrorElement = ({ children }: Props) => {
   const error = useRouteError();
   if (config.runtimeType === "production") {
     handleError(error as Error);
   }
-  return <ErrorPage />;
+  return children ?? <ErrorPage />;
 };

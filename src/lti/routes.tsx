@@ -7,10 +7,12 @@
  */
 
 import { RouteObject } from "react-router";
+import { ErrorBoundary } from "./ErrorBoundary";
 
 export const routes: RouteObject[] = [
   {
     path: "/",
+    errorElement: <ErrorBoundary />,
     children: [
       {
         index: true,
@@ -28,6 +30,10 @@ export const routes: RouteObject[] = [
             lazy: () => import("./LtiIframePage"),
           },
         ],
+      },
+      {
+        path: "*",
+        lazy: () => import("../containers/NotFoundPage/NotFoundPage"),
       },
     ],
   },
