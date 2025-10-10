@@ -216,7 +216,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
         ) : (
           <>
             <Text textStyle="body.medium">{t("myNdla.learningpath.form.content.text.editingDisabled.message")}</Text>
-            {step ? <TextStep learningpathStep={step} /> : null}
+            {step.description ? <TextStep learningpathStep={step} /> : null}
           </>
         )}
         <HStack justify={step ? "space-between" : "end"}>
