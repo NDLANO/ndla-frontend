@@ -693,6 +693,7 @@ type LearningpathSeqNo {
 
 type LearningpathStep {
   articleId: Int
+  canEdit: Boolean!
   copyright: LearningpathCopyright
   description: String
   embedUrl: LearningpathStepEmbedUrl
@@ -872,11 +873,7 @@ type Mutation {
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
   updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
-  updatePersonalData(
-    arenaAccepted: Boolean
-    favoriteSubjects: [String]
-    shareNameAccepted: Boolean
-  ): MyNdlaPersonalData!
+  updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
 }
 
 type MyNdlaGroup {
@@ -913,6 +910,7 @@ type MyNdlaLearningpath {
 
 type MyNdlaLearningpathStep {
   articleId: Int
+  canEdit: Boolean!
   copyright: LearningpathCopyright
   description: String
   embedUrl: LearningpathStepEmbedUrl
@@ -933,7 +931,6 @@ type MyNdlaLearningpathStep {
 }
 
 type MyNdlaPersonalData {
-  arenaAccepted: Boolean!
   arenaEnabled: Boolean!
   displayName: String!
   email: String!
@@ -943,7 +940,6 @@ type MyNdlaPersonalData {
   id: Int!
   organization: String!
   role: String!
-  shareNameAccepted: Boolean!
   username: String!
 }
 

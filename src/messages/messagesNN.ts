@@ -306,6 +306,10 @@ const messages = {
             copyright:
               "Alt du skriv i ein læringssti på NDLA blir publisert under lisensen CC BY-SA. Dette betyr at andre kan bruke, tilpasse og bygge videre på arbeidet ditt, så lenge dei gir deg kreditering.",
             copyrightLink: "Les meir om NDLA og deling av innhald her",
+            editingDisabled: {
+              message:
+                "Denne teksten er skrive av nokon annan enn deg. Du kan derfor ikkje redigere han. Dersom du ynskjer det kan du slette det og opprette eit nytt steg.",
+            },
           },
           external: {
             title: {
