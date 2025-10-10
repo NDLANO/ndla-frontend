@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { CloseLine } from "@ndla/icons";
 import { IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useAlerts } from "./AlertsContext";
+import { AlertsProvider, useAlerts } from "./AlertsContext";
 
 const MessageBannerWrapper = styled("div", {
   base: {
@@ -36,7 +36,7 @@ const StyledText = styled(Text, {
   },
 });
 
-export const BannerAlerts = () => {
+const AlertsConsumer = () => {
   const { t } = useTranslation();
   const { openAlerts, closeAlert } = useAlerts();
 
@@ -68,5 +68,13 @@ export const BannerAlerts = () => {
         </MessageBannerWrapper>
       ))}
     </>
+  );
+};
+
+export const BannerAlerts = () => {
+  return (
+    <AlertsProvider>
+      <AlertsConsumer />
+    </AlertsProvider>
   );
 };
