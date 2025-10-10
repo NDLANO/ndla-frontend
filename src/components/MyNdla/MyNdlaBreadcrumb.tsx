@@ -7,6 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { ArrowRightShortLine } from "@ndla/icons";
+import { SafeLink } from "@ndla/safelink";
 import { Breadcrumb } from "@ndla/ui";
 import { GQLBreadcrumb } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
@@ -45,7 +47,17 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   );
 
   if (breadcrumbs.length > 0) {
-    return <Breadcrumb items={crumbs} />;
+    return (
+      <Breadcrumb
+        items={crumbs}
+        renderItem={(item, totalCount) =>
+          totalCount - 1 === item.index ? <span>{item.name}</span> : <SafeLink to={item.to}>{item.name}</SafeLink>
+        }
+        renderSeparator={(item, totalCount) =>
+          totalCount - 1 === item.index ? null : <ArrowRightShortLine aria-hidden />
+        }
+      />
+    );
   }
   return null;
 };
