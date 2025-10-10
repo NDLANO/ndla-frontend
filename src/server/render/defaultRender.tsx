@@ -8,7 +8,7 @@
 
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
-import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
+import { createStaticHandler, createStaticRouter, matchRoutes, StaticRouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client/react";
 import { prerenderStatic } from "@apollo/client/react/ssr";
 import { disableSSR } from "./renderHelpers";
@@ -26,11 +26,12 @@ import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
+import { getRouteChunks } from "../getManifestChunks";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
-export const defaultRender: RenderFunc = async (req, chunks) => {
+export const defaultRender: RenderFunc = async (req, manifest) => {
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
   const locale = isValidLocale(abbreviation) ? abbreviation : (config.defaultLocale as LocaleType);
   if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
@@ -41,6 +42,13 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
   }
 
   const siteTheme = getSiteTheme();
+
+  const lazyMatches = matchRoutes(routes, req.path)?.filter((m) => m.route.lazy);
+  const chunks = getRouteChunks(
+    manifest,
+    "default",
+    (lazyMatches?.map((m) => m.route.importPath).filter((ip) => !!ip) ?? []) as string[],
+  );
 
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const noSSR = disableSSR(req);
