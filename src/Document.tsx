@@ -54,8 +54,14 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1 viewport-fit=cover" />
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
-        <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" as="style" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" />
+        {css.map((file) => (
+          <link rel="stylesheet" href={`/${file}`} key={file} />
+        ))}
+        {importedChunks.map((chunk) => (
+          <link rel="modulepreload" href={`/${chunk.file}`} key={chunk.file}></link>
+        ))}
+        {!!entryPoint && <script type="module" src={`/${entryPoint.file}`}></script>}
       </head>
       <body>
         <script
@@ -102,13 +108,6 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
           }}
         ></script>
         <Scripts />
-        {!!entryPoint && <script type="module" src={`/${entryPoint.file}`}></script>}
-        {css.map((file) => (
-          <link rel="stylesheet" href={`/${file}`} key={file} />
-        ))}
-        {importedChunks.map((chunk) => (
-          <link rel="modulepreload" href={`/${chunk.file}`} key={chunk.file}></link>
-        ))}
         <div id="root">{children}</div>
       </body>
     </html>
