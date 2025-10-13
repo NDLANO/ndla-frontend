@@ -14,10 +14,9 @@ test("contains search bar", async ({ page, waitGraphql }) => {
   await waitGraphql();
 
   const input = page.getByRole("searchbox");
-
   await expect(input).toBeVisible();
 
-  const subjectMaterialCheckbox = page.getByLabel("Læringssti");
+  const subjectMaterialCheckbox = page.getByTestId("learningPath");
   await expect(subjectMaterialCheckbox).toBeVisible();
 });
 
