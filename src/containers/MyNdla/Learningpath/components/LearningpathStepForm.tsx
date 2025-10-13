@@ -176,6 +176,8 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
     handleSubmit(onSave)();
   };
 
+  const stepType = getFormTypeFromStep(step);
+
   return (
     <FormProvider {...methods}>
       <ContentForm onSubmit={onSubmit} noValidate ref={wrapperRef}>
@@ -216,7 +218,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
         ) : (
           <>
             <Text textStyle="body.medium">{t("myNdla.learningpath.form.content.text.editingDisabled.message")}</Text>
-            {step.description ? <TextStep learningpathStep={step} /> : null}
+            {stepType === "text" ? <TextStep learningpathStep={step} /> : null}
           </>
         )}
         <HStack justify={step ? "space-between" : "end"}>
