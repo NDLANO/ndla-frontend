@@ -15,7 +15,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
-import ArticleErrorMessage from "./components/ArticleErrorMessage";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -29,6 +28,7 @@ import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
+import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resources/resourceHelpers";
 import Resources from "../Resources/Resources";
 
@@ -122,7 +122,7 @@ const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
     );
   }
   if (!resource?.article || !article) {
-    return <ArticleErrorMessage status={404} />;
+    return <NotFoundPage />;
   }
 
   const contentType = resource ? getContentType(resource) : undefined;
