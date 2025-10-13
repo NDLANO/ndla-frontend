@@ -29,6 +29,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
+import config from "../../config";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
 import LtiEmbed from "../../lti/LtiEmbed";
@@ -94,7 +95,15 @@ export const SearchResult = ({ searchResult }: Props) => {
       traits.push(t("contentTypes.subject"));
     }
     if (context?.resourceTypes?.length) {
-      traits.push(t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`));
+      if (config.allResourceTypesEnabled) {
+        traits.push(
+          ...context.resourceTypes.map((resourceType) =>
+            t(`contentTypes.${constants.contentTypeMapping?.[resourceType.id]}`),
+          ),
+        );
+      } else {
+        traits.push(t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`));
+      }
     } else if (context?.url.startsWith("/e")) {
       traits.push(t("contentTypes.topic"));
     }

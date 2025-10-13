@@ -41,6 +41,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { constants, useComboboxTranslations } from "@ndla/ui";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
+import config from "../../config";
 import {
   GQLCurrentContextQuery,
   GQLCurrentContextQueryVariables,
@@ -343,20 +344,26 @@ const MastheadSearch = () => {
     return (
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        let contentType = undefined;
+        const traits: string[] = [];
         if (result.__typename === "NodeSearchResult") {
-          contentType = constants.contentTypes.SUBJECT;
+          traits.push(t(`contentTypes.subject`));
         }
         if (context?.resourceTypes?.length) {
-          contentType = constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
+          if (config.allResourceTypesEnabled) {
+            traits.push(
+              ...context.resourceTypes.map((resourceType) =>
+                t(`contentTypes.${constants.contentTypeMapping?.[resourceType.id]}`),
+              ),
+            );
+          } else {
+            traits.push(t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`));
+          }
         } else if (context?.url.startsWith("/e")) {
-          contentType = constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
+          traits.push(t(`contentTypes.topic`));
         }
-        let traits: string[] = [];
         if (result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult") {
-          traits = result.traits.map((trait) => t(`searchPage.traits.${trait}`));
+          traits.push(...result.traits.map((trait) => t(`searchPage.traits.${trait}`)));
         }
-        traits.unshift(t(`contentTypes.${contentType}`));
         return {
           ...result,
           htmlTitle:
@@ -364,7 +371,7 @@ const MastheadSearch = () => {
               ? parse(result.htmlTitle)
               : result.title,
           resourceType: context?.resourceTypes?.[0]?.id,
-          contentType,
+          isSubject: result.__typename === "NodeSearchResult",
           traits,
           path: context?.url ?? result.url,
         };
@@ -497,7 +504,7 @@ const MastheadSearch = () => {
                                 {resource.htmlTitle}
                               </SafeLink>
                             </StyledComboboxItemText>
-                            {resource.contentType === constants.contentTypes.SUBJECT ? (
+                            {resource.isSubject ? (
                               <Text textStyle="label.small" color="text.subtle">
                                 {resource.metaDescription}
                               </Text>
