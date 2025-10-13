@@ -32,7 +32,7 @@ import {
 import { StatusError } from "./error/StatusError";
 import handleError from "./handleError";
 import config from "../config";
-import { GQLBucketResult, GQLGroupSearch, GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
+import { GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
 import { NOT_FOUND } from "../statusCodes";
 
 const apiBaseUrl = (() => {
@@ -75,38 +75,6 @@ const uri = (() => {
   return apiResourceUrl("/graphql-api/graphql");
 })();
 
-const getParentType = (type: string, aggregations?: GQLBucketResult[]) => {
-  if (!aggregations) return undefined;
-  const typeValue = aggregations.find((agg) => agg.value === type);
-  return aggregations.find((agg) => agg.count === typeValue?.count && agg.value !== type)?.value;
-};
-
-const mergeGroupSearch = (existing: GQLGroupSearch[], incoming: GQLGroupSearch[], page: number) => {
-  if (!existing) return incoming;
-  return existing.map((group) => {
-    const searchResults = incoming.filter((result) => {
-      if (group.resourceType === result.resourceType) {
-        return true;
-      } else if (result.resourceType === "topic-article") {
-        return false;
-      } else return group.resourceType === getParentType(result.resourceType, result.aggregations?.[0]?.values);
-    });
-    if (searchResults.length) {
-      const result = searchResults.reduce((accumulator, currentValue) => ({
-        ...currentValue,
-        resources: [...currentValue.resources, ...accumulator.resources],
-        totalCount: currentValue.totalCount + accumulator.totalCount,
-      }));
-      return {
-        ...group,
-        resources: page === 1 ? result.resources : [...group.resources, ...result.resources],
-        totalCount: result.totalCount,
-      };
-    }
-    return group;
-  });
-};
-
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
   SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
@@ -116,12 +84,6 @@ const possibleTypes = {
 const typePolicies: TypePolicies = {
   Query: {
     fields: {
-      groupSearch: {
-        keyArgs: ["query", "subjects", "grepCodes"],
-        merge(existing, incoming, { args }) {
-          return mergeGroupSearch(existing, incoming, args?.page);
-        },
-      },
       folderResourceMeta: {
         read(_, { args, toReference }) {
           return toReference(`FolderResourceMeta:${args!.resource.resourceType}${args!.resource.id}`);
@@ -174,9 +136,6 @@ const typePolicies: TypePolicies = {
   },
   SearchResult: {
     keyFields: ["id", "__typename"],
-  },
-  GroupSearchResult: {
-    keyFields: ["url"],
   },
   Filter: {
     keyFields: (object) => `${object.id}+${object.relevanceId}`,
