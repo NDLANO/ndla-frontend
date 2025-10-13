@@ -45,8 +45,6 @@ const apiBaseUrl = (() => {
   return NDLA_API_URL;
 })();
 
-export { apiBaseUrl };
-
 export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
 }
@@ -154,15 +152,6 @@ const typePolicies: TypePolicies = {
   },
   ConfigMetaStringList: {
     keyFields: ["key"],
-  },
-  ArenaTopic: {
-    fields: {
-      isFollowing: {
-        merge: (existing, incoming) => {
-          return incoming != null ? incoming : existing;
-        },
-      },
-    },
   },
 };
 
