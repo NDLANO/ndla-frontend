@@ -307,6 +307,10 @@ const messages = {
             copyright:
               "Everything you write in a learning path on NDLA will be available under the license CC BY-SA. This means that others can use, adapt and share what you have created, as long as they give you credit.",
             copyrightLink: "Read more about NDLA and content sharing here",
+            editingDisabled: {
+              message:
+                "This text is written by someone other than you. You can therefore not edit it. If you want to, you can delete this and create a new step.",
+            },
           },
           external: {
             title: {

@@ -10,9 +10,12 @@ import { useId } from "react";
 import { transform } from "@ndla/article-converter";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
-import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
-import { BaseStepProps } from "../learningpathTypes";
 import { EmbedPageContent } from "./EmbedPageContent";
+import {
+  GQLLearningpath_LearningpathFragment,
+  GQLLearningpath_LearningpathStepFragment,
+  GQLMyNdlaLearningpathStepFragment,
+} from "../../../graphqlTypes";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -22,8 +25,10 @@ const StyledArticleFooter = styled(ArticleFooter, {
   },
 });
 
-interface TextStepProps extends BaseStepProps {
-  learningpath: GQLLearningpath_LearningpathFragment;
+interface TextStepProps {
+  learningpathStep: GQLLearningpath_LearningpathStepFragment | GQLMyNdlaLearningpathStepFragment;
+  skipToContentId?: string;
+  learningpath?: GQLLearningpath_LearningpathFragment;
 }
 
 export const TextStep = ({ learningpathStep, learningpath, skipToContentId }: TextStepProps) => {
@@ -42,7 +47,7 @@ export const TextStep = ({ learningpathStep, learningpath, skipToContentId }: Te
           {learningpathStep.description ? <section>{transform(learningpathStep.description, {})}</section> : null}
         </ArticleContent>
         <StyledArticleFooter>
-          <ArticleByline authors={learningpath.copyright.contributors} />
+          <ArticleByline authors={learningpath?.copyright.contributors ?? []} />
         </StyledArticleFooter>
       </ArticleWrapper>
     </EmbedPageContent>

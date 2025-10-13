@@ -20,6 +20,7 @@ import {
   RadioGroupItemHiddenInput,
   RadioGroupItemText,
   RadioGroupRoot,
+  Text,
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
@@ -29,6 +30,7 @@ import { FolderStepForm } from "./FolderStepForm";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
+import { TextStep } from "../../../../components/Learningpath/components/TextStep";
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
@@ -174,40 +176,51 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
     handleSubmit(onSave)();
   };
 
+  const stepType = getFormTypeFromStep(step);
+
   return (
     <FormProvider {...methods}>
       <ContentForm onSubmit={onSubmit} noValidate ref={wrapperRef}>
-        <Controller
-          name="type"
-          control={control}
-          render={({ field, fieldState }) => (
-            <FieldRoot required>
-              <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
-              <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-              <RadioGroupRoot
-                onValueChange={(details) => {
-                  reset(toFormValues(details.value as FormValues["type"]));
-                  field.onChange(details.value);
-                }}
-                value={field.value}
-                ref={field.ref}
-                disabled={field.disabled}
-                name={field.name}
-                onBlur={field.onBlur}
-                orientation="vertical"
-              >
-                {RADIO_GROUP_OPTIONS.map((val) => (
-                  <RadioGroupItem value={val} key={val}>
-                    <RadioGroupItemControl />
-                    <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
-                    <RadioGroupItemHiddenInput />
-                  </RadioGroupItem>
-                ))}
-              </RadioGroupRoot>
-            </FieldRoot>
-          )}
-        />
-        <StepFormType step={step} />
+        {!step || step?.canEdit ? (
+          <>
+            <Controller
+              name="type"
+              control={control}
+              render={({ field, fieldState }) => (
+                <FieldRoot required>
+                  <FieldLabel>{t("myNdla.learningpath.form.content.title")}</FieldLabel>
+                  <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+                  <RadioGroupRoot
+                    onValueChange={(details) => {
+                      reset(toFormValues(details.value as FormValues["type"]));
+                      field.onChange(details.value);
+                    }}
+                    value={field.value}
+                    ref={field.ref}
+                    disabled={field.disabled}
+                    name={field.name}
+                    onBlur={field.onBlur}
+                    orientation="vertical"
+                  >
+                    {RADIO_GROUP_OPTIONS.map((val) => (
+                      <RadioGroupItem value={val} key={val}>
+                        <RadioGroupItemControl />
+                        <RadioGroupItemText>{t(`myNdla.learningpath.form.options.${val}`)}</RadioGroupItemText>
+                        <RadioGroupItemHiddenInput />
+                      </RadioGroupItem>
+                    ))}
+                  </RadioGroupRoot>
+                </FieldRoot>
+              )}
+            />
+            <StepFormType step={step} />
+          </>
+        ) : (
+          <>
+            <Text textStyle="body.medium">{t("myNdla.learningpath.form.content.text.editingDisabled.message")}</Text>
+            {stepType === "text" ? <TextStep learningpathStep={step} /> : null}
+          </>
+        )}
         <HStack justify={step ? "space-between" : "end"}>
           {step ? <LearningpathStepDeleteDialog onDelete={onDelete} /> : null}
           <HStack>

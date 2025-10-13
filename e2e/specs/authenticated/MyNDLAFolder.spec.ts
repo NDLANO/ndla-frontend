@@ -84,7 +84,7 @@ test("can copy own folder", async ({ page }) => {
   await folder.getByRole("button").last().click();
   await page.getByRole("menuitem", { name: "Kopier mappe", exact: true }).click();
 
-  await expect(folderList.getByRole("listitem")).toHaveCount(count + 1);
+  await expect(page.getByRole("heading")).toContainText("_Kopi");
 });
 
 test("can drag and drop folders", async ({ page, harCheckpoint }) => {
