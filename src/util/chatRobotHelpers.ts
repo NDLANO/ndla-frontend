@@ -6,10 +6,11 @@
  *
  */
 
+import { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { getNdlaRobotDateFormat } from "./formatDate";
 
-export const getChatRobotUrl = () => {
+export const getChatRobotUrl = (user: GQLMyNdlaPersonalDataFragmentFragment | undefined) => {
   const dateString = getNdlaRobotDateFormat(new Date());
-  const token = btoa(dateString);
+  const token = user ? btoa(dateString) : "";
   return `https://ndla-ki.no/${token}`;
 };

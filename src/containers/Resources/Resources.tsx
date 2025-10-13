@@ -24,7 +24,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ContentType } from "@ndla/ui";
 import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import ResourceList from "./ResourceList";
-import { StableId } from "../../components/StableId";
 import {
   RELEVANCE_SUPPLEMENTARY,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -207,24 +206,20 @@ const Resources = ({
           />
         ) : (
           groupedResources.map((type) => (
-            <StableId key={type.id}>
-              {(id) => (
-                <ListWrapper>
-                  <Heading id={id} textStyle="title.medium" asChild consumeCss>
-                    <SubHeadingType>{type.name}</SubHeadingType>
-                  </Heading>
-                  <ResourceList
-                    headingId={id}
-                    title={type.name}
-                    showAdditionalResources={showAdditionalResources}
-                    contentType={type.contentType}
-                    resources={type.resources ?? []}
-                    currentResourceContentType={currentResourceContentType}
-                    currentResourceId={currentResourceId}
-                  />
-                </ListWrapper>
-              )}
-            </StableId>
+            <ListWrapper key={type.id}>
+              <Heading id={type.id} textStyle="title.medium" asChild consumeCss>
+                <SubHeadingType>{type.name}</SubHeadingType>
+              </Heading>
+              <ResourceList
+                headingId={type.id}
+                title={type.name}
+                showAdditionalResources={showAdditionalResources}
+                contentType={type.contentType}
+                resources={type.resources ?? []}
+                currentResourceContentType={currentResourceContentType}
+                currentResourceId={currentResourceId}
+              />
+            </ListWrapper>
           ))
         )}
       </ResourceContainer>

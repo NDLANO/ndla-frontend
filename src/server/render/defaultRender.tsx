@@ -13,7 +13,6 @@ import { ApolloProvider } from "@apollo/client/react";
 import { prerenderStatic } from "@apollo/client/react/ssr";
 import { disableSSR } from "./renderHelpers";
 import { routes } from "../../appRoutes";
-import { AlertsProvider } from "../../components/AlertsContext";
 import AuthenticationContext from "../../components/AuthenticationContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import ResponseContext, { ResponseInfo } from "../../components/ResponseContext";
@@ -92,11 +91,9 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
             <ResponseContext value={responseContext}>
               <VersionHashProvider value={versionHash}>
                 <SiteThemeProvider value={siteTheme}>
-                  <AlertsProvider>
-                    <AuthenticationContext>
-                      <StaticRouterProvider router={router} context={context} hydrate={false} />
-                    </AuthenticationContext>
-                  </AlertsProvider>
+                  <AuthenticationContext>
+                    <StaticRouterProvider router={router} context={context} hydrate={false} />
+                  </AuthenticationContext>
                 </SiteThemeProvider>
               </VersionHashProvider>
             </ResponseContext>

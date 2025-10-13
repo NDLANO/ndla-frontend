@@ -84,8 +84,8 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
   const links = useMemo(
     () =>
       menuLinks(t, location, user).map(
-        ({ id, shortName, icon, to, name, iconFilled, shownForUser, reloadDocument }) => {
-          if (shownForUser && !shownForUser(user)) {
+        ({ id, shortName, icon, to, name, iconFilled, shownForUser = true, reloadDocument }) => {
+          if (!shownForUser) {
             return null;
           }
           return (

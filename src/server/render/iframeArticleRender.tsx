@@ -13,7 +13,6 @@ import { ApolloProvider } from "@apollo/client/react";
 import { prerenderStatic } from "@apollo/client/react/ssr";
 import { MissingRouterContext } from "@ndla/safelink";
 import { disableSSR } from "./renderHelpers";
-import { AlertsProvider } from "../../components/AlertsContext";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
 import { Document } from "../../Document";
@@ -91,11 +90,9 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
       <RedirectContext value={context}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>
-            <AlertsProvider>
-              <MissingRouterContext value={true}>
-                <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
-              </MissingRouterContext>
-            </AlertsProvider>
+            <MissingRouterContext value={true}>
+              <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
+            </MissingRouterContext>
           </ApolloProvider>
         </I18nextProvider>
       </RedirectContext>

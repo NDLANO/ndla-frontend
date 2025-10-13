@@ -11,7 +11,6 @@ import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client/react";
 import { MissingRouterContext } from "@ndla/safelink";
-import { AlertsProvider } from "../components/AlertsContext";
 import { Document } from "../Document";
 import { entryPoints } from "../entrypoints";
 import { initializeI18n } from "../i18n";
@@ -36,11 +35,9 @@ renderOrHydrate(
   <Document language={language} chunks={chunks} devEntrypoint={entryPoints.iframeArticle} hash={hash}>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
-        <AlertsProvider>
-          <MissingRouterContext value={true}>
-            <RouterProvider router={router} />
-          </MissingRouterContext>
-        </AlertsProvider>
+        <MissingRouterContext value={true}>
+          <RouterProvider router={router} />
+        </MissingRouterContext>
       </ApolloProvider>
     </I18nextProvider>
   </Document>,
