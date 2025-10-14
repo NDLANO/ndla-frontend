@@ -296,15 +296,15 @@ export const WelcomePage = () => {
               </StyledList>
             </nav>
             {config.quicklinksEnabled ? (
-              <nav aria-label={t("welcomePage.quickLinks")} data-testid="quick-links">
+              <nav aria-label={t("welcomePage.quickLinks.title")} data-testid="quick-links">
                 <StyledList variant="quickLink">
                   {quickLinks.map((link) => (
                     <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} variant="subtle">
                       <li>
                         <CardContent>
-                          <StyledCardHeading textStyle="heading.small">
-                            <link.icon size="large" />
+                          <StyledCardHeading textStyle="heading.small" asChild consumeCss>
                             <SafeLink to={link.url} css={linkOverlay.raw()}>
+                              <link.icon size="large" />
                               {t(`welcomePage.quickLinks.${link.type}.title`)}
                             </SafeLink>
                           </StyledCardHeading>
