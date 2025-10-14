@@ -13,7 +13,7 @@ function getImportedChunks(manifest: Manifest, entrypoint: string, filePaths: st
   const seen = new Set<string>();
 
   function getImportedChunks(chunk: ManifestChunk): ManifestChunk[] {
-    const chunks: ManifestChunk[] = [];
+    const chunks: ManifestChunk[] = [chunk];
     for (const file of chunk?.imports ?? []) {
       const importee = manifest[file]!;
       if (seen.has(file)) {
