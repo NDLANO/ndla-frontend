@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
+  Badge,
   Text,
   InputContainer,
   IconButton,
@@ -27,7 +28,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
-import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
+import { useComboboxTranslations } from "@ndla/ui";
 import { FolderResource } from "./folderTypes";
 import {
   GQLBreadcrumb,
@@ -248,10 +249,12 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
                         color="text.subtle"
                         aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumbs.map((crumb) => crumb.name).join(", ")}`}
                       >
-                        {resource.breadcrumbs.map((crumb) => crumb.name).join(" > ")}
+                        {resource.breadcrumbs.map((crumb) => crumb.name).join(" › ")}
                       </StyledText>
                     </TextWrapper>
-                    <ContentTypeBadge contentType={resource.contentType ?? resource.resourceType} />
+                    {resource ? (
+                      <Badge color="subtle">{t(`contentTypes.${resource.contentType ?? resource.resourceType}`)}</Badge>
+                    ) : undefined}
                   </StyledListItemRoot>
                 </StyledComboboxItem>
               ))}

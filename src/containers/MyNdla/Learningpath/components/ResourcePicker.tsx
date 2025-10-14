@@ -14,6 +14,7 @@ import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
+  Badge,
   ComboboxContentStandalone,
   ComboboxControl,
   ComboboxInput,
@@ -36,7 +37,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBadge, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
+import { useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
@@ -286,7 +287,9 @@ export const ResourcePicker = ({ setResource }: Props) => {
                       </Text>
                     )}
                   </StyledListItemContent>
-                  <ContentTypeBadge contentType={resource.contentType} />
+                  {resource.contentType ? (
+                    <Badge color="subtle">{t(`contentTypes.${resource.contentType}`)}</Badge>
+                  ) : undefined}
                 </StyledListItemRoot>
               </StyledComboboxItem>
             ))}

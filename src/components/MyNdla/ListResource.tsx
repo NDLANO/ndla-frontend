@@ -9,6 +9,7 @@
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Badge,
   ListItemContent,
   ListItemHeading,
   ListItemImage,
@@ -20,7 +21,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
@@ -172,9 +173,7 @@ const ListResource = ({
             <Skeleton css={{ width: "40%" }}>
               <ListItemHeading>&nbsp;</ListItemHeading>
             </Skeleton>
-            <Skeleton>
-              <ContentTypeBadge contentType={"missing"} />
-            </Skeleton>
+            <Skeleton>{<Badge color="subtle">{t("contentTypes.missing")}</Badge>}</Skeleton>
           </TitleWrapper>
         </StyledListItemContent>
       </LoadingListItemRoot>
@@ -206,7 +205,7 @@ const ListResource = ({
               </StyledSafeLink>
             </ListItemHeading>
           )}
-          <ContentTypeBadge contentType={contentType} />
+          {contentType ? <Badge color="subtle">{t(`contentTypes.${contentType}`)}</Badge> : undefined}
         </TitleWrapper>
         <DescriptionWrapper>
           {!!description && <StyledDescription>{description}</StyledDescription>}

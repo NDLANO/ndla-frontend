@@ -21,7 +21,7 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentType, ContentTypeBadge, constants } from "@ndla/ui";
+import { ContentType, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import { RELEVANCE_CORE } from "../../constants";
 
@@ -222,7 +222,7 @@ export const ResourceItem = ({
             </StyledSafeLink>
           </ListItemHeading>
           <InfoContainer gap="xxsmall">
-            <ContentTypeBadge contentType={contentType} />
+            {contentType ? <Badge color="subtle">{t(`contentTypes.${contentType}`)}</Badge> : undefined}
             {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
           </InfoContainer>
         </StyledListItemContent>

@@ -6,13 +6,13 @@
  *
  */
 
+import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { breakpoints } from "@ndla/core";
-import { ListItemContent, ListItemHeading, ListItemRoot, Text, ListItemImage } from "@ndla/primitives";
+import { Badge, ListItemContent, ListItemHeading, ListItemRoot, Text, ListItemImage } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge } from "@ndla/ui";
 import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from "../../graphqlTypes";
 
 const StyledText = styled(Text, { base: { lineClamp: "3" } });
@@ -33,6 +33,7 @@ const BigListItemImage = styled(ListItemImage, {
 });
 
 const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
+  const { t } = useTranslation();
   return (
     <ListItemRoot asChild consumeCss context="list">
       <li>
@@ -40,7 +41,7 @@ const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_
           alt={coverPhoto.altText}
           src={coverPhoto.url}
           sizes={`(max-width: ${breakpoints.tablet}) 144px, 200px`}
-          fallbackElement={<ContentTypeBadge contentType="podcast" />}
+          fallbackElement={<Badge color="subtle">{t("contentTypes.podcast")}</Badge>}
         />
         <ListItemContent>
           <div>
