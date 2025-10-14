@@ -62,7 +62,7 @@ const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
   }
 };
 
-const alertsQuery = gql`
+export const alertsQuery = gql`
   query alerts {
     alerts {
       title

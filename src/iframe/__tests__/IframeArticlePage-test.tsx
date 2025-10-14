@@ -10,6 +10,7 @@ import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router";
 import { render } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
+import { alertsQuery } from "../../components/AlertsContext";
 import IframeArticlePage from "../IframeArticlePage";
 import { initializeI18nTest } from "../../__tests__/i18nTestHelpers";
 
@@ -192,9 +193,22 @@ test("IframeArticlePage with article renderers correctly", () => {
     supportedLanguages: ["nb"],
   };
   const i18n = initializeI18nTest(locale);
+  const alertMock = [
+    {
+      request: {
+        query: alertsQuery,
+        variables: {},
+      },
+      result: {
+        data: {
+          alerts: [],
+        },
+      },
+    },
+  ];
   const { asFragment } = render(
     <I18nextProvider i18n={i18n}>
-      <MockedProvider>
+      <MockedProvider mocks={alertMock}>
         <StaticRouter
           location={{
             pathname: "/article-iframe/urn:resource:1/128",
