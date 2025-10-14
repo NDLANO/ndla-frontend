@@ -9,7 +9,7 @@
 import { ButtonHTMLAttributes, type Ref, useContext, useMemo } from "react";
 import { NoSSR } from "@ndla/util";
 import UIFavoriteButton from "../../components/MyNdla/FavoriteButton";
-import { useFolders } from "../../mutations/folderMutations";
+import { useFolders } from "../../mutations/folder/folderQueries";
 import { getAllResources } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 

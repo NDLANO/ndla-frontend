@@ -36,8 +36,11 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import config from "../../config";
 import { FILM_PAGE_URL, MULTIDISCIPLINARY_URL, TOOLBOX_STUDENT_URL, TOOLBOX_TEACHER_URL } from "../../constants";
-import { GQLDynamicMenuQuery, GQLFavouriteSubjectsQuery } from "../../graphqlTypes";
-import { useFavouriteSubjects } from "../../mutations/folderMutations";
+import {
+  GQLDynamicMenuQuery,
+  GQLMastheadFavoriteSubjectsQuery,
+  GQLMastheadFavoriteSubjectsQueryVariables,
+} from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
@@ -135,6 +138,16 @@ const dynamicMenuQueryDef = gql`
   }
 `;
 
+const favoriteSubjectsQueryDefinition = gql`
+  query mastheadFavoriteSubjects($ids: [String!]!) {
+    nodes(nodeType: "SUBJECT", ids: $ids) {
+      id
+      name
+      url
+    }
+  }
+`;
+
 export const MastheadMenu = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -146,9 +159,13 @@ export const MastheadMenu = () => {
     skip: typeof window === "undefined",
   });
 
-  const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.toReversed().slice(0, 5) ?? [], {
-    skip: !authenticated || !user?.favoriteSubjects.length,
-  });
+  const favouriteSubjectsQuery = useQuery<GQLMastheadFavoriteSubjectsQuery, GQLMastheadFavoriteSubjectsQueryVariables>(
+    favoriteSubjectsQueryDefinition,
+    {
+      variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
+      skip: !authenticated || !user?.favoriteSubjects.length,
+    },
+  );
 
   const { height } = useComponentSize("masthead");
 
@@ -191,7 +208,7 @@ export const MastheadMenu = () => {
         </DrawerButton>
       </PopoverTrigger>
       <MastheadPopoverContent style={style}>
-        <NavigationPart dynamicLinks={dynamicLinks} favouriteSubjects={favouriteSubjectsQuery.data?.subjects} />
+        <NavigationPart dynamicLinks={dynamicLinks} favouriteSubjects={favouriteSubjectsQuery.data?.nodes} />
         <MyNdlaPart />
       </MastheadPopoverContent>
       <MastheadPopoverBackdrop present={open} style={style} />
@@ -241,7 +258,7 @@ const StyledLanguageSelector = styled(LanguageSelector, {
 
 interface NavigationPartProps {
   dynamicLinks: LinkType[];
-  favouriteSubjects: GQLFavouriteSubjectsQuery["subjects"];
+  favouriteSubjects: GQLMastheadFavoriteSubjectsQuery["nodes"];
 }
 
 const NavigationPartLink = styled(NavLink, {

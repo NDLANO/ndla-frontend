@@ -26,7 +26,7 @@ import {
   useFolderResourceMetaSearch,
   useFavouriteSubjects,
   useRecentlyUsedResources,
-} from "../../mutations/folderMutations";
+} from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";

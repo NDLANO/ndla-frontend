@@ -23,7 +23,7 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import { GQLFolderResource } from "../../../graphqlTypes";
-import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/folderMutations";
+import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";

@@ -13,7 +13,7 @@ import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 import ListResource from "./ListResource";
 import LoginModalContent from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
-import { useFolderResourceMeta } from "../../mutations/folderMutations";
+import { useFolderResourceMeta } from "../../mutations/folder/folderQueries";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";

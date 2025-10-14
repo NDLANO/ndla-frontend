@@ -23,7 +23,7 @@ import ListResource from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../../graphqlTypes";
-import { useDeleteFolderResourceMutation } from "../../../../mutations/folderMutations";
+import { useDeleteFolderResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
 import { getResourceTypesForResource } from "../../../../util/folderHelpers";
 import DragHandle from "../../components/DragHandle";

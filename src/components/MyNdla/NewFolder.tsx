@@ -14,7 +14,8 @@ import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Button, FieldHelp
 import { styled } from "@ndla/styled-system/jsx";
 import { IFolderDTO } from "@ndla/types-backend/myndla-api";
 import { GQLFolder } from "../../graphqlTypes";
-import { getFolder, useAddFolderMutation, useFolders } from "../../mutations/folderMutations";
+import { useAddFolderMutation } from "../../mutations/folder/folderMutations";
+import { getFolder, useFolders } from "../../mutations/folder/folderQueries";
 import useValidationTranslation from "../../util/useValidationTranslation";
 import { useToast } from "../ToastContext";
 

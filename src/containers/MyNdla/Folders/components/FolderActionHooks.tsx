@@ -25,7 +25,7 @@ import {
   useDeleteFolderMutation,
   useUpdateFolderStatusMutation,
   useUnFavoriteSharedFolder,
-} from "../../../../mutations/folderMutations";
+} from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
 import { MenuItemProps } from "../../components/SettingsMenu";
 import { copyFolderSharingLink, isStudent } from "../util";
