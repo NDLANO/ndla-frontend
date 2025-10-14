@@ -784,6 +784,7 @@ const messages = {
       heading: "Nasjonal digital læringsarena",
     },
     quickLinks: {
+      title: "Våre tjenester",
       myNdla: {
         title: "Min NDLA",
         description:

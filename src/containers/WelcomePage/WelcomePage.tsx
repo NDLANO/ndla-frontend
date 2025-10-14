@@ -126,6 +126,15 @@ const StyledCardHeading = styled(CardHeading, {
   },
 });
 
+const StyledCardDiv = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: "small",
+  },
+});
+
 const StyledCardRoot = styled(CardRoot, {
   base: {
     _hover: {
@@ -296,20 +305,20 @@ export const WelcomePage = () => {
               </StyledList>
             </nav>
             {config.quicklinksEnabled ? (
-              <nav aria-label={t("welcomePage.quickLinks")} data-testid="quick-links">
+              <nav aria-label={t("welcomePage.quickLinks.title")} data-testid="quick-links">
                 <StyledList variant="quickLink">
                   {quickLinks.map((link) => (
                     <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} variant="subtle">
                       <li>
                         <CardContent>
-                          <StyledCardHeading textStyle="heading.small" asChild consumeCss>
-                            <h2>
-                              <link.icon size="large" />
+                          <StyledCardDiv>
+                            <link.icon size="large" />
+                            <StyledCardHeading textStyle="heading.small" asChild consumeCss>
                               <SafeLink to={link.url} css={linkOverlay.raw()}>
                                 {t(`welcomePage.quickLinks.${link.type}.title`)}
                               </SafeLink>
-                            </h2>
-                          </StyledCardHeading>
+                            </StyledCardHeading>
+                          </StyledCardDiv>
                           <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
                         </CardContent>
                       </li>

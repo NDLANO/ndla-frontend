@@ -783,6 +783,7 @@ const messages = {
       heading: "Našunála digitála oahppanarena",
     },
     quickLinks: {
+      title: "Våre tjenester",
       myNdla: {
         title: "Min NDLA",
         description:
