@@ -2242,6 +2242,16 @@ export type GQLLearningpathStepQuery = {
   };
 };
 
+export type GQLCopyPublicLearningpathMutationVariables = Exact<{
+  learningpathId: Scalars["Int"]["input"];
+  params: GQLLearningpathCopyInput;
+}>;
+
+export type GQLCopyPublicLearningpathMutation = {
+  __typename?: "Mutation";
+  copyLearningpath: { __typename?: "MyNdlaLearningpath"; id: number };
+};
+
 export type GQLLearningpathStep_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
 } & GQLArticleStep_LearningpathStepFragment;
