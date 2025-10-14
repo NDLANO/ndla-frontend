@@ -302,11 +302,13 @@ export const WelcomePage = () => {
                     <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} variant="subtle">
                       <li>
                         <CardContent>
-                          <StyledCardHeading textStyle="heading.small">
-                            <link.icon size="large" />
-                            <SafeLink to={link.url} css={linkOverlay.raw()}>
-                              {t(`welcomePage.quickLinks.${link.type}.title`)}
-                            </SafeLink>
+                          <StyledCardHeading textStyle="heading.small" asChild consumeCss>
+                            <h2>
+                              <link.icon size="large" />
+                              <SafeLink to={link.url} css={linkOverlay.raw()}>
+                                {t(`welcomePage.quickLinks.${link.type}.title`)}
+                              </SafeLink>
+                            </h2>
                           </StyledCardHeading>
                           <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
                         </CardContent>
