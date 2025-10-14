@@ -126,15 +126,6 @@ const StyledCardHeading = styled(CardHeading, {
   },
 });
 
-const StyledCardDiv = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: "small",
-  },
-});
-
 const StyledCardRoot = styled(CardRoot, {
   base: {
     _hover: {
@@ -311,14 +302,12 @@ export const WelcomePage = () => {
                     <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} variant="subtle">
                       <li>
                         <CardContent>
-                          <StyledCardDiv>
-                            <link.icon size="large" />
-                            <StyledCardHeading textStyle="heading.small" asChild consumeCss>
-                              <SafeLink to={link.url} css={linkOverlay.raw()}>
-                                {t(`welcomePage.quickLinks.${link.type}.title`)}
-                              </SafeLink>
-                            </StyledCardHeading>
-                          </StyledCardDiv>
+                          <StyledCardHeading textStyle="heading.small" asChild consumeCss>
+                            <SafeLink to={link.url} css={linkOverlay.raw()}>
+                              <link.icon size="large" />
+                              {t(`welcomePage.quickLinks.${link.type}.title`)}
+                            </SafeLink>
+                          </StyledCardHeading>
                           <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
                         </CardContent>
                       </li>
