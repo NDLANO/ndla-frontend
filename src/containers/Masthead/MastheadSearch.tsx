@@ -89,6 +89,7 @@ const StyledBadgeContainer = styled("div", {
   base: {
     display: "flex",
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "flex-start",
     gap: "xxsmall",
   },
