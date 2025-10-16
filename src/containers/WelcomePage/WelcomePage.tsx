@@ -25,6 +25,7 @@ import config from "../../config";
 import { FILM_PAGE_URL, PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
+import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { siteThemeToHeroVariant } from "../../util/siteTheme";
@@ -201,18 +202,20 @@ const frontpageQuery = gql`
   ${structuredArticleDataFragment}
 `;
 
-const quickLinks = [
-  { type: "myNdla", icon: HeartLine, url: routes.myNdla.root },
-  { type: "chatRobot", icon: RobotFill, url: routes.myNdla.root },
-  { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}` },
-  { type: "film", icon: MovieLine, url: FILM_PAGE_URL },
-] as const;
-
 export const WelcomePage = () => {
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
   const { user, authContextLoaded } = useContext(AuthContext);
   const siteTheme = useSiteTheme();
+
+  const quickLinks = useMemo(() => {
+    return [
+      { type: "myNdla", icon: HeartLine, url: routes.myNdla.root },
+      { type: "chatRobot", icon: RobotFill, url: getChatRobotUrl(user) },
+      { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}` },
+      { type: "film", icon: MovieLine, url: FILM_PAGE_URL },
+    ] as const;
+  }, [user]);
 
   useEffect(() => {
     if (authContextLoaded) {
