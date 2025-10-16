@@ -46,6 +46,11 @@ router.get("/robots.txt", (req, res) => {
   }
 });
 
+router.get("/ai.txt", (_, res) => {
+  res.type("text/plain");
+  res.send("User-Agent: *\nDisallow: *\nDisallow: /");
+});
+
 router.get("/.well-known/security.txt", (_, res) => {
   res.sendFile(`security.txt`, { root: "build/public/static" });
 });

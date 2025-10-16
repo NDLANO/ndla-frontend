@@ -16,3 +16,47 @@ Disallow: *minndla/
 
 # status.ndla.no
 Disallow: /history/
+
+# AI/LLM CRAWLERS, fetched from snl.no
+
+# Common Crawl
+User-agent: CCBot
+Disallow: /
+
+# OpenAI
+User-agent: GPTBot
+Disallow: /
+
+# Anthropic
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+# Bytedance
+User-agent: Bytespider
+Disallow: /
+
+# Hive
+User-agent: ImagesiftBot
+Disallow: /
+
+# Webz
+User-agent: OmigiliBot
+Disallow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Disallow: /
+
+# Diffbot
+User-agent: Diffbot
+Disallow: /
+
+# Diffbot
+User-agent: cohere-ai
+Disallow: /
