@@ -695,6 +695,7 @@ const messages = {
   },
   lti: {
     embed: "Embed",
+    unsupportedDialogTitle: "Failed to insert content",
     notSupported:
       "It did not work to auto-insert the content. You can copy the source code and add it to your content.",
     goBack: "Go back to LTI search",

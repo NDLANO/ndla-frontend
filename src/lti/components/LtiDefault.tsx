@@ -8,7 +8,16 @@
 
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
+import {
+  Button,
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import config from "../../config";
@@ -56,8 +65,7 @@ const LtiDefault = ({ item }: Props) => {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          {/* TODO: We should probably have a dialog title here. */}
-          <div />
+          <DialogTitle>{t("lti.unsupportedDialogTitle")}</DialogTitle>
           <DialogCloseButton />
         </DialogHeader>
         <DialogBody>

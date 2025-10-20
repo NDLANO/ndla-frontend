@@ -693,6 +693,7 @@ const messages = {
   },
   lti: {
     embed: "Sett inn",
+    unsupportedDialogTitle: "Klarte ikke sette inn innhold",
     notSupported:
       "Det fungerte ikke å sette inn innholdet automatisk. Kopier kildekoden under for å sette inn på din side.",
     goBack: "Tilbake til LTI-søk",
