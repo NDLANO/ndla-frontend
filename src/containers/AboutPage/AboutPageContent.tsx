@@ -25,6 +25,7 @@ import {
 import AboutPageFooter from "./AboutPageFooter";
 import { findBreadcrumb } from "./aboutPageUtils";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { LdJson } from "../../components/LdJson";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -32,7 +33,7 @@ import { SKIP_TO_CONTENT_ID, ABOUT_PATH } from "../../constants";
 import { GQLAboutPage_ArticleFragment, GQLAboutPage_FrontpageMenuFragment } from "../../graphqlTypes";
 import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
@@ -130,10 +131,7 @@ const AboutPageContent = ({ article: _article, frontpage }: Props) => {
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
       <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
-      <script type="application/ld+json">
-        {JSON.stringify(getStructuredDataFromArticle(_article, i18n.language, crumbs))}
-      </script>
-
+      <LdJson article={_article} breadcrumbItems={crumbs} />
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}
