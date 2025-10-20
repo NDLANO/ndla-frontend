@@ -14,11 +14,12 @@ import { PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import Article from "../../components/Article";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { LdJson } from "../../components/LdJson";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { GQLPlainArticleContainer_ArticleFragment } from "../../graphqlTypes";
 import { getArticleScripts } from "../../util/getArticleScripts";
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -75,10 +76,7 @@ const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props)
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
       {!!oembedUrl && <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />}
-
-      <script type="application/ld+json">
-        {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
-      </script>
+      <LdJson article={propArticle} />
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}

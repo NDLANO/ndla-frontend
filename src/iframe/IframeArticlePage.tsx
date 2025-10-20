@@ -18,6 +18,7 @@ import PostResizeMessage from "./PostResizeMessage";
 import Article from "../components/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
 import { BannerAlerts } from "../components/BannerAlerts";
+import { LdJson } from "../components/LdJson";
 import { useLtiData } from "../components/LtiContext";
 import SocialMediaMetadata from "../components/SocialMediaMetadata";
 import config from "../config";
@@ -25,7 +26,7 @@ import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment
 import { LocaleType } from "../interfaces";
 import { getArticleScripts } from "../util/getArticleScripts";
 import { getContentType } from "../util/getContentType";
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
+import { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
 import { transformArticle } from "../util/transformArticle";
 
 interface Props {
@@ -88,9 +89,7 @@ const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: P
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      <script type="application/ld+json">
-        {JSON.stringify(getStructuredDataFromArticle(propArticle, i18n.language))}
-      </script>
+      <LdJson article={propArticle} />
       <SocialMediaMetadata
         title={article.title}
         imageUrl={article.metaImage?.url}
