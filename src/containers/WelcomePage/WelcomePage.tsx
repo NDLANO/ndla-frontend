@@ -10,7 +10,7 @@ import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { ArrowRightLine, ChatHeartLine, HeartLine, MovieLine, RobotFill } from "@ndla/icons";
+import { ArrowRightLine, ChatHeartLine, ExternalLinkLine, HeartLine, MovieLine, RobotFill } from "@ndla/icons";
 import { CardContent, CardHeading, CardRoot, Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -210,10 +210,10 @@ export const WelcomePage = () => {
 
   const quickLinks = useMemo(() => {
     return [
-      { type: "myNdla", icon: HeartLine, url: routes.myNdla.root },
-      { type: "chatRobot", icon: RobotFill, url: getChatRobotUrl(user) },
-      { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}` },
-      { type: "film", icon: MovieLine, url: FILM_PAGE_URL },
+      { type: "myNdla", icon: HeartLine, url: routes.myNdla.root, external: false },
+      { type: "chatRobot", icon: RobotFill, url: getChatRobotUrl(user), external: true },
+      { type: "arena", icon: ChatHeartLine, url: `https://${config.arenaDomain}`, external: true },
+      { type: "film", icon: MovieLine, url: FILM_PAGE_URL, external: false },
     ] as const;
   }, [user]);
 
@@ -306,9 +306,15 @@ export const WelcomePage = () => {
                       <li>
                         <CardContent>
                           <StyledCardHeading textStyle="heading.small" asChild consumeCss>
-                            <SafeLink to={link.url} css={linkOverlay.raw()}>
+                            <SafeLink
+                              to={link.url}
+                              css={linkOverlay.raw()}
+                              target={link.external ? "_blank" : undefined}
+                              rel={link.external ? "noopener noreferrer" : undefined}
+                            >
                               <link.icon size="large" />
                               {t(`welcomePage.quickLinks.${link.type}.title`)}
+                              {link.external ? <ExternalLinkLine /> : null}
                             </SafeLink>
                           </StyledCardHeading>
                           <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
