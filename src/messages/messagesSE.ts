@@ -692,6 +692,7 @@ const messages = {
   },
   lti: {
     embed: "Deavdde",
+    unsupportedDialogTitle: "Klarte ikke sette inn innhold",
     notSupported:
       "Ii lean vejolaš bidjat sisdoalu sisa automáhtalaččat. Kopiere gáldokoda vulobealde ja bija iežat siidui.",
     goBack: "Tilbake til LTI-søk",

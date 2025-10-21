@@ -6,10 +6,8 @@
  *
  */
 
-@import "@fontsource/source-code-pro/variable.css";
-@import "@fontsource/source-serif-pro/index.css";
-@import "@fontsource/source-serif-pro/400-italic.css";
-@import "@fontsource/source-serif-pro/700.css";
+@import "@fontsource-variable/source-serif-4";
+@import "@fontsource-variable/source-code-pro";
 
 @layer reset, base, tokens, recipes, utilities;
 

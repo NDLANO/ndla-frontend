@@ -16,9 +16,7 @@ import { GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables } from "../
 import { Breadcrumb } from "../../../interfaces";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { getContentType } from "../../../util/getContentType";
-import getStructuredDataFromArticle, {
-  structuredArticleDataFragment,
-} from "../../../util/getStructuredDataFromArticle";
+import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
 import { transformArticle } from "../../../util/transformArticle";
 import Article from "../../Article";
 import { CreatedBy } from "../../Article/CreatedBy";
@@ -26,6 +24,7 @@ import { ContentPlaceholder } from "../../ContentPlaceholder";
 import { DefaultErrorMessage } from "../../DefaultErrorMessage";
 import { BaseStepProps } from "../learningpathTypes";
 import { EmbedPageContent } from "./EmbedPageContent";
+import { LdJson } from "../../LdJson";
 
 interface ArticleStepProps extends BaseStepProps {
   breadcrumbItems: Breadcrumb[];
@@ -109,9 +108,7 @@ export const ArticleStep = ({
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
-      <script type="application/ld+json">
-        {JSON.stringify(getStructuredDataFromArticle(stepArticle, i18n.language, breadcrumbItems))}
-      </script>
+      <LdJson article={stepArticle} breadcrumbItems={breadcrumbItems} />
       <Article
         id={skipToContentId}
         article={article}

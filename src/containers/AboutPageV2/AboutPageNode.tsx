@@ -24,6 +24,7 @@ import {
   licenseAttributes,
 } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { LdJson } from "../../components/LdJson";
 import LicenseBox from "../../components/license/LicenseBox";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -36,7 +37,7 @@ import { GQLAboutPageNode_ArticleFragment, GQLAboutPageNode_FrontpageMenuFragmen
 import { Breadcrumb } from "../../interfaces";
 import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
@@ -156,10 +157,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
       ))}
       <link rel="alternate" type="application/json+oembed" href={oembedUrl} title={article.title} />
-      <script type="application/ld+json">
-        {JSON.stringify(getStructuredDataFromArticle(article, i18n.language, crumbs))}
-      </script>
-
+      <LdJson article={article} breadcrumbItems={crumbs} />
       <SocialMediaMetadata
         title={transformedArticle.title}
         description={transformedArticle.metaDescription}

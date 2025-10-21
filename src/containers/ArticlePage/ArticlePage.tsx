@@ -18,13 +18,14 @@ import { NoSSR } from "@ndla/util";
 import { RedirectExternal, Status } from "../../components";
 import Article from "../../components/Article";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { LdJson } from "../../components/LdJson";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
-import getStructuredDataFromArticle, { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
+import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -147,9 +148,7 @@ const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
       )}
       {!resource.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
       <meta name="pageid" content={`${article.id}`} />
-      <script type="application/ld+json">
-        {JSON.stringify(getStructuredDataFromArticle(resource.article, i18n.language, breadcrumbItems))}
-      </script>
+      <LdJson article={resource.article} breadcrumbItems={breadcrumbItems} />
       <SocialMediaMetadata
         title={htmlTitle(article.title, [root?.name])}
         trackableContent={article}
