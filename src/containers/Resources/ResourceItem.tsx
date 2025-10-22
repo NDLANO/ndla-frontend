@@ -23,7 +23,9 @@ import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ContentType, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
+import config from "../../config";
 import { RELEVANCE_CORE } from "../../constants";
+import { GQLResourceType } from "../../graphqlTypes";
 
 const { contentTypes } = constants;
 
@@ -46,7 +48,6 @@ const StyledListItemContent = styled(ListItemContent, {
 
 const InfoContainer = styled(HStack, {
   base: {
-    marginInlineStart: "auto",
     flexShrink: "0",
   },
 });
@@ -65,10 +66,12 @@ export type Resource = {
   name: string;
   url?: string;
   contentType?: string;
+  resourceTypes?: GQLResourceType[];
   active?: boolean;
   relevanceId?: string;
   article?: {
     metaImage?: { url?: string; alt?: string };
+    traits?: string[];
   };
   learningpath?: {
     coverphoto?: { url?: string };
@@ -154,6 +157,15 @@ const listItemRecipe = cva({
   },
 });
 
+const StyledListItemHeading = styled(ListItemHeading, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xxsmall",
+  },
+});
+
 const StyledListItemImage = styled(ListItemImage, {
   base: {
     mobileWideDown: {
@@ -173,6 +185,7 @@ export const ResourceItem = ({
   article,
   learningpath,
   currentResourceContentType,
+  resourceTypes,
 }: Props & Resource) => {
   const { t } = useTranslation();
   const relevanceElId = useId();
@@ -187,6 +200,21 @@ export const ResourceItem = ({
     }
     return elements.length ? elements.join(" ") : undefined;
   }, [relevanceId, showAdditionalResources]);
+
+  const badges = resourceTypes?.map((type) => (
+    <Badge key={type.id} color="subtle">
+      {t(`contentTypes.${constants.contentTypeMapping[type.id]}`)}
+    </Badge>
+  ));
+  if (article?.traits) {
+    badges?.concat(
+      article?.traits?.map((trait) => (
+        <Badge key={trait} color="subtle">
+          {t(`searchPage.traits.${trait}`)}
+        </Badge>
+      )),
+    );
+  }
 
   if (!learningpath && !article) return null;
 
@@ -208,7 +236,7 @@ export const ResourceItem = ({
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
         />
         <StyledListItemContent>
-          <ListItemHeading asChild consumeCss>
+          <StyledListItemHeading as="a" consumeCss>
             <StyledSafeLink
               to={url || ""}
               unstyled
@@ -220,11 +248,15 @@ export const ResourceItem = ({
             >
               {name}
             </StyledSafeLink>
-          </ListItemHeading>
-          <InfoContainer gap="xxsmall">
-            {contentType ? <Badge color="subtle">{t(`contentTypes.${contentType}`)}</Badge> : undefined}
-            {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
-          </InfoContainer>
+            <InfoContainer gap="xxsmall">
+              {config.allResourceTypesEnabled ? (
+                badges
+              ) : contentType ? (
+                <Badge color="subtle">{t(`contentTypes.${contentType}`)}</Badge>
+              ) : undefined}
+              {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
+            </InfoContainer>
+          </StyledListItemHeading>
         </StyledListItemContent>
       </ListItemRoot>
     </li>

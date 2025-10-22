@@ -3186,6 +3186,7 @@ export type GQLResources_ParentFragment = {
     article?: {
       __typename?: "Article";
       id: number;
+      traits: Array<string>;
       metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
     };
     learningpath?: {
