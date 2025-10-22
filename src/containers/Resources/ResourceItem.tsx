@@ -206,15 +206,13 @@ export const ResourceItem = ({
       {t(`contentTypes.${constants.contentTypeMapping[type.id]}`)}
     </Badge>
   ));
-  if (article?.traits) {
-    badges?.concat(
-      article?.traits?.map((trait) => (
-        <Badge key={trait} color="subtle">
-          {t(`searchPage.traits.${trait}`)}
-        </Badge>
-      )),
+  article?.traits?.forEach((trait) => {
+    badges?.push(
+      <Badge key={trait} color="subtle">
+        {t(`searchPage.traits.${trait}`)}
+      </Badge>,
     );
-  }
+  });
 
   if (!learningpath && !article) return null;
 
