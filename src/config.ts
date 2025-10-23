@@ -115,7 +115,6 @@ export type ConfigType = {
   autologinCookieEnabled: boolean;
   loginHint: string | undefined;
   gracePeriodSeconds: number;
-  enableNewAboutPage: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -152,7 +151,6 @@ const getServerSideConfig = (): ConfigType => {
     autologinCookieEnabled: getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false)),
     gracePeriodSeconds: parseInt(getEnvironmentVariable("READINESS_PROBE_DETECTION_SECONDS", "7")),
-    enableNewAboutPage: getEnvironmentVariable("ENABLE_NEW_ABOUT_PAGE", true),
   };
 };
 
