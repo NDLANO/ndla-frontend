@@ -15,7 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import MyNdlaTitle from "../../../components/MyNdla/MyNdlaTitle";
-import { useFavouriteSubjects } from "../../../mutations/folderMutations";
+import { useFavouriteSubjects } from "../../../mutations/folder/folderQueries";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import SubjectLink from "../../AllSubjectsPage/SubjectLink";

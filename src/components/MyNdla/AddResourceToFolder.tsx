@@ -39,11 +39,9 @@ import ListResource from "./ListResource";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import {
   useAddResourceToFolderMutation,
-  useFolder,
-  useFolderResourceMeta,
-  useFolders,
   useUpdateFolderResourceMutation,
-} from "../../mutations/folderMutations";
+} from "../../mutations/folder/folderMutations";
+import { useFolder, useFolderResourceMeta, useFolders } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath, getResourceTypesForResource } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";

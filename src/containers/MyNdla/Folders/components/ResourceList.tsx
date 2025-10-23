@@ -18,7 +18,8 @@ import { keyBy } from "@ndla/util";
 import DraggableResource from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { useSortResourcesMutation, useFolderResourceMetaSearch } from "../../../../mutations/folderMutations";
+import { useSortResourcesMutation } from "../../../../mutations/folder/folderMutations";
+import { useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { makeDndTranslations } from "../../dndUtil";
 import { makeDndSortFunction } from "../util";
 

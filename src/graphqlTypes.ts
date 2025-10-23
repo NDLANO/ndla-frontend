@@ -2242,6 +2242,16 @@ export type GQLLearningpathStepQuery = {
   };
 };
 
+export type GQLCopyPublicLearningpathMutationVariables = Exact<{
+  learningpathId: Scalars["Int"]["input"];
+  params: GQLLearningpathCopyInput;
+}>;
+
+export type GQLCopyPublicLearningpathMutation = {
+  __typename?: "Mutation";
+  copyLearningpath: { __typename?: "MyNdlaLearningpath"; id: number };
+};
+
 export type GQLLearningpathStep_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
 } & GQLArticleStep_LearningpathStepFragment;
@@ -2717,6 +2727,15 @@ export type GQLDynamicMenuQuery = {
       article: { __typename?: "Article"; id: number; title: string; slug?: string };
     }>;
   };
+};
+
+export type GQLMastheadFavoriteSubjectsQueryVariables = Exact<{
+  ids: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
+}>;
+
+export type GQLMastheadFavoriteSubjectsQuery = {
+  __typename?: "Query";
+  nodes?: Array<{ __typename?: "Node"; id: string; name: string; url?: string }>;
 };
 
 export type GQLCurrentContextQueryVariables = Exact<{
@@ -3778,12 +3797,6 @@ export type GQLSharedFolderFragmentFragment = {
   resources: Array<{ __typename?: "FolderResource" } & GQLFolderResourceFragmentFragment>;
 };
 
-export type GQLDeleteFolderMutationVariables = Exact<{
-  id: Scalars["String"]["input"];
-}>;
-
-export type GQLDeleteFolderMutation = { __typename?: "Mutation"; deleteFolder: string };
-
 export type GQLFoldersPageQueryFragmentFragment = {
   __typename?: "Folder";
   subfolders: Array<
@@ -3874,16 +3887,79 @@ export type GQLSharedFoldersPageQueryFragmentFragment = {
   >;
 } & GQLSharedFolderFragmentFragment;
 
-export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLFoldersPageQuery = {
-  __typename?: "Query";
-  folders: {
-    __typename?: "UserFolder";
-    folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
-    sharedFolders: Array<{ __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment>;
-  };
+type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
+  __typename: "ArticleFolderResourceMeta";
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
 };
+
+type GQLFolderResourceMeta_AudioFolderResourceMeta_Fragment = {
+  __typename: "AudioFolderResourceMeta";
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
+};
+
+type GQLFolderResourceMeta_ConceptFolderResourceMeta_Fragment = {
+  __typename: "ConceptFolderResourceMeta";
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
+};
+
+type GQLFolderResourceMeta_ImageFolderResourceMeta_Fragment = {
+  __typename: "ImageFolderResourceMeta";
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
+};
+
+type GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment = {
+  __typename: "LearningpathFolderResourceMeta";
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
+};
+
+type GQLFolderResourceMeta_VideoFolderResourceMeta_Fragment = {
+  __typename: "VideoFolderResourceMeta";
+  id: string;
+  title: string;
+  description: string;
+  type: string;
+  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
+};
+
+export type GQLFolderResourceMetaFragment =
+  | GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment
+  | GQLFolderResourceMeta_AudioFolderResourceMeta_Fragment
+  | GQLFolderResourceMeta_ConceptFolderResourceMeta_Fragment
+  | GQLFolderResourceMeta_ImageFolderResourceMeta_Fragment
+  | GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment
+  | GQLFolderResourceMeta_VideoFolderResourceMeta_Fragment;
+
+export type GQLDeleteFolderMutationVariables = Exact<{
+  id: Scalars["String"]["input"];
+}>;
+
+export type GQLDeleteFolderMutation = { __typename?: "Mutation"; deleteFolder: string };
 
 export type GQLUpdateFolderResourceMutationVariables = Exact<{
   id: Scalars["String"]["input"];
@@ -3968,82 +4044,37 @@ export type GQLCopySharedFolderMutation = {
   } & GQLFolderFragmentFragment;
 };
 
-type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
-  __typename: "ArticleFolderResourceMeta";
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
-};
-
-type GQLFolderResourceMeta_AudioFolderResourceMeta_Fragment = {
-  __typename: "AudioFolderResourceMeta";
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
-};
-
-type GQLFolderResourceMeta_ConceptFolderResourceMeta_Fragment = {
-  __typename: "ConceptFolderResourceMeta";
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
-};
-
-type GQLFolderResourceMeta_ImageFolderResourceMeta_Fragment = {
-  __typename: "ImageFolderResourceMeta";
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
-};
-
-type GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment = {
-  __typename: "LearningpathFolderResourceMeta";
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
-};
-
-type GQLFolderResourceMeta_VideoFolderResourceMeta_Fragment = {
-  __typename: "VideoFolderResourceMeta";
-  id: string;
-  title: string;
-  description: string;
-  type: string;
-  metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  resourceTypes: Array<{ __typename?: "FolderResourceResourceType"; id: string; name: string }>;
-};
-
-export type GQLFolderResourceMetaFragment =
-  | GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment
-  | GQLFolderResourceMeta_AudioFolderResourceMeta_Fragment
-  | GQLFolderResourceMeta_ConceptFolderResourceMeta_Fragment
-  | GQLFolderResourceMeta_ImageFolderResourceMeta_Fragment
-  | GQLFolderResourceMeta_LearningpathFolderResourceMeta_Fragment
-  | GQLFolderResourceMeta_VideoFolderResourceMeta_Fragment;
-
-export type GQLSharedFolderQueryVariables = Exact<{
-  id: Scalars["String"]["input"];
+export type GQLAddResourceToFolderMutationVariables = Exact<{
+  resourceId: Scalars["String"]["input"];
+  folderId: Scalars["String"]["input"];
+  resourceType: Scalars["String"]["input"];
+  path: Scalars["String"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
 }>;
 
-export type GQLSharedFolderQuery = {
-  __typename?: "Query";
-  sharedFolder: { __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment;
+export type GQLAddResourceToFolderMutation = {
+  __typename?: "Mutation";
+  addFolderResource: { __typename?: "FolderResource" } & GQLFolderResourceFragmentFragment;
 };
+
+export type GQLDeleteFolderResourceMutationVariables = Exact<{
+  folderId: Scalars["String"]["input"];
+  resourceId: Scalars["String"]["input"];
+}>;
+
+export type GQLDeleteFolderResourceMutation = { __typename?: "Mutation"; deleteFolderResource: string };
+
+export type GQLFavoriteSharedFolderMutationVariables = Exact<{
+  folderId: Scalars["String"]["input"];
+}>;
+
+export type GQLFavoriteSharedFolderMutation = { __typename?: "Mutation"; favoriteSharedFolder: string };
+
+export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
+  folderId: Scalars["String"]["input"];
+}>;
+
+export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
 
 export type GQLFolderResourceMetaQueryVariables = Exact<{
   resource: GQLFolderResourceMetaSearchInput;
@@ -4080,6 +4111,26 @@ export type GQLFolderResourceMetaSearchQuery = {
   >;
 };
 
+export type GQLFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLFoldersPageQuery = {
+  __typename?: "Query";
+  folders: {
+    __typename?: "UserFolder";
+    folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
+    sharedFolders: Array<{ __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment>;
+  };
+};
+
+export type GQLSharedFolderQueryVariables = Exact<{
+  id: Scalars["String"]["input"];
+}>;
+
+export type GQLSharedFolderQuery = {
+  __typename?: "Query";
+  sharedFolder: { __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment;
+};
+
 export type GQLRecentlyUsedQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLRecentlyUsedQuery = {
@@ -4109,38 +4160,6 @@ export type GQLFavouriteSubjectsQuery = {
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   }>;
 };
-
-export type GQLAddResourceToFolderMutationVariables = Exact<{
-  resourceId: Scalars["String"]["input"];
-  folderId: Scalars["String"]["input"];
-  resourceType: Scalars["String"]["input"];
-  path: Scalars["String"]["input"];
-  tags?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-}>;
-
-export type GQLAddResourceToFolderMutation = {
-  __typename?: "Mutation";
-  addFolderResource: { __typename?: "FolderResource" } & GQLFolderResourceFragmentFragment;
-};
-
-export type GQLDeleteFolderResourceMutationVariables = Exact<{
-  folderId: Scalars["String"]["input"];
-  resourceId: Scalars["String"]["input"];
-}>;
-
-export type GQLDeleteFolderResourceMutation = { __typename?: "Mutation"; deleteFolderResource: string };
-
-export type GQLFavoriteSharedFolderMutationVariables = Exact<{
-  folderId: Scalars["String"]["input"];
-}>;
-
-export type GQLFavoriteSharedFolderMutation = { __typename?: "Mutation"; favoriteSharedFolder: string };
-
-export type GQLUnFavoriteSharedFolderMutationVariables = Exact<{
-  folderId: Scalars["String"]["input"];
-}>;
-
-export type GQLUnFavoriteSharedFolderMutation = { __typename?: "Mutation"; unFavoriteSharedFolder: string };
 
 export type GQLDeleteLearningpathMutationVariables = Exact<{
   id: Scalars["Int"]["input"];

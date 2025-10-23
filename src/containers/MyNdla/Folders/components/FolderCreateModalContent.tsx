@@ -11,7 +11,7 @@ import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/prim
 import FolderForm, { FolderFormValues } from "./FolderForm";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { useFolders } from "../../../../mutations/folderMutations";
+import { useFolders } from "../../../../mutations/folder/folderQueries";
 
 interface Props {
   onClose: (e?: Event) => void;

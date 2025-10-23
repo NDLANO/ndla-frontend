@@ -26,7 +26,11 @@ import ListResource from "../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../components/PageSpinner";
 import SocialMediaMetadata from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
-import { useGetSharedFolder, useFolderResourceMetaSearch, foldersPageQuery } from "../../mutations/folderMutations";
+import {
+  useGetSharedFolder,
+  useFolderResourceMetaSearch,
+  foldersPageQuery,
+} from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { isNotFoundError } from "../../util/handleError";

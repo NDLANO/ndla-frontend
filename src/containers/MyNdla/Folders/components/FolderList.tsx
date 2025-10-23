@@ -18,7 +18,7 @@ import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { PageSpinner } from "../../../../components/PageSpinner";
 import WhileLoading from "../../../../components/WhileLoading";
 import { GQLFolder, GQLSharedFolder } from "../../../../graphqlTypes";
-import { useSortFoldersMutation } from "../../../../mutations/folderMutations";
+import { useSortFoldersMutation } from "../../../../mutations/folder/folderMutations";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
 import { makeDndTranslations } from "../../dndUtil";
 import { makeDndSortFunction } from "../util";

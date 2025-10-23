@@ -8,6 +8,8 @@
 
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
+import { useApolloClient, useMutation } from "@apollo/client/react";
 import { FileCopyLine } from "@ndla/icons";
 import {
   DialogRoot,
@@ -23,8 +25,12 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { GQLLearningpath_LearningpathFragment, GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
-import { useCopyLearningpathMutation } from "../../../mutations/learningpathMutations";
+import {
+  GQLCopyPublicLearningpathMutation,
+  GQLCopyPublicLearningpathMutationVariables,
+  GQLLearningpath_LearningpathFragment,
+  GQLMyNdlaPersonalDataFragmentFragment,
+} from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { AuthContext } from "../../AuthenticationContext";
 import { DialogCloseButton } from "../../DialogCloseButton";
@@ -41,13 +47,34 @@ interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
 }
 
+const copyLearningpathMutation = gql`
+  mutation copyPublicLearningpath($learningpathId: Int!, $params: LearningpathCopyInput!) {
+    copyLearningpath(learningpathId: $learningpathId, params: $params) {
+      id
+    }
+  }
+`;
+
 const CopyLearningPath = ({ learningpath }: Props) => {
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const [open, setOpen] = useState(false);
   const { authenticated, user } = useContext(AuthContext);
+  const client = useApolloClient();
 
-  const [copyLearningPath] = useCopyLearningpathMutation();
+  const [copyLearningPath] = useMutation<GQLCopyPublicLearningpathMutation, GQLCopyPublicLearningpathMutationVariables>(
+    copyLearningpathMutation,
+    {
+      onCompleted: (vars) => {
+        client.cache.modify({
+          fields: {
+            myLearningpaths: (existing = []) =>
+              existing.concat({ __ref: client.cache.identify(vars.copyLearningpath) }),
+          },
+        });
+      },
+    },
+  );
 
   const onError = () => toast.create({ title: t("myNdla.learningpath.copy.error") });
 

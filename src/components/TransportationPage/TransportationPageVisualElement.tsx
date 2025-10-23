@@ -36,7 +36,7 @@ export const TransportationPageVisualElement = ({ embed, metaImage }: Props) => 
   } else if (metaImage?.url) {
     return (
       <Figure>
-        <Image src={metaImage.url} alt={metaImage.alt ?? ""} width={365} />
+        <Image src={metaImage.url} alt={metaImage.alt ?? ""} width={365} fetchPriority="high" />
       </Figure>
     );
   }
