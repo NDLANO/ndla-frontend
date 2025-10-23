@@ -3,27 +3,6 @@
 exports[`get core and supplementary resources grouped by types 1`] = `
 [
   {
-    "id": "urn:resourcetype:learningPath",
-    "name": "Læringssti",
-    "resources": [
-      {
-        "contentUri": "urn:article:1",
-        "id": "urn:resource:2",
-        "name": "Hva er en idé?",
-        "resourceTypes": [
-          {
-            "id": "urn:resourcetype:subjectMaterial",
-            "name": "Fagstoff",
-          },
-          {
-            "id": "urn:resourcetype:learningPath",
-            "name": "Læringssti",
-          },
-        ],
-      },
-    ],
-  },
-  {
     "id": "urn:resourcetype:subjectMaterial",
     "name": "Fagstoff",
     "resources": [
@@ -48,8 +27,8 @@ exports[`get core and supplementary resources grouped by types 1`] = `
             "name": "Fagstoff",
           },
           {
-            "id": "urn:resourcetype:learningPath",
-            "name": "Læringssti",
+            "id": "urn:resourcetype:academicArticle",
+            "name": "Fagartikkel",
           },
         ],
       },
@@ -64,7 +43,7 @@ exports[`get core and supplementary resources grouped by types 1`] = `
           },
           {
             "id": "urn:resourcetype:academicArticle",
-            "name": "Læringssti",
+            "name": "Fagartikkel",
           },
         ],
       },
@@ -90,7 +69,7 @@ exports[`get core and supplementary resources grouped by types 1`] = `
           },
           {
             "id": "urn:resourcetype:academicArticle",
-            "name": "Oppgaver og aktiviteter",
+            "name": "Fagartikkel",
           },
         ],
       },
@@ -147,27 +126,6 @@ exports[`get core and supplementary resources grouped by types 1`] = `
 exports[`get core resources grouped by types 1`] = `
 [
   {
-    "id": "urn:resourcetype:learningPath",
-    "name": "Læringssti",
-    "resources": [
-      {
-        "contentUri": "urn:article:1",
-        "id": "urn:resource:2",
-        "name": "Hva er en idé?",
-        "resourceTypes": [
-          {
-            "id": "urn:resourcetype:subjectMaterial",
-            "name": "Fagstoff",
-          },
-          {
-            "id": "urn:resourcetype:learningPath",
-            "name": "Læringssti",
-          },
-        ],
-      },
-    ],
-  },
-  {
     "id": "urn:resourcetype:subjectMaterial",
     "name": "Fagstoff",
     "resources": [
@@ -192,8 +150,8 @@ exports[`get core resources grouped by types 1`] = `
             "name": "Fagstoff",
           },
           {
-            "id": "urn:resourcetype:learningPath",
-            "name": "Læringssti",
+            "id": "urn:resourcetype:academicArticle",
+            "name": "Fagartikkel",
           },
         ],
       },
@@ -208,7 +166,7 @@ exports[`get core resources grouped by types 1`] = `
           },
           {
             "id": "urn:resourcetype:academicArticle",
-            "name": "Læringssti",
+            "name": "Fagartikkel",
           },
         ],
       },
