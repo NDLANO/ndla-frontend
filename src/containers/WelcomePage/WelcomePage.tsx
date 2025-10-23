@@ -298,33 +298,31 @@ export const WelcomePage = () => {
                 ))}
               </StyledList>
             </nav>
-            {config.quicklinksEnabled ? (
-              <nav aria-label={t("welcomePage.quickLinks.title")} data-testid="quick-links">
-                <StyledList variant="quickLink">
-                  {quickLinks.map((link) => (
-                    <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} variant="subtle">
-                      <li>
-                        <CardContent>
-                          <StyledCardHeading textStyle="heading.small" asChild consumeCss>
-                            <SafeLink
-                              to={link.url}
-                              css={linkOverlay.raw()}
-                              target={link.external ? "_blank" : undefined}
-                              rel={link.external ? "noopener noreferrer" : undefined}
-                            >
-                              <link.icon size="large" />
-                              {t(`welcomePage.quickLinks.${link.type}.title`)}
-                              {link.external ? <ExternalLinkLine /> : null}
-                            </SafeLink>
-                          </StyledCardHeading>
-                          <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
-                        </CardContent>
-                      </li>
-                    </StyledCardRoot>
-                  ))}
-                </StyledList>
-              </nav>
-            ) : undefined}
+            <nav aria-label={t("welcomePage.quickLinks.title")} data-testid="quick-links">
+              <StyledList variant="quickLink">
+                {quickLinks.map((link) => (
+                  <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} variant="subtle">
+                    <li>
+                      <CardContent>
+                        <StyledCardHeading textStyle="heading.small" asChild consumeCss>
+                          <SafeLink
+                            to={link.url}
+                            css={linkOverlay.raw()}
+                            target={link.external ? "_blank" : undefined}
+                            rel={link.external ? "noopener noreferrer" : undefined}
+                          >
+                            <link.icon size="large" />
+                            {t(`welcomePage.quickLinks.${link.type}.title`)}
+                            {link.external ? <ExternalLinkLine /> : null}
+                          </SafeLink>
+                        </StyledCardHeading>
+                        <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
+                      </CardContent>
+                    </li>
+                  </StyledCardRoot>
+                ))}
+              </StyledList>
+            </nav>
             {!!article && (
               <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
                 <ArticleContent>{article.transformedContent.content}</ArticleContent>
