@@ -19,13 +19,14 @@ import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, getLocaleInfoFromPath } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
+import { getRouteChunks } from "../getManifestChunks";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
 const { query, dataRoutes } = createStaticHandler(errorRoutes);
 
-export const errorRender: RenderFunc = async (req, chunks) => {
+export const errorRender: RenderFunc = async (req, manifest) => {
   const context: RedirectInfo = {};
 
   const lang = getHtmlLang(req.params.lang ?? "");
@@ -42,6 +43,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
   }
 
   const router = createStaticRouter(dataRoutes, routerContext);
+  const chunks = getRouteChunks(manifest, "error", []);
 
   const Page = (
     <Document language={lang} chunks={chunks} devEntrypoint={entryPoints.error} hash={hash}>

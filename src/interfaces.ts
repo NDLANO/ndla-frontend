@@ -10,6 +10,7 @@ import { NormalizedCacheObject } from "@apollo/client";
 import { ConfigType } from "./config";
 import { LocaleValues } from "./constants";
 import type { ManifestChunk } from "vite";
+import { RouteObject } from "react-router";
 
 export type InitialProps = {
   articleId?: string;
@@ -88,3 +89,8 @@ export interface OembedResponse {
 }
 
 export type LogLevel = "error" | "warn" | "info";
+
+export type RouteObjectWithImportPath = RouteObject & {
+  importPath?: string;
+  children?: RouteObjectWithImportPath[];
+};
