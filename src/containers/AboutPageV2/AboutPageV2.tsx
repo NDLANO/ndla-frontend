@@ -22,7 +22,6 @@ import { GONE } from "../../statusCodes";
 import { isGoneError } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
-// TODO: Rename query
 const aboutPageQuery = gql`
   query aboutPage($slug: String!, $transformArgs: TransformedArticleContentInput) {
     article(id: $slug) {
