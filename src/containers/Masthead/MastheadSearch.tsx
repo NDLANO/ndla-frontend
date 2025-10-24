@@ -16,6 +16,7 @@ import { createListCollection } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
+  Badge,
   Button,
   ComboboxControl,
   ComboboxInput,
@@ -38,8 +39,9 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
+import { constants, useComboboxTranslations } from "@ndla/ui";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
+import config from "../../config";
 import {
   GQLCurrentContextQuery,
   GQLCurrentContextQueryVariables,
@@ -71,6 +73,25 @@ const StyledButton = styled(Button, {
         display: "none",
       },
     },
+  },
+});
+
+const StyledSearchResult = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xxsmall",
+  },
+});
+
+const StyledBadgeContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    gap: "xxsmall",
   },
 });
 
@@ -217,9 +238,11 @@ const searchQuery = gql`
         url
         metaDescription
         ... on ArticleSearchResult {
+          traits
           htmlTitle
         }
         ... on LearningpathSearchResult {
+          traits
           htmlTitle
         }
         contexts {
@@ -322,14 +345,25 @@ const MastheadSearch = () => {
     return (
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        let contentType = undefined;
+        const traits: string[] = [];
         if (result.__typename === "NodeSearchResult") {
-          contentType = constants.contentTypes.SUBJECT;
+          traits.push(t(`contentTypes.subject`));
         }
         if (context?.resourceTypes?.length) {
-          contentType = constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
+          if (config.allResourceTypesEnabled) {
+            traits.push(
+              ...context.resourceTypes.map((resourceType) =>
+                t(`contentTypes.${constants.contentTypeMapping?.[resourceType.id]}`),
+              ),
+            );
+          } else {
+            traits.push(t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`));
+          }
         } else if (context?.url.startsWith("/e")) {
-          contentType = constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
+          traits.push(t(`contentTypes.topic`));
+        }
+        if (result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult") {
+          traits.push(...result.traits.map((trait) => t(`searchPage.traits.${trait}`)));
         }
         return {
           ...result,
@@ -338,12 +372,13 @@ const MastheadSearch = () => {
               ? parse(result.htmlTitle)
               : result.title,
           resourceType: context?.resourceTypes?.[0]?.id,
-          contentType,
+          isSubject: result.__typename === "NodeSearchResult",
+          traits,
           path: context?.url ?? result.url,
         };
       }) ?? []
     );
-  }, [query.length, searchResult.search?.results]);
+  }, [query.length, searchResult.search?.results, t]);
 
   const searchString = new URLSearchParams(query?.length ? { query: encodeURIComponent(query) } : undefined).toString();
 
@@ -457,36 +492,42 @@ const MastheadSearch = () => {
                   searchHits.map((resource) => (
                     <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
                       <StyledListItemRoot context="list">
-                        <TextWrapper>
-                          <StyledComboboxItemText>
-                            <SafeLink
-                              to={resource.path}
-                              onClick={onNavigate}
-                              unstyled
-                              css={linkOverlay.raw()}
-                              id="matomo-masthead-search-anchor-element"
-                            >
-                              {resource.htmlTitle}
-                            </SafeLink>
-                          </StyledComboboxItemText>
-                          {resource.contentType === constants.contentTypes.SUBJECT ? (
-                            <Text textStyle="label.small" color="text.subtle">
-                              {resource.metaDescription}
-                            </Text>
-                          ) : (
-                            !!resource.contexts[0] && (
-                              <Text
-                                textStyle="label.small"
-                                color="text.subtle"
-                                css={{ textAlign: "start" }}
-                                aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                        <StyledSearchResult>
+                          <TextWrapper>
+                            <StyledComboboxItemText>
+                              <SafeLink
+                                to={resource.path}
+                                onClick={onNavigate}
+                                unstyled
+                                css={linkOverlay.raw()}
+                                id="matomo-masthead-search-anchor-element"
                               >
-                                {resource.contexts[0].breadcrumbs.join(" / ")}
+                                {resource.htmlTitle}
+                              </SafeLink>
+                            </StyledComboboxItemText>
+                            {resource.isSubject ? (
+                              <Text textStyle="label.small" color="text.subtle">
+                                {resource.metaDescription}
                               </Text>
-                            )
-                          )}
-                        </TextWrapper>
-                        <ContentTypeBadge contentType={resource.contentType} />
+                            ) : (
+                              !!resource.contexts[0] && (
+                                <Text
+                                  textStyle="label.small"
+                                  color="text.subtle"
+                                  css={{ textAlign: "start" }}
+                                  aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                                >
+                                  {resource.contexts[0].breadcrumbs.join(" › ")}
+                                </Text>
+                              )
+                            )}
+                          </TextWrapper>
+                          <StyledBadgeContainer>
+                            {resource.traits.map((trait) => (
+                              <Badge key={trait}>{trait}</Badge>
+                            ))}
+                          </StyledBadgeContainer>
+                        </StyledSearchResult>
                       </StyledListItemRoot>
                     </ComboboxItem>
                   ))

@@ -2709,6 +2709,7 @@ export type GQLMastheadSearchQuery = {
     results: Array<
       | {
           __typename?: "ArticleSearchResult";
+          traits: Array<string>;
           htmlTitle: string;
           id: string;
           title: string;
@@ -2725,6 +2726,7 @@ export type GQLMastheadSearchQuery = {
         }
       | {
           __typename?: "LearningpathSearchResult";
+          traits: Array<string>;
           htmlTitle: string;
           id: string;
           title: string;
@@ -3184,6 +3186,7 @@ export type GQLResources_ParentFragment = {
     article?: {
       __typename?: "Article";
       id: number;
+      traits: Array<string>;
       metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
     };
     learningpath?: {
@@ -3298,6 +3301,7 @@ export type GQLSearchResourceTypesQuery = {
 type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
   __typename?: "ArticleSearchResult";
   htmlTitle: string;
+  traits: Array<string>;
   id: string;
   url: string;
   title: string;
@@ -3324,6 +3328,7 @@ type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
 type GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
   __typename?: "LearningpathSearchResult";
   htmlTitle: string;
+  traits: Array<string>;
   id: string;
   url: string;
   title: string;

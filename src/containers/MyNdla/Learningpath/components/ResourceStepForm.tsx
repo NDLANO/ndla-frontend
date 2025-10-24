@@ -10,10 +10,9 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
-import { FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import { Badge, FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
 import { StepSafeLink } from "./StepSafeLink";
@@ -149,7 +148,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
         )}
       </TextWrapper>
       <StyledHStack gap="medium">
-        {!!contentType && <ContentTypeBadge contentType={contentType} />}
+        {contentType ? <Badge color="subtle">{t(`contentTypes.${contentType}`)}</Badge> : undefined}{" "}
         <StyledIconButton
           id="remove-resource"
           aria-label={t("myNdla.learningpath.form.delete")}

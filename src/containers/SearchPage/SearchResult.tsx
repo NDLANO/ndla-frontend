@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
 import {
+  Badge,
   Button,
   DialogBody,
   DialogContent,
@@ -26,8 +27,9 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
+import config from "../../config";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
 import LtiEmbed from "../../lti/LtiEmbed";
@@ -49,6 +51,16 @@ const StyledButton = styled(Button, {
   base: {
     marginInlineStart: "3xsmall",
     position: "relative",
+  },
+});
+
+const StyledBadgeContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    gap: "xxsmall",
   },
 });
 
@@ -78,18 +90,29 @@ export const SearchResult = ({ searchResult }: Props) => {
   const ltiContext = useLtiContext();
   const context = searchResult.context ?? searchResult.contexts?.[0];
 
-  const contentType = useMemo(() => {
+  const articleTraits = useMemo(() => {
+    const traits = [];
     if (searchResult.__typename === "NodeSearchResult") {
-      // TODO: Should SUBJECT be a part of `contentTypeMapping`?
-      return constants.contentTypes.SUBJECT;
+      traits.push(t("contentTypes.subject"));
     }
     if (context?.resourceTypes?.length) {
-      return constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
+      if (config.allResourceTypesEnabled) {
+        traits.push(
+          ...context.resourceTypes.map((resourceType) =>
+            t(`contentTypes.${constants.contentTypeMapping?.[resourceType.id]}`),
+          ),
+        );
+      } else {
+        traits.push(t(`contentTypes.${constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]}`));
+      }
     } else if (context?.url.startsWith("/e")) {
-      return constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
+      traits.push(t("contentTypes.topic"));
     }
-    return undefined;
-  }, [context?.resourceTypes, context?.url, searchResult.__typename]);
+    if (searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult") {
+      traits.push(...searchResult.traits.map((trait) => t(`searchPage.traits.${trait}`)));
+    }
+    return traits;
+  }, [context, searchResult, t]);
 
   return (
     <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
@@ -105,7 +128,7 @@ export const SearchResult = ({ searchResult }: Props) => {
         {!!context && (
           <Text color="text.subtle" textStyle="label.small">
             <span aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumbs.join(",")}`}>
-              {context.breadcrumbs.join(" > ")}
+              {context.breadcrumbs.join(" › ")}
             </span>
             {searchResult.contexts.length > 1 && (
               <DialogRoot>
@@ -143,7 +166,13 @@ export const SearchResult = ({ searchResult }: Props) => {
             )}
           </Text>
         )}
-        {!!contentType && <ContentTypeBadge contentType={contentType} />}
+        <StyledBadgeContainer>
+          {articleTraits.map((trait) => (
+            <Badge colorTheme="neutral" key={trait}>
+              {trait}
+            </Badge>
+          ))}
+        </StyledBadgeContainer>
         {!!ltiContext && (
           <LtiEmbed
             item={{
@@ -166,9 +195,11 @@ SearchResult.fragments = {
       title
       ... on ArticleSearchResult {
         htmlTitle
+        traits
       }
       ... on LearningpathSearchResult {
         htmlTitle
+        traits
       }
       metaDescription
       context {

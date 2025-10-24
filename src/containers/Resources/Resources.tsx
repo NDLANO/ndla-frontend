@@ -252,6 +252,7 @@ Resources.fragments = {
             url
             alt
           }
+          traits
         }
         learningpath {
           id

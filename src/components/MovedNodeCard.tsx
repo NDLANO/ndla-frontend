@@ -7,11 +7,12 @@
  */
 
 import parse from "html-react-parser";
-import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
+import { Badge, CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 
 const StyledCardRoot = styled(CardRoot, {
   base: {
@@ -37,11 +38,14 @@ interface Props {
 }
 
 export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, contentType, metaImage }: Props) => {
+  const { t } = useTranslation();
   return (
     <StyledCardRoot>
       {!!metaImage?.url && <CardImage alt={metaImage.alt ?? ""} src={metaImage.url} />}
       <CardContent>
-        <ContentTypeBadge contentType={contentType} />
+        {contentType ? (
+          <Badge color="subtle">{t(`contentTypes.${constants.contentTypeMapping?.[contentType]}`)}</Badge>
+        ) : undefined}
         <CardHeading asChild consumeCss>
           <SafeLink to={url} unstyled css={linkOverlay.raw()}>
             {title}
