@@ -17,14 +17,13 @@ import { findBreadcrumb, getBreadcrumb } from "./aboutPageUtils";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
-import { GQLAboutPageV2Query, GQLAboutPageV2QueryVariables } from "../../graphqlTypes";
+import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
 import { GONE } from "../../statusCodes";
 import { isGoneError } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
-// TODO: Rename query
 const aboutPageQuery = gql`
-  query aboutPageV2($slug: String!, $transformArgs: TransformedArticleContentInput) {
+  query aboutPage($slug: String!, $transformArgs: TransformedArticleContentInput) {
     article(id: $slug) {
       ...AboutPageLeaf_Article
       ...AboutPageNode_Article
@@ -50,7 +49,7 @@ const aboutPageQuery = gql`
 export const AboutPage = () => {
   const { t } = useTranslation();
   const { slug } = useParams();
-  const { error, loading, data } = useQuery<GQLAboutPageV2Query, GQLAboutPageV2QueryVariables>(aboutPageQuery, {
+  const { error, loading, data } = useQuery<GQLAboutPageQuery, GQLAboutPageQueryVariables>(aboutPageQuery, {
     skip: !slug,
     variables: { slug: slug ?? "" },
   });
