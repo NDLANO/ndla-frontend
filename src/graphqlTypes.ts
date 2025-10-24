@@ -2391,62 +2391,6 @@ export type GQLLicenseListCopyrightFragment = {
   rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
 };
 
-export type GQLAboutPageQueryVariables = Exact<{
-  slug: Scalars["String"]["input"];
-  transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
-}>;
-
-export type GQLAboutPageQuery = {
-  __typename?: "Query";
-  article?: { __typename?: "Article" } & GQLAboutPage_ArticleFragment;
-  frontpage?: { __typename?: "FrontpageMenu" } & GQLAboutPage_FrontpageMenuFragment;
-};
-
-export type GQLAboutPage_ArticleFragment = {
-  __typename?: "Article";
-  id: number;
-  introduction?: string;
-  grepCodes?: Array<string>;
-  htmlIntroduction?: string;
-  created: string;
-  updated: string;
-  slug?: string;
-  language: string;
-  published: string;
-  transformedContent: {
-    __typename?: "TransformedArticleContent";
-    content: string;
-    metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
-  };
-} & GQLLicenseBox_ArticleFragment &
-  GQLStructuredArticleDataFragment;
-
-export type GQLAboutPage_FrontpageMenuFragment = {
-  __typename?: "FrontpageMenu";
-  menu?: Array<{ __typename?: "FrontpageMenu" } & GQLAboutPageFooter_FrontpageMenuFragment>;
-} & GQLFrontpageMenuFragmentFragment;
-
-export type GQLFrontpageMenuFragmentFragment = {
-  __typename?: "FrontpageMenu";
-  articleId: number;
-  article: { __typename?: "Article"; title: string; slug?: string };
-};
-
-export type GQLAboutPageFooter_FrontpageMenuFragment = {
-  __typename?: "FrontpageMenu";
-  menu?: Array<
-    {
-      __typename?: "FrontpageMenu";
-      menu?: Array<
-        {
-          __typename?: "FrontpageMenu";
-          menu?: Array<{ __typename?: "FrontpageMenu" } & GQLFrontpageMenuFragmentFragment>;
-        } & GQLFrontpageMenuFragmentFragment
-      >;
-    } & GQLFrontpageMenuFragmentFragment
-  >;
-} & GQLFrontpageMenuFragmentFragment;
-
 export type GQLAboutPageLeaf_ArticleFragment = {
   __typename?: "Article";
   id: number;
@@ -2493,12 +2437,12 @@ export type GQLAboutPageNode_FrontpageMenuFragment = {
   article: { __typename?: "Article"; id: number; title: string; slug?: string; metaDescription: string };
 };
 
-export type GQLAboutPageV2QueryVariables = Exact<{
+export type GQLAboutPageQueryVariables = Exact<{
   slug: Scalars["String"]["input"];
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
-export type GQLAboutPageV2Query = {
+export type GQLAboutPageQuery = {
   __typename?: "Query";
   article?: { __typename?: "Article" } & GQLAboutPageLeaf_ArticleFragment & GQLAboutPageNode_ArticleFragment;
   frontpage?: {
