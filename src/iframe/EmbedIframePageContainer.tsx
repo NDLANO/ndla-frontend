@@ -6,7 +6,7 @@
  *
  */
 
-import EmbedIframePage from "./EmbedIframePage";
+import { EmbedIframePage } from "./EmbedIframePage";
 import { PageLayout } from "../components/Layout/PageContainer";
 
 export const EmbedIframePageContainer = () => {

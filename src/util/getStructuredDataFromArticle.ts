@@ -309,7 +309,7 @@ export const structuredArticleDataFragment = gql`
   ${imageLicenseFragment}
 `;
 
-const getStructuredDataFromArticle = (
+export const getStructuredDataFromArticle = (
   article: GQLStructuredArticleDataFragment,
   language: string,
   breadcrumbItems?: Breadcrumb[],
@@ -414,5 +414,3 @@ const createVideoData = (videos: GQLStructuredArticleData_BrightcoveLicenseFragm
       ...(video?.copyright ? getCopyrightData(video.copyright) : {}),
     };
   });
-
-export default getStructuredDataFromArticle;

@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { DefaultErrorMessage } from "../components/DefaultErrorMessage";
-import Status from "../components/Status";
+import { Status } from "../components/Status";
 import { ErrorElement } from "../RouteErrorElement";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 

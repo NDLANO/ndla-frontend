@@ -9,9 +9,9 @@
 import { ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogRoot, DialogTrigger } from "@ndla/primitives";
-import CopyFolder from "./CopyFolder";
+import { CopyFolder } from "./CopyFolder";
 import { Folder } from "./Folder";
-import LoginModalContent from "./LoginModalContent";
+import { LoginModalContent } from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
@@ -22,7 +22,7 @@ interface Props {
   children: ReactNode;
 }
 
-const CopyFolderModal = ({ folder, children }: Props) => {
+export const CopyFolderModal = ({ folder, children }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
@@ -56,5 +56,3 @@ const CopyFolderModal = ({ folder, children }: Props) => {
     </DialogRoot>
   );
 };
-
-export default CopyFolderModal;

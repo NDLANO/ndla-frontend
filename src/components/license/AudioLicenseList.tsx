@@ -13,13 +13,13 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { figureApa7CopyString, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import CopyTextButton from "./CopyTextButton";
+import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLAudioLicenseList_AudioLicenseFragment } from "../../graphqlTypes";
-import FavoriteButton from "../Article/FavoritesButton";
+import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -143,7 +143,7 @@ interface Props {
   audios: GQLAudioLicenseList_AudioLicenseFragment[];
 }
 
-const AudioLicenseList = ({ audios }: Props) => {
+export const AudioLicenseList = ({ audios }: Props) => {
   return (
     <MediaList>
       {audios.map((audio) => (
@@ -167,5 +167,3 @@ AudioLicenseList.fragments = {
     ${licenseListCopyrightFragment}
   `,
 };
-
-export default AudioLicenseList;

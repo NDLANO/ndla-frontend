@@ -45,7 +45,7 @@ export interface CoreElementType {
 
 type CompetenceType = "goal" | "element";
 
-const CompetenceGoalTab = ({ items, type }: Props) => {
+export const CompetenceGoalTab = ({ items, type }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -189,5 +189,3 @@ const CompetenceItem = ({ item, isOembed, showLinks = false }: CompetenceItemPro
     </OuterList>
   );
 };
-
-export default CompetenceGoalTab;

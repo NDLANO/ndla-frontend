@@ -8,7 +8,7 @@
 
 import config from "../../config";
 
-const Formbricks = () => {
+export const Formbricks = () => {
   if (!config.formbricksId) {
     return null;
   }
@@ -24,5 +24,3 @@ const Formbricks = () => {
     />
   );
 };
-
-export default Formbricks;

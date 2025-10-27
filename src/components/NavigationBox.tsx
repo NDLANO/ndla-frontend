@@ -80,5 +80,3 @@ export const NavigationBox = ({ heading, variant, items }: Props & NavigationSaf
     </StyledWrapper>
   );
 };
-
-export default NavigationBox;

@@ -22,11 +22,11 @@ import {
 import { useArticleCopyText, useNavigateToHash } from "./articleHelpers";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { TransformedBaseArticle } from "../../util/transformArticle";
-import CompetenceGoals from "../CompetenceGoals";
-import Disclaimer from "../Disclaimer";
-import FavoriteButton from "./FavoritesButton";
-import LicenseBox from "../license/LicenseBox";
-import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
+import { CompetenceGoals } from "../CompetenceGoals";
+import { Disclaimer } from "../Disclaimer";
+import { FavoriteButton } from "./FavoritesButton";
+import { LicenseBox } from "../license/LicenseBox";
+import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
 
 interface Props extends HTMLProps<"div"> {
   id?: string;
@@ -47,7 +47,7 @@ const StyledArticleContent = styled(ArticleContent, {
   },
 });
 
-const Article = ({
+export const Article = ({
   path,
   article,
   isTopicArticle = false,
@@ -162,4 +162,3 @@ Article.fragments = {
     ${LicenseBox.fragments.article}
   `,
 };
-export default Article;

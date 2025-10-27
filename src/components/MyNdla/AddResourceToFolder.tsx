@@ -34,8 +34,8 @@ import {
   useTagSelectorTranslations,
 } from "@ndla/ui";
 import { sortBy, uniq } from "@ndla/util";
-import FolderSelect from "./FolderSelect";
-import ListResource from "./ListResource";
+import { FolderSelect } from "./FolderSelect";
+import { ListResource } from "./ListResource";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import {
   useAddResourceToFolderMutation,
@@ -98,7 +98,7 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   );
 };
 
-const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
+export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
@@ -324,5 +324,3 @@ const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) =>
     </AddResourceContainer>
   );
 };
-
-export default AddResourceToFolder;

@@ -13,10 +13,10 @@ import { useApolloClient } from "@apollo/client/react";
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import DraggableFolder from "./DraggableFolder";
+import { DraggableFolder } from "./DraggableFolder";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { PageSpinner } from "../../../../components/PageSpinner";
-import WhileLoading from "../../../../components/WhileLoading";
+import { WhileLoading } from "../../../../components/WhileLoading";
 import { GQLFolder, GQLSharedFolder } from "../../../../graphqlTypes";
 import { useSortFoldersMutation } from "../../../../mutations/folder/folderMutations";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
@@ -38,7 +38,7 @@ export const getFolderCount = (folders: GQLFolder[] | GQLSharedFolder[]) =>
     return acc;
   }, {});
 
-const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
+export const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
   const { t } = useTranslation();
   const [sortFolders] = useSortFoldersMutation({ type: isFavorited ? "sharedFolder" : "folder" });
   const client = useApolloClient();
@@ -120,4 +120,3 @@ const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFav
     </WhileLoading>
   );
 };
-export default FolderList;

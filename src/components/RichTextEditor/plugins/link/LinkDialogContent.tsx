@@ -27,7 +27,7 @@ import {
   FieldRoot,
 } from "@ndla/primitives";
 import { URL_REGEX } from "../../../../util/urlHelper";
-import useValidationTranslation from "../../../../util/useValidationTranslation";
+import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { DialogCloseButton } from "../../../DialogCloseButton";
 
 interface LinkDialogContentProps {

@@ -20,7 +20,7 @@ import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { useSiteTheme } from "../../components/SiteThemeContext";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { FILM_PAGE_URL, PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";

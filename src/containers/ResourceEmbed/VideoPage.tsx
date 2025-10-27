@@ -7,7 +7,7 @@
  */
 
 import { useParams } from "react-router";
-import ResourceEmbed from "./components/ResourceEmbed";
+import { ResourceEmbed } from "./components/ResourceEmbed";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 export const VideoPage = () => {

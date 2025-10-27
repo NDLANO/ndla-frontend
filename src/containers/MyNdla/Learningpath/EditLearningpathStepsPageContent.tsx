@@ -160,5 +160,3 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
     </>
   );
 };
-
-export default EditLearningpathStepsPageContent;

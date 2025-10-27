@@ -16,7 +16,7 @@ import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleFormValues, TitleForm } from "./components/TitleForm";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -24,8 +24,8 @@ import { useUpdateLearningpath } from "../../../mutations/learningpathMutations"
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 
 export const Component = () => {
   return <PrivateRoute element={<EditLearningpathTitlePage />} />;

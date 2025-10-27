@@ -17,7 +17,7 @@ import {
   Heading,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import ImageLicenseList from "./ImageLicenseList";
+import { ImageLicenseList } from "./ImageLicenseList";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 
 type Props = {

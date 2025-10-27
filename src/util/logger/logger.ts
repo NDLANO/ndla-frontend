@@ -111,5 +111,4 @@ class NDLALogger {
   }
 }
 
-const log = new NDLALogger();
-export default log;
+export const log = new NDLALogger();

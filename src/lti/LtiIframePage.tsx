@@ -9,7 +9,7 @@
 import { useParams } from "react-router";
 import { MissingRouterContext } from "@ndla/safelink";
 import { PageLayout } from "../components/Layout/PageContainer";
-import IframePage from "../iframe/IframePage";
+import { IframePage } from "../iframe/IframePage";
 
 export const Component = () => {
   const { taxonomyId, articleId } = useParams();

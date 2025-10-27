@@ -25,8 +25,8 @@ import {
 } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LdJson } from "../../components/LdJson";
-import LicenseBox from "../../components/license/LicenseBox";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { LicenseBox } from "../../components/license/LicenseBox";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationPageListItem } from "../../components/TransportationPage/TransportationpageListItem";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";

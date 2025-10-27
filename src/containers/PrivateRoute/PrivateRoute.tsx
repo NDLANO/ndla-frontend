@@ -29,12 +29,10 @@ const ClientPrivateRoute = ({ element }: Props) => {
   return element;
 };
 
-const PrivateRoute = (props: Props) => {
+export const PrivateRoute = (props: Props) => {
   return (
     <NoSSR fallback={null}>
       <ClientPrivateRoute {...props} />
     </NoSSR>
   );
 };
-
-export default PrivateRoute;

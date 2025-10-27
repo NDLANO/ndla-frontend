@@ -13,15 +13,15 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import CopyTextButton from "./CopyTextButton";
+import { CopyTextButton } from "./CopyTextButton";
 import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import {
   GQLConceptLicenseList_ConceptLicenseFragment,
   GQLGlossLicenseList_GlossLicenseFragment,
 } from "../../graphqlTypes";
-import FavoriteButton from "../Article/FavoritesButton";
+import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -146,7 +146,7 @@ interface Props {
   concepts: GQLConceptLicenseList_ConceptLicenseFragment[];
 }
 
-const ConceptLicenseList = ({ concepts }: Props) => {
+export const ConceptLicenseList = ({ concepts }: Props) => {
   return (
     <MediaList>
       {concepts.map((concept, index) => (
@@ -227,5 +227,3 @@ ConceptLicenseList.fragments = {
     }
   `,
 };
-
-export default ConceptLicenseList;

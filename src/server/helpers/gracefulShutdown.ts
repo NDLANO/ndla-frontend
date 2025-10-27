@@ -6,7 +6,7 @@
  *
  */
 
-import log from "../../util/logger";
+import { log } from "../../util/logger/logger";
 import config from "../../config";
 import { Server } from "http";
 import { getActiveRequests } from "../middleware/activeRequestsMiddleware";

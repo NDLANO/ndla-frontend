@@ -15,15 +15,15 @@ import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleForm, TitleFormValues } from "./components/TitleForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useCreateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 
 export const Component = () => {
   return <PrivateRoute element={<NewLearningpathPage />} />;

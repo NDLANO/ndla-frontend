@@ -73,7 +73,7 @@ export const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) =>
 
 interface SubjectLinksProps extends GQLSubjectLinks_SubjectPageFragment {}
 
-const SubjectLinks = ({ buildsOn, connectedTo, leadsTo }: SubjectLinksProps) => {
+export const SubjectLinks = ({ buildsOn, connectedTo, leadsTo }: SubjectLinksProps) => {
   const { t } = useTranslation();
   if (!connectedTo.length && !buildsOn.length && !leadsTo.length) return null;
   return (
@@ -107,5 +107,3 @@ SubjectLinks.fragments = {
     }
   `,
 };
-
-export default SubjectLinks;

@@ -8,7 +8,7 @@
 
 import { ButtonHTMLAttributes, type Ref, useContext, useMemo } from "react";
 import { NoSSR } from "@ndla/util";
-import UIFavoriteButton from "../../components/MyNdla/FavoriteButton";
+import { FavoriteButton as UIFavoriteButton } from "../../components/MyNdla/FavoriteButton";
 import { useFolders } from "../../mutations/folder/folderQueries";
 import { getAllResources } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
@@ -26,12 +26,10 @@ const ClientFavorite = ({ path, ...rest }: Props) => {
   return <UIFavoriteButton isFavorite={exists} {...rest} />;
 };
 
-const FavoriteButton = (props: Props) => {
+export const FavoriteButton = (props: Props) => {
   return (
     <NoSSR fallback={<UIFavoriteButton />}>
       <ClientFavorite {...props} />
     </NoSSR>
   );
 };
-
-export default FavoriteButton;

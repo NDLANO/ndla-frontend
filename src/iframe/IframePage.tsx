@@ -19,9 +19,9 @@ import {
   PageContainer,
 } from "@ndla/primitives";
 import { HelmetWithTracker } from "@ndla/tracker";
-import IframeArticlePage, { iframeArticlePageFragments } from "./IframeArticlePage";
-import { Status } from "../components";
-import RedirectContext from "../components/RedirectContext";
+import { IframeArticlePage, iframeArticlePageFragments } from "./IframeArticlePage";
+import { RedirectContext } from "../components/RedirectContext";
+import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
@@ -103,5 +103,3 @@ export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
   }
   return <IframeArticlePage node={nodeByArticleId} article={article} />;
 };
-
-export default IframePage;

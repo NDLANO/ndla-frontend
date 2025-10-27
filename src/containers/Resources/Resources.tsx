@@ -23,7 +23,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentType } from "@ndla/ui";
 import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
-import ResourceList from "./ResourceList";
+import { ResourceList } from "./ResourceList";
 import {
   RELEVANCE_SUPPLEMENTARY,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -102,7 +102,7 @@ const SpinnerWrapper = styled("div", {
   },
 });
 
-const Resources = ({
+export const Resources = ({
   parentId,
   rootId,
   headingType: HeadingType,
@@ -283,5 +283,3 @@ const resourcesQuery = gql`
   ${Resources.fragments.node}
   ${Resources.fragments.resourceType}
 `;
-
-export default Resources;

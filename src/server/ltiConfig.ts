@@ -8,7 +8,7 @@
 
 import config from "../config";
 
-const ltiConfig = (): string => {
+export const ltiConfig = (): string => {
   const launchUrl = config?.ndlaEnvironment === "dev" ? "http://localhost:3000" : config?.ndlaFrontendDomain;
 
   const domainXML = config?.ndlaEnvironment === "dev" ? `<lticm:property name="domain">localhost</lticm:property>` : "";
@@ -38,5 +38,3 @@ const ltiConfig = (): string => {
     </blti:extensions>
 </cartridge_basiclti_link>`;
 };
-
-export default ltiConfig;

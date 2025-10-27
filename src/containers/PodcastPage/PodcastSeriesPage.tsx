@@ -38,13 +38,13 @@ import {
 } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
 import { publisher } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
-import ResourceEmbedLicenseContent from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
+import { ResourceEmbedLicenseContent } from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
 export const PodcastSeriesPage = () => {
   const { id } = useParams();

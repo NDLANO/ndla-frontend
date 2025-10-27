@@ -9,7 +9,7 @@
 import { NextFunction, Request, Response } from "express";
 import { NOT_FOUND_PAGE_PATH } from "../../constants";
 import { BAD_REQUEST } from "../../statusCodes";
-import podcastRssFeed from "../podcastRssFeed";
+import { podcastRssFeed } from "../podcastRssFeed";
 
 export const podcastFeedRoute = async (req: Request, res: Response, next: NextFunction) => {
   const id = parseInt(req.params.seriesId ?? "");

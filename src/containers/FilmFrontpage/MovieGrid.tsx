@@ -12,7 +12,7 @@ import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import FilmContentCard from "./FilmContentCard";
+import { FilmContentCard } from "./FilmContentCard";
 import { FILM_ID } from "../../constants";
 import {
   GQLResourceTypeMoviesQuery,

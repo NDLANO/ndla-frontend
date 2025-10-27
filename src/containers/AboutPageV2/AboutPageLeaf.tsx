@@ -24,8 +24,8 @@ import {
 } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LdJson } from "../../components/LdJson";
-import LicenseBox from "../../components/license/LicenseBox";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { LicenseBox } from "../../components/license/LicenseBox";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID, ABOUT_PATH } from "../../constants";
 import { GQLAboutPageLeaf_ArticleFragment } from "../../graphqlTypes";

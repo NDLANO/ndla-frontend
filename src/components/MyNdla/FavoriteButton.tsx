@@ -19,7 +19,7 @@ export interface Props extends Omit<IconButtonProps, "children"> {
   isFavorite?: boolean;
 }
 
-const FavoriteButton = ({ isFavorite, variant = "tertiary", ...props }: Props) => {
+export const FavoriteButton = ({ isFavorite, variant = "tertiary", ...props }: Props) => {
   const { t } = useTranslation();
   const labelModifier = isFavorite ? "added" : "add";
   const Icon = isFavorite ? HeartFill : HeartLine;
@@ -32,5 +32,3 @@ const FavoriteButton = ({ isFavorite, variant = "tertiary", ...props }: Props) =
     </StyledFavoriteButton>
   );
 };
-
-export default FavoriteButton;

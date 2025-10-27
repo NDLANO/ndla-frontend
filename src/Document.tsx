@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import type { ManifestChunk } from "vite";
-import Scripts from "./components/Scripts/Scripts";
+import { Scripts } from "./components/Scripts/Scripts";
 import config from "./config";
 
 interface Props {

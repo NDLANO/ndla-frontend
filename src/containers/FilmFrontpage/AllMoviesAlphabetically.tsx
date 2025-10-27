@@ -120,7 +120,7 @@ const LoadingShimmer = () => {
   );
 };
 
-const AllMoviesAlphabetically = () => {
+export const AllMoviesAlphabetically = () => {
   const { t, i18n } = useTranslation();
   const allMovies = useQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
     variables: {
@@ -173,8 +173,6 @@ const AllMoviesAlphabetically = () => {
     </>
   );
 };
-
-export default AllMoviesAlphabetically;
 
 const allMoviesQuery = gql`
   query allMovies($resourceTypes: String!, $language: String!) {

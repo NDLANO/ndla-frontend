@@ -26,8 +26,8 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { URL_REGEX } from "../../../../util/urlHelper";
-import useValidationTranslation from "../../../../util/useValidationTranslation";
-import FieldLength from "../../components/FieldLength";
+import { useValidationTranslation } from "../../../../util/useValidationTranslation";
+import { FieldLength } from "../../components/FieldLength";
 import { useFetchOpengraph } from "../learningpathQueries";
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {

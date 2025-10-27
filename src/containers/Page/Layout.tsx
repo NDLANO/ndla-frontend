@@ -11,14 +11,14 @@ import { Outlet, ScrollRestoration, useLocation } from "react-router";
 import { useComponentSize } from "@ndla/hooks";
 import { usePrevious } from "@ndla/util";
 import { Footer } from "./components/Footer";
-import TitleAnnouncer from "./components/TitleAnnouncer";
+import { TitleAnnouncer } from "./components/TitleAnnouncer";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { ToastProvider } from "../../components/ToastContext";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 import { Masthead } from "../Masthead/Masthead";
 
-const Layout = () => {
+export const Layout = () => {
   const { pathname } = useLocation();
   const { height } = useComponentSize("masthead");
   const prevPathname = usePrevious(pathname);
@@ -62,6 +62,5 @@ const Layout = () => {
     </ToastProvider>
   );
 };
-export default Layout;
 
 export const Component = Layout;

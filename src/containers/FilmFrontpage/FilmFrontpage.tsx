@@ -21,15 +21,15 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import AboutNdlaFilm from "./AboutNdlaFilm";
+import { AboutNdlaFilm } from "./AboutNdlaFilm";
 import { FilmContent } from "./FilmContent";
 import { ALL_MOVIES_ID } from "./filmHelper";
-import FilmSlideshow from "./FilmSlideshow";
+import { FilmSlideshow } from "./FilmSlideshow";
 import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
-import Article from "../../components/Article";
+import { Article } from "../../components/Article/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import NavigationBox from "../../components/NavigationBox";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { NavigationBox } from "../../components/NavigationBox";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
@@ -73,7 +73,7 @@ const fromNdla = {
   name: "ndlaFilm.search.categoryFromNdla",
 };
 
-const FilmFrontpage = () => {
+export const FilmFrontpage = () => {
   const allResources = useMemo(
     () => ({
       name: "filmfrontpage.resourcetype.all",
@@ -166,8 +166,6 @@ const FilmFrontpage = () => {
     </>
   );
 };
-
-export default FilmFrontpage;
 
 const filmFrontPageQuery = gql`
   query filmFrontPage($nodeId: String!, $transformArgs: TransformedArticleContentInput) {

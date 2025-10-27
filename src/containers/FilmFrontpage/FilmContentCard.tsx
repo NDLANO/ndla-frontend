@@ -110,7 +110,7 @@ const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((a
   return acc;
 }, {});
 
-const FilmContentCard = ({ movie: { metaImage, title, id, url, resourceTypes }, ...rest }: Props) => {
+export const FilmContentCard = ({ movie: { metaImage, title, id, url, resourceTypes }, ...rest }: Props) => {
   const resources = resourceTypes.reduce<string[]>((acc, curr) => {
     const name = mappedResourceTypes[curr.id];
     if (name) return acc.concat(curr.name);
@@ -154,5 +154,3 @@ FilmContentCard.fragments = {
     }
   `,
 };
-
-export default FilmContentCard;

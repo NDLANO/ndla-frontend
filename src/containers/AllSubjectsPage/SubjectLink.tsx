@@ -8,7 +8,7 @@
 
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import FavoriteSubject from "../../components/FavoriteSubject";
+import { FavoriteSubject } from "../../components/FavoriteSubject";
 import { GQLTaxBase } from "../../graphqlTypes";
 
 const SubjectLinkWrapper = styled("li", {
@@ -29,7 +29,7 @@ interface Props {
   className?: string;
 }
 
-const SubjectLink = ({ subject, favorites, className }: Props) => {
+export const SubjectLink = ({ subject, favorites, className }: Props) => {
   return (
     <SubjectLinkWrapper className={className}>
       <FavoriteSubject
@@ -41,5 +41,3 @@ const SubjectLink = ({ subject, favorites, className }: Props) => {
     </SubjectLinkWrapper>
   );
 };
-
-export default SubjectLink;

@@ -7,7 +7,7 @@
  */
 
 import { useParams } from "react-router";
-import IframePage from "./IframePage";
+import { IframePage } from "./IframePage";
 import { PageLayout } from "../components/Layout/PageContainer";
 
 export const IframePageContainer = () => {
@@ -20,5 +20,3 @@ export const IframePageContainer = () => {
 };
 
 export const Component = IframePageContainer;
-
-export default IframePageContainer;

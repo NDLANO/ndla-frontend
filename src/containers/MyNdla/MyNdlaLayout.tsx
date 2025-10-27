@@ -31,7 +31,7 @@ import {
 import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { getCookie, NoSSR } from "@ndla/util";
-import NavigationLink, { MoreButton } from "./components/NavigationLink";
+import { NavigationLink, MoreButton } from "./components/NavigationLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import config from "../../config";
@@ -202,8 +202,6 @@ export const MyNdlaLayout = () => {
     </StyledLayout>
   );
 };
-
-export default MyNdlaLayout;
 
 interface MenuLink {
   id: string;

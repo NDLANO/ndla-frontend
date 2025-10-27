@@ -12,7 +12,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleHeader, ArticleWrapper } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
-import Resources from "../../containers/Resources/Resources";
+import { Resources } from "../../containers/Resources/Resources";
 import { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
 import { EmbedPageContent } from "./components/EmbedPageContent";
 
@@ -44,7 +44,7 @@ interface Props {
   title: string;
 }
 
-const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, title }: Props) => {
+export const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, title }: Props) => {
   const { t } = useTranslation();
   const isLastStep = seqNo === numberOfLearningSteps;
 
@@ -99,5 +99,3 @@ const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, titl
     </EmbedPageContent>
   );
 };
-
-export default LastLearningpathStepInfo;

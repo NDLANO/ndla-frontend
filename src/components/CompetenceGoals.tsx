@@ -28,7 +28,7 @@ import {
   TabsTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import CompetenceGoalTab, { CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
+import { CompetenceGoalTab, CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
 import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
 import { CompetenceGoalsType } from "../interfaces";
@@ -190,7 +190,7 @@ const competenceGoalsQuery = gql`
   }
 `;
 
-const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => {
+export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => {
   const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const { t, i18n } = useTranslation();
   const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
@@ -278,5 +278,3 @@ const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Pro
     </DialogRoot>
   );
 };
-
-export default CompetenceGoals;

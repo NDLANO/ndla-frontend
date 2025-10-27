@@ -13,8 +13,8 @@ import { gql } from "@apollo/client";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
-import Learningpath from "../../components/Learningpath";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { Learningpath } from "../../components/Learningpath/Learningpath";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
@@ -27,7 +27,7 @@ interface Props {
   stepId: string | undefined;
   skipToContentId?: string;
 }
-const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: Props) => {
+export const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
@@ -99,5 +99,3 @@ export const plainLearningpathContainerFragments = {
     ${Learningpath.fragments.learningpathStep}
   `,
 };
-
-export default PlainLearningpathContainer;

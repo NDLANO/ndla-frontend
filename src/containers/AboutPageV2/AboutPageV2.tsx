@@ -16,7 +16,7 @@ import { AboutPageNode } from "./AboutPageNode";
 import { findBreadcrumb, getBreadcrumb } from "./aboutPageUtils";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
+import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
 import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlTypes";
 import { GONE } from "../../statusCodes";
 import { isGoneError } from "../../util/handleError";

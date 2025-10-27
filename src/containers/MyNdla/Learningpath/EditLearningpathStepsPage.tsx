@@ -12,16 +12,16 @@ import { Navigate, useParams } from "react-router";
 import { Heading, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningpathStepper } from "./components/LearningpathStepper";
-import EditLearningpathStepsPageContent from "./EditLearningpathStepsPageContent";
+import { EditLearningpathStepsPageContent } from "./EditLearningpathStepsPageContent";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 
 export const Component = () => {
   return <PrivateRoute element={<EditLearningpathStepsPage />} />;

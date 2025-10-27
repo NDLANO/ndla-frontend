@@ -43,7 +43,7 @@ const ListWrapper = styled("nav", {
   },
 });
 
-const MultidisciplinaryArticleList = ({ nodes }: ListProps) => {
+export const MultidisciplinaryArticleList = ({ nodes }: ListProps) => {
   const { t } = useTranslation();
   const id = useId();
   return (
@@ -100,5 +100,3 @@ MultidisciplinaryArticleList.fragments = {
     }
   `,
 };
-
-export default MultidisciplinaryArticleList;

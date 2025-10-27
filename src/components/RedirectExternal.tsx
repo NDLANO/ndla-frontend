@@ -7,7 +7,7 @@
  */
 
 import { useContext } from "react";
-import RedirectContext, { RedirectInfo } from "./RedirectContext";
+import { RedirectContext, RedirectInfo } from "./RedirectContext";
 /**
  * The react-router Redirect component does'nt work with external
  * urls. So we use this helper component to handle it for us.
@@ -20,7 +20,7 @@ interface Props {
 interface Props {
   to: string;
 }
-const RedirectExternal = ({ to }: Props) => {
+export const RedirectExternal = ({ to }: Props) => {
   const context = useContext<RedirectInfo | undefined>(RedirectContext);
   if (context) {
     context.url = to;
@@ -29,5 +29,3 @@ const RedirectExternal = ({ to }: Props) => {
   }
   return null;
 };
-
-export default RedirectExternal;

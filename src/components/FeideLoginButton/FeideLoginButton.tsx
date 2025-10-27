@@ -13,7 +13,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
-import LoginModalContent from "../MyNdla/LoginModalContent";
+import { LoginModalContent } from "../MyNdla/LoginModalContent";
 
 interface Props {
   footer?: boolean;
@@ -26,7 +26,7 @@ const buttonCss = css.raw({
   },
 });
 
-const FeideLoginButton = ({ children }: Props) => {
+export const FeideLoginButton = ({ children }: Props) => {
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
 
@@ -49,5 +49,3 @@ const FeideLoginButton = ({ children }: Props) => {
     </DialogRoot>
   );
 };
-
-export default FeideLoginButton;

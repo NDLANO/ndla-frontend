@@ -113,7 +113,7 @@ const StyledDialogBody = styled(DialogBody, {
   },
 });
 
-const SettingsMenu = ({ menuItems, modalHeader, elementSize = "medium" }: Props) => {
+export const SettingsMenu = ({ menuItems, modalHeader, elementSize = "medium" }: Props) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const dropdownTriggerRef = useRef<HTMLButtonElement>(null);
@@ -269,4 +269,3 @@ export const MenuItemElement = ({
     </DialogRoot>
   );
 };
-export default SettingsMenu;

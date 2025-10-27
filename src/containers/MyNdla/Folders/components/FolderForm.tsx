@@ -23,8 +23,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { GQLFolder } from "../../../../graphqlTypes";
-import useValidationTranslation from "../../../../util/useValidationTranslation";
-import FieldLength from "../../components/FieldLength";
+import { useValidationTranslation } from "../../../../util/useValidationTranslation";
+import { FieldLength } from "../../components/FieldLength";
 
 interface EditFolderFormProps {
   folder?: GQLFolder;
@@ -65,7 +65,7 @@ const toFormValues = (folder: GQLFolder | undefined, t: TFunction): FolderFormVa
 const descriptionMaxLength = 300;
 const nameMaxLength = 64;
 
-const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) => {
+export const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const { control, handleSubmit } = useForm({ defaultValues: toFormValues(folder, t) });
@@ -139,5 +139,3 @@ const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) 
     </StyledForm>
   );
 };
-
-export default FolderForm;

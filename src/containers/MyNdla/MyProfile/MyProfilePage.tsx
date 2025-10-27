@@ -28,12 +28,12 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
-import MyNdlaTitle from "../../../components/MyNdla/MyNdlaTitle";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { useDeletePersonalData } from "../../../mutations/userMutations";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import MyContactArea from "../components/MyContactArea";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyContactArea } from "../components/MyContactArea";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { UserInfo } from "../components/UserInfo";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {

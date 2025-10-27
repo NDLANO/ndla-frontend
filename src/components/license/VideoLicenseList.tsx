@@ -14,13 +14,13 @@ import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import CopyTextButton from "./CopyTextButton";
+import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
-import FavoriteButton from "../Article/FavoritesButton";
+import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -147,7 +147,7 @@ interface Props {
   isResourcePage?: boolean;
 }
 
-const VideoLicenseList = ({ videos, isResourcePage }: Props) => {
+export const VideoLicenseList = ({ videos, isResourcePage }: Props) => {
   return (
     <MediaList>
       {videos.map((video) => (
@@ -177,5 +177,3 @@ VideoLicenseList.fragments = {
     ${licenseListCopyrightFragment}
   `,
 };
-
-export default VideoLicenseList;

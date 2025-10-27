@@ -27,7 +27,7 @@ interface Props {
   storedResource?: GQLFolderResource;
 }
 
-const FolderSelect = ({
+export const FolderSelect = ({
   folders,
   loading,
   selectedFolderId,
@@ -86,4 +86,3 @@ const FolderSelect = ({
     </ComboboxContainer>
   );
 };
-export default FolderSelect;

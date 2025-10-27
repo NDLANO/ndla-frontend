@@ -29,7 +29,7 @@ interface ResourceListProps {
   currentResourceId?: string;
 }
 
-const ResourceList = ({
+export const ResourceList = ({
   resources,
   contentType,
   headingId,
@@ -67,5 +67,3 @@ const ResourceList = ({
     </div>
   );
 };
-
-export default ResourceList;

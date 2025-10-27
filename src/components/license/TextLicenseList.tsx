@@ -12,7 +12,7 @@ import { FileCopyLine } from "@ndla/icons";
 import { metaTypes } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
 import { printPage } from "@ndla/util";
-import CopyTextButton from "./CopyTextButton";
+import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
@@ -114,7 +114,7 @@ interface Props {
   printUrl?: string;
 }
 
-const TextLicenseList = ({ texts, printUrl }: Props) => {
+export const TextLicenseList = ({ texts, printUrl }: Props) => {
   return (
     <MediaList>
       {texts.map((text, index) => (
@@ -132,5 +132,3 @@ TextLicenseList.fragments = {
     ${licenseListCopyrightFragment}
   `,
 };
-
-export default TextLicenseList;

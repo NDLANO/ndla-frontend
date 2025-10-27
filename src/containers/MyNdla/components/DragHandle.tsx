@@ -30,7 +30,7 @@ const StyledDragHandle = styled(IconButton, {
   },
 });
 
-const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
+export const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
   const { t } = useTranslation();
   const { listeners, setActivatorNodeRef } = useSortable({ id: sortableId });
   return (
@@ -47,5 +47,3 @@ const DragHandle = ({ sortableId, type, name, ...rest }: Props) => {
     </StyledDragHandle>
   );
 };
-
-export default DragHandle;

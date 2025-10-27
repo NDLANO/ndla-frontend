@@ -44,7 +44,7 @@ interface Props {
   options: Option[];
 }
 
-const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
+export const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -66,5 +66,3 @@ const TabFilter = ({ value: selectedValue, onChange, options }: Props) => {
     </StyledRadioGroupRoot>
   );
 };
-
-export default TabFilter;

@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { GridList } from "./SubjectCategory";
-import SubjectLink from "./SubjectLink";
+import { SubjectLink } from "./SubjectLink";
 import { GQLTaxBase } from "../../graphqlTypes";
 import { sortSubjectsByRecentlyFavourited } from "../MyNdla/myNdlaUtils";
 
@@ -19,7 +19,7 @@ interface Props {
   favorites: string[];
 }
 
-const FavoriteSubjects = ({ favorites, subjects }: Props) => {
+export const FavoriteSubjects = ({ favorites, subjects }: Props) => {
   const { t } = useTranslation();
 
   const mappedFavorites = useMemo(() => {
@@ -39,5 +39,3 @@ const FavoriteSubjects = ({ favorites, subjects }: Props) => {
     </div>
   );
 };
-
-export default FavoriteSubjects;

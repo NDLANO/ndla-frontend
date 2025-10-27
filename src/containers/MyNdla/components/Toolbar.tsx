@@ -9,8 +9,8 @@
 import { useTranslation } from "react-i18next";
 import { Button, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import MenuModalContent from "./MenuModalContent";
-import SettingsMenu, { MenuItemElement, MenuItemProps } from "./SettingsMenu";
+import { MenuModalContent } from "./MenuModalContent";
+import { SettingsMenu, MenuItemElement, MenuItemProps } from "./SettingsMenu";
 
 const ToolbarContainer = styled("div", {
   base: {
@@ -76,7 +76,7 @@ interface Props {
   showButtons?: boolean;
 }
 
-const Toolbar = ({ menuItems, showButtons }: Props) => {
+export const Toolbar = ({ menuItems, showButtons }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -118,4 +118,3 @@ const Toolbar = ({ menuItems, showButtons }: Props) => {
     </ToolbarContainer>
   );
 };
-export default Toolbar;

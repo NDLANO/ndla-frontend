@@ -16,7 +16,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Status } from "../components";
+import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 import { PageContainer } from "./Layout/PageContainer";
 

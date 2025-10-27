@@ -15,5 +15,3 @@ export const Tagmanager = () => {
   }
   return null;
 };
-
-export default Tagmanager;

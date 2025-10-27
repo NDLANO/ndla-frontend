@@ -9,8 +9,8 @@
 import { ReactNode } from "react";
 import { useRouteError } from "react-router";
 import config from "./config";
-import ErrorPage from "./containers/ErrorPage";
-import handleError from "./util/handleError";
+import { ErrorPage } from "./containers/ErrorPage/ErrorPage";
+import { handleError } from "./util/handleError";
 
 interface Props {
   children?: ReactNode;

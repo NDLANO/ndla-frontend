@@ -21,17 +21,17 @@ import { useFetchLearningpath } from "./learningpathQueries";
 import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
-import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathShareLink } from "./components/LearningpathShareLink";
 import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 
 const TextWrapper = styled("div", {
   base: {

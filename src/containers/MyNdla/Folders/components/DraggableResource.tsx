@@ -18,16 +18,16 @@ import { DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
-import DeleteModalContent from "../../../../components/MyNdla/DeleteModalContent";
-import ListResource from "../../../../components/MyNdla/ListResource";
+import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
+import { ListResource } from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMeta } from "../../../../graphqlTypes";
 import { useDeleteFolderResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
 import { getResourceTypesForResource } from "../../../../util/folderHelpers";
-import DragHandle from "../../components/DragHandle";
-import SettingsMenu, { MenuItemProps } from "../../components/SettingsMenu";
+import { DragHandle } from "../../components/DragHandle";
+import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
 import { DraggableListItem } from "../../Learningpath/components/DraggableListItem";
 
 const StyledTagsWrapper = styled("div", {
@@ -50,7 +50,7 @@ interface Props {
   resourceRefId?: string;
 }
 
-const DraggableResource = ({
+export const DraggableResource = ({
   resource,
   loading,
   index,
@@ -252,5 +252,3 @@ const DraggableResource = ({
     </DraggableListItem>
   );
 };
-
-export default DraggableResource;

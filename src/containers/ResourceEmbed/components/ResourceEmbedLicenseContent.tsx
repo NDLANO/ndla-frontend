@@ -9,12 +9,12 @@
 import { ReactNode, useMemo } from "react";
 import { gql } from "@apollo/client";
 import { styled } from "@ndla/styled-system/jsx";
-import AudioLicenseList from "../../../components/license/AudioLicenseList";
-import ConceptLicenseList, { GlossLicenseList } from "../../../components/license/ConceptLicenseList";
-import H5pLicenseList from "../../../components/license/H5pLicenseList";
-import ImageLicenseList from "../../../components/license/ImageLicenseList";
-import PodcastLicenseList from "../../../components/license/PodcastLicenseList";
-import VideoLicenseList from "../../../components/license/VideoLicenseList";
+import { AudioLicenseList } from "../../../components/license/AudioLicenseList";
+import { ConceptLicenseList, GlossLicenseList } from "../../../components/license/ConceptLicenseList";
+import { H5pLicenseList } from "../../../components/license/H5pLicenseList";
+import { ImageLicenseList } from "../../../components/license/ImageLicenseList";
+import { PodcastLicenseList } from "../../../components/license/PodcastLicenseList";
+import { VideoLicenseList } from "../../../components/license/VideoLicenseList";
 import { GQLResourceEmbedLicenseContent_MetaFragment } from "../../../graphqlTypes";
 
 interface Props {
@@ -62,7 +62,7 @@ const buildLicenseTabList = (metaData: GQLResourceEmbedLicenseContent_MetaFragme
   return licenseContent;
 };
 
-const ResourceEmbedLicenseContent = ({ metaData }: Props) => {
+export const ResourceEmbedLicenseContent = ({ metaData }: Props) => {
   const licenseContent = useMemo(() => buildLicenseTabList(metaData), [metaData]);
 
   return (
@@ -113,5 +113,3 @@ ResourceEmbedLicenseContent.fragments = {
     ${ImageLicenseList.fragments.image}
   `,
 };
-
-export default ResourceEmbedLicenseContent;

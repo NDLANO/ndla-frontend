@@ -23,7 +23,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import Article from "../../components/Article";
+import { Article } from "../../components/Article/Article";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
@@ -96,7 +96,7 @@ interface AboutNdlaFilmProps {
   article?: BaseArticle;
 }
 
-const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
+export const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
   const { t, i18n } = useTranslation();
   const titleId = "about-ndla-film-title";
 
@@ -147,5 +147,3 @@ const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
     </BleedPageContent>
   );
 };
-
-export default AboutNdlaFilm;

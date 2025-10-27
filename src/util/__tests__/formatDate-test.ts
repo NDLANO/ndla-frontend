@@ -6,7 +6,7 @@
  *
  */
 
-import formatDate, { getNdlaRobotDateFormat } from "../formatDate";
+import { formatDate, getNdlaRobotDateFormat } from "../formatDate";
 
 test("util/formatDate norwegian format", () => {
   expect(typeof formatDate).toBe("function");

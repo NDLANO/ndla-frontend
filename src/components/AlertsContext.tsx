@@ -11,7 +11,7 @@ import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { partition, uniq } from "@ndla/util";
 import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
-import log from "../util/logger";
+import { log } from "../util/logger/logger";
 
 interface AlertsContextProps {
   openAlerts: GQLAlertsQuery["alerts"];

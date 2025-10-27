@@ -10,7 +10,7 @@ import { ComponentPropsWithoutRef } from "react";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps } from "@ndla/styled-system/types";
 import { MenuItemProps } from "./SettingsMenu";
-import Toolbar from "./Toolbar";
+import { Toolbar } from "./Toolbar";
 import { PageContainer } from "../../../components/Layout/PageContainer";
 
 interface Props extends ComponentPropsWithoutRef<"div">, JsxStyleProps {
@@ -40,7 +40,7 @@ const StyledMain = styled("main", {
   },
 });
 
-const MyNdlaPageWrapper = ({ menuItems, type = "default", showButtons, children, ...rest }: Props) => {
+export const MyNdlaPageWrapper = ({ menuItems, type = "default", showButtons, children, ...rest }: Props) => {
   return (
     <>
       <Toolbar menuItems={menuItems} showButtons={showButtons} />
@@ -50,5 +50,3 @@ const MyNdlaPageWrapper = ({ menuItems, type = "default", showButtons, children,
     </>
   );
 };
-
-export default MyNdlaPageWrapper;

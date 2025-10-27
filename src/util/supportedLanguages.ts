@@ -6,6 +6,4 @@
  *
  */
 
-const supportedLanguages = ["nb", "nn", "en", "de", "zh", "se", "es", "fr"];
-
-export default supportedLanguages;
+export const supportedLanguages = ["nb", "nn", "en", "de", "zh", "se", "es", "fr"];

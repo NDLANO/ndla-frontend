@@ -26,10 +26,10 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import PodcastSeries from "./PodcastSeries";
+import { PodcastSeries } from "./PodcastSeries";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 import { useStableSearchParams } from "../../util/useStableSearchParams";

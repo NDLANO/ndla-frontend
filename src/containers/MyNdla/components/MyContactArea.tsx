@@ -34,7 +34,7 @@ const MyContactAreaContainer = styled("div", {
   },
 });
 
-const MyContactArea = ({ user }: MyContractAreaProps) => {
+export const MyContactArea = ({ user }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
       <Heading textStyle="heading.medium" asChild consumeCss>
@@ -45,4 +45,3 @@ const MyContactArea = ({ user }: MyContractAreaProps) => {
     </MyContactAreaContainer>
   );
 };
-export default MyContactArea;

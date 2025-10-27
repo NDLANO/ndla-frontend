@@ -10,9 +10,9 @@ import { useTranslation } from "react-i18next";
 import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { Status } from "../../components";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import { PageLayout } from "../../components/Layout/PageContainer";
+import { Status } from "../../components/Status";
 import { INTERNAL_SERVER_ERROR } from "../../statusCodes";
 import { MastheadContainer } from "../Masthead/Masthead";
 import { Footer } from "../Page/components/Footer";
@@ -23,7 +23,7 @@ const ErrorMessageMain = styled("main", {
   },
 });
 
-const ErrorPage = () => {
+export const ErrorPage = () => {
   const { t } = useTranslation();
   return (
     <Status code={INTERNAL_SERVER_ERROR}>
@@ -45,5 +45,3 @@ const ErrorPage = () => {
 };
 
 export const Component = ErrorPage;
-
-export default ErrorPage;

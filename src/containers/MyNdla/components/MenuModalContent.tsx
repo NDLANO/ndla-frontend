@@ -12,7 +12,7 @@ import { useLocation } from "react-router";
 import { Portal, useDialogContext } from "@ark-ui/react";
 import { Button, DialogBody, DialogContent, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import NavigationLink from "./NavigationLink";
+import { NavigationLink } from "./NavigationLink";
 import { MenuItemElement, MenuItemProps } from "./SettingsMenu";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -76,7 +76,7 @@ interface Props {
   showButtons?: boolean;
 }
 
-const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
+export const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
   const { setOpen } = useDialogContext();
@@ -153,5 +153,3 @@ const MenuModalContent = ({ menuItems, showButtons = true }: Props) => {
     </Portal>
   );
 };
-
-export default MenuModalContent;

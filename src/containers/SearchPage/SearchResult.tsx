@@ -30,7 +30,7 @@ import { ContentTypeBadge, constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
-import LtiEmbed from "../../lti/LtiEmbed";
+import { LtiEmbed } from "../../lti/LtiEmbed";
 import { useLtiContext } from "../../LtiContext";
 
 interface Props {
