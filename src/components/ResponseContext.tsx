@@ -11,5 +11,5 @@ import { createContext } from "react";
 export interface ResponseInfo {
   status?: number;
 }
-const ResponseContext = createContext<ResponseInfo | undefined>(undefined);
-export default ResponseContext;
+
+export const ResponseContext = createContext<ResponseInfo | undefined>(undefined);

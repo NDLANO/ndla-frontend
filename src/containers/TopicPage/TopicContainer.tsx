@@ -16,14 +16,14 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
-import MultidisciplinaryArticleList from "./MultidisciplinaryArticleList";
-import FavoriteButton from "../../components/Article/FavoritesButton";
+import { MultidisciplinaryArticleList } from "./MultidisciplinaryArticleList";
+import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
-import CompetenceGoals from "../../components/CompetenceGoals";
+import { CompetenceGoals } from "../../components/CompetenceGoals";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
@@ -34,7 +34,7 @@ import { SubjectType } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { getArticleIdFromResource } from "../Resources/resourceHelpers";
-import Resources from "../Resources/Resources";
+import { Resources } from "../Resources/Resources";
 
 const NodeGridWrapper = styled("nav", {
   base: {

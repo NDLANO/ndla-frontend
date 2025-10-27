@@ -239,7 +239,7 @@ const fontSrc = (() => {
   return defaultFontSrc;
 })();
 
-const contentSecurityPolicy = {
+export const contentSecurityPolicy = {
   directives: {
     baseUri: ["'self'", "https://tall.ndla.no"],
     defaultSrc: ["'self'", "blob:"],
@@ -293,4 +293,3 @@ const contentSecurityPolicy = {
     connectSrc,
   },
 };
-export default contentSecurityPolicy;

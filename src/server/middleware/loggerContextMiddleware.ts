@@ -21,7 +21,7 @@ export const withCtx = <T>(ctx: LoggerContext, f: () => T): T => {
   return asyncLocalStorage.run(ctx, f);
 };
 
-const loggerContextMiddleware = (req: Request, _res: Response, next: NextFunction): void => {
+export const loggerContextMiddleware = (req: Request, _res: Response, next: NextFunction): void => {
   const fromReq = getAsString(req.headers["x-correlation-id"]);
   const correlationID = fromReq ? fromReq : uuid();
 
@@ -38,5 +38,3 @@ const loggerContextMiddleware = (req: Request, _res: Response, next: NextFunctio
 export function getLoggerContextStore(): LoggerContext | undefined {
   return asyncLocalStorage.getStore();
 }
-
-export default loggerContextMiddleware;

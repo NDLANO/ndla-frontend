@@ -9,7 +9,7 @@
 import { I18nextProvider } from "react-i18next";
 import { StaticRouter } from "react-router";
 import { render } from "@testing-library/react";
-import ErrorPage from "../ErrorPage";
+import { ErrorPage } from "../ErrorPage";
 import { initializeI18nTest } from "../../../__tests__/i18nTestHelpers";
 
 vi.mock("../../../config.ts", () => {

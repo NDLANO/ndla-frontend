@@ -24,7 +24,7 @@ import {
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";
-import LoginModalContent from "../../../components/MyNdla/LoginModalContent";
+import { LoginModalContent } from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
 import { GQLFolder } from "../../../graphqlTypes";
 import { useFavoriteSharedFolder } from "../../../mutations/folder/folderMutations";

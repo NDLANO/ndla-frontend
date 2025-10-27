@@ -16,12 +16,12 @@ import { getArticleIdFromResource } from "../../containers/Resources/resourceHel
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
-import handleError, { ensureError } from "../../util/handleError";
+import { handleError, ensureError } from "../../util/handleError";
 import { OembedResponse } from "../../interfaces";
 import { NotFoundError } from "../../util/error/StatusError";
 import { isValidLocale } from "../../i18n";
 import { oembedRoutes } from "../../routes";
-import log from "../../util/logger";
+import { log } from "../../util/logger/logger";
 
 type OembedRouteResponse =
   | { data: OembedResponse; status: typeof OK }

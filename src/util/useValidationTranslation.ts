@@ -21,7 +21,7 @@ interface TranslationProps {
 
 type Props = TranslationProps | string;
 
-const useValidationTranslation = () => {
+export const useValidationTranslation = () => {
   const { t: internalT } = useTranslation();
 
   const validationT = useCallback(
@@ -42,5 +42,3 @@ const useValidationTranslation = () => {
 
   return { validationT };
 };
-
-export default useValidationTranslation;

@@ -7,12 +7,12 @@
  */
 
 import { useParams } from "react-router";
-import PostResizeMessage from "./PostResizeMessage";
+import { PostResizeMessage } from "./PostResizeMessage";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
-import ResourceEmbed, { StandaloneEmbed } from "../containers/ResourceEmbed/components/ResourceEmbed";
+import { ResourceEmbed, StandaloneEmbed } from "../containers/ResourceEmbed/components/ResourceEmbed";
 
 const supportedEmbedTypes: StandaloneEmbed[] = ["concept", "video", "audio", "image", "h5p"];
-const EmbedIframePage = () => {
+export const EmbedIframePage = () => {
   const { embedId, embedType } = useParams();
   if (embedId && supportedEmbedTypes.some((t) => t === embedType)) {
     return (
@@ -25,5 +25,3 @@ const EmbedIframePage = () => {
 
   return <NotFoundPage />;
 };
-
-export default EmbedIframePage;

@@ -39,7 +39,7 @@ const StyledButton = styled(Button, {
 interface Props {
   item: LtiItem;
 }
-const LtiDefault = ({ item }: Props) => {
+export const LtiDefault = ({ item }: Props) => {
   const [embedCode, setEmbedCode] = useState("");
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
@@ -78,5 +78,3 @@ const LtiDefault = ({ item }: Props) => {
     </DialogRoot>
   );
 };
-
-export default LtiDefault;

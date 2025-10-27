@@ -16,7 +16,7 @@ interface Props {
   children?: ReactNode;
 }
 
-const CopyTextButton = ({ stringToCopy, copyTitle, hasCopiedTitle, children }: Props) => {
+export const CopyTextButton = ({ stringToCopy, copyTitle, hasCopiedTitle, children }: Props) => {
   const [hasCopied, setHasCopied] = useState(false);
 
   const handleClick = async () => {
@@ -45,5 +45,3 @@ const CopyTextButton = ({ stringToCopy, copyTitle, hasCopiedTitle, children }: P
     </span>
   );
 };
-
-export default CopyTextButton;

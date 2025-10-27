@@ -10,7 +10,7 @@ import { createInstance } from "i18next";
 import { initReactI18next } from "react-i18next";
 import { messagesEN, messagesNB, messagesNN, messagesSE } from "@ndla/ui";
 import config from "./config";
-import supportedLanguages from "./util/supportedLanguages";
+import { supportedLanguages } from "./util/supportedLanguages";
 
 // for some stupid reason, this needs to be in its own file. initReacti18next struggles to bind
 // to the actual instance if we do it in other ways.

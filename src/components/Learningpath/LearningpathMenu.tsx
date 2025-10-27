@@ -18,7 +18,7 @@ import { LearningpathContext } from "./learningpathUtils";
 import config from "../../config";
 import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
-import formatDate from "../../util/formatDate";
+import { formatDate } from "../../util/formatDate";
 
 interface Props {
   resourcePath: string | undefined;
@@ -170,7 +170,7 @@ const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
 const INTRODUCTION_ID = "intro";
 
-const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context, hasIntroduction }: Props) => {
+export const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context, hasIntroduction }: Props) => {
   const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
   const { t, i18n } = useTranslation();
 
@@ -306,5 +306,3 @@ LearningpathMenu.fragments = {
     }
   `,
 };
-
-export default LearningpathMenu;

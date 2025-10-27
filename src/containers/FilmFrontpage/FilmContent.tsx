@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import AllMoviesAlphabetically from "./AllMoviesAlphabetically";
+import { AllMoviesAlphabetically } from "./AllMoviesAlphabetically";
 import { ALL_MOVIES_ID, findName } from "./filmHelper";
 import { MovieGrid, MovieGridLoadingShimmer, SelectionMovieGrid } from "./MovieGrid";
 import { MovieResourceType } from "./resourceTypes";

@@ -61,7 +61,7 @@ interface Props extends Omit<SafeLinkButtonProps, "children"> {
   to: string;
 }
 
-const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reloadDocument }: Props) => {
+export const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reloadDocument }: Props) => {
   const location = useLocation();
   const selected =
     to === routes.myNdla.root ? location.pathname === routes.myNdla.root : location.pathname.startsWith(to);
@@ -92,5 +92,3 @@ const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reload
     </MyNdlaButton>
   );
 };
-
-export default NavigationLink;

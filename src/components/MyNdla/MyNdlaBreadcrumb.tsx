@@ -35,7 +35,7 @@ const types = {
   },
 };
 
-const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
+export const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   const { t } = useTranslation();
 
   const baseCrumb = types[page];
@@ -61,5 +61,3 @@ const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   }
   return null;
 };
-
-export default MyNdlaBreadcrumb;

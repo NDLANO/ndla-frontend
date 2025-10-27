@@ -7,8 +7,8 @@
  */
 
 import { RouteObject } from "react-router";
-import ErrorPage from "./containers/ErrorPage";
-import Layout from "./containers/Page/Layout";
+import { ErrorPage } from "./containers/ErrorPage/ErrorPage";
+import { Layout } from "./containers/Page/Layout";
 import { ErrorElement } from "./RouteErrorElement";
 
 export const routes: RouteObject[] = [

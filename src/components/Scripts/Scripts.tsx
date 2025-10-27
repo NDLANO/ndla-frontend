@@ -6,12 +6,12 @@
  *
  */
 
-import Formbricks from "./Formbricks";
-import Matomo from "./Matomo";
-import Monsido from "./Monsido";
-import Tagmanager from "./Tagmanager";
+import { Formbricks } from "./Formbricks";
+import { Matomo } from "./Matomo";
+import { Monsido } from "./Monsido";
+import { Tagmanager } from "./Tagmanager";
 
-const Scripts = () => {
+export const Scripts = () => {
   return (
     <>
       <Formbricks />
@@ -21,5 +21,3 @@ const Scripts = () => {
     </>
   );
 };
-
-export default Scripts;

@@ -20,7 +20,7 @@ import {
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
-import LicenseBylineDescriptionList from "./LicenseBylineDescriptionList";
+import { LicenseBylineDescriptionList } from "./LicenseBylineDescriptionList";
 
 export const MediaList = styled("ul", {
   base: {

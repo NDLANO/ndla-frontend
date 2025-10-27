@@ -18,7 +18,7 @@ import { getArticleScripts } from "../../../util/getArticleScripts";
 import { getContentType } from "../../../util/getContentType";
 import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
 import { transformArticle } from "../../../util/transformArticle";
-import Article from "../../Article";
+import { Article } from "../../Article/Article";
 import { CreatedBy } from "../../Article/CreatedBy";
 import { ContentPlaceholder } from "../../ContentPlaceholder";
 import { DefaultErrorMessage } from "../../DefaultErrorMessage";

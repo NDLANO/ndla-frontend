@@ -61,7 +61,7 @@ interface FolderShareModalContentProps extends BaseProps {
   onClose: () => void;
 }
 
-const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareModalContentProps) => {
+export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareModalContentProps) => {
   const { t } = useTranslation();
   const toast = useToast();
 
@@ -116,5 +116,3 @@ const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderShareMod
     </DialogContent>
   );
 };
-
-export default FolderShareModalContent;

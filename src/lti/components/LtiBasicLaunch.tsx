@@ -58,7 +58,7 @@ interface Props {
   ltiData: LtiData;
   item: LtiItem;
 }
-const LtiBasicLaunch = ({ ltiData, item }: Props) => {
+export const LtiBasicLaunch = ({ ltiData, item }: Props) => {
   const { t } = useTranslation();
   return (
     <StyledSafeLinkButton asAnchor to={getQuery(ltiData, item)}>
@@ -66,5 +66,3 @@ const LtiBasicLaunch = ({ ltiData, item }: Props) => {
     </StyledSafeLinkButton>
   );
 };
-
-export default LtiBasicLaunch;

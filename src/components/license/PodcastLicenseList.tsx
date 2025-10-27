@@ -13,13 +13,13 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { figureApa7CopyString, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import CopyTextButton from "./CopyTextButton";
+import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLPodcastLicenseList_PodcastLicenseFragment } from "../../graphqlTypes";
-import FavoriteButton from "../Article/FavoritesButton";
+import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -149,7 +149,7 @@ interface Props {
   podcasts: GQLPodcastLicenseList_PodcastLicenseFragment[];
 }
 
-const PodcastLicenseList = ({ podcasts }: Props) => {
+export const PodcastLicenseList = ({ podcasts }: Props) => {
   return (
     <MediaList>
       {podcasts.map((podcast, index) => (
@@ -175,5 +175,3 @@ PodcastLicenseList.fragments = {
     ${licenseListCopyrightFragment}
   `,
 };
-
-export default PodcastLicenseList;

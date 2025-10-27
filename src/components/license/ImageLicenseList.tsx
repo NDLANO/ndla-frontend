@@ -14,13 +14,13 @@ import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import CopyTextButton from "./CopyTextButton";
+import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
+import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
-import FavoriteButton from "../Article/FavoritesButton";
+import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
   MediaListItem,
@@ -154,7 +154,7 @@ interface Props {
   isResourcePage?: boolean;
 }
 
-const ImageLicenseList = ({ images, isResourcePage }: Props) => {
+export const ImageLicenseList = ({ images, isResourcePage }: Props) => {
   return (
     <MediaList>
       {images.map((image, index) => (
@@ -180,5 +180,3 @@ ImageLicenseList.fragments = {
     ${licenseListCopyrightFragment}
   `,
 };
-
-export default ImageLicenseList;

@@ -13,11 +13,11 @@ import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Button, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot, Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import RichTextEditor from "../../../../components/RichTextEditor/RichTextEditor";
+import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import { deserializeToRichText } from "../../../../components/RichTextEditor/richTextSerialization";
 import { routes } from "../../../../routeHelpers";
-import useValidationTranslation from "../../../../util/useValidationTranslation";
-import FieldLength from "../../components/FieldLength";
+import { useValidationTranslation } from "../../../../util/useValidationTranslation";
+import { FieldLength } from "../../components/FieldLength";
 
 const StyledForm = styled("form", {
   base: {

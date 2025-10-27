@@ -19,8 +19,8 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Status } from "../../components";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { Status } from "../../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 
 interface Props {

@@ -14,8 +14,8 @@ import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageLayout } from "../../components/Layout/PageContainer";
-import Learningpath from "../../components/Learningpath";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { Learningpath } from "../../components/Learningpath/Learningpath";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import {
   GQLLearningpath,
   GQLLearningpathPage_NodeFragment,
@@ -33,7 +33,7 @@ interface Props {
   stepId?: string;
 }
 
-const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => {
+export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
@@ -146,5 +146,3 @@ LearningpathPage.fragments = {
     ${Learningpath.fragments.learningpath}
   `,
 };
-
-export default LearningpathPage;

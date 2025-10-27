@@ -14,7 +14,7 @@ import { useMyLearningpaths } from "../learningpathQueries";
 import { useLearningpathActionHooks } from "./LearningpathActionHooks";
 import { LearningpathItem } from "./LearningpathItem";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
-import SettingsMenu from "../../components/SettingsMenu";
+import { SettingsMenu } from "../../components/SettingsMenu";
 
 const StyledOl = styled("ol", {
   base: {

@@ -6,13 +6,12 @@
  *
  */
 
-import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { FolderUserLine, FolderLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import MyNdlaBreadcrumb from "./MyNdlaBreadcrumb";
-import MyNdlaTitle, { TitleWrapper } from "./MyNdlaTitle";
+import { MyNdlaBreadcrumb } from "./MyNdlaBreadcrumb";
+import { MyNdlaTitle, TitleWrapper } from "./MyNdlaTitle";
 import { GQLFolder } from "../../graphqlTypes";
 
 const TitleRow = styled("div", {
@@ -47,7 +46,7 @@ interface Props {
   enableBreadcrumb?: boolean;
 }
 
-const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = true }: Props) => {
+export const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = true }: Props) => {
   const { t } = useTranslation();
 
   if (loading) {
@@ -69,5 +68,3 @@ const FoldersPageTitle = ({ loading = false, selectedFolder, enableBreadcrumb = 
     </TitleWrapper>
   );
 };
-
-export default memo(FoldersPageTitle);

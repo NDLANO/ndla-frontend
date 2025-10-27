@@ -16,11 +16,11 @@ import { transform } from "@ndla/article-converter";
 import { Hero, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
-import ResourceEmbedLicenseContent from "./ResourceEmbedLicenseContent";
+import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
-import SocialMediaMetadata from "../../../components/SocialMediaMetadata";
+import { SocialMediaMetadata } from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import {
@@ -121,7 +121,7 @@ export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFrag
   return false;
 };
 
-const ResourceEmbed = ({ id, type, isOembed }: Props) => {
+export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const { t } = useTranslation();
@@ -245,5 +245,3 @@ export const ResourceEmbedQuery = gql`
   }
   ${ResourceEmbedLicenseContent.fragments.metaData}
 `;
-
-export default ResourceEmbed;

@@ -21,7 +21,7 @@ const StyledList = styled("ul", {
   },
 });
 
-const LicenseBylineDescriptionList = ({ licenseRights, locale }: LicenseDescriptionListProps) => (
+export const LicenseBylineDescriptionList = ({ licenseRights, locale }: LicenseDescriptionListProps) => (
   <StyledList>
     {/* Filter away the CC-rights description since it is now shown in MediaListLicense*/}
     {licenseRights
@@ -31,5 +31,3 @@ const LicenseBylineDescriptionList = ({ licenseRights, locale }: LicenseDescript
       ))}
   </StyledList>
 );
-
-export default LicenseBylineDescriptionList;

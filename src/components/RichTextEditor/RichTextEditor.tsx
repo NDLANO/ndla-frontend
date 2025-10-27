@@ -128,5 +128,3 @@ export const RichTextEditor = ({ initialValue, onChange, ...rest }: Props) => {
     </EditorWrapper>
   );
 };
-
-export default RichTextEditor;

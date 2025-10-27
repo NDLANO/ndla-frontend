@@ -10,14 +10,14 @@ import { LocaleType } from "../interfaces";
 
 const timeZone = "CET";
 
-export default function formatDate(date: string, locale: LocaleType) {
+export const formatDate = (date: string, locale: LocaleType) => {
   return new Intl.DateTimeFormat(locale, {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
     timeZone,
   }).format(new Date(date));
-}
+};
 
 export const getNdlaRobotDateFormat = (date: Date) => {
   return new Intl.DateTimeFormat("en-CA", {

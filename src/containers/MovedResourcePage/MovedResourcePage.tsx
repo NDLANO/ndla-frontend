@@ -15,7 +15,7 @@ import { HelmetWithTracker } from "@ndla/tracker";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { MovedNodeCard } from "../../components/MovedNodeCard";
-import NavigationBox from "../../components/NavigationBox";
+import { NavigationBox } from "../../components/NavigationBox";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { contentTypeMapping } from "../../util/getContentType";
@@ -51,7 +51,7 @@ const movedResourceQuery = gql`
   }
 `;
 
-const MovedResourcePage = ({ resource }: Props) => {
+export const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
   const isLearningpath = !!resource.learningpath;
 
@@ -158,5 +158,3 @@ MovedResourcePage.fragments = {
     }
   `,
 };
-
-export default MovedResourcePage;

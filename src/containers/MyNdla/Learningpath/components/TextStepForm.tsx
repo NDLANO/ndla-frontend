@@ -13,8 +13,8 @@ import { ContentEditableFieldLabel } from "@ndla/editor-components";
 import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
-import useValidationTranslation from "../../../../util/useValidationTranslation";
-import FieldLength from "../../components/FieldLength";
+import { useValidationTranslation } from "../../../../util/useValidationTranslation";
+import { FieldLength } from "../../components/FieldLength";
 
 const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;

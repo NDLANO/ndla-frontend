@@ -31,7 +31,7 @@ const SkipLink = styled(SafeLinkButton, {
   },
 });
 
-const SkipToMainContent = ({ skipToMainContentId }: Props) => {
+export const SkipToMainContent = ({ skipToMainContentId }: Props) => {
   const { t } = useTranslation();
   return (
     <SkipLink asAnchor to={`#${skipToMainContentId}`}>
@@ -39,5 +39,3 @@ const SkipToMainContent = ({ skipToMainContentId }: Props) => {
     </SkipLink>
   );
 };
-
-export default SkipToMainContent;

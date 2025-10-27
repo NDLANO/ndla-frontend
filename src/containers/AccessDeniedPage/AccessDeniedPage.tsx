@@ -21,9 +21,9 @@ import {
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { Status } from "../../components";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { Status } from "../../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { toHref } from "../../util/urlHelper";
 

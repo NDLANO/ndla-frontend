@@ -33,7 +33,7 @@ const IframeWrapper = styled("div", {
   },
 });
 
-const LearningpathIframe = ({ html, url }: Props) => {
+export const LearningpathIframe = ({ html, url }: Props) => {
   const iframeRef = useRef<HTMLInputElement>(null);
   const [listeningToMessages, setListeningToMessages] = useState(true);
 
@@ -110,5 +110,3 @@ const LearningpathIframe = ({ html, url }: Props) => {
 
   return <IframeWrapper ref={iframeRef}>{parse(html)}</IframeWrapper>;
 };
-
-export default LearningpathIframe;

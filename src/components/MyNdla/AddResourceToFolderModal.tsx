@@ -9,9 +9,9 @@
 import { ReactNode, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
-import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
-import ListResource from "./ListResource";
-import LoginModalContent from "./LoginModalContent";
+import { AddResourceToFolder, ResourceAttributes } from "./AddResourceToFolder";
+import { ListResource } from "./ListResource";
+import { LoginModalContent } from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
 import { useFolderResourceMeta } from "../../mutations/folder/folderQueries";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
@@ -24,7 +24,7 @@ interface Props {
   children: ReactNode;
 }
 
-const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Props) => {
+export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder }: Props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
@@ -94,5 +94,3 @@ export const AddResourceToFolderModalContent = ({ resource, defaultOpenFolder, c
     </DialogContent>
   );
 };
-
-export default AddResourceToFolderModal;

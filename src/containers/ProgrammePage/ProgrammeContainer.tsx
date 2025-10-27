@@ -16,9 +16,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import NavigationBox from "../../components/NavigationBox";
+import { NavigationBox } from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
@@ -135,7 +135,7 @@ const StyledImage = styled(Image, {
   },
 });
 
-const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
+export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const heading = programme.title.title;
@@ -250,5 +250,3 @@ ProgrammeContainer.fragments = {
     }
   `,
 };
-
-export default ProgrammeContainer;

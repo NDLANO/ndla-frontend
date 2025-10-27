@@ -8,7 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
-import FolderForm, { FolderFormValues } from "./FolderForm";
+import { FolderForm, FolderFormValues } from "./FolderForm";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useFolders } from "../../../../mutations/folder/folderQueries";
@@ -20,7 +20,7 @@ interface Props {
   parentFolder?: GQLFolder | null;
 }
 
-const FolderCreateModalContent = ({ onClose, parentFolder, onCreate }: Props) => {
+export const FolderCreateModalContent = ({ onClose, parentFolder, onCreate }: Props) => {
   const { t } = useTranslation();
   const { folders } = useFolders();
   return (
@@ -41,5 +41,3 @@ const FolderCreateModalContent = ({ onClose, parentFolder, onCreate }: Props) =>
     </DialogContent>
   );
 };
-
-export default FolderCreateModalContent;

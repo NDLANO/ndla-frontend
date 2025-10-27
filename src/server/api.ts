@@ -14,7 +14,7 @@ import { IMyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
 import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
-import ltiConfig from "./ltiConfig";
+import { ltiConfig } from "./ltiConfig";
 import { contextRedirectRoute } from "./routes/contextRedirectRoute";
 import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
@@ -29,7 +29,7 @@ import { BAD_REQUEST } from "../statusCodes";
 import { isAccessTokenValid } from "../util/authHelpers";
 import { BadRequestError } from "../util/error/StatusError";
 import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
-import log from "../util/logger";
+import { log } from "../util/logger/logger";
 import { constructNewPath } from "../util/urlHelper";
 import { stringifiedLanguages } from "./locales/locales";
 

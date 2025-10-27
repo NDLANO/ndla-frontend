@@ -13,7 +13,7 @@ import { ApolloProvider } from "@apollo/client/react";
 import { prerenderStatic } from "@apollo/client/react/ssr";
 import { MissingRouterContext } from "@ndla/safelink";
 import { disableSSR } from "./renderHelpers";
-import RedirectContext, { RedirectInfo } from "../../components/RedirectContext";
+import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { entryPoints } from "../../entrypoints";

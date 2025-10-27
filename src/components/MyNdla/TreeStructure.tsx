@@ -32,7 +32,7 @@ import {
   useTreeView,
 } from "@ndla/primitives";
 import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
-import NewFolder from "./NewFolder";
+import { NewFolder } from "./NewFolder";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 
 export const MAX_LEVEL_FOR_FOLDERS = 5;

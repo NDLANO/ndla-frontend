@@ -8,7 +8,7 @@
 
 import config from "../../config";
 
-const Monsido = () => {
+export const Monsido = () => {
   if (!config.monsidoToken) {
     return null;
   }
@@ -38,5 +38,3 @@ const Monsido = () => {
     </>
   );
 };
-
-export default Monsido;

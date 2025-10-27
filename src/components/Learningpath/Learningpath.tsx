@@ -24,7 +24,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ContentTypeBadge, HomeBreadcrumb } from "@ndla/ui";
 import { contains } from "@ndla/util";
-import LearningpathMenu from "./LearningpathMenu";
+import { LearningpathMenu } from "./LearningpathMenu";
 import type { LearningpathContext } from "./learningpathUtils";
 import {
   GQLLearningpath_LearningpathFragment,
@@ -33,11 +33,11 @@ import {
 } from "../../graphqlTypes";
 import { Breadcrumb } from "../../interfaces";
 import { routes, toLearningPath } from "../../routeHelpers";
-import FavoriteButton from "../Article/FavoritesButton";
+import { FavoriteButton } from "../Article/FavoritesButton";
 import { AuthContext } from "../AuthenticationContext";
 import { PageContainer } from "../Layout/PageContainer";
-import AddResourceToFolderModal from "../MyNdla/AddResourceToFolderModal";
-import CopyLearningPath from "./components/CopyLearningPath";
+import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
+import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathIntroduction } from "./components/LearningpathIntroduction";
 import { LearningpathStep } from "./components/LearningpathStep";
 
@@ -180,7 +180,7 @@ const BreadcrumbWrapper = styled("div", {
   },
 });
 
-const Learningpath = ({
+export const Learningpath = ({
   learningpath,
   learningpathStep,
   resourcePath,
@@ -355,5 +355,3 @@ Learningpath.fragments = {
     ${LearningpathMenu.fragments.learningpath}
   `,
 };
-
-export default Learningpath;

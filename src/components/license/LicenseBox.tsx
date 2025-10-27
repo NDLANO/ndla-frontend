@@ -11,14 +11,14 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import AudioLicenseList from "./AudioLicenseList";
-import ConceptLicenseList, { GlossLicenseList } from "./ConceptLicenseList";
-import H5pLicenseList from "./H5pLicenseList";
-import ImageLicenseList from "./ImageLicenseList";
-import OembedItem from "./OembedItem";
-import PodcastLicenseList from "./PodcastLicenseList";
-import TextLicenseList, { TextItem } from "./TextLicenseList";
-import VideoLicenseList from "./VideoLicenseList";
+import { AudioLicenseList } from "./AudioLicenseList";
+import { ConceptLicenseList, GlossLicenseList } from "./ConceptLicenseList";
+import { H5pLicenseList } from "./H5pLicenseList";
+import { ImageLicenseList } from "./ImageLicenseList";
+import { OembedItem } from "./OembedItem";
+import { PodcastLicenseList } from "./PodcastLicenseList";
+import { TextLicenseList, TextItem } from "./TextLicenseList";
+import { VideoLicenseList } from "./VideoLicenseList";
 import { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
 
 const StyledTabsRoot = styled(TabsRoot, {
@@ -132,7 +132,7 @@ interface Props {
   oembed: string | undefined;
   printUrl?: string;
 }
-const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
+export const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
   const { t } = useTranslation();
   const tabs = buildLicenseTabList(article, t, copyText, printUrl, oembed);
   return (
@@ -213,5 +213,3 @@ LicenseBox.fragments = {
     ${TextLicenseList.fragments.copyright}
   `,
 };
-
-export default LicenseBox;

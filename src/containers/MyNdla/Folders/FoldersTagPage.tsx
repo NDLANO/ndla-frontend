@@ -16,9 +16,9 @@ import { keyBy, usePrevious } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
-import ListResource from "../../../components/MyNdla/ListResource";
-import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
-import MyNdlaTitle, { TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
+import { ListResource } from "../../../components/MyNdla/ListResource";
+import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaTitle, TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
@@ -28,9 +28,9 @@ import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
-import SettingsMenu, { MenuItemProps } from "../components/SettingsMenu";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { SettingsMenu, MenuItemProps } from "../components/SettingsMenu";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {

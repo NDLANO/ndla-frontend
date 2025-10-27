@@ -48,7 +48,7 @@ const StyledDialogBody = styled(DialogBody, {
   },
 });
 
-const LoginModalContent = ({ title, content, masthead = false, loginIngress }: Props) => {
+export const LoginModalContent = ({ title, content, masthead = false, loginIngress }: Props) => {
   const { t } = useTranslation();
   const location = useLocation();
 
@@ -80,5 +80,3 @@ const LoginModalContent = ({ title, content, masthead = false, loginIngress }: P
     </DialogContent>
   );
 };
-
-export default LoginModalContent;

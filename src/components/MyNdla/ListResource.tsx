@@ -127,7 +127,7 @@ const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
 
 const learningpathMapping: Record<string, string> = { learningpath: constants.contentTypes.LEARNING_PATH };
 
-const ListResource = ({
+export const ListResource = ({
   id,
   link,
   title,
@@ -216,5 +216,3 @@ const ListResource = ({
     </StyledListItemRoot>
   );
 };
-
-export default ListResource;

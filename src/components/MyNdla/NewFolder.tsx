@@ -6,7 +6,7 @@
  *
  */
 
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
@@ -16,7 +16,7 @@ import { IFolderDTO } from "@ndla/types-backend/myndla-api";
 import { GQLFolder } from "../../graphqlTypes";
 import { useAddFolderMutation } from "../../mutations/folder/folderMutations";
 import { getFolder, useFolders } from "../../mutations/folder/folderQueries";
-import useValidationTranslation from "../../util/useValidationTranslation";
+import { useValidationTranslation } from "../../util/useValidationTranslation";
 import { useToast } from "../ToastContext";
 
 const FolderContainer = styled("div", {
@@ -41,7 +41,7 @@ interface Props {
   onCreate?: (folder: IFolderDTO) => void;
 }
 
-const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) => {
+export const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) => {
   const [name, setName] = useState(initialValue);
   const hasWritten = useRef(false);
   const toast = useToast();
@@ -145,5 +145,3 @@ const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) => {
     </FolderContainer>
   );
 };
-
-export default memo(NewFolder);

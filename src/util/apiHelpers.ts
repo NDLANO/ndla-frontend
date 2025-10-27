@@ -30,7 +30,7 @@ import {
   ApolloUnconventionalError,
 } from "./error/NDLAApolloErrors";
 import { StatusError } from "./error/StatusError";
-import handleError from "./handleError";
+import { handleError } from "./handleError";
 import config from "../config";
 import { GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
 import { NOT_FOUND } from "../statusCodes";

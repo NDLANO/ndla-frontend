@@ -32,7 +32,12 @@ const BigListItemImage = styled(ListItemImage, {
   },
 });
 
-const PodcastSeries = ({ coverPhoto, description, title, id }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
+export const PodcastSeries = ({
+  coverPhoto,
+  description,
+  title,
+  id,
+}: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   return (
     <ListItemRoot asChild consumeCss context="list">
       <li>
@@ -76,5 +81,3 @@ PodcastSeries.fragments = {
     }
   `,
 };
-
-export default PodcastSeries;

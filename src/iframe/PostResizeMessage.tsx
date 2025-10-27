@@ -14,7 +14,7 @@ interface State {
   height: number;
 }
 
-class PostResizeMessage extends Component<Props, State> {
+export class PostResizeMessage extends Component<Props, State> {
   intervalId: ReturnType<typeof setInterval> | undefined;
   constructor(props: Props) {
     super(props);
@@ -86,5 +86,3 @@ class PostResizeMessage extends Component<Props, State> {
     return null;
   }
 }
-
-export default PostResizeMessage;

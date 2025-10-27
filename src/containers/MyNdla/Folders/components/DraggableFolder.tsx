@@ -6,7 +6,7 @@
  *
  */
 
-import { Dispatch, SetStateAction, memo, useMemo } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -15,8 +15,8 @@ import { useFolderActions } from "./FolderActionHooks";
 import { Folder } from "../../../../components/MyNdla/Folder";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount } from "../../../../util/folderHelpers";
-import DragHandle from "../../components/DragHandle";
-import SettingsMenu from "../../components/SettingsMenu";
+import { DragHandle } from "../../components/DragHandle";
+import { SettingsMenu } from "../../components/SettingsMenu";
 import { DraggableListItem } from "../../Learningpath/components/DraggableListItem";
 
 interface Props {
@@ -38,7 +38,15 @@ export const DragWrapper = styled("div", {
   },
 });
 
-const DraggableFolder = ({ index, folder, foldersCount, folders, setFocusId, folderRefId, isFavorited }: Props) => {
+export const DraggableFolder = ({
+  index,
+  folder,
+  foldersCount,
+  folders,
+  setFocusId,
+  folderRefId,
+  isFavorited,
+}: Props) => {
   const { t } = useTranslation();
   const { attributes, setNodeRef, transform, transition, items, isDragging } = useSortable({
     id: folder.id,
@@ -69,5 +77,3 @@ const DraggableFolder = ({ index, folder, foldersCount, folders, setFocusId, fol
     </DraggableListItem>
   );
 };
-
-export default memo(DraggableFolder);

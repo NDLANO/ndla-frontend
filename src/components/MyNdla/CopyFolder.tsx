@@ -21,7 +21,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { Folder } from "./Folder";
-import FolderSelect from "./FolderSelect";
+import { FolderSelect } from "./FolderSelect";
 import { GQLFolder } from "../../graphqlTypes";
 import { useCopySharedFolderMutation } from "../../mutations/folder/folderMutations";
 import { useFolders } from "../../mutations/folder/folderQueries";
@@ -44,7 +44,7 @@ const StyledDialogBody = styled(DialogBody, {
   },
 });
 
-const CopyFolder = ({ folder, onClose }: Props) => {
+export const CopyFolder = ({ folder, onClose }: Props) => {
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
 
   const { examLock } = useContext(AuthContext);
@@ -137,5 +137,3 @@ const CopyFolder = ({ folder, onClose }: Props) => {
     </DialogContent>
   );
 };
-
-export default CopyFolder;

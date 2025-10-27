@@ -15,7 +15,7 @@ import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifi
 import { sortableKeyboardCoordinates, SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import { styled } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import DraggableResource from "./DraggableResource";
+import { DraggableResource } from "./DraggableResource";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useSortResourcesMutation } from "../../../../mutations/folder/folderMutations";
@@ -34,7 +34,7 @@ interface Props {
   resourceRefId?: string;
 }
 
-const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
+export const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
   const { t } = useTranslation();
   const client = useApolloClient();
   const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
@@ -141,5 +141,3 @@ const ResourceList = ({ selectedFolder, resourceRefId }: Props) => {
     </DndContext>
   );
 };
-
-export default ResourceList;

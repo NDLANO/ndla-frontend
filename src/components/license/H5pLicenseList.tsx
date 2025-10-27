@@ -13,7 +13,7 @@ import { gql } from "@apollo/client";
 import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import CopyTextButton from "./CopyTextButton";
+import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import config from "../../config";
@@ -115,7 +115,7 @@ interface Props {
   h5ps: GQLH5pLicenseList_H5pLicenseFragment[];
 }
 
-const H5pLicenseList = ({ h5ps }: Props) => {
+export const H5pLicenseList = ({ h5ps }: Props) => {
   return (
     <MediaList>
       {h5ps.map((h5p) => (
@@ -138,5 +138,3 @@ H5pLicenseList.fragments = {
     ${licenseListCopyrightFragment}
   `,
 };
-
-export default H5pLicenseList;

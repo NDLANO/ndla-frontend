@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { GQLStructuredArticleDataFragment } from "../graphqlTypes";
 import { Breadcrumb } from "../interfaces";
-import getStructuredDataFromArticle from "../util/getStructuredDataFromArticle";
+import { getStructuredDataFromArticle } from "../util/getStructuredDataFromArticle";
 
 interface Props {
   article: GQLStructuredArticleDataFragment;

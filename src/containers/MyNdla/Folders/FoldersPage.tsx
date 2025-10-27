@@ -15,17 +15,17 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useFolderActions } from "./components/FolderActionHooks";
-import FolderList from "./components/FolderList";
-import ResourceList from "./components/ResourceList";
+import { FolderList } from "./components/FolderList";
+import { ResourceList } from "./components/ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import FoldersPageTitle from "../../../components/MyNdla/FoldersPageTitle";
+import { FoldersPageTitle } from "../../../components/MyNdla/FoldersPageTitle";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { foldersPageQuery, useFolder } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {

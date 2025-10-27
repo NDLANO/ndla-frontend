@@ -93,7 +93,7 @@ interface Props {
   activeLetters: string[];
 }
 
-const LetterNavigation = ({ activeLetters }: Props) => {
+export const LetterNavigation = ({ activeLetters }: Props) => {
   const { t } = useTranslation();
   return (
     <LetterNavigationWrapper aria-label={t("subjectsPage.scrollToGroup")}>
@@ -120,5 +120,3 @@ const LetterNavigation = ({ activeLetters }: Props) => {
     </LetterNavigationWrapper>
   );
 };
-
-export default LetterNavigation;

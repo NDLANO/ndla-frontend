@@ -64,7 +64,7 @@ const myNdlaQuery = gql`
   ${personalDataQueryFragment}
 `;
 
-const AuthenticationContext = ({ children }: Props) => {
+export const AuthenticationContext = ({ children }: Props) => {
   const [authenticated, setAuthenticated] = useState(false);
   const [authContextLoaded, setLoaded] = useState(false);
   const [user, setUser] = useState<GQLMyNdlaPersonalDataFragmentFragment | undefined>(undefined);
@@ -108,5 +108,3 @@ const AuthenticationContext = ({ children }: Props) => {
     </AuthContext>
   );
 };
-
-export default AuthenticationContext;

@@ -11,7 +11,7 @@ import { StaticRouter } from "react-router";
 import { render } from "@testing-library/react";
 import { MockedProvider } from "@apollo/client/testing/react";
 import { alertsQuery } from "../../components/AlertsContext";
-import IframeArticlePage from "../IframeArticlePage";
+import { IframeArticlePage } from "../IframeArticlePage";
 import { initializeI18nTest } from "../../__tests__/i18nTestHelpers";
 
 window._mtm = [];

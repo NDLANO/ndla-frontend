@@ -15,11 +15,12 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
-import { RedirectExternal, Status } from "../../components";
-import Article from "../../components/Article";
+import { Article } from "../../components/Article/Article";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LdJson } from "../../components/LdJson";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { RedirectExternal } from "../../components/RedirectExternal";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import { Status } from "../../components/Status";
 import config from "../../config";
 import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
@@ -31,7 +32,7 @@ import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resources/resourceHelpers";
-import Resources from "../Resources/Resources";
+import { Resources } from "../Resources/Resources";
 
 interface Props {
   resource?: GQLArticlePage_NodeFragment;
@@ -72,7 +73,7 @@ const StyledPageContent = styled(PageContent, {
   },
 });
 
-const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
+export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
@@ -235,5 +236,3 @@ ArticlePage.fragments = {
     ${Article.fragments.article}
   `,
 };
-
-export default ArticlePage;

@@ -22,14 +22,14 @@ import {
   licenseAttributes,
 } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
-import Article from "../../components/Article";
+import { Article } from "../../components/Article/Article";
 import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
-import FavoriteButton from "../../components/Article/FavoritesButton";
+import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
-import CompetenceGoals from "../../components/CompetenceGoals";
-import LicenseBox from "../../components/license/LicenseBox";
-import AddResourceToFolderModal from "../../components/MyNdla/AddResourceToFolderModal";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { CompetenceGoals } from "../../components/CompetenceGoals";
+import { LicenseBox } from "../../components/license/LicenseBox";
+import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -39,7 +39,7 @@ import { getArticleScripts } from "../../util/getArticleScripts";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
-import Resources from "../Resources/Resources";
+import { Resources } from "../Resources/Resources";
 
 const ResourcesPageContent = styled("div", {
   base: {
@@ -96,7 +96,7 @@ interface Props {
   node: GQLMultidisciplinarySubjectArticle_NodeFragment;
 }
 
-const MultidisciplinarySubjectArticle = ({ node }: Props) => {
+export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
   const { trackPageView } = useTracker();
@@ -288,5 +288,3 @@ MultidisciplinarySubjectArticle.fragments = {
     ${Article.fragments.article}
   `,
 };
-
-export default MultidisciplinarySubjectArticle;

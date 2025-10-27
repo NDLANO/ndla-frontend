@@ -9,7 +9,7 @@
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import SubjectLink from "./SubjectLink";
+import { SubjectLink } from "./SubjectLink";
 import { GQLTaxBase } from "../../graphqlTypes";
 
 export const GridList = styled("ul", {
@@ -48,7 +48,7 @@ interface Props {
   favorites: string[] | undefined;
 }
 
-const SubjectCategory = ({ label, subjects, favorites }: Props) => {
+export const SubjectCategory = ({ label, subjects, favorites }: Props) => {
   const { t } = useTranslation();
 
   return (
@@ -69,5 +69,3 @@ const SubjectCategory = ({ label, subjects, favorites }: Props) => {
     </li>
   );
 };
-
-export default SubjectCategory;

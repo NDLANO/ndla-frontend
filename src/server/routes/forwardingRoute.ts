@@ -10,7 +10,7 @@ import { NextFunction, Request, Response } from "express";
 import { ResolvedUrl, ResolvedOldUrl } from "@ndla/types-taxonomy";
 import { isLearningPathResource, getLearningPathUrlFromResource } from "../../containers/Resources/resourceHelpers";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
-import log from "../../util/logger";
+import { log } from "../../util/logger/logger";
 
 interface ExternalIds {
   externalIds: string[];

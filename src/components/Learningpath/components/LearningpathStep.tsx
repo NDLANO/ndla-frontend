@@ -13,7 +13,7 @@ import {
   GQLLearningpathPage_NodeFragment,
 } from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
-import LastLearningpathStepInfo from "../LastLearningpathStepInfo";
+import { LastLearningpathStepInfo } from "../LastLearningpathStepInfo";
 import { ArticleStep } from "./ArticleStep";
 import { EmbedStep } from "./EmbedStep";
 import { ExternalStep } from "./ExternalStep";

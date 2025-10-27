@@ -9,14 +9,14 @@
 import { useTranslation } from "react-i18next";
 import { FileCopyLine } from "@ndla/icons";
 import { Heading, Text } from "@ndla/primitives";
-import CopyTextButton from "./CopyTextButton";
+import { CopyTextButton } from "./CopyTextButton";
 import { MediaListContent, MediaList, MediaListItem } from "../MediaList/MediaList";
 
 interface Props {
   oembed: string;
 }
 
-const OembedItem = ({ oembed }: Props) => {
+export const OembedItem = ({ oembed }: Props) => {
   const { t } = useTranslation();
   return (
     <MediaList>
@@ -38,5 +38,3 @@ const OembedItem = ({ oembed }: Props) => {
     </MediaList>
   );
 };
-
-export default OembedItem;

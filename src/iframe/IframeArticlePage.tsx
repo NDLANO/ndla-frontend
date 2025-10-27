@@ -14,13 +14,13 @@ import { ArrowLeftLine } from "@ndla/icons";
 import { BleedPageContent, Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
 import { constants } from "@ndla/ui";
-import PostResizeMessage from "./PostResizeMessage";
-import Article from "../components/Article";
+import { PostResizeMessage } from "./PostResizeMessage";
+import { Article } from "../components/Article/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
 import { BannerAlerts } from "../components/BannerAlerts";
 import { LdJson } from "../components/LdJson";
 import { useLtiData } from "../components/LtiContext";
-import SocialMediaMetadata from "../components/SocialMediaMetadata";
+import { SocialMediaMetadata } from "../components/SocialMediaMetadata";
 import config from "../config";
 import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
@@ -42,7 +42,7 @@ const getDocumentTitle = ({ article }: Pick<Props, "article">) => {
   return "";
 };
 
-const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: Props) => {
+export const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: Props) => {
   const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const ltiData = useLtiData();
@@ -148,5 +148,3 @@ export const iframeArticlePageFragments = {
     }
   `,
 };
-
-export default IframeArticlePage;

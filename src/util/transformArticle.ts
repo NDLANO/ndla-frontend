@@ -9,7 +9,7 @@
 import parse from "html-react-parser";
 import { ReactNode } from "react";
 import { transform, TransformOptions } from "@ndla/article-converter";
-import formatDate from "./formatDate";
+import { formatDate } from "./formatDate";
 import { GQLArticle, GQLFootNote, GQLTransformedArticleContent } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
 

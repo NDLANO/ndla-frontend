@@ -9,7 +9,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Text } from "@ndla/primitives";
 
-const TitleAnnouncer = () => {
+export const TitleAnnouncer = () => {
   const titleRef = useRef<HTMLParagraphElement | null>(null);
   const [title, setTitle] = useState("");
 
@@ -36,5 +36,3 @@ const TitleAnnouncer = () => {
     </Text>
   );
 };
-
-export default TitleAnnouncer;

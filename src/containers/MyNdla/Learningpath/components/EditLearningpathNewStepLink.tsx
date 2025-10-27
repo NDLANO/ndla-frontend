@@ -12,7 +12,7 @@ import { AddLine } from "@ndla/icons";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { routes } from "../../../../routeHelpers";
-import PrivateRoute from "../../../PrivateRoute/PrivateRoute";
+import { PrivateRoute } from "../../../PrivateRoute/PrivateRoute";
 
 const AddSafeLinkButton = styled(SafeLinkButton, {
   base: {

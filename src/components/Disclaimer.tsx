@@ -26,7 +26,7 @@ interface Props {
   disclaimer: GQLTransformedArticleContent;
 }
 
-const Disclaimer = ({ disclaimer }: Props) => {
+export const Disclaimer = ({ disclaimer }: Props) => {
   const { t } = useTranslation();
 
   const transformedDisclaimer = useMemo(() => {
@@ -53,5 +53,3 @@ const Disclaimer = ({ disclaimer }: Props) => {
     </DialogRoot>
   );
 };
-
-export default Disclaimer;

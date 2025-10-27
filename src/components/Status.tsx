@@ -7,19 +7,17 @@
  */
 
 import { ReactNode, useContext } from "react";
-import RedirectContext, { RedirectInfo } from "./RedirectContext";
+import { RedirectContext, RedirectInfo } from "./RedirectContext";
 
 interface Props {
   code: number;
   children: ReactNode;
 }
 
-const Status = ({ code, children }: Props) => {
+export const Status = ({ code, children }: Props) => {
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   if (redirectContext) {
     redirectContext.status = code;
   }
   return children;
 };
-
-export default Status;

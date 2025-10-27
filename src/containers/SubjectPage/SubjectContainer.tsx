@@ -16,13 +16,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
-import CompetenceGoals from "../../components/CompetenceGoals";
-import FavoriteSubject from "../../components/FavoriteSubject";
+import { CompetenceGoals } from "../../components/CompetenceGoals";
+import { FavoriteSubject } from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
-import ImageLicenseList from "../../components/license/ImageLicenseList";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
-import SubjectLinks from "../../components/Subject/SubjectLinks";
+import { ImageLicenseList } from "../../components/license/ImageLicenseList";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import { SubjectLinks } from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
@@ -114,7 +114,7 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-const SubjectContainer = ({ node, subjectType, loading }: Props) => {
+export const SubjectContainer = ({ node, subjectType, loading }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const { trackPageView } = useTracker();
@@ -281,5 +281,3 @@ export const subjectContainerFragments = {
     ${SubjectLinks.fragments.subjectPage}
   `,
 };
-
-export default SubjectContainer;

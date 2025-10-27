@@ -12,12 +12,12 @@ import { Feide, HeartLine } from "@ndla/icons";
 import { NdlaLogoText, PageContent } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import SkipToMainContent from "./components/SkipToMainContent";
+import { SkipToMainContent } from "./components/SkipToMainContent";
 import { MastheadMenu } from "./MastheadMenu";
-import MastheadSearch from "./MastheadSearch";
+import { MastheadSearch } from "./MastheadSearch";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { BannerAlerts } from "../../components/BannerAlerts";
-import FeideLoginButton from "../../components/FeideLoginButton";
+import { FeideLoginButton } from "../../components/FeideLoginButton/FeideLoginButton";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 

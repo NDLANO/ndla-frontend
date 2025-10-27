@@ -15,5 +15,3 @@ export const Matomo = () => {
   }
   return null;
 };
-
-export default Matomo;

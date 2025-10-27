@@ -9,7 +9,7 @@
 import { Request } from "express";
 import { Issuer, generators, Client } from "openid-client";
 import config, { getEnvironmentVariable } from "../../config";
-import log from "../../util/logger";
+import { log } from "../../util/logger/logger";
 
 const handleConfigTypes = (configVariable: string | boolean | undefined): string => {
   if (typeof configVariable === "string") {

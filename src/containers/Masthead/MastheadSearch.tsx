@@ -236,7 +236,7 @@ const searchQuery = gql`
   }
 `;
 
-const MastheadSearch = () => {
+export const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const { pathname } = useLocation();
@@ -506,5 +506,3 @@ const MastheadSearch = () => {
     </PopoverRoot>
   );
 };
-
-export default MastheadSearch;

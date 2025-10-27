@@ -18,17 +18,17 @@ import { useTracker } from "@ndla/tracker";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
-import Learningpath from "../../../components/Learningpath";
-import MyNdlaBreadcrumb from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { Learningpath } from "../../../components/Learningpath/Learningpath";
+import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import MyNdlaPageWrapper from "../components/MyNdlaPageWrapper";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { getAllDimensions } from "../../../util/trackingUtil";
-import PrivateRoute from "../../PrivateRoute/PrivateRoute";
+import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 
 const TextWrapper = styled("div", {
   base: {

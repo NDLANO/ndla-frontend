@@ -34,7 +34,7 @@ import {
 import { routes } from "../../../routeHelpers";
 import { AuthContext } from "../../AuthenticationContext";
 import { DialogCloseButton } from "../../DialogCloseButton";
-import LoginModalContent from "../../MyNdla/LoginModalContent";
+import { LoginModalContent } from "../../MyNdla/LoginModalContent";
 import { useToast } from "../../ToastContext";
 
 const StyledFileCopyLine = styled(FileCopyLine, {
@@ -55,7 +55,7 @@ const copyLearningpathMutation = gql`
   }
 `;
 
-const CopyLearningPath = ({ learningpath }: Props) => {
+export const CopyLearningPath = ({ learningpath }: Props) => {
   const { t, i18n } = useTranslation();
   const toast = useToast();
   const [open, setOpen] = useState(false);
@@ -151,5 +151,3 @@ const CopyLearningPath = ({ learningpath }: Props) => {
     </DialogRoot>
   );
 };
-
-export default CopyLearningPath;

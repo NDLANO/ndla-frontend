@@ -8,15 +8,15 @@
 
 import { useLtiData } from "../components/LtiContext";
 import { LtiData, LtiItem } from "../interfaces";
-import LtiBasicLaunch from "./components/LtiBasicLaunch";
-import LtiDeepLinking from "./components/LtiDeepLinking";
-import LtiDefault from "./components/LtiDefault";
+import { LtiBasicLaunch } from "./components/LtiBasicLaunch";
+import { LtiDeepLinking } from "./components/LtiDeepLinking";
+import { LtiDefault } from "./components/LtiDefault";
 
 interface Props {
   item: LtiItem;
   ltiData?: LtiData;
 }
-const LtiEmbed = ({ ltiData: ltiDataProp, item }: Props) => {
+export const LtiEmbed = ({ ltiData: ltiDataProp, item }: Props) => {
   const _ltiData = useLtiData()?.ltiData;
   const ltiData = ltiDataProp ?? _ltiData ?? {};
   switch (ltiData?.lti_message_type) {
@@ -28,5 +28,3 @@ const LtiEmbed = ({ ltiData: ltiDataProp, item }: Props) => {
       return <LtiDefault item={item} />;
   }
 };
-
-export default LtiEmbed;

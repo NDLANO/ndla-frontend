@@ -26,12 +26,10 @@ interface Props {
   title: string;
 }
 
-const MyNdlaTitle = ({ title }: Props) => {
+export const MyNdlaTitle = ({ title }: Props) => {
   return (
     <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
       {title}
     </Heading>
   );
 };
-
-export default MyNdlaTitle;

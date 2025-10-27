@@ -12,7 +12,7 @@ import { BleedPageContent, Image, Skeleton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { Carousel } from "./Carousel";
-import FilmContentCard from "./FilmContentCard";
+import { FilmContentCard } from "./FilmContentCard";
 import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 
 interface Props {
@@ -152,7 +152,7 @@ const MainImageShimmer = () => (
   </Skeleton>
 );
 
-const FilmSlideshow = ({ slideshow }: Props) => {
+export const FilmSlideshow = ({ slideshow }: Props) => {
   const [currentSlide, setCurrentSlide] = useState<GQLFilmSlideshow_MovieFragment | undefined>(slideshow?.[0]);
   const [hoverCallback, setHoverCallback] = useState<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -232,5 +232,3 @@ FilmSlideshow.fragments = {
     ${FilmContentCard.fragments.movie}
   `,
 };
-
-export default FilmSlideshow;

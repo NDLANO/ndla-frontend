@@ -10,7 +10,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client/react";
 import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
-import FolderForm from "./FolderForm";
+import { FolderForm } from "./FolderForm";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
@@ -70,5 +70,3 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
     </DialogContent>
   );
 };
-
-export default FolderEditModalContent;

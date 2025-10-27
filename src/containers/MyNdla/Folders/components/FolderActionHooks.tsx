@@ -10,12 +10,12 @@ import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "reac
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine, ShareLine, ArrowRightLine } from "@ndla/icons";
-import FolderCreateModalContent from "./FolderCreateModalContent";
-import FolderEditModalContent from "./FolderEditModalContent";
+import { FolderCreateModalContent } from "./FolderCreateModalContent";
+import { FolderEditModalContent } from "./FolderEditModalContent";
 import { FolderFormValues } from "./FolderForm";
-import FolderShareModalContent from "./FolderShareModalContent";
+import { FolderShareModalContent } from "./FolderShareModalContent";
 import { AuthContext } from "../../../../components/AuthenticationContext";
-import DeleteModalContent from "../../../../components/MyNdla/DeleteModalContent";
+import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder } from "../../../../graphqlTypes";

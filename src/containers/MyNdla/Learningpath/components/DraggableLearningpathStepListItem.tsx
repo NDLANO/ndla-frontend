@@ -18,9 +18,9 @@ import { Stack, styled } from "@ndla/styled-system/jsx";
 import { DraggableListItem } from "./DraggableListItem";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import DragHandle from "../../components/DragHandle";
+import { DragHandle } from "../../components/DragHandle";
 import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";
-import LearningpathStepForm from "./LearningpathStepForm";
+import { LearningpathStepForm } from "./LearningpathStepForm";
 
 export const DragWrapper = styled("div", {
   base: {

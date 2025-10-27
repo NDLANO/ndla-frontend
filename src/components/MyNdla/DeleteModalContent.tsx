@@ -27,7 +27,7 @@ interface Props {
   onClose?: (e?: Event) => void;
 }
 
-const DeleteModalContent = ({ onDelete, title, description, removeText }: Props) => {
+export const DeleteModalContent = ({ onDelete, title, description, removeText }: Props) => {
   const { t } = useTranslation();
   return (
     <DialogContent>
@@ -49,5 +49,3 @@ const DeleteModalContent = ({ onDelete, title, description, removeText }: Props)
     </DialogContent>
   );
 };
-
-export default DeleteModalContent;

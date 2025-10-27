@@ -59,7 +59,7 @@ interface Props {
   type?: string;
 }
 
-const SocialMediaMetadata = ({
+export const SocialMediaMetadata = ({
   title,
   imageUrl,
   audioUrl,
@@ -95,5 +95,3 @@ const SocialMediaMetadata = ({
     </>
   );
 };
-
-export default SocialMediaMetadata;

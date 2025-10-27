@@ -114,7 +114,7 @@ interface Props {
   ltiData?: LtiData;
 }
 
-const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
+export const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
   const [postData, setPostData] = useState<Record<string, any>>({});
   const { t } = useTranslation();
 
@@ -144,5 +144,3 @@ const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
     </StyledForm>
   );
 };
-
-export default LtiDeepLinking;

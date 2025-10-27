@@ -14,12 +14,12 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { keyBy } from "@ndla/util";
-import MyNdlaPageWrapper from "./components/MyNdlaPageWrapper";
+import { MyNdlaPageWrapper } from "./components/MyNdlaPageWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
-import ListResource from "../../components/MyNdla/ListResource";
-import LoginModalContent from "../../components/MyNdla/LoginModalContent";
-import MyNdlaTitle, { TitleWrapper } from "../../components/MyNdla/MyNdlaTitle";
-import SocialMediaMetadata from "../../components/SocialMediaMetadata";
+import { ListResource } from "../../components/MyNdla/ListResource";
+import { LoginModalContent } from "../../components/MyNdla/LoginModalContent";
+import { MyNdlaTitle, TitleWrapper } from "../../components/MyNdla/MyNdlaTitle";
+import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { myndlaLanguages } from "../../i18n";
 import {
@@ -31,7 +31,7 @@ import { routes } from "../../routeHelpers";
 import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
-import SubjectLink from "../AllSubjectsPage/SubjectLink";
+import { SubjectLink } from "../AllSubjectsPage/SubjectLink";
 
 const StyledList = styled("ul", {
   base: {
