@@ -1115,6 +1115,7 @@ type Query {
     query: String
     resourceTypes: String
     subjects: String
+    tags: [String!]
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
   imageSearch(license: String, page: Int, pageSize: Int, query: String): ImageSearch!
@@ -1164,6 +1165,7 @@ type Query {
     resultTypes: String
     sort: String
     subjects: String
+    tags: [String!]
     traits: [String!]
   ): Search
   searchWithoutPagination(
@@ -1179,6 +1181,7 @@ type Query {
     resourceTypes: String
     sort: String
     subjects: String
+    tags: [String!]
   ): SearchWithoutPagination
   sharedFolder(id: String!): SharedFolder!
   subject(id: String!): Subject

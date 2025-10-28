@@ -13,6 +13,7 @@ import { useQuery } from "@apollo/client/react";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FilmContentCard } from "./FilmContentCard";
+import { MovieTag } from "./resourceTypes";
 import { FILM_ID } from "../../constants";
 import {
   GQLResourceTypeMoviesQuery,
@@ -84,16 +85,16 @@ export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmer
 };
 
 interface Props {
-  resourceType: { id: string; name: string };
+  tag: MovieTag;
 }
 
-export const MovieGrid = ({ resourceType }: Props) => {
+export const MovieGrid = ({ tag }: Props) => {
   const { t, i18n } = useTranslation();
   const resourceTypeMovies = useQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
     resourceTypeMoviesQuery,
     {
       variables: {
-        resourceType: resourceType.id,
+        tags: [tag.name],
         language: i18n.language,
       },
     },
@@ -102,7 +103,7 @@ export const MovieGrid = ({ resourceType }: Props) => {
   return (
     <StyledSection>
       <Heading textStyle="title.large" fontWeight="bold" asChild consumeCss>
-        <h3>{t(resourceType.name)}</h3>
+        <h3>{t(tag.name)}</h3>
       </Heading>
       {resourceTypeMovies.loading ? (
         <MovieGridLoadingShimmer />
@@ -114,7 +115,7 @@ export const MovieGrid = ({ resourceType }: Props) => {
               return (
                 <StyledFilmContentCard
                   style={{ "--index": index } as CSSProperties}
-                  key={`${resourceType.id}-${index}`}
+                  key={`${tag.id}-${index}`}
                   movie={{
                     id: movie.id,
                     metaImage: movie.metaImage,
@@ -163,9 +164,9 @@ SelectionMovieGrid.fragments = {
 };
 
 const resourceTypeMoviesQuery = gql`
-  query resourceTypeMovies($resourceType: String!, $language: String!) {
+  query resourceTypeMovies($tags: [String!]!, $language: String!) {
     searchWithoutPagination(
-      resourceTypes: $resourceType
+      tags: $tags
       language: $language
       fallback: "true"
       subjects: "urn:subject:20"

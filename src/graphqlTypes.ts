@@ -1463,6 +1463,7 @@ export type GQLQueryGroupSearchArgs = {
   query?: InputMaybe<Scalars["String"]["input"]>;
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
 export type GQLQueryImageArgs = {
@@ -1573,6 +1574,7 @@ export type GQLQuerySearchArgs = {
   resultTypes?: InputMaybe<Scalars["String"]["input"]>;
   sort?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
   traits?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
@@ -1589,6 +1591,7 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
   sort?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
 export type GQLQuerySharedFolderArgs = {
@@ -2514,7 +2517,7 @@ export type GQLCollectionPageQuery = {
 };
 
 export type GQLAllMoviesQueryVariables = Exact<{
-  resourceTypes: Scalars["String"]["input"];
+  tags?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   language: Scalars["String"]["input"];
 }>;
 
@@ -2600,7 +2603,7 @@ export type GQLFilmSlideshow_MovieFragment = { __typename?: "Movie" } & GQLFilmC
 export type GQLSelectionMovieGrid_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
 
 export type GQLResourceTypeMoviesQueryVariables = Exact<{
-  resourceType: Scalars["String"]["input"];
+  tags: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
   language: Scalars["String"]["input"];
 }>;
 

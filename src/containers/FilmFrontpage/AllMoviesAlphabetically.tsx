@@ -13,7 +13,7 @@ import { useQuery } from "@apollo/client/react";
 import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { movieResourceTypes } from "./resourceTypes";
+import { movieTagFilters } from "./resourceTypes";
 import { FILM_ID } from "../../constants";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 
@@ -124,7 +124,7 @@ export const AllMoviesAlphabetically = () => {
   const { t, i18n } = useTranslation();
   const allMovies = useQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
     variables: {
-      resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
+      tags: movieTagFilters[i18n.language]?.map((tag) => tag.name) ?? movieTagFilters["nb"]?.map((tag) => tag.name),
       language: i18n.language,
     },
   });
@@ -175,9 +175,9 @@ export const AllMoviesAlphabetically = () => {
 };
 
 const allMoviesQuery = gql`
-  query allMovies($resourceTypes: String!, $language: String!) {
+  query allMovies($tags: [String!], $language: String!) {
     searchWithoutPagination(
-      resourceTypes: $resourceTypes
+      tags: $tags
       language: $language
       fallback: "true"
       subjects: "urn:subject:20"
