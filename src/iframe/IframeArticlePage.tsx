@@ -13,7 +13,7 @@ import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons";
 import { BleedPageContent, Button, PageContent } from "@ndla/primitives";
 import { useTracker } from "@ndla/tracker";
-import { constants } from "@ndla/ui";
+import { contentTypes } from "@ndla/ui";
 import { PostResizeMessage } from "./PostResizeMessage";
 import { Article } from "../components/Article/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
@@ -75,7 +75,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
     article.articleType === "standard"
       ? getContentType(node)
       : article.articleType === "topic-article"
-        ? constants.contentTypes.TOPIC
+        ? contentTypes.TOPIC
         : undefined;
   return (
     <PageContent variant="content">

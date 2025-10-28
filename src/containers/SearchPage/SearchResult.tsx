@@ -26,7 +26,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { constants } from "@ndla/ui";
+import { contentTypeMapping } from "@ndla/ui";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TraitsContainer } from "../../components/TraitsContainer";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
@@ -84,9 +84,7 @@ export const SearchResult = ({ searchResult }: Props) => {
 
   const listItemTraits = useListItemTraits({
     relevanceId: context?.relevanceId,
-    contentType: context?.resourceTypes
-      ? constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]
-      : nodeType,
+    contentType: context?.resourceTypes ? contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"] : nodeType,
     resourceType: nodeType,
     resourceTypes: context?.resourceTypes,
     traits:

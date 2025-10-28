@@ -14,7 +14,7 @@ import { InformationLine } from "@ndla/icons";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { constants, SimpleBreadcrumbItem, HomeBreadcrumb } from "@ndla/ui";
+import { SimpleBreadcrumbItem, HomeBreadcrumb, subjectCategories, subjectTypes } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
 import { FavoriteSubject } from "../../components/FavoriteSubject";
@@ -93,9 +93,9 @@ const StyledPageContainer = styled(PageContainer, {
 });
 
 const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunction): string | undefined => {
-  if (!subjectCategory || subjectCategory === constants.subjectCategories.ACTIVE_SUBJECTS) {
+  if (!subjectCategory || subjectCategory === subjectCategories.ACTIVE_SUBJECTS) {
     return undefined;
-  } else if (subjectCategory === constants.subjectCategories.ARCHIVE_SUBJECTS) {
+  } else if (subjectCategory === subjectCategories.ARCHIVE_SUBJECTS) {
     return t("messageBoxInfo.subjectOutdated");
   } else {
     return undefined;
@@ -103,11 +103,11 @@ const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunc
 };
 
 const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): string | undefined => {
-  if (!subjectType || subjectType === constants.subjectTypes.SUBJECT) {
+  if (!subjectType || subjectType === subjectTypes.SUBJECT) {
     return undefined;
-  } else if (subjectType === constants.subjectTypes.RESOURCE_COLLECTION) {
+  } else if (subjectType === subjectTypes.RESOURCE_COLLECTION) {
     return t("messageBoxInfo.resources");
-  } else if (subjectType === constants.subjectTypes.BETA_SUBJECT) {
+  } else if (subjectType === subjectTypes.BETA_SUBJECT) {
     return t("messageBoxInfo.subjectBeta");
   } else {
     return undefined;

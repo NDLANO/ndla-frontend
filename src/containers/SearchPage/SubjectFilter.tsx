@@ -38,7 +38,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { constants } from "@ndla/ui";
+import { subjectCategories } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import { FilterContainer } from "./FilterContainer";
 import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
@@ -187,26 +187,26 @@ const SubjectFilterDialogContent = ({
       (acc, curr) => {
         const subject = { ...curr, url: curr.url ?? "" };
         const category = curr.metadata?.customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY];
-        if (category === constants.subjectCategories.ACTIVE_SUBJECTS) {
+        if (category === subjectCategories.ACTIVE_SUBJECTS) {
           acc.active.subjects.push(subject);
-        } else if (category === constants.subjectCategories.ARCHIVE_SUBJECTS) {
+        } else if (category === subjectCategories.ARCHIVE_SUBJECTS) {
           acc.archived.subjects.push(subject);
-        } else if (category === constants.subjectCategories.BETA_SUBJECTS) {
+        } else if (category === subjectCategories.BETA_SUBJECTS) {
           acc.beta.subjects.push(subject);
-        } else if (category === constants.subjectCategories.OTHER) {
+        } else if (category === subjectCategories.OTHER) {
           acc.other.subjects.push(subject);
         }
         return acc;
       },
       {
-        active: { type: constants.subjectCategories.ACTIVE_SUBJECTS, subjects: [] },
+        active: { type: subjectCategories.ACTIVE_SUBJECTS, subjects: [] },
         archived: {
-          type: constants.subjectCategories.ARCHIVE_SUBJECTS,
+          type: subjectCategories.ARCHIVE_SUBJECTS,
           subjects: [],
           message: t("messageBoxInfo.frontPageExpired"),
         },
-        beta: { type: constants.subjectCategories.BETA_SUBJECTS, subjects: [] },
-        other: { type: constants.subjectCategories.OTHER, subjects: [] },
+        beta: { type: subjectCategories.BETA_SUBJECTS, subjects: [] },
+        other: { type: subjectCategories.OTHER, subjects: [] },
       },
     );
     return [reduced.active, reduced.archived, reduced.beta, reduced.other];
