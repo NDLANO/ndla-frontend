@@ -16,6 +16,7 @@
     "strictBindCallApply": true,
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
+    "preserveSymlinks": true,
     "alwaysStrict": true,
 
     "noUnusedLocals": true,
