@@ -47,6 +47,7 @@ type ArticleFolderResourceMeta implements FolderResourceMeta {
   metaImage: MetaImage
   resourceTypes: [FolderResourceResourceType!]!
   title: String!
+  traits: [String!]
   type: String!
 }
 
@@ -794,6 +795,7 @@ type Meta {
   metaDescription: String
   metaImage: MetaImage
   title: String!
+  traits: [String!]
 }
 
 type MetaImage {
@@ -1115,6 +1117,7 @@ type Query {
     query: String
     resourceTypes: String
     subjects: String
+    tags: [String!]
   ): [GroupSearch!]
   image(id: String!): ImageMetaInformationV2
   imageSearch(license: String, page: Int, pageSize: Int, query: String): ImageSearch!
@@ -1164,6 +1167,7 @@ type Query {
     resultTypes: String
     sort: String
     subjects: String
+    tags: [String!]
     traits: [String!]
   ): Search
   searchWithoutPagination(
@@ -1179,6 +1183,7 @@ type Query {
     resourceTypes: String
     sort: String
     subjects: String
+    tags: [String!]
   ): SearchWithoutPagination
   sharedFolder(id: String!): SharedFolder!
   subject(id: String!): Subject

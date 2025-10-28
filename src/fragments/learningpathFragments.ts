@@ -33,6 +33,7 @@ const articleFragment = gql`
     updated
     articleType
     title
+    traits
     language
   }
 `;

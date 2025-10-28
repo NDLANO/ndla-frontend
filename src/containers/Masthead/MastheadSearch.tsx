@@ -16,6 +16,7 @@ import { createListCollection } from "@ark-ui/react";
 import { useComponentSize } from "@ndla/hooks";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
+  Badge,
   Button,
   ComboboxControl,
   ComboboxInput,
@@ -38,14 +39,16 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { constants, ContentTypeBadge, useComboboxTranslations } from "@ndla/ui";
+import { constants, useComboboxTranslations } from "@ndla/ui";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
+import { TraitsContainer } from "../../components/TraitsContainer";
 import {
   GQLCurrentContextQuery,
   GQLCurrentContextQueryVariables,
   GQLMastheadSearchQuery,
   GQLMastheadSearchQueryVariables,
 } from "../../graphqlTypes";
+import { getListItemTraits } from "../../util/listItemTraits";
 import { isValidContextId } from "../../util/urlHelper";
 import { useDebounce } from "../../util/useDebounce";
 
@@ -55,11 +58,13 @@ const StyledComboboxContent = styled(ComboboxContentStandalone, {
   },
 });
 
-const StyledListItemRoot = styled(ListItemRoot, {
+const StyledComboboxItem = styled(ComboboxItem, {
   base: {
     minHeight: "unset",
-    textAlign: "start",
-    flexWrap: "wrap",
+    flexDirection: "column",
+    "& > *": {
+      width: "100%",
+    },
   },
 });
 
@@ -217,9 +222,11 @@ const searchQuery = gql`
         url
         metaDescription
         ... on ArticleSearchResult {
+          traits
           htmlTitle
         }
         ... on LearningpathSearchResult {
+          traits
           htmlTitle
         }
         contexts {
@@ -227,8 +234,10 @@ const searchQuery = gql`
           isPrimary
           breadcrumbs
           url
+          relevanceId
           resourceTypes {
             id
+            name
           }
         }
       }
@@ -322,15 +331,26 @@ export const MastheadSearch = () => {
     return (
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        let contentType = undefined;
-        if (result.__typename === "NodeSearchResult") {
-          contentType = constants.contentTypes.SUBJECT;
+        const nodeType =
+          result.__typename === "NodeSearchResult" ? "subject" : result.url.startsWith("/e/") ? "topic" : undefined;
+        let contentType: string | undefined = nodeType;
+        if (context?.resourceTypes) {
+          contentType = constants.contentTypeMapping[context?.resourceTypes?.[0]?.id ?? "default"];
         }
-        if (context?.resourceTypes?.length) {
-          contentType = constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
-        } else if (context?.url.startsWith("/e")) {
-          contentType = constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
-        }
+
+        const traits = getListItemTraits(
+          {
+            relevanceId: context?.relevanceId,
+            resourceTypes: context?.resourceTypes,
+            contentType,
+            resourceType: nodeType,
+            traits:
+              result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult"
+                ? result.traits
+                : undefined,
+          },
+          t,
+        );
         return {
           ...result,
           htmlTitle:
@@ -338,12 +358,13 @@ export const MastheadSearch = () => {
               ? parse(result.htmlTitle)
               : result.title,
           resourceType: context?.resourceTypes?.[0]?.id,
-          contentType,
+          isSubject: result.__typename === "NodeSearchResult",
+          traits,
           path: context?.url ?? result.url,
         };
       }) ?? []
     );
-  }, [query.length, searchResult.search?.results]);
+  }, [query.length, searchResult.search?.results, t]);
 
   const searchString = new URLSearchParams(query?.length ? { query: encodeURIComponent(query) } : undefined).toString();
 
@@ -455,8 +476,8 @@ export const MastheadSearch = () => {
                   <Spinner />
                 ) : (
                   searchHits.map((resource) => (
-                    <ComboboxItem key={resource.id} item={resource} className="peer" asChild consumeCss>
-                      <StyledListItemRoot context="list">
+                    <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild>
+                      <ListItemRoot context="list">
                         <TextWrapper>
                           <StyledComboboxItemText>
                             <SafeLink
@@ -469,7 +490,7 @@ export const MastheadSearch = () => {
                               {resource.htmlTitle}
                             </SafeLink>
                           </StyledComboboxItemText>
-                          {resource.contentType === constants.contentTypes.SUBJECT ? (
+                          {resource.isSubject ? (
                             <Text textStyle="label.small" color="text.subtle">
                               {resource.metaDescription}
                             </Text>
@@ -481,14 +502,18 @@ export const MastheadSearch = () => {
                                 css={{ textAlign: "start" }}
                                 aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
                               >
-                                {resource.contexts[0].breadcrumbs.join(" / ")}
+                                {resource.contexts[0].breadcrumbs.join(" › ")}
                               </Text>
                             )
                           )}
                         </TextWrapper>
-                        <ContentTypeBadge contentType={resource.contentType} />
-                      </StyledListItemRoot>
-                    </ComboboxItem>
+                        <TraitsContainer>
+                          {resource.traits.map((trait) => (
+                            <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
+                          ))}
+                        </TraitsContainer>
+                      </ListItemRoot>
+                    </StyledComboboxItem>
                   ))
                 )}
               </StyledComboboxContent>

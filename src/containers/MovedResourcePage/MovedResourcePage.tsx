@@ -19,6 +19,7 @@ import { NavigationBox } from "../../components/NavigationBox";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { contentTypeMapping } from "../../util/getContentType";
+import { getListItemTraits } from "../../util/listItemTraits";
 
 interface Props {
   resource: GQLMovedResourcePage_NodeFragment;
@@ -67,15 +68,21 @@ export const MovedResourcePage = ({ resource }: Props) => {
     const metaImage = isLearningpath
       ? { url: resource.learningpath?.coverphoto?.url, alt: "" }
       : resource.article?.metaImage;
+    const contentType = resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t);
+
+    const traits = getListItemTraits(
+      { resourceTypes: resource.resourceTypes, traits: resource.article?.traits, contentType },
+      t,
+    );
 
     return {
       id: resultId,
       title: resource.name,
       url: resource.url ?? "",
-      contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
       ingress: ingress ?? "",
       metaImage,
       breadcrumbs: resource.breadcrumbs,
+      traits,
       roots: data?.resource?.contexts.map(({ breadcrumbs, url }) => ({
         url: url,
         title: breadcrumbs[0] ?? "",
@@ -109,11 +116,11 @@ export const MovedResourcePage = ({ resource }: Props) => {
         {result ? (
           <MovedNodeCard
             title={result.title}
-            contentType={result.contentType}
             url={result.url}
             ingress={result.ingress}
             metaImage={result.metaImage}
             breadcrumbs={result.breadcrumbs}
+            traits={result.traits}
           />
         ) : (
           <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
@@ -139,6 +146,7 @@ MovedResourcePage.fragments = {
       article {
         id
         metaDescription
+        traits
         metaImage {
           url
           alt

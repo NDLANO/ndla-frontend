@@ -6,11 +6,13 @@
  *
  */
 
+import { TFunction } from "i18next";
 import { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
+  Badge,
   Text,
   InputContainer,
   IconButton,
@@ -27,8 +29,9 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
-import { useComboboxTranslations, ContentTypeBadge } from "@ndla/ui";
+import { useComboboxTranslations } from "@ndla/ui";
 import { FolderResource } from "./folderTypes";
+import { TraitsContainer } from "../../../../components/TraitsContainer";
 import {
   GQLBreadcrumb,
   GQLFolder,
@@ -37,19 +40,12 @@ import {
 } from "../../../../graphqlTypes";
 import { useFolders, useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { contentTypeMapping } from "../../../../util/getContentType";
+import { getListItemTraits } from "../../../../util/listItemTraits";
 
 const StyledHitsWrapper = styled("div", {
   base: {
     textAlign: "start",
     minHeight: "medium",
-  },
-});
-
-const TextWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "4xsmall",
   },
 });
 
@@ -68,15 +64,12 @@ const ContentWrapper = styled("div", {
   },
 });
 
-const StyledListItemRoot = styled(ListItemRoot, {
+const StyledComboboxItem = styled(ComboboxItem, {
   base: {
     minHeight: "unset",
     textAlign: "start",
-  },
-});
-
-const StyledComboboxItem = styled(ComboboxItem, {
-  base: {
+    flexDirection: "column",
+    alignItems: "flex-start",
     flexWrap: "wrap",
   },
 });
@@ -95,6 +88,7 @@ type GQLFolderResourceWithCrumb = GQLFolderResource & {
   breadcrumbs: GQLBreadcrumb[];
   meta?: GQLFolderResourceMetaSearch;
   contentType?: string;
+  traits?: string[];
 };
 
 const toKeyedMetaId = (id: string, resourceType: string) => `${resourceType}-${id}`;
@@ -115,16 +109,31 @@ const flattenResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] =>
   return resources.concat(flattenResources(folders.flatMap((folder) => folder.subfolders)));
 };
 
-const stitchResourcesWithMeta = (resources: GQLFolderResourceWithCrumb[], metaData: GQLFolderResourceMetaSearch[]) => {
+const stitchResourcesWithMeta = (
+  resources: GQLFolderResourceWithCrumb[],
+  metaData: GQLFolderResourceMetaSearch[],
+  t: TFunction,
+) => {
   const keyedMeta = metaData.reduce<Record<string, GQLFolderResourceMetaSearch>>((acc, curr) => {
     acc[toKeyedMetaId(curr.id, curr.type)] = curr;
     return acc;
   }, {});
   return resources.map((resource) => {
     const meta = keyedMeta[toKeyedMetaId(resource.resourceId, resource.resourceType)];
+    const contentType = meta?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
+    const traits = getListItemTraits(
+      {
+        contentType,
+        resourceTypes: meta?.resourceTypes,
+        resourceType: resource.resourceType,
+        traits: meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined,
+      },
+      t,
+    );
     return {
       ...resource,
       meta,
+      traits,
       contentType: meta?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0],
     };
   });
@@ -158,9 +167,9 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
   useEffect(() => {
     if (data && resources.length) {
-      setStitchedResources(stitchResourcesWithMeta(resources, data));
+      setStitchedResources(stitchResourcesWithMeta(resources, data, t));
     }
-  }, [data, resources]);
+  }, [data, resources, t]);
 
   const filteredResources = useMemo(() => {
     return stitchedResources.filter((res) => res.meta?.title.toLowerCase().includes(inputValue.toLowerCase()));
@@ -239,20 +248,22 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
           {filteredResources ? (
             <StyledComboboxContent>
               {filteredResources.map((resource, index) => (
-                <StyledComboboxItem key={`${resource.id}-${index}`} item={resource} asChild consumeCss>
-                  <StyledListItemRoot context="list">
-                    <TextWrapper>
-                      <ComboboxItemText>{resource.meta?.title}</ComboboxItemText>
-                      <StyledText
-                        textStyle="label.small"
-                        color="text.subtle"
-                        aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumbs.map((crumb) => crumb.name).join(", ")}`}
-                      >
-                        {resource.breadcrumbs.map((crumb) => crumb.name).join(" > ")}
-                      </StyledText>
-                    </TextWrapper>
-                    <ContentTypeBadge contentType={resource.contentType ?? resource.resourceType} />
-                  </StyledListItemRoot>
+                <StyledComboboxItem key={`${resource.id}-${index}`} item={resource} asChild>
+                  <ListItemRoot context="list">
+                    <ComboboxItemText>{resource.meta?.title}</ComboboxItemText>
+                    <StyledText
+                      textStyle="label.small"
+                      color="text.subtle"
+                      aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumbs.map((crumb) => crumb.name).join(", ")}`}
+                    >
+                      {resource.breadcrumbs.map((crumb) => crumb.name).join(" › ")}
+                    </StyledText>
+                    <TraitsContainer>
+                      {resource.traits?.map((trait) => (
+                        <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
+                      ))}
+                    </TraitsContainer>
+                  </ListItemRoot>
                 </StyledComboboxItem>
               ))}
             </StyledComboboxContent>

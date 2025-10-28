@@ -14,6 +14,7 @@ import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
+  Badge,
   ComboboxContentStandalone,
   ComboboxControl,
   ComboboxInput,
@@ -36,8 +37,9 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentTypeBadge, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
+import { useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
+import { TraitsContainer } from "../../../../components/TraitsContainer";
 import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
@@ -47,6 +49,7 @@ import {
 } from "../../../../constants";
 import { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
+import { getListItemTraits } from "../../../../util/listItemTraits";
 import { useDebounce } from "../../../../util/useDebounce";
 
 const HitsWrapper = styled("div", {
@@ -138,15 +141,18 @@ const searchQuery = gql`
         title
         ... on ArticleSearchResult {
           htmlTitle
+          traits
         }
         ... on LearningpathSearchResult {
           htmlTitle
+          traits
         }
         contexts {
           contextId
           isPrimary
           url
           breadcrumbs
+          relevanceId
           resourceTypes {
             id
             name
@@ -190,16 +196,29 @@ export const ResourcePicker = ({ setResource }: Props) => {
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
         const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
+        const traits = getListItemTraits(
+          {
+            relevanceId: context?.relevanceId,
+            resourceTypes: context?.resourceTypes,
+            contentType,
+            traits:
+              result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult"
+                ? result.traits
+                : undefined,
+          },
+          t,
+        );
         return {
           ...result,
           id: result.id.toString(),
           resourceType: context?.resourceTypes?.[0]?.id,
           contentType,
+          traits,
           path: context?.url ?? result.url,
         };
       }) ?? []
     );
-  }, [searchResult.search?.results]);
+  }, [searchResult.search?.results, t]);
 
   const collection = useMemo(
     () =>
@@ -285,8 +304,12 @@ export const ResourcePicker = ({ setResource }: Props) => {
                         {resource.contexts[0].breadcrumbs.join(" > ")}
                       </Text>
                     )}
+                    <TraitsContainer>
+                      {resource.traits.map((trait) => (
+                        <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
+                      ))}
+                    </TraitsContainer>
                   </StyledListItemContent>
-                  <ContentTypeBadge contentType={resource.contentType} />
                 </StyledListItemRoot>
               </StyledComboboxItem>
             ))}

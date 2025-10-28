@@ -6,8 +6,7 @@
  *
  */
 
-import { useId, useMemo } from "react";
-import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
 import { breakpoints } from "@ndla/core";
 import {
   Badge,
@@ -19,35 +18,21 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentType, ContentTypeBadge, constants } from "@ndla/ui";
+import { ContentType, constants } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
+import { TraitsContainer } from "../../components/TraitsContainer";
 import { RELEVANCE_CORE } from "../../constants";
+import { GQLResourceType } from "../../graphqlTypes";
+import { useListItemTraits } from "../../util/listItemTraits";
 
 const { contentTypes } = constants;
 
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    wordWrap: "anywhere",
-    lineClamp: "2",
-    _currentPage: {
-      fontWeight: "bold",
-      textDecoration: "none",
-    },
-  },
-});
-
 const StyledListItemContent = styled(ListItemContent, {
   base: {
-    flexWrap: "wrap",
-  },
-});
-
-const InfoContainer = styled(HStack, {
-  base: {
-    marginInlineStart: "auto",
-    flexShrink: "0",
+    flexDirection: "column",
+    alignItems: "flex-start",
   },
 });
 
@@ -65,10 +50,12 @@ export type Resource = {
   name: string;
   url?: string;
   contentType?: string;
+  resourceTypes?: GQLResourceType[];
   active?: boolean;
   relevanceId?: string;
   article?: {
     metaImage?: { url?: string; alt?: string };
+    traits?: string[];
   };
   learningpath?: {
     coverphoto?: { url?: string };
@@ -154,6 +141,21 @@ const listItemRecipe = cva({
   },
 });
 
+const StyledListItemHeading = styled(ListItemHeading, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "xxsmall",
+    wordWrap: "anywhere",
+    lineClamp: "2",
+    _currentPage: {
+      fontWeight: "bold",
+      textDecoration: "none",
+    },
+  },
+});
+
 const StyledListItemImage = styled(ListItemImage, {
   base: {
     mobileWideDown: {
@@ -173,12 +175,12 @@ export const ResourceItem = ({
   article,
   learningpath,
   currentResourceContentType,
+  resourceTypes,
 }: Props & Resource) => {
-  const { t } = useTranslation();
-  const relevanceElId = useId();
   const additional = relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
-  const additionalLabel = t("resource.tooltipAdditionalTopic");
+
+  const listItemTraits = useListItemTraits({ resourceTypes, relevanceId, traits: article?.traits, contentType });
 
   const describedBy = useMemo(() => {
     const elements = [];
@@ -208,23 +210,22 @@ export const ResourceItem = ({
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
         />
         <StyledListItemContent>
-          <ListItemHeading asChild consumeCss>
-            <StyledSafeLink
+          <StyledListItemHeading asChild css={linkOverlay.raw()}>
+            <SafeLink
               to={url || ""}
-              unstyled
-              css={linkOverlay.raw()}
               lang={language}
               aria-current={active ? "page" : undefined}
               title={name}
               aria-describedby={describedBy}
             >
               {name}
-            </StyledSafeLink>
-          </ListItemHeading>
-          <InfoContainer gap="xxsmall">
-            <ContentTypeBadge contentType={contentType} />
-            {!!showAdditionalResources && !!additional && <Badge id={relevanceElId}>{additionalLabel}</Badge>}
-          </InfoContainer>
+            </SafeLink>
+          </StyledListItemHeading>
+          <TraitsContainer>
+            {listItemTraits.map((trait) => (
+              <Badge key={`${url}-${trait}`}>{trait}</Badge>
+            ))}
+          </TraitsContainer>
         </StyledListItemContent>
       </ListItemRoot>
     </li>

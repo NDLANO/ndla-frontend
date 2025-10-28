@@ -25,7 +25,7 @@ import config from "../../../config";
 import { GQLFolderResource } from "../../../graphqlTypes";
 import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
-import { getAllTags, getResourceTypesForResource, getResourcesForTag } from "../../../util/folderHelpers";
+import { getAllTags, getResourcesForTag } from "../../../util/folderHelpers";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
@@ -150,7 +150,9 @@ const Resources = ({ resources }: ResourcesProps) => {
             link={resource.path}
             title={meta?.title ?? ""}
             description={meta?.description ?? ""}
-            resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
+            storedResourceType={resource.resourceType}
+            resourceTypes={meta?.resourceTypes}
+            traits={meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined}
             resourceImage={{
               src: meta?.metaImage?.url,
               alt: "",

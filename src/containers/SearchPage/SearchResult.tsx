@@ -7,11 +7,11 @@
  */
 
 import parse from "html-react-parser";
-import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
 import {
+  Badge,
   Button,
   DialogBody,
   DialogContent,
@@ -26,12 +26,14 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
+import { TraitsContainer } from "../../components/TraitsContainer";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
 import { LtiEmbed } from "../../lti/LtiEmbed";
 import { useLtiContext } from "../../LtiContext";
+import { useListItemTraits } from "../../util/listItemTraits";
 
 interface Props {
   searchResult: GQLSearchResult_SearchResultFragment;
@@ -77,19 +79,21 @@ export const SearchResult = ({ searchResult }: Props) => {
   const { t, i18n } = useTranslation();
   const ltiContext = useLtiContext();
   const context = searchResult.context ?? searchResult.contexts?.[0];
+  const nodeType =
+    searchResult.__typename === "NodeSearchResult" ? "subject" : context?.url.startsWith("/e") ? "topic" : undefined;
 
-  const contentType = useMemo(() => {
-    if (searchResult.__typename === "NodeSearchResult") {
-      // TODO: Should SUBJECT be a part of `contentTypeMapping`?
-      return constants.contentTypes.SUBJECT;
-    }
-    if (context?.resourceTypes?.length) {
-      return constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"];
-    } else if (context?.url.startsWith("/e")) {
-      return constants.contentTypeMapping[constants.contentTypes.TOPIC] ?? "default";
-    }
-    return undefined;
-  }, [context?.resourceTypes, context?.url, searchResult.__typename]);
+  const listItemTraits = useListItemTraits({
+    relevanceId: context?.relevanceId,
+    contentType: context?.resourceTypes
+      ? constants.contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]
+      : nodeType,
+    resourceType: nodeType,
+    resourceTypes: context?.resourceTypes,
+    traits:
+      searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult"
+        ? searchResult.traits
+        : undefined,
+  });
 
   return (
     <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
@@ -105,7 +109,7 @@ export const SearchResult = ({ searchResult }: Props) => {
         {!!context && (
           <Text color="text.subtle" textStyle="label.small">
             <span aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumbs.join(",")}`}>
-              {context.breadcrumbs.join(" > ")}
+              {context.breadcrumbs.join(" › ")}
             </span>
             {searchResult.contexts.length > 1 && (
               <DialogRoot>
@@ -143,7 +147,11 @@ export const SearchResult = ({ searchResult }: Props) => {
             )}
           </Text>
         )}
-        {!!contentType && <ContentTypeBadge contentType={contentType} />}
+        <TraitsContainer>
+          {listItemTraits.map((trait) => (
+            <Badge key={`${searchResult.id}-${trait}`}>{trait}</Badge>
+          ))}
+        </TraitsContainer>
         {!!ltiContext && (
           <LtiEmbed
             item={{
@@ -166,15 +174,18 @@ SearchResult.fragments = {
       title
       ... on ArticleSearchResult {
         htmlTitle
+        traits
       }
       ... on LearningpathSearchResult {
         htmlTitle
+        traits
       }
       metaDescription
       context {
         contextId
         publicId
         url
+        relevanceId
         breadcrumbs
         resourceTypes {
           id

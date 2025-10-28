@@ -9,6 +9,7 @@
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Badge,
   ListItemContent,
   ListItemHeading,
   ListItemImage,
@@ -20,15 +21,17 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentTypeBadge, constants } from "@ndla/ui";
+import { constants } from "@ndla/ui";
+import { useListItemTraits } from "../../util/listItemTraits";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
+import { TraitsContainer } from "../TraitsContainer";
 
 const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
 
 const StyledListItemContent = styled(ListItemContent, {
   base: {
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
     gap: "3xsmall",
     width: "100%",
@@ -40,9 +43,11 @@ export interface ListResourceProps {
   link: string;
   title: string;
   resourceImage: { src: string | undefined; alt: string };
-  resourceTypes: { id: string; name: string }[];
+  resourceTypes?: { id: string; name: string }[];
   description?: string;
   menu?: ReactNode;
+  traits?: string[];
+  storedResourceType?: string;
   isLoading?: boolean;
 }
 const StyledSafeLink = styled(SafeLink, {
@@ -136,12 +141,14 @@ export const ListResource = ({
   description,
   menu,
   variant,
+  traits,
   context = "list",
+  storedResourceType,
   isLoading = false,
   nonInteractive,
 }: ListResourceProps & ListItemVariantProps) => {
   const { t } = useTranslation();
-  const firstContentType = resourceTypes?.[0]?.id ?? "";
+  const firstContentType = resourceTypes?.[0]?.id ?? storedResourceType ?? "";
 
   const contentType = useMemo(() => {
     if (!firstContentType) {
@@ -154,6 +161,8 @@ export const ListResource = ({
       constants.contentTypeMapping.default!
     );
   }, [firstContentType]);
+
+  const listItemTraits = useListItemTraits({ traits, resourceTypes, contentType, resourceType: storedResourceType });
 
   if (isLoading) {
     return (
@@ -172,9 +181,7 @@ export const ListResource = ({
             <Skeleton css={{ width: "40%" }}>
               <ListItemHeading>&nbsp;</ListItemHeading>
             </Skeleton>
-            <Skeleton>
-              <ContentTypeBadge contentType={"missing"} />
-            </Skeleton>
+            <Skeleton>{<Badge>{t("contentTypes.missing")}</Badge>}</Skeleton>
           </TitleWrapper>
         </StyledListItemContent>
       </LoadingListItemRoot>
@@ -206,12 +213,16 @@ export const ListResource = ({
               </StyledSafeLink>
             </ListItemHeading>
           )}
-          <ContentTypeBadge contentType={contentType} />
         </TitleWrapper>
         <DescriptionWrapper>
           {!!description && <StyledDescription>{description}</StyledDescription>}
           <ActionWrapper>{menu}</ActionWrapper>
         </DescriptionWrapper>
+        <TraitsContainer>
+          {listItemTraits.map((trait) => (
+            <Badge key={`${id}-${trait}`}>{trait}</Badge>
+          ))}
+        </TraitsContainer>
       </StyledListItemContent>
     </StyledListItemRoot>
   );

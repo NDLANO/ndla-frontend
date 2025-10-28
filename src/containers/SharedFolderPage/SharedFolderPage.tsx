@@ -32,7 +32,6 @@ import {
   foldersPageQuery,
 } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
-import { getResourceTypesForResource } from "../../util/folderHelpers";
 import { isNotFoundError } from "../../util/handleError";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -198,7 +197,9 @@ export const SharedFolderPage = () => {
                     alt: "",
                   }}
                   link={getResourceMetaPath(resource, resourceMeta)}
-                  resourceTypes={getResourceTypesForResource(resource.resourceType, resourceMeta.resourceTypes, t)}
+                  storedResourceType={resource.resourceType}
+                  resourceTypes={resourceMeta.resourceTypes}
+                  traits={resourceMeta?.__typename === "ArticleFolderResourceMeta" ? resourceMeta.traits : undefined}
                   title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                   description={resourceMeta?.description ?? ""}
                 />

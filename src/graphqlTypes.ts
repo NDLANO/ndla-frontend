@@ -83,6 +83,7 @@ export type GQLArticleFolderResourceMeta = GQLFolderResourceMeta & {
   metaImage?: Maybe<GQLMetaImage>;
   resourceTypes: Array<GQLFolderResourceResourceType>;
   title: Scalars["String"]["output"];
+  traits?: Maybe<Array<Scalars["String"]["output"]>>;
   type: Scalars["String"]["output"];
 };
 
@@ -907,6 +908,7 @@ export type GQLMeta = {
   metaDescription?: Maybe<Scalars["String"]["output"]>;
   metaImage?: Maybe<GQLMetaImage>;
   title: Scalars["String"]["output"];
+  traits?: Maybe<Array<Scalars["String"]["output"]>>;
 };
 
 export type GQLMetaImage = {
@@ -1463,6 +1465,7 @@ export type GQLQueryGroupSearchArgs = {
   query?: InputMaybe<Scalars["String"]["input"]>;
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
 export type GQLQueryImageArgs = {
@@ -1573,6 +1576,7 @@ export type GQLQuerySearchArgs = {
   resultTypes?: InputMaybe<Scalars["String"]["input"]>;
   sort?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
   traits?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
@@ -1589,6 +1593,7 @@ export type GQLQuerySearchWithoutPaginationArgs = {
   resourceTypes?: InputMaybe<Scalars["String"]["input"]>;
   sort?: InputMaybe<Scalars["String"]["input"]>;
   subjects?: InputMaybe<Scalars["String"]["input"]>;
+  tags?: InputMaybe<Array<Scalars["String"]["input"]>>;
 };
 
 export type GQLQuerySharedFolderArgs = {
@@ -2709,6 +2714,7 @@ export type GQLMastheadSearchQuery = {
     results: Array<
       | {
           __typename?: "ArticleSearchResult";
+          traits: Array<string>;
           htmlTitle: string;
           id: string;
           title: string;
@@ -2720,11 +2726,13 @@ export type GQLMastheadSearchQuery = {
             isPrimary: boolean;
             breadcrumbs: Array<string>;
             url: string;
-            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string }>;
+            relevanceId: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
           }>;
         }
       | {
           __typename?: "LearningpathSearchResult";
+          traits: Array<string>;
           htmlTitle: string;
           id: string;
           title: string;
@@ -2736,7 +2744,8 @@ export type GQLMastheadSearchQuery = {
             isPrimary: boolean;
             breadcrumbs: Array<string>;
             url: string;
-            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string }>;
+            relevanceId: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
           }>;
         }
       | {
@@ -2751,7 +2760,8 @@ export type GQLMastheadSearchQuery = {
             isPrimary: boolean;
             breadcrumbs: Array<string>;
             url: string;
-            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string }>;
+            relevanceId: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
           }>;
         }
     >;
@@ -2781,6 +2791,7 @@ export type GQLMovedResourcePage_NodeFragment = {
     __typename?: "Article";
     id: number;
     metaDescription: string;
+    traits: Array<string>;
     metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
   };
   learningpath?: {
@@ -2826,6 +2837,7 @@ export type GQLResourcePickerSearchQuery = {
       | {
           __typename?: "ArticleSearchResult";
           htmlTitle: string;
+          traits: Array<string>;
           id: string;
           url: string;
           title: string;
@@ -2835,12 +2847,14 @@ export type GQLResourcePickerSearchQuery = {
             isPrimary: boolean;
             url: string;
             breadcrumbs: Array<string>;
+            relevanceId: string;
             resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
           }>;
         }
       | {
           __typename?: "LearningpathSearchResult";
           htmlTitle: string;
+          traits: Array<string>;
           id: string;
           url: string;
           title: string;
@@ -2850,6 +2864,7 @@ export type GQLResourcePickerSearchQuery = {
             isPrimary: boolean;
             url: string;
             breadcrumbs: Array<string>;
+            relevanceId: string;
             resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
           }>;
         }
@@ -2864,6 +2879,7 @@ export type GQLResourcePickerSearchQuery = {
             isPrimary: boolean;
             url: string;
             breadcrumbs: Array<string>;
+            relevanceId: string;
             resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
           }>;
         }
@@ -3184,6 +3200,7 @@ export type GQLResources_ParentFragment = {
     article?: {
       __typename?: "Article";
       id: number;
+      traits: Array<string>;
       metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
     };
     learningpath?: {
@@ -3298,6 +3315,7 @@ export type GQLSearchResourceTypesQuery = {
 type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
   __typename?: "ArticleSearchResult";
   htmlTitle: string;
+  traits: Array<string>;
   id: string;
   url: string;
   title: string;
@@ -3307,6 +3325,7 @@ type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
     contextId: string;
     publicId: string;
     url: string;
+    relevanceId: string;
     breadcrumbs: Array<string>;
     resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
   };
@@ -3324,6 +3343,7 @@ type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
 type GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
   __typename?: "LearningpathSearchResult";
   htmlTitle: string;
+  traits: Array<string>;
   id: string;
   url: string;
   title: string;
@@ -3333,6 +3353,7 @@ type GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment = {
     contextId: string;
     publicId: string;
     url: string;
+    relevanceId: string;
     breadcrumbs: Array<string>;
     resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
   };
@@ -3358,6 +3379,7 @@ type GQLSearchResult_SearchResult_NodeSearchResult_Fragment = {
     contextId: string;
     publicId: string;
     url: string;
+    relevanceId: string;
     breadcrumbs: Array<string>;
     resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
   };
@@ -3444,26 +3466,6 @@ export type GQLSubjectPageQuery = {
   }>;
 };
 
-export type GQLMovedTopicPage_NodeFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  breadcrumbs: Array<string>;
-  meta?: {
-    __typename?: "Meta";
-    metaDescription?: string;
-    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  };
-  contexts: Array<{
-    __typename?: "TaxonomyContext";
-    contextId: string;
-    url: string;
-    name: string;
-    breadcrumbs: Array<string>;
-  }>;
-};
-
 export type GQLMultidisciplinaryArticleList_NodeFragment = {
   __typename?: "Node";
   id: string;
@@ -3544,7 +3546,6 @@ export type GQLTopicPageQuery = {
         visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
       };
     };
-    alternateNodes?: Array<{ __typename?: "Node" } & GQLMovedTopicPage_NodeFragment>;
     meta?: {
       __typename?: "Meta";
       metaDescription?: string;
@@ -3619,6 +3620,7 @@ export type GQLResource_ArticleFragment = {
   updated: string;
   articleType: string;
   title: string;
+  traits: Array<string>;
   language: string;
 };
 
@@ -3833,6 +3835,7 @@ export type GQLSharedFoldersPageQueryFragmentFragment = {
 
 type GQLFolderResourceMeta_ArticleFolderResourceMeta_Fragment = {
   __typename: "ArticleFolderResourceMeta";
+  traits?: Array<string>;
   id: string;
   title: string;
   description: string;

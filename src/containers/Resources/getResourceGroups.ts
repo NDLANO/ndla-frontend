@@ -72,8 +72,17 @@ export const getResourceGroups = <T extends GQLResourceLike>(
 ): ResourceTypeWithResources[] => {
   const groupedResources = groupResourcesByResourceTypes(resources);
   const sortedResourceTypes = sortResourceTypes(resourceTypes);
+  const usedResourceIds = new Set<string>();
 
   return sortedResourceTypes
-    .map((type) => ({ ...type, resources: groupedResources[type.id] ?? [] }))
+    .map((type) => {
+      const resourcesForType = (groupedResources[type.id] ?? []).filter(
+        (resource) => !usedResourceIds.has(resource.id),
+      );
+
+      resourcesForType.forEach((resource) => usedResourceIds.add(resource.id));
+
+      return { ...type, resources: resourcesForType };
+    })
     .filter((type) => !!type.resources.length);
 };

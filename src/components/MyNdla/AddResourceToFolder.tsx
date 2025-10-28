@@ -43,7 +43,7 @@ import {
 } from "../../mutations/folder/folderMutations";
 import { useFolder, useFolderResourceMeta, useFolders } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
-import { getAllTags, getResourceForPath, getResourceTypesForResource } from "../../util/folderHelpers";
+import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
 
@@ -203,6 +203,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
 
   const noFolderSelected = selectedFolderId === "folders";
   const disabledButton = !canSave || noFolderSelected || examLock;
+
   return (
     <AddResourceContainer>
       <ListResource
@@ -213,7 +214,9 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ""}
-        resourceTypes={getResourceTypesForResource(resource.resourceType, meta?.resourceTypes, t)}
+        traits={meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined}
+        resourceTypes={meta?.resourceTypes}
+        storedResourceType={resource.resourceType}
         resourceImage={{
           src: meta?.metaImage?.url,
           alt: meta?.metaImage?.alt ?? "",
