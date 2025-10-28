@@ -21,12 +21,10 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { constants } from "@ndla/ui";
+import { contentTypeMapping, contentTypes, resourceEmbedTypeMapping } from "@ndla/ui";
 import { useListItemTraits } from "../../util/listItemTraits";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 import { TraitsContainer } from "../TraitsContainer";
-
-const resourceEmbedTypeMapping = constants.resourceEmbedTypeMapping;
 
 const StyledListItemContent = styled(ListItemContent, {
   base: {
@@ -130,7 +128,7 @@ const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
   },
 });
 
-const learningpathMapping: Record<string, string> = { learningpath: constants.contentTypes.LEARNING_PATH };
+const learningpathMapping: Record<string, string> = { learningpath: contentTypes.LEARNING_PATH };
 
 export const ListResource = ({
   id,
@@ -152,13 +150,13 @@ export const ListResource = ({
 
   const contentType = useMemo(() => {
     if (!firstContentType) {
-      return constants.contentTypes.MISSING;
+      return contentTypes.MISSING;
     }
     return (
-      constants.contentTypeMapping[firstContentType] ??
+      contentTypeMapping[firstContentType] ??
       resourceEmbedTypeMapping[firstContentType] ??
       learningpathMapping[firstContentType] ??
-      constants.contentTypeMapping.default!
+      contentTypeMapping.default!
     );
   }, [firstContentType]);
 
@@ -199,14 +197,14 @@ export const ListResource = ({
       <StyledListItemContent>
         <TitleWrapper>
           {nonInteractive ? (
-            <ListItemHeading color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}>
+            <ListItemHeading color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}>
               {title}
             </ListItemHeading>
           ) : (
             <ListItemHeading
               asChild
               consumeCss
-              color={contentType === constants.contentTypes.MISSING ? "text.subtle" : undefined}
+              color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}
             >
               <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
                 {title}

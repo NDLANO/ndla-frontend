@@ -39,7 +39,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { constants, useComboboxTranslations } from "@ndla/ui";
+import { contentTypeMapping, useComboboxTranslations } from "@ndla/ui";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
 import { TraitsContainer } from "../../components/TraitsContainer";
 import {
@@ -335,7 +335,7 @@ export const MastheadSearch = () => {
           result.__typename === "NodeSearchResult" ? "subject" : result.url.startsWith("/e/") ? "topic" : undefined;
         let contentType: string | undefined = nodeType;
         if (context?.resourceTypes) {
-          contentType = constants.contentTypeMapping[context?.resourceTypes?.[0]?.id ?? "default"];
+          contentType = contentTypeMapping[context?.resourceTypes?.[0]?.id ?? "default"];
         }
 
         const traits = getListItemTraits(

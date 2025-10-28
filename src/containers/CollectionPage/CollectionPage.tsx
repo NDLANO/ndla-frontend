@@ -15,7 +15,7 @@ import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
-import { constants } from "@ndla/ui";
+import { subjectTypes } from "@ndla/ui";
 import { groupBy } from "@ndla/util";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -107,7 +107,7 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
         ...subject.metadata,
         customFields: {
           ...subject.metadata.customFields,
-          subjectType: subject.metadata.customFields.subjectType ?? constants.subjectTypes.SUBJECT,
+          subjectType: subject.metadata.customFields.subjectType ?? subjectTypes.SUBJECT,
         },
       },
     }));

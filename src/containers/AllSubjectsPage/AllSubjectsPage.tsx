@@ -14,7 +14,7 @@ import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HelmetWithTracker } from "@ndla/tracker";
-import { constants } from "@ndla/ui";
+import { subjectCategories } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import { FavoriteSubjects } from "./FavoriteSubjects";
 import { LetterNavigation } from "./LetterNavigation";
@@ -29,8 +29,6 @@ import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 
-const { ACTIVE_SUBJECTS, ARCHIVE_SUBJECTS, BETA_SUBJECTS, OTHER } = constants.subjectCategories;
-
 const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
   const label = addTail
     ? `${t(`subjectCategories.${key}`)} ${t("common.subject", {
@@ -42,21 +40,21 @@ const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
 
 const createFilters = (t: TFunction) => [
   {
-    label: createFilterTranslation(t, ACTIVE_SUBJECTS),
-    value: ACTIVE_SUBJECTS,
+    label: createFilterTranslation(t, subjectCategories.ACTIVE_SUBJECTS),
+    value: subjectCategories.ACTIVE_SUBJECTS,
   },
   {
-    label: createFilterTranslation(t, ARCHIVE_SUBJECTS),
-    value: ARCHIVE_SUBJECTS,
+    label: createFilterTranslation(t, subjectCategories.ARCHIVE_SUBJECTS),
+    value: subjectCategories.ARCHIVE_SUBJECTS,
   },
 
   {
-    label: createFilterTranslation(t, BETA_SUBJECTS),
-    value: BETA_SUBJECTS,
+    label: createFilterTranslation(t, subjectCategories.BETA_SUBJECTS),
+    value: subjectCategories.BETA_SUBJECTS,
   },
   {
-    label: createFilterTranslation(t, OTHER, false),
-    value: OTHER,
+    label: createFilterTranslation(t, subjectCategories.OTHER, false),
+    value: subjectCategories.OTHER,
   },
   {
     label: t("subjectsPage.tabFilter.all"),
@@ -110,7 +108,7 @@ export const AllSubjectsPage = () => {
   const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const selectedFilter = params.get("filter") ?? ACTIVE_SUBJECTS;
+  const selectedFilter = params.get("filter") ?? subjectCategories.ACTIVE_SUBJECTS;
 
   const setFilter = (value: string) => {
     setParams({ filter: value }, { replace: true });

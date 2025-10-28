@@ -20,14 +20,12 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentType, constants } from "@ndla/ui";
+import { ContentType, contentTypes } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import { TraitsContainer } from "../../components/TraitsContainer";
 import { RELEVANCE_CORE } from "../../constants";
 import { GQLResourceType } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
-
-const { contentTypes } = constants;
 
 const StyledListItemContent = styled(ListItemContent, {
   base: {

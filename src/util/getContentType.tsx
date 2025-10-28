@@ -6,7 +6,7 @@
  *
  */
 
-import { constants } from "@ndla/ui";
+import { contentTypes } from "@ndla/ui";
 import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_CONCEPT,
@@ -16,8 +16,6 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../constants";
 import { GQLResource, GQLTopic } from "../graphqlTypes";
-
-const { contentTypes } = constants;
 
 export const contentTypeMapping: Record<string, string> = {
   [RESOURCE_TYPE_LEARNING_PATH]: contentTypes.LEARNING_PATH,
