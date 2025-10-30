@@ -3203,12 +3203,12 @@ export type GQLResourceItem_NodeFragment = {
   };
 };
 
-export type GQLResourcesQueryQueryVariables = Exact<{
+export type GQLLaunchpadQueryVariables = Exact<{
   parentId: Scalars["String"]["input"];
-  rootId: Scalars["String"]["input"];
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
-export type GQLResourcesQueryQuery = {
+export type GQLLaunchpadQuery = {
   __typename?: "Query";
   node?: {
     __typename?: "Node";

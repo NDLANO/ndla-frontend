@@ -28,11 +28,11 @@ import {
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from "../../constants";
-import { GQLResourcesQueryQuery } from "../../graphqlTypes";
+import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
 
 interface Props {
   currentResourceId?: string;
-  parentId?: string;
+  parentId: string;
   rootId?: string;
 }
 
@@ -94,7 +94,7 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
   const { t } = useTranslation();
   const navHeadingId = useId();
 
-  const { error, loading, data } = useQuery<GQLResourcesQueryQuery>(resourcesQuery, {
+  const { error, loading, data } = useQuery<GQLLaunchpadQuery, GQLLaunchpadQueryVariables>(resourcesQuery, {
     variables: {
       parentId: parentId,
       rootId: rootId,
@@ -181,7 +181,7 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
 };
 
 const resourcesQuery = gql`
-  query resourcesQuery($parentId: String!, $rootId: String!) {
+  query launchpad($parentId: String!, $rootId: String) {
     node(id: $parentId, rootId: $rootId) {
       id
       name
