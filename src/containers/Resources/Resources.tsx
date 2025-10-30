@@ -160,15 +160,9 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
   );
 };
 
-Resources.fragments = {
-  resourceType: gql`
-    fragment Resources_ResourceTypeDefinition on ResourceTypeDefinition {
-      id
-      name
-    }
-  `,
-  node: gql`
-    fragment Resources_Parent on Node {
+const resourcesQuery = gql`
+  query resourcesQuery($parentId: String!, $rootId: String!) {
+    node(id: $parentId, rootId: $rootId) {
       id
       name
       url
@@ -202,18 +196,5 @@ Resources.fragments = {
         customFields
       }
     }
-  `,
-};
-
-const resourcesQuery = gql`
-  query resourcesQuery($parentId: String!, $rootId: String!) {
-    node(id: $parentId, rootId: $rootId) {
-      ...Resources_Parent
-    }
-    resourceTypes {
-      ...Resources_ResourceTypeDefinition
-    }
   }
-  ${Resources.fragments.node}
-  ${Resources.fragments.resourceType}
 `;
