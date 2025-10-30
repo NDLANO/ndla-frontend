@@ -72,16 +72,8 @@ const StyledListItemRoot = styled(ListItemRoot, {
 
 const StyledListItemHeading = styled(ListItemHeading, {
   base: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "xxsmall",
     wordWrap: "anywhere",
     lineClamp: "2",
-    _currentPage: {
-      fontWeight: "bold",
-      textDecoration: "none",
-    },
   },
 });
 
