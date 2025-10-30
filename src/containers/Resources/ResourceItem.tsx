@@ -8,19 +8,11 @@
 
 import { useMemo } from "react";
 import { breakpoints } from "@ndla/core";
-import {
-  Badge,
-  ListItemContent,
-  ListItemHeading,
-  ListItemImage,
-  ListItemRoot,
-  ListItemVariantProps,
-} from "@ndla/primitives";
+import { Badge, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { BadgesContainer, ContentType, contentTypes } from "@ndla/ui";
+import { BadgesContainer } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import { RELEVANCE_CORE } from "../../constants";
 import { GQLResourceType } from "../../graphqlTypes";
@@ -39,7 +31,6 @@ interface Props {
   extraBottomMargin?: boolean;
   showAdditionalResources?: boolean;
   language?: string;
-  currentResourceContentType?: ContentType;
 }
 
 export type Resource = {
@@ -59,80 +50,20 @@ export type Resource = {
   };
 };
 
-const getListItemColorTheme = (
-  contentType?: ContentType,
-): Exclude<NonNullable<ListItemVariantProps["colorTheme"]>, "neutral"> => {
-  switch (contentType) {
-    case contentTypes.TASKS_AND_ACTIVITIES:
-    case contentTypes.ASSESSMENT_RESOURCES:
-    case contentTypes.EXTERNAL:
-      return "brand2";
-    default:
-      return "brand1";
-  }
-};
-
-const listItemRecipe = cva({
+const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     _currentPage: {
-      background: "var(--background-current)",
-      color: "var(--color-current-hover)",
-      borderColor: "var(--border-color-current)",
-      position: "relative",
-
-      _before: {
+      borderColor: "stroke.hover",
+      _after: {
         content: "''",
         position: "absolute",
-        borderInline: "6px solid",
-        borderColor: "var(--border-color-current)",
-        bottom: "-1px",
-        top: "-1px",
-        left: "0",
-        width: "100%",
-      },
-
-      _hover: {
-        background: "var(--background-hover)",
-        color: "text.default",
-        _before: {
-          display: "none",
-        },
-      },
-      _highlighted: {
-        background: "var(--background-hover)",
-        color: "text.default",
-      },
-      "& a:focus-visible": {
-        _focusVisible: {
-          outlineColor: "var(--color-current-hover)",
-        },
-      },
-      "& button:focus-visible": {
-        _focusVisible: {
-          boxShadowColor: "var(--color-current-hover)",
-        },
-      },
-    },
-    mobileWideDown: {
-      "& picture": {
-        display: "none",
-      },
-    },
-  },
-  defaultVariants: { colorTheme: "brand1" },
-  variants: {
-    colorTheme: {
-      brand1: {
-        "--background-current": "colors.surface.action.brand.1.selected",
-        "--color-current-hover": "colors.text.default",
-      },
-      brand2: {
-        "--background-current": "colors.surface.action.brand.2.selected",
-        "--color-current-hover": "colors.text.default",
-      },
-      brand3: {
-        "--background-current": "colors.surface.action.myNdla.current",
-        "--color-current-hover": "colors.text.default",
+        insetBlock: "-1px",
+        insetInlineStart: "-4px",
+        borderInlineStart: "8px solid",
+        borderInlineStartColor: "stroke.hover",
+        transitionProperty: "border-color, border-width",
+        transitionDuration: "superFast",
+        transitionTimingFunction: "ease-in-out",
       },
     },
   },
@@ -171,7 +102,6 @@ export const ResourceItem = ({
   language,
   article,
   learningpath,
-  currentResourceContentType,
   resourceTypes,
 }: Props & Resource) => {
   const additional = relevanceId !== RELEVANCE_CORE;
@@ -191,13 +121,10 @@ export const ResourceItem = ({
 
   return (
     <li>
-      <ListItemRoot
-        css={listItemRecipe.raw({ colorTheme: getListItemColorTheme(currentResourceContentType) })}
-        context="list"
-        colorTheme={getListItemColorTheme(currentResourceContentType)}
-        borderVariant={additional ? "dashed" : "solid"}
+      <StyledListItemRoot
         aria-current={active ? "page" : undefined}
         hidden={!!hidden && !active}
+        nonInteractive={active}
       >
         <StyledListItemImage
           src={article?.metaImage?.url ?? learningpath?.coverphoto?.url}
@@ -207,16 +134,14 @@ export const ResourceItem = ({
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
         />
         <StyledListItemContent>
-          <StyledListItemHeading asChild css={linkOverlay.raw()}>
-            <SafeLink
-              to={url || ""}
-              lang={language}
-              aria-current={active ? "page" : undefined}
-              title={name}
-              aria-describedby={describedBy}
-            >
-              {name}
-            </SafeLink>
+          <StyledListItemHeading asChild consumeCss={active} css={active ? undefined : linkOverlay.raw()}>
+            {active ? (
+              <p>{name}</p>
+            ) : (
+              <SafeLink to={url || ""} lang={language} title={name} aria-describedby={describedBy}>
+                {name}
+              </SafeLink>
+            )}
           </StyledListItemHeading>
           <BadgesContainer>
             {listItemTraits.map((trait) => (
@@ -224,7 +149,7 @@ export const ResourceItem = ({
             ))}
           </BadgesContainer>
         </StyledListItemContent>
-      </ListItemRoot>
+      </StyledListItemRoot>
     </li>
   );
 };

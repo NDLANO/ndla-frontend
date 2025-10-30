@@ -53,6 +53,7 @@ const MenuWrapper = styled("div", {
 
 interface Props {
   learningpath: GQLMyNdlaLearningpathFragment;
+  context?: "list" | "standalone";
   menu?: ReactNode;
 }
 export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props & ListItemVariantProps) => {
@@ -75,7 +76,6 @@ export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props
     <ListItemRoot
       {...rest}
       id={learningpathListItemId(learningpath.id)}
-      context={context}
       asChild={context === "list"}
       consumeCss={context === "list"}
     >

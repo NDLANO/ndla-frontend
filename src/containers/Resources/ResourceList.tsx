@@ -9,13 +9,15 @@
 import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentType } from "@ndla/ui";
 import { type Resource, ResourceItem } from "./ResourceItem";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 
 const StyledResourceList = styled("ol", {
   base: {
     listStyle: "none",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
   },
 });
 
@@ -25,7 +27,6 @@ interface ResourceListProps {
   title?: string;
   showAdditionalResources?: boolean;
   headingId?: string;
-  currentResourceContentType?: ContentType;
   currentResourceId?: string;
 }
 
@@ -35,7 +36,6 @@ export const ResourceList = ({
   headingId,
   title,
   showAdditionalResources,
-  currentResourceContentType,
   currentResourceId,
 }: ResourceListProps) => {
   const { t } = useTranslation();
@@ -51,7 +51,6 @@ export const ResourceList = ({
             key={resource.id}
             contentType={contentType}
             showAdditionalResources={showAdditionalResources}
-            currentResourceContentType={currentResourceContentType}
             active={currentResourceId === resource.id}
             {...resource}
           />

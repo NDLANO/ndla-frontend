@@ -85,6 +85,7 @@ const StyledComboboxContent = styled(ComboboxContentStandalone, {
 const StyledComboboxList = styled(ComboboxList, {
   base: {
     overflowY: "auto",
+    gap: "xxsmall",
   },
 });
 
@@ -285,7 +286,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
           <StyledComboboxList tabIndex={-1}>
             {collection.items.map((resource) => (
               <StyledComboboxItem key={collection.getItemValue(resource)} item={resource} className="peer" asChild>
-                <StyledListItemRoot context="list">
+                <StyledListItemRoot>
                   <StyledListItemContent>
                     <ComboboxItemText>
                       {resource.__typename === "ArticleSearchResult" ||

@@ -137,9 +137,7 @@ export const ListResource = ({
   resourceTypes,
   description,
   menu,
-  variant,
   traits,
-  context = "list",
   storedResourceType,
   isLoading = false,
   nonInteractive,
@@ -163,13 +161,7 @@ export const ListResource = ({
 
   if (isLoading) {
     return (
-      <LoadingListItemRoot
-        aria-label={t("loading")}
-        aria-busy={true}
-        variant={variant}
-        context={context}
-        nonInteractive={nonInteractive}
-      >
+      <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} nonInteractive={nonInteractive}>
         <Skeleton>
           <ListItemImage alt="" />
         </Skeleton>
@@ -186,7 +178,7 @@ export const ListResource = ({
   }
 
   return (
-    <StyledListItemRoot id={id} variant={variant} context={context} nonInteractive={nonInteractive}>
+    <StyledListItemRoot id={id} nonInteractive={nonInteractive}>
       <BigListItemImage
         src={resourceImage.src}
         alt=""

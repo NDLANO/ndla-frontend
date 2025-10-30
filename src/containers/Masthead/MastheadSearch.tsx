@@ -54,6 +54,7 @@ import { useDebounce } from "../../util/useDebounce";
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     maxHeight: "surface.medium",
+    gap: "xxsmall",
   },
 });
 
@@ -476,7 +477,7 @@ export const MastheadSearch = () => {
                 ) : (
                   searchHits.map((resource) => (
                     <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild>
-                      <ListItemRoot context="list">
+                      <ListItemRoot>
                         <TextWrapper>
                           <StyledComboboxItemText>
                             <SafeLink

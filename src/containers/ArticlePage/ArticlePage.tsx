@@ -181,7 +181,6 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
                       rootId={root?.id}
                       headingType="h2"
                       subHeadingType="h3"
-                      currentResourceContentType={contentType}
                       currentResourceId={resource.id}
                     />
                   </ResourcesPageContent>

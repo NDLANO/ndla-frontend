@@ -172,7 +172,6 @@ export const MyNdlaPage = () => {
               return (
                 <li key={res.id}>
                   <ListResource
-                    context="list"
                     id={res.id}
                     isLoading={loading}
                     key={res.id}

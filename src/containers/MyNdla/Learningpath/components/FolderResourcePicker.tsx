@@ -51,6 +51,7 @@ const StyledHitsWrapper = styled("div", {
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     maxHeight: "surface.medium",
+    gap: "xxsmall",
   },
 });
 
@@ -248,7 +249,7 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
             <StyledComboboxContent>
               {filteredResources.map((resource, index) => (
                 <StyledComboboxItem key={`${resource.id}-${index}`} item={resource} asChild>
-                  <ListItemRoot context="list">
+                  <ListItemRoot>
                     <ComboboxItemText>{resource.meta?.title}</ComboboxItemText>
                     <StyledText
                       textStyle="label.small"

@@ -40,7 +40,7 @@ export const PodcastSeries = ({
 }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   const { t } = useTranslation();
   return (
-    <ListItemRoot asChild consumeCss context="list">
+    <ListItemRoot asChild consumeCss>
       <li>
         <BigListItemImage
           alt={coverPhoto.altText}

@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 import { FileTextLine, FolderUserLine, ShareFill, FolderLine, LinkMedium } from "@ndla/icons";
-import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
+import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -72,8 +72,6 @@ interface Props {
   isFavorited?: boolean;
   link?: string;
   nonInteractive?: boolean;
-  variant?: NonNullable<ListItemVariantProps>["variant"];
-  context?: NonNullable<ListItemVariantProps>["context"];
 }
 
 const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
@@ -116,8 +114,6 @@ const StyledSafeLink = styled(SafeLink, {
 export const Folder = ({
   menu,
   folder: { id, status, name, owner },
-  context = "list",
-  variant,
   foldersCount,
   isFavorited,
   nonInteractive,
@@ -129,7 +125,7 @@ export const Folder = ({
   const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
 
   return (
-    <ListItemRoot context={context} variant={variant} nonInteractive={nonInteractive} id={id}>
+    <ListItemRoot nonInteractive={nonInteractive} id={id}>
       <ListItemContent
         css={{
           alignItems: "center",

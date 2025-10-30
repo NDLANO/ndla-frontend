@@ -21,7 +21,6 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentType } from "@ndla/ui";
 import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
 import { ResourceList } from "./ResourceList";
 import {
@@ -36,7 +35,6 @@ import { contentTypeMapping } from "../../util/getContentType";
 interface Props {
   headingType: HeadingType;
   subHeadingType: HeadingType;
-  currentResourceContentType?: ContentType;
   currentResourceId?: string;
   parentId?: string;
   rootId?: string;
@@ -107,7 +105,6 @@ export const Resources = ({
   rootId,
   headingType: HeadingType,
   subHeadingType: SubHeadingType,
-  currentResourceContentType,
   currentResourceId,
 }: Props) => {
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
@@ -201,7 +198,6 @@ export const Resources = ({
           <ResourceList
             resources={ungroupedResources}
             showAdditionalResources={showAdditionalResources}
-            currentResourceContentType={currentResourceContentType}
             currentResourceId={currentResourceId}
           />
         ) : (
@@ -216,7 +212,6 @@ export const Resources = ({
                 showAdditionalResources={showAdditionalResources}
                 contentType={type.contentType}
                 resources={type.resources ?? []}
-                currentResourceContentType={currentResourceContentType}
                 currentResourceId={currentResourceId}
               />
             </ListWrapper>

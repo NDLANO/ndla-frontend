@@ -72,13 +72,7 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderS
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
-        <Folder
-          folder={folder}
-          context="standalone"
-          variant="subtle"
-          nonInteractive
-          foldersCount={getTotalCountForFolder(folder)}
-        />
+        <Folder folder={folder} nonInteractive foldersCount={getTotalCountForFolder(folder)} />
         <Text textStyle="body.large">{t("myNdla.folder.sharing.description.shared")}</Text>
         <GapWrapper>
           <Text textStyle="label.medium" fontWeight="bold" asChild consumeCss>
