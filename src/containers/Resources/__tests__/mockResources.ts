@@ -6,61 +6,6 @@
  *
  */
 
-import { GQLResource } from "../../../graphqlTypes";
-
-type ResourceData = Pick<GQLResource, "id" | "resourceTypes" | "name" | "contentUri">;
-
-export const resourceData1: ResourceData[] = [
-  {
-    id: "urn:resource:1",
-    name: "Teknikker for idéutvikling",
-    resourceTypes: [{ id: "urn:resourcetype:subjectMaterial", name: "Fagstoff" }],
-    contentUri: "urn:learningpath:1",
-  },
-  {
-    id: "urn:resource:2",
-    name: "Hva er en idé?",
-    resourceTypes: [
-      { id: "urn:resourcetype:subjectMaterial", name: "Fagstoff" },
-      { id: "urn:resourcetype:academicArticle", name: "Fagartikkel" },
-    ],
-    contentUri: "urn:article:1",
-  },
-  {
-    id: "urn:resource:3",
-    name: "Ideer og idéutvikling",
-    resourceTypes: [
-      { id: "urn:resourcetype:subjectMaterial", name: "Fagstoff" },
-      { id: "urn:resourcetype:academicArticle", name: "Fagartikkel" },
-    ],
-    contentUri: "urn:article:2",
-  },
-];
-
-export const resourceData2: ResourceData[] = [
-  {
-    id: "urn:resource:4",
-    name: "Hva er menneskerettigheter?",
-    resourceTypes: [{ id: "urn:resourcetype:subjectMaterial", name: "Fagstoff" }],
-    contentUri: "urn:article:3",
-  },
-  {
-    id: "urn:resource:5",
-    name: "Påstander konflikter",
-    resourceTypes: [{ id: "urn:resourcetype:tasksAndActivities", name: "Oppgaver og aktiviteter" }],
-    contentUri: "urn:article:4",
-  },
-  {
-    id: "urn:resource:6",
-    name: "Endring av NATOs strategi",
-    resourceTypes: [
-      { id: "urn:resourcetype:subjectMaterial", name: "Fagstoff" },
-      { id: "urn:resourcetype:academicArticle", name: "Fagartikkel" },
-    ],
-    contentUri: "urn:article:2",
-  },
-];
-
 export const resourceTypes = [
   {
     id: "urn:resourcetype:SourceMaterial",

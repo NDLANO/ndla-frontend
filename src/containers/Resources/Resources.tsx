@@ -21,7 +21,7 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
+import { sortResources } from "./getResourceGroups";
 import { ResourceList } from "./ResourceList";
 import {
   RELEVANCE_SUPPLEMENTARY,
@@ -29,12 +29,8 @@ import {
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from "../../constants";
 import { GQLResourcesQueryQuery } from "../../graphqlTypes";
-import { HeadingType } from "../../interfaces";
-import { contentTypeMapping } from "../../util/getContentType";
 
 interface Props {
-  headingType: HeadingType;
-  subHeadingType: HeadingType;
   currentResourceId?: string;
   parentId?: string;
   rootId?: string;
@@ -70,25 +66,9 @@ const StyledHGroup = styled("hgroup", {
   },
 });
 
-const ListWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
-
 const StyledSwitchRoot = styled(SwitchRoot, {
   base: {
     marginInlineStart: "auto",
-  },
-});
-
-const ResourceContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
   },
 });
 
@@ -100,13 +80,7 @@ const SpinnerWrapper = styled("div", {
   },
 });
 
-export const Resources = ({
-  parentId,
-  rootId,
-  headingType: HeadingType,
-  subHeadingType: SubHeadingType,
-  currentResourceId,
-}: Props) => {
+export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
   const navHeadingId = useId();
@@ -119,32 +93,15 @@ export const Resources = ({
   });
 
   const node = data?.node;
-  const resourceTypes = data?.resourceTypes;
 
-  const { sortedResources } = useMemo(
-    () => getResourceGroupings(node?.children ?? [], currentResourceId),
-    [currentResourceId, node?.children],
-  );
-
-  const isGrouped = useMemo(
+  const sortedResources = useMemo(
     () =>
-      node?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-    [node?.metadata?.customFields],
+      sortResources(
+        node?.children ?? [],
+        node?.metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+      ),
+    [node?.children, node?.metadata.customFields],
   );
-
-  const { groupedResources, ungroupedResources } = useMemo(() => {
-    if (isGrouped) {
-      const resourceGroups = getResourceGroups(resourceTypes ?? [], sortedResources);
-      const groupedResources = resourceGroups.map((type) => ({ ...type, contentType: contentTypeMapping[type.id] }));
-      return { groupedResources, ungroupedResources: [] };
-    }
-
-    const ungroupedResources = sortedResources.map((res) => {
-      const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
-      return { ...res, contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined };
-    });
-    return { groupedResources: [], ungroupedResources };
-  }, [isGrouped, resourceTypes, sortedResources]);
 
   useEffect(() => {
     const showAdditional = window.localStorage?.getItem("showAdditionalResources");
@@ -179,7 +136,7 @@ export const Resources = ({
       <TitleWrapper>
         <StyledHGroup>
           <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
-            <HeadingType>{t("resource.label")}</HeadingType>
+            <h2>{t("resource.label")}</h2>
           </Heading>
           <Text textStyle="label.medium">{node?.name}</Text>
         </StyledHGroup>
@@ -193,31 +150,12 @@ export const Resources = ({
           </StyledSwitchRoot>
         )}
       </TitleWrapper>
-      <ResourceContainer>
-        {!isGrouped ? (
-          <ResourceList
-            resources={ungroupedResources}
-            showAdditionalResources={showAdditionalResources}
-            currentResourceId={currentResourceId}
-          />
-        ) : (
-          groupedResources.map((type) => (
-            <ListWrapper key={type.id}>
-              <Heading id={type.id} textStyle="title.medium" asChild consumeCss>
-                <SubHeadingType>{type.name}</SubHeadingType>
-              </Heading>
-              <ResourceList
-                headingId={type.id}
-                title={type.name}
-                showAdditionalResources={showAdditionalResources}
-                contentType={type.contentType}
-                resources={type.resources ?? []}
-                currentResourceId={currentResourceId}
-              />
-            </ListWrapper>
-          ))
-        )}
-      </ResourceContainer>
+      <ResourceList
+        headingId={navHeadingId}
+        resources={sortedResources}
+        showAdditionalResources={showAdditionalResources}
+        currentResourceId={currentResourceId}
+      />
     </StyledNav>
   );
 };

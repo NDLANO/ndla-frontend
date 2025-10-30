@@ -106,12 +106,14 @@ export const ResourceItem = ({
   if (!learningpath && !article) return null;
 
   return (
-    <li>
-      <StyledListItemRoot
-        aria-current={active ? "page" : undefined}
-        hidden={!!hidden && !active}
-        nonInteractive={active}
-      >
+    <StyledListItemRoot
+      aria-current={active ? "page" : undefined}
+      hidden={!!hidden && !active}
+      nonInteractive={active}
+      asChild
+      consumeCss
+    >
+      <li>
         <StyledListItemImage
           src={article?.metaImage?.url ?? learningpath?.coverphoto?.url}
           alt=""
@@ -138,7 +140,7 @@ export const ResourceItem = ({
             ) : undefined}
           </BadgesContainer>
         </StyledListItemContent>
-      </StyledListItemRoot>
-    </li>
+      </li>
+    </StyledListItemRoot>
   );
 };

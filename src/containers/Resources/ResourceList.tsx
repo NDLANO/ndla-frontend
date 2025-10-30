@@ -23,8 +23,6 @@ const StyledResourceList = styled("ol", {
 
 interface ResourceListProps {
   resources: Resource[];
-  contentType?: string;
-  title?: string;
   showAdditionalResources?: boolean;
   headingId?: string;
   currentResourceId?: string;
@@ -32,9 +30,7 @@ interface ResourceListProps {
 
 export const ResourceList = ({
   resources,
-  contentType,
   headingId,
-  title,
   showAdditionalResources,
   currentResourceId,
 }: ResourceListProps) => {
@@ -49,20 +45,13 @@ export const ResourceList = ({
         {resources.map((resource) => (
           <ResourceItem
             key={resource.id}
-            contentType={contentType}
             showAdditionalResources={showAdditionalResources}
             active={currentResourceId === resource.id}
             {...resource}
           />
         ))}
       </StyledResourceList>
-      {!!renderAdditionalResourceTrigger && (
-        <Text>
-          {title
-            ? t("resource.noCoreResourcesAvailable", { name: title.toLowerCase() })
-            : t("resource.noCoreResourcesAvailableUnspecific")}
-        </Text>
-      )}
+      {!!renderAdditionalResourceTrigger && <Text>{t("resource.noCoreResourcesAvailableUnspecific")}</Text>}
     </div>
   );
 };
