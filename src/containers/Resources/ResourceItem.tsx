@@ -138,6 +138,7 @@ ResourceItem.fragments = {
         id
         metaImage {
           url
+          alt
         }
         traits
       }

@@ -3194,7 +3194,7 @@ export type GQLResourceItem_NodeFragment = {
     __typename?: "Article";
     id: number;
     traits: Array<string>;
-    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string };
+    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
   };
   learningpath?: {
     __typename?: "Learningpath";
