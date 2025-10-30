@@ -39,6 +39,9 @@ import config from "../../../config";
 
 const StyledOl = styled("ol", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
     listStyle: "none",
     width: "100%",
   },

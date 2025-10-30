@@ -54,6 +54,7 @@ import { useDebounce } from "../../util/useDebounce";
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     maxHeight: "surface.medium",
+    gap: "xxsmall",
   },
 });
 
@@ -61,9 +62,16 @@ const StyledComboboxItem = styled(ComboboxItem, {
   base: {
     minHeight: "unset",
     flexDirection: "column",
+    gap: "4xsmall",
     "& > *": {
       width: "100%",
     },
+  },
+});
+
+const StyledBadgesContainer = styled(BadgesContainer, {
+  base: {
+    marginBlockStart: "xsmall",
   },
 });
 
@@ -476,7 +484,7 @@ export const MastheadSearch = () => {
                 ) : (
                   searchHits.map((resource) => (
                     <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild>
-                      <ListItemRoot context="list">
+                      <ListItemRoot>
                         <TextWrapper>
                           <StyledComboboxItemText>
                             <SafeLink
@@ -506,11 +514,13 @@ export const MastheadSearch = () => {
                             )
                           )}
                         </TextWrapper>
-                        <BadgesContainer>
+                        <StyledBadgesContainer>
                           {resource.traits.map((trait) => (
-                            <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
+                            <Badge size="small" key={`${resource.id}-${trait}`}>
+                              {trait}
+                            </Badge>
                           ))}
-                        </BadgesContainer>
+                        </StyledBadgesContainer>
                       </ListItemRoot>
                     </StyledComboboxItem>
                   ))

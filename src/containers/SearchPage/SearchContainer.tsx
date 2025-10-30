@@ -114,6 +114,14 @@ const FormWrapper = styled("div", {
   },
 });
 
+const StyledUl = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
 const searchPageQueryFragment = gql`
   # TODO: Rename this once we delete old search
   query searchPage(
@@ -405,11 +413,11 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             )}
             {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
           </FormWrapper>
-          <ul>
+          <StyledUl>
             {data?.search?.results.map((result) => (
               <SearchResult searchResult={result} key={result.id} />
             ))}
-          </ul>
+          </StyledUl>
           {!!data?.search && data.search.totalCount > data.search.pageSize && (
             <StyledPaginationRoot
               page={page}

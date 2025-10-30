@@ -207,8 +207,6 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
   return (
     <AddResourceContainer>
       <ListResource
-        context="standalone"
-        variant="subtle"
         nonInteractive
         id={resource.id.toString()}
         isLoading={metaLoading}

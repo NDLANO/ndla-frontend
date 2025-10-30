@@ -3182,50 +3182,42 @@ export type GQLResourcePageQuery = {
     GQLLearningpathPage_NodeFragment;
 };
 
-export type GQLResources_ResourceTypeDefinitionFragment = {
-  __typename?: "ResourceTypeDefinition";
-  id: string;
-  name: string;
-};
-
-export type GQLResources_ParentFragment = {
+export type GQLResourceItem_NodeFragment = {
   __typename?: "Node";
   id: string;
   name: string;
   url?: string;
-  children?: Array<{
+  language?: string;
+  relevanceId?: string;
+  resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+  article?: {
+    __typename?: "Article";
+    id: number;
+    traits: Array<string>;
+    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+  };
+  learningpath?: {
+    __typename?: "Learningpath";
+    id: number;
+    coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+  };
+};
+
+export type GQLLaunchpadQueryVariables = Exact<{
+  parentId: Scalars["String"]["input"];
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type GQLLaunchpadQuery = {
+  __typename?: "Query";
+  node?: {
     __typename?: "Node";
     id: string;
     name: string;
     url?: string;
-    rank?: number;
-    language?: string;
-    relevanceId?: string;
-    article?: {
-      __typename?: "Article";
-      id: number;
-      traits: Array<string>;
-      metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
-    };
-    learningpath?: {
-      __typename?: "Learningpath";
-      id: number;
-      coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
-    };
-    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-  }>;
-  metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
-};
-
-export type GQLResourcesQueryQueryVariables = Exact<{
-  parentId: Scalars["String"]["input"];
-  rootId: Scalars["String"]["input"];
-}>;
-
-export type GQLResourcesQueryQuery = {
-  __typename?: "Query";
-  node?: { __typename?: "Node" } & GQLResources_ParentFragment;
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLResources_ResourceTypeDefinitionFragment>;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+    children?: Array<{ __typename?: "Node"; id: string } & GQLResourceItem_NodeFragment>;
+  };
 };
 
 export type GQLGrepFilterQueryVariables = Exact<{

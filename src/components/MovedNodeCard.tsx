@@ -54,7 +54,9 @@ export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, metaImage, tra
         )}
         <BadgesContainer>
           {traits?.map((trait) => (
-            <Badge key={trait}>{trait}</Badge>
+            <Badge size="small" key={trait}>
+              {trait}
+            </Badge>
           ))}
         </BadgesContainer>
       </CardContent>

@@ -52,8 +52,6 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
           content={
             !!resource && (
               <ListResource
-                context="standalone"
-                variant="subtle"
                 nonInteractive
                 isLoading={loading}
                 id={resource.id.toString()}

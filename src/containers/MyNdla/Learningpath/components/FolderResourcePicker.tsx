@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
@@ -26,6 +26,7 @@ import {
   ComboboxItemText,
   Input,
   Spinner,
+  ComboboxList,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
@@ -40,26 +41,29 @@ import {
 import { useFolders, useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { getListItemTraits } from "../../../../util/listItemTraits";
+import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 
 const StyledHitsWrapper = styled("div", {
   base: {
+    marginBlockStart: "3xsmall",
     textAlign: "start",
-    minHeight: "medium",
   },
 });
 
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
+    overflowY: "unset",
     maxHeight: "surface.medium",
+    gap: "xxsmall",
   },
 });
 
-const ContentWrapper = styled("div", {
+const StyledComboboxList = styled(ComboboxList, {
   base: {
-    boxShadow: "large",
-    padding: "small",
-    backgroundColor: "background.default",
-    borderRadius: "xsmall",
+    display: "flex",
+    flexDirection: "column",
+    overflowY: "auto",
+    gap: "xxsmall",
   },
 });
 
@@ -70,6 +74,13 @@ const StyledComboboxItem = styled(ComboboxItem, {
     flexDirection: "column",
     alignItems: "flex-start",
     flexWrap: "wrap",
+    gap: "4xsmall",
+  },
+});
+
+const StyledBadgesContainer = styled(BadgesContainer, {
+  base: {
+    marginBlockStart: "xsmall",
   },
 });
 
@@ -142,12 +153,13 @@ interface ComboboxProps {
   onResourceSelect: (resource: FolderResource) => void;
 }
 
+// TODO: This should be refactored, and possible share a lot of code with ResourcePicker
 export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const { t } = useTranslation();
-  const [open, setOpen] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [stitchedResources, setStitchedResources] = useState<GQLFolderResourceWithCrumb[]>([]);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   const { folders, loading: foldersLoading, error: foldersError } = useFolders();
   const translations = useComboboxTranslations();
@@ -195,14 +207,15 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
   return (
     <ComboboxRoot
+      ids={{ input: "resource-input" }}
       onInputValueChange={(details) => setInputValue(details.inputValue)}
-      onOpenChange={(details) => setOpen(details.open)}
       collection={collection}
       onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
+      scrollToIndexFn={(details) => scrollToIndexFn(contentRef, details.index)}
       translations={translations}
       variant="complex"
-      context="composite"
-      open={open}
+      context="standalone"
+      positioning={{ strategy: "fixed" }}
       onValueChange={(details) => {
         const item = details.items[0];
         if (item?.resourceType === "article") {
@@ -217,14 +230,14 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     >
       <ComboboxControl>
         <InputContainer>
-          <ComboboxInput asChild>
-            <Input
-              id="resource-input"
-              placeholder={t("myNdla.learningpath.form.content.folder.placeholder")}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !highlightedValue) e.preventDefault();
-              }}
-            />
+          <ComboboxInput
+            asChild
+            placeholder={t("myNdla.learningpath.form.content.folder.placeholder")}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !highlightedValue) e.preventDefault();
+            }}
+          >
+            <Input />
           </ComboboxInput>
         </InputContainer>
         <ComboboxTrigger asChild>
@@ -233,42 +246,40 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
           </IconButton>
         </ComboboxTrigger>
       </ComboboxControl>
-      {open ? (
-        <ContentWrapper>
-          <StyledHitsWrapper aria-live="assertive">
-            {inputValue ? (
-              !filteredResources.length ? (
-                <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${inputValue}`}</Text>
-              ) : (
-                <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${inputValue}"`}</Text>
-              )
-            ) : null}
-          </StyledHitsWrapper>
-          {filteredResources ? (
-            <StyledComboboxContent>
-              {filteredResources.map((resource, index) => (
-                <StyledComboboxItem key={`${resource.id}-${index}`} item={resource} asChild>
-                  <ListItemRoot context="list">
-                    <ComboboxItemText>{resource.meta?.title}</ComboboxItemText>
-                    <StyledText
-                      textStyle="label.small"
-                      color="text.subtle"
-                      aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumbs.map((crumb) => crumb.name).join(", ")}`}
-                    >
-                      {resource.breadcrumbs.map((crumb) => crumb.name).join(" › ")}
-                    </StyledText>
-                    <BadgesContainer>
-                      {resource.traits?.map((trait) => (
-                        <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
-                      ))}
-                    </BadgesContainer>
-                  </ListItemRoot>
-                </StyledComboboxItem>
-              ))}
-            </StyledComboboxContent>
+      <StyledComboboxContent ref={contentRef} tabIndex={-1}>
+        <StyledHitsWrapper aria-live="assertive">
+          {inputValue ? (
+            !filteredResources.length ? (
+              <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${inputValue}`}</Text>
+            ) : (
+              <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${inputValue}"`}</Text>
+            )
           ) : null}
-        </ContentWrapper>
-      ) : null}
+        </StyledHitsWrapper>
+        <StyledComboboxList tabIndex={-1}>
+          {filteredResources.map((resource) => (
+            <StyledComboboxItem key={resource.uniqueId} item={resource} asChild>
+              <ListItemRoot>
+                <ComboboxItemText>{resource.meta?.title}</ComboboxItemText>
+                <StyledText
+                  textStyle="label.small"
+                  color="text.subtle"
+                  aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.breadcrumbs.map((crumb) => crumb.name).join(", ")}`}
+                >
+                  {resource.breadcrumbs.map((crumb) => crumb.name).join(" › ")}
+                </StyledText>
+                <StyledBadgesContainer>
+                  {resource.traits?.map((trait) => (
+                    <Badge size="small" key={`${resource.id}-${trait}`}>
+                      {trait}
+                    </Badge>
+                  ))}
+                </StyledBadgesContainer>
+              </ListItemRoot>
+            </StyledComboboxItem>
+          ))}
+        </StyledComboboxList>
+      </StyledComboboxContent>
     </ComboboxRoot>
   );
 };
