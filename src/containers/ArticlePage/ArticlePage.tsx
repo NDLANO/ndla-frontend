@@ -99,7 +99,6 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         subject: root?.id,
         articleLanguage: resource.article.language,
-        contentType: getContentType(resource),
       }),
       getArticleScripts(resource.article, i18n.language),
     ];
@@ -169,9 +168,10 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
               path={resource.url}
               article={article}
               contentType={contentType}
-              contentTypeLabel={resource.resourceTypes?.[0]?.name}
               printUrl={printUrl}
               subjectId={root?.id}
+              resourceTypes={resource.resourceTypes}
+              relevanceId={resource.relevanceId}
             >
               {!!parent && (
                 <NoSSR fallback={null}>
@@ -208,6 +208,7 @@ ArticlePage.fragments = {
       name
       url
       contentUri
+      relevanceId
       resourceTypes {
         name
         id

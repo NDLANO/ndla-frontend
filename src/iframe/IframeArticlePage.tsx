@@ -55,11 +55,10 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         isOembed: true,
         articleLanguage: propArticle.language,
-        contentType: getContentType(node),
       }),
       getArticleScripts(propArticle, locale),
     ];
-  }, [propArticle, locale, node]);
+  }, [propArticle, locale]);
 
   useEffect(() => {
     if (propArticle?.id) return;
@@ -109,7 +108,8 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
           isTopicArticle={article.articleType === "topic-article"}
           isOembed
           contentType={contentType}
-          contentTypeLabel={node?.resourceTypes?.[0]?.name}
+          resourceTypes={node?.resourceTypes}
+          relevanceId={node?.relevanceId}
         >
           <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
         </Article>
@@ -141,6 +141,7 @@ export const iframeArticlePageFragments = {
       id
       name
       url
+      relevanceId
       resourceTypes {
         id
         name

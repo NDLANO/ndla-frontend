@@ -37,9 +37,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
+import { BadgesContainer, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
-import { TraitsContainer } from "../../../../components/TraitsContainer";
 import {
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
@@ -304,11 +303,11 @@ export const ResourcePicker = ({ setResource }: Props) => {
                         {resource.contexts[0].breadcrumbs.join(" > ")}
                       </Text>
                     )}
-                    <TraitsContainer>
+                    <BadgesContainer>
                       {resource.traits.map((trait) => (
                         <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
                       ))}
-                    </TraitsContainer>
+                    </BadgesContainer>
                   </StyledListItemContent>
                 </StyledListItemRoot>
               </StyledComboboxItem>

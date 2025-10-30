@@ -8,6 +8,7 @@
 
 import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
+import { Badge } from "@ndla/primitives";
 import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -22,7 +23,11 @@ export const LearningpathIntroduction = ({ learningpath }: Props) => {
   return (
     <EmbedPageContent variant="content">
       <ArticleWrapper>
-        <ArticleTitle id={SKIP_TO_CONTENT_ID} title={t("learningpathPage.introduction")} contentType="learning-path" />
+        <ArticleTitle
+          id={SKIP_TO_CONTENT_ID}
+          title={t("learningpathPage.introduction")}
+          badges={<Badge>{t("contentTypes.learning-path")}</Badge>}
+        />
         <ArticleContent>
           {!!learningpath.introduction?.length && <section>{transform(learningpath.introduction, {})}</section>}
         </ArticleContent>

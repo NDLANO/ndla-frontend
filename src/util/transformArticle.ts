@@ -13,14 +13,13 @@ import { formatDate } from "./formatDate";
 import { GQLArticle, GQLFootNote, GQLTransformedArticleContent } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
 
-function getContent(content: string, { path, isOembed, subject, articleLanguage, contentType }: TransformOptions) {
+function getContent(content: string, { path, isOembed, subject, articleLanguage }: TransformOptions) {
   return transform(content, {
     frontendDomain: "",
     path,
     isOembed,
     subject,
     articleLanguage,
-    contentType,
     canonicalUrls: {
       image: (image) => `/image/${image.id}`,
     },

@@ -2081,6 +2081,7 @@ export type GQLArticle_ArticleFragment = {
   htmlIntroduction?: string;
   htmlTitle: string;
   oembed?: string;
+  traits: Array<string>;
   language: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
@@ -2215,6 +2216,7 @@ export type GQLArticleStep_LearningpathStepFragment = {
     __typename?: "Resource";
     id: string;
     url?: string;
+    relevanceId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
     article?: { __typename?: "Article" } & GQLLearningpathEmbed_ArticleFragment;
   };
@@ -2243,6 +2245,7 @@ export type GQLLearningpathStepQuery = {
     __typename?: "Node";
     id: string;
     url?: string;
+    relevanceId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   };
 };
@@ -2485,6 +2488,7 @@ export type GQLArticlePage_NodeFragment = {
   name: string;
   url?: string;
   contentUri?: string;
+  relevanceId?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; name: string; id: string }>;
   context?: {
     __typename?: "TaxonomyContext";
@@ -3483,6 +3487,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
   id: string;
   name: string;
   url?: string;
+  relevanceId?: string;
   context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
@@ -3502,6 +3507,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     oembed?: string;
     introduction?: string;
     metaDescription: string;
+    traits: Array<string>;
     metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
     crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string; url?: string }>;
   } & GQLArticle_ArticleFragment;
@@ -3683,6 +3689,7 @@ export type GQLIframeArticlePage_NodeFragment = {
   id: string;
   name: string;
   url?: string;
+  relevanceId?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
 

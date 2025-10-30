@@ -10,6 +10,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { HTMLProps } from "@ark-ui/react";
+import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
   ArticleByline,
@@ -21,6 +22,7 @@ import {
 } from "@ndla/ui";
 import { useArticleCopyText, useNavigateToHash } from "./articleHelpers";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
+import { useListItemTraits } from "../../util/listItemTraits";
 import { TransformedBaseArticle } from "../../util/transformArticle";
 import { CompetenceGoals } from "../CompetenceGoals";
 import { Disclaimer } from "../Disclaimer";
@@ -37,8 +39,9 @@ interface Props extends HTMLProps<"div"> {
   printUrl?: string;
   subjectId?: string;
   isOembed?: boolean;
-  contentTypeLabel?: ReactNode;
   path?: string;
+  relevanceId?: string;
+  resourceTypes?: { id: string; name: string }[];
 }
 
 const StyledArticleContent = styled(ArticleContent, {
@@ -57,13 +60,16 @@ export const Article = ({
   id,
   subjectId,
   isOembed = false,
-  contentTypeLabel,
+  resourceTypes,
+  relevanceId,
   ...rest
 }: Props) => {
   const { i18n } = useTranslation();
   const copyText = useArticleCopyText(article);
 
   useNavigateToHash(article.transformedContent.content);
+
+  const traits = useListItemTraits({ contentType, traits: article.traits, relevanceId, resourceTypes });
 
   if (!article) {
     return children || null;
@@ -80,8 +86,7 @@ export const Article = ({
     <ArticleWrapper {...licenseProps} {...rest}>
       <ArticleTitle
         id={id ?? article.id.toString()}
-        contentType={contentType}
-        contentTypeLabel={contentTypeLabel}
+        badges={traits.length ? traits.map((trait) => <Badge key={trait}>{trait}</Badge>) : undefined}
         heartButton={
           !!path && (
             <AddResourceToFolderModal
@@ -138,6 +143,7 @@ Article.fragments = {
       htmlIntroduction
       htmlTitle
       oembed
+      traits
       transformedContent(transformArgs: $transformArgs) {
         content
         metaData {

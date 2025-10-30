@@ -11,7 +11,7 @@ import { Badge, CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndl
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { TraitsContainer } from "./TraitsContainer";
+import { BadgesContainer } from "@ndla/ui";
 
 const StyledCardRoot = styled(CardRoot, {
   base: {
@@ -52,11 +52,11 @@ export const MovedNodeCard = ({ title, url, ingress, breadcrumbs, metaImage, tra
             {breadcrumbs.join(" › ")}
           </Text>
         )}
-        <TraitsContainer>
+        <BadgesContainer>
           {traits?.map((trait) => (
             <Badge key={trait}>{trait}</Badge>
           ))}
-        </TraitsContainer>
+        </BadgesContainer>
       </CardContent>
     </StyledCardRoot>
   );

@@ -39,9 +39,8 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { contentTypeMapping, useComboboxTranslations } from "@ndla/ui";
+import { BadgesContainer, contentTypeMapping, useComboboxTranslations } from "@ndla/ui";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
-import { TraitsContainer } from "../../components/TraitsContainer";
 import {
   GQLCurrentContextQuery,
   GQLCurrentContextQueryVariables,
@@ -507,11 +506,11 @@ export const MastheadSearch = () => {
                             )
                           )}
                         </TextWrapper>
-                        <TraitsContainer>
+                        <BadgesContainer>
                           {resource.traits.map((trait) => (
                             <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
                           ))}
-                        </TraitsContainer>
+                        </BadgesContainer>
                       </ListItemRoot>
                     </StyledComboboxItem>
                   ))

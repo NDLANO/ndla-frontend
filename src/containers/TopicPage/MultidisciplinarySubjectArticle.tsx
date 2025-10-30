@@ -9,7 +9,7 @@
 import { useMemo, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { PageContent } from "@ndla/primitives";
+import { Badge, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import {
@@ -36,6 +36,7 @@ import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMultidisciplinarySubjectArticle_NodeFragment } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
+import { useListItemTraits } from "../../util/listItemTraits";
 import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
@@ -138,6 +139,13 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
 
   useNavigateToHash(article?.transformedContent.content);
 
+  const traits = useListItemTraits({
+    traits: article?.traits,
+    resourceTypes: node.resourceTypes,
+    contentType: node.resourceTypes?.[0]?.id,
+    relevanceId: node.relevanceId,
+  });
+
   if (!node.article || !article) {
     return null;
   }
@@ -193,7 +201,9 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
               id={SKIP_TO_CONTENT_ID}
               title={article.transformedContent.title}
               introduction={article.transformedContent.introduction}
-              contentTypeLabel={node.resourceTypes?.[0]?.name}
+              badges={
+                traits.length ? traits.map((trait) => <Badge key={`${article.id}-${trait}`}>{trait}</Badge>) : undefined
+              }
               competenceGoals={
                 !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
                   <CompetenceGoals
@@ -218,7 +228,6 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                   </AddResourceToFolderModal>
                 )
               }
-              contentType="multidisciplinary"
             />
             <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
             <ArticleFooter>
@@ -248,6 +257,7 @@ MultidisciplinarySubjectArticle.fragments = {
       id
       name
       url
+      relevanceId
       context {
         contextId
         rootId
@@ -273,6 +283,7 @@ MultidisciplinarySubjectArticle.fragments = {
         oembed
         introduction
         metaDescription
+        traits
         metaImage {
           url
           alt

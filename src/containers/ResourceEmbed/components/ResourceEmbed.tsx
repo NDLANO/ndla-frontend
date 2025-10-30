@@ -13,7 +13,7 @@ import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
-import { Hero, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
+import { Badge, Hero, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
 import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
 import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
@@ -29,6 +29,7 @@ import {
   GQLResourceEmbedQueryVariables,
 } from "../../../graphqlTypes";
 import { isNotFoundError } from "../../../util/handleError";
+import { useListItemTraits } from "../../../util/listItemTraits";
 import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
@@ -132,6 +133,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
     skip: !id,
   });
 
+  const traits = useListItemTraits({ resourceType: type });
   const properties = useMemo(() => metaToProperties(data?.resourceEmbed.meta, type), [data?.resourceEmbed.meta, type]);
 
   const transformedContent = useMemo(() => {
@@ -202,7 +204,11 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
           <PageContent variant="article" gutters="tabletUp">
             <PageContent variant="content" asChild>
               <ArticleWrapper>
-                <ArticleTitle title={properties.title} id={SKIP_TO_CONTENT_ID} contentType={type} />
+                <ArticleTitle
+                  title={properties.title}
+                  id={SKIP_TO_CONTENT_ID}
+                  badges={traits.length ? traits.map((trait) => <Badge key={trait}>{trait}</Badge>) : undefined}
+                />
                 <ArticleContent>
                   <section>{transformedContent}</section>
                 </ArticleContent>

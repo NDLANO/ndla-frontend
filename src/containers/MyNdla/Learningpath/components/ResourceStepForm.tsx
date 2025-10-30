@@ -13,10 +13,10 @@ import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import { Badge, FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { BadgesContainer } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
 import { StepSafeLink } from "./StepSafeLink";
-import { TraitsContainer } from "../../../../components/TraitsContainer";
 import config from "../../../../config";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useListItemTraits } from "../../../../util/listItemTraits";
@@ -153,11 +153,11 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
             {selectedResource.breadcrumbs.join(" > ")}
           </CrumbText>
         )}
-        <TraitsContainer>
+        <BadgesContainer>
           {listItemTraits.map((trait) => (
             <Badge key={`${selectedResource.articleId}-${trait}`}>{trait}</Badge>
           ))}
-        </TraitsContainer>
+        </BadgesContainer>
       </TextWrapper>
       <StyledHStack gap="medium">
         <StyledIconButton
