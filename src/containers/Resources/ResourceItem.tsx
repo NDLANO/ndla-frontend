@@ -20,9 +20,8 @@ import { SafeLink } from "@ndla/safelink";
 import { cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ContentType, contentTypes } from "@ndla/ui";
+import { BadgesContainer, ContentType, contentTypes } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
-import { TraitsContainer } from "../../components/TraitsContainer";
 import { RELEVANCE_CORE } from "../../constants";
 import { GQLResourceType } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
@@ -219,11 +218,11 @@ export const ResourceItem = ({
               {name}
             </SafeLink>
           </StyledListItemHeading>
-          <TraitsContainer>
+          <BadgesContainer>
             {listItemTraits.map((trait) => (
               <Badge key={`${url}-${trait}`}>{trait}</Badge>
             ))}
-          </TraitsContainer>
+          </BadgesContainer>
         </StyledListItemContent>
       </ListItemRoot>
     </li>

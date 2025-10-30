@@ -26,9 +26,8 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { contentTypeMapping } from "@ndla/ui";
+import { BadgesContainer, contentTypeMapping } from "@ndla/ui";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import { TraitsContainer } from "../../components/TraitsContainer";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
 import { LtiEmbed } from "../../lti/LtiEmbed";
@@ -145,11 +144,11 @@ export const SearchResult = ({ searchResult }: Props) => {
             )}
           </Text>
         )}
-        <TraitsContainer>
+        <BadgesContainer>
           {listItemTraits.map((trait) => (
             <Badge key={`${searchResult.id}-${trait}`}>{trait}</Badge>
           ))}
-        </TraitsContainer>
+        </BadgesContainer>
         {!!ltiContext && (
           <LtiEmbed
             item={{

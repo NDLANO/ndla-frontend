@@ -21,10 +21,9 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { contentTypeMapping, contentTypes, resourceEmbedTypeMapping } from "@ndla/ui";
+import { BadgesContainer, contentTypeMapping, contentTypes, resourceEmbedTypeMapping } from "@ndla/ui";
 import { useListItemTraits } from "../../util/listItemTraits";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
-import { TraitsContainer } from "../TraitsContainer";
 
 const StyledListItemContent = styled(ListItemContent, {
   base: {
@@ -216,11 +215,11 @@ export const ListResource = ({
           {!!description && <StyledDescription>{description}</StyledDescription>}
           <ActionWrapper>{menu}</ActionWrapper>
         </DescriptionWrapper>
-        <TraitsContainer>
+        <BadgesContainer>
           {listItemTraits.map((trait) => (
             <Badge key={`${id}-${trait}`}>{trait}</Badge>
           ))}
-        </TraitsContainer>
+        </BadgesContainer>
       </StyledListItemContent>
     </StyledListItemRoot>
   );

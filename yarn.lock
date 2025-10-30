@@ -2824,13 +2824,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^10.0.153-alpha.0":
-  version: 10.0.153-alpha.0
-  resolution: "@ndla/article-converter@npm:10.0.153-alpha.0"
+"@ndla/article-converter@npm:^10.0.156-alpha.0":
+  version: 10.0.156-alpha.0
+  resolution: "@ndla/article-converter@npm:10.0.156-alpha.0"
   dependencies:
     "@ndla/primitives": "npm:^1.0.106-alpha.0"
     "@ndla/safelink": "npm:^7.0.109-alpha.0"
-    "@ndla/ui": "npm:^56.0.149-alpha.0"
+    "@ndla/ui": "npm:^56.0.152-alpha.0"
     html-react-parser: "npm:^5.1.19"
   peerDependencies:
     i18next: ">= 25.0.0"
@@ -2838,7 +2838,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^15.4.1
     react-router: ">= 7.0.0"
-  checksum: 10c0/6860bf0d11ed9d617afb3ce92b5994d84fc6b09e706a1054634755c31119918171a85dd27be4da6b583003271e6968718dee340e457c86c67fb8bb62274612d4
+  checksum: 10c0/bff12e45281a6913dc88d97f41f217696b231f34e0b1b18b67c604621a272d12d2562b0f342c5a969ad8a1c2cc17ded2fa696e8725a3203f15aa27828cd4ecf2
   languageName: node
   linkType: hard
 
@@ -3017,9 +3017,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^56.0.149-alpha.0":
-  version: 56.0.149-alpha.0
-  resolution: "@ndla/ui@npm:56.0.149-alpha.0"
+"@ndla/ui@npm:^56.0.152-alpha.0":
+  version: 56.0.152-alpha.0
+  resolution: "@ndla/ui@npm:56.0.152-alpha.0"
   dependencies:
     "@ark-ui/react": "npm:^5.25.0"
     "@ndla/core": "npm:^6.0.4-alpha.0"
@@ -3036,7 +3036,7 @@ __metadata:
     react-dom: ">= 18"
     react-i18next: ^15.4.1
     react-router: ">= 7.0.0"
-  checksum: 10c0/1f800a785490d31ce2272d5a4b554e287594974786539a436bac94b86e650db96c27ea27a090bf79d107ff9814df2fd3364de8d528ffeaf2000678ff27c12b3d
+  checksum: 10c0/cbd0f68d63d6578400fcf897bcded1269b9c40097b6f23860fa5b024156cdbe51a259f3c4f5b1344f92bf307ccbd053d7402f98bd29d3e9460b0002768375d3d
   languageName: node
   linkType: hard
 
@@ -7197,21 +7197,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-ndla@npm:^6.0.8-alpha.0":
-  version: 6.0.8-alpha.0
-  resolution: "eslint-config-ndla@npm:6.0.8-alpha.0"
+"eslint-config-ndla@npm:^6.0.9-alpha.0":
+  version: 6.0.9-alpha.0
+  resolution: "eslint-config-ndla@npm:6.0.9-alpha.0"
   dependencies:
     eslint-plugin-header: "npm:^3.1.1"
     eslint-plugin-import: "npm:^2.32.0"
     eslint-plugin-jsx-a11y: "npm:^6.10.2"
     eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^7.0.0"
+    eslint-plugin-react-hooks: "npm:^7.0.1"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
     globals: "npm:^16.4.0"
   peerDependencies:
     eslint: ">= 9.0.0"
     typescript-eslint: ">= 8.15.0"
-  checksum: 10c0/8deaa348e5bf74b587a644540ec6f8ddf85942d7636d6da7c3f1023ad15332e279a18255d66cb8c7b2c58048f799098fb16ead97d3ef0608815df1974a580d08
+  checksum: 10c0/952f8a9739a44bb8d61ed67842ba0286524db934fb660f94f57b028c344f03795a91afaac62c3164f6b5abc2dadf09780227d6acfa5a21bf039c4b026b223506
   languageName: node
   linkType: hard
 
@@ -7301,18 +7301,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "eslint-plugin-react-hooks@npm:7.0.0"
+"eslint-plugin-react-hooks@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "eslint-plugin-react-hooks@npm:7.0.1"
   dependencies:
     "@babel/core": "npm:^7.24.4"
     "@babel/parser": "npm:^7.24.4"
     hermes-parser: "npm:^0.25.1"
-    zod: "npm:^3.22.4 || ^4.0.0"
-    zod-validation-error: "npm:^3.0.3 || ^4.0.0"
+    zod: "npm:^3.25.0 || ^4.0.0"
+    zod-validation-error: "npm:^3.5.0 || ^4.0.0"
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
-  checksum: 10c0/911c9efdd9b102ce2eabac247dff8c217ecb8d6972aaf3b7eecfb1cfc293d4d902766355993ff7a37a33c0abde3e76971f43bc1c8ff36d6c123310e5680d0423
+  checksum: 10c0/1e711d1a9d1fa9cfc51fa1572500656577201199c70c795c6a27adfc1df39e5c598f69aab6aa91117753d23cc1f11388579a2bed14921cf9a4efe60ae8618496
   languageName: node
   linkType: hard
 
@@ -9990,7 +9990,7 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^5.0.2"
     "@graphql-eslint/eslint-plugin": "npm:^4.4.0"
     "@juggle/resize-observer": "npm:^3.4.0"
-    "@ndla/article-converter": "npm:^10.0.153-alpha.0"
+    "@ndla/article-converter": "npm:^10.0.156-alpha.0"
     "@ndla/core": "npm:^6.0.4-alpha.0"
     "@ndla/editor": "npm:^0.0.33"
     "@ndla/editor-components": "npm:^0.0.56"
@@ -10006,7 +10006,7 @@ __metadata:
     "@ndla/types-backend": "npm:^1.0.68"
     "@ndla/types-embed": "npm:^5.0.16-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
-    "@ndla/ui": "npm:^56.0.149-alpha.0"
+    "@ndla/ui": "npm:^56.0.152-alpha.0"
     "@ndla/util": "npm:^5.0.14-alpha.0"
     "@pandacss/dev": "npm:^1.3.1"
     "@playwright/test": "npm:^1.56.1"
@@ -10026,7 +10026,7 @@ __metadata:
     cross-env: "npm:^10.1.0"
     esbuild: "npm:^0.25.11"
     eslint: "npm:^9.38.0"
-    eslint-config-ndla: "npm:^6.0.8-alpha.0"
+    eslint-config-ndla: "npm:^6.0.9-alpha.0"
     express: "npm:5.0.0"
     express-prom-bundle: "npm:^8.0.0"
     graphql: "npm:^16.11.0"
@@ -13793,7 +13793,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod-validation-error@npm:^3.0.3 || ^4.0.0":
+"zod-validation-error@npm:^3.5.0 || ^4.0.0":
   version: 4.0.2
   resolution: "zod-validation-error@npm:4.0.2"
   peerDependencies:
@@ -13802,7 +13802,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.22.4 || ^4.0.0":
+"zod@npm:^3.25.0 || ^4.0.0":
   version: 4.1.12
   resolution: "zod@npm:4.1.12"
   checksum: 10c0/b64c1feb19e99d77075261eaf613e0b2be4dfcd3551eff65ad8b4f2a079b61e379854d066f7d447491fcf193f45babd8095551a9d47973d30b46b6d8e2c46774

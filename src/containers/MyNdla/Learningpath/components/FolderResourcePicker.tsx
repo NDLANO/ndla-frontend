@@ -29,9 +29,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
-import { useComboboxTranslations } from "@ndla/ui";
+import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import { FolderResource } from "./folderTypes";
-import { TraitsContainer } from "../../../../components/TraitsContainer";
 import {
   GQLBreadcrumb,
   GQLFolder,
@@ -258,11 +257,11 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
                     >
                       {resource.breadcrumbs.map((crumb) => crumb.name).join(" › ")}
                     </StyledText>
-                    <TraitsContainer>
+                    <BadgesContainer>
                       {resource.traits?.map((trait) => (
                         <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
                       ))}
-                    </TraitsContainer>
+                    </BadgesContainer>
                   </ListItemRoot>
                 </StyledComboboxItem>
               ))}

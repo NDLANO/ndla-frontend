@@ -7,6 +7,8 @@
  */
 
 import { useId } from "react";
+import { useTranslation } from "react-i18next";
+import { Badge } from "@ndla/primitives";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ExternalEmbed } from "@ndla/ui";
 import { GQLLearningpathStepOembedFragment } from "../../../graphqlTypes";
 import { LearningpathIframe } from "../LearningpathIframe";
@@ -22,6 +24,7 @@ interface EmbedStepProps {
 
 export const EmbedStep = ({ skipToContentId, url, title, oembed }: EmbedStepProps) => {
   const fallbackId = useId();
+  const { t } = useTranslation();
 
   if (urlIsNDLAUrl(url) && oembed?.html) {
     return <LearningpathIframe url={url} html={oembed.html} />;
@@ -30,7 +33,11 @@ export const EmbedStep = ({ skipToContentId, url, title, oembed }: EmbedStepProp
   return (
     <EmbedPageContent variant="content">
       <ArticleWrapper>
-        <ArticleTitle id={skipToContentId ?? fallbackId} contentType="external" title={title} />
+        <ArticleTitle
+          id={skipToContentId ?? fallbackId}
+          badges={<Badge>{t("contentTypes.external")}</Badge>}
+          title={title}
+        />
         <ArticleContent>
           <section>
             <ExternalEmbed

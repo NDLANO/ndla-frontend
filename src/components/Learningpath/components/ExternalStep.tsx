@@ -8,6 +8,7 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
+import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
@@ -36,7 +37,7 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }
           title={learningpathStep.title}
           introduction={learningpathStep.introduction}
           id={skipToContentId ?? fallbackId}
-          contentType="external"
+          badges={<Badge>{t("contentTypes.external")}</Badge>}
         />
         <ArticleContent>
           <section>

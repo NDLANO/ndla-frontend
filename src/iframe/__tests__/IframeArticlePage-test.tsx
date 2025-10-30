@@ -43,6 +43,7 @@ test("IframeArticlePage with article renderers correctly", () => {
     revision: 1,
     articleType: "standard",
     created: "2018-01-09T18:40:03Z",
+    traits: [],
     transformedDisclaimer: {
       content: "",
     },

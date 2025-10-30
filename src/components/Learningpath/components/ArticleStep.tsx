@@ -76,7 +76,6 @@ export const ArticleStep = ({
         path: `${config.ndlaFrontendDomain}/article/${article.id}`,
         subject: subjectId,
         articleLanguage: article.language,
-        contentType: getContentType(learningpathStep.resource),
       }),
       getArticleScripts(article, i18n.language),
     ];
@@ -112,8 +111,9 @@ export const ArticleStep = ({
       <Article
         id={skipToContentId}
         article={article}
-        contentTypeLabel={resource?.resourceTypes?.[0]?.name}
         contentType={article.articleType === "topic-article" ? "topic-article" : getContentType(resource)}
+        resourceTypes={resource?.resourceTypes}
+        relevanceId={resource?.relevanceId}
       >
         {children}
         {!!url && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
@@ -157,6 +157,7 @@ ArticleStep.fragments = {
       resource {
         id
         url
+        relevanceId
         resourceTypes {
           id
           name
@@ -197,6 +198,7 @@ const learningpathStepQuery = gql`
     node(id: $resourceId) @include(if: $includeResource) {
       id
       url
+      relevanceId
       resourceTypes {
         id
         name
