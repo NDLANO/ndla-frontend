@@ -7,6 +7,7 @@
  */
 
 import { useTranslation } from "react-i18next";
+import { gql } from "@apollo/client";
 import { breakpoints } from "@ndla/core";
 import { Badge, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -16,7 +17,7 @@ import { BadgesContainer } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import config from "../../config";
 import { RELEVANCE_CORE, RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import { GQLResourceType } from "../../graphqlTypes";
+import { GQLResourceItem_NodeFragment } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 
 const StyledListItemContent = styled(ListItemContent, {
@@ -27,29 +28,11 @@ const StyledListItemContent = styled(ListItemContent, {
 });
 
 interface Props {
-  id: string;
-  showContentTypeDescription?: boolean;
-  extraBottomMargin?: boolean;
   showAdditionalResources?: boolean;
-  language?: string;
-}
-
-export type Resource = {
-  id: string;
-  name: string;
-  url?: string;
-  contentType?: string;
-  resourceTypes?: GQLResourceType[];
   active?: boolean;
-  relevanceId?: string;
-  article?: {
-    metaImage?: { url?: string; alt?: string };
-    traits?: string[];
-  };
-  learningpath?: {
-    coverphoto?: { url?: string };
-  };
-};
+  contentType?: string;
+  resource: GQLResourceItem_NodeFragment;
+}
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
@@ -85,25 +68,19 @@ const StyledListItemImage = styled(ListItemImage, {
   },
 });
 
-export const ResourceItem = ({
-  name,
-  url,
-  contentType,
-  active,
-  relevanceId,
-  showAdditionalResources,
-  language,
-  article,
-  learningpath,
-  resourceTypes,
-}: Props & Resource) => {
+export const ResourceItem = ({ contentType, active, showAdditionalResources, resource }: Props) => {
   const { t } = useTranslation();
-  const additional = relevanceId !== RELEVANCE_CORE;
+  const additional = resource.relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
 
-  const listItemTraits = useListItemTraits({ resourceTypes, relevanceId, traits: article?.traits, contentType });
+  const listItemTraits = useListItemTraits({
+    resourceTypes: resource.resourceTypes,
+    relevanceId: resource.relevanceId,
+    traits: resource.article?.traits,
+    contentType,
+  });
 
-  if (!learningpath && !article) return null;
+  if (!resource.learningpath && !resource.article) return null;
 
   return (
     <StyledListItemRoot
@@ -115,7 +92,7 @@ export const ResourceItem = ({
     >
       <li>
         <StyledListItemImage
-          src={article?.metaImage?.url ?? learningpath?.coverphoto?.url}
+          src={resource.article?.metaImage?.url ?? resource.learningpath?.coverphoto?.url}
           alt=""
           loading="lazy"
           sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
@@ -124,18 +101,18 @@ export const ResourceItem = ({
         <StyledListItemContent>
           <StyledListItemHeading asChild consumeCss={active} css={active ? undefined : linkOverlay.raw()}>
             {active ? (
-              <p>{name}</p>
+              <p>{resource.name}</p>
             ) : (
-              <SafeLink to={url || ""} lang={language} title={name}>
-                {name}
+              <SafeLink to={resource.url || ""} lang={resource.language} title={resource.name}>
+                {resource.name}
               </SafeLink>
             )}
           </StyledListItemHeading>
           <BadgesContainer>
             {listItemTraits.map((trait) => (
-              <Badge key={`${url}-${trait}`}>{trait}</Badge>
+              <Badge key={`${resource.url}-${trait}`}>{trait}</Badge>
             ))}
-            {!config.allResourceTypesEnabled && relevanceId === RELEVANCE_SUPPLEMENTARY ? (
+            {!config.allResourceTypesEnabled && resource.relevanceId === RELEVANCE_SUPPLEMENTARY ? (
               <Badge>{t("resource.tooltipAdditionalTopic")}</Badge>
             ) : undefined}
           </BadgesContainer>
@@ -143,4 +120,33 @@ export const ResourceItem = ({
       </li>
     </StyledListItemRoot>
   );
+};
+
+ResourceItem.fragments = {
+  node: gql`
+    fragment ResourceItem_Node on Node {
+      id
+      name
+      url
+      language
+      relevanceId
+      resourceTypes {
+        id
+        name
+      }
+      article {
+        id
+        metaImage {
+          url
+        }
+        traits
+      }
+      learningpath {
+        id
+        coverphoto {
+          url
+        }
+      }
+    }
+  `,
 };

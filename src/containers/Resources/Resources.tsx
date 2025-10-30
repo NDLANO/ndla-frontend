@@ -22,7 +22,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { sortResources } from "./getResourceGroups";
-import { ResourceList } from "./ResourceList";
+import { ResourceItem } from "./ResourceItem";
 import {
   RELEVANCE_SUPPLEMENTARY,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -80,6 +80,15 @@ const SpinnerWrapper = styled("div", {
   },
 });
 
+const StyledResourceList = styled("ol", {
+  base: {
+    listStyle: "none",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
+
 export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
@@ -115,9 +124,10 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
     });
   }, []);
 
-  const hasSupplementaryResources = useMemo(() => {
-    return node?.children?.some((resource) => resource.relevanceId === RELEVANCE_SUPPLEMENTARY);
-  }, [node?.children]);
+  const hasSupplementaryResources = useMemo(
+    () => node?.children?.some((r) => r.relevanceId === RELEVANCE_SUPPLEMENTARY),
+    [node?.children],
+  );
 
   if (loading) {
     return (
@@ -150,12 +160,22 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
           </StyledSwitchRoot>
         )}
       </TitleWrapper>
-      <ResourceList
-        headingId={navHeadingId}
-        resources={sortedResources}
-        showAdditionalResources={showAdditionalResources}
-        currentResourceId={currentResourceId}
-      />
+      <div>
+        <StyledResourceList>
+          {sortedResources.map((resource) => (
+            <ResourceItem
+              key={resource.id}
+              resource={resource}
+              active={currentResourceId === resource.id}
+              showAdditionalResources={showAdditionalResources}
+              contentType={resource.contentType}
+            />
+          ))}
+        </StyledResourceList>
+        {!!(!showAdditionalResources && hasSupplementaryResources) && (
+          <Text>{t("resource.noCoreResourcesAvailableUnspecific")}</Text>
+        )}
+      </div>
     </StyledNav>
   );
 };
@@ -166,35 +186,14 @@ const resourcesQuery = gql`
       id
       name
       url
-      children(nodeType: "RESOURCE") {
-        id
-        name
-        url
-        rank
-        language
-        relevanceId
-        article {
-          id
-          metaImage {
-            url
-            alt
-          }
-          traits
-        }
-        learningpath {
-          id
-          coverphoto {
-            url
-          }
-        }
-        resourceTypes {
-          id
-          name
-        }
-      }
       metadata {
         customFields
       }
+      children(nodeType: "RESOURCE") {
+        id
+        ...ResourceItem_Node
+      }
     }
   }
+  ${ResourceItem.fragments.node}
 `;
