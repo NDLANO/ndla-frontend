@@ -6,7 +6,7 @@
  *
  */
 
-import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { breakpoints } from "@ndla/core";
 import { Badge, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -14,7 +14,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
-import { RELEVANCE_CORE } from "../../constants";
+import config from "../../config";
+import { RELEVANCE_CORE, RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLResourceType } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 
@@ -104,18 +105,11 @@ export const ResourceItem = ({
   learningpath,
   resourceTypes,
 }: Props & Resource) => {
+  const { t } = useTranslation();
   const additional = relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
 
   const listItemTraits = useListItemTraits({ resourceTypes, relevanceId, traits: article?.traits, contentType });
-
-  const describedBy = useMemo(() => {
-    const elements = [];
-    if (showAdditionalResources) {
-      elements.push(relevanceId);
-    }
-    return elements.length ? elements.join(" ") : undefined;
-  }, [relevanceId, showAdditionalResources]);
 
   if (!learningpath && !article) return null;
 
@@ -138,7 +132,7 @@ export const ResourceItem = ({
             {active ? (
               <p>{name}</p>
             ) : (
-              <SafeLink to={url || ""} lang={language} title={name} aria-describedby={describedBy}>
+              <SafeLink to={url || ""} lang={language} title={name}>
                 {name}
               </SafeLink>
             )}
@@ -147,6 +141,9 @@ export const ResourceItem = ({
             {listItemTraits.map((trait) => (
               <Badge key={`${url}-${trait}`}>{trait}</Badge>
             ))}
+            {!config.allResourceTypesEnabled && relevanceId === RELEVANCE_SUPPLEMENTARY ? (
+              <Badge>{t("resource.tooltipAdditionalTopic")}</Badge>
+            ) : undefined}
           </BadgesContainer>
         </StyledListItemContent>
       </StyledListItemRoot>
