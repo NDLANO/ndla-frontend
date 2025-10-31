@@ -25,7 +25,7 @@ import { AboutNdlaFilm } from "./AboutNdlaFilm";
 import { FilmContent } from "./FilmContent";
 import { ALL_MOVIES_ID } from "./filmHelper";
 import { FilmSlideshow } from "./FilmSlideshow";
-import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
+import { movieTagFilters, MovieTag } from "./resourceTypes";
 import { Article } from "../../components/Article/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
@@ -76,14 +76,14 @@ const fromNdla = {
 export const FilmFrontpage = () => {
   const allResources = useMemo(
     () => ({
-      name: "filmfrontpage.resourcetype.all",
       id: ALL_MOVIES_ID,
+      name: "filmfrontpage.resourcetype.all",
     }),
     [],
   );
 
   const { t, i18n } = useTranslation();
-  const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieResourceType | undefined>(fromNdla);
+  const [resourceTypeSelected, setResourceTypeSelected] = useState<MovieTag | undefined>(fromNdla);
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
@@ -98,16 +98,18 @@ export const FilmFrontpage = () => {
     [filmfrontpage?.slideShow],
   );
 
-  const onChangeResourceType = (resourceType: MovieResourceType) => {
+  const onChangeResourceType = (resourceType: MovieTag) => {
     const placeholderHeight = `${movieListRef.current?.getBoundingClientRect().height}px`;
 
     setLoadingPlaceholderHeight(placeholderHeight);
-    setResourceTypeSelected([allResources].concat(movieResourceTypes).find((rt) => rt.id === resourceType.id));
+    setResourceTypeSelected(
+      [allResources].concat(movieTagFilters[i18n.language] ?? []).find((rt) => rt.id === resourceType.id),
+    );
   };
 
   const options = useMemo(() => {
-    return [fromNdla].concat(movieResourceTypes).concat(allResources);
-  }, [allResources]);
+    return [fromNdla].concat(movieTagFilters[i18n.language] ?? []).concat(allResources);
+  }, [allResources, i18n.language]);
 
   return (
     <>

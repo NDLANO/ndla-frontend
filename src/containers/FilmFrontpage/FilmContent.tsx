@@ -11,13 +11,13 @@ import { gql } from "@apollo/client";
 import { AllMoviesAlphabetically } from "./AllMoviesAlphabetically";
 import { ALL_MOVIES_ID, findName } from "./filmHelper";
 import { MovieGrid, MovieGridLoadingShimmer, SelectionMovieGrid } from "./MovieGrid";
-import { MovieResourceType } from "./resourceTypes";
+import { MovieTag } from "./resourceTypes";
 import { GQLMovieTheme } from "../../graphqlTypes";
 
 type MovieTheme = Omit<GQLMovieTheme, "path">;
 
 interface Props {
-  resourceTypeSelected: MovieResourceType | undefined;
+  resourceTypeSelected: MovieTag | undefined;
   movieThemes: MovieTheme[] | undefined;
   loadingPlaceholderHeight: string;
   loading: boolean;
@@ -31,7 +31,7 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes, loading }: Prop
   }
 
   if (resourceTypeSelected && resourceTypeSelected?.id !== "fromNdla") {
-    return <MovieGrid resourceType={resourceTypeSelected} />;
+    return <MovieGrid tag={resourceTypeSelected} />;
   }
 
   if (loading) {

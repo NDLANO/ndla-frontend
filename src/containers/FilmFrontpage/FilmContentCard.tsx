@@ -11,7 +11,6 @@ import { Text, Image } from "@ndla/primitives";
 import { SafeLink, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps, StyledVariantProps } from "@ndla/styled-system/types";
-import { movieResourceTypes } from "./resourceTypes";
 
 interface MovieType {
   metaImage?: {
@@ -28,6 +27,7 @@ interface MovieType {
 
 interface Props extends JsxStyleProps, Omit<SafeLinkProps, "to">, StyledVariantProps<typeof StyledSafeLink> {
   movie: MovieType;
+  tag?: string;
 }
 
 const ImageWrapper = styled("div", {
@@ -105,28 +105,17 @@ const StyledText = styled(Text, {
   },
 });
 
-const mappedResourceTypes = movieResourceTypes.reduce<Record<string, string>>((acc, resourceType) => {
-  acc[resourceType.id] = resourceType.name;
-  return acc;
-}, {});
-
-export const FilmContentCard = ({ movie: { metaImage, title, id, url, resourceTypes }, ...rest }: Props) => {
-  const resources = resourceTypes.reduce<string[]>((acc, curr) => {
-    const name = mappedResourceTypes[curr.id];
-    if (name) return acc.concat(curr.name);
-    return acc;
-  }, []);
-
+export const FilmContentCard = ({ movie: { metaImage, title, id, url }, tag, ...rest }: Props) => {
   return (
     <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={url}>
       <ImageWrapper>
         <StyledImage src={metaImage?.url} sizes={"400px"} loading="lazy" alt="" variant="rounded" />
         <StyledWrapperDiv id={`${id}`} data-content-cards="">
-          {resources.map((resource) => (
-            <StyledMovieTags textStyle="label.small" key={resource}>
-              {resource}
+          {tag ? (
+            <StyledMovieTags textStyle="label.small" key={tag}>
+              {tag}
             </StyledMovieTags>
-          ))}
+          ) : undefined}
         </StyledWrapperDiv>
       </ImageWrapper>
       <StyledText fontWeight="bold" textStyle="label.medium" data-title="">
