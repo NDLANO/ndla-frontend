@@ -12,6 +12,7 @@ import { BAD_REQUEST } from "../../statusCodes";
 import { podcastRssFeed } from "../podcastRssFeed";
 
 export const podcastFeedRoute = async (req: Request, res: Response, next: NextFunction) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   const id = parseInt(req.params.seriesId ?? "");
   if (isNaN(id)) {
     res.status(BAD_REQUEST);
