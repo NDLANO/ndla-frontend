@@ -30,7 +30,7 @@ const StatusText = styled(Text, {
   },
 });
 
-const StyledSafeLink = styled(SafeLink, {
+const StyledListItemHeading = styled(ListItemHeading, {
   base: {
     lineClamp: "2",
     overflowWrap: "anywhere",
@@ -83,15 +83,11 @@ export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props
         <RouteLine />
         <ListItemContent>
           <div>
-            <ListItemHeading asChild consumeCss>
-              <StyledSafeLink
-                to={routes.myNdla.learningpathEditSteps(learningpath.id)}
-                unstyled
-                css={linkOverlay.raw()}
-              >
+            <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
+              <SafeLink to={routes.myNdla.learningpathEditSteps(learningpath.id)} unstyled>
                 {learningpath.title}
-              </StyledSafeLink>
-            </ListItemHeading>
+              </SafeLink>
+            </StyledListItemHeading>
             <TimestampText textStyle="label.small" color="text.subtle">
               {createdString}
             </TimestampText>

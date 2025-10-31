@@ -35,6 +35,9 @@ import { SubjectLink } from "../AllSubjectsPage/SubjectLink";
 const StyledList = styled("ul", {
   base: {
     listStyle: "none",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
   },
 });
 

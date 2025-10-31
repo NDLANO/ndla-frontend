@@ -104,10 +104,21 @@ const MenuWrapper = styled("div", {
   },
 });
 
-const StyledSafeLink = styled(SafeLink, {
+const StyledListItemHeading = styled(ListItemHeading, {
   base: {
     lineClamp: "2",
     overflowWrap: "anywhere",
+  },
+});
+
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    alignItems: "center",
+    flexWrap: "wrap",
+    tabletDown: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
   },
 });
 
@@ -126,29 +137,18 @@ export const Folder = ({
 
   return (
     <ListItemRoot nonInteractive={nonInteractive} id={id}>
-      <ListItemContent
-        css={{
-          alignItems: "center",
-          flexWrap: "wrap",
-          tabletDown: {
-            flexDirection: "column",
-            alignItems: "flex-start",
-          },
-        }}
-      >
+      <StyledListItemContent>
         <TitleWrapper>
           <Icon
             aria-hidden={false}
             aria-label={`${isShared ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
           />
           {nonInteractive ? (
-            <ListItemHeading>{name}</ListItemHeading>
+            <StyledListItemHeading>{name}</StyledListItemHeading>
           ) : (
-            <ListItemHeading asChild consumeCss>
-              <StyledSafeLink to={link ?? defaultLink} unstyled css={linkOverlay.raw()}>
-                {name}
-              </StyledSafeLink>
-            </ListItemHeading>
+            <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
+              <SafeLink to={link ?? defaultLink}>{name}</SafeLink>
+            </StyledListItemHeading>
           )}
         </TitleWrapper>
         <FolderInfo>
@@ -169,7 +169,7 @@ export const Folder = ({
             </>
           )}
         </FolderInfo>
-      </ListItemContent>
+      </StyledListItemContent>
       <MenuWrapper>{menu}</MenuWrapper>
     </ListItemRoot>
   );
