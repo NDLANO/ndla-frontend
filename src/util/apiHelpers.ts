@@ -76,7 +76,36 @@ const uri = (() => {
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
   SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
-  FolderResourceMeta: ["ArticleFolderResourceMeta", "LearningpathFolderResourceMeta"],
+  FolderResourceMeta: [
+    "ArticleFolderResourceMeta",
+    "AudioFolderResourceMeta",
+    "ConceptFolderResourceMeta",
+    "ImageFolderResourceMeta",
+    "LearningpathFolderResourceMeta",
+    "TopicFolderResourceMeta",
+    "VideoFolderResourceMeta",
+  ],
+};
+
+const toResourceMeta = (type: string) => {
+  switch (type) {
+    case "article":
+    case "topic":
+    case "multidiciplinary":
+      return "ArticleFolderResourceMeta";
+    case "audio":
+      return "AudioFolderResourceMeta";
+    case "concept":
+      return "ConceptFolderResourceMeta";
+    case "image":
+      return "ImageFolderResourceMeta";
+    case "learningpath":
+      return "LearningpathFolderResourceMeta";
+    case "video":
+      return "VideoFolderResourceMeta";
+    default:
+      throw new Error(`Unknown type: ${type}`);
+  }
 };
 
 const typePolicies: TypePolicies = {
@@ -91,11 +120,7 @@ const typePolicies: TypePolicies = {
         //@ts-expect-error - We just want some autocomplete here
         read(_, { args, toReference, canRead }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>) {
           const refs = args?.resources.map((arg) =>
-            toReference(
-              `${arg.resourceType === "learningpath" ? "Learningpath" : "Article"}FolderResourceMeta:${
-                arg.resourceType
-              }${arg.id}`,
-            ),
+            toReference(`${toResourceMeta(arg.resourceType)}:${arg.resourceType}${arg.id}`),
           );
 
           if (refs && refs.every((ref) => canRead(ref))) {
