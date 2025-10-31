@@ -139,7 +139,7 @@
   "license": "GPL-3.0",
   "packageManager": "yarn@4.9.2",
   "browserslist": [
-    "> 0.25%",
+    "> 0.4%",
     "not dead"
   ]
 }
