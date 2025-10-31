@@ -18,6 +18,9 @@ import { SettingsMenu } from "../../components/SettingsMenu";
 
 const StyledOl = styled("ol", {
   base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
     listStyle: "none",
   },
 });

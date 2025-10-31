@@ -10,7 +10,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
 import { FileTextLine, FolderUserLine, ShareFill, FolderLine, LinkMedium } from "@ndla/icons";
-import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
+import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -72,8 +72,6 @@ interface Props {
   isFavorited?: boolean;
   link?: string;
   nonInteractive?: boolean;
-  variant?: NonNullable<ListItemVariantProps>["variant"];
-  context?: NonNullable<ListItemVariantProps>["context"];
 }
 
 const getIcon = (isFavorited?: boolean, isShared?: boolean) => {
@@ -106,18 +104,27 @@ const MenuWrapper = styled("div", {
   },
 });
 
-const StyledSafeLink = styled(SafeLink, {
+const StyledListItemHeading = styled(ListItemHeading, {
   base: {
     lineClamp: "2",
     overflowWrap: "anywhere",
   },
 });
 
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    alignItems: "center",
+    flexWrap: "wrap",
+    tabletDown: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
+  },
+});
+
 export const Folder = ({
   menu,
   folder: { id, status, name, owner },
-  context = "list",
-  variant,
   foldersCount,
   isFavorited,
   nonInteractive,
@@ -129,30 +136,19 @@ export const Folder = ({
   const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
 
   return (
-    <ListItemRoot context={context} variant={variant} nonInteractive={nonInteractive} id={id}>
-      <ListItemContent
-        css={{
-          alignItems: "center",
-          flexWrap: "wrap",
-          tabletDown: {
-            flexDirection: "column",
-            alignItems: "flex-start",
-          },
-        }}
-      >
+    <ListItemRoot nonInteractive={nonInteractive} id={id}>
+      <StyledListItemContent>
         <TitleWrapper>
           <Icon
             aria-hidden={false}
             aria-label={`${isShared ? `${t("myNdla.folder.sharing.shared")} ` : ""}${t("myNdla.folder.folder")}`}
           />
           {nonInteractive ? (
-            <ListItemHeading>{name}</ListItemHeading>
+            <StyledListItemHeading>{name}</StyledListItemHeading>
           ) : (
-            <ListItemHeading asChild consumeCss>
-              <StyledSafeLink to={link ?? defaultLink} unstyled css={linkOverlay.raw()}>
-                {name}
-              </StyledSafeLink>
-            </ListItemHeading>
+            <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
+              <SafeLink to={link ?? defaultLink}>{name}</SafeLink>
+            </StyledListItemHeading>
           )}
         </TitleWrapper>
         <FolderInfo>
@@ -173,7 +169,7 @@ export const Folder = ({
             </>
           )}
         </FolderInfo>
-      </ListItemContent>
+      </StyledListItemContent>
       <MenuWrapper>{menu}</MenuWrapper>
     </ListItemRoot>
   );

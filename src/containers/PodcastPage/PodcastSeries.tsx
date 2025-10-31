@@ -40,7 +40,7 @@ export const PodcastSeries = ({
 }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   const { t } = useTranslation();
   return (
-    <ListItemRoot asChild consumeCss context="list">
+    <ListItemRoot asChild consumeCss>
       <li>
         <BigListItemImage
           alt={coverPhoto.altText}
@@ -50,12 +50,8 @@ export const PodcastSeries = ({
         />
         <ListItemContent>
           <div>
-            <ListItemHeading asChild consumeCss>
-              <h3>
-                <SafeLink to={`/podkast/${id}`} css={linkOverlay.raw()}>
-                  {title.title}
-                </SafeLink>
-              </h3>
+            <ListItemHeading asChild consumeCss css={linkOverlay.raw()}>
+              <SafeLink to={`/podkast/${id}`}>{title.title}</SafeLink>
             </ListItemHeading>
             <StyledText>{description.description}</StyledText>
           </div>

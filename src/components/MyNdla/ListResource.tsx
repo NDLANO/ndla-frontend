@@ -47,11 +47,6 @@ export interface ListResourceProps {
   storedResourceType?: string;
   isLoading?: boolean;
 }
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    overflowWrap: "anywhere",
-  },
-});
 
 const StyledDescription = styled(Text, {
   base: {
@@ -79,27 +74,18 @@ const DescriptionWrapper = styled("div", {
   },
 });
 
-const BigListItemImage = styled(ListItemImage, {
+const StyledListItemImage = styled(ListItemImage, {
   base: {
     tabletDown: {
       display: "none",
     },
-    tabletWide: {
-      minWidth: "102px",
-      maxWidth: "102px",
-      minHeight: "77px",
-      maxHeight: "77px",
-    },
   },
 });
 
-const TitleWrapper = styled("div", {
+const StyledListItemHeading = styled(ListItemHeading, {
   base: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "space-between",
-    gap: "3xsmall",
-    alignItems: "flex-start",
+    lineClamp: "2",
+    overflowWrap: "anywhere",
   },
 });
 
@@ -137,9 +123,7 @@ export const ListResource = ({
   resourceTypes,
   description,
   menu,
-  variant,
   traits,
-  context = "list",
   storedResourceType,
   isLoading = false,
   nonInteractive,
@@ -163,54 +147,43 @@ export const ListResource = ({
 
   if (isLoading) {
     return (
-      <LoadingListItemRoot
-        aria-label={t("loading")}
-        aria-busy={true}
-        variant={variant}
-        context={context}
-        nonInteractive={nonInteractive}
-      >
+      <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} nonInteractive={nonInteractive}>
         <Skeleton>
           <ListItemImage alt="" />
         </Skeleton>
         <StyledListItemContent>
-          <TitleWrapper>
-            <Skeleton css={{ width: "40%" }}>
-              <ListItemHeading>&nbsp;</ListItemHeading>
-            </Skeleton>
-            <Skeleton>{<Badge>{t("contentTypes.missing")}</Badge>}</Skeleton>
-          </TitleWrapper>
+          <Skeleton css={{ width: "40%" }}>
+            <ListItemHeading>&nbsp;</ListItemHeading>
+          </Skeleton>
+          <Skeleton>{<Badge>{t("contentTypes.missing")}</Badge>}</Skeleton>
         </StyledListItemContent>
       </LoadingListItemRoot>
     );
   }
 
   return (
-    <StyledListItemRoot id={id} variant={variant} context={context} nonInteractive={nonInteractive}>
-      <BigListItemImage
+    <StyledListItemRoot id={id} nonInteractive={nonInteractive}>
+      <StyledListItemImage
         src={resourceImage.src}
         alt=""
-        fallbackWidth={136}
         fallbackElement={<StyledContentTypeFallbackIcon contentType={contentType} />}
       />
       <StyledListItemContent>
-        <TitleWrapper>
-          {nonInteractive ? (
-            <ListItemHeading color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}>
-              {title}
-            </ListItemHeading>
-          ) : (
-            <ListItemHeading
-              asChild
-              consumeCss
-              color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}
-            >
-              <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
-                {title}
-              </StyledSafeLink>
-            </ListItemHeading>
-          )}
-        </TitleWrapper>
+        {nonInteractive ? (
+          <StyledListItemHeading color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}>
+            {title}
+          </StyledListItemHeading>
+        ) : (
+          <StyledListItemHeading
+            asChild
+            consumeCss
+            css={linkOverlay.raw()}
+            color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}
+          >
+            <SafeLink to={link}>{title}</SafeLink>
+          </StyledListItemHeading>
+        )}
+
         <DescriptionWrapper>
           {!!description && <StyledDescription>{description}</StyledDescription>}
           <ActionWrapper>{menu}</ActionWrapper>

@@ -58,6 +58,14 @@ const StyledButton = styled(Button, {
   },
 });
 
+const StyledUl = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
+
 const PAGE_SIZE = 5;
 
 export const PodcastSeriesListPage = () => {
@@ -136,11 +144,11 @@ export const PodcastSeriesListPage = () => {
           {loading ? (
             <Spinner aria-label={t("loading")} />
           ) : results?.length ? (
-            <ul>
+            <StyledUl>
               {results.map((series) => {
                 return <PodcastSeries key={`podcast-${series.id}`} {...series} />;
               })}
-            </ul>
+            </StyledUl>
           ) : (
             <Text>{t("podcastPage.noResults")}</Text>
           )}

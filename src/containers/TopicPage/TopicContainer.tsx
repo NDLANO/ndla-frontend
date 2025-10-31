@@ -201,7 +201,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
           <NoSSR fallback={null}>
             <BleedPageContent>
               <PageContent variant="article">
-                <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
+                <Resources parentId={node.id} rootId={node.context?.rootId} />
               </PageContent>
             </BleedPageContent>
           </NoSSR>

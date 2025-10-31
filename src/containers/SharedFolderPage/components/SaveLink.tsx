@@ -74,14 +74,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <Folder
-              context="standalone"
-              variant="subtle"
-              nonInteractive
-              folder={folder}
-              foldersCount={folderCount}
-              link={routes.folder(folder.id)}
-            />
+            <Folder nonInteractive folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
             <MessageBox variant="warning">
               <InformationLine />
               <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
@@ -99,16 +92,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
       ) : (
         <LoginModalContent
           title={t("myNdla.loginSaveFolderLinkPitch")}
-          content={
-            <Folder
-              context="standalone"
-              variant="subtle"
-              nonInteractive
-              folder={folder}
-              foldersCount={folderCount}
-              link={routes.folder(folder.id)}
-            />
-          }
+          content={<Folder nonInteractive folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />}
         />
       )}
     </DialogRoot>

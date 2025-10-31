@@ -240,7 +240,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
               />
               <NoSSR fallback={null}>
                 <ResourcesPageContent>
-                  <Resources parentId={node.id} rootId={node.context?.rootId} headingType="h2" subHeadingType="h3" />
+                  <Resources parentId={node.id} rootId={node.context?.rootId} />
                 </ResourcesPageContent>
               </NoSSR>
             </ArticleFooter>

@@ -6,7 +6,7 @@
  *
  */
 
-import { partition, sortBy, uniqBy } from "@ndla/util";
+import { sortBy, uniqBy } from "@ndla/util";
 import {
   RESOURCE_TYPE_LEARNING_PATH,
   RESOURCE_TYPE_SUBJECT_MATERIAL,
@@ -14,9 +14,9 @@ import {
   RESOURCE_TYPE_ASSESSMENT_RESOURCES,
   RESOURCE_TYPE_SOURCE_MATERIAL,
   RESOURCE_TYPE_CONCEPT,
-  RELEVANCE_CORE,
 } from "../../constants";
 import { GQLResource, GQLResourceType } from "../../graphqlTypes";
+import { contentTypeMapping } from "../../util/getContentType";
 
 export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,
@@ -30,59 +30,26 @@ export const sortOrder: Record<string, number> = {
 
 type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes" | "rank" | "relevanceId">;
 
-export const getResourceGroupings = <T extends GQLResourceLike>(resources: T[], resourceId?: string) => {
-  let unique = uniqBy(resources, (res) => res.id);
-
-  if (resourceId) {
-    unique = unique.map((res) => ({
-      ...res,
-      active: resourceId ? res.id.endsWith(resourceId) : undefined,
-    }));
-  }
-  const sortedResources = sortBy(unique, (res) => res.rank ?? res.id);
-  const [coreResources, supplementaryResources] = partition(sortedResources, (r) => r.relevanceId === RELEVANCE_CORE);
-  return { coreResources, supplementaryResources, sortedResources };
-};
-
-const groupResourcesByResourceTypes = <T extends GQLResourceLike>(resources: T[]) => {
-  return resources.reduce<Record<string, GQLResource[]>>((obj, resource) => {
-    const resourceTypesWithResources = resource.resourceTypes?.map((type) => {
-      const existing = obj[type.id] ?? [];
-      return { ...type, resources: [...existing, resource] };
+export const sortResources = <T extends GQLResourceLike>(resources: T[], isGrouped?: boolean) => {
+  const uniq = uniqBy(resources, (res) => res.id);
+  const sortedByRank = sortBy(uniq, (res) => res.rank ?? res.id);
+  if (!isGrouped) {
+    // TODO: Just return sortedByRank once we can remove contentType
+    return sortedByRank.map((res) => {
+      const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
+      return { ...res, contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined };
     });
-    const reduced = resourceTypesWithResources?.reduce((acc, type) => ({ ...acc, [type.id]: type.resources }), {});
-    return { ...obj, ...reduced };
-  }, {});
+  }
+
+  // TODO: Convert map to `sortBy` once we can remove contentType
+  const withContentType = sortedByRank.map((res) => {
+    const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
+    return { ...res, contentType: contentTypeMapping[firstResourceType?.id ?? "default"] };
+  });
+  return sortBy(withContentType, (res) => res.contentType);
 };
 
 type SharedResourceType = Pick<GQLResourceType, "id" | "name">;
 
 export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
   sortBy(resourceTypes, (type) => sortOrder[type.id] ?? sortOrder.default);
-
-export interface ResourceTypeWithResources extends GQLResourceType {
-  id: string;
-  name: string;
-  resources: GQLResource[];
-}
-
-export const getResourceGroups = <T extends GQLResourceLike>(
-  resourceTypes: SharedResourceType[],
-  resources: T[],
-): ResourceTypeWithResources[] => {
-  const groupedResources = groupResourcesByResourceTypes(resources);
-  const sortedResourceTypes = sortResourceTypes(resourceTypes);
-  const usedResourceIds = new Set<string>();
-
-  return sortedResourceTypes
-    .map((type) => {
-      const resourcesForType = (groupedResources[type.id] ?? []).filter(
-        (resource) => !usedResourceIds.has(resource.id),
-      );
-
-      resourcesForType.forEach((resource) => usedResourceIds.add(resource.id));
-
-      return { ...type, resources: resourcesForType };
-    })
-    .filter((type) => !!type.resources.length);
-};

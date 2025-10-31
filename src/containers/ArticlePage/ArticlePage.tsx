@@ -176,14 +176,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
               {!!parent && (
                 <NoSSR fallback={null}>
                   <ResourcesPageContent>
-                    <Resources
-                      parentId={parent.id}
-                      rootId={root?.id}
-                      headingType="h2"
-                      subHeadingType="h3"
-                      currentResourceContentType={contentType}
-                      currentResourceId={resource.id}
-                    />
+                    <Resources parentId={parent.id} rootId={root?.id} currentResourceId={resource.id} />
                   </ResourcesPageContent>
                 </NoSSR>
               )}
