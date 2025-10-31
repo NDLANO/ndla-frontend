@@ -39,6 +39,7 @@ const router = express.Router();
 router.get("/robots.txt", (req, res) => {
   // Using ndla.no robots.txt
   if (req.hostname === "ndla.no") {
+    res.setHeader("Cache-Control", "public, max-age=300");
     res.sendFile("robots.txt", { root: "build/public/static" });
   } else {
     res.type("text/plain");
@@ -47,11 +48,13 @@ router.get("/robots.txt", (req, res) => {
 });
 
 router.get("/ai.txt", (_, res) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   res.type("text/plain");
   res.send("User-Agent: *\nDisallow: /image");
 });
 
 router.get("/.well-known/security.txt", (_, res) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   res.sendFile(`security.txt`, { root: "build/public/static" });
 });
 
@@ -69,6 +72,7 @@ router.get("/ukr", (_req, res) => {
 
 router.get("/oembed", async (req, res) => {
   res.setHeader("Content-Type", "application/json");
+  res.setHeader("Cache-Control", "public, max-age=300");
   const { status, data } = await oembedArticleRoute(req);
   sendResponse(req, res, data, status);
 });
@@ -187,6 +191,7 @@ router.get<{ path: string[]; lang?: string }>(["/subjects/*path", "/:lang/subjec
 });
 
 router.get("/lti/config.xml", async (_req, res) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   res.removeHeader("X-Frame-Options");
   res.setHeader("Content-Type", "application/xml");
   res.send(ltiConfig());
