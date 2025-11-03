@@ -9,7 +9,6 @@
 import { ReactNode, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useHref, useLocation } from "react-router";
-import { useComponentSize } from "@ndla/hooks";
 import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import config from "../../config";
 import { MastheadHeightPx } from "../../constants";
@@ -37,22 +36,28 @@ export const useArticleCopyText = (
   );
 };
 
+const getMastheadHeightFromCssVariable = () => {
+  const cssVarValue = document.documentElement.style.getPropertyValue("--masthead-height");
+  const maybeNumber = Number(cssVarValue.replace("px", ""));
+  return isNaN(maybeNumber) ? MastheadHeightPx : maybeNumber;
+};
+
 // Scroll to element with ID passed in as a query-parameter.
 // We use query-params instead of the regular fragments since
 // the article doesn't exist on initial page load (At least without SSR).
 export const useNavigateToHash = (articleContent: ReactNode | undefined) => {
-  const { height = MastheadHeightPx } = useComponentSize("masthead");
-  const location = useLocation();
+  const { hash } = useLocation();
   const isMastheadSticky = useIsMastheadSticky();
 
   useEffect(() => {
     if (location.hash) {
       setTimeout(() => {
-        const element = document.getElementById(location.hash.slice(1));
+        const element = document.getElementById(hash.slice(1));
         const elementTop = element?.getBoundingClientRect().top ?? 0;
         const bodyTop = document.body.getBoundingClientRect().top ?? 0;
+        const mastheadHeight = getMastheadHeightFromCssVariable();
         const absoluteTop = elementTop - bodyTop;
-        const scrollPosition = isMastheadSticky ? absoluteTop - height - 20 : absoluteTop - 20;
+        const scrollPosition = isMastheadSticky ? absoluteTop - mastheadHeight - 20 : absoluteTop - 20;
 
         element?.focus();
         window.scrollTo({
@@ -61,5 +66,5 @@ export const useNavigateToHash = (articleContent: ReactNode | undefined) => {
         });
       }, 400);
     }
-  }, [articleContent, location, height]);
+  }, [articleContent, hash]);
 };
