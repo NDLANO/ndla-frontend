@@ -6,13 +6,12 @@
  *
  */
 
-import { CSSProperties, useContext, useEffect, useId, useMemo, useState } from "react";
+import { useContext, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
-import { useComponentSize } from "@ndla/hooks";
 import {
   ArrowRightLine,
   ArrowRightShortLine,
@@ -167,8 +166,6 @@ export const MastheadMenu = () => {
     },
   );
 
-  const { height } = useComponentSize("masthead");
-
   const dynamicLinks = useMemo(() => {
     if (!dynamicMenuQuery.data?.frontpage?.menu?.length) return [];
     return dynamicMenuQuery.data.frontpage.menu.map((item) => ({
@@ -186,14 +183,6 @@ export const MastheadMenu = () => {
     }, 100);
   }, [location, open, previousLocation?.pathname]);
 
-  const style = useMemo(
-    () =>
-      ({
-        "--masthead-height": `${height}px`,
-      }) as CSSProperties,
-    [height],
-  );
-
   return (
     <PopoverRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <PopoverTrigger asChild>
@@ -207,11 +196,11 @@ export const MastheadMenu = () => {
           <span>{t("masthead.menu.button")}</span>
         </DrawerButton>
       </PopoverTrigger>
-      <MastheadPopoverContent style={style}>
+      <MastheadPopoverContent>
         <NavigationPart dynamicLinks={dynamicLinks} favouriteSubjects={favouriteSubjectsQuery.data?.nodes} />
         <MyNdlaPart />
       </MastheadPopoverContent>
-      <MastheadPopoverBackdrop present={open} style={style} />
+      <MastheadPopoverBackdrop present={open} />
     </PopoverRoot>
   );
 };
