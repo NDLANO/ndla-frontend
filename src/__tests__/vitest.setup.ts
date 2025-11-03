@@ -12,6 +12,13 @@ import { ResizeObserver } from "@juggle/resize-observer";
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver;
+  Object.defineProperty(window, "matchMedia", {
+    writable: true,
+    value: vi.fn().mockImplementation(() => ({
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    })),
+  });
 });
 
 afterEach(() => {

@@ -6,20 +6,22 @@
  *
  */
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const subscribe = (callback: () => void) => {
+  const mediaQuery = window.matchMedia("(max-resolution: 3x)");
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+};
+
+const getSnapshot = () => {
+  const masthead = document.getElementById("masthead");
+  if (!masthead) return false;
+  return getComputedStyle(masthead).position === "sticky";
+};
+
+const getServerSnapshot = () => false;
 
 export const useIsMastheadSticky = () => {
-  const [isSticky, setIsSticky] = useState(false);
-
-  useEffect(() => {
-    const masthead = document.getElementById("masthead");
-    if (!masthead) return;
-    const mediaQuery = window.matchMedia("(max-resolution: 3x)");
-    setIsSticky(getComputedStyle(masthead).position === "sticky");
-    mediaQuery.onchange = () => {
-      setIsSticky(getComputedStyle(masthead).position === "sticky");
-    };
-  }, []);
-
-  return isSticky;
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 };
