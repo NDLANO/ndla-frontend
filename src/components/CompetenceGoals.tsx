@@ -6,6 +6,7 @@
  *
  */
 
+import parse from "html-react-parser";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
@@ -19,6 +20,7 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  Heading,
   PageContent,
   Spinner,
   TabsContent,
@@ -26,12 +28,13 @@ import {
   TabsList,
   TabsRoot,
   TabsTrigger,
+  Text,
 } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { CompetenceGoalTab, CompetenceGoalType, CoreElementType } from "./CompetenceGoalTab";
+import { groupBy, sortBy, uniqBy } from "@ndla/util";
 import { DialogCloseButton } from "./DialogCloseButton";
-import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement } from "../graphqlTypes";
-import { CompetenceGoalsType } from "../interfaces";
+import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement, GQLReference } from "../graphqlTypes";
 
 interface Props {
   supportedLanguages?: string[];
@@ -40,127 +43,61 @@ interface Props {
   isOembed?: boolean;
 }
 
-interface ElementType {
-  id: string;
-  title: string;
-  type: "competenceGoals" | "coreElement";
-  groupedCompetenceGoals?: CompetenceGoalType[];
-  groupedCoreElementItems?: CoreElementType[];
-}
-
-const StyledDialogHeader = styled(DialogHeader, {
-  base: {
-    paddingInline: "0",
-  },
-});
-
-const StyledDialogBody = styled(DialogBody, {
-  base: {
-    paddingInline: "0",
-  },
-});
-
-const getUniqueCurriculums = (
-  competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[],
-): (GQLCompetenceGoal["curriculum"] | GQLCoreElement["curriculum"])[] => {
+const getUniqueCurriculums = (competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[]): GQLReference[] => {
   const curriculums = competenceGoals
     .filter((e) => e.curriculum?.id)
-    .map((competenceGoal) => competenceGoal.curriculum);
-  return Object.values(
-    curriculums.reduce(
-      (acc, current) => ({
-        ...acc,
-        [current!.id]: current,
-      }),
-      {},
-    ),
-  );
+    .map<GQLReference>((competenceGoal) => competenceGoal.curriculum!);
+  return uniqBy(curriculums, (item) => item?.id);
 };
 
-const getUniqueCompetenceGoalSet = (
-  competenceGoals: GQLCompetenceGoal[],
-  curriculumId: string,
-): GQLCompetenceGoal["competenceGoalSet"][] => {
-  const competenceGoalSet = competenceGoals
-    .filter((e) => e.competenceGoalSet?.id)
-    .filter((e) => e.curriculum?.id === curriculumId)
-    .map((competenceGoal) => competenceGoal.competenceGoalSet);
-  return Object.values(
-    competenceGoalSet.reduce(
-      (acc, current) => ({
-        ...acc,
-        [current!.id]: current,
-      }),
-      {},
-    ),
-  );
-};
+interface CompetenceGoalCurriculum extends GQLReference {
+  competenceGoalSets: CompetenceGoalSet[];
+}
 
-const getUniqueCompetenceGoals = (
-  competenceGoals: GQLCompetenceGoal[],
-  competenceGoalSetId: string,
-  addUrl: boolean,
-  searchUrl: string,
-  goalType: CompetenceGoalsType,
-) => {
-  return competenceGoals
-    .filter((competenceGoal) => competenceGoal.competenceGoalSet?.id === competenceGoalSetId)
-    .map((competenceGoal) => ({
-      text: competenceGoal.title,
-      url: addUrl ? searchUrl + competenceGoal.id : "",
-      type: goalType,
-      id: competenceGoal.id,
+interface CompetenceGoalSet extends GQLReference {
+  goals: {
+    id: string;
+    title: string;
+    type: string;
+  }[];
+}
+
+interface CoreElementCurriculum extends GQLReference {
+  coreElements: GQLCoreElement[];
+}
+
+export const getCompetenceGoals = (competenceGoals: GQLCompetenceGoal[]): CompetenceGoalCurriculum[] => {
+  const curriculums = getUniqueCurriculums(competenceGoals);
+  const goalsBySet = groupBy(
+    competenceGoals.filter((cg) => cg.competenceGoalSet?.id),
+    (goal) => goal.competenceGoalSet?.id ?? "",
+  );
+  const setsByCurriculum = groupBy(
+    competenceGoals.filter((cg) => cg.curriculum?.id),
+    (goal) => goal.curriculum?.id ?? "",
+  );
+  return curriculums.map((curriculum) => {
+    const goalSets = uniqBy(setsByCurriculum[curriculum.id] ?? [], (set) => set.competenceGoalSet!.id);
+    const sortedGoalSets = sortBy(goalSets, (set) => set.competenceGoalSet!.id);
+    const goalSetsWithGoals = sortedGoalSets.map((goalSet) => ({
+      ...goalSet.competenceGoalSet!,
+      goals: uniqBy(goalsBySet[goalSet.competenceGoalSet?.id ?? "_"] ?? [], (goal) => goal.id),
     }));
+    return { ...curriculum, competenceGoalSets: goalSetsWithGoals };
+  });
 };
 
-const sortElementsById = (elements: ElementType["groupedCompetenceGoals"]): ElementType["groupedCompetenceGoals"] =>
-  elements!.map((e) => ({
-    ...e,
-    elements: e.elements?.sort((a: any, b: any) => {
-      if (a.id! < b.id!) return -1;
-      if (a.id! > b.id!) return 1;
-      return 0;
-    }),
-  }));
-
-export const groupCompetenceGoals = (
-  competenceGoals: GQLCompetenceGoal[],
-  addUrl: boolean = false,
-  goalType: CompetenceGoalsType,
-  subjectId?: string,
-): ElementType["groupedCompetenceGoals"] => {
-  const searchUrl = subjectId
-    ? `/search?type=resource&subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=`
-    : "/search?type=resource&grepCodes=";
-  const curriculumElements = getUniqueCurriculums(competenceGoals).map((curriculum) => ({
-    title: `${curriculum?.title} (${curriculum?.id})`,
-    elements: getUniqueCompetenceGoalSet(competenceGoals, curriculum!.id).map((competenceGoalSet) => ({
-      id: competenceGoalSet!.id,
-      title: `${competenceGoalSet?.title} (${competenceGoalSet!.id})`,
-      goals: getUniqueCompetenceGoals(competenceGoals, competenceGoalSet!.id, addUrl, searchUrl, goalType),
-    })),
-  }));
-  return sortElementsById(curriculumElements);
+const getCoreElements = (coreElements: GQLCoreElement[]): CoreElementCurriculum[] => {
+  const curriculums = getUniqueCurriculums(coreElements);
+  const groupedByCurriculum = groupBy(coreElements, (element) => element.curriculum?.id ?? "");
+  return curriculums.map((curriculum) => ({ ...curriculum, coreElements: groupedByCurriculum[curriculum.id] ?? [] }));
 };
 
-export const groupCoreElements = (
-  coreElements: GQLCoreElement[],
-  subjectId?: string,
-): ElementType["groupedCoreElementItems"] => {
-  const searchUrl = subjectId
-    ? `/search?type=resource&subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=`
-    : "/search?type=resource&grepCodes=";
-  return getUniqueCurriculums(coreElements).map((curriculum) => ({
-    title: `${curriculum?.title} (${curriculum!.id})`,
-    elements: coreElements
-      .filter((e) => e.curriculum?.id === curriculum!.id)
-      .map((coreElement) => ({
-        id: coreElement!.id,
-        title: coreElement!.title,
-        text: coreElement.description!,
-        url: `${searchUrl}${coreElement.id}`,
-      })),
-  }));
+const toSearchUrl = (code: string, subjectId: string | undefined) => {
+  if (subjectId) {
+    return `/search?type=resource&subjects=${subjectId.replace("urn:subject:", "")}&grepCodes=${code}`;
+  }
+  return `/search?type=resource&grepCodes=${code}`;
 };
 
 const competenceGoalsQuery = gql`
@@ -204,26 +141,26 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
 
   const tabs = useMemo(() => {
     const tabs = [];
-    const lk20Goals = groupCompetenceGoals(data?.competenceGoals ?? [], true, "LK20", subjectId);
-    const lk20Elements = groupCoreElements(data?.coreElements || [], subjectId);
+    const competenceGoals = getCompetenceGoals(data?.competenceGoals ?? []);
+    const coreElements = getCoreElements(data?.coreElements || []);
 
-    if (lk20Goals?.length) {
+    if (competenceGoals?.length) {
       tabs.push({
-        id: "competenceGoals",
+        id: "competenceGoals" as const,
         title: t("competenceGoals.competenceTabLK20label"),
-        content: <CompetenceGoalTab items={lk20Goals} type="goal" isOembed={isOembed} />,
+        items: competenceGoals,
       });
     }
-    if (lk20Elements?.length) {
+    if (coreElements?.length) {
       tabs.push({
-        id: "coreElement",
+        id: "coreElement" as const,
         title: t("competenceGoals.competenceTabCorelabel"),
-        content: <CompetenceGoalTab items={lk20Elements} type="element" isOembed={isOembed} />,
+        items: coreElements,
       });
     }
 
     return tabs;
-  }, [data?.competenceGoals, data?.coreElements, isOembed, subjectId, t]);
+  }, [data, t]);
 
   if (error) {
     return null;
@@ -246,11 +183,11 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
       <Portal>
         <DialogContent>
           <PageContent>
-            <StyledDialogHeader>
+            <DialogHeader>
               <DialogTitle>{t("competenceGoals.modalText")}</DialogTitle>
               <DialogCloseButton />
-            </StyledDialogHeader>
-            <StyledDialogBody>
+            </DialogHeader>
+            <DialogBody>
               <TabsRoot
                 defaultValue={tabs[0]?.id}
                 orientation="horizontal"
@@ -267,14 +204,156 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
                 </TabsList>
                 {tabs.map((tab) => (
                   <TabsContent key={tab.id} value={tab.id}>
-                    {tab.content}
+                    {tab.id === "competenceGoals" ? (
+                      <CompetenceGoalsContent items={tab.items} subjectId={subjectId} isOembed={isOembed} />
+                    ) : (
+                      <CoreElementsContent items={tab.items} subjectId={subjectId} isOembed={isOembed} />
+                    )}
                   </TabsContent>
                 ))}
               </TabsRoot>
-            </StyledDialogBody>
+              <div>
+                {`${t("competenceGoals.licenseData")} `}
+                <SafeLink to="https://data.norge.no/nlod/no" target="_blank">
+                  NLOD
+                </SafeLink>
+                {`, ${t("competenceGoals.licenseFrom")} `}
+                <SafeLink to="https://data.udir.no/" target="_blank">
+                  data.udir.no
+                </SafeLink>
+              </div>
+            </DialogBody>
           </PageContent>
         </DialogContent>
       </Portal>
     </DialogRoot>
   );
 };
+
+interface ContentProps<T extends GQLReference> {
+  items: T[];
+  isOembed: boolean | undefined;
+  subjectId: string | undefined;
+}
+
+const CoreElementsContent = ({ items, isOembed, subjectId }: ContentProps<CoreElementCurriculum>) => {
+  const { t } = useTranslation();
+
+  return (
+    <ItemsWrapper>
+      {items.map((curriculum) => (
+        <CompetenceItemWrapper key={curriculum.id}>
+          <Heading textStyle="title.large" asChild consumeCss>
+            <h2>{`${curriculum.title} (${curriculum.id})`}</h2>
+          </Heading>
+          <OuterList>
+            {curriculum.coreElements.map((element) => (
+              <OuterListItem key={element.id}>
+                <Heading textStyle="label.large" fontWeight="bold" asChild consumeCss>
+                  <h3>{element.title}</h3>
+                </Heading>
+                <CoreElementWrapper>
+                  <Text asChild consumeCss>
+                    <div>{parse(element.description ?? "")}</div>
+                  </Text>
+                  <SafeLink to={toSearchUrl(element.id, subjectId)} target={isOembed ? "_blank" : undefined}>
+                    {t("competenceGoals.coreResourceSearchText", { code: element.id })}
+                  </SafeLink>
+                </CoreElementWrapper>
+              </OuterListItem>
+            ))}
+          </OuterList>
+        </CompetenceItemWrapper>
+      ))}
+    </ItemsWrapper>
+  );
+};
+
+const CompetenceGoalsContent = ({ items, isOembed, subjectId }: ContentProps<CompetenceGoalCurriculum>) => {
+  const { t } = useTranslation();
+
+  return (
+    <ItemsWrapper>
+      {items.map((curriculum) => (
+        <CompetenceItemWrapper key={curriculum.id}>
+          <Heading textStyle="title.large" asChild consumeCss>
+            <h2>{`${curriculum.title} (${curriculum.id})`}</h2>
+          </Heading>
+          <Text>{t("competenceGoals.competenceGoalTitle")}</Text>
+          <OuterList>
+            {curriculum.competenceGoalSets.map((goalSet) => (
+              <OuterListItem key={goalSet.id}>
+                <Heading textStyle="label.large" fontWeight="bold" asChild consumeCss>
+                  <h3>{`${goalSet.title} (${goalSet.id})`}</h3>
+                </Heading>
+                <InnerList>
+                  {goalSet.goals.map((goal) => (
+                    <li key={goal.id}>
+                      <Text>
+                        {goal.title}{" "}
+                        <SafeLink to={toSearchUrl(goal.id, subjectId)} target={isOembed ? "_blank" : undefined}>
+                          {t("competenceGoals.competenceGoalResourceSearchText", { code: goal.id })}
+                        </SafeLink>
+                      </Text>
+                    </li>
+                  ))}
+                </InnerList>
+              </OuterListItem>
+            ))}
+          </OuterList>
+        </CompetenceItemWrapper>
+      ))}
+    </ItemsWrapper>
+  );
+};
+
+const ItemsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxlarge",
+  },
+});
+
+const CompetenceItemWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    alignItems: "flex-start",
+  },
+});
+
+const OuterList = styled("ul", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
+
+const OuterListItem = styled("li", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});
+
+const InnerList = styled("ul", {
+  base: {
+    listStyle: "outside",
+    paddingInlineStart: "large",
+    "& li": {
+      marginBlock: "xsmall",
+    },
+  },
+});
+
+const CoreElementWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+  },
+});

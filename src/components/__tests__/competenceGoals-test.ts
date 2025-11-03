@@ -6,7 +6,7 @@
  *
  */
 
-import { groupCompetenceGoals } from "../CompetenceGoals";
+import { getCompetenceGoals } from "../CompetenceGoals";
 
 const competenceGoals = [
   {
@@ -52,17 +52,7 @@ const competenceGoals = [
   },
 ];
 
-test("That groupByCurriculums groups competenceGoals by curriculum ", () => {
-  const grouped = groupCompetenceGoals(competenceGoals, false, "LK20");
-  expect(grouped).toMatchSnapshot();
-});
-
-test("That addUrl param adds url to element ", () => {
-  const grouped = groupCompetenceGoals(competenceGoals, true, "LK20");
-  expect(grouped).toMatchSnapshot();
-});
-
-test("That addUrl and subjectId params adds extended url to element ", () => {
-  const grouped = groupCompetenceGoals(competenceGoals, true, "LK20", "urn:subject:20");
+test("That getCompetenceGoals groups competenceGoals by curriculum ", () => {
+  const grouped = getCompetenceGoals(competenceGoals);
   expect(grouped).toMatchSnapshot();
 });

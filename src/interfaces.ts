@@ -49,8 +49,6 @@ export type SiteTheme = "brand1" | "brand2" | "brand3" | "brand4" | "brand5";
 
 export type Breadcrumb = { to: string; name: string };
 
-export type CompetenceGoalsType = "LK06" | "LK20";
-
 export type HeadingType = "h1" | "h2" | "h3" | "h4" | "h5";
 
 export type LtiData = {
