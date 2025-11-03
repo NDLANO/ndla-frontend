@@ -11,7 +11,7 @@ import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { gql } from "@apollo/client";
-import { useLazyQuery, useQuery } from "@apollo/client/react";
+import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
@@ -310,18 +310,14 @@ export const MastheadSearch = () => {
     return () => window.removeEventListener("keydown", onSlashPressed);
   }, [dialogState.open]);
 
-  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<
-    GQLMastheadSearchQuery,
-    GQLMastheadSearchQueryVariables
-  >(searchQuery, { fetchPolicy: "no-cache" });
-
-  useEffect(() => {
-    if (delayedSearchQuery.length >= 2) {
-      runSearch({
-        variables: { query: delayedSearchQuery, language: i18n.language },
-      });
-    }
-  }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
+  const { loading, data: searchResult = {} } = useQuery<GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables>(
+    searchQuery,
+    {
+      fetchPolicy: "no-cache",
+      skip: delayedSearchQuery.length <= 2,
+      variables: { query: delayedSearchQuery, language: i18n.language },
+    },
+  );
 
   const onNavigate = () => {
     setDialogState({ open: false });
