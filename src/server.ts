@@ -52,7 +52,7 @@ if (!isProduction) {
   app.use(vite.middlewares);
 } else {
   const sirv = (await import("sirv")).default;
-  app.use(base, sirv(path.join(process.cwd(), "build", "public"), { extensions: [] }));
+  app.use(base, sirv(path.join(process.cwd(), "build", "public"), { extensions: [], maxAge: 5 * 60 }));
 }
 
 const metricsMiddleware = promBundle({
@@ -161,10 +161,12 @@ const iframeArticleRoute = async (req: Request, res: Response) =>
   renderRoute(req, res, "iframeArticle", getRouteChunks(manifest, "iframeArticle"));
 
 app.get(["/embed-iframe/:embedType/:embedId", "/embed-iframe/:lang/:embedType/:embedId"], async (req, res, next) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   handleRequest(req, res, next, iframeEmbedRoute);
 });
 
 const iframeArticleCallback = async (req: Request, res: Response, next: NextFunction) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   handleRequest(req, res, next, iframeArticleRoute);
 };
 
@@ -192,6 +194,7 @@ app.post("/lti", async (req, res, next) => {
 });
 
 app.get("/lti", async (req, res, next) => {
+  res.setHeader("Cache-Control", "public, max-age=300");
   handleRequest(req, res, next, ltiRoute);
 });
 
@@ -199,6 +202,7 @@ app.get(["/", "/*splat"], (req, res, next) => {
   const { basepath: path } = getLocaleInfoFromPath(req.path);
   const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
   const isPrivate = privateRoutes.some((r) => matchPath(r, path));
+  res.setHeader("Cache-Control", isPrivate ? "private" : "public, max-age=300");
   const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
   const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
   const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
