@@ -10,13 +10,22 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
-import { FieldHelper, FieldLabel, FieldRoot, IconButton, Text } from "@ndla/primitives";
+import {
+  FieldHelper,
+  FieldLabel,
+  FieldRoot,
+  IconButton,
+  ListItemContent,
+  ListItemHeading,
+  ListItemRoot,
+  Text,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { FolderResourcePicker } from "./FolderResourcePicker";
 import { FolderResource } from "./folderTypes";
 import { ResourceFormValues } from "./ResourceStepForm";
-import { StepSafeLink } from "./StepSafeLink";
 import config from "../../../../config";
 
 const TextWrapper = styled("div", {
@@ -24,19 +33,6 @@ const TextWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "4xsmall",
-  },
-});
-
-const ResourceWrapper = styled("div", {
-  base: {
-    display: "flex",
-    borderBottom: "1px solid",
-    borderColor: "stroke.subtle",
-    padding: "xsmall",
-    gap: "medium",
-    justifyContent: "space-between",
-    backgroundColor: "background.default",
-    position: "relative",
   },
 });
 
@@ -94,29 +90,31 @@ export const FolderStepForm = () => {
       {!resource ? (
         <FolderResourcePicker onResourceSelect={onResourceSelect} />
       ) : (
-        <ResourceWrapper>
-          <TextWrapper>
-            <StepSafeLink to={resource.path} target="_blank" css={linkOverlay.raw()}>
-              <Text fontWeight="bold">
-                {resource.title}
-                <ExternalLinkLine size="small" />
-              </Text>
-            </StepSafeLink>
-            <PathText textStyle="label.small" color="text.subtle">
-              {config.ndlaFrontendDomain}
-              {resource.path}
-            </PathText>
-          </TextWrapper>
-          <StyledIconButton
-            id="remove-resource"
-            aria-label={t("myNdla.learningpath.form.delete")}
-            title={t("myNdla.learningpath.form.delete")}
-            onClick={onResourceRemove}
-            variant="tertiary"
-          >
-            <DeleteBinLine />
-          </StyledIconButton>
-        </ResourceWrapper>
+        <ListItemRoot>
+          <ListItemContent>
+            <TextWrapper>
+              <ListItemHeading asChild consumeCss css={linkOverlay.raw()}>
+                <SafeLink to={resource.path} target="_blank">
+                  {resource.title}
+                  <ExternalLinkLine size="small" />
+                </SafeLink>
+              </ListItemHeading>
+              <PathText textStyle="label.small" color="text.subtle">
+                {config.ndlaFrontendDomain}
+                {resource.path}
+              </PathText>
+            </TextWrapper>
+            <StyledIconButton
+              id="remove-resource"
+              aria-label={t("myNdla.learningpath.form.delete")}
+              title={t("myNdla.learningpath.form.delete")}
+              onClick={onResourceRemove}
+              variant="tertiary"
+            >
+              <DeleteBinLine />
+            </StyledIconButton>
+          </ListItemContent>
+        </ListItemRoot>
       )}
     </FieldRoot>
   );

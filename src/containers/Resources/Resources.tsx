@@ -21,24 +21,18 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ContentType } from "@ndla/ui";
-import { getResourceGroupings, getResourceGroups, sortResourceTypes } from "./getResourceGroups";
-import { ResourceList } from "./ResourceList";
+import { sortResources } from "./getResourceGroups";
+import { ResourceItem } from "./ResourceItem";
 import {
   RELEVANCE_SUPPLEMENTARY,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from "../../constants";
-import { GQLResourcesQueryQuery } from "../../graphqlTypes";
-import { HeadingType } from "../../interfaces";
-import { contentTypeMapping } from "../../util/getContentType";
+import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
 
 interface Props {
-  headingType: HeadingType;
-  subHeadingType: HeadingType;
-  currentResourceContentType?: ContentType;
   currentResourceId?: string;
-  parentId?: string;
+  parentId: string;
   rootId?: string;
 }
 
@@ -72,25 +66,9 @@ const StyledHGroup = styled("hgroup", {
   },
 });
 
-const ListWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
-
 const StyledSwitchRoot = styled(SwitchRoot, {
   base: {
     marginInlineStart: "auto",
-  },
-});
-
-const ResourceContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
   },
 });
 
@@ -102,19 +80,21 @@ const SpinnerWrapper = styled("div", {
   },
 });
 
-export const Resources = ({
-  parentId,
-  rootId,
-  headingType: HeadingType,
-  subHeadingType: SubHeadingType,
-  currentResourceContentType,
-  currentResourceId,
-}: Props) => {
+const StyledResourceList = styled("ol", {
+  base: {
+    listStyle: "none",
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+  },
+});
+
+export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
   const [showAdditionalResources, setShowAdditionalResources] = useState(false);
   const { t } = useTranslation();
   const navHeadingId = useId();
 
-  const { error, loading, data } = useQuery<GQLResourcesQueryQuery>(resourcesQuery, {
+  const { error, loading, data } = useQuery<GQLLaunchpadQuery, GQLLaunchpadQueryVariables>(resourcesQuery, {
     variables: {
       parentId: parentId,
       rootId: rootId,
@@ -122,32 +102,15 @@ export const Resources = ({
   });
 
   const node = data?.node;
-  const resourceTypes = data?.resourceTypes;
 
-  const { sortedResources } = useMemo(
-    () => getResourceGroupings(node?.children ?? [], currentResourceId),
-    [currentResourceId, node?.children],
-  );
-
-  const isGrouped = useMemo(
+  const sortedResources = useMemo(
     () =>
-      node?.metadata?.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-    [node?.metadata?.customFields],
+      sortResources(
+        node?.children ?? [],
+        node?.metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
+      ),
+    [node?.children, node?.metadata.customFields],
   );
-
-  const { groupedResources, ungroupedResources } = useMemo(() => {
-    if (isGrouped) {
-      const resourceGroups = getResourceGroups(resourceTypes ?? [], sortedResources);
-      const groupedResources = resourceGroups.map((type) => ({ ...type, contentType: contentTypeMapping[type.id] }));
-      return { groupedResources, ungroupedResources: [] };
-    }
-
-    const ungroupedResources = sortedResources.map((res) => {
-      const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
-      return { ...res, contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined };
-    });
-    return { groupedResources: [], ungroupedResources };
-  }, [isGrouped, resourceTypes, sortedResources]);
 
   useEffect(() => {
     const showAdditional = window.localStorage?.getItem("showAdditionalResources");
@@ -161,9 +124,10 @@ export const Resources = ({
     });
   }, []);
 
-  const hasSupplementaryResources = useMemo(() => {
-    return node?.children?.some((resource) => resource.relevanceId === RELEVANCE_SUPPLEMENTARY);
-  }, [node?.children]);
+  const supplementaryResourcesCount = useMemo(
+    () => node?.children?.filter((r) => r.relevanceId === RELEVANCE_SUPPLEMENTARY).length ?? 0,
+    [node],
+  );
 
   if (loading) {
     return (
@@ -182,11 +146,11 @@ export const Resources = ({
       <TitleWrapper>
         <StyledHGroup>
           <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
-            <HeadingType>{t("resource.label")}</HeadingType>
+            <h2>{t("resource.label")}</h2>
           </Heading>
           <Text textStyle="label.medium">{node?.name}</Text>
         </StyledHGroup>
-        {!!hasSupplementaryResources && (
+        {!!supplementaryResourcesCount && (
           <StyledSwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
             <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
             <SwitchControl>
@@ -196,92 +160,42 @@ export const Resources = ({
           </StyledSwitchRoot>
         )}
       </TitleWrapper>
-      <ResourceContainer>
-        {!isGrouped ? (
-          <ResourceList
-            resources={ungroupedResources}
-            showAdditionalResources={showAdditionalResources}
-            currentResourceContentType={currentResourceContentType}
-            currentResourceId={currentResourceId}
-          />
-        ) : (
-          groupedResources.map((type) => (
-            <ListWrapper key={type.id}>
-              <Heading id={type.id} textStyle="title.medium" asChild consumeCss>
-                <SubHeadingType>{type.name}</SubHeadingType>
-              </Heading>
-              <ResourceList
-                headingId={type.id}
-                title={type.name}
-                showAdditionalResources={showAdditionalResources}
-                contentType={type.contentType}
-                resources={type.resources ?? []}
-                currentResourceContentType={currentResourceContentType}
-                currentResourceId={currentResourceId}
-              />
-            </ListWrapper>
-          ))
-        )}
-      </ResourceContainer>
+      <div>
+        <StyledResourceList>
+          {sortedResources.map((resource) => (
+            <ResourceItem
+              key={resource.id}
+              resource={resource}
+              active={currentResourceId === resource.id}
+              showAdditionalResources={showAdditionalResources}
+              contentType={resource.contentType}
+            />
+          ))}
+        </StyledResourceList>
+        {!!(
+          !showAdditionalResources &&
+          supplementaryResourcesCount &&
+          supplementaryResourcesCount === node?.children?.length
+        ) && <Text>{t("resource.noCoreResourcesAvailableUnspecific")}</Text>}
+      </div>
     </StyledNav>
   );
 };
 
-Resources.fragments = {
-  resourceType: gql`
-    fragment Resources_ResourceTypeDefinition on ResourceTypeDefinition {
-      id
-      name
-    }
-  `,
-  node: gql`
-    fragment Resources_Parent on Node {
+const resourcesQuery = gql`
+  query launchpad($parentId: String!, $rootId: String) {
+    node(id: $parentId, rootId: $rootId) {
       id
       name
       url
       children(nodeType: "RESOURCE") {
         id
-        name
-        url
-        rank
-        language
-        relevanceId
-        article {
-          id
-          metaImage {
-            url
-            alt
-          }
-          traits
-        }
-        learningpath {
-          id
-          coverphoto {
-            url
-            metaUrl
-          }
-        }
-        resourceTypes {
-          id
-          name
-        }
+        ...ResourceItem_Node
       }
       metadata {
         customFields
       }
     }
-  `,
-};
-
-const resourcesQuery = gql`
-  query resourcesQuery($parentId: String!, $rootId: String!) {
-    node(id: $parentId, rootId: $rootId) {
-      ...Resources_Parent
-    }
-    resourceTypes {
-      ...Resources_ResourceTypeDefinition
-    }
   }
-  ${Resources.fragments.node}
-  ${Resources.fragments.resourceType}
+  ${ResourceItem.fragments.node}
 `;

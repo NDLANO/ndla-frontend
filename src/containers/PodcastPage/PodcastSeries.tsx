@@ -32,6 +32,15 @@ const BigListItemImage = styled(ListItemImage, {
   },
 });
 
+const StyledListItemContent = styled(ListItemContent, {
+  base: {
+    flexDirection: "column",
+    gap: "4xsmall",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+  },
+});
+
 export const PodcastSeries = ({
   coverPhoto,
   description,
@@ -40,7 +49,7 @@ export const PodcastSeries = ({
 }: GQLPodcastSeries_PodcastSeriesSummaryFragment) => {
   const { t } = useTranslation();
   return (
-    <ListItemRoot asChild consumeCss context="list">
+    <ListItemRoot asChild consumeCss>
       <li>
         <BigListItemImage
           alt={coverPhoto.altText}
@@ -48,18 +57,12 @@ export const PodcastSeries = ({
           sizes={`(max-width: ${breakpoints.tablet}) 144px, 200px`}
           fallbackElement={<Badge>{t("contentTypes.podcast")}</Badge>}
         />
-        <ListItemContent>
-          <div>
-            <ListItemHeading asChild consumeCss>
-              <h3>
-                <SafeLink to={`/podkast/${id}`} css={linkOverlay.raw()}>
-                  {title.title}
-                </SafeLink>
-              </h3>
-            </ListItemHeading>
-            <StyledText>{description.description}</StyledText>
-          </div>
-        </ListItemContent>
+        <StyledListItemContent>
+          <ListItemHeading asChild consumeCss css={linkOverlay.raw()}>
+            <SafeLink to={`/podkast/${id}`}>{title.title}</SafeLink>
+          </ListItemHeading>
+          <StyledText>{description.description}</StyledText>
+        </StyledListItemContent>
       </li>
     </ListItemRoot>
   );

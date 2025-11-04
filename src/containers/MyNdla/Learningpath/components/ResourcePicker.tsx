@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { useState, useMemo, RefObject, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
@@ -49,6 +49,7 @@ import {
 import { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { getListItemTraits } from "../../../../util/listItemTraits";
+import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 import { useDebounce } from "../../../../util/useDebounce";
 
 const HitsWrapper = styled("div", {
@@ -68,23 +69,20 @@ const StyledListItemContent = styled(ListItemContent, {
   },
 });
 
-const StyledListItemRoot = styled(ListItemRoot, {
-  base: {
-    minHeight: "unset",
-    textAlign: "start",
-  },
-});
-
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
   base: {
     overflowY: "unset",
     maxHeight: "surface.medium",
+    gap: "xxsmall",
   },
 });
 
 const StyledComboboxList = styled(ComboboxList, {
   base: {
+    display: "flex",
+    flexDirection: "column",
     overflowY: "auto",
+    gap: "xxsmall",
   },
 });
 
@@ -98,20 +96,16 @@ const StyledPaginationRoot = styled(PaginationRoot, {
 const StyledComboboxItem = styled(ComboboxItem, {
   base: {
     flexWrap: "wrap",
+    minHeight: "unset",
+    textAlign: "start",
   },
 });
 
-/**
-  Copied from Editorial
-
- keyboard scrolling does not work properly when items are not nested directly within
- ComboboxContent, so we need to provide a custom scroll function
- TODO: Check if ark provides a better fix for this.
- */
-const scrollToIndexFn = (contentRef: RefObject<HTMLDivElement | null>, index: number) => {
-  const el = contentRef.current?.querySelectorAll(`[role='option']`)[index];
-  el?.scrollIntoView({ behavior: "auto", block: "nearest" });
-};
+const StyledBadgesContainer = styled(BadgesContainer, {
+  base: {
+    marginBlockStart: "xsmall",
+  },
+});
 
 interface Props {
   setResource: (data: ResourceData) => void;
@@ -259,13 +253,14 @@ export const ResourcePicker = ({ setResource }: Props) => {
         <InputContainer>
           <ComboboxInput
             asChild
+            placeholder={t("searchPage.searchFieldPlaceholderShort")}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !highlightedValue) {
                 e.preventDefault();
               }
             }}
           >
-            <Input placeholder={t("searchPage.searchFieldPlaceholderShort")} />
+            <Input />
           </ComboboxInput>
         </InputContainer>
       </ComboboxControl>
@@ -285,7 +280,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
           <StyledComboboxList tabIndex={-1}>
             {collection.items.map((resource) => (
               <StyledComboboxItem key={collection.getItemValue(resource)} item={resource} className="peer" asChild>
-                <StyledListItemRoot context="list">
+                <ListItemRoot>
                   <StyledListItemContent>
                     <ComboboxItemText>
                       {resource.__typename === "ArticleSearchResult" ||
@@ -303,13 +298,15 @@ export const ResourcePicker = ({ setResource }: Props) => {
                         {resource.contexts[0].breadcrumbs.join(" > ")}
                       </Text>
                     )}
-                    <BadgesContainer>
+                    <StyledBadgesContainer>
                       {resource.traits.map((trait) => (
-                        <Badge key={`${resource.id}-${trait}`}>{trait}</Badge>
+                        <Badge size="small" key={`${resource.id}-${trait}`}>
+                          {trait}
+                        </Badge>
                       ))}
-                    </BadgesContainer>
+                    </StyledBadgesContainer>
                   </StyledListItemContent>
-                </StyledListItemRoot>
+                </ListItemRoot>
               </StyledComboboxItem>
             ))}
           </StyledComboboxList>

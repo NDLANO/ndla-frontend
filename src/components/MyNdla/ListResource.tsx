@@ -30,8 +30,14 @@ const StyledListItemContent = styled(ListItemContent, {
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "center",
-    gap: "3xsmall",
+    gap: "4xsmall",
     width: "100%",
+  },
+});
+
+const StyledBadgesContainer = styled(BadgesContainer, {
+  base: {
+    marginBlockStart: "xsmall",
   },
 });
 
@@ -47,11 +53,6 @@ export interface ListResourceProps {
   storedResourceType?: string;
   isLoading?: boolean;
 }
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    overflowWrap: "anywhere",
-  },
-});
 
 const StyledDescription = styled(Text, {
   base: {
@@ -79,27 +80,28 @@ const DescriptionWrapper = styled("div", {
   },
 });
 
-const BigListItemImage = styled(ListItemImage, {
+const StyledListItemImage = styled(ListItemImage, {
   base: {
     tabletDown: {
       display: "none",
     },
-    tabletWide: {
-      minWidth: "102px",
-      maxWidth: "102px",
-      minHeight: "77px",
-      maxHeight: "77px",
+  },
+  variants: {
+    isFallback: {
+      true: {
+        background: "surface.subtle",
+        border: "1px solid",
+        borderColor: "stroke.discrete",
+        borderRadius: "xsmall",
+      },
     },
   },
 });
 
-const TitleWrapper = styled("div", {
+const StyledListItemHeading = styled(ListItemHeading, {
   base: {
-    display: "flex",
-    width: "100%",
-    justifyContent: "space-between",
-    gap: "3xsmall",
-    alignItems: "flex-start",
+    lineClamp: "2",
+    overflowWrap: "anywhere",
   },
 });
 
@@ -137,9 +139,7 @@ export const ListResource = ({
   resourceTypes,
   description,
   menu,
-  variant,
   traits,
-  context = "list",
   storedResourceType,
   isLoading = false,
   nonInteractive,
@@ -163,63 +163,55 @@ export const ListResource = ({
 
   if (isLoading) {
     return (
-      <LoadingListItemRoot
-        aria-label={t("loading")}
-        aria-busy={true}
-        variant={variant}
-        context={context}
-        nonInteractive={nonInteractive}
-      >
+      <LoadingListItemRoot aria-label={t("loading")} aria-busy={true} nonInteractive={nonInteractive}>
         <Skeleton>
           <ListItemImage alt="" />
         </Skeleton>
         <StyledListItemContent>
-          <TitleWrapper>
-            <Skeleton css={{ width: "40%" }}>
-              <ListItemHeading>&nbsp;</ListItemHeading>
-            </Skeleton>
-            <Skeleton>{<Badge>{t("contentTypes.missing")}</Badge>}</Skeleton>
-          </TitleWrapper>
+          <Skeleton css={{ width: "40%" }}>
+            <ListItemHeading>&nbsp;</ListItemHeading>
+          </Skeleton>
+          <Skeleton>{<Badge size="small">{t("contentTypes.missing")}</Badge>}</Skeleton>
         </StyledListItemContent>
       </LoadingListItemRoot>
     );
   }
 
   return (
-    <StyledListItemRoot id={id} variant={variant} context={context} nonInteractive={nonInteractive}>
-      <BigListItemImage
+    <StyledListItemRoot id={id} nonInteractive={nonInteractive}>
+      <StyledListItemImage
         src={resourceImage.src}
         alt=""
-        fallbackWidth={136}
+        isFallback={!resourceImage.src}
         fallbackElement={<StyledContentTypeFallbackIcon contentType={contentType} />}
       />
       <StyledListItemContent>
-        <TitleWrapper>
-          {nonInteractive ? (
-            <ListItemHeading color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}>
-              {title}
-            </ListItemHeading>
-          ) : (
-            <ListItemHeading
-              asChild
-              consumeCss
-              color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}
-            >
-              <StyledSafeLink to={link} unstyled css={linkOverlay.raw()}>
-                {title}
-              </StyledSafeLink>
-            </ListItemHeading>
-          )}
-        </TitleWrapper>
+        {nonInteractive ? (
+          <StyledListItemHeading color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}>
+            {title}
+          </StyledListItemHeading>
+        ) : (
+          <StyledListItemHeading
+            asChild
+            consumeCss
+            css={linkOverlay.raw()}
+            color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}
+          >
+            <SafeLink to={link}>{title}</SafeLink>
+          </StyledListItemHeading>
+        )}
+
         <DescriptionWrapper>
           {!!description && <StyledDescription>{description}</StyledDescription>}
           <ActionWrapper>{menu}</ActionWrapper>
         </DescriptionWrapper>
-        <BadgesContainer>
+        <StyledBadgesContainer>
           {listItemTraits.map((trait) => (
-            <Badge key={`${id}-${trait}`}>{trait}</Badge>
+            <Badge size="small" key={`${id}-${trait}`}>
+              {trait}
+            </Badge>
           ))}
-        </BadgesContainer>
+        </StyledBadgesContainer>
       </StyledListItemContent>
     </StyledListItemRoot>
   );

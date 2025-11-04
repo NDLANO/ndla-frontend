@@ -83,14 +83,7 @@ export const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningStep
           {!!parent && !!root && (
             <NoSSR fallback={null}>
               <ResourcesWrapper>
-                <Resources
-                  headingType="h2"
-                  key="resources"
-                  parentId={parent.id}
-                  rootId={root.id}
-                  subHeadingType="h3"
-                  currentResourceId={resource?.id}
-                />
+                <Resources key="resources" parentId={parent.id} rootId={root.id} currentResourceId={resource?.id} />
               </ResourcesWrapper>
             </NoSSR>
           )}

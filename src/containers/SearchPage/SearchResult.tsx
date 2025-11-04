@@ -41,8 +41,14 @@ interface Props {
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
     flexDirection: "column",
+    gap: "4xsmall",
     alignItems: "flex-start",
-    padding: "medium",
+  },
+});
+
+const StyledBadgesContainer = styled(BadgesContainer, {
+  base: {
+    marginBlockStart: "xsmall",
   },
 });
 
@@ -93,9 +99,9 @@ export const SearchResult = ({ searchResult }: Props) => {
   });
 
   return (
-    <StyledListItemRoot asChild consumeCss context="list" colorTheme="neutral">
+    <StyledListItemRoot asChild consumeCss>
       <li>
-        <ListItemHeading asChild consumeCss fontWeight="bold">
+        <ListItemHeading asChild consumeCss>
           <SafeLink to={resultUrl(searchResult, ltiContext, i18n.language) ?? ""} unstyled css={linkOverlay.raw()}>
             {searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult"
               ? parse(searchResult.htmlTitle)
@@ -144,11 +150,13 @@ export const SearchResult = ({ searchResult }: Props) => {
             )}
           </Text>
         )}
-        <BadgesContainer>
+        <StyledBadgesContainer>
           {listItemTraits.map((trait) => (
-            <Badge key={`${searchResult.id}-${trait}`}>{trait}</Badge>
+            <Badge size="small" key={`${searchResult.id}-${trait}`}>
+              {trait}
+            </Badge>
           ))}
-        </BadgesContainer>
+        </StyledBadgesContainer>
         {!!ltiContext && (
           <LtiEmbed
             item={{

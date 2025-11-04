@@ -10,13 +10,23 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
-import { Badge, FieldLabel, FieldHelper, FieldRoot, IconButton, Text } from "@ndla/primitives";
-import { HStack, styled } from "@ndla/styled-system/jsx";
+import {
+  Badge,
+  FieldLabel,
+  FieldHelper,
+  FieldRoot,
+  IconButton,
+  Text,
+  ListItemRoot,
+  ListItemContent,
+  ListItemHeading,
+} from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
-import { StepSafeLink } from "./StepSafeLink";
 import config from "../../../../config";
 import { contentTypeMapping } from "../../../../util/getContentType";
 import { useListItemTraits } from "../../../../util/listItemTraits";
@@ -82,27 +92,6 @@ const TextWrapper = styled("div", {
   },
 });
 
-const ResourceWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexWrap: "wrap",
-    borderBottom: "1px solid",
-    borderColor: "stroke.default",
-    padding: "xsmall",
-    gap: "medium",
-    justifyContent: "space-between",
-    boxShadow: "xsmall",
-    backgroundColor: "background.default",
-    position: "relative",
-  },
-});
-
-const StyledHStack = styled(HStack, {
-  base: {
-    flexWrap: "wrap",
-  },
-});
-
 const CrumbText = styled(Text, {
   base: {
     overflowWrap: "anywhere",
@@ -112,6 +101,12 @@ const CrumbText = styled(Text, {
 const StyledIconButton = styled(IconButton, {
   base: {
     position: "relative",
+  },
+});
+
+const StyledBadgesContainer = styled(BadgesContainer, {
+  base: {
+    marginBlockStart: "xsmall",
   },
 });
 
@@ -131,35 +126,33 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
   });
 
   return (
-    <ResourceWrapper>
-      <TextWrapper>
-        <StepSafeLink
-          to={`${config.ndlaFrontendDomain}/article/${selectedResource.articleId}`}
-          target="_blank"
-          css={linkOverlay.raw()}
-        >
-          <Text fontWeight="bold">
-            {selectedResource.title}
-            <ExternalLinkLine size="small" />
-          </Text>
-        </StepSafeLink>
-        {!!selectedResource.breadcrumbs && (
-          <CrumbText
-            textStyle="label.small"
-            color="text.subtle"
-            css={{ textAlign: "start" }}
-            aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
-          >
-            {selectedResource.breadcrumbs.join(" > ")}
-          </CrumbText>
-        )}
-        <BadgesContainer>
-          {listItemTraits.map((trait) => (
-            <Badge key={`${selectedResource.articleId}-${trait}`}>{trait}</Badge>
-          ))}
-        </BadgesContainer>
-      </TextWrapper>
-      <StyledHStack gap="medium">
+    <ListItemRoot>
+      <ListItemContent>
+        <TextWrapper>
+          <ListItemHeading asChild consumeCss css={linkOverlay.raw()}>
+            <SafeLink to={`${config.ndlaFrontendDomain}/article/${selectedResource.articleId}`} target="_blank">
+              {selectedResource.title}
+              <ExternalLinkLine size="small" />
+            </SafeLink>
+          </ListItemHeading>
+          {!!selectedResource.breadcrumbs && (
+            <CrumbText
+              textStyle="label.small"
+              color="text.subtle"
+              css={{ textAlign: "start" }}
+              aria-label={`${t("breadcrumb.breadcrumb")}: ${selectedResource.breadcrumbs.join(", ")}`}
+            >
+              {selectedResource.breadcrumbs.join(" > ")}
+            </CrumbText>
+          )}
+          <StyledBadgesContainer>
+            {listItemTraits.map((trait) => (
+              <Badge size="small" key={`${selectedResource.articleId}-${trait}`}>
+                {trait}
+              </Badge>
+            ))}
+          </StyledBadgesContainer>
+        </TextWrapper>
         <StyledIconButton
           id="remove-resource"
           aria-label={t("myNdla.learningpath.form.delete")}
@@ -169,7 +162,7 @@ export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentP
         >
           <DeleteBinLine />
         </StyledIconButton>
-      </StyledHStack>
-    </ResourceWrapper>
+      </ListItemContent>
+    </ListItemRoot>
   );
 };

@@ -12,9 +12,9 @@ import { useParams } from "react-router";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { PencilLine, CloseLine } from "@ndla/icons";
-import { Text } from "@ndla/primitives";
+import { ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { Stack, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 import { DraggableListItem } from "./DraggableListItem";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
@@ -31,26 +31,17 @@ export const DragWrapper = styled("div", {
   },
 });
 
-const ContentWrapper = styled("div", {
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    flexDirection: "column",
+  },
+});
+
+const TextWrapper = styled("div", {
   base: {
     display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottom: "1px solid",
-    borderColor: "stroke.subtle",
-    padding: "xsmall",
-  },
-  variants: {
-    editing: {
-      true: {
-        backgroundColor: "surface.subtle.selected",
-        borderInline: "1px solid",
-        borderBlockStart: "1px solid",
-        borderBlockEnd: "none",
-        borderColor: "stroke.discrete",
-        borderRadius: "unset",
-      },
-    },
+    flexDirection: "column",
+    gap: "4xsmall",
   },
 });
 
@@ -111,36 +102,38 @@ export const DraggableLearningpathStepListItem = ({
         tabIndex={stepId ? -1 : attributes.tabIndex}
       />
       <DragWrapper>
-        <ContentWrapper editing={isEditingStep}>
-          <Stack gap="xxsmall">
-            <Text fontWeight="bold" textStyle="label.medium">
-              {step.title}
-            </Text>
-            <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
-          </Stack>
-          {!isEditingStep ? (
-            <SafeLinkButton
-              variant="tertiary"
-              id={learningpathStepEditButtonId(step.id)}
-              to={routes.myNdla.learningpathEditStep(learningpathId, step.id)}
-              state={{ focusStepId: learningpathStepCloseButtonId(step.id) }}
-            >
-              {t("myNdla.learningpath.form.steps.edit")}
-              <PencilLine />
-            </SafeLinkButton>
-          ) : (
-            <SafeLinkButton
-              variant="tertiary"
-              id={learningpathStepCloseButtonId(step.id)}
-              to={routes.myNdla.learningpathEditSteps(learningpathId)}
-              state={{ focusStepId: learningpathStepEditButtonId(step.id) }}
-            >
-              <CloseLine />
-              {t("close")}
-            </SafeLinkButton>
-          )}
-        </ContentWrapper>
-        {!!isEditingStep && <LearningpathStepForm step={step} language={language} />}
+        <StyledListItemRoot nonInteractive>
+          <ListItemContent>
+            <TextWrapper>
+              <Text fontWeight="bold" textStyle="label.medium">
+                {step.title}
+              </Text>
+              <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
+            </TextWrapper>
+            {!isEditingStep ? (
+              <SafeLinkButton
+                variant="tertiary"
+                id={learningpathStepEditButtonId(step.id)}
+                to={routes.myNdla.learningpathEditStep(learningpathId, step.id)}
+                state={{ focusStepId: learningpathStepCloseButtonId(step.id) }}
+              >
+                {t("myNdla.learningpath.form.steps.edit")}
+                <PencilLine />
+              </SafeLinkButton>
+            ) : (
+              <SafeLinkButton
+                variant="tertiary"
+                id={learningpathStepCloseButtonId(step.id)}
+                to={routes.myNdla.learningpathEditSteps(learningpathId)}
+                state={{ focusStepId: learningpathStepEditButtonId(step.id) }}
+              >
+                <CloseLine />
+                {t("close")}
+              </SafeLinkButton>
+            )}
+          </ListItemContent>
+          {!!isEditingStep && <LearningpathStepForm step={step} language={language} />}
+        </StyledListItemRoot>
       </DragWrapper>
     </DraggableListItem>
   );

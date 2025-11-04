@@ -72,7 +72,7 @@ export const DraggableFolder = ({
     <DraggableListItem id={`folder-${folder.id}`} ref={setNodeRef} style={style} isDragging={isDragging}>
       <DragHandle sortableId={folder.id} disabled={items.length < 2} name={folder.name} type="folder" {...attributes} />
       <DragWrapper>
-        <Folder folder={folder} foldersCount={foldersCount} menu={menu} isFavorited={isFavorited} variant="subtle" />
+        <Folder folder={folder} foldersCount={foldersCount} menu={menu} isFavorited={isFavorited} />
       </DragWrapper>
     </DraggableListItem>
   );
