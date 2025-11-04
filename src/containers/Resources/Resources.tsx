@@ -258,6 +258,7 @@ Resources.fragments = {
           id
           coverphoto {
             url
+            metaUrl
           }
         }
         resourceTypes {
