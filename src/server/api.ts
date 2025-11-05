@@ -10,7 +10,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import { errors as oidcErrors } from "openid-client";
 import { matchPath } from "react-router";
-import { IMyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
+import { MyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
 import { getCookie } from "@ndla/util";
 import { generateOauthData } from "./helpers/oauthHelper";
 import { feideLogout, getFeideToken, getRedirectUrl } from "./helpers/openidHelper";
@@ -128,7 +128,7 @@ router.get("/login/success", async (req, res) => {
         FeideAuthorization: `Bearer ${token.access_token}`,
       },
     });
-    const userInfo = await resolveJsonOrRejectWithError<IMyNDLAUserDTO>(response);
+    const userInfo = await resolveJsonOrRejectWithError<MyNDLAUserDTO>(response);
     if (userInfo && userInfo.arenaEnabled) {
       const nodebbUser = {
         id: userInfo.feideId,

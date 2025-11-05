@@ -12,7 +12,7 @@ import { useApolloClient } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Button, FieldHelper } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { IFolderDTO } from "@ndla/types-backend/myndla-api";
+import { FolderDTO } from "@ndla/types-backend/myndla-api";
 import { GQLFolder } from "../../graphqlTypes";
 import { useAddFolderMutation } from "../../mutations/folder/folderMutations";
 import { getFolder, useFolders } from "../../mutations/folder/folderQueries";
@@ -38,7 +38,7 @@ const ButtonsWrapper = styled("div", {
 interface Props {
   parentFolder: GQLFolder;
   initialValue?: string;
-  onCreate?: (folder: IFolderDTO) => void;
+  onCreate?: (folder: FolderDTO) => void;
 }
 
 export const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) => {
@@ -73,7 +73,7 @@ export const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) 
         name,
       },
     });
-    const createdFolder = res.data?.addFolder as IFolderDTO | undefined;
+    const createdFolder = res.data?.addFolder as FolderDTO | undefined;
     if (createdFolder) {
       onCreate?.({ ...createdFolder, subfolders: [] });
       setOpen(false);
