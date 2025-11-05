@@ -39,13 +39,6 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
         <link rel="icon" type="image/png" sizes="32x32" href={`/static/favicon-${faviconEnvironment}-32x32.png`} />
         <link rel="icon" type="image/png" sizes="16x16" href={`/static/favicon-${faviconEnvironment}-16x16.png`} />
         <link
-          rel="preload"
-          href={`/locales/${language}/translation-${hash}.json`}
-          as="fetch"
-          type="application/json"
-          crossOrigin="anonymous"
-        />
-        <link
           rel="apple-touch-icon"
           type="image/png"
           sizes="180x180"
@@ -56,6 +49,16 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" as="style" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" />
+        {css.map((file) => (
+          <link rel="stylesheet" href={`/${file}`} key={file} />
+        ))}
+        <link
+          rel="preload"
+          href={`/locales/${language}/translation-${hash}.json`}
+          as="fetch"
+          type="application/json"
+          crossOrigin="anonymous"
+        />
       </head>
       <body>
         <script
@@ -103,9 +106,6 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
         ></script>
         <Scripts />
         {!!entryPoint && <script type="module" src={`/${entryPoint.file}`}></script>}
-        {css.map((file) => (
-          <link rel="stylesheet" href={`/${file}`} key={file} />
-        ))}
         {importedChunks.map((chunk) => (
           <link rel="modulepreload" href={`/${chunk.file}`} key={chunk.file}></link>
         ))}
