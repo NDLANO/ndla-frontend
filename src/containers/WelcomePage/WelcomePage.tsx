@@ -127,11 +127,17 @@ const StyledCardHeading = styled(CardHeading, {
   },
 });
 
+const StyledCardContent = styled(CardContent, {
+  base: {
+    paddingBlockStart: "medium",
+  },
+});
+
 const StyledCardRoot = styled(CardRoot, {
   base: {
-    _hover: {
-      borderColor: "stroke.subtle",
-    },
+    boxShadow: "none",
+    border: "1px solid",
+    borderColor: "stroke.subtle",
   },
   variants: {
     theme: {
@@ -301,9 +307,9 @@ export const WelcomePage = () => {
             <nav aria-label={t("welcomePage.quickLinks.title")} data-testid="quick-links">
               <StyledList variant="quickLink">
                 {quickLinks.map((link) => (
-                  <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} variant="subtle">
+                  <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} nonInteractive>
                     <li>
-                      <CardContent>
+                      <StyledCardContent>
                         <StyledCardHeading textStyle="heading.small" asChild consumeCss>
                           <SafeLink
                             to={link.url}
@@ -317,7 +323,7 @@ export const WelcomePage = () => {
                           </SafeLink>
                         </StyledCardHeading>
                         <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
-                      </CardContent>
+                      </StyledCardContent>
                     </li>
                   </StyledCardRoot>
                 ))}

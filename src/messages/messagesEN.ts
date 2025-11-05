@@ -91,6 +91,7 @@ const messages = {
   },
   topicsPage: {
     topics: "Topics",
+    multidisciplinaryLinksHeader: "Work multidisciplinary with the topic",
   },
   searchPage: {
     title: "Search on ndla.no",
@@ -775,6 +776,7 @@ const messages = {
   },
   subjectPage: {
     topicsTitle: "Topics in {{topic}}",
+    multidisciplinaryLinksHeader: "Work multidisciplinarily with the subject",
   },
   toolboxPage: {
     introduction:

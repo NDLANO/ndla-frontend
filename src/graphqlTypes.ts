@@ -1221,6 +1221,7 @@ export type GQLNode = GQLTaxBase &
     id: Scalars["String"]["output"];
     language?: Maybe<Scalars["String"]["output"]>;
     learningpath?: Maybe<GQLLearningpath>;
+    links?: Maybe<Array<GQLNode>>;
     meta?: Maybe<GQLMeta>;
     metadata: GQLTaxonomyMetadata;
     name: Scalars["String"]["output"];
@@ -2277,7 +2278,12 @@ export type GQLTransportationNode_NodeFragment = {
   name: string;
   url?: string;
   relevanceId?: string;
-  meta?: { __typename?: "Meta"; metaDescription?: string };
+  meta?: {
+    __typename?: "Meta";
+    metaDescription?: string;
+    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+  };
+  context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
 };
 
 export type GQLAudioLicenseList_AudioLicenseFragment = {
@@ -3215,8 +3221,8 @@ export type GQLLaunchpadQuery = {
     id: string;
     name: string;
     url?: string;
-    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
     children?: Array<{ __typename?: "Node"; id: string } & GQLResourceItem_NodeFragment>;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   };
 };
 
@@ -3425,6 +3431,7 @@ export type GQLSubjectContainer_NodeFragment = {
     parentIds: Array<string>;
     url: string;
   };
+  links?: Array<{ __typename?: "Node" } & GQLTransportationNode_NodeFragment>;
   nodes?: Array<{ __typename?: "Node" } & GQLTransportationNode_NodeFragment>;
   subjectpage?: {
     __typename?: "SubjectPage";
@@ -3460,18 +3467,6 @@ export type GQLSubjectPageQuery = {
     url?: string;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   }>;
-};
-
-export type GQLMultidisciplinaryArticleList_NodeFragment = {
-  __typename?: "Node";
-  id: string;
-  name: string;
-  url?: string;
-  meta?: {
-    __typename?: "Meta";
-    metaDescription?: string;
-    metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-  };
 };
 
 export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
@@ -3511,10 +3506,8 @@ export type GQLTopicContainer_NodeFragment = {
   name: string;
   contentUri?: string;
   url?: string;
-  children?: Array<
-    { __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment &
-      GQLMultidisciplinaryArticleList_NodeFragment
-  >;
+  links?: Array<{ __typename?: "Node" } & GQLTransportationNode_NodeFragment>;
+  children?: Array<{ __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment>;
 };
 
 export type GQLTopicPageQueryVariables = Exact<{

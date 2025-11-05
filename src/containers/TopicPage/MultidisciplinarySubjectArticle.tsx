@@ -84,15 +84,6 @@ const HeaderWrapper = styled("div", {
   },
 });
 
-const Divider = styled("div", {
-  base: {
-    width: "100%",
-    borderBottom: "1px solid",
-    borderColor: "stroke.default",
-    paddingBlockStart: "xsmall",
-  },
-});
-
 interface Props {
   node: GQLMultidisciplinarySubjectArticle_NodeFragment;
 }
@@ -193,7 +184,6 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
               subjects={subjectLinks}
             />
           )}
-          <Divider />
         </HeaderWrapper>
         <PageContent variant="content" gutters="never" asChild>
           <ArticleWrapper {...licenseProps}>

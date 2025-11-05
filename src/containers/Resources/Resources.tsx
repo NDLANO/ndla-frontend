@@ -51,8 +51,6 @@ const TitleWrapper = styled("div", {
     flexWrap: "wrap",
     justifyContent: "space-between",
     alignItems: "center",
-    borderBottom: "1px solid",
-    borderColor: "stroke.subtle",
     paddingBlockEnd: "3xsmall",
   },
 });

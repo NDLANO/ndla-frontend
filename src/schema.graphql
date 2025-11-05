@@ -977,6 +977,7 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   id: String!
   language: String
   learningpath: Learningpath
+  links: [Node!]
   meta: Meta
   metadata: TaxonomyMetadata!
   name: String!

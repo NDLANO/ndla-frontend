@@ -11,12 +11,11 @@ import { useContext, useEffect, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
-import { Badge, BleedPageContent, Heading, PageContent, Text } from "@ndla/primitives";
+import { Badge, Heading, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
-import { MultidisciplinaryArticleList } from "./MultidisciplinaryArticleList";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
@@ -48,7 +47,6 @@ const StyledTopicWrapper = styled(PageContent, {
   base: {
     paddingBlockStart: "xxlarge",
     gap: "xxlarge",
-    background: "surface.brand.1.subtle",
   },
 });
 
@@ -66,14 +64,9 @@ const HeaderWrapper = styled("div", {
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
+    background: "background.strong",
+    gap: "xxlarge",
     overflowX: "hidden",
-  },
-});
-
-const StyledTransportationPageNodeListGrid = styled(TransportationPageNodeListGrid, {
-  base: {
-    paddingBlockEnd: "xxlarge",
-    paddingBlockStart: "medium",
   },
 });
 
@@ -97,6 +90,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const { trackPageView } = useTracker();
   const headingId = useId();
+  const linksHeadingId = useId();
   const articleId = node.contentUri ? getArticleIdFromResource(node) : undefined;
 
   const metaTitle = useMemo(() => htmlTitle(node.name, [node.breadcrumbs[0]]), [node.breadcrumbs, node.name]);
@@ -130,6 +124,10 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
     const embedMeta = extractEmbedMeta(node.article.transformedContent?.visualElementEmbed.content);
     return embedMeta;
   }, [node?.article?.transformedContent?.visualElementEmbed?.content]);
+
+  const mainContext = useMemo(() => {
+    return subjectType === "multiDisciplinary" && node.context?.parents?.length === 2 ? "case" : "node";
+  }, [node.context?.parents?.length, subjectType]);
 
   return (
     <main>
@@ -183,27 +181,37 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
-        {subjectType === "multiDisciplinary" && node.context?.parents?.length === 2 && !!node.children?.length ? (
-          <MultidisciplinaryArticleList nodes={node.children} />
-        ) : node.children?.length ? (
+        {!!node.children?.length && (
           <NodeGridWrapper aria-labelledby={headingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={headingId}>
-              <h2>{t("topicsPage.topics")}</h2>
+              <h2>
+                {mainContext === "node"
+                  ? t("topicsPage.topics")
+                  : t("multidisciplinary.casesCount", { count: node.children.length })}
+              </h2>
             </Heading>
-            <StyledTransportationPageNodeListGrid>
+            <TransportationPageNodeListGrid context={mainContext}>
               {node.children.map((node) => (
-                <TransportationNode key={node.id} node={node} />
+                <TransportationNode key={node.id} node={node} context={mainContext} />
               ))}
-            </StyledTransportationPageNodeListGrid>
+            </TransportationPageNodeListGrid>
           </NodeGridWrapper>
-        ) : undefined}
+        )}
+        {!!node.links?.length && (
+          <NodeGridWrapper aria-labelledby={linksHeadingId}>
+            <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
+              <h2>{t("topicsPage.multidisciplinaryLinksHeader")}</h2>
+            </Heading>
+            <TransportationPageNodeListGrid context="case">
+              {node.links?.map((link) => (
+                <TransportationNode key={link.id} node={link} context="link" />
+              ))}
+            </TransportationPageNodeListGrid>
+          </NodeGridWrapper>
+        )}
         {!!node && (
           <NoSSR fallback={null}>
-            <BleedPageContent>
-              <PageContent variant="article">
-                <Resources parentId={node.id} rootId={node.context?.rootId} />
-              </PageContent>
-            </BleedPageContent>
+            <Resources parentId={node.id} rootId={node.context?.rootId} />
           </NoSSR>
         )}
         {!!node.article?.transformedContent.metaData?.images && (
@@ -221,13 +229,14 @@ TopicContainer.fragments = {
       name
       contentUri
       url
+      links {
+        ...TransportationNode_Node
+      }
       children(nodeType: "TOPIC") {
         id
         ...TransportationNode_Node
-        ...MultidisciplinaryArticleList_Node
       }
     }
     ${TransportationNode.fragments.node}
-    ${MultidisciplinaryArticleList.fragments.node}
   `,
 };

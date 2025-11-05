@@ -11,7 +11,16 @@ import { TFunction } from "i18next";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { AccordionRoot, Heading, PageContainer, PageContent, Text } from "@ndla/primitives";
+import {
+  AccordionRoot,
+  CardContent,
+  CardHeading,
+  CardRoot,
+  Heading,
+  PageContainer,
+  PageContent,
+  Text,
+} from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -28,7 +37,6 @@ import { LdJson } from "../../components/LdJson";
 import { LicenseBox } from "../../components/license/LicenseBox";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
-import { TransportationPageListItem } from "../../components/TransportationPage/TransportationpageListItem";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
 import { TransportationPageVisualElement } from "../../components/TransportationPage/TransportationPageVisualElement";
 import config from "../../config";
@@ -93,15 +101,6 @@ const HeaderWrapper = styled("div", {
     alignItems: "flex-start",
     height: "100%",
     paddingBlockEnd: "medium",
-  },
-});
-
-const StyledHeading = styled(Heading, {
-  base: {
-    textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
   },
 });
 
@@ -185,18 +184,20 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
           <StyledArticleContent>{transformedArticle.transformedContent.content}</StyledArticleContent>
         </ArticleWrapper>
         <NodeGridWrapper aria-label={t("aboutPage.menuItems")}>
-          <StyledTransportationPageNodeListGrid>
+          <StyledTransportationPageNodeListGrid context="node">
             {menuItems.map((item) => (
-              <TransportationPageListItem key={item.articleId}>
-                <StyledHeading asChild consumeCss textStyle="title.small">
-                  <SafeLink to={toAbout(item.article.slug)} unstyled css={linkOverlay.raw()}>
-                    {item.article.title}
-                  </SafeLink>
-                </StyledHeading>
-                {!!item.article.metaDescription.length && (
-                  <Text textStyle="body.large">{item.article.metaDescription}</Text>
-                )}
-              </TransportationPageListItem>
+              <CardRoot key={item.articleId} asChild consumeCss>
+                <li>
+                  <CardContent>
+                    <CardHeading asChild css={linkOverlay.raw()}>
+                      <SafeLink to={toAbout(item.article.slug)}>{item.article.title}</SafeLink>
+                    </CardHeading>
+                    {!!item.article.metaDescription.length && (
+                      <Text textStyle="body.large">{item.article.metaDescription}</Text>
+                    )}
+                  </CardContent>
+                </li>
+              </CardRoot>
             ))}
           </StyledTransportationPageNodeListGrid>
         </NodeGridWrapper>

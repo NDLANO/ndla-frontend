@@ -64,7 +64,6 @@ const StyledSubjectWrapper = styled(PageContent, {
   base: {
     paddingBlockStart: "xxlarge",
     gap: "xxlarge",
-    background: "surface.brand.1.subtle",
   },
 });
 
@@ -84,6 +83,8 @@ const StyledNav = styled("nav", {
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
+    background: "background.strong",
+    gap: "xxlarge",
     paddingBlockStart: "0",
     "& > :first-child": {
       marginBlockStart: "xxlarge",
@@ -120,6 +121,7 @@ export const SubjectContainer = ({ node, subjectType, loading }: Props) => {
   const { trackPageView } = useTracker();
   const about = node.subjectpage?.about;
   const headingId = useId();
+  const linksHeadingId = useId();
 
   useEffect(() => {
     if (!authContextLoaded || loading) return;
@@ -219,9 +221,21 @@ export const SubjectContainer = ({ node, subjectType, loading }: Props) => {
             <Heading id={headingId} textStyle="heading.small" asChild consumeCss>
               <h2>{t("topicsPage.topics")}</h2>
             </Heading>
-            <TransportationPageNodeListGrid>
+            <TransportationPageNodeListGrid context="node">
               {node.nodes.map((node) => (
-                <TransportationNode key={node.id} node={node} />
+                <TransportationNode key={node.id} node={node} context="node" />
+              ))}
+            </TransportationPageNodeListGrid>
+          </StyledNav>
+        )}
+        {!!node.links?.length && (
+          <StyledNav aria-labelledby={linksHeadingId}>
+            <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
+              <h2>{t("subjectPage.multidisciplinaryLinksHeader")}</h2>
+            </Heading>
+            <TransportationPageNodeListGrid context="case">
+              {node.links?.map((link) => (
+                <TransportationNode key={link.id} node={link} context="link" />
               ))}
             </TransportationPageNodeListGrid>
           </StyledNav>
@@ -253,6 +267,9 @@ export const subjectContainerFragments = {
         url
       }
       grepCodes
+      links {
+        ...TransportationNode_Node
+      }
       nodes: children(nodeType: "TOPIC") {
         ...TransportationNode_Node
       }
