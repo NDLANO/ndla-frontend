@@ -13,14 +13,14 @@ import { ImageSearch } from "@ndla/image-search";
 import { licenses } from "@ndla/licenses";
 import { Button, Image, Spinner, Text } from "@ndla/primitives";
 import { HStack, Stack, styled, VStack } from "@ndla/styled-system/jsx";
-import { IImageMetaInformationV3DTO, ISearchResultV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import { GQLImageFragment } from "../../../../graphqlTypes";
 import { useFetchImage, useImageSearch } from "../../imageQueries";
 
 interface Props {
   imageUrl: string;
-  onSelectImage: (image?: IImageMetaInformationV3DTO) => void;
+  onSelectImage: (image?: ImageMetaInformationV3DTO) => void;
 }
 
 export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
@@ -41,7 +41,7 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
 
   const onSearchImage = async (query?: string, page?: number) =>
     (await fetchImages({ variables: { query, page: page ?? 1, pageSize: 16, license: licenses.CC_BY_SA_4 } }))?.data
-      ?.imageSearch as ISearchResultV3DTO;
+      ?.imageSearch as SearchResultV3DTO;
 
   const onRemove = () => {
     onSelectImage(undefined);
