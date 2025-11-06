@@ -30,7 +30,7 @@ import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
 
-export const defaultRender: RenderFunc = async (req, chunks) => {
+export const defaultRender: RenderFunc = async (req, chunkInfo) => {
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);
   const locale = isValidLocale(abbreviation) ? abbreviation : (config.defaultLocale as LocaleType);
   if ((basename === "" && locale !== "nb") || (basename && basename !== locale)) {
@@ -52,12 +52,12 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
       locale,
       data: {
         htmlContent: renderToString(
-          <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} hash={hash} />,
+          <Document language={locale} chunkInfo={chunkInfo} devEntrypoint={entryPoints.default} hash={hash} />,
         ),
         data: {
-          config: { ...config, disableSSR: noSSR },
+          config: { ...config, disableSSR: true },
           siteTheme,
-          chunks,
+          chunkInfo,
           hash,
           serverPath: req.path,
           serverQuery: req.query,
@@ -84,7 +84,7 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
   const router = createStaticRouter(dataRoutes, context);
 
   const Page = (
-    <Document language={locale} chunks={chunks} devEntrypoint={entryPoints.default} hash={hash}>
+    <Document language={locale} chunkInfo={chunkInfo} devEntrypoint={entryPoints.default} hash={hash}>
       <RedirectContext value={redirectContext}>
         <I18nextProvider i18n={instance}>
           <ApolloProvider client={client}>
@@ -121,8 +121,8 @@ export const defaultRender: RenderFunc = async (req, chunks) => {
       htmlContent: result.result,
       data: {
         siteTheme: siteTheme,
-        chunks,
-        hash: stringifiedLanguages[locale].hash,
+        chunkInfo,
+        hash,
         serverResponse: redirectContext.status ?? undefined,
         serverPath: req.path,
         serverQuery: req.query,

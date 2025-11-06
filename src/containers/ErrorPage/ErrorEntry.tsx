@@ -18,7 +18,7 @@ import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
 import { renderOrHydrate } from "../../util/renderOrHydrate";
 import { initSentry } from "../../util/sentry";
 
-const { config, serverPath, chunks, hash } = window.DATA;
+const { config, serverPath, chunkInfo, hash } = window.DATA;
 
 initSentry(config);
 
@@ -29,7 +29,7 @@ const router = createBrowserRouter(errorRoutes);
 
 renderOrHydrate(
   document,
-  <Document language={abbreviation} chunks={chunks} devEntrypoint={entryPoints.error} hash={hash}>
+  <Document language={abbreviation} chunkInfo={chunkInfo} devEntrypoint={entryPoints.error} hash={hash}>
     <I18nextProvider i18n={i18n}>
       <MissingRouterContext value={true}>
         <SiteThemeProvider value={window.DATA.siteTheme}>

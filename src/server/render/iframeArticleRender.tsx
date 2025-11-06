@@ -28,7 +28,7 @@ import { RenderFunc } from "../serverHelpers";
 
 const { query, dataRoutes } = createStaticHandler(iframeArticleRoutes);
 
-export const iframeArticleRender: RenderFunc = async (req, chunks) => {
+export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
   const lang = req.params.lang ?? "";
   const htmlLang = getHtmlLang(lang);
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
@@ -52,13 +52,13 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
         htmlContent: renderToString(
           <Document
             language={locale ?? config.defaultLocale}
-            chunks={chunks}
+            chunkInfo={chunkInfo}
             devEntrypoint={entryPoints.iframeArticle}
             hash={hash}
           />,
         ),
         data: {
-          chunks,
+          chunkInfo,
           config: { ...config, disableSSR: true },
           initialProps,
           hash,
@@ -83,7 +83,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
   const Page = (
     <Document
       language={locale ?? config.defaultLocale}
-      chunks={chunks}
+      chunkInfo={chunkInfo}
       devEntrypoint={entryPoints.iframeArticle}
       hash={hash}
     >
@@ -116,7 +116,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunks) => {
     data: {
       htmlContent: result.result,
       data: {
-        chunks,
+        chunkInfo,
         apolloState,
         config: {
           ...config,

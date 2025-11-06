@@ -19,7 +19,7 @@ import { createApolloClient } from "../util/apiHelpers";
 import { renderOrHydrate } from "../util/renderOrHydrate";
 import { initSentry } from "../util/sentry";
 
-const { config, initialProps, chunks, hash } = window.DATA;
+const { config, initialProps, chunkInfo, hash } = window.DATA;
 
 initSentry(config);
 
@@ -32,7 +32,7 @@ const router = createBrowserRouter(iframeEmbedRoutes);
 
 renderOrHydrate(
   document,
-  <Document language={language} chunks={chunks} devEntrypoint={entryPoints.iframeEmbed} hash={hash}>
+  <Document language={language} chunkInfo={chunkInfo} devEntrypoint={entryPoints.iframeEmbed} hash={hash}>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <MissingRouterContext value={true}>

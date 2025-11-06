@@ -7,31 +7,20 @@
  */
 
 import { ReactNode } from "react";
-import type { ManifestChunk } from "vite";
 import { Scripts } from "./components/Scripts/Scripts";
 import config from "./config";
+import { RouteChunkInfo } from "./server/serverHelpers";
 
 interface Props {
   language: string;
   hash: string;
   children?: ReactNode;
-  chunks?: ManifestChunk[];
+  chunkInfo: RouteChunkInfo;
   devEntrypoint: string;
 }
 
-const getUniqueCss = (chunks: ManifestChunk[]) => {
-  const uniq = chunks.reduce((acc, curr) => {
-    curr.css?.forEach((css) => acc.add(css));
-    return acc;
-  }, new Set<string>());
-  return Array.from(uniq);
-};
-
-export const Document = ({ language, hash, children, chunks = [], devEntrypoint }: Props) => {
+export const Document = ({ language, hash, children, chunkInfo, devEntrypoint }: Props) => {
   const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
-
-  const [entryPoint, ...importedChunks] = chunks;
-  const css = getUniqueCss(chunks);
 
   return (
     <html lang={language}>
@@ -49,7 +38,7 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" as="style" />
         <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@1&display=swap" />
-        {css.map((file) => (
+        {chunkInfo.css?.map((file) => (
           <link rel="stylesheet" href={`/${file}`} key={file} />
         ))}
         <link
@@ -105,9 +94,9 @@ export const Document = ({ language, hash, children, chunks = [], devEntrypoint 
           }}
         ></script>
         <Scripts />
-        {!!entryPoint && <script type="module" src={`/${entryPoint.file}`}></script>}
-        {importedChunks.map((chunk) => (
-          <link rel="modulepreload" href={`/${chunk.file}`} key={chunk.file}></link>
+        {!!chunkInfo.entryPoint && <script type="module" src={`/${chunkInfo.entryPoint}`}></script>}
+        {chunkInfo.importedChunks?.map((chunk) => (
+          <link rel="modulepreload" href={`/${chunk}`} key={chunk}></link>
         ))}
         <div id="root">{children}</div>
       </body>
