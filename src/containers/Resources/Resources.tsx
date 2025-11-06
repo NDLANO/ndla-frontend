@@ -6,7 +6,7 @@
  *
  */
 
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
@@ -29,6 +29,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
 } from "../../constants";
 import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
+import { useLocalStorage } from "../../util/useLocalStorage";
 
 interface Props {
   currentResourceId?: string;
@@ -90,7 +91,7 @@ const StyledResourceList = styled("ol", {
 });
 
 export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
-  const [showAdditionalResources, setShowAdditionalResources] = useState(false);
+  const [showAdditionalResources, setShowAdditionalResources] = useLocalStorage("showAdditionalResources", "false");
   const { t } = useTranslation();
   const navHeadingId = useId();
 
@@ -111,18 +112,6 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
       ),
     [node?.children, node?.metadata.customFields],
   );
-
-  useEffect(() => {
-    const showAdditional = window.localStorage?.getItem("showAdditionalResources");
-    setShowAdditionalResources(showAdditional === "true");
-  }, []);
-
-  const toggleAdditionalResources = useCallback(() => {
-    setShowAdditionalResources((prev) => {
-      window?.localStorage?.setItem("showAdditionalResources", `${!prev}`);
-      return !prev;
-    });
-  }, []);
 
   const supplementaryResourcesCount = useMemo(
     () => node?.children?.filter((r) => r.relevanceId === RELEVANCE_SUPPLEMENTARY).length ?? 0,
@@ -151,7 +140,10 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
           <Text textStyle="label.medium">{node?.name}</Text>
         </StyledHGroup>
         {!!supplementaryResourcesCount && (
-          <StyledSwitchRoot checked={showAdditionalResources} onCheckedChange={toggleAdditionalResources}>
+          <StyledSwitchRoot
+            checked={showAdditionalResources === "true"}
+            onCheckedChange={(details) => setShowAdditionalResources(details.checked.toString())}
+          >
             <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
             <SwitchControl>
               <SwitchThumb />
@@ -167,7 +159,7 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
               key={resource.id}
               resource={resource}
               active={currentResourceId === resource.id}
-              showAdditionalResources={showAdditionalResources}
+              showAdditionalResources={showAdditionalResources === "true"}
               contentType={resource.contentType}
             />
           ))}
