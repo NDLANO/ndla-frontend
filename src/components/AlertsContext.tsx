@@ -6,12 +6,12 @@
  *
  */
 
-import { createContext, ReactNode, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, ReactNode, useContext, useCallback, useMemo } from "react";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { partition, uniq } from "@ndla/util";
-import { GQLAlertsQuery, GQLAlertsQueryVariables, GQLUptimeAlert } from "../graphqlTypes";
-import { log } from "../util/logger/logger";
+import { uniq } from "@ndla/util";
+import { GQLAlertsQuery, GQLAlertsQueryVariables } from "../graphqlTypes";
+import { useLocalStorage } from "../util/useLocalStorage";
 
 interface AlertsContextProps {
   openAlerts: GQLAlertsQuery["alerts"];
@@ -27,41 +27,6 @@ interface Props {
   children: ReactNode;
 }
 
-const getClosedAlerts = (): number[] => {
-  try {
-    const stored = localStorage?.getItem("closedAlerts");
-    if (stored) {
-      const ids = JSON.parse(stored);
-      if (Array.isArray(ids)) {
-        return ids;
-      }
-    }
-    return [];
-  } catch {
-    log.error("Could not read closedAlerts from localStorage.");
-    return [];
-  }
-};
-
-const setClosedAlert = (id: number) => {
-  try {
-    const stored = getClosedAlerts();
-    const updated = uniq([...stored, id]);
-    localStorage?.setItem("closedAlerts", JSON.stringify(updated));
-  } catch {
-    log.error("Could not save closedAlerts to localStorage.");
-  }
-};
-
-const setClosedAlerts = (alerts: GQLUptimeAlert[]) => {
-  try {
-    const ids = alerts.map((alert) => alert.number);
-    localStorage.setItem("closedAlerts", JSON.stringify(ids));
-  } catch {
-    log.error("Could not save closedAlerts to localStorage.");
-  }
-};
-
 export const alertsQuery = gql`
   query alerts {
     alerts {
@@ -74,33 +39,33 @@ export const alertsQuery = gql`
 `;
 
 const AlertsProvider = ({ children }: Props) => {
-  const [openAlerts, setOpenAlerts] = useState<GQLUptimeAlert[]>([]);
+  const [closedAlerts, setClosedAlerts] = useLocalStorage("closedAlerts", "[]");
   const { data: { alerts } = {} } = useQuery<GQLAlertsQuery, GQLAlertsQueryVariables>(alertsQuery, {
     pollInterval: 10 * 60 * 1000,
     skip: typeof window === "undefined",
   });
 
-  const closeAlert = useCallback((id: number) => {
-    setClosedAlert(id);
-    setOpenAlerts((prev) => prev.filter((alert) => alert.number !== id));
-  }, []);
-
-  useEffect(() => {
-    if (alerts) {
-      const closedIds = getClosedAlerts();
-      if (closedIds.length > 0) {
-        const [closedAlerts, openAlerts] = partition(
-          alerts,
-          (alert) => closedIds.includes(alert.number) && alert.closable,
-        );
-        setOpenAlerts(openAlerts);
-        setClosedAlerts(closedAlerts);
-        return;
-      }
-
-      setOpenAlerts(alerts);
+  const closedIds = useMemo(() => {
+    if (!closedAlerts) return [];
+    try {
+      const parsed = JSON.parse(closedAlerts);
+      if (Array.isArray(parsed) && parsed.every((id) => typeof id === "number")) return parsed;
+      return [];
+    } catch (e) {
+      return [];
     }
-  }, [alerts]);
+  }, [closedAlerts]);
+
+  const openAlerts = useMemo(() => {
+    return alerts?.filter((alert) => !closedIds.includes(alert.number)) || [];
+  }, [alerts, closedIds]);
+
+  const closeAlert = useCallback(
+    (id: number) => {
+      setClosedAlerts(JSON.stringify(uniq(closedIds.concat(id))));
+    },
+    [closedIds, setClosedAlerts],
+  );
 
   return <AlertsContext value={{ openAlerts, closeAlert }}>{children}</AlertsContext>;
 };
