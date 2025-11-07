@@ -9,7 +9,7 @@
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, FacebookCircleFill } from "@ndla/icons";
-import { Heading, NdlaLogoEn, NdlaLogoNb, NdlaLogoText, PageContent, Text } from "@ndla/primitives";
+import { Heading, NdlaLogoText, PageContent, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
@@ -223,12 +223,19 @@ const logoStyle = css.raw({
   },
 });
 
-const desktopLogoStyle = css.raw({
-  display: "none",
-  width: "120px",
-  height: "300px",
-  tablet: {
-    display: "block",
+const DesktopSvg = styled("svg", {
+  base: {
+    display: "none",
+    color: "icon.onAction",
+    flexShrink: "0",
+    width: "120px",
+    height: "300px",
+    _print: {
+      color: "icon.strong",
+    },
+    tablet: {
+      display: "block",
+    },
   },
 });
 
@@ -248,8 +255,6 @@ const MobileLogo = styled(NdlaLogoText, {
 export const Footer = () => {
   const { t, i18n } = useTranslation();
   const siteTheme = useSiteTheme();
-
-  const Logo = i18n.language === "en" ? NdlaLogoEn : NdlaLogoNb;
 
   const commonLinks = [
     {
@@ -323,7 +328,9 @@ export const Footer = () => {
               </Text>
             </div>
           </ContentWrapper>
-          <Logo css={[logoStyle, desktopLogoStyle]} />
+          <DesktopSvg width={163} height={383} aria-hidden>
+            <use href={`/static/ndla-logo-${i18n.language === "en" ? "en" : "nb"}.svg#icon`} />
+          </DesktopSvg>
           <MobileLogo css={logoStyle} width={undefined} height={undefined} preserveAspectRatio="xMidYMid meet" />
         </FooterWrapper>
       </PageContent>
