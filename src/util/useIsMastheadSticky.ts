@@ -16,11 +16,11 @@ const subscribe = (callback: () => void) => {
 
 const getSnapshot = () => {
   const masthead = document.getElementById("masthead");
-  if (!masthead) return false;
+  if (!masthead) return true;
   return getComputedStyle(masthead).position === "sticky";
 };
 
-const getServerSnapshot = () => false;
+const getServerSnapshot = () => true;
 
 export const useIsMastheadSticky = () => {
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
