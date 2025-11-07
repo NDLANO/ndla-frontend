@@ -35,13 +35,7 @@ export const getAlternateUrl = (pathname: string, alternateLanguage: string) => 
 };
 
 export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
-  if (!trackableContent || !trackableContent.supportedLanguages) {
-    return preferredLanguages;
-  }
-  if (trackableContent?.supportedLanguages?.length === 0) {
-    return [];
-  }
-  return trackableContent.supportedLanguages.filter((language) => isValidLocale(language));
+  return trackableContent?.supportedLanguages?.filter((lng) => isValidLocale(lng)) ?? preferredLanguages;
 };
 
 interface TrackableContent {
