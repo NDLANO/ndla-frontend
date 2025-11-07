@@ -341,7 +341,7 @@ export const MastheadSearch = () => {
         const nodeType =
           result.__typename === "NodeSearchResult" ? "subject" : result.url.startsWith("/e/") ? "topic" : undefined;
         let contentType: string | undefined = nodeType;
-        if (context?.resourceTypes) {
+        if (context?.resourceTypes?.length) {
           contentType = contentTypeMapping[context?.resourceTypes?.[0]?.id ?? "default"];
         }
 

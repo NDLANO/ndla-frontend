@@ -89,7 +89,9 @@ export const SearchResult = ({ searchResult }: Props) => {
 
   const listItemTraits = useListItemTraits({
     relevanceId: context?.relevanceId,
-    contentType: context?.resourceTypes ? contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"] : nodeType,
+    contentType: context?.resourceTypes?.length
+      ? contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]
+      : nodeType,
     resourceType: nodeType,
     resourceTypes: context?.resourceTypes,
     traits:
