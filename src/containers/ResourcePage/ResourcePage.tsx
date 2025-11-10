@@ -136,7 +136,7 @@ export const ResourcePage = () => {
     }
   }
 
-  if (isLearningPathResource(data.node)) {
+  if (isLearningPathResource(data.node.contentUri)) {
     return (
       <LearningpathPage
         key={data.node.url}
