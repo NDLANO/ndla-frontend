@@ -9,47 +9,76 @@
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Additional } from "@ndla/icons";
-import { Heading, Text } from "@ndla/primitives";
+import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { TransportationPageListItem } from "./TransportationpageListItem";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLTransportationNode_NodeFragment } from "../../graphqlTypes";
+import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 interface Props {
   node: GQLTransportationNode_NodeFragment;
+  context: "case" | "link" | "node";
 }
 
-const StyledHeading = styled(Heading, {
+const StyledText = styled(Text, {
   base: {
-    textDecoration: "underline",
-    _hover: {
-      textDecoration: "none",
-    },
+    flex: "1",
   },
 });
 
-const StyledAdditional = styled(Additional, {
+const StyledCardHeading = styled(CardHeading, {
   base: {
-    marginInlineStart: "3xsmall",
+    display: "flex",
+    gap: "3xsmall",
+    alignItems: "center",
   },
 });
 
-export const TransportationNode = ({ node }: Props) => {
+const TextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4xsmall",
+  },
+});
+
+export const TransportationNode = ({ node, context }: Props) => {
   const { t } = useTranslation();
+  const parent = node.context?.breadcrumbs?.at(-2);
   return (
-    <TransportationPageListItem>
-      <StyledHeading asChild consumeCss textStyle="title.small">
-        <SafeLink to={node.url ?? ""} unstyled css={linkOverlay.raw()}>
-          {node.name}
-          {node.relevanceId === RELEVANCE_SUPPLEMENTARY && (
-            <StyledAdditional aria-label={t("resource.additionalTooltip")} title={t("resource.additionalTooltip")} />
-          )}
-        </SafeLink>
-      </StyledHeading>
-      {!!node.meta?.metaDescription?.length && <Text textStyle="body.large">{node.meta.metaDescription}</Text>}
-    </TransportationPageListItem>
+    <CardRoot asChild consumeCss>
+      <li>
+        {!!(context !== "node" && !!node.meta?.metaImage) && (
+          <CardImage
+            src={node.meta.metaImage.url}
+            alt={node.meta.metaImage.alt}
+            height={200}
+            fallbackWidth={360}
+            fallbackElement={<ContentTypeFallbackIcon />}
+          />
+        )}
+        <CardContent>
+          <TextWrapper>
+            {context === "link" && (
+              <Text textStyle="label.medium" color="text.subtle">
+                {parent}
+              </Text>
+            )}
+            <StyledCardHeading asChild css={linkOverlay.raw()}>
+              <SafeLink to={node.url ?? ""}>
+                {node.name}
+                {node.relevanceId === RELEVANCE_SUPPLEMENTARY && (
+                  <Additional aria-label={t("resource.additionalTooltip")} title={t("resource.additionalTooltip")} />
+                )}
+              </SafeLink>
+            </StyledCardHeading>
+          </TextWrapper>
+          {context !== "link" && <StyledText textStyle="body.large">{node.meta?.metaDescription ?? ""}</StyledText>}
+        </CardContent>
+      </li>
+    </CardRoot>
   );
 };
 
@@ -62,6 +91,14 @@ TransportationNode.fragments = {
       relevanceId
       meta {
         metaDescription
+        metaImage {
+          url
+          alt
+        }
+      }
+      context {
+        contextId
+        breadcrumbs
       }
     }
   `,

@@ -91,6 +91,7 @@ const messages = {
   },
   topicsPage: {
     topics: "Emne",
+    multidisciplinaryLinksHeader: "Jobb tverrfagleg med emnet",
   },
   searchPage: {
     title: "Søk på ndla.no",
@@ -772,6 +773,7 @@ const messages = {
   },
   subjectPage: {
     topicsTitle: "Emne i {{topic}}",
+    multidisciplinaryLinksHeader: "Jobb tverrfagleg med faget",
   },
   toolboxPage: {
     introduction:

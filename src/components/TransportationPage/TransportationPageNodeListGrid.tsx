@@ -12,18 +12,24 @@ export const TransportationPageNodeListGrid = styled("ol", {
   base: {
     listStyle: "none",
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)",
     gap: "medium",
-    "&:has(> :only-child)": {
-      gridTemplateColumns: "1fr",
-    },
-    "&:has(> :last-child:nth-child(2))": {
+    desktopDown: {
       gridTemplateColumns: "repeat(2, 1fr)",
     },
-    tabletWideDown: {
+    tabletDown: {
       gridTemplateColumns: "1fr",
-      "&:has(> :last-child:nth-child(2))": {
-        gridTemplateColumns: "repeat(1, 1fr)",
+    },
+  },
+  defaultVariants: {
+    context: "node",
+  },
+  variants: {
+    context: {
+      case: {
+        gridTemplateColumns: "repeat(4, 1fr)",
+      },
+      node: {
+        gridTemplateColumns: "repeat(3, 1fr)",
       },
     },
   },

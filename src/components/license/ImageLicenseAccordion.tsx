@@ -16,7 +16,6 @@ import {
   AccordionRoot,
   Heading,
 } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { ImageLicenseList } from "./ImageLicenseList";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 
@@ -24,21 +23,11 @@ type Props = {
   imageLicenses: GQLImageLicenseList_ImageLicenseFragment[];
 };
 
-const StyledAccordionRoot = styled(AccordionRoot, {
-  base: {
-    marginBlockStart: "3xlarge",
-    width: "2/3",
-    tabletWideDown: {
-      width: "100%",
-    },
-  },
-});
-
 export const ImageLicenseAccordion = ({ imageLicenses }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <StyledAccordionRoot multiple>
+    <AccordionRoot multiple>
       <AccordionItem value={"rulesForUse"}>
         <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
           <h2>
@@ -54,6 +43,6 @@ export const ImageLicenseAccordion = ({ imageLicenses }: Props) => {
           <ImageLicenseList images={imageLicenses} />
         </AccordionItemContent>
       </AccordionItem>
-    </StyledAccordionRoot>
+    </AccordionRoot>
   );
 };
