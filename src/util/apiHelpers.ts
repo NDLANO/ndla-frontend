@@ -35,15 +35,8 @@ import config from "../config";
 import { GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
 import { NOT_FOUND } from "../statusCodes";
 
-const apiBaseUrl = (() => {
-  if (config.runtimeType === "test") {
-    return "http://ndla-api";
-  }
-
-  const NDLA_API_URL = !config.isClient ? config.ndlaApiUrl : window.DATA.config.ndlaApiUrl;
-
-  return NDLA_API_URL;
-})();
+const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
+const uri = config.localGraphQLApi ? "http://localhost:4000/graphql-api/graphql" : `${apiBaseUrl}/graphql-api/graphql`;
 
 export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
@@ -65,13 +58,6 @@ export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | unde
       .catch(reject);
   });
 }
-
-const uri = (() => {
-  if (config.localGraphQLApi) {
-    return "http://localhost:4000/graphql-api/graphql";
-  }
-  return apiResourceUrl("/graphql-api/graphql");
-})();
 
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
@@ -98,7 +84,7 @@ const typePolicies: TypePolicies = {
             ),
           );
 
-          if (refs && refs.every((ref) => canRead(ref))) {
+          if (refs?.every((ref) => canRead(ref))) {
             return refs;
           }
           return undefined;
