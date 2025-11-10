@@ -16,7 +16,6 @@ import { disableSSR } from "./renderHelpers";
 import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
 import config from "../../config";
 import { Document } from "../../Document";
-import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, isValidLocale } from "../../i18n";
 import { iframeArticleRoutes } from "../../iframe/iframeArticleRoutes";
 import { LocaleType } from "../../interfaces";
@@ -50,12 +49,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
       locale: locale ?? (config.defaultLocale as LocaleType),
       data: {
         htmlContent: renderToString(
-          <Document
-            language={locale ?? config.defaultLocale}
-            chunkInfo={chunkInfo}
-            devEntrypoint={entryPoints.iframeArticle}
-            hash={hash}
-          />,
+          <Document language={locale ?? config.defaultLocale} chunkInfo={chunkInfo} hash={hash} />,
         ),
         data: {
           chunkInfo,
@@ -81,12 +75,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
   const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
-    <Document
-      language={locale ?? config.defaultLocale}
-      chunkInfo={chunkInfo}
-      devEntrypoint={entryPoints.iframeArticle}
-      hash={hash}
-    >
+    <Document language={locale ?? config.defaultLocale} chunkInfo={chunkInfo} hash={hash}>
       <RedirectContext value={context}>
         <I18nextProvider i18n={i18n}>
           <ApolloProvider client={client}>

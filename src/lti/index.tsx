@@ -13,7 +13,6 @@ import { ApolloProvider } from "@apollo/client/react";
 import "../style/index.css";
 import { LtiContextProvider } from "../components/LtiContext";
 import { Document } from "../Document";
-import { entryPoints } from "../entrypoints";
 import { initializeI18n } from "../i18n";
 import { routes } from "./routes";
 import { createApolloClient } from "../util/apiHelpers";
@@ -33,7 +32,7 @@ const router = createMemoryRouter(routes);
 
 const root = createRoot(document);
 root.render(
-  <Document language={language} devEntrypoint={entryPoints.lti} chunkInfo={chunkInfo} hash={hash}>
+  <Document language={language} chunkInfo={chunkInfo} hash={hash}>
     <LtiContextProvider ltiData={initialProps.ltiData}>
       <I18nextProvider i18n={i18n}>
         <ApolloProvider client={client}>

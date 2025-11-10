@@ -20,7 +20,6 @@ import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { Document } from "../../Document";
-import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, isValidLocale } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
@@ -51,9 +50,7 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
       status: OK,
       locale,
       data: {
-        htmlContent: renderToString(
-          <Document language={locale} chunkInfo={chunkInfo} devEntrypoint={entryPoints.default} hash={hash} />,
-        ),
+        htmlContent: renderToString(<Document language={locale} chunkInfo={chunkInfo} hash={hash} />),
         data: {
           config: { ...config, disableSSR: true },
           siteTheme,
@@ -84,7 +81,7 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
   const router = createStaticRouter(dataRoutes, context);
 
   const Page = (
-    <Document language={locale} chunkInfo={chunkInfo} devEntrypoint={entryPoints.default} hash={hash}>
+    <Document language={locale} chunkInfo={chunkInfo} hash={hash}>
       <RedirectContext value={redirectContext}>
         <I18nextProvider i18n={instance}>
           <ApolloProvider client={client}>
