@@ -6,20 +6,23 @@
  *
  */
 
+import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { Heading, Text } from "@ndla/primitives";
+import { Badge, CardContent, CardHeading, CardImage, CardRoot, Heading, Text } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { HelmetWithTracker } from "@ndla/tracker";
+import { BadgesContainer } from "@ndla/ui";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import { MovedNodeCard } from "../../components/MovedNodeCard";
 import { NavigationBox } from "../../components/NavigationBox";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { contentTypeMapping } from "../../util/getContentType";
-import { getListItemTraits } from "../../util/listItemTraits";
+import { useListItemTraits } from "../../util/listItemTraits";
 
 interface Props {
   resource: GQLMovedResourcePage_NodeFragment;
@@ -40,6 +43,13 @@ const StyledHeading = styled(Heading, {
   },
 });
 
+const StyledCardRoot = styled(CardRoot, {
+  base: {
+    height: "100%",
+    width: "360px",
+  },
+});
+
 const movedResourceQuery = gql`
   query movedResource($resourceId: String!) {
     resource: node(id: $resourceId) {
@@ -54,41 +64,16 @@ const movedResourceQuery = gql`
 
 export const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
-  const isLearningpath = !!resource.learningpath;
 
   const { error, loading, data } = useQuery<GQLMovedResourceQuery>(movedResourceQuery, {
     variables: { resourceId: resource.id },
   });
 
-  const convertResourceToResult = (resource: GQLMovedResourcePage_NodeFragment) => {
-    const resultId = isLearningpath ? resource.learningpath?.id : resource.article?.id;
-    if (!resultId) return undefined;
-
-    const ingress = isLearningpath ? resource.learningpath?.description : resource.article?.metaDescription;
-    const metaImage = isLearningpath
-      ? { url: resource.learningpath?.coverphoto?.url, alt: "" }
-      : resource.article?.metaImage;
-    const contentType = resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t);
-
-    const traits = getListItemTraits(
-      { resourceTypes: resource.resourceTypes, traits: resource.article?.traits, contentType },
-      t,
-    );
-
-    return {
-      id: resultId,
-      title: resource.name,
-      url: resource.url ?? "",
-      ingress: ingress ?? "",
-      metaImage,
-      breadcrumbs: resource.breadcrumbs,
-      traits,
-      roots: data?.resource?.contexts.map(({ breadcrumbs, url }) => ({
-        url: url,
-        title: breadcrumbs[0] ?? "",
-      })),
-    };
-  };
+  const traits = useListItemTraits({
+    resourceTypes: resource.resourceTypes,
+    traits: resource.article?.traits,
+    contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
+  });
 
   if (loading) {
     return null;
@@ -98,11 +83,13 @@ export const MovedResourcePage = ({ resource }: Props) => {
     return <DefaultErrorMessagePage />;
   }
 
-  const result = convertResourceToResult(resource);
-  const navigationBoxItems = result?.roots?.map((root) => ({
-    label: root.title ?? "",
-    url: root.url ?? "",
-  }));
+  const resourceId = resource.learningpath?.id ?? resource.article?.id;
+  const ingress = resource.learningpath?.description ?? resource.article?.metaDescription ?? "";
+  const image = resource.learningpath?.coverphoto ?? resource.article?.metaImage;
+
+  const navigationBoxItems = data?.resource?.contexts.map((ctx) => {
+    return { url: ctx.url ?? "", label: ctx.breadcrumbs[0] ?? "" };
+  });
 
   return (
     <PageContainer>
@@ -111,17 +98,32 @@ export const MovedResourcePage = ({ resource }: Props) => {
       </HelmetWithTracker>
       <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
-          {result ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
+          {resourceId ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}
         </StyledHeading>
-        {result ? (
-          <MovedNodeCard
-            title={result.title}
-            url={result.url}
-            ingress={result.ingress}
-            metaImage={result.metaImage}
-            breadcrumbs={result.breadcrumbs}
-            traits={result.traits}
-          />
+        {resourceId ? (
+          <StyledCardRoot>
+            {!!image?.url && <CardImage alt={"alt" in image ? image.alt : ""} src={image.url} />}
+            <CardContent>
+              <CardHeading asChild consumeCss>
+                <SafeLink to={resource.url ?? ""} unstyled css={linkOverlay.raw()}>
+                  {resource.name}
+                </SafeLink>
+              </CardHeading>
+              {!!ingress && <Text>{parse(ingress)}</Text>}
+              {!!resource.breadcrumbs && (
+                <Text color="text.subtle" textStyle="label.small">
+                  {resource.breadcrumbs.join(" › ")}
+                </Text>
+              )}
+              <BadgesContainer>
+                {traits.map((trait) => (
+                  <Badge size="small" key={trait}>
+                    {trait}
+                  </Badge>
+                ))}
+              </BadgesContainer>
+            </CardContent>
+          </StyledCardRoot>
         ) : (
           <Text>{t("searchPage.searchResultListMessages.noResultDescription")}</Text>
         )}
