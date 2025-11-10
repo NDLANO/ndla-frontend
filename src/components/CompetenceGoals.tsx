@@ -7,7 +7,7 @@
  */
 
 import parse from "html-react-parser";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
@@ -128,7 +128,6 @@ const competenceGoalsQuery = gql`
 `;
 
 export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => {
-  const [competenceGoalsLoading, setCompetenceGoalsLoading] = useState(true);
   const { t, i18n } = useTranslation();
   const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
 
@@ -137,7 +136,11 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
     skip: typeof window === "undefined",
   });
 
-  useEffect(() => setCompetenceGoalsLoading(loading), [loading, setCompetenceGoalsLoading]);
+  const competenceGoalsLoading = useSyncExternalStore(
+    () => () => {},
+    () => loading,
+    () => true,
+  );
 
   const tabs = useMemo(() => {
     const tabs = [];

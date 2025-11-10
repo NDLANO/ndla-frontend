@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, ReactNode, useEffect, useState } from "react";
+import { createContext, ReactNode, useMemo, useSyncExternalStore } from "react";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
@@ -64,36 +64,35 @@ const myNdlaQuery = gql`
   ${personalDataQueryFragment}
 `;
 
+const timeoutSubscribe = (callback: VoidFunction) => {
+  const ms = millisUntilExpiration();
+  const timeout = setTimeout(callback, ms);
+  return () => clearTimeout(timeout);
+};
+
 export const AuthenticationContext = ({ children }: Props) => {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [authContextLoaded, setLoaded] = useState(false);
-  const [user, setUser] = useState<GQLMyNdlaPersonalDataFragmentFragment | undefined>(undefined);
-  const [examLock, setExamLock] = useState(false);
+  const authenticated = useSyncExternalStore(timeoutSubscribe, isAccessTokenValid, () => false);
 
   const myNdlaData = useQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
-    skip: typeof window === "undefined" || !isAccessTokenValid(),
+    skip: typeof window === "undefined" || !authenticated,
   });
 
-  useEffect(() => {
-    const isValid = isAccessTokenValid();
-    setAuthenticated(isValid);
+  const authContextLoaded = useMemo(() => {
+    return myNdlaData.loading === false;
+  }, [myNdlaData.loading]);
 
-    if (!!myNdlaData.data && isValid && myNdlaData.data.personalData !== undefined) {
-      const { personalData, examLockStatus } = myNdlaData.data;
-      if (personalData?.role === "student") {
-        setExamLock(examLockStatus?.value === true);
-      }
-      setUser(personalData);
-      setLoaded(true);
-      // Since we can't listen to cookies set a timeout to update context
-      const timeoutMillis = millisUntilExpiration();
-      window.setTimeout(() => {
-        setAuthenticated(false);
-      }, timeoutMillis);
-    } else if (!myNdlaData.loading) {
-      setLoaded(true);
-    }
-  }, [myNdlaData]);
+  const user = useMemo(() => {
+    if (authenticated) return myNdlaData.data?.personalData;
+    return undefined;
+  }, [authenticated, myNdlaData.data?.personalData]);
+
+  const examLock = useMemo(() => {
+    return (
+      authenticated &&
+      myNdlaData.data?.personalData?.role === "student" &&
+      myNdlaData.data?.examLockStatus?.value === true
+    );
+  }, [authenticated, myNdlaData.data]);
 
   return (
     <AuthContext

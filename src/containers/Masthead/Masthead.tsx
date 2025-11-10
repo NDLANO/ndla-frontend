@@ -6,16 +6,13 @@
  *
  */
 
-import { ComponentProps, useContext } from "react";
-import { useTranslation } from "react-i18next";
-import { Feide, HeartLine } from "@ndla/icons";
+import { ComponentProps } from "react";
 import { NdlaLogoText, PageContent } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { SkipToMainContent } from "./components/SkipToMainContent";
 import { MastheadMenu } from "./MastheadMenu";
 import { MastheadSearch } from "./MastheadSearch";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { BannerAlerts } from "../../components/BannerAlerts";
 import { FeideLoginButton } from "../../components/FeideLoginButton/FeideLoginButton";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
@@ -57,14 +54,6 @@ const ButtonWrapper = styled("div", {
   },
 });
 
-const FeideLoginLabel = styled("span", {
-  base: {
-    tabletDown: {
-      display: "none",
-    },
-  },
-});
-
 const StyledLanguageSelector = styled(LanguageSelector, {
   base: {
     desktopDown: {
@@ -91,8 +80,6 @@ export const MastheadContainer = ({ skipToMainContentId, showAlerts, children, .
 };
 
 export const Masthead = () => {
-  const { user } = useContext(AuthContext);
-  const { t } = useTranslation();
   return (
     <MastheadContainer skipToMainContentId={SKIP_TO_CONTENT_ID} showAlerts>
       <SafeLink to="/" aria-label="NDLA" title="NDLA">
@@ -100,10 +87,7 @@ export const Masthead = () => {
       </SafeLink>
       <ButtonWrapper>
         <StyledLanguageSelector />
-        <FeideLoginButton>
-          {user ? <HeartLine /> : <Feide />}
-          <FeideLoginLabel>{user ? t("myNdla.myNDLA") : t("login")}</FeideLoginLabel>
-        </FeideLoginButton>
+        <FeideLoginButton />
         <MastheadSearch />
         <MastheadMenu />
       </ButtonWrapper>

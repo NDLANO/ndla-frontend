@@ -7,7 +7,6 @@
  */
 
 import { ButtonHTMLAttributes, type Ref, useContext, useMemo } from "react";
-import { NoSSR } from "@ndla/util";
 import { FavoriteButton as UIFavoriteButton } from "../../components/MyNdla/FavoriteButton";
 import { useFolders } from "../../mutations/folder/folderQueries";
 import { getAllResources } from "../../util/folderHelpers";
@@ -18,18 +17,10 @@ interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "
   path: string;
 }
 
-const ClientFavorite = ({ path, ...rest }: Props) => {
+export const FavoriteButton = (props: Props) => {
   const { authenticated } = useContext(AuthContext);
   const { folders } = useFolders({ skip: !authenticated });
   const resources = useMemo(() => getAllResources(folders), [folders]);
-  const exists = resources.some((r) => r.path === path);
-  return <UIFavoriteButton isFavorite={exists} {...rest} />;
-};
-
-export const FavoriteButton = (props: Props) => {
-  return (
-    <NoSSR fallback={<UIFavoriteButton />}>
-      <ClientFavorite {...props} />
-    </NoSSR>
-  );
+  const exists = resources.some((r) => r.path === props.path);
+  return <UIFavoriteButton isFavorite={exists} {...props} />;
 };

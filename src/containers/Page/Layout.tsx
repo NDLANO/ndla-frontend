@@ -6,45 +6,16 @@
  *
  */
 
-import { CSSProperties, useEffect, useMemo, useRef } from "react";
-import { Outlet, ScrollRestoration, useLocation } from "react-router";
-import { useComponentSize } from "@ndla/hooks";
-import { usePrevious } from "@ndla/util";
+import { Outlet, ScrollRestoration } from "react-router";
 import { Footer } from "./components/Footer";
 import { TitleAnnouncer } from "./components/TitleAnnouncer";
+import { GlobalEffects } from "./GlobalEffects";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { ToastProvider } from "../../components/ToastContext";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
-import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 import { Masthead } from "../Masthead/Masthead";
 
 export const Layout = () => {
-  const { pathname } = useLocation();
-  const { height } = useComponentSize("masthead");
-  const prevPathname = usePrevious(pathname);
-  const htmlRef = useRef<HTMLHtmlElement | null>(null);
-  const isSticky = useIsMastheadSticky();
-
-  useEffect(() => {
-    if (!prevPathname || pathname === prevPathname) {
-      return;
-    }
-    const searchUpdate = pathname === "/search" && prevPathname === "/search";
-    if (!searchUpdate) {
-      window.scrollTo(0, 0);
-    }
-  }, [pathname, prevPathname]);
-
-  useEffect(() => {
-    if (!htmlRef.current) {
-      htmlRef.current = document.querySelector("html");
-    } else if (isSticky) {
-      htmlRef.current.style.scrollPaddingTop = `${height}px`;
-    }
-  }, [height, isSticky]);
-
-  const mastheadHeightVar = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
-
   const hash = useVersionHash();
   const isDefaultVersion = hash === defaultValue;
   const metaChildren = isDefaultVersion ? null : <meta name="robots" content="noindex, nofollow" />;
@@ -53,9 +24,10 @@ export const Layout = () => {
     <ToastProvider>
       <TitleAnnouncer />
       <ScrollRestoration />
+      <GlobalEffects />
       {metaChildren}
       <Masthead />
-      <PageLayout style={mastheadHeightVar}>
+      <PageLayout>
         <Outlet />
       </PageLayout>
       <Footer />

@@ -7,13 +7,12 @@
  */
 
 import parse from "html-react-parser";
-import { useState, useEffect, FormEvent, useMemo, useId, useRef, CSSProperties } from "react";
+import { useState, useEffect, FormEvent, useMemo, useId, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { gql } from "@apollo/client";
-import { useLazyQuery, useQuery } from "@apollo/client/react";
+import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
-import { useComponentSize } from "@ndla/hooks";
 import { CloseLine, ArrowRightLine, SearchLine } from "@ndla/icons";
 import {
   Badge,
@@ -266,10 +265,6 @@ export const MastheadSearch = () => {
   const comboboxTranslations = useComboboxTranslations();
   const dialogTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const { height } = useComponentSize("masthead");
-
-  const style = useMemo(() => ({ "--masthead-height": `${height}px` }) as CSSProperties, [height]);
-
   const currentContextQuery = useQuery<GQLCurrentContextQuery, GQLCurrentContextQueryVariables>(
     currentContextQueryDef,
     {
@@ -315,18 +310,14 @@ export const MastheadSearch = () => {
     return () => window.removeEventListener("keydown", onSlashPressed);
   }, [dialogState.open]);
 
-  const [runSearch, { loading, data: searchResult = {} }] = useLazyQuery<
-    GQLMastheadSearchQuery,
-    GQLMastheadSearchQueryVariables
-  >(searchQuery, { fetchPolicy: "no-cache" });
-
-  useEffect(() => {
-    if (delayedSearchQuery.length >= 2) {
-      runSearch({
-        variables: { query: delayedSearchQuery, language: i18n.language },
-      });
-    }
-  }, [delayedSearchQuery]); // eslint-disable-line react-hooks/exhaustive-deps
+  const { loading, data: searchResult = {} } = useQuery<GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables>(
+    searchQuery,
+    {
+      fetchPolicy: "no-cache",
+      skip: delayedSearchQuery.length <= 2,
+      variables: { query: delayedSearchQuery, language: i18n.language },
+    },
+  );
 
   const onNavigate = () => {
     setDialogState({ open: false });
@@ -400,7 +391,7 @@ export const MastheadSearch = () => {
           <span>{t("masthead.menu.search")}</span>
         </StyledButton>
       </PopoverTrigger>
-      <MastheadPopoverContent aria-label={t("searchPage.searchFieldPlaceholder")} style={style}>
+      <MastheadPopoverContent aria-label={t("searchPage.searchFieldPlaceholder")}>
         <StyledForm role="search" action="/search/" onSubmit={onSearch} id={formId}>
           <ComboboxRoot
             defaultOpen
@@ -536,7 +527,7 @@ export const MastheadSearch = () => {
           )}
         </StyledForm>
       </MastheadPopoverContent>
-      <MastheadPopoverBackdrop present={dialogState.open} style={style} />
+      <MastheadPopoverBackdrop present={dialogState.open} />
     </PopoverRoot>
   );
 };
