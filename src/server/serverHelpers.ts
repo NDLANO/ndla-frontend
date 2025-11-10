@@ -9,7 +9,6 @@
 import { Request, Response } from "express";
 import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
 import { LocaleType } from "../interfaces";
-import { ManifestChunk } from "vite";
 import { NDLAError } from "../util/error/NDLAError";
 import { handleError } from "../util/handleError";
 import { LoggerContext } from "../util/logger/loggerContext";
@@ -28,15 +27,21 @@ export interface RenderDataReturn {
   };
 }
 
+export interface RouteChunkInfo {
+  entryPoint?: string;
+  importedChunks?: string[];
+  css?: string[];
+}
+
 export type RenderReturn = RenderLocationReturn | RenderDataReturn;
 
-export type RenderFunc = (req: Request, chunks?: ManifestChunk[]) => Promise<RenderReturn>;
+export type RenderFunc = (req: Request, chunkInfo: RouteChunkInfo) => Promise<RenderReturn>;
 
 export type RootRenderFunc = (
   req: Request,
   res: Response,
   renderer: string,
-  chunks: ManifestChunk[],
+  chunkInfo: RouteChunkInfo,
   ctx: LoggerContext,
 ) => Promise<RenderReturn>;
 

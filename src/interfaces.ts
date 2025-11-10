@@ -9,7 +9,7 @@
 import { NormalizedCacheObject } from "@apollo/client";
 import { ConfigType } from "./config";
 import { LocaleValues } from "./constants";
-import type { ManifestChunk } from "vite";
+import { RouteChunkInfo } from "./server/serverHelpers";
 
 export type InitialProps = {
   articleId?: string;
@@ -26,7 +26,7 @@ export interface WindowData {
   ltiData?: LtiData;
   serverPath?: string;
   hash: string;
-  chunks?: ManifestChunk[];
+  chunkInfo: RouteChunkInfo;
   siteTheme?: SiteTheme;
   serverQuery?: {
     [key: string]: string | number | boolean | undefined | null;

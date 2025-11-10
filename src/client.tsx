@@ -28,7 +28,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverResponse, chunks, hash },
+  DATA: { config, serverPath, serverResponse, chunkInfo, hash },
 } = window;
 
 initSentry(config);
@@ -50,7 +50,7 @@ const i18nInstance = initializeI18n(abbreviation, hash);
 renderOrHydrate(
   document,
   <Document
-    chunks={chunks}
+    chunkInfo={chunkInfo}
     language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
     devEntrypoint={entryPoints.default}
     hash={hash}

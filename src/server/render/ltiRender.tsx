@@ -55,7 +55,7 @@ export function parseAndValidateParameters(body: any) {
     : { valid: false, messages: errorMessages };
 }
 
-export const ltiRender: RenderFunc = async (req, chunks) => {
+export const ltiRender: RenderFunc = async (req, chunkInfo) => {
   const isPostRequest = req.method === "POST";
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   const lang = getHtmlLang(req.params.lang ?? "");
@@ -74,7 +74,7 @@ export const ltiRender: RenderFunc = async (req, chunks) => {
   }
 
   const htmlContent = renderToString(
-    <Document language={lang} chunks={chunks} devEntrypoint={entryPoints.lti} hash={hash}>
+    <Document language={lang} chunkInfo={chunkInfo} devEntrypoint={entryPoints.lti} hash={hash}>
       {null}
     </Document>,
   );
@@ -89,8 +89,8 @@ export const ltiRender: RenderFunc = async (req, chunks) => {
           ltiData: validParameters?.ltiData,
           locale: lang,
         },
-        chunks,
-        config: config,
+        chunkInfo,
+        config,
         hash,
       },
     },

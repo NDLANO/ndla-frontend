@@ -25,7 +25,7 @@ import { RenderFunc } from "../serverHelpers";
 
 const { query, dataRoutes } = createStaticHandler(errorRoutes);
 
-export const errorRender: RenderFunc = async (req, chunks) => {
+export const errorRender: RenderFunc = async (req, chunkInfo) => {
   const context: RedirectInfo = {};
 
   const lang = getHtmlLang(req.params.lang ?? "");
@@ -44,7 +44,7 @@ export const errorRender: RenderFunc = async (req, chunks) => {
   const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
-    <Document language={lang} chunks={chunks} devEntrypoint={entryPoints.error} hash={hash}>
+    <Document language={lang} chunkInfo={chunkInfo} devEntrypoint={entryPoints.error} hash={hash}>
       <I18nextProvider i18n={i18n}>
         <MissingRouterContext value={true}>
           <SiteThemeProvider value={siteTheme}>
@@ -70,13 +70,11 @@ export const errorRender: RenderFunc = async (req, chunks) => {
     data: {
       htmlContent: html,
       data: {
-        chunks,
+        chunkInfo,
         siteTheme,
         serverPath: req.path,
         serverQuery: req.query,
-        config: {
-          ...config,
-        },
+        config,
         hash,
       },
     },
