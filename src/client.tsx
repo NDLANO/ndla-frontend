@@ -16,7 +16,6 @@ import { ResponseContext } from "./components/ResponseContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { Document } from "./Document";
-import { entryPoints } from "./entrypoints";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
 import { NDLAWindow } from "./interfaces";
 import { createApolloClient } from "./util/apiHelpers";
@@ -52,7 +51,6 @@ renderOrHydrate(
   <Document
     chunkInfo={chunkInfo}
     language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
-    devEntrypoint={entryPoints.default}
     hash={hash}
   >
     <I18nextProvider i18n={i18nInstance}>

@@ -16,10 +16,9 @@ interface Props {
   hash: string;
   children?: ReactNode;
   chunkInfo: RouteChunkInfo;
-  devEntrypoint: string;
 }
 
-export const Document = ({ language, hash, children, chunkInfo, devEntrypoint }: Props) => {
+export const Document = ({ language, hash, children, chunkInfo }: Props) => {
   const faviconEnvironment = config.ndlaEnvironment === "dev" ? "test" : config.ndlaEnvironment;
 
   return (
@@ -83,7 +82,6 @@ export const Document = ({ language, hash, children, chunkInfo, devEntrypoint }:
               type="module"
             />
             <script src="/@vite/client" type="module" />
-            <script type="module" src={`/${devEntrypoint}`}></script>
           </>
         )}
         <script

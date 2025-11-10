@@ -13,7 +13,6 @@ import { MissingRouterContext } from "@ndla/safelink";
 import { errorRoutes } from "../../appRoutes";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { Document } from "../../Document";
-import { entryPoints } from "../../entrypoints";
 import { getLocaleInfoFromPath, initializeI18n } from "../../i18n";
 import { renderOrHydrate } from "../../util/renderOrHydrate";
 import { initSentry } from "../../util/sentry";
@@ -29,7 +28,7 @@ const router = createBrowserRouter(errorRoutes);
 
 renderOrHydrate(
   document,
-  <Document language={abbreviation} chunkInfo={chunkInfo} devEntrypoint={entryPoints.error} hash={hash}>
+  <Document language={abbreviation} chunkInfo={chunkInfo} hash={hash}>
     <I18nextProvider i18n={i18n}>
       <MissingRouterContext value={true}>
         <SiteThemeProvider value={window.DATA.siteTheme}>

@@ -15,7 +15,6 @@ import { RedirectInfo } from "../../components/RedirectContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
 import { Document } from "../../Document";
-import { entryPoints } from "../../entrypoints";
 import { getHtmlLang, getLocaleInfoFromPath } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
@@ -44,7 +43,7 @@ export const errorRender: RenderFunc = async (req, chunkInfo) => {
   const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
-    <Document language={lang} chunkInfo={chunkInfo} devEntrypoint={entryPoints.error} hash={hash}>
+    <Document language={lang} chunkInfo={chunkInfo} hash={hash}>
       <I18nextProvider i18n={i18n}>
         <MissingRouterContext value={true}>
           <SiteThemeProvider value={siteTheme}>

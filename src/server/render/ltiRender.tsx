@@ -9,7 +9,6 @@
 import { renderToString } from "react-dom/server";
 import config from "../../config";
 import { Document } from "../../Document";
-import { entryPoints } from "../../entrypoints";
 import { getHtmlLang } from "../../i18n";
 import { BAD_REQUEST, OK } from "../../statusCodes";
 import { stringifiedLanguages } from "../locales/locales";
@@ -74,7 +73,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
   }
 
   const htmlContent = renderToString(
-    <Document language={lang} chunkInfo={chunkInfo} devEntrypoint={entryPoints.lti} hash={hash}>
+    <Document language={lang} chunkInfo={chunkInfo} hash={hash}>
       {null}
     </Document>,
   );

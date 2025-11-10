@@ -12,7 +12,6 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client/react";
 import { MissingRouterContext } from "@ndla/safelink";
 import { Document } from "../Document";
-import { entryPoints } from "../entrypoints";
 import { initializeI18n } from "../i18n";
 import { iframeEmbedRoutes } from "./embedIframeRoutes";
 import { createApolloClient } from "../util/apiHelpers";
@@ -32,7 +31,7 @@ const router = createBrowserRouter(iframeEmbedRoutes);
 
 renderOrHydrate(
   document,
-  <Document language={language} chunkInfo={chunkInfo} devEntrypoint={entryPoints.iframeEmbed} hash={hash}>
+  <Document language={language} chunkInfo={chunkInfo} hash={hash}>
     <I18nextProvider i18n={i18n}>
       <ApolloProvider client={client}>
         <MissingRouterContext value={true}>
