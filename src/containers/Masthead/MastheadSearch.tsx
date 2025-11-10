@@ -313,7 +313,6 @@ export const MastheadSearch = () => {
   const { loading, data: searchResult = {} } = useQuery<GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables>(
     searchQuery,
     {
-      fetchPolicy: "no-cache",
       skip: delayedSearchQuery.length <= 2,
       variables: { query: delayedSearchQuery, language: i18n.language },
     },
