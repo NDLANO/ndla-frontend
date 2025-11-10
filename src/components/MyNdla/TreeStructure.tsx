@@ -31,7 +31,7 @@ import {
   createTreeCollection,
   useTreeView,
 } from "@ndla/primitives";
-import { HStack, Stack, styled } from "@ndla/styled-system/jsx";
+import { styled } from "@ndla/styled-system/jsx";
 import { NewFolder } from "./NewFolder";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 
@@ -62,9 +62,11 @@ interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolder> {
   focusId?: string | null;
 }
 
-const StyledHStack = styled(HStack, {
+const BranchInfo = styled("div", {
   base: {
-    overflow: "hidden",
+    display: "flex",
+    gap: "xxsmall",
+    alignItems: "center",
   },
 });
 
@@ -86,21 +88,37 @@ const StyledFolderUserLine = styled(FolderUserLine, {
   },
 });
 
-const LabelHStack = styled(HStack, {
+const LabelWrapper = styled("div", {
   base: {
-    width: "100%",
+    display: "flex",
+    gap: "xsmall",
+    justifyContent: "space-between",
   },
 });
 
 const StyledTreeItem = styled(TreeItem, {
   base: {
+    display: "flex",
+    gap: "xsmall",
+    justifyContent: "space-between",
     scrollMargin: "xsmall",
   },
 });
 
 const StyledTreeBranchControl = styled(TreeBranchControl, {
   base: {
+    display: "flex",
+    gap: "xsmall",
+    justifyContent: "space-between",
     scrollMargin: "xsmall",
+  },
+});
+
+const StyledTreeRootProvider = styled(TreeRootProvider<RootNode>, {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
   },
 });
 
@@ -186,41 +204,39 @@ export const TreeStructure = ({
       : t("myNdla.newFolderUnder", { folderName: selectedFolder?.name });
 
   return (
-    <TreeRootProvider value={treeView} asChild {...treeView.getRootProps()}>
-      <Stack>
-        <LabelHStack gap="xsmall" justify="space-between">
-          <TreeLabel>{label}</TreeLabel>
-          <PopoverRoot
-            onExitComplete={() => {
-              if (focusedValue) {
-                treeView.focus(focusedValue);
-              }
-            }}
-          >
-            <PopoverTrigger disabled={disableCreateFolder} title={addTooltip} aria-label={addTooltip} asChild>
-              <Button size="small" variant="tertiary" loading={loading}>
-                <AddLine />
-                {t("myNdla.newFolder")}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              {!!selectedFolder && <NewFolder parentFolder={selectedFolder} onCreate={onCreateFolder} />}
-            </PopoverContent>
-          </PopoverRoot>
-        </LabelHStack>
-        <StyledTree aria-describedby={ariaDescribedby}>
-          {collection.rootNode.subfolders.map((node, idx) => (
-            <TreeStructureItem
-              node={node}
-              key={node.id}
-              targetResource={targetResource}
-              indexPath={[idx]}
-              focusId={focusedValue}
-            />
-          ))}
-        </StyledTree>
-      </Stack>
-    </TreeRootProvider>
+    <StyledTreeRootProvider value={treeView} {...treeView.getRootProps()}>
+      <LabelWrapper>
+        <TreeLabel>{label}</TreeLabel>
+        <PopoverRoot
+          onExitComplete={() => {
+            if (focusedValue) {
+              treeView.focus(focusedValue);
+            }
+          }}
+        >
+          <PopoverTrigger disabled={disableCreateFolder} title={addTooltip} aria-label={addTooltip} asChild>
+            <Button size="small" variant="tertiary" loading={loading}>
+              <AddLine />
+              {t("myNdla.newFolder")}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            {!!selectedFolder && <NewFolder parentFolder={selectedFolder} onCreate={onCreateFolder} />}
+          </PopoverContent>
+        </PopoverRoot>
+      </LabelWrapper>
+      <StyledTree aria-describedby={ariaDescribedby}>
+        {collection.rootNode.subfolders.map((node, idx) => (
+          <TreeStructureItem
+            node={node}
+            key={node.id}
+            targetResource={targetResource}
+            indexPath={[idx]}
+            focusId={focusedValue}
+          />
+        ))}
+      </StyledTree>
+    </StyledTreeRootProvider>
   );
 };
 
@@ -245,29 +261,27 @@ export const TreeStructureItem = ({ node, focusId, indexPath, targetResource }: 
     <TreeNodeProvider node={node} indexPath={indexPath}>
       {node.subfolders?.length ? (
         <TreeBranch>
-          <StyledTreeBranchControl asChild ref={ref}>
-            <StyledHStack gap="xsmall" justify="space-between">
-              <StyledHStack gap="xxsmall" justify="center">
-                <IconButton variant="clear" asChild>
-                  <TreeBranchTrigger>
-                    <TreeBranchIndicator asChild>
-                      <ArrowRightShortLine />
-                    </TreeBranchIndicator>
-                  </TreeBranchTrigger>
-                </IconButton>
-                <FolderIcon />
-                <TreeBranchText aria-label={ariaLabel} title={ariaLabel}>
-                  {node.name}
-                </TreeBranchText>
-              </StyledHStack>
-              {!!containsResource && (
-                <StyledHeartFill
-                  title={t("myNdla.alreadyInFolder")}
-                  aria-label={t("myNdla.alreadyInFolder")}
-                  aria-hidden={false}
-                />
-              )}
-            </StyledHStack>
+          <StyledTreeBranchControl ref={ref}>
+            <BranchInfo>
+              <IconButton variant="clear" asChild>
+                <TreeBranchTrigger>
+                  <TreeBranchIndicator asChild>
+                    <ArrowRightShortLine />
+                  </TreeBranchIndicator>
+                </TreeBranchTrigger>
+              </IconButton>
+              <FolderIcon />
+              <TreeBranchText aria-label={ariaLabel} title={ariaLabel}>
+                {node.name}
+              </TreeBranchText>
+            </BranchInfo>
+            {!!containsResource && (
+              <StyledHeartFill
+                title={t("myNdla.alreadyInFolder")}
+                aria-label={t("myNdla.alreadyInFolder")}
+                aria-hidden={false}
+              />
+            )}
           </StyledTreeBranchControl>
           <TreeBranchContent>
             {node.subfolders.map((child, index) => (
@@ -282,22 +296,20 @@ export const TreeStructureItem = ({ node, focusId, indexPath, targetResource }: 
           </TreeBranchContent>
         </TreeBranch>
       ) : (
-        <StyledTreeItem asChild ref={ref}>
-          <StyledHStack gap="xsmall" justify="space-between">
-            <StyledHStack gap="xxsmall" justify="center">
-              <FolderIcon />
-              <TreeItemText aria-label={ariaLabel} title={ariaLabel}>
-                {node.name}
-              </TreeItemText>
-            </StyledHStack>
-            {!!containsResource && (
-              <StyledHeartFill
-                title={t("myNdla.alreadyInFolder")}
-                aria-label={t("myNdla.alreadyInFolder")}
-                aria-hidden={false}
-              />
-            )}
-          </StyledHStack>
+        <StyledTreeItem ref={ref}>
+          <BranchInfo>
+            <FolderIcon />
+            <TreeItemText aria-label={ariaLabel} title={ariaLabel}>
+              {node.name}
+            </TreeItemText>
+          </BranchInfo>
+          {!!containsResource && (
+            <StyledHeartFill
+              title={t("myNdla.alreadyInFolder")}
+              aria-label={t("myNdla.alreadyInFolder")}
+              aria-hidden={false}
+            />
+          )}
         </StyledTreeItem>
       )}
     </TreeNodeProvider>
