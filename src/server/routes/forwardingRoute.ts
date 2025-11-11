@@ -8,7 +8,7 @@
 
 import { NextFunction, Request, Response } from "express";
 import { ResolvedUrl, ResolvedOldUrl } from "@ndla/types-taxonomy";
-import { isLearningPathResource, getLearningPathUrlFromResource } from "../../containers/Resources/resourceHelpers";
+import { isLearningPathResource, getLearningPathIdFromResource } from "../../containers/Resources/resourceHelpers";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
 import { log } from "../../util/logger/logger";
 
@@ -57,12 +57,12 @@ export const forwardPath = async (forwardNodeId: string, lang?: string) => {
 
   const resource = await resolve(data!.path);
 
-  const languagePrefix = lang && lang !== "nb" ? lang : ""; // send urls with nb to root/default lang
+  const languagePrefix = lang && lang !== "nb" ? `/${lang}` : ""; // send urls with nb to root/default lang
 
-  if (isLearningPathResource(resource!)) {
-    return getLearningPathUrlFromResource(resource!, languagePrefix);
+  if (resource && isLearningPathResource(resource.contentUri)) {
+    return `${languagePrefix}/learningpaths/${getLearningPathIdFromResource(resource.contentUri)}`;
   } else {
-    return `${languagePrefix ? `/${languagePrefix}` : ""}${resource!.url}`;
+    return `${languagePrefix}${resource!.url}`;
   }
 };
 

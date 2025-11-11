@@ -91,7 +91,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { trackPageView } = useTracker();
   const headingId = useId();
   const linksHeadingId = useId();
-  const articleId = node.contentUri ? getArticleIdFromResource(node) : undefined;
+  const articleId = getArticleIdFromResource(node.contentUri);
 
   const metaTitle = useMemo(() => htmlTitle(node.name, [node.breadcrumbs[0]]), [node.breadcrumbs, node.name]);
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);

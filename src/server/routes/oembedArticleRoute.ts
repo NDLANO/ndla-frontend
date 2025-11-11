@@ -99,7 +99,7 @@ const getIframeSrcAndTitle = async (match: Params<MatchParams>) => {
   if (node.contentUri?.includes("learningpath")) {
     return {};
   }
-  const articleId = getArticleIdFromResource(node);
+  const articleId = getArticleIdFromResource(node.contentUri);
   return {
     title: node.name,
     iframeSrc: `${config.ndlaFrontendDomain}/article-iframe/${lang}/${node.id}/${articleId}`,

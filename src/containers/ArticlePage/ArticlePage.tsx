@@ -18,9 +18,7 @@ import { NoSSR } from "@ndla/util";
 import { Article } from "../../components/Article/Article";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LdJson } from "../../components/LdJson";
-import { RedirectExternal } from "../../components/RedirectExternal";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { Status } from "../../components/Status";
 import config from "../../config";
 import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
@@ -31,7 +29,6 @@ import { htmlTitle } from "../../util/titleHelper";
 import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import { isLearningPathResource, getLearningPathUrlFromResource } from "../Resources/resourceHelpers";
 import { Resources } from "../Resources/Resources";
 
 interface Props {
@@ -114,14 +111,6 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
     }
   });
 
-  if (resource && isLearningPathResource(resource)) {
-    const url = getLearningPathUrlFromResource(resource);
-    return (
-      <Status code={307}>
-        <RedirectExternal to={url} />
-      </Status>
-    );
-  }
   if (!resource?.article || !article) {
     return <NotFoundPage />;
   }
