@@ -6,16 +6,18 @@
  *
  */
 
-import { ReactNode, useCallback, useContext, useState } from "react";
+import { lazy, ReactNode, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
-import { AddResourceToFolder, ResourceAttributes } from "./AddResourceToFolder";
+import { ResourceAttributes } from "./AddResourceToFolder";
 import { ListResource } from "./ListResource";
 import { LoginModalContent } from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
 import { useFolderResourceMeta } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
+
+const AddResourceToFolder = lazy(() => import("./AddResourceToFolder"));
 
 interface Props {
   defaultOpenFolder?: GQLFolder;
@@ -43,7 +45,9 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
+            <Suspense>
+              <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
+            </Suspense>
           </DialogBody>
         </DialogContent>
       ) : (
