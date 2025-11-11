@@ -4,8 +4,8 @@
   "description": "NDLA Frontend",
   "type": "module",
   "scripts": {
-    "build:client": "vite build --outDir build/public",
-    "build:entrypoint": "vite build --ssr src/server/server.render.ts --outDir build/server",
+    "build:client": "cross-env NODE_ENV=production BUILD_TARGET=client vite build --outDir build/public",
+    "build:entrypoint": "cross-env NODE_ENV=production BUILD_TARGET=ssr vite build --ssr src/server/server.render.ts --outDir build/server",
     "build:server": "node scripts/build-server.mjs",
     "build": "yarn clean && yarn tsc && cross-env NODE_ENV=production NODE_OPTIONS='--preserve-symlinks' yarn build:entrypoint && yarn build:client && yarn build:server",
     "check-all": "yarn format-check && yarn lint-es && yarn test",

@@ -10,7 +10,6 @@ import "source-map-support/register";
 import pc from "picocolors";
 import type { Formatter } from "picocolors/types";
 import winston from "winston";
-import config from "../../config";
 
 const logLevelColors: Record<string, Formatter> = {
   error: pc.red,
@@ -26,7 +25,7 @@ const indentString = (str: string): string => {
 };
 
 const getFormat = () => {
-  if (config.runtimeType === "production") {
+  if (IS_PRODUCTION) {
     return winston.format.combine(
       winston.format.timestamp(),
       winston.format.errors({ stack: true }),
