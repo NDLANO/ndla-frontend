@@ -10,8 +10,28 @@ export const RESOURCE_TYPE_LEARNING_PATH = "urn:resourcetype:learningPath";
 export const RESOURCE_TYPE_SUBJECT_MATERIAL = "urn:resourcetype:subjectMaterial";
 export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = "urn:resourcetype:tasksAndActivities";
 export const RESOURCE_TYPE_ASSESSMENT_RESOURCES = "urn:resourcetype:reviewResource";
-export const RESOURCE_TYPE_CONCEPT = "urn:resourcetype:concept";
 export const RESOURCE_TYPE_SOURCE_MATERIAL = "urn:resourcetype:SourceMaterial";
+export const RESOURCE_TYPE_CONCEPT = "urn:resourcetype:concept";
+export const RESOURCE_TYPE_DOCUMENTARY = "urn:resourcetype:documentary";
+export const RESOURCE_TYPE_SHORT_FILM = "urn:resourcetype:shortFilm";
+export const RESOURCE_TYPE_FILM_CLIP = "urn:resourcetype:filmClip";
+export const RESOURCE_TYPE_FEATURE_FILM = "urn:resourcetype:featureFilm";
+export const RESOURCE_TYPE_SERIES = "urn:resourcetype:series";
+
+export const resourceTypeSortOrder: Record<string, number> = {
+  [RESOURCE_TYPE_LEARNING_PATH]: 1,
+  [RESOURCE_TYPE_SUBJECT_MATERIAL]: 2,
+  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: 3,
+  [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: 4,
+  [RESOURCE_TYPE_SOURCE_MATERIAL]: 5,
+  [RESOURCE_TYPE_CONCEPT]: 6,
+  [RESOURCE_TYPE_DOCUMENTARY]: 7,
+  [RESOURCE_TYPE_FEATURE_FILM]: 8,
+  [RESOURCE_TYPE_SERIES]: 9,
+  [RESOURCE_TYPE_SHORT_FILM]: 10,
+  [RESOURCE_TYPE_FILM_CLIP]: 11,
+  default: 12,
+};
 
 export const RELEVANCE_CORE = "urn:relevance:core";
 export const RELEVANCE_SUPPLEMENTARY = "urn:relevance:supplementary";

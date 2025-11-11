@@ -7,26 +7,9 @@
  */
 
 import { sortBy, uniqBy } from "@ndla/util";
-import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
-  RESOURCE_TYPE_CONCEPT,
-} from "../../constants";
+import { resourceTypeSortOrder } from "../../constants";
 import { GQLResource, GQLResourceType } from "../../graphqlTypes";
 import { contentTypeMapping } from "../../util/getContentType";
-
-export const sortOrder: Record<string, number> = {
-  [RESOURCE_TYPE_LEARNING_PATH]: 1,
-  [RESOURCE_TYPE_SUBJECT_MATERIAL]: 2,
-  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: 3,
-  [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: 4,
-  [RESOURCE_TYPE_SOURCE_MATERIAL]: 5,
-  [RESOURCE_TYPE_CONCEPT]: 6,
-  default: 7,
-};
 
 type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes" | "rank" | "relevanceId">;
 
@@ -52,4 +35,4 @@ export const sortResources = <T extends GQLResourceLike>(resources: T[], isGroup
 type SharedResourceType = Pick<GQLResourceType, "id" | "name">;
 
 export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
-  sortBy(resourceTypes, (type) => sortOrder[type.id] ?? sortOrder.default);
+  sortBy(resourceTypes, (type) => resourceTypeSortOrder[type.id] ?? resourceTypeSortOrder.default);

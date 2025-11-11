@@ -7,7 +7,8 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { RELEVANCE_SUPPLEMENTARY } from "../constants";
+import { sortBy } from "@ndla/util";
+import { RELEVANCE_SUPPLEMENTARY, resourceTypeSortOrder } from "../constants";
 import { useMemo } from "react";
 import config from "../config";
 
@@ -37,7 +38,11 @@ export const getListItemTraits = (params: ListItemTraitParams, t: (key: string) 
   }
 
   if (params.resourceTypes?.length) {
-    traits.push(...params.resourceTypes.map((rt) => rt.name));
+    const sorted = sortBy(
+      params.resourceTypes,
+      (type) => resourceTypeSortOrder[type.id] ?? resourceTypeSortOrder.default,
+    );
+    traits.push(...sorted.map((rt) => rt.name));
   }
 
   if (params.traits?.length) {
