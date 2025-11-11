@@ -325,3 +325,5 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
     </AddResourceContainer>
   );
 };
+
+export default AddResourceToFolder;
