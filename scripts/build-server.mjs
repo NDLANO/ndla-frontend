@@ -23,6 +23,8 @@ await esbuild.build({
   // However, we also need to define it here to cover the small portion of our backend that runs outside of Vite.
   define: {
     "import.meta.env.SSR": "true",
+    IS_PRODUCTION: "true",
+    IS_CLIENT: "false",
   },
   // Mixing ESM and CJS is still a struggle. This is a workaround for now.
   banner: {

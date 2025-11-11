@@ -6,7 +6,6 @@
  *
  */
 
-import config from "../config";
 import { GQLArticleRequiredLibrary, GQLTransformedArticleContent } from "../graphqlTypes";
 
 export interface Scripts {
@@ -28,7 +27,7 @@ export function getArticleScripts(article: BaseArticle, locale = "nb") {
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (article && article.transformedContent?.content.indexOf("<math") > -1 && config.isClient) {
+  if (article && article.transformedContent?.content.indexOf("<math") > -1 && IS_CLIENT) {
     if (!window.MathJax) {
       window.MathJax = {
         loader: { load: ["[mml]/mml3"] },

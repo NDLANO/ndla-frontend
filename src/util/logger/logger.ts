@@ -7,7 +7,6 @@
  */
 
 import type { Logger } from "winston";
-import config from "../../config";
 import { LogLevel } from "../../interfaces";
 import { getLoggerContext } from "./getLoggerContext";
 import { getErrorLog } from "../handleError";
@@ -16,7 +15,7 @@ import { LoggerContext } from "./loggerContext";
 let winstonLogger: Logger | undefined;
 
 // NOTE: The winston setup does not run in a browser, so lets not import it there.
-if ((typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) && !config.isClient) {
+if (!IS_CLIENT) {
   import("./winston").then((w) => {
     winstonLogger = w.winstonLogger;
   });
@@ -90,7 +89,7 @@ class NDLALogger {
   private async log(level: LogLevel, message: Loggable, ...meta: Loggable[]): Promise<void> {
     const ctx = await getLoggerContext();
     const msg = await this.getMessage(message, meta, ctx);
-    if (!config.isClient && winstonLogger) {
+    if (!IS_CLIENT && winstonLogger) {
       winstonLogger[level](msg);
     } else {
       // eslint-disable-next-line no-console

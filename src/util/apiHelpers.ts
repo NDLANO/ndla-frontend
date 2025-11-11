@@ -123,7 +123,7 @@ const typePolicies: TypePolicies = {
 
 function getCache() {
   const cache: InMemoryCache = new InMemoryCache({ possibleTypes, typePolicies });
-  if (config.isClient) {
+  if (IS_CLIENT) {
     cache.restore(window.DATA.apolloState);
   }
 
@@ -136,7 +136,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
   return new ApolloClient({
     link: createApolloLinks(language, versionHash),
     cache,
-    ssrMode: !config.isClient,
+    ssrMode: !IS_CLIENT,
     defaultOptions: {
       watchQuery: {
         errorPolicy: "all",
@@ -152,7 +152,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
 };
 
 export const createApolloLinks = (lang: string, versionHash?: any) => {
-  const cookieString = config.isClient ? document.cookie : "";
+  const cookieString = IS_CLIENT ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;
