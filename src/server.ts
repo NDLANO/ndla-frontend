@@ -30,6 +30,7 @@ import { privateRoutes, routes } from "./routes";
 import { isAccessTokenValid } from "./util/authHelpers";
 import { handleError, ensureError } from "./util/handleError";
 import { NOT_FOUND_PAGE_PATH } from "./constants";
+import { IS_PRODUCTION } from "./buildConfig";
 
 const base = "/";
 
@@ -41,7 +42,7 @@ app.disable("x-powered-by");
 app.enable("trust proxy");
 
 let vite: ViteDevServer | undefined;
-if (!config.isProduction) {
+if (!IS_PRODUCTION) {
   const { createServer } = await import("vite");
   vite = await createServer({
     server: { middlewareMode: true },
@@ -91,7 +92,7 @@ app.use(healthRouter);
 
 let manifest: Manifest = {};
 
-if (config.isProduction) {
+if (IS_PRODUCTION) {
   manifest = (await import(`../build/public/.vite/manifest.json`)).default;
 }
 
@@ -101,7 +102,7 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunkI
     throw new Error("Logger context is not available");
   }
   let render: RootRenderFunc;
-  if (!config.isProduction) {
+  if (!IS_PRODUCTION) {
     try {
       render = (await vite!.ssrLoadModule(`./src/server/server.render.ts`)).default;
     } catch (e) {

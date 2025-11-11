@@ -8,7 +8,7 @@
 
 import { ReactNode } from "react";
 import { useRouteError } from "react-router";
-import config from "./config";
+import { IS_PRODUCTION } from "./buildConfig";
 import { ErrorPage } from "./containers/ErrorPage/ErrorPage";
 import { handleError } from "./util/handleError";
 
@@ -18,7 +18,7 @@ interface Props {
 
 export const ErrorElement = ({ children }: Props) => {
   const error = useRouteError();
-  if (config.isProduction) {
+  if (IS_PRODUCTION) {
     handleError(error as Error);
   }
   return children ?? <ErrorPage />;

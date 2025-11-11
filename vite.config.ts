@@ -13,6 +13,7 @@ import react from "@vitejs/plugin-react";
 export default defineConfig(({ isSsrBuild, mode }) => {
   const componentVersion = process.env.COMPONENT_VERSION ?? "SNAPSHOT";
   const isDevelopment = mode === "development";
+  const isTest = mode === "test";
   return {
     test: {
       include: ["src/**/__tests__/*-test.(js|jsx|ts|tsx)"],
@@ -51,6 +52,7 @@ export default defineConfig(({ isSsrBuild, mode }) => {
       target: "es2020",
       assetsDir: "static",
       outDir: "build/public",
+      // minify: false,
       cssCodeSplit: false,
       manifest: true,
       sourcemap: true,
@@ -70,7 +72,9 @@ export default defineConfig(({ isSsrBuild, mode }) => {
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
-      "config.isClient": JSON.stringify(!isSsrBuild),
+      __IS_CLIENT__: !isSsrBuild,
+      __IS_PRODUCTION__: !isDevelopment,
+      __IS_TEST__: JSON.stringify(isTest),
       ...(isDevelopment ? {} : { __IS_SSR_BUILD__: JSON.stringify(isSsrBuild) }),
     },
   };
