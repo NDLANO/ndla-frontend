@@ -34,7 +34,7 @@ function getImportedChunks(manifest: Manifest, name: string): ManifestChunk[] {
 }
 
 export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType): RouteChunkInfo => {
-  if (config.runtimeType === "development") {
+  if (!config.isProduction) {
     return { entryPoint: entryPoints[entryPoint] };
   }
   const mainEntry = manifest[entryPoints[entryPoint]];

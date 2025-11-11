@@ -108,6 +108,7 @@ export type ConfigType = {
   isVercel: boolean;
   monsidoToken: string;
   runtimeType: RuntimeType;
+  isProduction: boolean;
   isClient: boolean;
   sentrydsn: string;
   formbricksId: string;
@@ -142,6 +143,7 @@ const getServerSideConfig = (): ConfigType => {
     isVercel: getEnvironmentVariable("IS_VERCEL", false),
     monsidoToken: getEnvironmentVariable("MONSIDO_TOKEN", ""),
     runtimeType: getEnvironmentVariable("NODE_ENV", "development") as RuntimeType,
+    isProduction: getEnvironmentVariable("NODE_ENV", "development") === "production",
     isClient: false,
     sentrydsn: getEnvironmentVariable(
       "SENTRY_DSN",

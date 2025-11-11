@@ -67,7 +67,7 @@ export const Document = ({ language, hash, children, chunkInfo }: Props) => {
 `,
           }}
         ></script>
-        {config.runtimeType === "development" && (
+        {!config.isProduction && (
           <>
             <script
               dangerouslySetInnerHTML={{

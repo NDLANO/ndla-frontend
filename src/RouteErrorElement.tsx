@@ -18,7 +18,7 @@ interface Props {
 
 export const ErrorElement = ({ children }: Props) => {
   const error = useRouteError();
-  if (config.runtimeType === "production") {
+  if (config.isProduction) {
     handleError(error as Error);
   }
   return children ?? <ErrorPage />;

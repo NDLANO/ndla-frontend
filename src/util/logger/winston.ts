@@ -26,7 +26,7 @@ const indentString = (str: string): string => {
 };
 
 const getFormat = () => {
-  if (config.runtimeType === "production") {
+  if (config.isProduction) {
     return winston.format.combine(
       winston.format.timestamp(),
       winston.format.errors({ stack: true }),

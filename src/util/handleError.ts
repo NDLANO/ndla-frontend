@@ -204,7 +204,7 @@ export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
 };
 
 export const handleError = async (error: ErrorLike, extraContext: Record<string, unknown> = {}) => {
-  if (config.runtimeType === "production" && config.isClient) {
+  if (config.isProduction && config.isClient) {
     const ctx = await getLoggerContext();
     sendToSentry(error, ctx, extraContext);
   } else if (!config.isClient) {

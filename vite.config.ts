@@ -70,6 +70,7 @@ export default defineConfig(({ isSsrBuild, mode }) => {
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
+      "config.isClient": JSON.stringify(!isSsrBuild),
       ...(isDevelopment ? {} : { __IS_SSR_BUILD__: JSON.stringify(isSsrBuild) }),
     },
   };

@@ -33,7 +33,7 @@ const connectSrc = (() => {
     "https://*.sentry.io",
     "https://app.formbricks.com",
   ];
-  if (config.runtimeType === "development") {
+  if (!config.isProduction) {
     return [
       ...defaultConnectSrc,
       "https://devtools.apollodata.com/graphql",
@@ -114,7 +114,7 @@ const scriptSrc = (() => {
     "https://js.sentry-cdn.com",
     "https://app.formbricks.com",
   ];
-  if (config.runtimeType === "development") {
+  if (!config.isProduction) {
     return [
       ...defaultScriptSrc,
       "http://localhost:3001",
@@ -211,7 +211,7 @@ const frameSrc = (() => {
     "www.norskpetroleum.no",
     "pub.dialogapi.no",
   ];
-  if (config.runtimeType === "development") {
+  if (!config.isProduction) {
     return [
       ...defaultFrameSrc,
       "http://localhost:3001",
@@ -233,7 +233,7 @@ const fontSrc = (() => {
     "cdn.jsdelivr.net",
     "*.fontshare.com",
   ];
-  if (config.runtimeType === "development") {
+  if (!config.isProduction) {
     return defaultFontSrc.concat("http://localhost:3001");
   }
   return defaultFontSrc;
@@ -243,7 +243,7 @@ export const contentSecurityPolicy = {
   directives: {
     baseUri: ["'self'", "https://tall.ndla.no"],
     defaultSrc: ["'self'", "blob:"],
-    upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
+    upgradeInsecureRequests: !config.isProduction || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
     frameSrc,
     workerSrc: ["'self'", "blob:"],
