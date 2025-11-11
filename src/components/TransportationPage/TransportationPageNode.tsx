@@ -53,7 +53,7 @@ export const TransportationNode = ({ node, context }: Props) => {
         {!!(context !== "node" && !!node.meta?.metaImage) && (
           <CardImage
             src={node.meta.metaImage.url}
-            alt={node.meta.metaImage.alt}
+            alt=""
             height={200}
             fallbackWidth={360}
             fallbackElement={<ContentTypeFallbackIcon />}
