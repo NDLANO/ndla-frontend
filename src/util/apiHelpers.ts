@@ -10,7 +10,6 @@ import {
   ApolloClient,
   ApolloLink,
   CombinedGraphQLErrors,
-  FieldFunctionOptions,
   HttpLink,
   InMemoryCache,
   LocalStateError,
@@ -32,7 +31,6 @@ import {
 import { StatusError } from "./error/StatusError";
 import { handleError } from "./handleError";
 import config from "../config";
-import { GQLQueryFolderResourceMetaSearchArgs } from "../graphqlTypes";
 import { NOT_FOUND } from "../statusCodes";
 
 const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
@@ -62,36 +60,18 @@ export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | unde
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
   SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
-  FolderResourceMeta: ["ArticleFolderResourceMeta", "LearningpathFolderResourceMeta"],
+  FolderResourceMeta: [
+    "ArticleFolderResourceMeta",
+    "AudioFolderResourceMeta",
+    "ConceptFolderResourceMeta",
+    "ImageFolderResourceMeta",
+    "LearningpathFolderResourceMeta",
+    "TopicFolderResourceMeta",
+    "VideoFolderResourceMeta",
+  ],
 };
 
 const typePolicies: TypePolicies = {
-  Query: {
-    fields: {
-      folderResourceMeta: {
-        read(_, { args, toReference }) {
-          return toReference(`FolderResourceMeta:${args!.resource.resourceType}${args!.resource.id}`);
-        },
-      },
-      folderResourceMetaSearch: {
-        //@ts-expect-error - We just want some autocomplete here
-        read(_, { args, toReference, canRead }: FieldFunctionOptions<GQLQueryFolderResourceMetaSearchArgs>) {
-          const refs = args?.resources.map((arg) =>
-            toReference(
-              `${arg.resourceType === "learningpath" ? "Learningpath" : "Article"}FolderResourceMeta:${
-                arg.resourceType
-              }${arg.id}`,
-            ),
-          );
-
-          if (refs?.every((ref) => canRead(ref))) {
-            return refs;
-          }
-          return undefined;
-        },
-      },
-    },
-  },
   Folder: {
     fields: {
       subfolders: {
@@ -121,9 +101,6 @@ const typePolicies: TypePolicies = {
   SearchResult: {
     keyFields: ["id", "__typename"],
   },
-  Filter: {
-    keyFields: (object) => `${object.id}+${object.relevanceId}`,
-  },
   FrontpageMenu: {
     keyFields: ["articleId"],
   },
@@ -131,7 +108,10 @@ const typePolicies: TypePolicies = {
     keyFields: ["contextId"],
   },
   FolderResourceMeta: {
-    keyFields: (obj) => `${obj.__typename}:${obj.type}${obj.id}`,
+    keyFields: ["type", "id"],
+  },
+  FolderResourceMetaSearch: {
+    keyFields: ["type", "id"],
   },
   ConfigMetaBoolean: {
     keyFields: ["key"],
