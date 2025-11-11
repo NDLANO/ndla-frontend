@@ -32,8 +32,9 @@ import { StatusError } from "./error/StatusError";
 import { handleError } from "./handleError";
 import config from "../config";
 import { NOT_FOUND } from "../statusCodes";
+import { IS_CLIENT, IS_TEST } from "../buildConfig";
 
-const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
+const apiBaseUrl = IS_TEST ? "http://ndla-api" : config.ndlaApiUrl;
 const uri = config.localGraphQLApi ? "http://localhost:4000/graphql-api/graphql" : `${apiBaseUrl}/graphql-api/graphql`;
 
 export function apiResourceUrl(path: string) {
@@ -123,7 +124,7 @@ const typePolicies: TypePolicies = {
 
 function getCache() {
   const cache: InMemoryCache = new InMemoryCache({ possibleTypes, typePolicies });
-  if (config.isClient) {
+  if (IS_CLIENT) {
     cache.restore(window.DATA.apolloState);
   }
 
@@ -136,7 +137,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
   return new ApolloClient({
     link: createApolloLinks(language, versionHash),
     cache,
-    ssrMode: !config.isClient,
+    ssrMode: typeof window !== "undefined",
     defaultOptions: {
       watchQuery: {
         errorPolicy: "all",
@@ -152,7 +153,7 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
 };
 
 export const createApolloLinks = (lang: string, versionHash?: any) => {
-  const cookieString = config.isClient ? document.cookie : "";
+  const cookieString = IS_CLIENT ? document.cookie : "";
   const feideCookie = getFeideCookie(cookieString);
   const accessTokenValid = isAccessTokenValid(feideCookie);
   const accessToken = feideCookie?.access_token;

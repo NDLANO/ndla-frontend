@@ -9,7 +9,7 @@
 import type { Manifest, ManifestChunk } from "vite";
 import { entryPoints, EntryPointType } from "../entrypoints";
 import { RouteChunkInfo } from "./serverHelpers";
-import config from "../config";
+import { IS_PRODUCTION } from "../buildConfig";
 
 function getImportedChunks(manifest: Manifest, name: string): ManifestChunk[] {
   const seen = new Set<string>();
@@ -34,7 +34,7 @@ function getImportedChunks(manifest: Manifest, name: string): ManifestChunk[] {
 }
 
 export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType): RouteChunkInfo => {
-  if (config.runtimeType === "development") {
+  if (!IS_PRODUCTION) {
     return { entryPoint: entryPoints[entryPoint] };
   }
   const mainEntry = manifest[entryPoints[entryPoint]];

@@ -6,7 +6,7 @@
  *
  */
 
-type RuntimeType = "test" | "development" | "production";
+import { IS_CLIENT, IS_TEST } from "./buildConfig";
 
 export function getEnvironmentVariable(key: string, fallback: string): string;
 export function getEnvironmentVariable(key: string, fallback: boolean): boolean;
@@ -107,8 +107,6 @@ export type ConfigType = {
   matomoTagmanagerId: string;
   isVercel: boolean;
   monsidoToken: string;
-  runtimeType: RuntimeType;
-  isClient: boolean;
   sentrydsn: string;
   formbricksId: string;
   arenaDomain: string;
@@ -141,8 +139,6 @@ const getServerSideConfig = (): ConfigType => {
     matomoTagmanagerId: getEnvironmentVariable("MATOMO_TAGMANAGER_ID", ""),
     isVercel: getEnvironmentVariable("IS_VERCEL", false),
     monsidoToken: getEnvironmentVariable("MONSIDO_TOKEN", ""),
-    runtimeType: getEnvironmentVariable("NODE_ENV", "development") as RuntimeType,
-    isClient: false,
     sentrydsn: getEnvironmentVariable(
       "SENTRY_DSN",
       "https://0058e1cbf3df96a365c7afefee29b665@o4508018773524480.ingest.de.sentry.io/4508018776735824",
@@ -156,12 +152,5 @@ const getServerSideConfig = (): ConfigType => {
   };
 };
 
-export function getUniversalConfig() {
-  if (typeof window === "undefined" || process.env.NODE_ENV === "test") {
-    return getServerSideConfig();
-  }
-
-  return window.DATA.config;
-}
-
-export default getUniversalConfig();
+export const config = !IS_CLIENT || IS_TEST ? getServerSideConfig() : window.DATA.config;
+export default config;

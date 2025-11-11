@@ -6,22 +6,24 @@
  *
  */
 
-import config from "../../config";
+// import { IS_CLIENT, IS_TEST } from "../../buildConfig";
 import { LoggerContext } from "./loggerContext";
 
 export const getLoggerContext = async (): Promise<LoggerContext | undefined> => {
-  if ((typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) && !config.isClient) {
-    const { getLoggerContextStore } = await import("../../server/middleware/loggerContextMiddleware");
-    return getLoggerContextStore();
-  }
-
-  if (config.isClient) {
-    return {
-      requestPath: `${window.location.pathname}${window.location.search}`,
-      correlationID: undefined,
-    };
-  }
-
-  if (config.runtimeType === "test") return undefined;
-  throw new Error("LoggerContext is not available in this environment");
+  return undefined;
+  // if (!IS_CLIENT) {
+  //   const { getLoggerContextStore } = await import(
+  //     /* @vite-ignore */ "../../server/middleware/loggerContextMiddleware"
+  //   );
+  //   return getLoggerContextStore();
+  // }
+  // if (IS_CLIENT) {
+  //   return {
+  //     requestPath: `${window.location.pathname}${window.location.search}`,
+  //     correlationID: undefined,
+  //   };
+  // }
+  //
+  // if (IS_TEST) return undefined;
+  // throw new Error("LoggerContext is not available in this environment");
 };
