@@ -56,7 +56,7 @@ function getOembedResponse(
   const width = isNaN(parsedWidth) ? 854 : parsedWidth;
   const parsedHeight = parseInt(req.query.height?.toString() ?? "", 10);
   const height = isNaN(parsedHeight) ? 854 : parsedHeight;
-  const html = `<iframe aria-label="${title}" src="${iframeSrc}" height="${height}" width="${width}" frameborder="0" allowFullscreen="" />`;
+  const html = `<iframe aria-label="${title}" src="${iframeSrc}" height="${height}" width="${width}" allowfullscreen="" style="border: none;" />`;
   return {
     data: {
       type: "rich",

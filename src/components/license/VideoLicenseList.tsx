@@ -110,7 +110,7 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
                 </SafeLinkButton>
               )}
               <CopyTextButton
-                stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" frameborder="0" src="${video.iframe?.src}" allowfullscreen=""></iframe>`}
+                stringToCopy={`<iframe title="${video.title}" height="${video.iframe?.height}" aria-label="${video.title}" width="${video.iframe?.width}" style="border: none;" allowfullscreen="" src="${video.iframe?.src}"></iframe>`}
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />
