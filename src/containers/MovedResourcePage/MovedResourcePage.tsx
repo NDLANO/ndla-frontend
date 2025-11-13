@@ -14,11 +14,11 @@ import { Badge, CardContent, CardHeading, CardImage, CardRoot, Heading, Text } f
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { BadgesContainer } from "@ndla/ui";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
+import { PageTitle } from "../../components/PageTitle";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { contentTypeMapping } from "../../util/getContentType";
@@ -93,9 +93,8 @@ export const MovedResourcePage = ({ resource }: Props) => {
 
   return (
     <PageContainer>
-      <HelmetWithTracker title={t("htmlTitles.movedResourcePage")}>
-        <meta name="robots" content="noindex" />
-      </HelmetWithTracker>
+      <PageTitle title={t("htmlTitles.movedResourcePage")} />
+      <meta name="robots" content="noindex" />
       <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">
           {resourceId ? t("movedResourcePage.title") : t("searchPage.searchResultListMessages.noResultHeading")}

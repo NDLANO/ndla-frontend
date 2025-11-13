@@ -6,12 +6,11 @@
  *
  */
 
-import { useMemo, useEffect, useContext } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Badge, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
 import {
   ArticleByline,
   ArticleContent,
@@ -25,10 +24,10 @@ import { NoSSR } from "@ndla/util";
 import { Article } from "../../components/Article/Article";
 import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
 import { LicenseBox } from "../../components/license/LicenseBox";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
@@ -38,7 +37,6 @@ import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { useListItemTraits } from "../../util/listItemTraits";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 import { Resources } from "../Resources/Resources";
 
@@ -89,9 +87,7 @@ interface Props {
 }
 
 export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
-  const { trackPageView } = useTracker();
   const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
   const root = crumbs[0];
 
@@ -100,15 +96,6 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
     [node.article?.title, node.name, root?.name],
   );
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
-
-  useEffect(() => {
-    if (!node?.article || !authContextLoaded) return;
-    const dimensions = getAllDimensions({ user });
-    trackPageView({
-      dimensions,
-      title: pageTitle,
-    });
-  }, [authContextLoaded, node.article, trackPageView, user, pageTitle]);
 
   const breadCrumbs = useMemo(() => {
     return toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
@@ -166,7 +153,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
         {!node.context?.isActive && <meta name="robots" content="noindex" />}
-        <title>{pageTitle}</title>
+        <PageTitle title={pageTitle} />
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
           description={socialMediaMetaData.description}

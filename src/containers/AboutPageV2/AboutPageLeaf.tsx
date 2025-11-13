@@ -7,12 +7,11 @@
  */
 
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
 import {
   ArticleContent,
   ArticleFooter,
@@ -22,9 +21,9 @@ import {
   ArticleBylineAccordionItem,
   licenseAttributes,
 } from "@ndla/ui";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { LdJson } from "../../components/LdJson";
 import { LicenseBox } from "../../components/license/LicenseBox";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID, ABOUT_PATH } from "../../constants";
@@ -32,7 +31,6 @@ import { GQLAboutPageLeaf_ArticleFragment } from "../../graphqlTypes";
 import { Breadcrumb } from "../../interfaces";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
 interface Props {
@@ -63,17 +61,8 @@ const StyledArticleContent = styled(ArticleContent, {
 const getDocumentTitle = (t: TFunction, title: string) => t("htmlTitles.aboutPage", { name: title });
 
 export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
-  const { trackPageView } = useTracker();
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${_article.id}`;
-
-  useEffect(() => {
-    if (_article && authContextLoaded) {
-      const dimensions = getAllDimensions({ user });
-      trackPageView({ dimensions, title: getDocumentTitle(t, _article.title) });
-    }
-  }, [_article, authContextLoaded, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(_article, i18n.language, {
@@ -107,7 +96,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
 
   return (
     <main>
-      <title>{`${getDocumentTitle(t, article.title)}`}</title>
+      <PageTitle title={getDocumentTitle(t, article.title)} />
       <meta name="pageid" content={`${article.id}`} />
       {scripts?.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />

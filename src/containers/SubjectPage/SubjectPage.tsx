@@ -83,7 +83,7 @@ export const SubjectPage = () => {
     return <FilmFrontpage />;
   }
 
-  return <SubjectContainer node={data.node} subjectType={subjectType} loading={loading} />;
+  return <SubjectContainer node={data.node} subjectType={subjectType} />;
 };
 
 export const Component = SubjectPage;

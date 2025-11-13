@@ -7,14 +7,13 @@
  */
 
 import { TFunction } from "i18next";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { useTracker } from "@ndla/tracker";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { Learningpath } from "../../components/Learningpath/Learningpath";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import {
   GQLLearningpath,
@@ -24,19 +23,15 @@ import {
 } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 
 interface Props {
-  loading: boolean;
   node: GQLLearningpathPage_NodeFragment | undefined;
   skipToContentId: string;
   stepId?: string;
 }
 
-export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
+export const LearningpathPage = ({ node, skipToContentId, stepId }: Props) => {
   const { t } = useTranslation();
-  const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
@@ -46,12 +41,6 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
       }
     }
   });
-
-  useEffect(() => {
-    if (loading || !node || !authContextLoaded) return;
-    const dimensions = getAllDimensions({ user });
-    trackPageView({ dimensions, title: getDocumentTitle(t, node, stepId) });
-  }, [authContextLoaded, node, loading, stepId, t, trackPageView, user]);
 
   if (!node || !node.learningpath || !node?.learningpath?.learningsteps?.length) {
     return <DefaultErrorMessagePage />;
@@ -70,7 +59,7 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
 
   return (
     <>
-      <title>{`${getDocumentTitle(t, node, stepId)}`}</title>
+      <PageTitle title={getDocumentTitle(t, node, stepId)} />
       {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
         title={getTitle(root, learningpath, learningpathStep)}
@@ -102,8 +91,8 @@ const getTitle = (
   return htmlTitle(learningpath?.title, [learningpathStep?.title, root?.name]);
 };
 
-const getDocumentTitle = (t: TFunction, node: GQLLearningpathPage_NodeFragment, stepId?: string) => {
-  const subject = node?.context?.parents?.[0];
+const getDocumentTitle = (t: TFunction, node: NonNullable<GQLLearningpathPage_NodeFragment>, stepId?: string) => {
+  const subject = node.context?.parents?.[0];
   const learningpath = node?.learningpath;
   const maybeStepId = parseInt(stepId ?? "");
   const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);

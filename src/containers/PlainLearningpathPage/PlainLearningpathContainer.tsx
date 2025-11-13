@@ -7,17 +7,15 @@
  */
 
 import { TFunction } from "i18next";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { useTracker } from "@ndla/tracker";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { Learningpath } from "../../components/Learningpath/Learningpath";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 
 const getDocumentTitle = (learningpath: Props["learningpath"], t: TFunction) =>
   htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")]);
@@ -28,9 +26,7 @@ interface Props {
   skipToContentId?: string;
 }
 export const PlainLearningpathContainer = ({ learningpath, skipToContentId, stepId }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { trackPageView } = useTracker();
   const steps = learningpath.learningsteps;
 
   useEffect(() => {
@@ -43,13 +39,6 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
     }
   });
 
-  useEffect(() => {
-    if (learningpath && authContextLoaded) {
-      const dimensions = getAllDimensions({ user });
-      trackPageView({ dimensions, title: getDocumentTitle(learningpath, t) });
-    }
-  }, [authContextLoaded, learningpath, stepId, t, trackPageView, user]);
-
   const currentStep = stepId
     ? steps.find((step) => step.id.toString() === stepId)
     : learningpath.introduction?.length
@@ -58,7 +47,7 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
 
   return (
     <>
-      <title>{`${getDocumentTitle(learningpath, t)}`}</title>
+      <PageTitle title={getDocumentTitle(learningpath, t)} />
       <meta name="robots" content="noindex, nofollow" />
       <SocialMediaMetadata
         title={learningpath.title}

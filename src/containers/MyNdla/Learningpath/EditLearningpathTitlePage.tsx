@@ -6,23 +6,20 @@
  *
  */
 
-import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { Spinner, Heading, Button } from "@ndla/primitives";
 import { Stack } from "@ndla/styled-system/jsx";
-import { useTracker, HelmetWithTracker } from "@ndla/tracker";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleFormValues, TitleForm } from "./components/TitleForm";
 import { useFetchLearningpath } from "./learningpathQueries";
-import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { PageTitle } from "../../../components/PageTitle";
 import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -35,22 +32,13 @@ export const EditLearningpathTitlePage = () => {
   const [updatePath] = useUpdateLearningpath();
 
   const { t } = useTranslation();
-  const { trackPageView } = useTracker();
   const { learningpathId } = useParams();
-  const { user } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const { data, loading } = useFetchLearningpath({
     variables: { pathId: learningpathId ?? "-1" },
     skip: !learningpathId,
   });
-
-  useEffect(() => {
-    trackPageView({
-      title: t("htmlTitles.learningpathEditTitlePage", { name: data?.myNdlaLearningpath?.title }),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [data?.myNdlaLearningpath?.title, t, trackPageView, user]);
 
   const onSaveTitle = async ({ title, imageUrl, introduction: formIntroduction }: TitleFormValues) => {
     const learningpath = data?.myNdlaLearningpath;
@@ -93,7 +81,7 @@ export const EditLearningpathTitlePage = () => {
 
   return (
     <MyNdlaPageWrapper type="learningpath">
-      <HelmetWithTracker title={t("htmlTitles.learningpathEditTitlePage", { name: data?.myNdlaLearningpath?.title })} />
+      <PageTitle title={t("htmlTitles.learningpathEditTitlePage", { name: data.myNdlaLearningpath.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpathTitle")}` }]}
         page="learningpath"

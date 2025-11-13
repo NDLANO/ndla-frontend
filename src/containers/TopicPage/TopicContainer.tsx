@@ -7,21 +7,20 @@
  */
 
 import parse from "html-react-parser";
-import { useContext, useEffect, useId, useMemo } from "react";
+import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
 import { Badge, Heading, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
@@ -31,7 +30,6 @@ import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLTopicPageQuery } from "../../graphqlTypes";
 import { SubjectType } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { getArticleIdFromResource } from "../Resources/resourceHelpers";
 import { Resources } from "../Resources/Resources";
 
@@ -87,21 +85,12 @@ interface TopicContainerProps {
 
 export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { t } = useTranslation();
-  const { user, authContextLoaded } = useContext(AuthContext);
-  const { trackPageView } = useTracker();
   const headingId = useId();
   const linksHeadingId = useId();
   const articleId = getArticleIdFromResource(node.contentUri);
 
   const metaTitle = useMemo(() => htmlTitle(node.name, [node.breadcrumbs[0]]), [node.breadcrumbs, node.name]);
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
-
-  useEffect(() => {
-    if (authContextLoaded && node.article) {
-      const dimensions = getAllDimensions({ user });
-      trackPageView({ dimensions, title: pageTitle });
-    }
-  }, [authContextLoaded, node.article, pageTitle, trackPageView, user]);
 
   const breadcrumbs = useMemo(() => {
     if (!node.context) return [];
@@ -131,7 +120,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
 
   return (
     <main>
-      <title>{pageTitle}</title>
+      <PageTitle title={pageTitle} />
       {!node.context?.isActive && <meta name="robots" content="noindex" />}
       <SocialMediaMetadata
         title={metaTitle}

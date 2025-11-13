@@ -18,8 +18,8 @@ import {
   ErrorMessageTitle,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 
@@ -36,7 +36,7 @@ export const Forbidden = ({ applySkipToContentId, navigationLink }: Props) => {
   return (
     <Status code={403}>
       <ErrorMessageRoot>
-        <HelmetWithTracker title={t("htmlTitles.forbidden")} />
+        <PageTitle title={t("htmlTitles.forbidden")} />
         <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>
           <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>

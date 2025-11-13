@@ -7,21 +7,19 @@
  */
 
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { PageContent } from "@ndla/primitives";
-import { useTracker } from "@ndla/tracker";
 import { Article } from "../../components/Article/Article";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { LdJson } from "../../components/LdJson";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { GQLPlainArticleContainer_ArticleFragment } from "../../graphqlTypes";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
@@ -33,9 +31,7 @@ interface Props {
 const getDocumentTitle = (t: TFunction, title: string) => htmlTitle(title, [t("htmlTitles.titleTemplate")]);
 
 export const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
   const { t, i18n } = useTranslation();
-  const { trackPageView } = useTracker();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
@@ -45,15 +41,6 @@ export const PlainArticleContainer = ({ article: propArticle, skipToContentId }:
       }
     }
   });
-
-  useEffect(() => {
-    if (!propArticle || !authContextLoaded) return;
-    const dimensions = getAllDimensions({ user });
-    trackPageView({
-      dimensions,
-      title: getDocumentTitle(t, propArticle.title),
-    });
-  }, [authContextLoaded, propArticle, t, trackPageView, user]);
 
   const [article, scripts] = useMemo(() => {
     return [
@@ -70,7 +57,7 @@ export const PlainArticleContainer = ({ article: propArticle, skipToContentId }:
 
   return (
     <div>
-      <title>{`${getDocumentTitle(t, article.title)}`}</title>
+      <PageTitle title={getDocumentTitle(t, article.title)} />
       <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />

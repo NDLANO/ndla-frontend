@@ -24,6 +24,7 @@ import { Folder } from "../../components/MyNdla/Folder";
 import { FoldersPageTitle } from "../../components/MyNdla/FoldersPageTitle";
 import { ListResource } from "../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../components/PageSpinner";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
 import {
@@ -142,7 +143,7 @@ export const SharedFolderPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <title>{folder.name}</title>
+        <PageTitle title={folder.name} />
         <SocialMediaMetadata
           type="website"
           title={folder.name}

@@ -15,8 +15,8 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 
@@ -29,7 +29,7 @@ const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
   return (
     <Status code={404}>
       <ErrorMessageRoot>
-        <HelmetWithTracker title={t("htmlTitles.notFound")} />
+        <PageTitle title={t("htmlTitles.notFound")} />
         <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>
           <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>

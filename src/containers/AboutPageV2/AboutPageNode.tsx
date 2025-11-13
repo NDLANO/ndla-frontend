@@ -8,7 +8,7 @@
 
 import parse from "html-react-parser";
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import {
@@ -24,7 +24,6 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { useTracker } from "@ndla/tracker";
 import {
   ArticleBylineAccordionItem,
   ArticleContent,
@@ -32,9 +31,9 @@ import {
   HomeBreadcrumb,
   licenseAttributes,
 } from "@ndla/ui";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { LdJson } from "../../components/LdJson";
 import { LicenseBox } from "../../components/license/LicenseBox";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
@@ -46,7 +45,6 @@ import { Breadcrumb } from "../../interfaces";
 import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
 const StyledPageContent = styled(PageContent, {
@@ -121,16 +119,7 @@ const getDocumentTitle = (t: TFunction, title: string) => t("htmlTitles.aboutPag
 
 export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
   const { t, i18n } = useTranslation();
-  const { user, authContextLoaded } = useContext(AuthContext);
-  const { trackPageView } = useTracker();
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
-
-  useEffect(() => {
-    if (article && authContextLoaded) {
-      const dimensions = getAllDimensions({ user });
-      trackPageView({ dimensions, title: getDocumentTitle(t, article.title) });
-    }
-  }, [article, authContextLoaded, t, trackPageView, user]);
 
   const [transformedArticle, scripts] = useMemo(() => {
     const transformedArticle = transformArticle(article, i18n.language, {
@@ -150,7 +139,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
 
   return (
     <main>
-      <title>{`${getDocumentTitle(t, article.title)}`}</title>
+      <PageTitle title={getDocumentTitle(t, article.title)} />
       <meta name="pageid" content={`${article.id}`} />
       {scripts?.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />

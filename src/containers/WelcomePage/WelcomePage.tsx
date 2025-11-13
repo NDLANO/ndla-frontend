@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect, useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
@@ -15,10 +15,10 @@ import { CardContent, CardHeading, CardRoot, Heading, Hero, HeroBackground, Text
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageTitle } from "../../components/PageTitle";
 import { useSiteTheme } from "../../components/SiteThemeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -29,7 +29,6 @@ import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { siteThemeToHeroVariant } from "../../util/siteTheme";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 
 const HeadingWrapper = styled("div", {
@@ -210,8 +209,7 @@ const frontpageQuery = gql`
 
 export const WelcomePage = () => {
   const { t, i18n } = useTranslation();
-  const { trackPageView } = useTracker();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const siteTheme = useSiteTheme();
 
   const quickLinks = useMemo(() => {
@@ -222,15 +220,6 @@ export const WelcomePage = () => {
       { type: "film", icon: MovieLine, url: FILM_PAGE_URL, external: false },
     ] as const;
   }, [user]);
-
-  useEffect(() => {
-    if (authContextLoaded) {
-      trackPageView({
-        title: t("htmlTitles.welcomePage"),
-        dimensions: getAllDimensions({ user }),
-      });
-    }
-  }, [authContextLoaded, t, trackPageView, user]);
 
   const fpQuery = useQuery<GQLFrontpageDataQuery>(frontpageQuery);
 
@@ -271,9 +260,8 @@ export const WelcomePage = () => {
   return (
     <>
       <Heading srOnly>{t("welcomePage.heading.heading")}</Heading>
-      <HelmetWithTracker title={t("htmlTitles.welcomePage")}>
-        <script type="application/ld+json">{googleSearchJSONLd()}</script>
-      </HelmetWithTracker>
+      <PageTitle title={t("htmlTitles.welcomePage")} />
+      <script type="application/ld+json">{googleSearchJSONLd()}</script>
       <SocialMediaMetadata
         type="website"
         title={t("welcomePage.heading.heading")}
