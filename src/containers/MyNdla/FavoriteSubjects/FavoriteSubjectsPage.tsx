@@ -6,17 +6,16 @@
  *
  */
 
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { ArrowRightLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
+import { PageTitle } from "../../../components/PageTitle";
 import { useFavouriteSubjects } from "../../../mutations/folder/folderQueries";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../../AllSubjectsPage/SubjectLink";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
@@ -54,20 +53,11 @@ export const Component = () => {
 
 export const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
-  const { user, authContextLoaded } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.toReversed() ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
-  const { trackPageView } = useTracker();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!authContextLoaded) return;
-    trackPageView({
-      title: t("myNdla.favoriteSubjects.title"),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [authContextLoaded, t, trackPageView, user]);
 
   const menuItems: MenuItemProps[] = [
     {
@@ -82,7 +72,7 @@ export const FavoriteSubjectsPage = () => {
 
   return (
     <StyledMyNdlaPageWrapper menuItems={menuItems}>
-      <HelmetWithTracker title={t("myNdla.favoriteSubjects.title")} />
+      <PageTitle title={t("myNdla.favoriteSubjects.title")} />
       <MyNdlaTitle title={t("myNdla.favoriteSubjects.title")} />
       {favouriteSubjectsQuery.loading ? (
         <LoadingGrid>

@@ -7,17 +7,16 @@
  */
 
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import { Article } from "../../components/Article/Article";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { LdJson } from "../../components/LdJson";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
@@ -26,14 +25,12 @@ import { getArticleScripts } from "../../util/getArticleScripts";
 import { getContentType } from "../../util/getContentType";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { transformArticle } from "../../util/transformArticle";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { Resources } from "../Resources/Resources";
 
 interface Props {
-  resource?: GQLArticlePage_NodeFragment;
-  loading?: boolean;
+  resource: GQLArticlePage_NodeFragment;
   skipToContentId?: string;
 }
 
@@ -70,29 +67,17 @@ const StyledPageContent = styled(PageContent, {
   },
 });
 
-export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
+export const ArticlePage = ({ resource, skipToContentId }: Props) => {
   const { t, i18n } = useTranslation();
-  const { trackPageView } = useTracker();
 
-  const crumbs = resource?.context?.parents || [];
+  const crumbs = resource.context?.parents || [];
   const root = crumbs[0];
   const parent = crumbs[crumbs.length - 1];
 
-  useEffect(() => {
-    if (!loading && authContextLoaded) {
-      const dimensions = getAllDimensions({ user });
-      trackPageView({
-        dimensions,
-        title: getDocumentTitle(t, resource, root),
-      });
-    }
-  }, [authContextLoaded, loading, resource, root, t, trackPageView, user]);
-
   const [article, scripts] = useMemo(() => {
-    if (!resource?.article) return [];
+    if (!resource.article) return [];
     return [
-      transformArticle(resource?.article, i18n.language, {
+      transformArticle(resource.article, i18n.language, {
         path: `${config.ndlaFrontendDomain}/article/${resource.article?.id}`,
         subject: root?.id,
         articleLanguage: resource.article.language,
@@ -111,11 +96,11 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
     }
   });
 
-  if (!resource?.article || !article) {
+  if (!resource.article || !article) {
     return <NotFoundPage />;
   }
 
-  const contentType = resource ? getContentType(resource) : undefined;
+  const contentType = getContentType(resource);
 
   const printUrl = `${config.ndlaFrontendDomain}/article-iframe/${i18n.language}/article/${resource.article.id}`;
 
@@ -123,6 +108,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
 
   return (
     <main>
+      <PageTitle title={getDocumentTitle(t, resource, root)} />
       <title>{`${getDocumentTitle(t, resource, root)}`}</title>
       {scripts?.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
@@ -179,9 +165,9 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
 
 const getDocumentTitle = (
   t: TFunction,
-  resource?: GQLArticlePage_NodeFragment,
-  root?: Omit<GQLTaxonomyCrumb, "path">,
-) => htmlTitle(resource?.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
+  resource: GQLArticlePage_NodeFragment,
+  root: Omit<GQLTaxonomyCrumb, "path"> | undefined,
+) => htmlTitle(resource.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
 
 ArticlePage.fragments = {
   resource: gql`

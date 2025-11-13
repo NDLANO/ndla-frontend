@@ -7,24 +7,22 @@
  */
 
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons";
 import { Heading, Image, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
 import { toProgramme } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 
 const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
   return htmlTitle(`${title} - ${grade}`, [t("htmlTitles.titleTemplate")]);
@@ -136,7 +134,6 @@ const StyledImage = styled(Image, {
 });
 
 export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
   const heading = programme.title.title;
   const grades = mapGradesData(programme.grades || []);
@@ -144,16 +141,6 @@ export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || "";
   const pageTitle = getDocumentTitle(programme.title.title, gradeProp, t);
-  const { trackPageView } = useTracker();
-
-  useEffect(() => {
-    if (!authContextLoaded) return;
-    const dimensions = getAllDimensions({ user });
-    trackPageView({
-      dimensions,
-      title: getDocumentTitle(programme.title.title, gradeProp, t),
-    });
-  }, [authContextLoaded, gradeProp, programme.title.title, t, trackPageView, user]);
 
   const selectedGrade = gradeProp.toLowerCase();
 
@@ -165,7 +152,7 @@ export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
-        <title>{pageTitle}</title>
+        <PageTitle title={pageTitle} />
         <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
         <div>
           {/* TODO: Use semantic tokens */}

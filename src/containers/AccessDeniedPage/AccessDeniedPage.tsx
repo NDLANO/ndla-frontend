@@ -20,9 +20,9 @@ import {
 
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { toHref } from "../../util/urlHelper";
@@ -60,7 +60,7 @@ export const AccessDenied = ({ applySkipToContentId }: AccessDeniedProps) => {
   return (
     <Status code={statusCode}>
       <ErrorMessageRoot>
-        <HelmetWithTracker title={t("htmlTitles.accessDenied")} />
+        <PageTitle title={t("htmlTitles.accessDenied")} />
         <StyledPresentationLine />
         <ErrorMessageContent>
           <ErrorMessageDescription id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>

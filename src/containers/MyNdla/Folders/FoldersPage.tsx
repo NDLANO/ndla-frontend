@@ -13,17 +13,16 @@ import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { useFolderActions } from "./components/FolderActionHooks";
 import { FolderList } from "./components/FolderList";
 import { ResourceList } from "./components/ResourceList";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { FoldersPageTitle } from "../../../components/MyNdla/FoldersPageTitle";
+import { PageTitle } from "../../../components/PageTitle";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { foldersPageQuery, useFolder } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 
@@ -81,8 +80,7 @@ export const Component = () => {
 export const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
-  const { user, authContextLoaded, examLock } = useContext(AuthContext);
-  const { trackPageView } = useTracker();
+  const { examLock } = useContext(AuthContext);
   const { data, loading } = useQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
@@ -125,11 +123,6 @@ export const FoldersPage = () => {
   );
 
   useEffect(() => {
-    if (!authContextLoaded) return;
-    trackPageView({ title, dimensions: getAllDimensions({ user }) });
-  }, [authContextLoaded, title, trackPageView, user]);
-
-  useEffect(() => {
     const folderIds = folders.map((f) => f.id).sort();
     const prevFolderIds = previousFolders.map((f) => f.id).sort();
     const isEqual = folderIds.length === prevFolderIds.length && folderIds.every((v, i) => v === prevFolderIds[i]);
@@ -152,7 +145,7 @@ export const FoldersPage = () => {
 
   return (
     <StyledMyNdlaPageWrapper menuItems={menuItems} showButtons={!examLock || !!selectedFolder}>
-      <HelmetWithTracker title={title} />
+      <PageTitle title={title} />
       <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
       {!!selectedFolder && (
         <p>

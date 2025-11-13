@@ -7,13 +7,12 @@
  */
 
 import { TFunction } from "i18next";
-import { useEffect, useContext, useId } from "react";
+import { useContext, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
 import { SimpleBreadcrumbItem, HomeBreadcrumb, subjectCategories, subjectTypes } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
@@ -21,6 +20,7 @@ import { FavoriteSubject } from "../../components/FavoriteSubject";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import { ImageLicenseList } from "../../components/license/ImageLicenseList";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinks } from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -35,12 +35,10 @@ import {
 } from "../../constants";
 import { GQLSubjectContainer_NodeFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 
 type Props = {
   node: GQLSubjectContainer_NodeFragment;
   subjectType?: string;
-  loading?: boolean;
 };
 
 const HeadingWrapper = styled("div", {
@@ -115,22 +113,12 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-export const SubjectContainer = ({ node, subjectType, loading }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
+export const SubjectContainer = ({ node, subjectType }: Props) => {
+  const { user } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { trackPageView } = useTracker();
   const about = node.subjectpage?.about;
   const headingId = useId();
   const linksHeadingId = useId();
-
-  useEffect(() => {
-    if (!authContextLoaded || loading) return;
-    const dimensions = getAllDimensions({ user });
-    trackPageView({
-      dimensions,
-      title: htmlTitle(node.name, [t("htmlTitles.titleTemplate")]),
-    });
-  }, [authContextLoaded, loading, node, t, trackPageView, user]);
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
@@ -153,7 +141,7 @@ export const SubjectContainer = ({ node, subjectType, loading }: Props) => {
 
   return (
     <main>
-      <title>{pageTitle}</title>
+      <PageTitle title={pageTitle} />
       {(!node.context?.isActive || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
         <meta name="robots" content="noindex, nofollow" />
       )}

@@ -6,13 +6,12 @@
  *
  */
 
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons";
 import { BleedPageContent, Button, PageContent } from "@ndla/primitives";
-import { useTracker } from "@ndla/tracker";
 import { contentTypes } from "@ndla/ui";
 import { PostResizeMessage } from "./PostResizeMessage";
 import { Article } from "../components/Article/Article";
@@ -20,6 +19,7 @@ import { CreatedBy } from "../components/Article/CreatedBy";
 import { BannerAlerts } from "../components/BannerAlerts";
 import { LdJson } from "../components/LdJson";
 import { useLtiData } from "../components/LtiContext";
+import { PageTitle } from "../components/PageTitle";
 import { SocialMediaMetadata } from "../components/SocialMediaMetadata";
 import config from "../config";
 import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
@@ -43,7 +43,6 @@ const getDocumentTitle = ({ article }: Pick<Props, "article">) => {
 };
 
 export const IframeArticlePage = ({ node, article: propArticle, locale: localeProp }: Props) => {
-  const { trackPageView } = useTracker();
   const navigate = useNavigate();
   const ltiData = useLtiData();
   const { t, i18n } = useTranslation();
@@ -59,13 +58,6 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
       getArticleScripts(propArticle, locale),
     ];
   }, [propArticle, locale]);
-
-  useEffect(() => {
-    if (propArticle?.id) return;
-    trackPageView({
-      title: getDocumentTitle({ article: propArticle }),
-    });
-  }, [propArticle, node, trackPageView]);
 
   const url = node?.url;
   const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
@@ -83,7 +75,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
           <BannerAlerts />
         </BleedPageContent>
       }
-      <title>{getDocumentTitle({ article: propArticle })}</title>
+      <PageTitle title={getDocumentTitle({ article: propArticle })} />
       <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />

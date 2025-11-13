@@ -6,6 +6,7 @@
  *
  */
 
+import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
@@ -27,10 +28,10 @@ import {
   PageContent,
   Text,
 } from "@ndla/primitives";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { ArticleContent, ArticleFooter, ArticleHeader, ArticleHGroup, ArticleWrapper, HomeBreadcrumb } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -38,6 +39,10 @@ import { GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
 import { publisher } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
 import { ResourceEmbedLicenseContent } from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
+
+const getDocumentTitle = (podcast: NonNullable<GQLPodcastSeriesPageQuery["podcastSeries"]>, t: TFunction) => {
+  return `${podcast?.title?.title || t("podcastPage.podcast")} - ${t("htmlTitles.titleTemplate")}`;
+};
 
 export const PodcastSeriesPage = () => {
   const { id } = useParams();
@@ -56,10 +61,6 @@ export const PodcastSeriesPage = () => {
   }, [podcastSeries?.content?.content]);
 
   const { t } = useTranslation();
-
-  const getDocumentTitle = (podcast: GQLPodcastSeriesPageQuery["podcastSeries"]) => {
-    return `${podcast?.title?.title || t("podcastPage.podcast")} - ${t("htmlTitles.titleTemplate")}`;
-  };
 
   if (loading) {
     return <ContentPlaceholder variant="article" />;
@@ -121,12 +122,11 @@ export const PodcastSeriesPage = () => {
 
   return (
     <>
-      <HelmetWithTracker title={`${getDocumentTitle(podcastSeries)}`}>
-        {!!podcastSeries.hasRSS && (
-          <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
-        )}
-        <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
-      </HelmetWithTracker>
+      <PageTitle title={getDocumentTitle(podcastSeries, t)} />
+      {!!podcastSeries.hasRSS && (
+        <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
+      )}
+      <script type="application/ld+json">{podcastSeriesJSONLd()}</script>
       <SocialMediaMetadata
         type="website"
         title={podcastSeries.title.title ?? ""}

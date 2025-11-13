@@ -6,29 +6,27 @@
  *
  */
 
-import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
+import { MouseEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
 import { LearningpathItem } from "./components/LearningpathItem";
 import { LearningpathShareDialogContent } from "./components/LearningpathShareDialogContent";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
-import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathShareLink } from "./components/LearningpathShareLink";
+import { PageTitle } from "../../../components/PageTitle";
 import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
@@ -56,22 +54,13 @@ export const SaveLearningpathPage = () => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation();
-  const { trackPageView } = useTracker();
   const { learningpathId } = useParams();
-  const { user } = useContext(AuthContext);
   const toast = useToast();
   const learningpathQuery = useFetchLearningpath({
     variables: { pathId: learningpathId ?? "" },
     skip: !learningpathId,
   });
   const [updateLearningpathStatus] = useUpdateLearningpathStatus();
-
-  useEffect(() => {
-    trackPageView({
-      title: t("htmlTitles.learningpathSavePage", { name: learningpathQuery.data?.myNdlaLearningpath?.title }),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [learningpathQuery.data?.myNdlaLearningpath?.title, t, trackPageView, user]);
 
   const onUnshare = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -127,7 +116,7 @@ export const SaveLearningpathPage = () => {
 
   return (
     <MyNdlaPageWrapper type="learningpath">
-      <title>{t("htmlTitles.learningpathSavePage", { name: learningpath?.title })}</title>
+      <PageTitle title={t("htmlTitles.learningpathSavePage", { name: learningpath.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: `save-${learningpath.id}`, name: t("myNdla.learningpath.form.steps.save") }]}
         page="learningpath"

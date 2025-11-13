@@ -6,19 +6,19 @@
  *
  */
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { keyBy } from "@ndla/util";
 import { MyNdlaPageWrapper } from "./components/MyNdlaPageWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ListResource } from "../../components/MyNdla/ListResource";
 import { LoginModalContent } from "../../components/MyNdla/LoginModalContent";
 import { MyNdlaTitle, TitleWrapper } from "../../components/MyNdla/MyNdlaTitle";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { myndlaLanguages } from "../../i18n";
@@ -28,7 +28,6 @@ import {
   useRecentlyUsedResources,
 } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../AllSubjectsPage/SubjectLink";
 
@@ -68,9 +67,8 @@ const StyledArrowRightLine = styled(ArrowRightLine, {
 });
 
 export const MyNdlaPage = () => {
-  const { user, authContextLoaded, authenticated } = useContext(AuthContext);
+  const { user, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { trackPageView } = useTracker();
   const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.toReversed().slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
@@ -86,21 +84,13 @@ export const MyNdlaPage = () => {
     },
   );
 
-  useEffect(() => {
-    if (!authContextLoaded) return;
-    trackPageView({
-      title: t("htmlTitles.myNdlaPage"),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [authContextLoaded, t, trackPageView, user]);
-
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
 
   // const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
   return (
     <StyledMyNdlaPageWrapper>
-      <HelmetWithTracker title={t("htmlTitles.myNdlaPage")} />
+      <PageTitle title={t("htmlTitles.myNdlaPage")} />
       <SocialMediaMetadata
         title={t("myNdla.myNDLA")}
         description={t("myNdla.description")}

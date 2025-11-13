@@ -15,8 +15,8 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 
@@ -26,7 +26,7 @@ export const UnpublishedResourcePage = () => {
     <Status code={410}>
       <PageContainer asChild consumeCss>
         <main>
-          <HelmetWithTracker title={t("htmlTitles.unpublished")} />
+          <PageTitle title={t("htmlTitles.unpublished")} />
           <ErrorMessageRoot>
             <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
             <ErrorMessageContent>

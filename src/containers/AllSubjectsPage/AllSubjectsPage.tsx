@@ -13,7 +13,6 @@ import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { subjectCategories } from "@ndla/ui";
 import { groupBy, sortBy } from "@ndla/util";
 import { FavoriteSubjects } from "./FavoriteSubjects";
@@ -24,6 +23,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageTitle } from "../../components/PageTitle";
 import { TabFilter } from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
@@ -141,7 +141,7 @@ export const AllSubjectsPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.subjectsPage")} />
+        <PageTitle title={t("htmlTitles.subjectsPage")} />
         <HeadingWrapper>
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("subjectsPage.allSubjects")}

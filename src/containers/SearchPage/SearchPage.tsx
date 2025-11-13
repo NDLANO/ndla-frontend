@@ -6,16 +6,13 @@
  *
  */
 
-import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { useTracker } from "@ndla/tracker";
 import { SearchContainer } from "./SearchContainer";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageTitle } from "../../components/PageTitle";
 import { GQLSearchResourceTypesQuery } from "../../graphqlTypes";
-import { getAllDimensions } from "../../util/trackingUtil";
 
 const searchResourceTypesQuery = gql`
   query searchResourceTypes {
@@ -31,21 +28,9 @@ export const SearchPage = () => {
 
   const resourceTypesQuery = useQuery<GQLSearchResourceTypesQuery>(searchResourceTypesQuery);
 
-  const { trackPageView } = useTracker();
-  const { user, authContextLoaded } = useContext(AuthContext);
-
-  useEffect(() => {
-    if (authContextLoaded) {
-      trackPageView({
-        title: t("htmlTitles.searchPage"),
-        dimensions: getAllDimensions({ user }),
-      });
-    }
-  }, [authContextLoaded, t, trackPageView, user]);
-
   return (
     <PageContainer>
-      <title>{t("htmlTitles.searchPage")}</title>
+      <PageTitle title={t("htmlTitles.searchPage")} />
       <SearchContainer
         resourceTypes={resourceTypesQuery.data?.resourceTypes ?? []}
         resourceTypesLoading={resourceTypesQuery.loading}

@@ -7,19 +7,18 @@
  */
 
 import { TFunction } from "i18next";
-import { useContext, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { Badge, Hero, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
 import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
-import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import { PageTitle } from "../../../components/PageTitle";
 import { SocialMediaMetadata } from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -30,7 +29,6 @@ import {
 } from "../../../graphqlTypes";
 import { isNotFoundError } from "../../../util/handleError";
 import { useListItemTraits } from "../../../util/listItemTraits";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 
 export type StandaloneEmbed = "image" | "audio" | "video" | "h5p" | "concept";
@@ -123,8 +121,6 @@ export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFrag
 };
 
 export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
-  const { trackPageView } = useTracker();
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
@@ -147,13 +143,6 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
     });
   }, [data?.resourceEmbed.content, pathname]);
 
-  useEffect(() => {
-    if (!authContextLoaded || !properties) return;
-    const dimensions = getAllDimensions({ user });
-    const title = getDocumentTitle(properties.title, properties.type, t);
-    trackPageView({ dimensions, title });
-  }, [authContextLoaded, properties, t, trackPageView, user]);
-
   if (loading) {
     return <Spinner />;
   }
@@ -170,7 +159,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
 
   return (
     <>
-      <HelmetWithTracker title={getDocumentTitle(properties.title, properties.type, t)} />
+      <PageTitle title={getDocumentTitle(properties.title, properties.type, t)} />
       <SocialMediaMetadata
         type="website"
         audioUrl={properties?.audioUrl}

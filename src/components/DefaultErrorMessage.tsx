@@ -15,10 +15,10 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 import { PageContainer } from "./Layout/PageContainer";
+import { PageTitle } from "./PageTitle";
 
 interface MessageRootProps {
   applySkipToContentId?: boolean;
@@ -50,7 +50,7 @@ export const DefaultErrorMessagePage = () => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.errorPage")} />
+        <PageTitle title={t("htmlTitles.errorPage")} />
         <DefaultErrorMessage applySkipToContentId={true} />
       </main>
     </PageContainer>
