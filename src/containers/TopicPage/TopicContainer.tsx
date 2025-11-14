@@ -170,11 +170,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               </Text>
             )}
             {!!node.article?.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
-              <CompetenceGoals
-                codes={node.article.grepCodes}
-                subjectId={node.context?.rootId}
-                supportedLanguages={node.article.supportedLanguages}
-              />
+              <CompetenceGoals codes={node.article.grepCodes} subjectId={node.context?.rootId} />
             )}
           </HeaderWrapper>
           <TransportationPageVisualElement embed={embedMeta} metaImage={node.article?.metaImage} />

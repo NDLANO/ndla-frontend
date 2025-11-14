@@ -37,7 +37,6 @@ import { DialogCloseButton } from "./DialogCloseButton";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement, GQLReference } from "../graphqlTypes";
 
 interface Props {
-  supportedLanguages?: string[];
   subjectId?: string;
   codes?: string[];
   isOembed?: boolean;
@@ -101,8 +100,8 @@ const toSearchUrl = (code: string, subjectId: string | undefined) => {
 };
 
 const competenceGoalsQuery = gql`
-  query competenceGoals($codes: [String!], $language: String) {
-    competenceGoals(codes: $codes, language: $language) {
+  query competenceGoals($codes: [String!]) {
+    competenceGoals(codes: $codes) {
       id
       title
       type
@@ -115,7 +114,7 @@ const competenceGoalsQuery = gql`
         title
       }
     }
-    coreElements(codes: $codes, language: $language) {
+    coreElements(codes: $codes) {
       id
       title
       description
@@ -127,12 +126,11 @@ const competenceGoalsQuery = gql`
   }
 `;
 
-export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed }: Props) => {
-  const { t, i18n } = useTranslation();
-  const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
+export const CompetenceGoals = ({ codes, subjectId, isOembed }: Props) => {
+  const { t } = useTranslation();
 
   const { error, data, loading } = useQuery<GQLCompetenceGoalsQuery>(competenceGoalsQuery, {
-    variables: { codes, language },
+    variables: { codes },
     skip: typeof window === "undefined",
   });
 
