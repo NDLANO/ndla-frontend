@@ -104,12 +104,7 @@ export const Article = ({
         introduction={article.transformedContent.introduction}
         competenceGoals={
           !isTopicArticle && article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length ? (
-            <CompetenceGoals
-              codes={article.grepCodes}
-              supportedLanguages={article.supportedLanguages}
-              subjectId={subjectId}
-              isOembed={isOembed}
-            />
+            <CompetenceGoals codes={article.grepCodes} subjectId={subjectId} isOembed={isOembed} />
           ) : undefined
         }
         lang={article.language}
