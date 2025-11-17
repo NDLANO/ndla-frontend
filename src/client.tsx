@@ -32,7 +32,7 @@ const {
 
 initSentry(config);
 
-const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
+const { abbreviation, basepath } = getLocaleInfoFromPath(serverPath ?? "");
 
 const paths = window.location.pathname.split("/");
 const basename = isValidLocale(paths[1] ?? "") ? `${paths[1]}` : undefined;
@@ -68,4 +68,5 @@ renderOrHydrate(
     </I18nextProvider>
   </Document>,
   routes,
+  basepath,
 );

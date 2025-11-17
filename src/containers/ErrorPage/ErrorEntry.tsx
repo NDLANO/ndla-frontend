@@ -21,7 +21,7 @@ const { config, serverPath, chunkInfo, hash } = window.DATA;
 
 initSentry(config);
 
-const { abbreviation } = getLocaleInfoFromPath(serverPath ?? "");
+const { abbreviation, basepath } = getLocaleInfoFromPath(serverPath ?? "");
 const i18n = initializeI18n(abbreviation, hash);
 
 const router = createBrowserRouter(errorRoutes);
@@ -38,4 +38,5 @@ renderOrHydrate(
     </I18nextProvider>
   </Document>,
   errorRoutes,
+  basepath,
 );

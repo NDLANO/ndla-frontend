@@ -41,4 +41,5 @@ renderOrHydrate(
     </I18nextProvider>
   </Document>,
   iframeEmbedRoutes,
+  window.location.pathname,
 );
