@@ -15,7 +15,6 @@ vi.mock("../../../config", () => {
     default: {
       isNdlaProdEnvironment: true,
       getEnvironmentVariable: () => {},
-      runtimeType: "test",
     },
   };
 });
