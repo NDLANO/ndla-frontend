@@ -11,8 +11,13 @@ import { matchRoutes, RouteObject } from "react-router";
 import config from "../config";
 import { createRoot, hydrateRoot } from "react-dom/client";
 
-export const renderOrHydrate = async (container: Element | Document, children: ReactNode, routes: RouteObject[]) => {
-  const lazyMatches = matchRoutes(routes, window.location)?.filter((m) => m.route.lazy);
+export const renderOrHydrate = async (
+  container: Element | Document,
+  children: ReactNode,
+  routes: RouteObject[],
+  path: string,
+) => {
+  const lazyMatches = matchRoutes(routes, path)?.filter((m) => m.route.lazy);
 
   // Load the lazy matches and update the routes before creating your router
   // so we can hydrate the SSR-rendered content synchronously
