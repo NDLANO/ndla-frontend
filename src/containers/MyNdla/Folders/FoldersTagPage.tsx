@@ -11,7 +11,6 @@ import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router";
 import { FolderLine, LinkMedium } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { keyBy, usePrevious } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
@@ -20,13 +19,13 @@ import { ListResource } from "../../../components/MyNdla/ListResource";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle, TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
+import { PageTitle } from "../../../components/PageTitle";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
 import { GQLFolderResource } from "../../../graphqlTypes";
 import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourcesForTag } from "../../../util/folderHelpers";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -43,8 +42,6 @@ export const Component = () => {
 };
 
 export const FoldersTagsPage = () => {
-  const { user, authContextLoaded } = useContext(AuthContext);
-  const { trackPageView } = useTracker();
   const { folders, loading } = useFolders();
   const { tag } = useParams();
   const { t } = useTranslation();
@@ -53,11 +50,6 @@ export const FoldersTagsPage = () => {
   const resources = useMemo(() => (tag ? getResourcesForTag(folders, tag) : []), [tag, folders]);
   const previousResources = usePrevious(resources);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!authContextLoaded) return;
-    trackPageView({ title: title, dimensions: getAllDimensions({ user }) });
-  }, [authContextLoaded, title, trackPageView, user]);
 
   useEffect(() => {
     if (tag && !!previousResources?.length && resources.length === 0) {
@@ -75,7 +67,7 @@ export const FoldersTagsPage = () => {
 
   return (
     <StyledMyNdlaPageWrapper>
-      <HelmetWithTracker title={title} />
+      <PageTitle title={title} />
       <TitleWrapper>
         <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
         <MyNdlaTitle title={`#${tag}`} />

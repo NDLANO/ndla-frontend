@@ -6,22 +6,21 @@
  *
  */
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { licenses } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleForm, TitleFormValues } from "./components/TitleForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { PageTitle } from "../../../components/PageTitle";
 import { serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import { useToast } from "../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useCreateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 
@@ -31,16 +30,11 @@ export const Component = () => {
 
 export const NewLearningpathPage = () => {
   const { t, i18n } = useTranslation();
-  const { trackPageView } = useTracker();
   const { user } = useContext(AuthContext);
 
   const toast = useToast();
   const { createLearningpath } = useCreateLearningpath();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    trackPageView({ title: t("htmlTitles.learningpathNewPage"), dimensions: getAllDimensions({ user }) });
-  }, [t, trackPageView, user]);
 
   const onSave = async ({ title, imageUrl, introduction }: TitleFormValues) => {
     if (!user) {
@@ -72,7 +66,7 @@ export const NewLearningpathPage = () => {
 
   return (
     <MyNdlaPageWrapper type="learningpath">
-      <HelmetWithTracker title={t("htmlTitles.learningpathNewPage")} />
+      <PageTitle title={t("htmlTitles.learningpathNewPage")} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "newLearningpath", name: t("myNdla.learningpath.newLearningpath") }]}
         page="learningpath"

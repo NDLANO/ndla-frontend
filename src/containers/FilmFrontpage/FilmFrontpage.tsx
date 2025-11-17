@@ -29,6 +29,7 @@ import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 import { Article } from "../../components/Article/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
@@ -65,7 +66,7 @@ const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   },
 });
 
-const getDocumentTitle = (t: TFunction, node: GQLFilmFrontPageQuery["node"]) =>
+const getDocumentTitle = (t: TFunction, node: NonNullable<GQLFilmFrontPageQuery["node"]>) =>
   htmlTitle(node?.name, [t("htmlTitles.titleTemplate")]);
 
 const fromNdla = {
@@ -111,7 +112,7 @@ export const FilmFrontpage = () => {
 
   return (
     <>
-      <title>{getDocumentTitle(t, node)}</title>
+      {!!node && <PageTitle title={getDocumentTitle(t, node)} />}
       <SocialMediaMetadata type="website" title={node?.name ?? ""} description={about?.description} />
       <StyledPageContainer asChild consumeCss>
         <main>

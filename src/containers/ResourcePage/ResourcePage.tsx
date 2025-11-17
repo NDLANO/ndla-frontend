@@ -138,18 +138,10 @@ export const ResourcePage = () => {
 
   if (isLearningPathResource(data.node.contentUri)) {
     return (
-      <LearningpathPage
-        key={data.node.url}
-        skipToContentId={SKIP_TO_CONTENT_ID}
-        stepId={stepId}
-        node={data.node}
-        loading={loading}
-      />
+      <LearningpathPage key={data.node.url} skipToContentId={SKIP_TO_CONTENT_ID} stepId={stepId} node={data.node} />
     );
   }
-  return (
-    <ArticlePage key={data.node.url} skipToContentId={SKIP_TO_CONTENT_ID} resource={data.node} loading={loading} />
-  );
+  return <ArticlePage key={data.node.url} skipToContentId={SKIP_TO_CONTENT_ID} resource={data.node} />;
 };
 
 export const Component = ResourcePage;

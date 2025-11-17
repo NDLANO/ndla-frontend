@@ -24,11 +24,11 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import { PodcastSeries } from "./PodcastSeries";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
@@ -116,7 +116,7 @@ export const PodcastSeriesListPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.podcast", { page: page })} />
+        <PageTitle title={t("htmlTitles.podcast", { page })} />
         <SocialMediaMetadata type="website" title={t("podcastPage.podcasts")} description={t("podcastPage.meta")} />
         <HomeBreadcrumb
           items={[

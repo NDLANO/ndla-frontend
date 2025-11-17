@@ -18,8 +18,8 @@ import {
   ErrorMessageTitle,
   PageContainer,
 } from "@ndla/primitives";
-import { HelmetWithTracker } from "@ndla/tracker";
 import { IframeArticlePage, iframeArticlePageFragments } from "./IframeArticlePage";
+import { PageTitle } from "../components/PageTitle";
 import { RedirectContext } from "../components/RedirectContext";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
@@ -31,10 +31,11 @@ import { isGoneError } from "../util/handleError";
 
 const Error = () => {
   const { t } = useTranslation();
+
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <HelmetWithTracker title={t("htmlTitles.errorPage")} />
+        <PageTitle title={t("htmlTitles.errorPage")} />
         <Status code={INTERNAL_SERVER_ERROR}>
           <ErrorMessageRoot>
             <img src="/static/oops.gif" alt={t("errorMessage.title")} />

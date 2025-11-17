@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useHref } from "react-router";
 import { DeleteBinLine } from "@ndla/icons";
@@ -25,12 +25,11 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { HelmetWithTracker, useTracker } from "@ndla/tracker";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
+import { PageTitle } from "../../../components/PageTitle";
 import { useDeletePersonalData } from "../../../mutations/userMutations";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyContactArea } from "../components/MyContactArea";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -76,16 +75,8 @@ export const Component = () => {
 export const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { trackPageView } = useTracker();
   const { deletePersonalData } = useDeletePersonalData();
   const logoutPath = useHref("/logout?state=/");
-
-  useEffect(() => {
-    trackPageView({
-      title: t("htmlTitles.myProfile"),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [t, trackPageView, user]);
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
@@ -94,7 +85,7 @@ export const MyProfilePage = () => {
 
   return (
     <StyledMyNdlaPageWrapper>
-      <HelmetWithTracker title={t("myNdla.myProfile.title")} />
+      <PageTitle title={t("myNdla.myProfile.title")} />
       <MyNdlaTitle title={t("myNdla.myProfile.title")} />
       <MyContactArea
         user={{

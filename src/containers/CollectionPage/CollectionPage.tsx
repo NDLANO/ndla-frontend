@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { gql } from "@apollo/client";
@@ -14,19 +14,17 @@ import { useQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
 import { subjectTypes } from "@ndla/ui";
 import { groupBy } from "@ndla/util";
-import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { PageSpinner } from "../../components/PageSpinner";
+import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
-import { getAllDimensions } from "../../util/trackingUtil";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 // TODO: We might want to reconsider this at some point. For now it'll do.
@@ -88,9 +86,7 @@ interface CollectionpageContentProps {
 }
 
 const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageContentProps) => {
-  const { user, authContextLoaded } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { trackPageView } = useTracker();
 
   const metaTitle = useMemo(
     () => t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() }),
@@ -114,19 +110,10 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
     return Object.entries(groupBy(transformedSubjects, (d) => d.metadata.customFields.subjectType));
   }, [subjects]);
 
-  useEffect(() => {
-    if (!authContextLoaded) return;
-    const dimensions = getAllDimensions({ user });
-    trackPageView({
-      dimensions,
-      title: pageTitle,
-    });
-  }, [authContextLoaded, pageTitle, trackPageView, user]);
-
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
-        <title>{pageTitle}</title>
+        <PageTitle title={pageTitle} />
         <SocialMediaMetadata title={metaTitle} imageUrl={IMAGE_URL} />
         <div>
           {/* TODO: Use semantic tokens */}

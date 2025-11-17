@@ -21,7 +21,7 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
-  authContextLoaded: false,
+  authContextLoaded: true,
   user: undefined,
   examLock: false,
 });
@@ -71,15 +71,15 @@ const timeoutSubscribe = (callback: VoidFunction) => {
 };
 
 export const AuthenticationContext = ({ children }: Props) => {
-  const authenticated = useSyncExternalStore(timeoutSubscribe, isAccessTokenValid, () => false);
+  const authenticated = useSyncExternalStore(timeoutSubscribe, isAccessTokenValid, () => undefined);
 
   const myNdlaData = useQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
     skip: typeof window === "undefined" || !authenticated,
   });
 
   const authContextLoaded = useMemo(() => {
-    return myNdlaData.loading === false;
-  }, [myNdlaData.loading]);
+    return authenticated !== undefined && myNdlaData.loading === false;
+  }, [authenticated, myNdlaData.loading]);
 
   const user = useMemo(() => {
     if (authenticated) return myNdlaData.data?.personalData;
@@ -88,7 +88,7 @@ export const AuthenticationContext = ({ children }: Props) => {
 
   const examLock = useMemo(() => {
     return (
-      authenticated &&
+      !!authenticated &&
       myNdlaData.data?.personalData?.role === "student" &&
       myNdlaData.data?.examLockStatus?.value === true
     );
@@ -97,7 +97,7 @@ export const AuthenticationContext = ({ children }: Props) => {
   return (
     <AuthContext
       value={{
-        authenticated,
+        authenticated: !!authenticated,
         authContextLoaded,
         user,
         examLock,

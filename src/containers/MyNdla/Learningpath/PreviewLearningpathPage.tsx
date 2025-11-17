@@ -6,7 +6,6 @@
  *
  */
 
-import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { gql } from "@apollo/client";
@@ -14,20 +13,18 @@ import { useQuery } from "@apollo/client/react";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useTracker } from "@ndla/tracker";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
-import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { Learningpath } from "../../../components/Learningpath/Learningpath";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { PageSpinner } from "../../../components/PageSpinner";
+import { PageTitle } from "../../../components/PageTitle";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
-import { getAllDimensions } from "../../../util/trackingUtil";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 
 const TextWrapper = styled("div", {
@@ -60,8 +57,6 @@ export const Component = () => {
 export const PreviewLearningpathPage = () => {
   const { t } = useTranslation();
   const { learningpathId, stepId } = useParams();
-  const { user } = useContext(AuthContext);
-  const { trackPageView } = useTracker();
 
   const learningpathQuery = useQuery<GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables>(
     previewLearningpathQuery,
@@ -71,14 +66,6 @@ export const PreviewLearningpathPage = () => {
       fetchPolicy: "network-only",
     },
   );
-
-  useEffect(() => {
-    if (!learningpathQuery.data?.learningpath?.title) return;
-    trackPageView({
-      title: t("htmlTitles.learningpathSavePage", { name: learningpathQuery.data.learningpath.title }),
-      dimensions: getAllDimensions({ user }),
-    });
-  }, [learningpathQuery.data?.learningpath?.title, t, trackPageView, user]);
 
   if (learningpathQuery.loading) {
     return <PageSpinner />;
@@ -107,7 +94,7 @@ export const PreviewLearningpathPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <title>{t("htmlTitles.learningpathPreviewPage", { name: learningpath.title })}</title>
+      <PageTitle title={t("htmlTitles.learningpathPreviewPage", { name: learningpath.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[
           { id: `preview-${learningpath.id}`, name: t("myNdla.learningpath.previewLearningpath.pageHeading") },
