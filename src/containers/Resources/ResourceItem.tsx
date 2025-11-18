@@ -137,6 +137,7 @@ ResourceItem.fragments = {
   node: gql`
     fragment ResourceItem_Node on Node {
       id
+      rank
       name
       url
       language

@@ -3191,6 +3191,7 @@ export type GQLResourcePageQuery = {
 export type GQLResourceItem_NodeFragment = {
   __typename?: "Node";
   id: string;
+  rank?: number;
   name: string;
   url?: string;
   language?: string;
