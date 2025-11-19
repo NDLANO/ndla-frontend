@@ -1022,6 +1022,7 @@ const messages = {
     wrongUserInfoDisclaimer:
       "If any information is wrong, it must be updated by the host organization/school owner the user belongs to. An overview of available user support can be found here: ",
   },
+  archivedPage: "This page has been archived. The content may be out of date.",
 };
 
 export default messages;

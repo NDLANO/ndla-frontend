@@ -10,7 +10,8 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { HTMLProps } from "@ark-ui/react";
-import { Badge } from "@ndla/primitives";
+import { InformationLine } from "@ndla/icons";
+import { Badge, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
   ArticleByline,
@@ -35,6 +36,7 @@ interface Props extends HTMLProps<"div"> {
   article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
   isTopicArticle?: boolean;
   children?: ReactNode;
+  isInactive?: boolean;
   contentType?: string;
   printUrl?: string;
   subjectId?: string;
@@ -50,6 +52,12 @@ const StyledArticleContent = styled(ArticleContent, {
   },
 });
 
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    width: "100%",
+  },
+});
+
 export const Article = ({
   path,
   article,
@@ -60,11 +68,12 @@ export const Article = ({
   id,
   subjectId,
   isOembed = false,
+  isInactive,
   resourceTypes,
   relevanceId,
   ...rest
 }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const copyText = useArticleCopyText(article);
 
   useNavigateToHash(article.transformedContent.content);
@@ -116,7 +125,14 @@ export const Article = ({
         disclaimer={
           article.transformedDisclaimer.content ? <Disclaimer disclaimer={article.transformedDisclaimer} /> : null
         }
-      />
+      >
+        {!!isInactive && (
+          <StyledMessageBox variant="warning">
+            <InformationLine />
+            {t("archivedPage")}
+          </StyledMessageBox>
+        )}
+      </ArticleTitle>
       <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
       <ArticleFooter>
         <ArticleByline

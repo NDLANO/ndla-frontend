@@ -145,6 +145,7 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
               contentType={contentType}
               printUrl={printUrl}
               subjectId={root?.id}
+              isInactive={!!resource.context && !resource.context.isActive}
               resourceTypes={resource.resourceTypes}
               relevanceId={resource.relevanceId}
             >

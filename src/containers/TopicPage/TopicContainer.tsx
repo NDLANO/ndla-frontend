@@ -11,7 +11,8 @@ import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
-import { Badge, Heading, PageContent, Text } from "@ndla/primitives";
+import { InformationLine } from "@ndla/icons";
+import { Badge, Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
@@ -170,6 +171,12 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
+        {!!node.context && !node.context.isActive && (
+          <MessageBox variant="warning">
+            <InformationLine />
+            {t("archivedPage")}
+          </MessageBox>
+        )}
         {!!node.children?.length && (
           <NodeGridWrapper aria-labelledby={headingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={headingId}>

@@ -2578,13 +2578,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/article-converter@npm:^10.0.159-alpha.0":
-  version: 10.0.159-alpha.0
-  resolution: "@ndla/article-converter@npm:10.0.159-alpha.0"
+"@ndla/article-converter@npm:^10.0.160-alpha.0":
+  version: 10.0.160-alpha.0
+  resolution: "@ndla/article-converter@npm:10.0.160-alpha.0"
   dependencies:
     "@ndla/primitives": "npm:^1.0.109-alpha.0"
     "@ndla/safelink": "npm:^7.0.112-alpha.0"
-    "@ndla/ui": "npm:^56.0.155-alpha.0"
+    "@ndla/ui": "npm:^56.0.156-alpha.0"
     html-react-parser: "npm:^5.2.8"
   peerDependencies:
     i18next: ">= 25.0.0"
@@ -2592,7 +2592,7 @@ __metadata:
     react-dom: ">= 16.8.0"
     react-i18next: ^15.4.1
     react-router: ">= 7.0.0"
-  checksum: 10c0/1273c225efc18c50585f66ae1580e5fbe8406a1b845a58727778a00da0b15ecce2e5bbebcf2b4d631ac21d077f94de47091b96748a80752914914d766c6a994c
+  checksum: 10c0/81a9ee7ca1050efeaca61daf0ce5136b22c2af4990ef1560ece9a0b36cb6f54b1bf9ebf49c4c292b340ede3a4d0ea854349b19c1bfe19082d583af2ef067c02e
   languageName: node
   linkType: hard
 
@@ -2666,26 +2666,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/image-search@npm:^11.0.127-alpha.0":
-  version: 11.0.127-alpha.0
-  resolution: "@ndla/image-search@npm:11.0.127-alpha.0"
+"@ndla/image-search@npm:^11.0.128-alpha.0":
+  version: 11.0.128-alpha.0
+  resolution: "@ndla/image-search@npm:11.0.128-alpha.0"
   dependencies:
     "@ndla/icons": "npm:^8.0.71-alpha.0"
-    "@ndla/licenses": "npm:^10.0.2-alpha.0"
+    "@ndla/licenses": "npm:^10.0.3-alpha.0"
     "@ndla/primitives": "npm:^1.0.109-alpha.0"
     "@ndla/styled-system": "npm:^0.0.42"
     "@ndla/util": "npm:^5.0.15-alpha.0"
   peerDependencies:
     react: ">= 18"
     react-dom: ">= 18"
-  checksum: 10c0/4d95644cec69000d1c5de4249f6dc3aaf0162b47e4f8229b35568f481a1af0d5473cb112b8107920884023a7f6e21fae0c0c5ad2d00a57d461f194eb54ef1322
+  checksum: 10c0/ca770e30f00c61f3ddd5d290c73a34f439952ed76b340f581c824db5dbab68d02cfb4538084af6205bad56b480494f8ceb4f15a6e9bc5e9c42e6379de4dbbb00
   languageName: node
   linkType: hard
 
-"@ndla/licenses@npm:^10.0.2-alpha.0":
-  version: 10.0.2-alpha.0
-  resolution: "@ndla/licenses@npm:10.0.2-alpha.0"
-  checksum: 10c0/34309147fd6d94e0b7cbf62de056cf42cd50711af999d81722b6e0a366e740bc9ae62747384eb07ee895bf60957dcab3b3311fa9170443465c294a26901ee00f
+"@ndla/licenses@npm:^10.0.3-alpha.0":
+  version: 10.0.3-alpha.0
+  resolution: "@ndla/licenses@npm:10.0.3-alpha.0"
+  checksum: 10c0/98ada01ee992dd44ede376978c5169969589c0f0751ed17e30f816db21ae5bb7c6fdfa8c1e7fa14206db4640d8a5fba9c2bd8f92824461177fcc7db6a1fbd488
   languageName: node
   linkType: hard
 
@@ -2771,14 +2771,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/ui@npm:^56.0.155-alpha.0":
-  version: 56.0.155-alpha.0
-  resolution: "@ndla/ui@npm:56.0.155-alpha.0"
+"@ndla/ui@npm:^56.0.156-alpha.0":
+  version: 56.0.156-alpha.0
+  resolution: "@ndla/ui@npm:56.0.156-alpha.0"
   dependencies:
     "@ark-ui/react": "npm:^5.25.0"
     "@ndla/core": "npm:^6.0.4-alpha.0"
     "@ndla/icons": "npm:^8.0.71-alpha.0"
-    "@ndla/licenses": "npm:^10.0.2-alpha.0"
+    "@ndla/licenses": "npm:^10.0.3-alpha.0"
     "@ndla/primitives": "npm:^1.0.109-alpha.0"
     "@ndla/safelink": "npm:^7.0.112-alpha.0"
     "@ndla/styled-system": "npm:^0.0.42"
@@ -2790,7 +2790,7 @@ __metadata:
     react-dom: ">= 18"
     react-i18next: ^15.4.1
     react-router: ">= 7.0.0"
-  checksum: 10c0/2c897f848e616cfd744b760a42193b1ab14407ddf9a527d7d446a8e11068173085a06c7621e9176d0691b739c4ce0acdca133033968d0ff070d1b2527fd4535d
+  checksum: 10c0/77c15d15bb81dd7922bba05c8a7b8b112fc23d884fb7ea661958572cdf5fc1858ec8ffe6b9b04c359074f4c7f0cdda21a994d9f357461ee7f69fb798240b5af4
   languageName: node
   linkType: hard
 
@@ -9571,14 +9571,14 @@ __metadata:
     "@graphql-codegen/typescript-operations": "npm:^5.0.5"
     "@graphql-eslint/eslint-plugin": "npm:^4.4.0"
     "@juggle/resize-observer": "npm:^3.4.0"
-    "@ndla/article-converter": "npm:^10.0.159-alpha.0"
+    "@ndla/article-converter": "npm:^10.0.160-alpha.0"
     "@ndla/core": "npm:^6.0.4-alpha.0"
     "@ndla/editor": "npm:^0.0.33"
     "@ndla/editor-components": "npm:^0.0.59"
     "@ndla/hooks": "npm:^2.1.14"
     "@ndla/icons": "npm:^8.0.71-alpha.0"
-    "@ndla/image-search": "npm:^11.0.127-alpha.0"
-    "@ndla/licenses": "npm:^10.0.2-alpha.0"
+    "@ndla/image-search": "npm:^11.0.128-alpha.0"
+    "@ndla/licenses": "npm:^10.0.3-alpha.0"
     "@ndla/preset-panda": "npm:^0.0.64"
     "@ndla/primitives": "npm:^1.0.109-alpha.0"
     "@ndla/safelink": "npm:^7.0.112-alpha.0"
@@ -9587,7 +9587,7 @@ __metadata:
     "@ndla/types-backend": "npm:^1.0.68"
     "@ndla/types-embed": "npm:^5.0.17-alpha.0"
     "@ndla/types-taxonomy": "npm:^1.0.34"
-    "@ndla/ui": "npm:^56.0.155-alpha.0"
+    "@ndla/ui": "npm:^56.0.156-alpha.0"
     "@ndla/util": "npm:^5.0.15-alpha.0"
     "@pandacss/dev": "npm:^1.3.1"
     "@playwright/test": "npm:^1.56.1"

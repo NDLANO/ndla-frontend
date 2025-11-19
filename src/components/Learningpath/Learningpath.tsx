@@ -9,7 +9,7 @@
 import { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
+import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine, InformationLine } from "@ndla/icons";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -18,6 +18,7 @@ import {
   AccordionRoot,
   Badge,
   Heading,
+  MessageBox,
   PageContent,
   Text,
 } from "@ndla/primitives";
@@ -181,6 +182,12 @@ const BreadcrumbWrapper = styled("div", {
   },
 });
 
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    marginBlockStart: "small",
+  },
+});
+
 export const Learningpath = ({
   learningpath,
   learningpathStep,
@@ -245,6 +252,12 @@ export const Learningpath = ({
               <br />
               <strong>{learningpath.title}</strong>
             </Text>
+            {!!resource?.context && !resource.context.isActive && (
+              <StyledMessageBox variant="warning">
+                <InformationLine />
+                {t("archivedPage")}
+              </StyledMessageBox>
+            )}
           </MetaWrapper>
         )}
         <StyledAccordionRoot
