@@ -121,7 +121,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   return (
     <main>
       <PageTitle title={pageTitle} />
-      {!node.context?.isActive && <meta name="robots" content="noindex" />}
+      {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}
