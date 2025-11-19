@@ -34,6 +34,9 @@ export const alertsQuery = gql`
       body
       closable
       number
+      labels {
+        name
+      }
     }
   }
 `;
