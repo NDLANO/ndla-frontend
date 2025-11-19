@@ -183,11 +183,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
               }
               competenceGoals={
                 !!article.grepCodes?.filter((gc) => gc.toUpperCase().startsWith("K")).length && (
-                  <CompetenceGoals
-                    codes={article.grepCodes}
-                    subjectId={root?.id}
-                    supportedLanguages={article.supportedLanguages}
-                  />
+                  <CompetenceGoals codes={article.grepCodes} subjectId={root?.id} />
                 )
               }
               lang={article.language}

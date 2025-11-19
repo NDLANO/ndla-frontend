@@ -41,8 +41,8 @@ const FiltersWrapper = styled("div", {
 // });
 
 const grepFilterQuery = gql`
-  query grepFilter($codes: [String!], $language: String!) {
-    competenceGoals(codes: $codes, language: $language) {
+  query grepFilter($codes: [String!]) {
+    competenceGoals(codes: $codes) {
       id
       title
       type
@@ -55,7 +55,7 @@ const grepFilterQuery = gql`
         title
       }
     }
-    coreElements(codes: $codes, language: $language) {
+    coreElements(codes: $codes) {
       id
       title
       description
@@ -65,11 +65,11 @@ const grepFilterQuery = gql`
 
 export const GrepFilter = () => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const codes = useMemo(() => searchParams.get("grepCodes")?.split(",") ?? [], [searchParams]);
 
   const grepQuery = useQuery<GQLGrepFilterQuery, GQLGrepFilterQueryVariables>(grepFilterQuery, {
-    variables: { language: i18n.language, codes },
+    variables: { codes },
     skip: !codes.length,
   });
 
