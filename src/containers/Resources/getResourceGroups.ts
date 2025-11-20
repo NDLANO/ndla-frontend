@@ -44,9 +44,13 @@ export const sortResources = <T extends GQLResourceLike>(resources: T[], isGroup
   // TODO: Convert map to `sortBy` once we can remove contentType
   const withContentType = sortedByRank.map((res) => {
     const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
-    return { ...res, contentType: contentTypeMapping[firstResourceType?.id ?? "default"] };
+    return {
+      ...res,
+      order: sortOrder[firstResourceType?.id ?? "default"],
+      contentType: contentTypeMapping[firstResourceType?.id ?? "default"],
+    };
   });
-  return sortBy(withContentType, (res) => res.contentType);
+  return sortBy(withContentType, (res) => res.order);
 };
 
 type SharedResourceType = Pick<GQLResourceType, "id" | "name">;
