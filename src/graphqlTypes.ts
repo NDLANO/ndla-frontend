@@ -3640,6 +3640,11 @@ export type GQLMyNdlaLearningpathStepFragment = {
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
     article?: { __typename?: "Article" } & GQLResource_ArticleFragment;
   };
+  copyright?: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
 };
 
 export type GQLMyNdlaLearningpathFragment = {

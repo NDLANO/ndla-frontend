@@ -6,10 +6,11 @@
  *
  */
 
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useOutletContext, useParams } from "react-router";
+import { licenses } from "@ndla/licenses";
 import {
   Button,
   FieldErrorMessage,
@@ -30,6 +31,7 @@ import { FolderStepForm } from "./FolderStepForm";
 import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
 import { ResourceStepForm } from "./ResourceStepForm";
 import { TextStepForm } from "./TextStepForm";
+import { AuthContext } from "../../../../components/AuthenticationContext";
 import { TextStep } from "../../../../components/Learningpath/components/TextStep";
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
@@ -66,6 +68,7 @@ interface Props {
 }
 
 export const LearningpathStepForm = ({ step, language }: Props) => {
+  const { user } = useContext(AuthContext);
   const [focusStepId, setFocusStepId] = useState<string | undefined>(undefined);
   const wrapperRef = useRef<HTMLFormElement>(null);
   const { learningpathId: learningpathIdParam } = useParams();
@@ -107,11 +110,20 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
     const transformedData = formValuesToGQLInput(values);
 
     if (!step) {
+      let copyright;
+      if (user && transformedData.type === "TEXT") {
+        copyright = {
+          license: {
+            license: licenses.CC_BY_SA_4,
+          },
+          contributors: [{ name: user.displayName, type: "writer" }],
+        };
+      }
       const res = await createStep({
         variables: {
           learningpathId: learningpathId,
           // @ts-expect-error We use null instead of undefined to delete fields
-          params: { ...transformedData, language, showTitle: false },
+          params: { ...transformedData, copyright, language, showTitle: false },
         },
       });
 
