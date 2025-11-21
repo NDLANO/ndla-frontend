@@ -50,7 +50,9 @@ export const TextStep = ({ learningpathStep, learningpath, skipToContentId }: Te
           {learningpathStep.description ? <section>{transform(learningpathStep.description, {})}</section> : null}
         </ArticleContent>
         <StyledArticleFooter>
-          <ArticleByline authors={learningpath?.copyright.contributors ?? []} />
+          <ArticleByline
+            authors={learningpathStep.copyright?.contributors ?? learningpath?.copyright.contributors ?? []}
+          />
         </StyledArticleFooter>
       </ArticleWrapper>
     </EmbedPageContent>
