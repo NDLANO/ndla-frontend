@@ -340,8 +340,14 @@ Learningpath.fragments = {
       showTitle
       title
       description
-      license {
-        license
+      copyright {
+        license {
+          license
+        }
+        contributors {
+          type
+          name
+        }
       }
       ...LearningpathMenu_LearningpathStep
       ...LearningpathStep_LearningpathStep

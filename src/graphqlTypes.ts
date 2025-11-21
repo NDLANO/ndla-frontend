@@ -2165,7 +2165,11 @@ export type GQLLearningpath_LearningpathStepFragment = {
   showTitle: boolean;
   title: string;
   description?: string;
-  license?: { __typename?: "License"; license: string };
+  copyright?: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
 } & GQLLearningpathMenu_LearningpathStepFragment &
   GQLLearningpathStep_LearningpathStepFragment;
 

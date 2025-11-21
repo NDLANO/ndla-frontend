@@ -22,7 +22,9 @@ export const LearningpathStepTitle = ({ learningpathStep, skipToContentId }: Bas
         {!!learningpathStep.showTitle && (
           <ArticleHeader>
             <Heading id={learningpathStep.showTitle ? skipToContentId : undefined}>{learningpathStep.title}</Heading>
-            <LicenseLink license={getLicenseByAbbreviation(learningpathStep.license?.license ?? "", i18n.language)} />
+            <LicenseLink
+              license={getLicenseByAbbreviation(learningpathStep.copyright?.license?.license ?? "", i18n.language)}
+            />
           </ArticleHeader>
         )}
         <ArticleContent>
