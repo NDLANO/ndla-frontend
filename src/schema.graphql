@@ -1339,7 +1339,6 @@ type SortResult {
 scalar StringRecord
 
 type Subject implements TaxBase & TaxonomyEntity {
-  allTopics: [Topic!]
   breadcrumbs: [String!]!
   contentUri: String
   context: TaxonomyContext
@@ -1355,7 +1354,6 @@ type Subject implements TaxBase & TaxonomyEntity {
   resourceTypes: [ResourceType!]
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
-  topics(all: Boolean): [Topic!]
   url: String
 }
 
@@ -1481,7 +1479,6 @@ type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
-  coreResources(subjectId: String): [Resource!]
   id: String!
   isPrimary: Boolean
   language: String
@@ -1492,8 +1489,6 @@ type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   parentId: String
   relevanceId: String
   resourceTypes: [ResourceType!]
-  subtopics: [Topic!]
-  supplementaryResources(subjectId: String): [Resource!]
   supportedLanguages: [String!]!
   url: String
 }
@@ -1533,8 +1528,13 @@ type UpdatedFolderResource {
 type UptimeAlert {
   body: String
   closable: Boolean!
+  labels: [UptimeLabel!]!
   number: Int!
   title: String!
+}
+
+type UptimeLabel {
+  name: String!
 }
 
 type UserFolder {

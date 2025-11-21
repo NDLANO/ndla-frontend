@@ -20,6 +20,13 @@ const MessageBannerWrapper = styled("div", {
     gridTemplateAreas: "'. content closebutton'",
     gridTemplateColumns: "minmax(30px, 1fr) minmax(0, auto) minmax(30px, 1fr)",
   },
+  variants: {
+    label: {
+      county: {
+        background: "surface.dangerSubtle",
+      },
+    },
+  },
 });
 const StyledCloseButton = styled(IconButton, {
   base: {
@@ -48,12 +55,13 @@ const AlertsConsumer = () => {
     content: alert.body ? parse(alert.body) : alert.title,
     closable: alert.closable,
     number: alert.number,
+    labels: alert.labels,
   }));
 
   return (
     <>
       {alerts.map((message) => (
-        <MessageBannerWrapper key={message.number}>
+        <MessageBannerWrapper key={message.number} label={message.labels.find((l) => l.name === "county") && "county"}>
           <StyledText textStyle="body.large">{message.content}</StyledText>
           {!!message.closable && (
             <StyledCloseButton
