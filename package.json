@@ -35,10 +35,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.5",
-    "@graphql-codegen/cli": "^6.0.1",
+    "@graphql-codegen/cli": "^6.1.0",
     "@graphql-codegen/schema-ast": "^5.0.0",
-    "@graphql-codegen/typescript": "^5.0.2",
-    "@graphql-codegen/typescript-operations": "^5.0.2",
+    "@graphql-codegen/typescript": "^5.0.5",
+    "@graphql-codegen/typescript-operations": "^5.0.5",
     "@graphql-eslint/eslint-plugin": "^4.4.0",
     "@juggle/resize-observer": "^3.4.0",
     "@ndla/preset-panda": "^0.0.64",
