@@ -74,6 +74,15 @@ export const learningpathStepFragment = gql`
         ...Resource_Article
       }
     }
+    copyright {
+      license {
+        license
+      }
+      contributors {
+        type
+        name
+      }
+    }
   }
   ${learningpathStepOembed}
   ${learningpathStepEmbedUrl}

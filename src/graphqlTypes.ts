@@ -2165,7 +2165,11 @@ export type GQLLearningpath_LearningpathStepFragment = {
   showTitle: boolean;
   title: string;
   description?: string;
-  license?: { __typename?: "License"; license: string };
+  copyright?: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
 } & GQLLearningpathMenu_LearningpathStepFragment &
   GQLLearningpathStep_LearningpathStepFragment;
 
@@ -3639,6 +3643,11 @@ export type GQLMyNdlaLearningpathStepFragment = {
     breadcrumbs: Array<string>;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
     article?: { __typename?: "Article" } & GQLResource_ArticleFragment;
+  };
+  copyright?: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
   };
 };
 
