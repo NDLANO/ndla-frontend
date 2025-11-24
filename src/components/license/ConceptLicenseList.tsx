@@ -110,7 +110,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
           {!isCopyrighted(concept.copyright?.license?.license) && (
             <MediaListItemActions>
               <CopyTextButton
-                stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" frameborder="0" src="${src}" allowfullscreen=""></iframe>`}
+                stringToCopy={`<iframe title="${concept.title}" aria-label="${concept.title}" height="400" width="500" style="border: none;" allowfullscreen="" src="${src}"></iframe>`}
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />

@@ -79,7 +79,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
           {!isCopyrighted(h5p.copyright?.license.license) && (
             <MediaListItemActions>
               <CopyTextButton
-                stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" frameborder="0" src="${h5p.src}" allowfullscreen=""></iframe>`}
+                stringToCopy={`<iframe title="${h5p.title}" aria-label="${h5p.src}" height="400" width="500" style="border: none;" allowfullscreen="" src="${h5p.src}"></iframe>`}
                 copyTitle={t("license.embed")}
                 hasCopiedTitle={t("license.embedCopied")}
               />
