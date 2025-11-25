@@ -18,7 +18,7 @@ test("contains article header and introduction", async ({ page, waitGraphql }) =
   await page.getByRole("button", { name: "Meny" }).click();
   await page.getByRole("link", { name: "Alle fag", exact: true }).click();
   await waitGraphql();
-  await page.getByText("ALLE FAG").last().click();
+  await page.getByText("UTGÅTTE FAG").last().click();
   await page.getByRole("link", { name: "UTGÅTT - Medieuttrykk 3 og mediesamfunnet 3 (LK06)" }).last().click();
   await waitGraphql();
   await page
@@ -34,7 +34,7 @@ test("show have functioning language box", async ({ page, waitGraphql }) => {
   await waitGraphql();
   await page.getByRole("button", { name: "Meny" }).click();
   await page.getByRole("link", { name: "Alle fag", exact: true }).click();
-  await page.getByText("ALLE FAG").last().click();
+  await page.getByText("UTGÅTTE FAG").last().click();
   await page.getByRole("link", { name: "UTGÅTT - Medieuttrykk 3 og mediesamfunnet 3 (LK06)" }).last().click();
   await page
     .getByRole("navigation", { name: "Emner" })
