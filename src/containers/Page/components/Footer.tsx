@@ -304,7 +304,7 @@ export const Footer = () => {
   return (
     <FooterBlock>
       {!!config.zendeskWidgetKey && (
-        <StyledZendesk id="zendesk" locale={i18n.language} widgetKey={config.zendeskWidgetKey}>
+        <StyledZendesk id="zendesk" locale={i18n.language !== "en" ? "no" : "en"} widgetKey={config.zendeskWidgetKey}>
           <QuestionLine />
           {t("askNDLA")}
         </StyledZendesk>
