@@ -6,15 +6,24 @@
  *
  */
 
-import { TFunction } from "i18next";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { Heading } from "@ndla/primitives";
+import { CheckLine } from "@ndla/icons";
+import {
+  CheckboxControl,
+  CheckboxGroup,
+  CheckboxHiddenInput,
+  CheckboxIndicator,
+  CheckboxLabel,
+  CheckboxRoot,
+  FieldsetLegend,
+  FieldsetRoot,
+  Heading,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { subjectCategories } from "@ndla/ui";
-import { groupBy, sortBy } from "@ndla/util";
+import { sortBy } from "@ndla/util";
 import { FavoriteSubjects } from "./FavoriteSubjects";
 import { LetterNavigation } from "./LetterNavigation";
 import { SubjectCategory } from "./SubjectCategory";
@@ -27,40 +36,8 @@ import { PageTitle } from "../../components/PageTitle";
 import { TabFilter } from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
+import { createFilters, groupAndFilterSubjectsByCategory } from "../../util/subjectFilter";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
-
-const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
-  const label = addTail
-    ? `${t(`subjectCategories.${key}`)} ${t("common.subject", {
-        count: 2,
-      }).toLowerCase()}`
-    : t(`subjectCategories.${key}`);
-  return label;
-};
-
-const createFilters = (t: TFunction) => [
-  {
-    label: createFilterTranslation(t, subjectCategories.ACTIVE_SUBJECTS),
-    value: subjectCategories.ACTIVE_SUBJECTS,
-  },
-  {
-    label: createFilterTranslation(t, subjectCategories.ARCHIVE_SUBJECTS),
-    value: subjectCategories.ARCHIVE_SUBJECTS,
-  },
-
-  {
-    label: createFilterTranslation(t, subjectCategories.BETA_SUBJECTS),
-    value: subjectCategories.BETA_SUBJECTS,
-  },
-  {
-    label: createFilterTranslation(t, subjectCategories.OTHER, false),
-    value: subjectCategories.OTHER,
-  },
-  {
-    label: t("subjectsPage.tabFilter.all"),
-    value: "all",
-  },
-];
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
@@ -83,6 +60,26 @@ const StyledList = styled("ul", {
   },
 });
 
+const StyledCheckboxGroup = styled(CheckboxGroup, {
+  base: {
+    flexDirection: "row",
+  },
+});
+
+const FilterWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  },
+});
+
+const StyledFieldsetRoot = styled(FieldsetRoot, {
+  base: {
+    gap: "small",
+  },
+});
+
 const allSubjectsQuery = gql`
   query allSubjects {
     nodes(nodeType: "SUBJECT", filterVisible: true) {
@@ -96,8 +93,6 @@ const allSubjectsQuery = gql`
   }
 `;
 
-const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
-
 export const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchParams();
@@ -108,30 +103,21 @@ export const AllSubjectsPage = () => {
   const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
-  const selectedFilter = params.get("filter") ?? subjectCategories.ACTIVE_SUBJECTS;
+  const subFilters = useMemo(() => params.get("subFilters")?.split(",") ?? [], [params]);
+  const selectedFilter = useMemo(() => {
+    return filterOptions.find((opt) => opt.value === params.get("filter")) ?? filterOptions[0]!;
+  }, [filterOptions, params]);
 
   const setFilter = (value: string) => {
-    setParams({ filter: value }, { replace: true });
+    setParams({ filter: value, subFilters: undefined }, { replace: true });
   };
 
   const favoriteSubjects = user?.favoriteSubjects;
   const sortedSubjects = useMemo(() => sortBy(subjectsQuery.data?.nodes, (s) => s.name), [subjectsQuery.data?.nodes]);
-  const groupedSubjects = useMemo(() => {
-    const filteredSubjects = sortedSubjects.filter((sub) => {
-      const fields = sub.metadata.customFields;
-      return selectedFilter === "all" ? fields.subjectCategory : fields.subjectCategory === selectedFilter;
-    });
-
-    const grouped = groupBy(filteredSubjects, (sub) => {
-      const firstChar = sub.name[0]?.toUpperCase();
-      return firstChar?.match(LETTER_REGEXP) ? firstChar : "#";
-    });
-
-    return sortBy(
-      Object.entries(grouped).map((g) => ({ label: g[0], subjects: g[1] })),
-      (g) => g.label,
-    );
-  }, [sortedSubjects, selectedFilter]);
+  const groupedSubjects = useMemo(
+    () => groupAndFilterSubjectsByCategory(selectedFilter.value, subFilters, sortedSubjects),
+    [sortedSubjects, selectedFilter.value, subFilters],
+  );
 
   const letters = useMemo(() => groupedSubjects.map((group) => group.label), [groupedSubjects]);
 
@@ -148,7 +134,30 @@ export const AllSubjectsPage = () => {
           </Heading>
           {!!favoriteSubjects?.length && <FavoriteSubjects favorites={favoriteSubjects} subjects={sortedSubjects} />}
         </HeadingWrapper>
-        <TabFilter value={selectedFilter} onChange={setFilter} options={filterOptions} />
+        <FilterWrapper>
+          <TabFilter value={selectedFilter.value} onChange={setFilter} options={filterOptions} />
+          {!!selectedFilter.subfilters.length && (
+            <StyledFieldsetRoot>
+              <FieldsetLegend>{t("subjectsPage.subcategory")}</FieldsetLegend>
+              <StyledCheckboxGroup
+                value={subFilters}
+                onValueChange={(details) => setParams({ subFilters: details.join(",") })}
+              >
+                {selectedFilter.subfilters.map((option) => (
+                  <CheckboxRoot key={option.value} value={option.value} variant="chip">
+                    <CheckboxControl>
+                      <CheckboxIndicator asChild>
+                        <CheckLine />
+                      </CheckboxIndicator>
+                    </CheckboxControl>
+                    <CheckboxLabel>{option.label}</CheckboxLabel>
+                    <CheckboxHiddenInput />
+                  </CheckboxRoot>
+                ))}
+              </StyledCheckboxGroup>
+            </StyledFieldsetRoot>
+          )}
+        </FilterWrapper>
         <LetterNavigation activeLetters={letters} />
         <StyledList aria-label={t("subjectsPage.alphabeticSort")}>
           {groupedSubjects.map(({ label, subjects }) => (

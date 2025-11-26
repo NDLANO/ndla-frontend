@@ -74,6 +74,7 @@ const messages = {
       label: "Hvilke fag vil du vise?",
       all: "Alle fag og ressurser",
     },
+    subcategory: "Filtrer fag",
     myFavoriteSubjects: "Dine favorittfag",
     subjectGroup: 'Gruppe "{{ category }}"',
     scrollToGroup: "Hopp til gruppe",

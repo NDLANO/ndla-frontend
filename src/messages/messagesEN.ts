@@ -74,6 +74,7 @@ const messages = {
       label: "Which subjects would you like to show?",
       all: "All subjects and resources",
     },
+    subcategory: "Filter subjects",
     myFavoriteSubjects: "Your favorite subjects",
     subjectGroup: 'Group "{{ category }}"',
     scrollToGroup: "Scroll to group",
