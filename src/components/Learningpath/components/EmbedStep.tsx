@@ -14,15 +14,17 @@ import { GQLLearningpathStepOembedFragment } from "../../../graphqlTypes";
 import { LearningpathIframe } from "../LearningpathIframe";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { urlIsNDLAUrl } from "../../../util/ndlaUrl";
+import { InactiveMessageBox } from "../../InactiveMessageBox";
 
 interface EmbedStepProps {
   url: string;
   title: string;
   oembed: GQLLearningpathStepOembedFragment;
+  isInactive?: boolean;
   skipToContentId?: string;
 }
 
-export const EmbedStep = ({ skipToContentId, url, title, oembed }: EmbedStepProps) => {
+export const EmbedStep = ({ skipToContentId, url, title, oembed, isInactive }: EmbedStepProps) => {
   const fallbackId = useId();
   const { t } = useTranslation();
 
@@ -38,6 +40,7 @@ export const EmbedStep = ({ skipToContentId, url, title, oembed }: EmbedStepProp
           badges={<Badge>{t("contentTypes.external")}</Badge>}
           title={title}
         />
+        {!!isInactive && <InactiveMessageBox />}
         <ArticleContent>
           <section>
             <ExternalEmbed

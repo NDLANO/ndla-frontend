@@ -10,8 +10,7 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { HTMLProps } from "@ark-ui/react";
-import { InformationLine } from "@ndla/icons";
-import { Badge, MessageBox } from "@ndla/primitives";
+import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
   ArticleByline,
@@ -28,6 +27,7 @@ import { TransformedBaseArticle } from "../../util/transformArticle";
 import { CompetenceGoals } from "../CompetenceGoals";
 import { Disclaimer } from "../Disclaimer";
 import { FavoriteButton } from "./FavoritesButton";
+import { InactiveMessageBox } from "../InactiveMessageBox";
 import { LicenseBox } from "../license/LicenseBox";
 import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
 
@@ -52,12 +52,6 @@ const StyledArticleContent = styled(ArticleContent, {
   },
 });
 
-const StyledMessageBox = styled(MessageBox, {
-  base: {
-    width: "100%",
-  },
-});
-
 export const Article = ({
   path,
   article,
@@ -73,7 +67,7 @@ export const Article = ({
   relevanceId,
   ...rest
 }: Props) => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const copyText = useArticleCopyText(article);
 
   useNavigateToHash(article.transformedContent.content);
@@ -126,12 +120,7 @@ export const Article = ({
           article.transformedDisclaimer.content ? <Disclaimer disclaimer={article.transformedDisclaimer} /> : null
         }
       >
-        {!!isInactive && (
-          <StyledMessageBox variant="warning">
-            <InformationLine />
-            {t("archivedPage")}
-          </StyledMessageBox>
-        )}
+        {!!isInactive && <InactiveMessageBox />}
       </ArticleTitle>
       <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
       <ArticleFooter>

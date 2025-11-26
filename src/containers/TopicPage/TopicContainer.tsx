@@ -11,13 +11,13 @@ import { useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
-import { InformationLine } from "@ndla/icons";
-import { Badge, Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
+import { Badge, Heading, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
+import { InactiveMessageBox } from "../../components/InactiveMessageBox";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
@@ -171,12 +171,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
-        {!!node.context && !node.context.isActive && (
-          <MessageBox variant="warning">
-            <InformationLine />
-            {t("archivedPage")}
-          </MessageBox>
-        )}
+        {!!node.context && !node.context.isActive && <InactiveMessageBox />}
         {!!node.children?.length && (
           <NodeGridWrapper aria-labelledby={headingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={headingId}>

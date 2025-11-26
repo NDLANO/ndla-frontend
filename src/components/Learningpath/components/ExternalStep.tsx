@@ -14,6 +14,7 @@ import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrap
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
 import { BaseStepProps } from "../learningpathTypes";
 import { EmbedPageContent } from "./EmbedPageContent";
+import { InactiveMessageBox } from "../../InactiveMessageBox";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -25,9 +26,10 @@ const StyledArticleFooter = styled(ArticleFooter, {
 
 interface Props extends BaseStepProps {
   learningpath: GQLLearningpath_LearningpathFragment;
+  isInactive?: boolean;
 }
 
-export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }: Props) => {
+export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath, isInactive }: Props) => {
   const { t } = useTranslation();
   const fallbackId = useId();
   return (
@@ -39,6 +41,7 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath }
           id={skipToContentId ?? fallbackId}
           badges={<Badge>{t("contentTypes.external")}</Badge>}
         />
+        {!!isInactive && <InactiveMessageBox />}
         <ArticleContent>
           <section>
             <ResourceBox

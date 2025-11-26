@@ -32,6 +32,7 @@ interface ArticleStepProps extends BaseStepProps {
   taxId?: string;
   articleId?: string;
   children?: ReactNode;
+  isInactive?: boolean;
 }
 
 export const ArticleStep = ({
@@ -42,6 +43,7 @@ export const ArticleStep = ({
   articleId,
   taxId,
   children,
+  isInactive,
 }: ArticleStepProps) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
@@ -114,6 +116,7 @@ export const ArticleStep = ({
         contentType={article.articleType === "topic-article" ? "topic-article" : getContentType(resource)}
         resourceTypes={resource?.resourceTypes}
         relevanceId={resource?.relevanceId}
+        isInactive={isInactive}
       >
         {children}
         {!!url && <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />}
