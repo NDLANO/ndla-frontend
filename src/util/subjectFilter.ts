@@ -61,6 +61,9 @@ export const groupAndFilterSubjectsByCategory = <T extends BaseSubject>(
     if (subFilters?.length) {
       return subFilters.includes(fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY]);
     }
+    if (filter === subjectCategories.ACTIVE_SUBJECTS) {
+      return fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] !== subjectCategories.ARCHIVE_SUBJECTS;
+    }
     return fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === filter;
   });
 
