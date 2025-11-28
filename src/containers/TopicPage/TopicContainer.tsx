@@ -186,6 +186,11 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
             </TransportationPageNodeListGrid>
           </NodeGridWrapper>
         )}
+        {!!node && (
+          <NoSSR fallback={null}>
+            <Resources parentId={node.id} rootId={node.context?.rootId} />
+          </NoSSR>
+        )}
         {!!node.links?.length && (
           <NodeGridWrapper aria-labelledby={linksHeadingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
@@ -197,11 +202,6 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               ))}
             </TransportationPageNodeListGrid>
           </NodeGridWrapper>
-        )}
-        {!!node && (
-          <NoSSR fallback={null}>
-            <Resources parentId={node.id} rootId={node.context?.rootId} />
-          </NoSSR>
         )}
         {!!node.article?.transformedContent.metaData?.images && (
           <ImageLicenseAccordion imageLicenses={node.article.transformedContent.metaData.images} />
