@@ -17,6 +17,7 @@ import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
+import { InactiveMessageBox } from "../../components/InactiveMessageBox";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
@@ -170,6 +171,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
+        {!!node.context && !node.context.isActive && <InactiveMessageBox />}
         {!!node.children?.length && (
           <NodeGridWrapper aria-labelledby={headingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={headingId}>

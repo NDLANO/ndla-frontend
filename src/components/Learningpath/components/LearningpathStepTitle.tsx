@@ -13,8 +13,13 @@ import { Heading } from "@ndla/primitives";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
 import { BaseStepProps } from "../learningpathTypes";
 import { EmbedPageContent } from "./EmbedPageContent";
+import { InactiveMessageBox } from "../../InactiveMessageBox";
 
-export const LearningpathStepTitle = ({ learningpathStep, skipToContentId }: BaseStepProps) => {
+export const LearningpathStepTitle = ({
+  learningpathStep,
+  skipToContentId,
+  isInactive,
+}: BaseStepProps & { isInactive?: boolean }) => {
   const { i18n } = useTranslation();
   return learningpathStep.showTitle || learningpathStep.description ? (
     <EmbedPageContent variant="content">
@@ -25,6 +30,7 @@ export const LearningpathStepTitle = ({ learningpathStep, skipToContentId }: Bas
             <LicenseLink
               license={getLicenseByAbbreviation(learningpathStep.copyright?.license?.license ?? "", i18n.language)}
             />
+            {!!isInactive && <InactiveMessageBox />}
           </ArticleHeader>
         )}
         <ArticleContent>

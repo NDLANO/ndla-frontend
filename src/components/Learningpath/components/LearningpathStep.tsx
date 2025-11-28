@@ -49,6 +49,7 @@ interface Props {
   skipToContentId?: string;
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
+  isInactive?: boolean;
 }
 
 export const LearningpathStep = ({
@@ -58,6 +59,7 @@ export const LearningpathStep = ({
   subjectId,
   skipToContentId,
   resource,
+  isInactive,
 }: Props) => {
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
@@ -93,6 +95,7 @@ export const LearningpathStep = ({
           title={learningpathStep.title}
           url={learningpathStep.embedUrl?.url ?? ""}
           oembed={learningpathStep.oembed}
+          isInactive={isInactive}
         />
         {lastLearningpathStepInfo}
       </>
@@ -108,6 +111,7 @@ export const LearningpathStep = ({
           subjectId={subjectId}
           breadcrumbItems={breadcrumbItems}
           skipToContentId={skipToContentId}
+          isInactive={isInactive}
         />
         {lastLearningpathStepInfo}
       </>
@@ -119,6 +123,7 @@ export const LearningpathStep = ({
           learningpathStep={learningpathStep}
           skipToContentId={skipToContentId}
           learningpath={learningpath}
+          isInactive={isInactive}
         />
         {lastLearningpathStepInfo}
       </>
@@ -128,14 +133,23 @@ export const LearningpathStep = ({
   } else if (learningpathStep.introduction || learningpathStep.description?.startsWith("<section>")) {
     return (
       <>
-        <TextStep learningpathStep={learningpathStep} skipToContentId={skipToContentId} learningpath={learningpath} />
+        <TextStep
+          learningpathStep={learningpathStep}
+          skipToContentId={skipToContentId}
+          learningpath={learningpath}
+          isInactive={isInactive}
+        />
         {lastLearningpathStepInfo}
       </>
     );
   } else {
     return (
       <>
-        <LearningpathStepTitle learningpathStep={learningpathStep} skipToContentId={skipToContentId} />
+        <LearningpathStepTitle
+          learningpathStep={learningpathStep}
+          skipToContentId={skipToContentId}
+          isInactive={isInactive}
+        />
         {lastLearningpathStepInfo}
       </>
     );

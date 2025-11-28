@@ -1020,6 +1020,7 @@ const messages = {
     wrongUserInfoDisclaimer:
       "Dersom informasjonen er feil, må han oppdaterast av vertsorganisasjon/skuleeigar som brukaren tilhøyrer. Oversikt over brukarstøtte finst her: ",
   },
+  archivedPage: "Denne sida er arkivert. Innhaldet kan vere utdatert.",
 };
 
 export default messages;

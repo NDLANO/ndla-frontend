@@ -27,6 +27,7 @@ import { TransformedBaseArticle } from "../../util/transformArticle";
 import { CompetenceGoals } from "../CompetenceGoals";
 import { Disclaimer } from "../Disclaimer";
 import { FavoriteButton } from "./FavoritesButton";
+import { InactiveMessageBox } from "../InactiveMessageBox";
 import { LicenseBox } from "../license/LicenseBox";
 import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
 
@@ -35,6 +36,7 @@ interface Props extends HTMLProps<"div"> {
   article: TransformedBaseArticle<GQLArticle_ArticleFragment>;
   isTopicArticle?: boolean;
   children?: ReactNode;
+  isInactive?: boolean;
   contentType?: string;
   printUrl?: string;
   subjectId?: string;
@@ -60,6 +62,7 @@ export const Article = ({
   id,
   subjectId,
   isOembed = false,
+  isInactive,
   resourceTypes,
   relevanceId,
   ...rest
@@ -116,7 +119,9 @@ export const Article = ({
         disclaimer={
           article.transformedDisclaimer.content ? <Disclaimer disclaimer={article.transformedDisclaimer} /> : null
         }
-      />
+      >
+        {!!isInactive && <InactiveMessageBox />}
+      </ArticleTitle>
       <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
       <ArticleFooter>
         <ArticleByline

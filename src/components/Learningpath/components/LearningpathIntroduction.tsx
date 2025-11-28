@@ -13,12 +13,14 @@ import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+import { InactiveMessageBox } from "../../InactiveMessageBox";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
+  isInactive?: boolean;
 }
 
-export const LearningpathIntroduction = ({ learningpath }: Props) => {
+export const LearningpathIntroduction = ({ learningpath, isInactive }: Props) => {
   const { t } = useTranslation();
   return (
     <EmbedPageContent variant="content">
@@ -28,6 +30,7 @@ export const LearningpathIntroduction = ({ learningpath }: Props) => {
           title={t("learningpathPage.introduction")}
           badges={<Badge>{t("contentTypes.learning-path")}</Badge>}
         />
+        {!!isInactive && <InactiveMessageBox />}
         <ArticleContent>
           {!!learningpath.introduction?.length && <section>{transform(learningpath.introduction, {})}</section>}
         </ArticleContent>

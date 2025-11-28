@@ -16,8 +16,10 @@ import { EmbedPageContent } from "./EmbedPageContent";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
+  GQLLearningpathPage_NodeFragment,
   GQLMyNdlaLearningpathStepFragment,
 } from "../../../graphqlTypes";
+import { InactiveMessageBox } from "../../InactiveMessageBox";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -31,9 +33,11 @@ interface TextStepProps {
   learningpathStep: GQLLearningpath_LearningpathStepFragment | GQLMyNdlaLearningpathStepFragment;
   skipToContentId?: string;
   learningpath?: GQLLearningpath_LearningpathFragment;
+  resource?: GQLLearningpathPage_NodeFragment;
+  isInactive?: boolean;
 }
 
-export const TextStep = ({ learningpathStep, learningpath, skipToContentId }: TextStepProps) => {
+export const TextStep = ({ learningpathStep, learningpath, skipToContentId, isInactive }: TextStepProps) => {
   const { t } = useTranslation();
   const fallbackId = useId();
 
@@ -46,6 +50,7 @@ export const TextStep = ({ learningpathStep, learningpath, skipToContentId }: Te
           badges={<Badge>{t("contentTypes.external")}</Badge>}
           introduction={learningpathStep.introduction}
         />
+        {!!isInactive && <InactiveMessageBox />}
         <ArticleContent>
           {learningpathStep.description ? <section>{transform(learningpathStep.description, {})}</section> : null}
         </ArticleContent>
