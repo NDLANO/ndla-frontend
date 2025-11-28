@@ -61,7 +61,7 @@ export const MastheadSearch = () => {
     },
   );
 
-  const rootSubject = useMemo(() => {
+  const root = useMemo(() => {
     const root = currentContextQuery.data?.root;
     if (!root) return undefined;
     if (root.nodeType === "SUBJECT") {
@@ -106,7 +106,7 @@ export const MastheadSearch = () => {
       </PopoverTrigger>
       <MastheadPopoverContent aria-label={t("searchPage.searchFieldPlaceholder")}>
         <Suspense>
-          <MastheadSearchForm rootSubject={rootSubject} />
+          <MastheadSearchForm root={root} />
         </Suspense>
       </MastheadPopoverContent>
       <MastheadPopoverBackdrop present={dialogState.open} />

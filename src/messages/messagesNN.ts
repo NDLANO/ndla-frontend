@@ -720,6 +720,7 @@ const messages = {
     search: "Søk på ndla.no",
     moreHits: "Vis fleire treff",
     skipToContent: "Hopp til innhald",
+    activeProgrammeSearch: "Søk i utdanningsprogrammet",
     activeSubjectSearch: "Søk i faget",
     menuOptions: {
       programme: "Utdanningsprogram",
