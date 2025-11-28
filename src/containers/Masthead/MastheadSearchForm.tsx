@@ -165,11 +165,15 @@ const StyledMoreHitsButton = styled(Button, {
 });
 
 const getActiveSubjectUrl = (id: string, query: string): string => {
-  const stripped = id.replace("urn:subject:", "");
   const searchParams = new URLSearchParams({
-    subjects: stripped,
     query: query,
   });
+  if (id.includes("programme")) {
+    searchParams.set("programmes", id);
+  }
+  if (id.includes("subject")) {
+    searchParams.set("subjects", id.replace("urn:subject:", ""));
+  }
   return `/search?${searchParams}`;
 };
 
@@ -217,10 +221,10 @@ const searchQuery = gql`
 `;
 
 interface Props {
-  rootSubject: { id: string; name: string } | undefined;
+  root: { id: string; name: string } | undefined;
 }
 
-export const MastheadSearchForm = ({ rootSubject }: Props) => {
+export const MastheadSearchForm = ({ root }: Props) => {
   const { t, i18n } = useTranslation();
   const { setOpen } = usePopoverContext();
   // TODO: Maybe we can remove this?
@@ -375,13 +379,17 @@ export const MastheadSearchForm = ({ rootSubject }: Props) => {
             </div>
           )}
         </StyledHitsWrapper>
-        {!loading && !!query && rootSubject ? (
+        {!loading && !!query && root ? (
           <ActiveSubjectWrapper>
             <SearchLine />
             <div>
-              <InlineText textStyle="label.small">{t("masthead.activeSubjectSearch")}</InlineText>
-              <StyledSafeLink to={getActiveSubjectUrl(rootSubject.id, query)} onClick={() => onNavigate()}>
-                &quot;<span>{rootSubject.name}</span>&quot;
+              <InlineText textStyle="label.small">
+                {root.id.includes("programme")
+                  ? t("masthead.activeProgrammeSearch")
+                  : t("masthead.activeSubjectSearch")}
+              </InlineText>
+              <StyledSafeLink to={getActiveSubjectUrl(root.id, query)} onClick={() => onNavigate()}>
+                &quot;<span>{root.name}</span>&quot;
               </StyledSafeLink>
             </div>
           </ActiveSubjectWrapper>
