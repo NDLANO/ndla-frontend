@@ -511,7 +511,7 @@ export type GQLGloss = {
   gloss: Scalars["String"]["output"];
   originalLanguage: Scalars["String"]["output"];
   transcriptions: GQLTranscription;
-  wordClass: Scalars["String"]["output"];
+  wordClass: Array<Scalars["String"]["output"]>;
 };
 
 export type GQLGlossLicense = {
@@ -1790,7 +1790,6 @@ export type GQLSortResult = {
 export type GQLSubject = GQLTaxBase &
   GQLTaxonomyEntity & {
     __typename?: "Subject";
-    allTopics?: Maybe<Array<GQLTopic>>;
     breadcrumbs: Array<Scalars["String"]["output"]>;
     contentUri?: Maybe<Scalars["String"]["output"]>;
     context?: Maybe<GQLTaxonomyContext>;
@@ -1806,13 +1805,8 @@ export type GQLSubject = GQLTaxBase &
     resourceTypes?: Maybe<Array<GQLResourceType>>;
     subjectpage?: Maybe<GQLSubjectPage>;
     supportedLanguages: Array<Scalars["String"]["output"]>;
-    topics?: Maybe<Array<GQLTopic>>;
     url?: Maybe<Scalars["String"]["output"]>;
   };
-
-export type GQLSubjectTopicsArgs = {
-  all?: InputMaybe<Scalars["Boolean"]["input"]>;
-};
 
 export type GQLSubjectLink = {
   __typename?: "SubjectLink";
@@ -1952,7 +1946,6 @@ export type GQLTopic = GQLTaxBase &
     context?: Maybe<GQLTaxonomyContext>;
     contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
-    coreResources?: Maybe<Array<GQLResource>>;
     id: Scalars["String"]["output"];
     isPrimary?: Maybe<Scalars["Boolean"]["output"]>;
     language?: Maybe<Scalars["String"]["output"]>;
@@ -1963,19 +1956,9 @@ export type GQLTopic = GQLTaxBase &
     parentId?: Maybe<Scalars["String"]["output"]>;
     relevanceId?: Maybe<Scalars["String"]["output"]>;
     resourceTypes?: Maybe<Array<GQLResourceType>>;
-    subtopics?: Maybe<Array<GQLTopic>>;
-    supplementaryResources?: Maybe<Array<GQLResource>>;
     supportedLanguages: Array<Scalars["String"]["output"]>;
     url?: Maybe<Scalars["String"]["output"]>;
   };
-
-export type GQLTopicCoreResourcesArgs = {
-  subjectId?: InputMaybe<Scalars["String"]["input"]>;
-};
-
-export type GQLTopicSupplementaryResourcesArgs = {
-  subjectId?: InputMaybe<Scalars["String"]["input"]>;
-};
 
 export type GQLTranscription = {
   __typename?: "Transcription";
@@ -2017,8 +2000,14 @@ export type GQLUptimeAlert = {
   __typename?: "UptimeAlert";
   body?: Maybe<Scalars["String"]["output"]>;
   closable: Scalars["Boolean"]["output"];
+  labels: Array<GQLUptimeLabel>;
   number: Scalars["Int"]["output"];
   title: Scalars["String"]["output"];
+};
+
+export type GQLUptimeLabel = {
+  __typename?: "UptimeLabel";
+  name: Scalars["String"]["output"];
 };
 
 export type GQLUserFolder = {
