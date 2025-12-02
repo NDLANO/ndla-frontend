@@ -24,7 +24,7 @@ import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import { useLtiContext } from "../../LtiContext";
 
-const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "H5P", "PODCAST"];
+const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "INTERACTIVE", "PODCAST"];
 
 export const TraitFilter = () => {
   const { t } = useTranslation();
