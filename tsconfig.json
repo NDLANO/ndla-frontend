@@ -24,16 +24,11 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
-
     "moduleResolution": "Bundler",
-    "baseUrl": "src",
-    "paths": {
-      "*": ["node_modules/*", "src/types/*"]
-    },
     "types": ["vitest/globals", "node"],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"]
+  "include": ["./src/**/*"]
 }
