@@ -1415,22 +1415,18 @@ export type GQLQueryAudioArgs = {
 
 export type GQLQueryCompetenceGoalArgs = {
   code: Scalars["String"]["input"];
-  language?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryCompetenceGoalsArgs = {
   codes?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryCoreElementArgs = {
   code: Scalars["String"]["input"];
-  language?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryCoreElementsArgs = {
   codes?: InputMaybe<Array<InputMaybe<Scalars["String"]["input"]>>>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryFolderArgs = {
@@ -2123,7 +2119,6 @@ export type GQLMyNdlaDataQuery = {
 
 export type GQLCompetenceGoalsQueryVariables = Exact<{
   codes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  language?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type GQLCompetenceGoalsQuery = {
@@ -3222,7 +3217,6 @@ export type GQLLaunchpadQuery = {
 
 export type GQLGrepFilterQueryVariables = Exact<{
   codes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  language: Scalars["String"]["input"];
 }>;
 
 export type GQLGrepFilterQuery = {

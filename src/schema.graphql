@@ -1093,10 +1093,10 @@ type Query {
   article(id: String!): Article
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
-  competenceGoal(code: String!, language: String): CompetenceGoal
-  competenceGoals(codes: [String], language: String): [CompetenceGoal!]
-  coreElement(code: String!, language: String): CoreElement
-  coreElements(codes: [String], language: String): [CoreElement!]
+  competenceGoal(code: String!): CompetenceGoal
+  competenceGoals(codes: [String]): [CompetenceGoal!]
+  coreElement(code: String!): CoreElement
+  coreElements(codes: [String]): [CoreElement!]
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
   folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
