@@ -77,7 +77,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
               </div>
             </div>
             <div
-              class="d_flex flex-d_column gap_3xsmall pbs_xxlarge"
+              class="d_flex flex-d_column gap_3xsmall pbs_xxlarge print:d_none"
               data-orientation="vertical"
               data-part="root"
               data-scope="accordion"
