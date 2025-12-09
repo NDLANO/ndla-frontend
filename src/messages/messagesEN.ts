@@ -998,6 +998,7 @@ const messages = {
       youtube: "NDLA on YouTube",
       linkedin: "NDLA on LinkedIn",
       instagram: "NDLA on Instagram",
+      github: "NDLA on Github",
     },
     ndlaLinks: {
       omNdla: "Om NDLA",

@@ -8,7 +8,15 @@
 
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { QuestionLine, InstagramLine, LinkedinBoxLine, MailLine, YoutubeLine, FacebookCircleFill } from "@ndla/icons";
+import {
+  FacebookCircleFill,
+  GithubFill,
+  InstagramLine,
+  LinkedinBoxLine,
+  MailLine,
+  QuestionLine,
+  YoutubeLine,
+} from "@ndla/icons";
 import { Heading, NdlaLogoText, PageContent, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
@@ -179,6 +187,11 @@ const FooterSocialMedia = () => {
       text: t("footer.socialMediaLinks.youtube"),
       to: "https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA",
       icon: <YoutubeLine />,
+    },
+    {
+      text: t("footer.socialMediaLinks.github"),
+      to: "https://github.com/NDLANO",
+      icon: <GithubFill />,
     },
   ];
 
