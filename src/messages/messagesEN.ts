@@ -983,7 +983,7 @@ const messages = {
     text: "The three interdisciplinary topics in the curriculum are based on current societal challenges that require the involvement and efforts of individuals and the community in the local community, nationally and globally.",
   },
   footer: {
-    info: "This webapplication is developed as Open Source code.",
+    info: "NDLA is a collaboration between 14 of Norway's counties.",
     editorInChief: "Editor in chief:",
     linksHeader: "Contact",
     availabilityLink: "Availability statement",
