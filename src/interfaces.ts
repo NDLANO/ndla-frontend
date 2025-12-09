@@ -10,6 +10,7 @@ import { NormalizedCacheObject } from "@apollo/client";
 import { ConfigType } from "./config";
 import { LocaleValues } from "./constants";
 import { RouteChunkInfo } from "./server/serverHelpers";
+import { RestrictedModeState } from "./components/RestrictedModeContext";
 
 export type InitialProps = {
   articleId?: string;
@@ -24,6 +25,7 @@ export interface WindowData {
   config: ConfigType;
   initialProps: InitialProps;
   ltiData?: LtiData;
+  restrictedMode?: RestrictedModeState;
   serverPath?: string;
   hash: string;
   chunkInfo: RouteChunkInfo;

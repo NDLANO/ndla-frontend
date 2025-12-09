@@ -30,6 +30,7 @@ import { privateRoutes, routes } from "./routes";
 import { isAccessTokenValid } from "./util/authHelpers";
 import { handleError, ensureError } from "./util/handleError";
 import { NOT_FOUND_PAGE_PATH } from "./constants";
+import { isRestrictedMode } from "./server/helpers/restrictedMode";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -143,9 +144,18 @@ ${htmlData}`,
 
 type RouteFunc = (req: Request, res: Response) => Promise<{ data: any; status: number }>;
 
+const applyRestrictedModeCacheHeader = (req: Request, res: Response) => {
+  const { restricted } = isRestrictedMode(req);
+  if (restricted) {
+    res.setHeader("Cache-Control", "no-store");
+  }
+  return restricted;
+};
+
 const handleRequest = async (req: Request, res: Response, next: NextFunction, route: RouteFunc) => {
   try {
     const { data, status } = await route(req, res);
+    applyRestrictedModeCacheHeader(req, res);
     sendResponse(req, res, data, status);
   } catch (err) {
     next(err);
@@ -212,6 +222,7 @@ app.get(["/", "/*splat"], (req, res, next) => {
   const shouldRedirect = isPrivate && !isTokenValid;
 
   if (route && shouldRedirect) {
+    applyRestrictedModeCacheHeader(req, res);
     return res.redirect(`/login?state=${req.path}`);
   }
 
@@ -229,6 +240,7 @@ const getStatusCodeToReturn = (err?: Error): number => {
 };
 
 async function sendInternalServerError(req: Request, res: Response, statusCode: number) {
+  applyRestrictedModeCacheHeader(req, res);
   if (res.getHeader("Content-Type") === "application/json") {
     res.status(statusCode).json("Internal server error");
     return;
