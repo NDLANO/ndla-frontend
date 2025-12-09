@@ -2750,24 +2750,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/types-backend@npm:^1.0.68":
-  version: 1.0.68
-  resolution: "@ndla/types-backend@npm:1.0.68"
-  checksum: 10c0/def934bd86e8e1f21a3c248a2d39972d0f3b4bf2b008d189a18dbc837deda4f8b809be4ecf1e0291cbbc1584ea4195319f7e76c1e330afed126cff3ed8e9caaa
+"@ndla/types-backend@npm:^1.0.87":
+  version: 1.0.87
+  resolution: "@ndla/types-backend@npm:1.0.87"
+  checksum: 10c0/da18881f26d641ddaaa1917abd90aa9807f9c857778b0a45f02144f941a7557c1f369f1cb21b81fe08b7be920ae41e7908c619731b8f4eb5c9d440a0de615944
   languageName: node
   linkType: hard
 
-"@ndla/types-embed@npm:^5.0.18-alpha.0":
-  version: 5.0.18-alpha.0
-  resolution: "@ndla/types-embed@npm:5.0.18-alpha.0"
-  checksum: 10c0/4cf135ce02f7a42300ad97994f31b16f1270c5c4952bea98bb3c04a697cd811a9aca39a192e977a1be6f356ff053989914e1d4c0c1a93bdeb548b9ac1f37234b
+"@ndla/types-embed@npm:^5.0.19-alpha.0":
+  version: 5.0.19-alpha.0
+  resolution: "@ndla/types-embed@npm:5.0.19-alpha.0"
+  checksum: 10c0/4e6bec579242b755d2eaf0c4e8823c2d710cdf8079fa007f5cd267fcc78c33655dfc062ccb6a063dcc0175a898afd97492825389487a668bea6c110dbac2253e
   languageName: node
   linkType: hard
 
-"@ndla/types-taxonomy@npm:^1.0.34":
-  version: 1.0.34
-  resolution: "@ndla/types-taxonomy@npm:1.0.34"
-  checksum: 10c0/66f00f6544efe13d6bcf69b3c9942bff09611519d08c5c22c62f9d384e7b91f1e8c5aa59703e1649ccfab472612941076f79c3a9549c4b5f295460a6e20bcbd0
+"@ndla/types-taxonomy@npm:^1.0.40":
+  version: 1.0.40
+  resolution: "@ndla/types-taxonomy@npm:1.0.40"
+  checksum: 10c0/2b722cb70bde424ccf9fdce338c7d3ff05e02de9619c93d988ecb9230dd50355b3444a9b3b11f1855c2e4eaa03015c78a1fd83d20ea722caae36ac56b9442b39
   languageName: node
   linkType: hard
 
@@ -9584,9 +9584,9 @@ __metadata:
     "@ndla/safelink": "npm:^7.0.114-alpha.0"
     "@ndla/styled-system": "npm:^0.0.43"
     "@ndla/tracker": "npm:^5.0.32-alpha.0"
-    "@ndla/types-backend": "npm:^1.0.68"
-    "@ndla/types-embed": "npm:^5.0.18-alpha.0"
-    "@ndla/types-taxonomy": "npm:^1.0.34"
+    "@ndla/types-backend": "npm:^1.0.87"
+    "@ndla/types-embed": "npm:^5.0.19-alpha.0"
+    "@ndla/types-taxonomy": "npm:^1.0.40"
     "@ndla/ui": "npm:^56.0.159-alpha.0"
     "@ndla/util": "npm:^5.0.16-alpha.0"
     "@pandacss/dev": "npm:^1.3.1"
