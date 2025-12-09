@@ -102,7 +102,9 @@ export const learningpathFragment = gql`
     revision
     supportedLanguages
     coverphoto {
-      url
+      image {
+        imageUrl
+      }
       metaUrl
     }
     learningsteps @include(if: $includeSteps) {

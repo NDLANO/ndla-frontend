@@ -37,8 +37,12 @@ export const topicPageQuery = gql`
         htmlIntroduction
         grepCodes
         metaImage {
-          url
-          alt
+          image {
+            imageUrl
+          }
+          alttext {
+            alttext
+          }
         }
         transformedContent(transformArgs: $transformArgs) {
           visualElementEmbed {

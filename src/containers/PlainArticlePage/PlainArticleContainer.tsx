@@ -67,7 +67,7 @@ export const PlainArticleContainer = ({ article: propArticle, skipToContentId }:
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}
-        imageUrl={article.metaImage?.url}
+        imageUrl={article.metaImage?.image.imageUrl}
         trackableContent={article}
       />
       <PageContent variant="content">

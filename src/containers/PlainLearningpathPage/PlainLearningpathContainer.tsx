@@ -53,7 +53,7 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
         title={learningpath.title}
         trackableContent={learningpath}
         description={learningpath.description}
-        imageUrl={learningpath.coverphoto?.url}
+        imageUrl={learningpath.coverphoto?.image.imageUrl}
       />
       <PageLayout asChild consumeCss>
         <main>
@@ -77,7 +77,9 @@ export const plainLearningpathContainerFragments = {
       tags
       description
       coverphoto {
-        url
+        image {
+          imageUrl
+        }
       }
       learningsteps {
         ...Learningpath_LearningpathStep
