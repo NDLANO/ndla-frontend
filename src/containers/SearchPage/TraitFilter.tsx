@@ -18,13 +18,13 @@ import {
   CheckboxRoot,
   Heading,
 } from "@ndla/primitives";
-import { SearchTrait } from "@ndla/types-backend/search-api";
+import { ArticleTrait } from "@ndla/types-backend/article-api";
 import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import { useLtiContext } from "../../LtiContext";
 
-const TRAITS: SearchTrait[] = ["VIDEO", "AUDIO", "INTERACTIVE", "PODCAST"];
+const TRAITS: ArticleTrait[] = ["VIDEO", "AUDIO", "INTERACTIVE", "PODCAST"];
 
 export const TraitFilter = () => {
   const { t } = useTranslation();
