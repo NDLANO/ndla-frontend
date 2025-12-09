@@ -12,12 +12,14 @@ import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "r
 import { MissingRouterContext } from "@ndla/safelink";
 import { errorRoutes } from "../../appRoutes";
 import { RedirectInfo } from "../../components/RedirectContext";
+import { RestrictedModeProvider } from "../../components/RestrictedModeContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { getHtmlLang, getLocaleInfoFromPath } from "../../i18n";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { getSiteTheme } from "../../util/siteTheme";
+import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
@@ -32,6 +34,7 @@ export const errorRender: RenderFunc = async (req, chunkInfo) => {
   const { abbreviation } = getLocaleInfoFromPath(req.path ?? "");
   const i18n = initializeI18n(abbreviation);
   const hash = stringifiedLanguages[lang].hash;
+  const restrictedMode = isRestrictedMode(req);
 
   const fetchRequest = createFetchRequest(req);
   const routerContext = await query(fetchRequest);
@@ -44,13 +47,15 @@ export const errorRender: RenderFunc = async (req, chunkInfo) => {
 
   const Page = (
     <Document language={lang} chunkInfo={chunkInfo} hash={hash}>
-      <I18nextProvider i18n={i18n}>
-        <MissingRouterContext value={true}>
-          <SiteThemeProvider value={siteTheme}>
-            <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
-          </SiteThemeProvider>
-        </MissingRouterContext>
-      </I18nextProvider>
+      <RestrictedModeProvider value={restrictedMode}>
+        <I18nextProvider i18n={i18n}>
+          <MissingRouterContext value={true}>
+            <SiteThemeProvider value={siteTheme}>
+              <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
+            </SiteThemeProvider>
+          </MissingRouterContext>
+        </I18nextProvider>
+      </RestrictedModeProvider>
     </Document>
   );
 
@@ -75,6 +80,7 @@ export const errorRender: RenderFunc = async (req, chunkInfo) => {
         serverQuery: req.query,
         config,
         hash,
+        restrictedMode,
       },
     },
   };

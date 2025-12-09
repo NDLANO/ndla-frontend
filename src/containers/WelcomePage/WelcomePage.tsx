@@ -19,6 +19,7 @@ import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
+import { useRestrictedMode } from "../../components/RestrictedModeContext";
 import { useSiteTheme } from "../../components/SiteThemeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -212,6 +213,8 @@ export const WelcomePage = () => {
   const { user } = useContext(AuthContext);
   const siteTheme = useSiteTheme();
 
+  const restrictedMode = useRestrictedMode();
+
   const quickLinks = useMemo(() => {
     return [
       { type: "myNdla", icon: HeartLine, url: routes.myNdla.root, external: false },
@@ -256,6 +259,38 @@ export const WelcomePage = () => {
     };
     return JSON.stringify(data);
   };
+
+  if (restrictedMode.restricted) {
+    const regionParen = restrictedMode.region ? ` (${restrictedMode.region})` : "";
+    return (
+      <>
+        <Heading srOnly>{t("welcomePage.heading.heading")}</Heading>
+        <PageTitle title={t("htmlTitles.welcomePage")} />
+        <script type="application/ld+json">{googleSearchJSONLd()}</script>
+        <SocialMediaMetadata
+          type="website"
+          title={t("welcomePage.heading.heading")}
+          description={t("meta.description")}
+          imageUrl={`${config.ndlaFrontendDomain}/static/metaimage.png`}
+        />
+        <Hero variant={siteThemeToHeroVariant(siteTheme)}>
+          <StyledHeroBackground />
+          <StyledPageContainer asChild consumeCss>
+            <main>
+              <HeadingWrapper>
+                <StyledHeading asChild consumeCss textStyle="heading.large" id="programmes-heading">
+                  <h2>Begrenset innhold</h2>
+                </StyledHeading>
+                <Text textStyle="title.medium" fontWeight="normal">
+                  Du har begrenset tilgang til innhold på grunn av din geografiske plassering. {regionParen}
+                </Text>
+              </HeadingWrapper>
+            </main>
+          </StyledPageContainer>
+        </Hero>
+      </>
+    );
+  }
 
   return (
     <>

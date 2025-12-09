@@ -14,6 +14,7 @@ import { prerenderStatic } from "@apollo/client/react/ssr";
 import { MissingRouterContext } from "@ndla/safelink";
 import { disableSSR } from "./renderHelpers";
 import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
+import { RestrictedModeProvider } from "../../components/RestrictedModeContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { getHtmlLang, isValidLocale } from "../../i18n";
@@ -21,6 +22,7 @@ import { iframeArticleRoutes } from "../../iframe/iframeArticleRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
+import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
@@ -42,6 +44,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
     taxonomyId,
     locale,
   };
+  const restrictedMode = isRestrictedMode(req);
 
   if (noSSR) {
     return {
@@ -56,6 +59,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
           config: { ...config, disableSSR: true },
           initialProps,
           hash,
+          restrictedMode,
         },
       },
     };
@@ -77,13 +81,15 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
   const Page = (
     <Document language={locale ?? config.defaultLocale} chunkInfo={chunkInfo} hash={hash}>
       <RedirectContext value={context}>
-        <I18nextProvider i18n={i18n}>
-          <ApolloProvider client={client}>
-            <MissingRouterContext value={true}>
-              <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
-            </MissingRouterContext>
-          </ApolloProvider>
-        </I18nextProvider>
+        <RestrictedModeProvider value={restrictedMode}>
+          <I18nextProvider i18n={i18n}>
+            <ApolloProvider client={client}>
+              <MissingRouterContext value={true}>
+                <StaticRouterProvider router={router} context={routerContext} hydrate={false} />
+              </MissingRouterContext>
+            </ApolloProvider>
+          </I18nextProvider>
+        </RestrictedModeProvider>
       </RedirectContext>
     </Document>
   );
@@ -113,6 +119,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
         },
         initialProps,
         hash,
+        restrictedMode,
       },
     },
   };
