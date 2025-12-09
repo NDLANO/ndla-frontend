@@ -982,7 +982,7 @@ const messages = {
   footer: {
     vision: "Ovttas hábmet boahtteáiggi oahppama",
     linksHeader: "Oktavuohta",
-    info: "Neahttabáiki lea ráhkaduvvon NDLA bokte rabas gáldokodain.",
+    info: "NDLA er et samarbeid mellom 14 av landets fylkeskommuner.",
     editorInChief: "Vásttolaš doaimmaheaddji:",
     availabilityLink: "Beasatlašvuođajulggaštus",
     privacyLink: "Persovdnasuodjalusjulggaštus ja diehtočoahkku (gáhkožat)",
