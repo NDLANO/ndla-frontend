@@ -983,7 +983,6 @@ const messages = {
   footer: {
     vision: "Sammen skaper vi framtidas læring",
     linksHeader: "Kontakt",
-    info: "Nettstedet er utarbeidet som åpen kildekode.",
     info: "NDLA er et samarbeid mellom 14 av landets fylkeskommuner.",
     editorInChief: "Ansvarlig redaktør:",
     availabilityLink: "Tilgjengelighetserklæring",
