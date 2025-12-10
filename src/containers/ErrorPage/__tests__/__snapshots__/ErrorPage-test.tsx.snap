@@ -382,6 +382,29 @@ exports[`ErrorPage renderers correctly 1`] = `
                       </svg>
                     </a>
                   </li>
+                  <li>
+                    <a
+                      aria-label="NDLA på Github"
+                      class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
+                      href="https://github.com/NDLANO"
+                      title="NDLA på Github"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium"
+                        data-icon=""
+                        data-license="Apache License 2.0"
+                        data-source="RemixIcon"
+                        fill="currentColor"
+                        preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.69-.21.69-.48l-.02-1.86c-2.5.46-3.16-.61-3.36-1.17-.11-.3-.6-1.18-1.02-1.42-.35-.18-.85-.65-.02-.66.8-.01 1.35.72 1.54 1.03.9 1.5 2.34 1.08 2.91.82a2.1 2.1 0 0 1 .64-1.34c-2.22-.25-4.55-1.11-4.55-4.94A3.9 3.9 0 0 1 6.68 8.8a3.6 3.6 0 0 1 .1-2.65s.83-.26 2.75 1.02a9.28 9.28 0 0 1 5 0c1.9-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.4.1 2.65a3.9 3.9 0 0 1 1.02 2.69c0 3.83-2.34 4.68-4.56 4.93.36.32.67.91.67 1.85v2.75c0 .26.18.58.68.48A10.02 10.02 0 0 0 12 2"
+                        />
+                      </svg>
+                    </a>
+                  </li>
                   <li
                     class="grid-c_span_5"
                   >
