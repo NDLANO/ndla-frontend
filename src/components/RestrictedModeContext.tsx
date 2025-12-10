@@ -7,11 +7,10 @@
  */
 
 import { ReactNode, createContext, useContext } from "react";
-import { RestrictedRegion } from "../restrictedRegions";
 
 export type RestrictedModeState = {
   restricted: boolean;
-  region?: RestrictedRegion;
+  region?: string;
 };
 
 const defaultValue: RestrictedModeState = {

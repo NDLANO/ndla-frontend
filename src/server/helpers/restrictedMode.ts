@@ -10,7 +10,7 @@ import { Request } from "express";
 import url from "url";
 import ipaddr from "ipaddr.js";
 import { getEnvironmentVariable } from "../../config";
-import { restrictedRegionCidrs, RestrictedRegion } from "../../restrictedRegions";
+import { restrictedRegionCidrs } from "../../restrictedRegions";
 import type { RestrictedModeState } from "../../components/RestrictedModeContext";
 
 const getClientIp = (req: Request): string | undefined => {
@@ -24,7 +24,7 @@ const getClientIp = (req: Request): string | undefined => {
   return xForwardedFor.split(",")[0]?.trim();
 };
 
-const detectRegionFromIp = (ip: string | undefined): RestrictedRegion | undefined => {
+const detectRegionFromIp = (ip: string | undefined): string | undefined => {
   if (!ip) return undefined;
   try {
     const parsedIp = ipaddr.parse(ip);

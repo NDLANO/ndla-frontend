@@ -6,9 +6,43 @@
  *
  */
 
-// TODO: Temporary test map. Replace with real CIDR ranges/regions later.
-export const restrictedRegionCidrs = {
-  "193.168.156.0/24": "jonas",
-} as const;
+import { getEnvironmentVariable } from "./config";
+import { log } from "./util/logger/logger";
 
-export type RestrictedRegion = (typeof restrictedRegionCidrs)[keyof typeof restrictedRegionCidrs];
+type RestrictedRegionMap = Record<string, string>;
+
+const ENV_NAME = "NDLA_RESTRICTED_REGION_CIDRS";
+
+function validateRestrictedRegionMap(map: any): map is RestrictedRegionMap {
+  if (typeof map !== "object" || map === null || Array.isArray(map)) {
+    return false;
+  }
+  return Object.entries(map).every(([cidr, region]) => typeof cidr === "string" && typeof region === "string");
+}
+
+function logValidationError() {
+  log.warn(
+    `There was a problem parsing '${ENV_NAME}' environment variable, format should be json object like {"10.0.0.0/24":"oslo"}.`,
+  );
+}
+
+const parseRestrictedRegionEnv = (): RestrictedRegionMap | undefined => {
+  const raw = getEnvironmentVariable(ENV_NAME);
+  if (!raw) return undefined;
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!validateRestrictedRegionMap(parsed)) {
+      logValidationError();
+      return undefined;
+    }
+
+    return parsed;
+  } catch {
+    logValidationError();
+    return undefined;
+  }
+};
+
+const envRestrictedRegionCidrs = parseRestrictedRegionEnv();
+export const restrictedRegionCidrs: RestrictedRegionMap = envRestrictedRegionCidrs ?? {};
