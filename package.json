@@ -114,7 +114,7 @@
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.53.2",
     "react-i18next": "^15.7.2",
-    "react-router": "^7.8.2",
+    "react-router": "^7.10.1",
     "rxjs": "^7.8.2",
     "serialize-javascript": "^6.0.2",
     "sirv": "^3.0.1",
