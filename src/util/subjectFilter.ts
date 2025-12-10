@@ -6,9 +6,9 @@
  *
  */
 
-import { subjectCategories } from "@ndla/ui";
+import { subjectCategories, subjectTypes } from "@ndla/ui";
 import { TFunction } from "i18next";
-import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY } from "../constants";
+import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY, TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from "../constants";
 import { groupBy, sortBy } from "@ndla/util";
 
 const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
@@ -49,6 +49,9 @@ interface BaseSubject {
   };
 }
 
+const ACTIVE_CATEGORIES = [subjectCategories.ACTIVE_SUBJECTS, subjectCategories.BETA_SUBJECTS, subjectCategories.OTHER];
+const ACTIVE_SUBJECT_TYPES = [subjectTypes.BETA_SUBJECT, subjectTypes.RESOURCE_COLLECTION, subjectTypes.SUBJECT];
+
 const LETTER_REGEXP = /[A-Z\WÆØÅ]+/;
 
 export const groupAndFilterSubjectsByCategory = <T extends BaseSubject>(
@@ -58,13 +61,27 @@ export const groupAndFilterSubjectsByCategory = <T extends BaseSubject>(
 ): { label: string; subjects: T[] }[] => {
   const filtered = subjects.filter((subject) => {
     const fields = subject.metadata.customFields;
+    if (!fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] && !fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE]) return false;
     if (subFilters?.length) {
-      return subFilters.includes(fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY]);
+      return subFilters.some((subFilter) => {
+        if (subFilter === subjectCategories.OTHER) {
+          return fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.OTHER;
+        } else if (subFilter === subjectCategories.BETA_SUBJECTS) {
+          return (
+            fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.BETA_SUBJECTS ||
+            fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE] === subjectTypes.BETA_SUBJECT
+          );
+        } else return false;
+      });
     }
     if (filter === subjectCategories.ACTIVE_SUBJECTS) {
-      return fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] !== subjectCategories.ARCHIVE_SUBJECTS;
-    }
-    return fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === filter;
+      return (
+        ACTIVE_CATEGORIES.includes(fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY]) ||
+        ACTIVE_SUBJECT_TYPES.includes(fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE])
+      );
+    } else if (filter === subjectCategories.ARCHIVE_SUBJECTS) {
+      return fields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY] === subjectCategories.ARCHIVE_SUBJECTS;
+    } else return false;
   });
 
   const grouped = groupBy(filtered, (sub) => {
