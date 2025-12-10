@@ -144,9 +144,9 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
   return (
     <main>
       <PageTitle title={pageTitle} />
-      {node.context?.isArchived || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" ? (
+      {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
         <meta name="robots" content="noindex, nofollow" />
-      ) : undefined}
+      )}
       <SocialMediaMetadata
         title={node.name}
         description={node.subjectpage?.metaDescription}

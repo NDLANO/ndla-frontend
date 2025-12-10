@@ -279,10 +279,7 @@ export const Learningpath = ({
         {context === "default" && <MenuWrapper>{menu}</MenuWrapper>}
         <StyledPageContent variant="article" gutters="never">
           {!learningpathStep && !!learningpath.introduction?.length && (
-            <LearningpathIntroduction
-              learningpath={learningpath}
-              isInactive={!!(resource?.context && resource.context.isArchived)}
-            />
+            <LearningpathIntroduction learningpath={learningpath} isInactive={!!resource?.context?.isArchived} />
           )}
           {!!learningpathStep && (
             <LearningpathStep
@@ -292,7 +289,7 @@ export const Learningpath = ({
               breadcrumbItems={breadcrumbItems}
               skipToContentId={skipToContentId}
               learningpathStep={learningpathStep}
-              isInactive={!!(resource?.context && resource.context.isArchived)}
+              isInactive={!!resource?.context?.isArchived}
             />
           )}
           {/* TODO: How should this handle long titles on smaller screens? */}

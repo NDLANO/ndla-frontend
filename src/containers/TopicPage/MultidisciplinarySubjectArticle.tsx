@@ -152,7 +152,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         {scripts?.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
-        {node.context?.isArchived ? <meta name="robots" content="noindex" /> : undefined}
+        {!!node.context?.isArchived && <meta name="robots" content="noindex" />}
         <PageTitle title={pageTitle} />
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
