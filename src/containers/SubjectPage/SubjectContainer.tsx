@@ -108,6 +108,8 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
     return t("messageBoxInfo.resources");
   } else if (subjectType === subjectTypes.BETA_SUBJECT) {
     return t("messageBoxInfo.subjectBeta");
+  } else if (subjectType === subjectTypes.ARCHIVE_SUBJECT) {
+    return t("archivedPage");
   } else {
     return undefined;
   }
@@ -142,9 +144,9 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
   return (
     <main>
       <PageTitle title={pageTitle} />
-      {(!node.context?.isActive || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true") && (
+      {node.context?.isArchived || customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" ? (
         <meta name="robots" content="noindex, nofollow" />
-      )}
+      ) : undefined}
       <SocialMediaMetadata
         title={node.name}
         description={node.subjectpage?.metaDescription}
@@ -249,7 +251,7 @@ export const subjectContainerFragments = {
       }
       context {
         contextId
-        isActive
+        isArchived
         rootId
         parentIds
         url

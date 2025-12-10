@@ -1276,6 +1276,7 @@ type SearchContext {
   contextId: String!
   contextType: String!
   isActive: Boolean!
+  isArchived: Boolean!
   isPrimary: Boolean!
   language: String!
   path: String!
@@ -1421,6 +1422,7 @@ type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
   isActive: Boolean!
+  isArchived: Boolean!
   name: String!
   parentIds: [String!]!
   parents: [TaxonomyCrumb!]

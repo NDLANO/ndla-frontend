@@ -121,7 +121,7 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
           title={article.title}
         />
       )}
-      {!resource.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
+      {resource.context?.isArchived ? <meta name="robots" content="noindex, nofollow" /> : undefined}
       <meta name="pageid" content={`${article.id}`} />
       <LdJson article={resource.article} breadcrumbItems={breadcrumbItems} />
       <SocialMediaMetadata
@@ -145,7 +145,7 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
               contentType={contentType}
               printUrl={printUrl}
               subjectId={root?.id}
-              isInactive={!!resource.context && !resource.context.isActive}
+              isInactive={!!resource.context && resource.context.isArchived}
               resourceTypes={resource.resourceTypes}
               relevanceId={resource.relevanceId}
             >
@@ -184,7 +184,7 @@ ArticlePage.fragments = {
       }
       context {
         contextId
-        isActive
+        isArchived
         parents {
           contextId
           id

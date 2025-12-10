@@ -152,7 +152,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         {scripts?.map((script) => (
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
-        {!node.context?.isActive && <meta name="robots" content="noindex" />}
+        {node.context?.isArchived ? <meta name="robots" content="noindex" /> : undefined}
         <PageTitle title={pageTitle} />
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
@@ -240,7 +240,7 @@ MultidisciplinarySubjectArticle.fragments = {
         rootId
         breadcrumbs
         url
-        isActive
+        isArchived
         parents {
           contextId
           id

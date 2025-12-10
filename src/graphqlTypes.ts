@@ -1722,6 +1722,7 @@ export type GQLSearchContext = {
   contextId: Scalars["String"]["output"];
   contextType: Scalars["String"]["output"];
   isActive: Scalars["Boolean"]["output"];
+  isArchived: Scalars["Boolean"]["output"];
   isPrimary: Scalars["Boolean"]["output"];
   language: Scalars["String"]["output"];
   path: Scalars["String"]["output"];
@@ -1881,6 +1882,7 @@ export type GQLTaxonomyContext = {
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
   isActive: Scalars["Boolean"]["output"];
+  isArchived: Scalars["Boolean"]["output"];
   name: Scalars["String"]["output"];
   parentIds: Array<Scalars["String"]["output"]>;
   parents?: Maybe<Array<GQLTaxonomyCrumb>>;
@@ -2492,7 +2494,7 @@ export type GQLArticlePage_NodeFragment = {
   context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
-    isActive: boolean;
+    isArchived: boolean;
     parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
   };
   article?: {
@@ -2652,7 +2654,7 @@ export type GQLLearningpathPage_NodeFragment = {
   context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
-    isActive: boolean;
+    isArchived: boolean;
     parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
   };
   learningpath?: {
@@ -3420,7 +3422,7 @@ export type GQLSubjectContainer_NodeFragment = {
   context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
-    isActive: boolean;
+    isArchived: boolean;
     rootId: string;
     parentIds: Array<string>;
     url: string;
@@ -3475,7 +3477,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     rootId: string;
     breadcrumbs: Array<string>;
     url: string;
-    isActive: boolean;
+    isArchived: boolean;
     parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
   };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
@@ -3542,7 +3544,7 @@ export type GQLTopicPageQuery = {
       rootId: string;
       name: string;
       url: string;
-      isActive: boolean;
+      isArchived: boolean;
       parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; url: string }>;
     };
   } & GQLMultidisciplinarySubjectArticle_NodeFragment &

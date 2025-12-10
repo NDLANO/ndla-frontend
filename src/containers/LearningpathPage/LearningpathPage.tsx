@@ -60,7 +60,7 @@ export const LearningpathPage = ({ node, skipToContentId, stepId }: Props) => {
   return (
     <>
       <PageTitle title={getDocumentTitle(t, node, stepId)} />
-      {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
+      {node.context?.isArchived ? <meta name="robots" content="noindex, nofollow" /> : undefined}
       <SocialMediaMetadata
         title={getTitle(root, learningpath, learningpathStep)}
         trackableContent={learningpath}
@@ -107,7 +107,7 @@ LearningpathPage.fragments = {
       url
       context {
         contextId
-        isActive
+        isArchived
         parents {
           contextId
           id
