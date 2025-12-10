@@ -122,7 +122,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   return (
     <main>
       <PageTitle title={pageTitle} />
-      {!node.context?.isActive && <meta name="robots" content="noindex, nofollow" />}
+      {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}
@@ -171,7 +171,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
-        {!!node.context && !node.context.isActive && <InactiveMessageBox />}
+        {!!node.context?.isArchived && <InactiveMessageBox />}
         {!!node.children?.length && (
           <NodeGridWrapper aria-labelledby={headingId}>
             <Heading textStyle="heading.small" asChild consumeCss id={headingId}>

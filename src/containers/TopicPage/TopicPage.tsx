@@ -58,7 +58,7 @@ export const topicPageQuery = gql`
         rootId
         name
         url
-        isActive
+        isArchived
         parents {
           id
           name
