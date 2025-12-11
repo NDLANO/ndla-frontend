@@ -33,6 +33,9 @@ export const FooterBlock = styled("footer", {
     position: "relative",
     background: "primary",
     color: "text.onAction",
+    _print: {
+      display: "none",
+    },
   },
 });
 

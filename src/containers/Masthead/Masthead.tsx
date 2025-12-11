@@ -22,7 +22,9 @@ const StyledMasthead = styled("header", {
   base: {
     background: "surface.default",
     zIndex: "banner",
-    boxShadow: "inner",
+    "@media not print": {
+      boxShadow: "inner",
+    },
 
     "@media screen and (max-resolution: 3x)": {
       top: 0,
@@ -51,6 +53,9 @@ const ButtonWrapper = styled("div", {
     display: "flex",
     gap: "small",
     alignItems: "center",
+    _print: {
+      display: "none",
+    },
   },
 });
 

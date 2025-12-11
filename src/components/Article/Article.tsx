@@ -38,7 +38,6 @@ interface Props extends HTMLProps<"div"> {
   children?: ReactNode;
   isInactive?: boolean;
   contentType?: string;
-  printUrl?: string;
   subjectId?: string;
   isOembed?: boolean;
   path?: string;
@@ -52,13 +51,21 @@ const StyledArticleContent = styled(ArticleContent, {
   },
 });
 
+const StyledArticleWrapper = styled(ArticleWrapper, {
+  base: {
+    _print: {
+      // Grid somehow causes overlapping in footer when printing. This only happens in Chromium.
+      display: "block",
+    },
+  },
+});
+
 export const Article = ({
   path,
   article,
   isTopicArticle = false,
   children,
   contentType,
-  printUrl,
   id,
   subjectId,
   isOembed = false,
@@ -86,7 +93,7 @@ export const Article = ({
   const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 
   return (
-    <ArticleWrapper {...licenseProps} {...rest}>
+    <StyledArticleWrapper {...licenseProps} {...rest}>
       <ArticleTitle
         id={id ?? article.id.toString()}
         badges={traits.length ? traits.map((trait) => <Badge key={trait}>{trait}</Badge>) : undefined}
@@ -129,11 +136,11 @@ export const Article = ({
           authors={authors}
           suppliers={article.copyright?.rightsholders}
           published={article.published}
-          licenseBox={<LicenseBox article={article} copyText={copyText} printUrl={printUrl} oembed={article.oembed} />}
+          licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
         />
         {children}
       </ArticleFooter>
-    </ArticleWrapper>
+    </StyledArticleWrapper>
   );
 };
 

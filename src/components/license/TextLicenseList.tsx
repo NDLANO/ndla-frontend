@@ -10,7 +10,6 @@ import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { metaTypes } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
-import { printPage } from "@ndla/util";
 import { CopyBlock } from "./CopyBlock";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { getGroupedContributorDescriptionList } from "./licenseHelpers";
@@ -28,9 +27,8 @@ import {
 
 interface TextLicenseInfoProps {
   text: TextItem;
-  printUrl?: string;
 }
-const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
+const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
 
   const items: ItemType[] = getGroupedContributorDescriptionList(text.copyright, t);
@@ -74,13 +72,11 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
             sourceTitle={text.title}
             sourceType="text"
           />
-          {!!printUrl && (
-            <MediaListItemActions>
-              <Button variant="secondary" onClick={() => printPage(printUrl)} size="small">
-                {t("article.printPage")}
-              </Button>
-            </MediaListItemActions>
-          )}
+          <MediaListItemActions>
+            <Button variant="secondary" onClick={() => window.print()} size="small">
+              {t("article.printPage")}
+            </Button>
+          </MediaListItemActions>
         </MediaListContent>
         <MediaListItemActions>
           <MediaListContent>
@@ -102,14 +98,13 @@ export interface TextItem {
 
 interface Props {
   texts: TextItem[];
-  printUrl?: string;
 }
 
-export const TextLicenseList = ({ texts, printUrl }: Props) => {
+export const TextLicenseList = ({ texts }: Props) => {
   return (
     <MediaList>
       {texts.map((text, index) => (
-        <TextLicenseInfo text={text} key={index} printUrl={printUrl} />
+        <TextLicenseInfo text={text} key={index} />
       ))}
     </MediaList>
   );

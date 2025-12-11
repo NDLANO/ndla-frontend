@@ -33,7 +33,6 @@ function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
   t: TFunction,
   copyText?: string,
-  printUrl?: string,
   oembed?: string | undefined,
 ) {
   const metaData = article.transformedContent?.metaData;
@@ -56,7 +55,7 @@ function buildLicenseTabList(
   tabs.push({
     title: t("license.tabs.text"),
     id: "text",
-    content: <TextLicenseList printUrl={printUrl} texts={articleTexts} />,
+    content: <TextLicenseList texts={articleTexts} />,
   });
 
   if (metaData?.images.some((img) => img.copyright.license.license)) {
@@ -130,11 +129,10 @@ interface Props {
   article: GQLLicenseBox_ArticleFragment;
   copyText?: string;
   oembed: string | undefined;
-  printUrl?: string;
 }
-export const LicenseBox = ({ article, copyText, printUrl, oembed }: Props) => {
+export const LicenseBox = ({ article, copyText, oembed }: Props) => {
   const { t } = useTranslation();
-  const tabs = buildLicenseTabList(article, t, copyText, printUrl, oembed);
+  const tabs = buildLicenseTabList(article, t, copyText, oembed);
   return (
     <StyledTabsRoot
       defaultValue={tabs[0]?.id}

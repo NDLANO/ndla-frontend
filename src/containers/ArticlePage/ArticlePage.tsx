@@ -102,8 +102,6 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
 
   const contentType = getContentType(resource);
 
-  const printUrl = `${config.ndlaFrontendDomain}/article-iframe/${i18n.language}/article/${resource.article.id}`;
-
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource]);
 
   return (
@@ -143,7 +141,6 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
               path={resource.url}
               article={article}
               contentType={contentType}
-              printUrl={printUrl}
               subjectId={root?.id}
               isInactive={!!resource.context?.isArchived}
               resourceTypes={resource.resourceTypes}
