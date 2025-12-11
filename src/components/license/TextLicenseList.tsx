@@ -8,13 +8,12 @@
 
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
-import { FileCopyLine } from "@ndla/icons";
 import { metaTypes } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
 import { printPage } from "@ndla/util";
-import { CopyTextButton } from "./CopyTextButton";
+import { CopyBlock } from "./CopyBlock";
 import { licenseListCopyrightFragment } from "./licenseFragments";
-import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
+import { getGroupedContributorDescriptionList } from "./licenseHelpers";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
 import {
   MediaList,
@@ -86,15 +85,7 @@ const TextLicenseInfo = ({ text, printUrl }: TextLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(text.copyright.license?.license) && !!text.copyText && (
-              <CopyTextButton
-                stringToCopy={text.copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
+            <CopyBlock stringToCopy={text.copyText} license={text.copyright.license.license} />
           </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>

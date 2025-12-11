@@ -10,9 +10,10 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
-import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
+import { ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import { CopyBlock } from "./CopyBlock";
 import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
@@ -95,15 +96,7 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(h5p.copyright?.license.license) && !!copyText && (
-              <CopyTextButton
-                stringToCopy={copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
+            <CopyBlock stringToCopy={copyText} license={h5p.copyright?.license.license} />
           </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>

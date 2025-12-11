@@ -10,10 +10,11 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
-import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
+import { DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
+import { CopyBlock } from "./CopyBlock";
 import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
@@ -133,15 +134,7 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(image.copyright.license.license) && !!copyText && (
-              <CopyTextButton
-                stringToCopy={copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
+            <CopyBlock stringToCopy={copyText} license={image.copyright.license.license} />
           </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
