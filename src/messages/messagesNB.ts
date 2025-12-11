@@ -1024,6 +1024,9 @@ const messages = {
       "Dersom informasjonen er feil, må den oppdateres av vertsorganisasjon/skoleeier som brukeren tilhører. Oversikt over brukerstøtte finnes her: ",
   },
   archivedPage: "Denne sida er arkivert. Innholdet kan være utdatert.",
+  licenseBox: {
+    sourceTitle: "Kildehenvisning",
+  },
 };
 
 export default messages;

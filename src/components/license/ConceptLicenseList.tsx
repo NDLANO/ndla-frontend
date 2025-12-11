@@ -10,9 +10,10 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
-import { FileCopyLine, ExternalLinkLine } from "@ndla/icons";
+import { ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import { CopyBlock } from "./CopyBlock";
 import { CopyTextButton } from "./CopyTextButton";
 import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
@@ -126,15 +127,7 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(concept.copyright?.license?.license) && !!copyText && (
-              <CopyTextButton
-                stringToCopy={copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
+            <CopyBlock stringToCopy={copyText} license={concept.copyright?.license?.license} />
           </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>

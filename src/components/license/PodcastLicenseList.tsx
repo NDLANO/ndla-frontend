@@ -10,9 +10,10 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
-import { FileCopyLine, DownloadLine, ExternalLinkLine } from "@ndla/icons";
+import { DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { figureApa7CopyString, metaTypes } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
+import { CopyBlock } from "./CopyBlock";
 import { CopyTextButton } from "./CopyTextButton";
 import { licenseListCopyrightFragment } from "./licenseFragments";
 import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
@@ -129,15 +130,7 @@ const PodcastLicenseInfo = ({ podcast }: PodcastLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />
-            {!isCopyrighted(podcast.copyright.license.license) && !!copyText && (
-              <CopyTextButton
-                stringToCopy={copyText}
-                copyTitle={t("license.copyTitle")}
-                hasCopiedTitle={t("license.hasCopiedTitle")}
-              >
-                <FileCopyLine />
-              </CopyTextButton>
-            )}
+            <CopyBlock stringToCopy={copyText} license={podcast.copyright.license.license} />
           </MediaListContent>
         </MediaListItemActions>
       </MediaListItemBody>
