@@ -13,6 +13,7 @@ import { ApolloProvider } from "@apollo/client/react";
 import { routes } from "./appRoutes";
 import { AuthenticationContext } from "./components/AuthenticationContext";
 import { ResponseContext } from "./components/ResponseContext";
+import { RestrictedModeProvider } from "./components/RestrictedModeContext";
 import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { Document } from "./Document";
@@ -27,7 +28,7 @@ declare global {
 }
 
 const {
-  DATA: { config, serverPath, serverResponse, chunkInfo, hash },
+  DATA: { config, serverPath, serverResponse, chunkInfo, hash, restrictedMode },
 } = window;
 
 initSentry(config);
@@ -53,19 +54,21 @@ renderOrHydrate(
     language={isValidLocale(abbreviation) ? abbreviation : config.defaultLocale}
     hash={hash}
   >
-    <I18nextProvider i18n={i18nInstance}>
-      <ApolloProvider client={client}>
-        <ResponseContext value={{ status: serverResponse }}>
-          <VersionHashProvider value={versionHash}>
-            <SiteThemeProvider value={window.DATA.siteTheme}>
-              <AuthenticationContext>
-                <RouterProvider router={router} />
-              </AuthenticationContext>
-            </SiteThemeProvider>
-          </VersionHashProvider>
-        </ResponseContext>
-      </ApolloProvider>
-    </I18nextProvider>
+    <RestrictedModeProvider value={restrictedMode}>
+      <I18nextProvider i18n={i18nInstance}>
+        <ApolloProvider client={client}>
+          <ResponseContext value={{ status: serverResponse }}>
+            <VersionHashProvider value={versionHash}>
+              <SiteThemeProvider value={window.DATA.siteTheme}>
+                <AuthenticationContext>
+                  <RouterProvider router={router} />
+                </AuthenticationContext>
+              </SiteThemeProvider>
+            </VersionHashProvider>
+          </ResponseContext>
+        </ApolloProvider>
+      </I18nextProvider>
+    </RestrictedModeProvider>
   </Document>,
   routes,
   basepath,

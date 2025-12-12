@@ -16,6 +16,7 @@ import { routes } from "../../appRoutes";
 import { AuthenticationContext } from "../../components/AuthenticationContext";
 import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
 import { ResponseContext, ResponseInfo } from "../../components/ResponseContext";
+import { RestrictedModeProvider } from "../../components/RestrictedModeContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
@@ -25,6 +26,7 @@ import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
+import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
@@ -40,7 +42,7 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
   }
 
   const siteTheme = getSiteTheme();
-
+  const restrictedMode = isRestrictedMode(req);
   const versionHash = typeof req.query.versionHash === "string" ? req.query.versionHash : undefined;
   const noSSR = disableSSR(req);
   const hash = stringifiedLanguages[locale].hash;
@@ -54,6 +56,7 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
         data: {
           config: { ...config, disableSSR: true },
           siteTheme,
+          restrictedMode,
           chunkInfo,
           hash,
           serverPath: req.path,
@@ -87,11 +90,13 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
           <ApolloProvider client={client}>
             <ResponseContext value={responseContext}>
               <VersionHashProvider value={versionHash}>
-                <SiteThemeProvider value={siteTheme}>
-                  <AuthenticationContext>
-                    <StaticRouterProvider router={router} context={context} hydrate={false} />
-                  </AuthenticationContext>
-                </SiteThemeProvider>
+                <RestrictedModeProvider value={restrictedMode}>
+                  <SiteThemeProvider value={siteTheme}>
+                    <AuthenticationContext>
+                      <StaticRouterProvider router={router} context={context} hydrate={false} />
+                    </AuthenticationContext>
+                  </SiteThemeProvider>
+                </RestrictedModeProvider>
               </VersionHashProvider>
             </ResponseContext>
           </ApolloProvider>
@@ -118,6 +123,7 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
       htmlContent: result.result,
       data: {
         siteTheme: siteTheme,
+        restrictedMode,
         chunkInfo,
         hash,
         serverResponse: redirectContext.status ?? undefined,
