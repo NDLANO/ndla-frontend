@@ -61,9 +61,9 @@ export const podcastRssFeed = async (seriesId: number): Promise<string> => {
       <link>${episodeLink}</link>
       `;
 
-      const coverPhoto = !episode.podcastMeta?.image?.imageUrl
+      const coverPhoto = !episode.podcastMeta?.image?.image.imageUrl
         ? ""
-        : `<itunes:image href="${episode.podcastMeta.image.imageUrl}" />`;
+        : `<itunes:image href="${episode.podcastMeta.image.image.imageUrl}" />`;
       return `
       <item>
         <title>${episode.title.title}</title>
@@ -98,7 +98,7 @@ export const podcastRssFeed = async (seriesId: number): Promise<string> => {
           <itunes:name>NDLA</itunes:name>
           <itunes:email>${ownerEmail}</itunes:email>
         </itunes:owner>
-        <itunes:image href="${podcastSeries?.image.imageUrl}" />
+        <itunes:image href="${podcastSeries?.image.image.imageUrl}" />
         ${episodes?.join("")}
       </channel>
     </rss>
@@ -120,7 +120,9 @@ const podcastSeriesQuery = gql`
       }
       supportedLanguages
       image {
-        imageUrl
+        image {
+          imageUrl
+        }
       }
       coverPhoto {
         url
@@ -142,7 +144,9 @@ const podcastSeriesQuery = gql`
         podcastMeta {
           introduction
           image {
-            imageUrl
+            image {
+              imageUrl
+            }
           }
         }
         copyright {

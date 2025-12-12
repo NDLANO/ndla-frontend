@@ -532,41 +532,6 @@ type ImageLicense {
   title: String!
 }
 
-type ImageMetaInformation {
-  altText: String!
-  caption: String!
-  contentType: String!
-  copyright: Copyright!
-  created: String!
-  createdBy: String!
-  id: String!
-  imageUrl: String!
-  metaUrl: String!
-  size: Int!
-  supportedLanguages: [String!]!
-  tags: [String!]!
-  title: String!
-}
-
-type ImageMetaInformationV2 {
-  alttext: ImageAltText!
-  caption: Caption!
-  contentType: String!
-  copyright: Copyright!
-  created: String!
-  createdBy: String!
-  editorNotes: [EditorNote!]
-  id: String!
-  imageDimensions: ImageDimensions
-  imageUrl: String!
-  metaUrl: String!
-  modelRelease: String!
-  size: Int!
-  supportedLanguages: [String!]
-  tags: Tags!
-  title: Title!
-}
-
 type ImageMetaInformationV3 {
   alttext: ImageAltText!
   caption: Caption!
@@ -598,6 +563,11 @@ type ImageV3 {
   imageUrl: String!
   language: String!
   size: Int!
+}
+
+type ImageVariant {
+  size: String!
+  variantUrl: String!
 }
 
 type Learningpath {
@@ -1018,7 +988,7 @@ type PodcastLicense {
 }
 
 type PodcastMeta {
-  image: ImageMetaInformation
+  image: ImageMetaInformationV3
   introduction: String!
   language: String!
 }
@@ -1028,7 +998,7 @@ type PodcastSeries implements PodcastSeriesBase {
   description: Description!
   hasRSS: Boolean!
   id: Int!
-  image: ImageMetaInformation!
+  image: ImageMetaInformationV3!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -1038,7 +1008,7 @@ interface PodcastSeriesBase {
   description: Description!
   hasRSS: Boolean!
   id: Int!
-  image: ImageMetaInformation!
+  image: ImageMetaInformationV3!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -1067,7 +1037,7 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
   episodes: [Audio!]
   hasRSS: Boolean!
   id: Int!
-  image: ImageMetaInformation!
+  image: ImageMetaInformationV3!
   supportedLanguages: [String!]!
   title: Title!
 }
@@ -1120,7 +1090,7 @@ type Query {
     subjects: String
     tags: [String!]
   ): [GroupSearch!]
-  image(id: String!): ImageMetaInformationV2
+  image(id: String!): ImageMetaInformationV3
   imageSearch(license: String, page: Int, pageSize: Int, query: String): ImageSearch!
   imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath
