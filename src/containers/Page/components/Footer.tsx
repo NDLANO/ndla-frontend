@@ -191,12 +191,14 @@ const FooterSocialMedia = () => {
       to: "https://www.youtube.com/channel/UCBlt6T8B0mmvDh3k5q7EhsA",
       icon: <YoutubeLine />,
     },
-    {
+  ];
+  if (config.githubIconEnabled) {
+    links.push({
       text: t("footer.socialMediaLinks.github"),
       to: "https://github.com/NDLANO",
       icon: <GithubFill />,
-    },
-  ];
+    });
+  }
 
   return (
     <StyledLinkBlock>
