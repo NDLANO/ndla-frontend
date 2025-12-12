@@ -2211,6 +2211,7 @@ export type GQLArticleStep_LearningpathStepFragment = {
   resource?: {
     __typename?: "Resource";
     id: string;
+    nodeType: string;
     url?: string;
     relevanceId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
@@ -2240,6 +2241,7 @@ export type GQLLearningpathStepQuery = {
   node?: {
     __typename?: "Node";
     id: string;
+    nodeType: string;
     url?: string;
     relevanceId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
@@ -2270,6 +2272,7 @@ export type GQLSubjectLinks_SubjectPageFragment = {
 export type GQLTransportationNode_NodeFragment = {
   __typename?: "Node";
   id: string;
+  nodeType: string;
   name: string;
   url?: string;
   relevanceId?: string;
@@ -2486,6 +2489,7 @@ export type GQLAllSubjectsQuery = {
 export type GQLArticlePage_NodeFragment = {
   __typename?: "Node";
   id: string;
+  nodeType: string;
   name: string;
   url?: string;
   contentUri?: string;
@@ -2649,6 +2653,7 @@ export type GQLResourceTypeMoviesQuery = {
 export type GQLLearningpathPage_NodeFragment = {
   __typename?: "Node";
   id: string;
+  nodeType: string;
   name: string;
   url?: string;
   context?: {
@@ -2788,6 +2793,7 @@ export type GQLMovedResourceQuery = {
 export type GQLMovedResourcePage_NodeFragment = {
   __typename?: "Node";
   id: string;
+  nodeType: string;
   name: string;
   url?: string;
   breadcrumbs: Array<string>;
@@ -3186,6 +3192,7 @@ export type GQLResourcePageQuery = {
 export type GQLResourceItem_NodeFragment = {
   __typename?: "Node";
   id: string;
+  nodeType: string;
   rank?: number;
   name: string;
   url?: string;
@@ -3468,6 +3475,7 @@ export type GQLSubjectPageQuery = {
 export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
   __typename?: "Node";
   id: string;
+  nodeType: string;
   name: string;
   url?: string;
   relevanceId?: string;
@@ -3499,6 +3507,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
 export type GQLTopicContainer_NodeFragment = {
   __typename?: "Node";
   id: string;
+  nodeType: string;
   name: string;
   contentUri?: string;
   url?: string;
@@ -3673,6 +3682,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
 export type GQLIframeArticlePage_NodeFragment = {
   __typename?: "Node";
   id: string;
+  nodeType: string;
   name: string;
   url?: string;
   relevanceId?: string;
