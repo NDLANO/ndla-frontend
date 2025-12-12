@@ -384,10 +384,10 @@ exports[`ErrorPage renderers correctly 1`] = `
                   </li>
                   <li>
                     <a
-                      aria-label="NDLA på Github"
+                      aria-label="NDLA på GitHub"
                       class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s bg_transparent c_text.onAction hover:c_surface.actionSubtle.hover.strong lh_1 min-h_unset --shadow-width_3px h_xxlarge w_xxlarge [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium px_xsmall py_xsmall"
                       href="https://github.com/NDLANO"
-                      title="NDLA på Github"
+                      title="NDLA på GitHub"
                     >
                       <svg
                         aria-hidden="true"
