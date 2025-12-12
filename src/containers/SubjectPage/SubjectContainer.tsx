@@ -260,7 +260,7 @@ export const subjectContainerFragments = {
       links {
         ...TransportationNode_Node
       }
-      nodes: children(nodeType: "TOPIC") {
+      nodes: children(nodeType: "TOPIC,CASE") {
         ...TransportationNode_Node
       }
       subjectpage {

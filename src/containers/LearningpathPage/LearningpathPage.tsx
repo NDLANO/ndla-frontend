@@ -103,6 +103,7 @@ LearningpathPage.fragments = {
   resource: gql`
     fragment LearningpathPage_Node on Node {
       id
+      nodeType
       name
       url
       context {

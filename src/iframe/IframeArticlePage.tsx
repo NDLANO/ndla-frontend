@@ -131,6 +131,7 @@ export const iframeArticlePageFragments = {
   node: gql`
     fragment IframeArticlePage_Node on Node {
       id
+      nodeType
       name
       url
       relevanceId

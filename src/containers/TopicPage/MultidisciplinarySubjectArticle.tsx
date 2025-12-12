@@ -232,6 +232,7 @@ MultidisciplinarySubjectArticle.fragments = {
   node: gql`
     fragment MultidisciplinarySubjectArticle_Node on Node {
       id
+      nodeType
       name
       url
       relevanceId

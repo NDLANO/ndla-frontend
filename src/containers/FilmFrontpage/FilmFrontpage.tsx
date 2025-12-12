@@ -201,7 +201,7 @@ const filmFrontPageQuery = gql`
       id
       name
       url
-      children(nodeType: "TOPIC") {
+      children(nodeType: "TOPIC,CASE") {
         id
         name
         url

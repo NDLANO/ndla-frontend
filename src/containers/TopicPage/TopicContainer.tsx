@@ -217,13 +217,14 @@ TopicContainer.fragments = {
   node: gql`
     fragment TopicContainer_Node on Node {
       id
+      nodeType
       name
       contentUri
       url
       links {
         ...TransportationNode_Node
       }
-      children(nodeType: "TOPIC") {
+      children(nodeType: "TOPIC,CASE") {
         id
         ...TransportationNode_Node
       }

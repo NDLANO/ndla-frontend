@@ -159,6 +159,7 @@ ArticleStep.fragments = {
       }
       resource {
         id
+        nodeType
         url
         relevanceId
         resourceTypes {
@@ -200,6 +201,7 @@ const learningpathStepQuery = gql`
     }
     node(id: $resourceId) @include(if: $includeResource) {
       id
+      nodeType
       url
       relevanceId
       resourceTypes {
