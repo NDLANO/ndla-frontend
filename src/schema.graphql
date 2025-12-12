@@ -23,7 +23,7 @@ type Article {
   introduction: String
   language: String!
   metaDescription: String!
-  metaImage: MetaImageWithCopyright
+  metaImage: ImageMetaInformationV3
   oembed: String
   oldNdlaUrl: String
   published: String!
@@ -546,25 +546,7 @@ type ImageMetaInformation {
   supportedLanguages: [String!]!
   tags: [String!]!
   title: String!
-}
-
-type ImageMetaInformationV2 {
-  alttext: ImageAltText!
-  caption: Caption!
-  contentType: String!
-  copyright: Copyright!
-  created: String!
-  createdBy: String!
-  editorNotes: [EditorNote!]
-  id: String!
-  imageDimensions: ImageDimensions
-  imageUrl: String!
-  metaUrl: String!
-  modelRelease: String!
-  size: Int!
-  supportedLanguages: [String!]
-  tags: Tags!
-  title: Title!
+  variants: [ImageVariant!]!
 }
 
 type ImageMetaInformationV3 {
@@ -600,11 +582,16 @@ type ImageV3 {
   size: Int!
 }
 
+type ImageVariant {
+  size: String!
+  variantUrl: String!
+}
+
 type Learningpath {
   basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
-  coverphoto: LearningpathCoverphoto
+  coverphoto: ImageMetaInformationV3
   created: String!
   description: String!
   duration: Int
@@ -643,11 +630,6 @@ type LearningpathCopyright {
 input LearningpathCopyrightInput {
   contributors: [ContributorInput!]!
   license: LicenseInput!
-}
-
-type LearningpathCoverphoto {
-  metaUrl: String!
-  url: String!
 }
 
 input LearningpathEmbedInput {
@@ -803,12 +785,6 @@ type MetaImage {
   url: String!
 }
 
-type MetaImageWithCopyright {
-  alt: String!
-  copyright: Copyright!
-  url: String!
-}
-
 type Movie {
   id: String!
   metaDescription: String!
@@ -889,7 +865,7 @@ type MyNdlaLearningpath {
   basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
-  coverphoto: LearningpathCoverphoto
+  coverphoto: ImageMetaInformationV3
   created: String!
   description: String!
   duration: Int
@@ -1120,7 +1096,7 @@ type Query {
     subjects: String
     tags: [String!]
   ): [GroupSearch!]
-  image(id: String!): ImageMetaInformationV2
+  image(id: String!): ImageMetaInformationV3
   imageSearch(license: String, page: Int, pageSize: Int, query: String): ImageSearch!
   imageV3(id: String!): ImageMetaInformationV3
   learningpath(pathId: String!): Learningpath

@@ -12,14 +12,12 @@ import { ImageEmbed } from "@ndla/ui";
 
 interface Props {
   embed?: EmbedMetaData;
-  metaImage?: {
-    url?: string;
-    alt?: string;
-  };
+  imageUrl?: string;
+  imageAlt?: string;
 }
 
 // This is styled in TransportationPageHeader
-export const TransportationPageVisualElement = ({ embed, metaImage }: Props) => {
+export const TransportationPageVisualElement = ({ embed, imageUrl, imageAlt }: Props) => {
   if (embed?.resource === "image") {
     return (
       <ImageEmbed
@@ -33,10 +31,10 @@ export const TransportationPageVisualElement = ({ embed, metaImage }: Props) => 
         }}
       />
     );
-  } else if (metaImage?.url) {
+  } else if (imageUrl) {
     return (
       <Figure>
-        <Image src={metaImage.url} alt={metaImage.alt ?? ""} width={365} fetchPriority="high" />
+        <Image src={imageUrl} alt={imageAlt ?? ""} width={365} fetchPriority="high" />
       </Figure>
     );
   }

@@ -42,7 +42,7 @@ export type GQLArticle = {
   introduction?: Maybe<Scalars["String"]["output"]>;
   language: Scalars["String"]["output"];
   metaDescription: Scalars["String"]["output"];
-  metaImage?: Maybe<GQLMetaImageWithCopyright>;
+  metaImage?: Maybe<GQLImageMetaInformationV3>;
   oembed?: Maybe<Scalars["String"]["output"]>;
   oldNdlaUrl?: Maybe<Scalars["String"]["output"]>;
   published: Scalars["String"]["output"];
@@ -638,26 +638,7 @@ export type GQLImageMetaInformation = {
   supportedLanguages: Array<Scalars["String"]["output"]>;
   tags: Array<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
-};
-
-export type GQLImageMetaInformationV2 = {
-  __typename?: "ImageMetaInformationV2";
-  alttext: GQLImageAltText;
-  caption: GQLCaption;
-  contentType: Scalars["String"]["output"];
-  copyright: GQLCopyright;
-  created: Scalars["String"]["output"];
-  createdBy: Scalars["String"]["output"];
-  editorNotes?: Maybe<Array<GQLEditorNote>>;
-  id: Scalars["String"]["output"];
-  imageDimensions?: Maybe<GQLImageDimensions>;
-  imageUrl: Scalars["String"]["output"];
-  metaUrl: Scalars["String"]["output"];
-  modelRelease: Scalars["String"]["output"];
-  size: Scalars["Int"]["output"];
-  supportedLanguages?: Maybe<Array<Scalars["String"]["output"]>>;
-  tags: GQLTags;
-  title: GQLTitle;
+  variants: Array<GQLImageVariant>;
 };
 
 export type GQLImageMetaInformationV3 = {
@@ -696,12 +677,18 @@ export type GQLImageV3 = {
   size: Scalars["Int"]["output"];
 };
 
+export type GQLImageVariant = {
+  __typename?: "ImageVariant";
+  size: Scalars["String"]["output"];
+  variantUrl: Scalars["String"]["output"];
+};
+
 export type GQLLearningpath = {
   __typename?: "Learningpath";
   basedOn?: Maybe<Scalars["String"]["output"]>;
   canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
-  coverphoto?: Maybe<GQLLearningpathCoverphoto>;
+  coverphoto?: Maybe<GQLImageMetaInformationV3>;
   created: Scalars["String"]["output"];
   description: Scalars["String"]["output"];
   duration?: Maybe<Scalars["Int"]["output"]>;
@@ -741,12 +728,6 @@ export type GQLLearningpathCopyright = {
 export type GQLLearningpathCopyrightInput = {
   contributors: Array<GQLContributorInput>;
   license: GQLLicenseInput;
-};
-
-export type GQLLearningpathCoverphoto = {
-  __typename?: "LearningpathCoverphoto";
-  metaUrl: Scalars["String"]["output"];
-  url: Scalars["String"]["output"];
 };
 
 export type GQLLearningpathEmbedInput = {
@@ -914,13 +895,6 @@ export type GQLMeta = {
 export type GQLMetaImage = {
   __typename?: "MetaImage";
   alt: Scalars["String"]["output"];
-  url: Scalars["String"]["output"];
-};
-
-export type GQLMetaImageWithCopyright = {
-  __typename?: "MetaImageWithCopyright";
-  alt: Scalars["String"]["output"];
-  copyright: GQLCopyright;
   url: Scalars["String"]["output"];
 };
 
@@ -1120,7 +1094,7 @@ export type GQLMyNdlaLearningpath = {
   basedOn?: Maybe<Scalars["String"]["output"]>;
   canEdit: Scalars["Boolean"]["output"];
   copyright: GQLLearningpathCopyright;
-  coverphoto?: Maybe<GQLLearningpathCoverphoto>;
+  coverphoto?: Maybe<GQLImageMetaInformationV3>;
   created: Scalars["String"]["output"];
   description: Scalars["String"]["output"];
   duration?: Maybe<Scalars["Int"]["output"]>;
@@ -1364,7 +1338,7 @@ export type GQLQuery = {
   folders: GQLUserFolder;
   frontpage?: Maybe<GQLFrontpageMenu>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
-  image?: Maybe<GQLImageMetaInformationV2>;
+  image?: Maybe<GQLImageMetaInformationV3>;
   imageSearch: GQLImageSearch;
   imageV3?: Maybe<GQLImageMetaInformationV3>;
   learningpath?: Maybe<GQLLearningpath>;
@@ -2431,7 +2405,11 @@ export type GQLAboutPageNode_ArticleFragment = {
   updated: string;
   published: string;
   oembed?: string;
-  metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+  metaImage?: {
+    __typename?: "ImageMetaInformationV3";
+    image: { __typename?: "ImageV3"; imageUrl: string };
+    alttext: { __typename?: "ImageAltText"; alttext: string };
+  };
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
@@ -2663,7 +2641,11 @@ export type GQLLearningpathPage_NodeFragment = {
     supportedLanguages: Array<string>;
     tags: Array<string>;
     description: string;
-    coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string; metaUrl: string };
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      metaUrl: string;
+      image: { __typename?: "ImageV3"; imageUrl: string };
+    };
     learningsteps: Array<{ __typename?: "LearningpathStep"; type: string } & GQLLearningpath_LearningpathStepFragment>;
   } & GQLLearningpath_LearningpathFragment;
 };
@@ -2797,13 +2779,21 @@ export type GQLMovedResourcePage_NodeFragment = {
     id: number;
     metaDescription: string;
     traits: Array<string>;
-    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+    metaImage?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
   };
   learningpath?: {
     __typename?: "Learningpath";
     id: number;
     description: string;
-    coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
   };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
@@ -3019,7 +3009,7 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
   supportedLanguages: Array<string>;
   tags: Array<string>;
   description: string;
-  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+  coverphoto?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
   learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
 } & GQLLearningpath_LearningpathFragment;
 
@@ -3196,12 +3186,16 @@ export type GQLResourceItem_NodeFragment = {
     __typename?: "Article";
     id: number;
     traits: Array<string>;
-    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+    metaImage?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
   };
   learningpath?: {
     __typename?: "Learningpath";
     id: number;
-    coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string };
+    coverphoto?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
   };
 };
 
@@ -3491,7 +3485,11 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     introduction?: string;
     metaDescription: string;
     traits: Array<string>;
-    metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+    metaImage?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
     crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string; url?: string }>;
   } & GQLArticle_ArticleFragment;
 };
@@ -3527,7 +3525,11 @@ export type GQLTopicPageQuery = {
       htmlTitle: string;
       htmlIntroduction?: string;
       grepCodes?: Array<string>;
-      metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: { __typename?: "ImageV3"; imageUrl: string };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
       transformedContent: {
         __typename?: "TransformedArticleContent";
         visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
@@ -3654,7 +3656,11 @@ export type GQLMyNdlaLearningpathFragment = {
   madeAvailable?: string;
   revision: number;
   supportedLanguages: Array<string>;
-  coverphoto?: { __typename?: "LearningpathCoverphoto"; url: string; metaUrl: string };
+  coverphoto?: {
+    __typename?: "ImageMetaInformationV3";
+    metaUrl: string;
+    image: { __typename?: "ImageV3"; imageUrl: string };
+  };
   learningsteps?: Array<{ __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment>;
 };
 
@@ -3666,7 +3672,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
   metaDescription: string;
   oembed?: string;
   tags?: Array<string>;
-  metaImage?: { __typename?: "MetaImageWithCopyright"; url: string };
+  metaImage?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
 } & GQLArticle_ArticleFragment &
   GQLStructuredArticleDataFragment;
 
@@ -4321,7 +4327,11 @@ export type GQLStructuredArticleDataFragment = {
   updated: string;
   supportedLanguages?: Array<string>;
   copyright: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
-  metaImage?: { __typename?: "MetaImageWithCopyright"; url: string; alt: string };
+  metaImage?: {
+    __typename?: "ImageMetaInformationV3";
+    image: { __typename?: "ImageV3"; imageUrl: string };
+    alttext: { __typename?: "ImageAltText"; alttext: string };
+  };
   competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
   coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
   transformedContent: {

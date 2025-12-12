@@ -47,7 +47,7 @@ export const EditLearningpathTitlePage = () => {
     const introduction = serializedIntroduction === "<section></section>" ? null : serializedIntroduction;
     if (
       learningpath.title !== title ||
-      learningpath.coverphoto?.url !== imageUrl ||
+      learningpath.coverphoto?.image.imageUrl !== imageUrl ||
       learningpath.introduction !== introduction
     ) {
       await updatePath({
