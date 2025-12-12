@@ -42,6 +42,9 @@ const StyledNav = styled("nav", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
+    _print: {
+      display: "none",
+    },
   },
 });
 

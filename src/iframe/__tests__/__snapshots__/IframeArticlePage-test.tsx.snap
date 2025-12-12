@@ -15,7 +15,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
     </script>
     <main>
       <article
-        class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both"
+        class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both print:d_block"
         data-ndla-article=""
         xmlns:cc="https://creativecommons.org/ns#"
         xmlns:dct="http://purl.org/dc/terms/"

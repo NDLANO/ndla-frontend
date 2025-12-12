@@ -3,7 +3,7 @@
 exports[`ErrorPage renderers correctly 1`] = `
 <DocumentFragment>
   <header
-    class="bg_surface.default z_banner bx-sh_inner [@media_screen_and_(max-resolution:_3x)]:top_0 [@media_screen_and_(max-resolution:_3x)]:pos_sticky [@media_screen_and_(max-resolution:_3x)]:print:pos_relative"
+    class="bg_surface.default z_banner [@media_not_print]:bx-sh_inner [@media_screen_and_(max-resolution:_3x)]:top_0 [@media_screen_and_(max-resolution:_3x)]:pos_sticky [@media_screen_and_(max-resolution:_3x)]:print:pos_relative"
     id="masthead"
   >
     <div
@@ -94,7 +94,7 @@ exports[`ErrorPage renderers correctly 1`] = `
     </article>
   </main>
   <footer
-    class="pos_relative bg_primary c_text.onAction"
+    class="pos_relative bg_primary c_text.onAction print:d_none"
   >
     <button
       class="d_inline-flex ai_center jc_center gap_xxsmall cursor_pointer td_none fw_bold trs-prop_all trs-dur_fast trs-tmf_default ta_center bdr_xsmall ring_none bx-sh-c_stroke.default disabled:cursor_not-allowed disabled:c_text.onAction disabled:bg_surface.disabled disabled:bx-sh-c_surface.disabled disabled:[&_svg]:c_text.onAction disabled:hover:c_text.onAction disabled:hover:bg_surface.disabled focusVisible:bx-sh_inset_0_0_0_var(--shadow-width,_3px)_var(--shadow-color) motionReduce:trs_none motionReduce:trs-dur_0s c_text.strong bg_surface.default bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover active:bg_surface.actionSubtle.hover.strong on:bg_surface.actionSubtle.active textStyle_label.medium px_small py_xxsmall min-h_24 [&_svg]:mx_0 [&_svg]:my_0 [&_svg]:w_medium [&_svg]:h_medium pos_absolute right_xxlarge top_-medium z_docked"
