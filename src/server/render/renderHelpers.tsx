@@ -6,14 +6,12 @@
  *
  */
 
-import url from "url";
 import { Request } from "express";
 import config from "../../config";
 
 export const disableSSR = (req: Request) => {
-  const urlParts = url.parse(req.url, true);
-  if (urlParts.query && urlParts.query.disableSSR) {
-    return urlParts.query.disableSSR === "true";
+  if (req.query.disableSSR) {
+    return req.query.disableSSR === "true";
   }
   return config.disableSSR;
 };
