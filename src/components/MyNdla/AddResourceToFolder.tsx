@@ -108,7 +108,6 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [canSave, setCanSave] = useState<boolean>(false);
-  const [isSaving, setIsSaving] = useState<boolean>(false);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
   const toast = useToast();
@@ -150,7 +149,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
   };
 
   const [updateFolderResource] = useUpdateFolderResourceMutation();
-  const [addResourceToFolder, { loading: addResourceLoading }] = useAddResourceToFolderMutation(
+  const [addResourceToFolder, { loading: addResourceLoading, called }] = useAddResourceToFolderMutation(
     selectedFolder?.id ?? "",
   );
 
@@ -160,7 +159,6 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
 
   const onSave = async () => {
     if (selectedFolder && !alreadyAdded) {
-      setIsSaving(true);
       const res = await addResourceToFolder({
         variables: {
           resourceId: resource.id,
@@ -238,7 +236,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
             storedResource={storedResource}
           />
           <StyledInfoMessages id="treestructure-error-label" aria-live="assertive">
-            {!!alreadyAdded && !isSaving && (
+            {!!alreadyAdded && !called && (
               <MessageBox variant="warning">
                 <Text>{t("myNdla.alreadyInFolder")}</Text>
               </MessageBox>
