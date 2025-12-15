@@ -149,7 +149,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
   };
 
   const [updateFolderResource] = useUpdateFolderResourceMutation();
-  const [addResourceToFolder, { loading: addResourceLoading }] = useAddResourceToFolderMutation(
+  const [addResourceToFolder, { loading: addResourceLoading, called }] = useAddResourceToFolderMutation(
     selectedFolder?.id ?? "",
   );
 
@@ -236,7 +236,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
             storedResource={storedResource}
           />
           <StyledInfoMessages id="treestructure-error-label" aria-live="assertive">
-            {!!alreadyAdded && (
+            {!!alreadyAdded && !called && (
               <MessageBox variant="warning">
                 <Text>{t("myNdla.alreadyInFolder")}</Text>
               </MessageBox>
