@@ -14,11 +14,14 @@ import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { Badge, Hero, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
 import { ResourceEmbedLicenseContent } from "./ResourceEmbedLicenseContent";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { PageTitle } from "../../../components/PageTitle";
+import { RestrictedBlock } from "../../../components/RestrictedBlock";
+import { useRestrictedMode } from "../../../components/RestrictedModeContext";
 import { SocialMediaMetadata } from "../../../components/SocialMediaMetadata";
 import config from "../../../config";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
@@ -38,6 +41,18 @@ interface Props {
   isOembed?: boolean;
   type: StandaloneEmbed;
 }
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
+const StyledRestrictedBlock = styled(RestrictedBlock, {
+  base: {
+    marginBlockStart: "surface.xxsmall",
+  },
+});
 
 interface MetaProperies {
   title: string;
@@ -123,6 +138,7 @@ export const hasLicensedContent = (meta: GQLResourceEmbedLicenseContent_MetaFrag
 export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { t } = useTranslation();
   const { pathname } = useLocation();
+  const restrictedInfo = useRestrictedMode();
 
   const { data, loading, error } = useQuery<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables>(ResourceEmbedQuery, {
     variables: { id: id ?? "", type },
@@ -190,7 +206,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
               </HeroContent>
             )}
           </PageContent>
-          <PageContent variant="article" gutters="tabletUp">
+          <StyledPageContent variant="article" gutters="tabletUp">
             <PageContent variant="content" asChild>
               <ArticleWrapper>
                 <ArticleTitle
@@ -199,23 +215,25 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
                   badges={traits.length ? traits.map((trait) => <Badge key={trait}>{trait}</Badge>) : undefined}
                 />
                 <ArticleContent>
-                  <section>{transformedContent}</section>
+                  {restrictedInfo.restricted ? <StyledRestrictedBlock /> : <section>{transformedContent}</section>}
                 </ArticleContent>
-                <ArticleFooter>
-                  {!!data?.resourceEmbed.meta && hasLicensedContent(data.resourceEmbed.meta) && (
-                    <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />
-                  )}
-                  {!!isOembed && (
-                    <CreatedBy
-                      name={t("createdBy.content")}
-                      description={t("createdBy.text")}
-                      url={`${config.ndlaFrontendDomain}/${type}/${id}`}
-                    />
-                  )}
-                </ArticleFooter>
+                {(!restrictedInfo.restricted || !!isOembed) && (
+                  <ArticleFooter>
+                    {!!data?.resourceEmbed.meta &&
+                      hasLicensedContent(data.resourceEmbed.meta) &&
+                      !restrictedInfo.restricted && <ResourceEmbedLicenseContent metaData={data.resourceEmbed.meta} />}
+                    {!!isOembed && (
+                      <CreatedBy
+                        name={t("createdBy.content")}
+                        description={t("createdBy.text")}
+                        url={`${config.ndlaFrontendDomain}/${type}/${id}`}
+                      />
+                    )}
+                  </ArticleFooter>
+                )}
               </ArticleWrapper>
             </PageContent>
-          </PageContent>
+          </StyledPageContent>
         </Hero>
       </main>
     </>

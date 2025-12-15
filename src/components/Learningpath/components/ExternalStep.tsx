@@ -15,6 +15,8 @@ import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
 import { BaseStepProps } from "../learningpathTypes";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
+import { RestrictedBlock } from "../../RestrictedBlock";
+import { useRestrictedMode } from "../../RestrictedModeContext";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -32,6 +34,7 @@ interface Props extends BaseStepProps {
 export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath, isInactive }: Props) => {
   const { t } = useTranslation();
   const fallbackId = useId();
+  const restrictedInfo = useRestrictedMode();
   return (
     <EmbedPageContent variant="content" css={{ paddingBlock: "medium" }}>
       <ArticleWrapper>
@@ -43,18 +46,24 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath, 
         />
         {!!isInactive && <InactiveMessageBox />}
         <ArticleContent>
-          <section>
-            <ResourceBox
-              title={learningpathStep.opengraph?.title ?? ""}
-              caption={learningpathStep.opengraph?.description ?? ""}
-              url={learningpathStep.opengraph?.url ?? learningpathStep.embedUrl?.url ?? ""}
-              buttonText={t("learningpathPage.externalLink")}
-            />
-          </section>
+          {restrictedInfo.restricted ? (
+            <RestrictedBlock />
+          ) : (
+            <section>
+              <ResourceBox
+                title={learningpathStep.opengraph?.title ?? ""}
+                caption={learningpathStep.opengraph?.description ?? ""}
+                url={learningpathStep.opengraph?.url ?? learningpathStep.embedUrl?.url ?? ""}
+                buttonText={t("learningpathPage.externalLink")}
+              />
+            </section>
+          )}
         </ArticleContent>
-        <StyledArticleFooter>
-          <ArticleByline authors={learningpath.copyright.contributors} bylineType="external" />
-        </StyledArticleFooter>
+        {!restrictedInfo.restricted && (
+          <StyledArticleFooter>
+            <ArticleByline authors={learningpath.copyright.contributors} bylineType="external" />
+          </StyledArticleFooter>
+        )}
       </ArticleWrapper>
     </EmbedPageContent>
   );

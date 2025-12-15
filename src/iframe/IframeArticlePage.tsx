@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons";
-import { BleedPageContent, Button, PageContent } from "@ndla/primitives";
+import { Button, PageContent } from "@ndla/primitives";
 import { contentTypes } from "@ndla/ui";
 import { PostResizeMessage } from "./PostResizeMessage";
 import { Article } from "../components/Article/Article";
@@ -20,6 +20,7 @@ import { BannerAlerts } from "../components/BannerAlerts";
 import { LdJson } from "../components/LdJson";
 import { useLtiData } from "../components/LtiContext";
 import { PageTitle } from "../components/PageTitle";
+import { RestrictedBlockContextProvider } from "../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../components/SocialMediaMetadata";
 import config from "../config";
 import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
@@ -69,12 +70,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
         ? contentTypes.TOPIC
         : undefined;
   return (
-    <PageContent variant="content">
-      {
-        <BleedPageContent>
-          <BannerAlerts />
-        </BleedPageContent>
-      }
+    <>
       <PageTitle title={getDocumentTitle({ article: propArticle })} />
       <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (
@@ -89,24 +85,29 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
       />
       <PostResizeMessage />
       <main>
+        <BannerAlerts />
         {!!ltiData && (
           <Button variant="link" onClick={() => navigate(-1)}>
             <ArrowLeftLine />
             {t("lti.goBack")}
           </Button>
         )}
-        <Article
-          article={article}
-          isTopicArticle={article.articleType === "topic-article"}
-          isOembed
-          contentType={contentType}
-          resourceTypes={node?.resourceTypes}
-          relevanceId={node?.relevanceId}
-        >
-          <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
-        </Article>
+        <RestrictedBlockContextProvider value="bleed">
+          <PageContent variant="content" asChild>
+            <Article
+              article={article}
+              isTopicArticle={article.articleType === "topic-article"}
+              isOembed
+              contentType={contentType}
+              resourceTypes={node?.resourceTypes}
+              relevanceId={node?.relevanceId}
+            >
+              <CreatedBy name={t("createdBy.content")} description={t("createdBy.text")} url={contentUrl} />
+            </Article>
+          </PageContent>
+        </RestrictedBlockContextProvider>
       </main>
-    </PageContent>
+    </>
   );
 };
 

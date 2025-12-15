@@ -1007,6 +1007,13 @@ const messages = {
     },
     otherLanguages: "Other languages",
   },
+  restrictedBlock: {
+    heading: "You do not have access to read this page",
+    regionFallback: "your region",
+    cause:
+      "NDLA is not available for students and teachers in {{ region }}. This is because {{ region }} is outside the county collaboration for NDLA.",
+    contact: "If you have any questions, <safelink>contact us</safelink>!",
+  },
   user: {
     loggedInAs: "You are logged in as {{role}}.",
     role: {

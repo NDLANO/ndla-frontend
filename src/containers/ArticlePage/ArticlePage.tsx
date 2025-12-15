@@ -17,6 +17,7 @@ import { NoSSR } from "@ndla/util";
 import { Article } from "../../components/Article/Article";
 import { LdJson } from "../../components/LdJson";
 import { PageTitle } from "../../components/PageTitle";
+import { useRestrictedMode } from "../../components/RestrictedModeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
@@ -69,6 +70,7 @@ const StyledPageContent = styled(PageContent, {
 
 export const ArticlePage = ({ resource, skipToContentId }: Props) => {
   const { t, i18n } = useTranslation();
+  const restrictedInfo = useRestrictedMode();
 
   const crumbs = resource.context?.parents || [];
   const root = crumbs[0];
@@ -105,7 +107,7 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource]);
 
   return (
-    <main>
+    <>
       <PageTitle title={getDocumentTitle(t, resource, root)} />
       <title>{`${getDocumentTitle(t, resource, root)}`}</title>
       {scripts?.map((script) => (
@@ -129,35 +131,37 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
         imageUrl={article.metaImage?.url}
         path={resource.url}
       />
-      <Hero variant="primary">
-        <HeroBackground />
-        <PageContent variant="article" asChild>
-          <StyledHeroContent>{!!root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
-        </PageContent>
-        <StyledPageContent variant="article" gutters="tabletUp">
-          <PageContent variant="content" asChild>
-            <Article
-              id={skipToContentId ?? article.id.toString()}
-              path={resource.url}
-              article={article}
-              contentType={contentType}
-              subjectId={root?.id}
-              isInactive={!!resource.context?.isArchived}
-              resourceTypes={resource.resourceTypes}
-              relevanceId={resource.relevanceId}
-            >
-              {!!parent && (
-                <NoSSR fallback={null}>
-                  <ResourcesPageContent>
-                    <Resources parentId={parent.id} rootId={root?.id} currentResourceId={resource.id} />
-                  </ResourcesPageContent>
-                </NoSSR>
-              )}
-            </Article>
+      <main>
+        <Hero variant="primary">
+          <HeroBackground />
+          <PageContent variant="article" asChild>
+            <StyledHeroContent>{!!root && <HomeBreadcrumb items={breadcrumbItems} />}</StyledHeroContent>
           </PageContent>
-        </StyledPageContent>
-      </Hero>
-    </main>
+          <StyledPageContent variant="article" gutters="tabletUp">
+            <PageContent variant="content" asChild>
+              <Article
+                id={skipToContentId ?? article.id.toString()}
+                path={resource.url}
+                article={article}
+                contentType={contentType}
+                subjectId={root?.id}
+                isInactive={!!resource.context?.isArchived}
+                resourceTypes={resource.resourceTypes}
+                relevanceId={resource.relevanceId}
+              >
+                {!!parent && !restrictedInfo.restricted && (
+                  <NoSSR fallback={null}>
+                    <ResourcesPageContent>
+                      <Resources parentId={parent.id} rootId={root?.id} currentResourceId={resource.id} />
+                    </ResourcesPageContent>
+                  </NoSSR>
+                )}
+              </Article>
+            </PageContent>
+          </StyledPageContent>
+        </Hero>
+      </main>
+    </>
   );
 };
 

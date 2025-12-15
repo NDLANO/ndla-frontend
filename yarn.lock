@@ -8147,6 +8147,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ipaddr.js@npm:^2.3.0":
+  version: 2.3.0
+  resolution: "ipaddr.js@npm:2.3.0"
+  checksum: 10c0/084bab99e2f6875d7a62adc3325e1c64b038a12c9521e35fb967b5e263a8b3afb1b8884dd77c276092331f5d63298b767491e10997ef147c62da01b143780bbd
+  languageName: node
+  linkType: hard
+
 "is-absolute@npm:^1.0.0":
   version: 1.0.0
   resolution: "is-absolute@npm:1.0.0"
@@ -9620,6 +9627,7 @@ __metadata:
     helmet: "npm:^8.1.0"
     html-react-parser: "npm:^5.2.8"
     i18next: "npm:^25.4.2"
+    ipaddr.js: "npm:^2.3.0"
     is-hotkey: "npm:^0.2.0"
     jsdom: "npm:^27.0.1"
     jsonwebtoken: "npm:^9.0.2"

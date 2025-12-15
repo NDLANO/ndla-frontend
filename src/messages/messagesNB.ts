@@ -1005,6 +1005,13 @@ const messages = {
     },
     otherLanguages: "Andre språk",
   },
+  restrictedBlock: {
+    heading: "Du har ikke tilgang til å lese denne siden",
+    regionFallback: "din region",
+    cause:
+      "NDLA er ikke tilgjengelig for elever og lærere i {{ region }}. Dette er fordi {{ region }} står utenfor det <safelink>fylkeskommunale NDLA-samarbeidet</safelink>.",
+    contact: "Har du spørsmål, <safelink>ta kontakt</safelink>!",
+  },
   user: {
     loggedInAs: "Du er pålogget som {{role}}.",
     role: {

@@ -38,6 +38,7 @@ import { FavoriteButton } from "../Article/FavoritesButton";
 import { AuthContext } from "../AuthenticationContext";
 import { PageContainer } from "../Layout/PageContainer";
 import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
+import { RestrictedBlockContextProvider } from "../RestrictedBlock";
 import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathIntroduction } from "./components/LearningpathIntroduction";
 import { LearningpathStep } from "./components/LearningpathStep";
@@ -282,15 +283,17 @@ export const Learningpath = ({
             <LearningpathIntroduction learningpath={learningpath} isInactive={!!resource?.context?.isArchived} />
           )}
           {!!learningpathStep && (
-            <LearningpathStep
-              resource={resource}
-              subjectId={root?.id}
-              learningpath={learningpath}
-              breadcrumbItems={breadcrumbItems}
-              skipToContentId={skipToContentId}
-              learningpathStep={learningpathStep}
-              isInactive={!!resource?.context?.isArchived}
-            />
+            <RestrictedBlockContextProvider value="learningpath">
+              <LearningpathStep
+                resource={resource}
+                subjectId={root?.id}
+                learningpath={learningpath}
+                breadcrumbItems={breadcrumbItems}
+                skipToContentId={skipToContentId}
+                learningpathStep={learningpathStep}
+                isInactive={!!resource?.context?.isArchived}
+              />
+            </RestrictedBlockContextProvider>
           )}
           {/* TODO: How should this handle long titles on smaller screens? */}
           <PageButtonsContainer>

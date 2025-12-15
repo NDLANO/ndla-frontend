@@ -2,199 +2,192 @@
 
 exports[`IframeArticlePage with article renderers correctly 1`] = `
 <DocumentFragment>
-  <div
-    class="d_grid trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.contentMax --gutter_spacing.small tablet:--gutter_spacing.medium"
+  <script
+    type="application/ld+json"
   >
-    <div
-      class="[&]:w_100% [&]:grid-cs_1 [&]:grid-ce_-1"
-    />
-    <script
-      type="application/ld+json"
+    {"@context":"http://schema.org","@graph":[{"@context":"http://schema.org","@type":"Article","@id":"https://test.ndla.no/article/54","identifier":"https://test.ndla.no/article/54","inLanguage":"nb","learningResourceType":["text"],"name":"Politiske skillelinjer","headline":"Politiske skillelinjer","abstract":"Politiske skillelinjer, eller konfliktlinjer","audience":{"@type":"EducationalAudience","educationalRole":["student"]},"description":"Politiske skillelinjer, eller konfliktlinjer","dateCreated":"2018-01-09T18:43:48Z","datePublished":"2018-01-09T18:43:48Z","dateModified":"2018-01-09T18:43:48Z","educationalAlignment":[],"publisher":{"@type":"Organization","name":"NDLA","legalName":"NDLA","url":"https://ndla.no","logo":"https://ndla.no/static/logo.png"},"license":"https://creativecommons.org/licenses/by-sa/2.0/","author":[{"@type":"Person","name":"Someone"}],"copyrightHolder":[],"contributor":[]}]}
+  </script>
+  <main>
+    <article
+      class="bg_background.default d_grid flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both print:d_block trs-prop_all trs-dur_default trs-tmf_default ac_start grid-cg_var(--gutter,_0) grid-tc_1fr_min(var(--size),_calc(100%_-_(var(--gutter,_0)_*_2)))_1fr [&_>_*]:grid-cs_2 [&_>_*]:grid-ce_2 --size_sizes.surface.contentMax --gutter_spacing.small tablet:--gutter_spacing.medium"
+      data-ndla-article=""
+      xmlns:cc="https://creativecommons.org/ns#"
+      xmlns:dct="http://purl.org/dc/terms/"
     >
-      {"@context":"http://schema.org","@graph":[{"@context":"http://schema.org","@type":"Article","@id":"https://test.ndla.no/article/54","identifier":"https://test.ndla.no/article/54","inLanguage":"nb","learningResourceType":["text"],"name":"Politiske skillelinjer","headline":"Politiske skillelinjer","abstract":"Politiske skillelinjer, eller konfliktlinjer","audience":{"@type":"EducationalAudience","educationalRole":["student"]},"description":"Politiske skillelinjer, eller konfliktlinjer","dateCreated":"2018-01-09T18:43:48Z","datePublished":"2018-01-09T18:43:48Z","dateModified":"2018-01-09T18:43:48Z","educationalAlignment":[],"publisher":{"@type":"Organization","name":"NDLA","legalName":"NDLA","url":"https://ndla.no","logo":"https://ndla.no/static/logo.png"},"license":"https://creativecommons.org/licenses/by-sa/2.0/","author":[{"@type":"Person","name":"Someone"}],"copyrightHolder":[],"contributor":[]}]}
-    </script>
-    <main>
-      <article
-        class="bg_background.default d_flex flex-d_column c_text.default ai_center w_100% ov-wrap_break-word pos_relative [&_mjx-stretchy-v_>_mjx-ext_>_mjx-c]:trf_scaleY(100)_translateY(0.075em) after:content_ after:d_table after:clear_both print:d_block"
-        data-ndla-article=""
-        xmlns:cc="https://creativecommons.org/ns#"
-        xmlns:dct="http://purl.org/dc/terms/"
+      <header
+        class="d_flex flex-d_column gap_medium ai_flex-start w_100% pbs_xxlarge ov-wrap_anywhere"
       >
-        <header
-          class="d_flex flex-d_column gap_medium ai_flex-start w_100% pbs_xxlarge ov-wrap_anywhere"
+        <hgroup
+          class="d_flex w_100% flex-d_column ai_flex-start [&_h1]:ov-wrap_anywhere"
         >
-          <hgroup
-            class="d_flex w_100% flex-d_column ai_flex-start [&_h1]:ov-wrap_anywhere"
+          <h1
+            class="textStyle_heading.medium"
+            id="54"
+            lang="nb"
+            property="dct:title"
           >
-            <h1
-              class="textStyle_heading.medium"
-              id="54"
-              lang="nb"
-              property="dct:title"
-            >
-              Politiske skillelinjer
-            </h1>
-          </hgroup>
-          <div
-            class="textStyle_body.xlarge"
+            Politiske skillelinjer
+          </h1>
+        </hgroup>
+        <div
+          class="textStyle_body.xlarge"
+          lang="nb"
+        >
+          <p>
+            Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
+          </p>
+        </div>
+        <div
+          class="d_flex gap_small flex-wrap_wrap ai_center"
+        />
+      </header>
+      <section
+        class="ov-x_visible ndla-article"
+      >
+        <section>
+          <p
             lang="nb"
           >
-            <p>
-              Politiske skillelinjer, eller konfliktlinjer, er varige og grunnleggende motsetninger i samfunnet og blant velgerne. Du synes kanskje det er vanskelig å se forskjell på de politiske partiene – det er du i så fall ikke alene om!
-            </p>
+            Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
+          </p>
+        </section>
+      </section>
+      <footer
+        class="d_flex flex-d_column gap_xxlarge w_100% [&_>_:is(:last-child)]:pbe_5xlarge"
+      >
+        <div
+          class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
+        >
+          <div
+            class="d_flex flex-d_column gap_3xsmall w_100% jc_space-between py_xsmall textStyle_body.medium [&_[data-contributors="false"]]:ms_auto tabletWide:flex-d_row"
+          >
+            <span>
+              Skrevet av Someone. 
+            </span>
+            <div
+              data-contributors="true"
+            >
+              Sist faglig oppdatert 09.01.2018
+            </div>
           </div>
           <div
-            class="d_flex gap_small flex-wrap_wrap ai_center"
-          />
-        </header>
-        <section
-          class="ov-x_visible ndla-article"
-        >
-          <section>
-            <p
-              lang="nb"
-            >
-              Dersom du leser de ulike partiprogrammene, ser du fort at partiene har ulike svar både på hva som er viktige utfordringer, og på hvordan de skal løses.
-            </p>
-          </section>
-        </section>
-        <footer
-          class="d_flex flex-d_column gap_xxlarge w_100% [&_>_:is(:last-child)]:pbe_5xlarge"
-        >
-          <div
-            class="mbs_medium pbs_xsmall bd-t_1px_solid bd-c_stroke.subtle"
+            class="d_flex flex-d_column gap_3xsmall pbs_xxlarge print:d_none"
+            data-orientation="vertical"
+            data-part="root"
+            data-scope="accordion"
+            dir="ltr"
+            id="accordion:_r_0_"
           >
             <div
-              class="d_flex flex-d_column gap_3xsmall w_100% jc_space-between py_xsmall textStyle_body.medium [&_[data-contributors="false"]]:ms_auto tabletWide:flex-d_row"
-            >
-              <span>
-                Skrevet av Someone. 
-              </span>
-              <div
-                data-contributors="true"
-              >
-                Sist faglig oppdatert 09.01.2018
-              </div>
-            </div>
-            <div
-              class="d_flex flex-d_column gap_3xsmall pbs_xxlarge print:d_none"
+              class="w_100%"
               data-orientation="vertical"
-              data-part="root"
+              data-part="item"
               data-scope="accordion"
+              data-state="closed"
               dir="ltr"
-              id="accordion:_r_0_"
+              id="collapsible:accordion:_r_0_:item:rulesForUse"
             >
-              <div
-                class="w_100%"
-                data-orientation="vertical"
-                data-part="item"
-                data-scope="accordion"
-                data-state="closed"
-                dir="ltr"
-                id="collapsible:accordion:_r_0_:item:rulesForUse"
+              <h2
+                class="textStyle_label.medium fw_bold"
               >
-                <h2
-                  class="textStyle_label.medium fw_bold"
+                <button
+                  aria-disabled="false"
+                  aria-expanded="false"
+                  class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color)"
+                  data-orientation="vertical"
+                  data-ownedby="accordion:_r_0_"
+                  data-part="item-trigger"
+                  data-scope="accordion"
+                  data-state="closed"
+                  dir="ltr"
+                  id="accordion:_r_0_:trigger:rulesForUse"
+                  type="button"
                 >
-                  <button
-                    aria-disabled="false"
-                    aria-expanded="false"
-                    class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color)"
+                  Sitere eller gjenbruke?
+                  <svg
+                    aria-hidden="true"
+                    class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium c_icon.strong trf-o_center trs-dur_normal trs-prop_transform trs-tmf_default open:trf_rotate(180deg) motionReduce:trs_none motionReduce:trs-dur_0s"
+                    data-icon=""
+                    data-license="Apache License 2.0"
                     data-orientation="vertical"
-                    data-ownedby="accordion:_r_0_"
-                    data-part="item-trigger"
+                    data-part="item-indicator"
                     data-scope="accordion"
+                    data-source="RemixIcon"
                     data-state="closed"
                     dir="ltr"
-                    id="accordion:_r_0_:trigger:rulesForUse"
-                    type="button"
+                    fill="currentColor"
+                    preserveAspectRatio="xMidYMid meet"
+                    viewBox="0 0 24 24"
                   >
-                    Sitere eller gjenbruke?
-                    <svg
-                      aria-hidden="true"
-                      class="d_inline-block fill_currentcolor va_middle lh_1em flex-sh_0 w_medium h_medium c_icon.strong trf-o_center trs-dur_normal trs-prop_transform trs-tmf_default open:trf_rotate(180deg) motionReduce:trs_none motionReduce:trs-dur_0s"
-                      data-icon=""
-                      data-license="Apache License 2.0"
-                      data-orientation="vertical"
-                      data-part="item-indicator"
-                      data-scope="accordion"
-                      data-source="RemixIcon"
-                      data-state="closed"
-                      dir="ltr"
-                      fill="currentColor"
-                      preserveAspectRatio="xMidYMid meet"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="m12 13.17 4.95-4.95 1.41 1.42L12 16 5.64 9.64l1.41-1.42z"
-                      />
-                    </svg>
-                  </button>
-                </h2>
-              </div>
+                    <path
+                      d="m12 13.17 4.95-4.95 1.41 1.42L12 16 5.64 9.64l1.41-1.42z"
+                    />
+                  </svg>
+                </button>
+              </h2>
             </div>
           </div>
-          <div
-            class="d_flex ai_center gap_xsmall jc_flex-end"
+        </div>
+        <div
+          class="d_flex ai_center gap_xsmall jc_flex-end"
+        >
+          <p
+            class="textStyle_body.large c_text.subtle [&_a]:c_inherit"
           >
-            <p
-              class="textStyle_body.large c_text.subtle [&_a]:c_inherit"
-            >
-              <a
-                class=""
-                href="https://test.ndla.no/r/naturfag/politiske-skillelinjer/asdfw323"
-                target="_blank"
-              >
-                Ressursen
-              </a>
-               er hentet fra 
-              <a
-                class=""
-                href="https://ndla.no"
-                target="_blank"
-              >
-                NDLA
-              </a>
-            </p>
             <a
-              aria-label="NDLA"
+              class=""
+              href="https://test.ndla.no/r/naturfag/politiske-skillelinjer/asdfw323"
+              target="_blank"
+            >
+              Ressursen
+            </a>
+             er hentet fra 
+            <a
               class=""
               href="https://ndla.no"
+              target="_blank"
             >
-              <svg
-                aria-hidden="true"
-                class="c_primary"
-                height="32"
-                viewBox="0 0 1104 280"
-                width="126"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g
-                  fill="currentColor"
-                >
-                  <rect
-                    height="280"
-                    width="52"
-                  />
-                  <polygon
-                    points="97.15 39.5 52 66 191 279.77 191.12 280 260 280 260 0 207.73 0 207.73 209.54 97.15 39.5"
-                  />
-                  <path
-                    d="M997.7,0h-51.51l-105.73,278.52-.46,1.48h52.87l22.45-64.2h112.33l22.45,64.2h53.9L997.7,0ZM1012.95,172.44h-82.25l41.01-105.17,41.24,105.17Z"
-                  />
-                  <polygon
-                    points="681.18 0 629 0 629 280 797 280 797 231.99 681.18 231.99 681.18 0"
-                  />
-                  <path
-                    d="M432.36,0h-100.36v280h102.98c19.9,0,38.55-3.41,55.61-10.13,16.72-6.72,31.27-16.39,43.32-28.68,12.05-12.18,21.49-27.09,28.09-44.16,6.71-17.41,10.01-36.31,10.01-56.46,0-40.86-13.42-75.92-38.78-101.64C507.87,13.43,472.96,0,432.36,0ZM518.56,140.57c0,28.11-8.07,51.45-23.54,67.61-15.35,16.16-37.64,24.7-64.48,24.7h-47.6V47.12h44.87c27.86,0,50.83,8.65,66.52,24.81,15.92,16.39,24.22,40.07,24.22,68.63Z"
-                  />
-                </g>
-              </svg>
+              NDLA
             </a>
-          </div>
-        </footer>
-      </article>
-    </main>
-  </div>
+          </p>
+          <a
+            aria-label="NDLA"
+            class=""
+            href="https://ndla.no"
+          >
+            <svg
+              aria-hidden="true"
+              class="c_primary"
+              height="32"
+              viewBox="0 0 1104 280"
+              width="126"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g
+                fill="currentColor"
+              >
+                <rect
+                  height="280"
+                  width="52"
+                />
+                <polygon
+                  points="97.15 39.5 52 66 191 279.77 191.12 280 260 280 260 0 207.73 0 207.73 209.54 97.15 39.5"
+                />
+                <path
+                  d="M997.7,0h-51.51l-105.73,278.52-.46,1.48h52.87l22.45-64.2h112.33l22.45,64.2h53.9L997.7,0ZM1012.95,172.44h-82.25l41.01-105.17,41.24,105.17Z"
+                />
+                <polygon
+                  points="681.18 0 629 0 629 280 797 280 797 231.99 681.18 231.99 681.18 0"
+                />
+                <path
+                  d="M432.36,0h-100.36v280h102.98c19.9,0,38.55-3.41,55.61-10.13,16.72-6.72,31.27-16.39,43.32-28.68,12.05-12.18,21.49-27.09,28.09-44.16,6.71-17.41,10.01-36.31,10.01-56.46,0-40.86-13.42-75.92-38.78-101.64C507.87,13.43,472.96,0,432.36,0ZM518.56,140.57c0,28.11-8.07,51.45-23.54,67.61-15.35,16.16-37.64,24.7-64.48,24.7h-47.6V47.12h44.87c27.86,0,50.83,8.65,66.52,24.81,15.92,16.39,24.22,40.07,24.22,68.63Z"
+                />
+              </g>
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </article>
+  </main>
 </DocumentFragment>
 `;

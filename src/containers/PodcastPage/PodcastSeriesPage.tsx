@@ -28,10 +28,13 @@ import {
   PageContent,
   Text,
 } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleFooter, ArticleHeader, ArticleHGroup, ArticleWrapper, HomeBreadcrumb } from "@ndla/ui";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedContent } from "../../components/RestrictedBlock";
+import { useRestrictedMode } from "../../components/RestrictedModeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -44,8 +47,23 @@ const getDocumentTitle = (podcast: NonNullable<GQLPodcastSeriesPageQuery["podcas
   return `${podcast?.title?.title || t("podcastPage.podcast")} - ${t("htmlTitles.titleTemplate")}`;
 };
 
+const StyledHeroContent = styled(HeroContent, {
+  base: {
+    "& a:focus-within": {
+      outlineColor: "currentcolor",
+    },
+  },
+});
+
+const StyledPageContent = styled(PageContent, {
+  base: {
+    overflowX: "clip",
+  },
+});
+
 export const PodcastSeriesPage = () => {
   const { id } = useParams();
+  const restrictedInfo = useRestrictedMode();
   const {
     error,
     loading,
@@ -139,8 +157,8 @@ export const PodcastSeriesPage = () => {
       <main>
         <Hero content="primary">
           <HeroBackground />
-          <PageContent variant="article">
-            <HeroContent>
+          <PageContent variant="article" asChild>
+            <StyledHeroContent>
               <HomeBreadcrumb
                 items={[
                   {
@@ -157,9 +175,9 @@ export const PodcastSeriesPage = () => {
                   },
                 ]}
               />
-            </HeroContent>
+            </StyledHeroContent>
           </PageContent>
-          <PageContent variant="article" gutters="tabletUp">
+          <StyledPageContent variant="article" gutters="tabletUp">
             <PageContent variant="content" asChild>
               <ArticleWrapper>
                 <ArticleHeader>
@@ -171,40 +189,44 @@ export const PodcastSeriesPage = () => {
                   </ArticleHGroup>
                   <Text textStyle="body.xlarge">{podcastSeries.description.description}</Text>
                 </ArticleHeader>
-                <ArticleContent>
+                <RestrictedContent>
                   {podcastSeries.content ? (
-                    <section>
-                      <h2>{t("podcastPage.episodes")}</h2>
-                      {embeds}
-                    </section>
+                    <ArticleContent>
+                      <section>
+                        <h2>{t("podcastPage.episodes")}</h2>
+                        {embeds}
+                      </section>
+                    </ArticleContent>
                   ) : (
                     <Text>{t("podcastPage.noResults")}</Text>
                   )}
-                </ArticleContent>
-                {!!podcastSeries?.content?.meta && hasLicensedContent(podcastSeries.content.meta) && (
-                  <ArticleFooter>
-                    <AccordionRoot multiple>
-                      <AccordionItem value="rulesForUse">
-                        <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
-                          <h2>
-                            <AccordionItemTrigger>
-                              {t("article.useContent")}
-                              <AccordionItemIndicator asChild>
-                                <ArrowDownShortLine size="medium" />
-                              </AccordionItemIndicator>
-                            </AccordionItemTrigger>
-                          </h2>
-                        </Heading>
-                        <AccordionItemContent>
-                          <ResourceEmbedLicenseContent metaData={podcastSeries.content.meta} />
-                        </AccordionItemContent>
-                      </AccordionItem>
-                    </AccordionRoot>
-                  </ArticleFooter>
-                )}
+                </RestrictedContent>
+                {!!podcastSeries?.content?.meta &&
+                  hasLicensedContent(podcastSeries.content.meta) &&
+                  !restrictedInfo.restricted && (
+                    <ArticleFooter>
+                      <AccordionRoot multiple>
+                        <AccordionItem value="rulesForUse">
+                          <Heading asChild consumeCss fontWeight="bold" textStyle="label.medium">
+                            <h2>
+                              <AccordionItemTrigger>
+                                {t("article.useContent")}
+                                <AccordionItemIndicator asChild>
+                                  <ArrowDownShortLine size="medium" />
+                                </AccordionItemIndicator>
+                              </AccordionItemTrigger>
+                            </h2>
+                          </Heading>
+                          <AccordionItemContent>
+                            <ResourceEmbedLicenseContent metaData={podcastSeries.content.meta} />
+                          </AccordionItemContent>
+                        </AccordionItem>
+                      </AccordionRoot>
+                    </ArticleFooter>
+                  )}
               </ArticleWrapper>
             </PageContent>
-          </PageContent>
+          </StyledPageContent>
         </Hero>
       </main>
     </>

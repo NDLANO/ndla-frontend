@@ -14,6 +14,7 @@ import { PageContent } from "@ndla/primitives";
 import { Article } from "../../components/Article/Article";
 import { LdJson } from "../../components/LdJson";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedBlockContextProvider } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { GQLPlainArticleContainer_ArticleFragment } from "../../graphqlTypes";
@@ -56,7 +57,7 @@ export const PlainArticleContainer = ({ article: propArticle, skipToContentId }:
   const oembedUrl = `${config.ndlaFrontendDomain}/oembed?url=${config.ndlaFrontendDomain}/article/${article.id}`;
 
   return (
-    <div>
+    <>
       <PageTitle title={getDocumentTitle(t, article.title)} />
       <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (
@@ -70,10 +71,12 @@ export const PlainArticleContainer = ({ article: propArticle, skipToContentId }:
         imageUrl={article.metaImage?.url}
         trackableContent={article}
       />
-      <PageContent variant="content">
-        <Article id={skipToContentId} article={article} />
-      </PageContent>
-    </div>
+      <RestrictedBlockContextProvider value="bleed">
+        <PageContent variant="content" asChild>
+          <Article id={skipToContentId} article={article} />
+        </PageContent>
+      </RestrictedBlockContextProvider>
+    </>
   );
 };
 

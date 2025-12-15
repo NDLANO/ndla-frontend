@@ -30,6 +30,7 @@ import { Article } from "../../components/Article/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
@@ -117,51 +118,55 @@ export const FilmFrontpage = () => {
       <StyledPageContainer asChild consumeCss>
         <main>
           <FilmSlideshow slideshow={definedSlideshowMovies} />
-          <Wrapper>
-            <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-              {t("ndlaFilm.heading")}
-            </Heading>
-            <NavigationBox
-              heading={t("ndlaFilm.topics")}
-              items={node?.children?.map((child) => {
-                return {
-                  id: child.id,
-                  label: child.name,
-                  url: child.url,
-                };
-              })}
+          <RestrictedContent context="bleed">
+            <Wrapper>
+              <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
+                {t("ndlaFilm.heading")}
+              </Heading>
+              <NavigationBox
+                heading={t("ndlaFilm.topics")}
+                items={node?.children?.map((child) => {
+                  return {
+                    id: child.id,
+                    label: child.name,
+                    url: child.url,
+                  };
+                })}
+              />
+            </Wrapper>
+            <Wrapper>
+              <Heading textStyle="heading.small" consumeCss asChild>
+                <h2>{t("ndlaFilm.films")}</h2>
+              </Heading>
+              <StyledRadioGroupRoot
+                orientation="horizontal"
+                defaultValue={resourceTypeSelected?.id}
+                onValueChange={(details) =>
+                  onChangeResourceType(options.find((option) => option.id === details.value)!)
+                }
+              >
+                <RadioGroupLabel textStyle="label.large" fontWeight="bold">
+                  {t("ndlaFilm.filterFilms")}
+                </RadioGroupLabel>
+                <RadioButtonWrapper>
+                  {options.map((category, index) => (
+                    <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
+                      <RadioGroupItemControl />
+                      <RadioGroupItemText>{t(category.name)}</RadioGroupItemText>
+                      <RadioGroupItemHiddenInput />
+                    </RadioGroupItem>
+                  ))}
+                </RadioButtonWrapper>
+              </StyledRadioGroupRoot>
+            </Wrapper>
+            <FilmContent
+              resourceTypeSelected={resourceTypeSelected}
+              movieThemes={filmfrontpage?.movieThemes}
+              loading={loading}
+              loadingPlaceholderHeight={loadingPlaceholderHeight}
             />
-          </Wrapper>
-          <Wrapper>
-            <Heading textStyle="heading.small" consumeCss asChild>
-              <h2>{t("ndlaFilm.films")}</h2>
-            </Heading>
-            <StyledRadioGroupRoot
-              orientation="horizontal"
-              defaultValue={resourceTypeSelected?.id}
-              onValueChange={(details) => onChangeResourceType(options.find((option) => option.id === details.value)!)}
-            >
-              <RadioGroupLabel textStyle="label.large" fontWeight="bold">
-                {t("ndlaFilm.filterFilms")}
-              </RadioGroupLabel>
-              <RadioButtonWrapper>
-                {options.map((category, index) => (
-                  <RadioGroupItem key={`${category.id}-${index}`} value={category.id}>
-                    <RadioGroupItemControl />
-                    <RadioGroupItemText>{t(category.name)}</RadioGroupItemText>
-                    <RadioGroupItemHiddenInput />
-                  </RadioGroupItem>
-                ))}
-              </RadioButtonWrapper>
-            </StyledRadioGroupRoot>
-          </Wrapper>
-          <FilmContent
-            resourceTypeSelected={resourceTypeSelected}
-            movieThemes={filmfrontpage?.movieThemes}
-            loading={loading}
-            loadingPlaceholderHeight={loadingPlaceholderHeight}
-          />
-          {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
+            {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
+          </RestrictedContent>
         </main>
       </StyledPageContainer>
     </>

@@ -22,6 +22,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
@@ -171,43 +172,45 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
-        {!!node.context?.isArchived && <InactiveMessageBox />}
-        {!!node.children?.length && (
-          <NodeGridWrapper aria-labelledby={headingId}>
-            <Heading textStyle="heading.small" asChild consumeCss id={headingId}>
-              <h2>
-                {mainContext === "node"
-                  ? t("topicsPage.topics")
-                  : t("multidisciplinary.casesCount", { count: node.children.length })}
-              </h2>
-            </Heading>
-            <TransportationPageNodeListGrid context={mainContext}>
-              {node.children.map((node) => (
-                <TransportationNode key={node.id} node={node} context={mainContext} />
-              ))}
-            </TransportationPageNodeListGrid>
-          </NodeGridWrapper>
-        )}
-        {!!node && (
-          <NoSSR fallback={null}>
-            <Resources parentId={node.id} rootId={node.context?.rootId} />
-          </NoSSR>
-        )}
-        {!!node.links?.length && (
-          <NodeGridWrapper aria-labelledby={linksHeadingId}>
-            <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
-              <h2>{t("topicsPage.multidisciplinaryLinksHeader")}</h2>
-            </Heading>
-            <TransportationPageNodeListGrid context="case">
-              {node.links?.map((link) => (
-                <TransportationNode key={link.id} node={link} context="link" />
-              ))}
-            </TransportationPageNodeListGrid>
-          </NodeGridWrapper>
-        )}
-        {!!node.article?.transformedContent.metaData?.images && (
-          <ImageLicenseAccordion imageLicenses={node.article.transformedContent.metaData.images} />
-        )}
+        <RestrictedContent context="bleed">
+          {!!node.context?.isArchived && <InactiveMessageBox />}
+          {!!node.children?.length && (
+            <NodeGridWrapper aria-labelledby={headingId}>
+              <Heading textStyle="heading.small" asChild consumeCss id={headingId}>
+                <h2>
+                  {mainContext === "node"
+                    ? t("topicsPage.topics")
+                    : t("multidisciplinary.casesCount", { count: node.children.length })}
+                </h2>
+              </Heading>
+              <TransportationPageNodeListGrid context={mainContext}>
+                {node.children.map((node) => (
+                  <TransportationNode key={node.id} node={node} context={mainContext} />
+                ))}
+              </TransportationPageNodeListGrid>
+            </NodeGridWrapper>
+          )}
+          {!!node && (
+            <NoSSR fallback={null}>
+              <Resources parentId={node.id} rootId={node.context?.rootId} />
+            </NoSSR>
+          )}
+          {!!node.links?.length && (
+            <NodeGridWrapper aria-labelledby={linksHeadingId}>
+              <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
+                <h2>{t("topicsPage.multidisciplinaryLinksHeader")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="case">
+                {node.links?.map((link) => (
+                  <TransportationNode key={link.id} node={link} context="link" />
+                ))}
+              </TransportationPageNodeListGrid>
+            </NodeGridWrapper>
+          )}
+          {!!node.article?.transformedContent.metaData?.images && (
+            <ImageLicenseAccordion imageLicenses={node.article.transformedContent.metaData.images} />
+          )}
+        </RestrictedContent>
       </StyledPageContainer>
     </main>
   );

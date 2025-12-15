@@ -6,14 +6,17 @@
  *
  */
 
-import { getEnvironmentVariable } from "./config";
-import { log } from "./util/logger/logger";
+import ipAddr from "ipaddr.js";
+import { getEnvironmentVariable } from "../config";
+import { log } from "../util/logger/logger";
 
-type RestrictedRegionMap = Record<string, string>;
+type ParsedCIDR = ReturnType<typeof ipAddr.parseCIDR>;
+
+type RestrictedRegionMap = Record<string, ParsedCIDR>;
 
 const ENV_NAME = "NDLA_RESTRICTED_REGION_CIDRS";
 
-function validateRestrictedRegionMap(map: any): map is RestrictedRegionMap {
+function validateRestrictedRegionMap(map: any): map is Record<string, string> {
   if (typeof map !== "object" || map === null || Array.isArray(map)) {
     return false;
   }
@@ -37,7 +40,10 @@ const parseRestrictedRegionEnv = (): RestrictedRegionMap | undefined => {
       return undefined;
     }
 
-    return parsed;
+    return Object.entries(parsed).reduce<Record<string, ParsedCIDR>>((acc, [region, cidr]) => {
+      acc[region] = ipAddr.parseCIDR(cidr);
+      return acc;
+    }, {});
   } catch {
     logValidationError();
     return undefined;
