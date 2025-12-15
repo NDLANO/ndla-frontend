@@ -15,7 +15,7 @@ import {
   RESOURCE_TYPE_SUBJECT_MATERIAL,
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../constants";
-import { GQLResource, GQLTopic } from "../graphqlTypes";
+import { GQLNode } from "../graphqlTypes";
 
 export const contentTypeMapping: Record<string, string> = {
   [RESOURCE_TYPE_LEARNING_PATH]: contentTypes.LEARNING_PATH,
@@ -55,16 +55,15 @@ export function getContentTypeFromResourceTypes(resourceTypes: ResourceType[] = 
   return undefined;
 }
 
-export function getContentType(resourceOrTopic: Pick<GQLResource, "id" | "resourceTypes"> | GQLTopic | undefined) {
-  if (!resourceOrTopic) {
+export function getContentType(node: Pick<GQLNode, "nodeType" | "resourceTypes"> | undefined) {
+  if (!node) {
     return undefined;
   }
-  if (isTopic(resourceOrTopic)) {
+  if (node.nodeType === "TOPIC") {
     return contentTypes.TOPIC;
+  } else if (node.nodeType === "CASE") {
+    return contentTypes.MULTIDISCIPLINARY;
   } else {
-    return getContentTypeFromResourceTypes(resourceOrTopic.resourceTypes)?.contentType;
+    return getContentTypeFromResourceTypes(node.resourceTypes)?.contentType;
   }
 }
-
-const isTopic = (resourceOrTopic: Pick<GQLResource | GQLTopic, "id">): resourceOrTopic is GQLTopic =>
-  !!resourceOrTopic.id && resourceOrTopic.id.startsWith("urn:topic");

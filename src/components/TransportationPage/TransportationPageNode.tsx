@@ -86,6 +86,7 @@ TransportationNode.fragments = {
   node: gql`
     fragment TransportationNode_Node on Node {
       id
+      nodeType
       name
       url
       relevanceId

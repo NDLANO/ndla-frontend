@@ -221,6 +221,7 @@ test("IframeArticlePage with article renderers correctly", () => {
             locale={locale}
             node={{
               id: "urn:resource:1",
+              nodeType: "RESOURCE",
               name: "Politiske skillelinjer",
               url: "/r/naturfag/politiske-skillelinjer/asdfw323",
               resourceTypes: [],

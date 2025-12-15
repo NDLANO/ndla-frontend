@@ -111,7 +111,7 @@ export const TopicPage = () => {
   }
 
   const { node } = query.data;
-  if (node.nodeType !== "TOPIC") {
+  if (node.nodeType !== "TOPIC" && node.nodeType !== "CASE") {
     return <DefaultErrorMessagePage />;
   }
   if (i18n.language === "se" && !node.supportedLanguages?.includes("se")) {

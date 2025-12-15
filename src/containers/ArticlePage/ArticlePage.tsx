@@ -171,6 +171,7 @@ ArticlePage.fragments = {
   resource: gql`
     fragment ArticlePage_Node on Node {
       id
+      nodeType
       name
       url
       contentUri
