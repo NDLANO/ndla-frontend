@@ -950,7 +950,7 @@ const messages = {
   resource: {
     noCoreResourcesAvailableUnspecific: "Det er ikke noe kjernestoff tilgjengelig.",
     noCoreResourcesAvailable: "Det er ikke noe kjernestoff for {{name}}.",
-    activateAdditionalResources: "Tilleggsstoff",
+    activateAdditionalResources: "Vis tilleggsstoff i listen",
     label: "Læringsressurser",
     tooltipCoreTopic: "Kjernestoff",
     tooltipAdditionalTopic: "Tilleggsstoff",

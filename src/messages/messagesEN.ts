@@ -952,7 +952,7 @@ const messages = {
   resource: {
     noCoreResourcesAvailableUnspecific: "There is no core content available.",
     noCoreResourcesAvailable: "There is no core content available for {{name}}.",
-    activateAdditionalResources: "Show additional content",
+    activateAdditionalResources: "Show additional content in the list",
     label: "Learning content",
     tooltipCoreTopic: "Core content",
     tooltipAdditionalTopic: "Additional content",
