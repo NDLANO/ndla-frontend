@@ -949,7 +949,7 @@ const messages = {
   resource: {
     noCoreResourcesAvailableUnspecific: "Ii leat makkárge guovddášávnnas olamuttus.",
     noCoreResourcesAvailable: "Ii leat guovddášávnnas čuovvovačča ovddas {{name}}.",
-    activateAdditionalResources: "Lassiávnnas",
+    activateAdditionalResources: "Vis tilleggsstoff i listen",
     label: "Oahppanresurssat",
     tooltipCoreTopic: "Guovddášávnnas",
     tooltipAdditionalTopic: "Lassiávnnas",
