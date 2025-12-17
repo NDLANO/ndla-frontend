@@ -17,7 +17,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModal";
+import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModalContent";
 import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
 import { ListResource } from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";

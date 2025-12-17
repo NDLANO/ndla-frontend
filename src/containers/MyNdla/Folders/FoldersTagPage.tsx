@@ -13,7 +13,7 @@ import { FolderLine, LinkMedium } from "@ndla/icons";
 import { styled } from "@ndla/styled-system/jsx";
 import { keyBy, usePrevious } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModal";
+import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModalContent";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
 import { ListResource } from "../../../components/MyNdla/ListResource";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";

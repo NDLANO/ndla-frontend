@@ -76,24 +76,3 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
     </DialogRoot>
   );
 };
-
-interface ContentProps {
-  close: VoidFunction;
-  defaultOpenFolder?: GQLFolder;
-  resource: ResourceAttributes;
-}
-
-export const AddResourceToFolderModalContent = ({ resource, defaultOpenFolder, close }: ContentProps) => {
-  const { t } = useTranslation();
-  return (
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>{t("myNdla.resource.addToMyNdla")}</DialogTitle>
-        <DialogCloseButton />
-      </DialogHeader>
-      <DialogBody>
-        <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
-      </DialogBody>
-    </DialogContent>
-  );
-};
