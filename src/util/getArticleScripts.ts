@@ -34,6 +34,7 @@ export function getArticleScripts(article: BaseArticle, locale = "nb") {
         loader: { load: ["[mml]/mml3"] },
         options: {
           enableMenu: true,
+          enableExplorerHelp: false,
           menuOptions: {
             settings: {
               showSRE: false,
@@ -54,7 +55,7 @@ export function getArticleScripts(article: BaseArticle, locale = "nb") {
     }
 
     scripts.push({
-      src: "https://cdn.jsdelivr.net/npm/mathjax@4.0.0/mml-chtml.js",
+      src: "https://cdn.jsdelivr.net/npm/mathjax@4.1.0/mml-chtml.js",
       type: "text/javascript",
       async: true,
       defer: true,
