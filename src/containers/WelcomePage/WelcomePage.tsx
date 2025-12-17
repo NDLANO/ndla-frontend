@@ -19,6 +19,7 @@ import { ArticleWrapper, ArticleContent } from "@ndla/ui";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedContent } from "../../components/RestrictedBlock";
 import { useSiteTheme } from "../../components/SiteThemeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -292,36 +293,38 @@ export const WelcomePage = () => {
                 ))}
               </StyledList>
             </nav>
-            <nav aria-label={t("welcomePage.quickLinks.title")} data-testid="quick-links">
-              <StyledList variant="quickLink">
-                {quickLinks.map((link) => (
-                  <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} nonInteractive>
-                    <li>
-                      <StyledCardContent>
-                        <StyledCardHeading textStyle="heading.small" asChild consumeCss>
-                          <SafeLink
-                            to={link.url}
-                            css={linkOverlay.raw()}
-                            target={link.external ? "_blank" : undefined}
-                            rel={link.external ? "noopener noreferrer" : undefined}
-                          >
-                            <link.icon size="large" />
-                            {t(`welcomePage.quickLinks.${link.type}.title`)}
-                            {link.external ? <ExternalLinkLine /> : null}
-                          </SafeLink>
-                        </StyledCardHeading>
-                        <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
-                      </StyledCardContent>
-                    </li>
-                  </StyledCardRoot>
-                ))}
-              </StyledList>
-            </nav>
-            {!!article && (
-              <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
-                <ArticleContent>{article.transformedContent.content}</ArticleContent>
-              </ArticleWrapper>
-            )}
+            <RestrictedContent context="bleed">
+              <nav aria-label={t("welcomePage.quickLinks.title")} data-testid="quick-links">
+                <StyledList variant="quickLink">
+                  {quickLinks.map((link) => (
+                    <StyledCardRoot asChild consumeCss key={link.type} theme={siteTheme} nonInteractive>
+                      <li>
+                        <StyledCardContent>
+                          <StyledCardHeading textStyle="heading.small" asChild consumeCss>
+                            <SafeLink
+                              to={link.url}
+                              css={linkOverlay.raw()}
+                              target={link.external ? "_blank" : undefined}
+                              rel={link.external ? "noopener noreferrer" : undefined}
+                            >
+                              <link.icon size="large" />
+                              {t(`welcomePage.quickLinks.${link.type}.title`)}
+                              {link.external ? <ExternalLinkLine /> : null}
+                            </SafeLink>
+                          </StyledCardHeading>
+                          <Text>{t(`welcomePage.quickLinks.${link.type}.description`)}</Text>
+                        </StyledCardContent>
+                      </li>
+                    </StyledCardRoot>
+                  ))}
+                </StyledList>
+              </nav>
+              {!!article && (
+                <ArticleWrapper id={SKIP_TO_CONTENT_ID}>
+                  <ArticleContent>{article.transformedContent.content}</ArticleContent>
+                </ArticleWrapper>
+              )}
+            </RestrictedContent>
           </main>
         </StyledPageContainer>
       </Hero>

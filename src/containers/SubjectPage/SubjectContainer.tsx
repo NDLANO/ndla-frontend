@@ -21,6 +21,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { ImageLicenseAccordion } from "../../components/license/ImageLicenseAccordion";
 import { ImageLicenseList } from "../../components/license/ImageLicenseList";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinks } from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
@@ -188,51 +189,53 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
         </TransportationPageHeader>
       </StyledSubjectWrapper>
       <StyledPageContainer>
-        {subjectType !== "film" &&
-          subjectType !== "multiDisciplinary" &&
-          subjectType !== "toolbox" &&
-          !!nonRegularSubjectMessage && (
-            <MessageBox variant="warning">
-              <InformationLine />
-              <Text>{nonRegularSubjectMessage}</Text>
-            </MessageBox>
+        <RestrictedContent context="bleed">
+          {subjectType !== "film" &&
+            subjectType !== "multiDisciplinary" &&
+            subjectType !== "toolbox" &&
+            !!nonRegularSubjectMessage && (
+              <MessageBox variant="warning">
+                <InformationLine />
+                <Text>{nonRegularSubjectMessage}</Text>
+              </MessageBox>
+            )}
+          {subjectType !== "film" &&
+            subjectType !== "multiDisciplinary" &&
+            subjectType !== "toolbox" &&
+            !!nonRegularSubjectTypeMessage && (
+              <MessageBox variant="warning">
+                <InformationLine />
+                <Text>{nonRegularSubjectTypeMessage}</Text>
+              </MessageBox>
+            )}
+          {!!node.nodes?.length && (
+            <StyledNav aria-labelledby={headingId}>
+              <Heading id={headingId} textStyle="heading.small" asChild consumeCss>
+                <h2>{t("topicsPage.topics")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="node">
+                {node.nodes.map((node) => (
+                  <TransportationNode key={node.id} node={node} context="node" />
+                ))}
+              </TransportationPageNodeListGrid>
+            </StyledNav>
           )}
-        {subjectType !== "film" &&
-          subjectType !== "multiDisciplinary" &&
-          subjectType !== "toolbox" &&
-          !!nonRegularSubjectTypeMessage && (
-            <MessageBox variant="warning">
-              <InformationLine />
-              <Text>{nonRegularSubjectTypeMessage}</Text>
-            </MessageBox>
+          {!!node.links?.length && (
+            <StyledNav aria-labelledby={linksHeadingId}>
+              <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
+                <h2>{t("subjectPage.multidisciplinaryLinksHeader")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="case">
+                {node.links?.map((link) => (
+                  <TransportationNode key={link.id} node={link} context="link" />
+                ))}
+              </TransportationPageNodeListGrid>
+            </StyledNav>
           )}
-        {!!node.nodes?.length && (
-          <StyledNav aria-labelledby={headingId}>
-            <Heading id={headingId} textStyle="heading.small" asChild consumeCss>
-              <h2>{t("topicsPage.topics")}</h2>
-            </Heading>
-            <TransportationPageNodeListGrid context="node">
-              {node.nodes.map((node) => (
-                <TransportationNode key={node.id} node={node} context="node" />
-              ))}
-            </TransportationPageNodeListGrid>
-          </StyledNav>
-        )}
-        {!!node.links?.length && (
-          <StyledNav aria-labelledby={linksHeadingId}>
-            <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
-              <h2>{t("subjectPage.multidisciplinaryLinksHeader")}</h2>
-            </Heading>
-            <TransportationPageNodeListGrid context="case">
-              {node.links?.map((link) => (
-                <TransportationNode key={link.id} node={link} context="link" />
-              ))}
-            </TransportationPageNodeListGrid>
-          </StyledNav>
-        )}
-        {!!about?.visualElement.imageLicense && (
-          <ImageLicenseAccordion imageLicenses={[about.visualElement.imageLicense]} />
-        )}
+          {!!about?.visualElement.imageLicense && (
+            <ImageLicenseAccordion imageLicenses={[about.visualElement.imageLicense]} />
+          )}
+        </RestrictedContent>
       </StyledPageContainer>
     </main>
   );

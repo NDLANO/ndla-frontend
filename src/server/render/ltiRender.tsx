@@ -11,6 +11,7 @@ import config from "../../config";
 import { Document } from "../../Document";
 import { getHtmlLang } from "../../i18n";
 import { BAD_REQUEST, OK } from "../../statusCodes";
+import { isRestrictedMode } from "../helpers/restrictedMode";
 import { stringifiedLanguages } from "../locales/locales";
 import { RenderFunc } from "../serverHelpers";
 
@@ -59,6 +60,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
   const validParameters = isPostRequest ? parseAndValidateParameters(req.body) : undefined;
   const lang = getHtmlLang(req.params.lang ?? "");
   const hash = stringifiedLanguages[lang].hash;
+  const restrictedMode = isRestrictedMode(req);
   if (isPostRequest) {
     if (!validParameters?.valid) {
       const messages = validParameters?.messages
@@ -91,6 +93,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
         chunkInfo,
         config,
         hash,
+        restrictedMode,
       },
     },
   };

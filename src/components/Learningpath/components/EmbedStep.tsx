@@ -15,6 +15,8 @@ import { LearningpathIframe } from "../LearningpathIframe";
 import { EmbedPageContent } from "./EmbedPageContent";
 import { urlIsNDLAUrl } from "../../../util/ndlaUrl";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
+import { RestrictedBlock } from "../../RestrictedBlock";
+import { useRestrictedMode } from "../../RestrictedModeContext";
 
 interface EmbedStepProps {
   url: string;
@@ -27,6 +29,7 @@ interface EmbedStepProps {
 export const EmbedStep = ({ skipToContentId, url, title, oembed, isInactive }: EmbedStepProps) => {
   const fallbackId = useId();
   const { t } = useTranslation();
+  const restrictedInfo = useRestrictedMode();
 
   if (urlIsNDLAUrl(url) && oembed?.html) {
     return <LearningpathIframe url={url} html={oembed.html} />;
@@ -42,21 +45,25 @@ export const EmbedStep = ({ skipToContentId, url, title, oembed, isInactive }: E
         />
         {!!isInactive && <InactiveMessageBox />}
         <ArticleContent>
-          <section>
-            <ExternalEmbed
-              embed={{
-                resource: "external",
-                status: "success",
-                embedData: {
+          {restrictedInfo.restricted ? (
+            <RestrictedBlock />
+          ) : (
+            <section>
+              <ExternalEmbed
+                embed={{
                   resource: "external",
-                  url,
-                },
-                data: {
-                  oembed,
-                },
-              }}
-            />
-          </section>
+                  status: "success",
+                  embedData: {
+                    resource: "external",
+                    url,
+                  },
+                  data: {
+                    oembed,
+                  },
+                }}
+              />
+            </section>
+          )}
         </ArticleContent>
       </ArticleWrapper>
     </EmbedPageContent>

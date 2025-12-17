@@ -20,6 +20,8 @@ import {
   GQLMyNdlaLearningpathStepFragment,
 } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
+import { RestrictedBlock } from "../../RestrictedBlock";
+import { useRestrictedMode } from "../../RestrictedModeContext";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -40,6 +42,7 @@ interface TextStepProps {
 export const TextStep = ({ learningpathStep, learningpath, skipToContentId, isInactive }: TextStepProps) => {
   const { t } = useTranslation();
   const fallbackId = useId();
+  const restrictedInfo = useRestrictedMode();
 
   return (
     <EmbedPageContent variant="content">
@@ -52,13 +55,19 @@ export const TextStep = ({ learningpathStep, learningpath, skipToContentId, isIn
         />
         {!!isInactive && <InactiveMessageBox />}
         <ArticleContent>
-          {learningpathStep.description ? <section>{transform(learningpathStep.description, {})}</section> : null}
+          {restrictedInfo.restricted ? (
+            <RestrictedBlock />
+          ) : learningpathStep.description ? (
+            <section>{transform(learningpathStep.description, {})}</section>
+          ) : null}
         </ArticleContent>
-        <StyledArticleFooter>
-          <ArticleByline
-            authors={learningpathStep.copyright?.contributors ?? learningpath?.copyright.contributors ?? []}
-          />
-        </StyledArticleFooter>
+        {restrictedInfo.restricted ? null : (
+          <StyledArticleFooter>
+            <ArticleByline
+              authors={learningpathStep.copyright?.contributors ?? learningpath?.copyright.contributors ?? []}
+            />
+          </StyledArticleFooter>
+        )}
       </ArticleWrapper>
     </EmbedPageContent>
   );

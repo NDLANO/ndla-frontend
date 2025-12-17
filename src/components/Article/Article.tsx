@@ -30,6 +30,8 @@ import { FavoriteButton } from "./FavoritesButton";
 import { InactiveMessageBox } from "../InactiveMessageBox";
 import { LicenseBox } from "../license/LicenseBox";
 import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
+import { RestrictedBlock } from "../RestrictedBlock";
+import { useRestrictedMode } from "../RestrictedModeContext";
 
 interface Props extends HTMLProps<"div"> {
   id?: string;
@@ -78,6 +80,7 @@ export const Article = ({
   const copyText = useArticleCopyText(article);
 
   useNavigateToHash(article.transformedContent.content);
+  const restrictedInfo = useRestrictedMode();
 
   const traits = useListItemTraits({ contentType, traits: article.traits, relevanceId, resourceTypes });
 
@@ -129,17 +132,25 @@ export const Article = ({
       >
         {!!isInactive && <InactiveMessageBox />}
       </ArticleTitle>
-      <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
-      <ArticleFooter>
-        <ArticleByline
-          footnotes={article.transformedContent.metaData?.footnotes ?? []}
-          authors={authors}
-          suppliers={article.copyright?.rightsholders}
-          published={article.published}
-          licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
-        />
-        {children}
-      </ArticleFooter>
+      {restrictedInfo.restricted ? (
+        <RestrictedBlock />
+      ) : (
+        <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
+      )}
+      {(!restrictedInfo.restricted || !!children) && (
+        <ArticleFooter>
+          {!restrictedInfo.restricted && (
+            <ArticleByline
+              footnotes={article.transformedContent.metaData?.footnotes ?? []}
+              authors={authors}
+              suppliers={article.copyright?.rightsholders}
+              published={article.published}
+              licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
+            />
+          )}
+          {children}
+        </ArticleFooter>
+      )}
     </StyledArticleWrapper>
   );
 };

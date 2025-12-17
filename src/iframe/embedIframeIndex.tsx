@@ -14,11 +14,12 @@ import { MissingRouterContext } from "@ndla/safelink";
 import { Document } from "../Document";
 import { initializeI18n } from "../i18n";
 import { iframeEmbedRoutes } from "./embedIframeRoutes";
+import { RestrictedModeProvider } from "../components/RestrictedModeContext";
 import { createApolloClient } from "../util/apiHelpers";
 import { renderOrHydrate } from "../util/renderOrHydrate";
 import { initSentry } from "../util/sentry";
 
-const { config, initialProps, chunkInfo, hash } = window.DATA;
+const { config, initialProps, chunkInfo, hash, restrictedMode } = window.DATA;
 
 initSentry(config);
 
@@ -32,13 +33,15 @@ const router = createBrowserRouter(iframeEmbedRoutes);
 renderOrHydrate(
   document,
   <Document language={language} chunkInfo={chunkInfo} hash={hash}>
-    <I18nextProvider i18n={i18n}>
-      <ApolloProvider client={client}>
-        <MissingRouterContext value={true}>
-          <RouterProvider router={router} />
-        </MissingRouterContext>
-      </ApolloProvider>
-    </I18nextProvider>
+    <RestrictedModeProvider value={restrictedMode}>
+      <I18nextProvider i18n={i18n}>
+        <ApolloProvider client={client}>
+          <MissingRouterContext value={true}>
+            <RouterProvider router={router} />
+          </MissingRouterContext>
+        </ApolloProvider>
+      </I18nextProvider>
+    </RestrictedModeProvider>
   </Document>,
   iframeEmbedRoutes,
   window.location.pathname,

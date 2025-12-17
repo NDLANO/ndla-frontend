@@ -28,6 +28,8 @@ import { CompetenceGoals } from "../../components/CompetenceGoals";
 import { LicenseBox } from "../../components/license/LicenseBox";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedBlock } from "../../components/RestrictedBlock";
+import { useRestrictedMode } from "../../components/RestrictedModeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
@@ -90,6 +92,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const { t, i18n } = useTranslation();
   const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
   const root = crumbs[0];
+  const restrictedInfo = useRestrictedMode();
 
   const metaTitle = useMemo(
     () => htmlTitle(node.article?.title ?? node.name, [root?.name]),
@@ -206,21 +209,25 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
                 )
               }
             />
-            <StyledArticleContent>{article.transformedContent.content ?? ""}</StyledArticleContent>
-            <ArticleFooter>
-              <ArticleByline
-                footnotes={article.transformedContent.metaData?.footnotes ?? []}
-                authors={authors}
-                suppliers={article.copyright?.rightsholders}
-                published={article.published}
-                licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
-              />
-              <NoSSR fallback={null}>
-                <ResourcesPageContent>
-                  <Resources parentId={node.id} rootId={node.context?.rootId} />
-                </ResourcesPageContent>
-              </NoSSR>
-            </ArticleFooter>
+            <StyledArticleContent>
+              {restrictedInfo.restricted ? <RestrictedBlock /> : (article.transformedContent.content ?? "")}
+            </StyledArticleContent>
+            {!restrictedInfo.restricted && (
+              <ArticleFooter>
+                <ArticleByline
+                  footnotes={article.transformedContent.metaData?.footnotes ?? []}
+                  authors={authors}
+                  suppliers={article.copyright?.rightsholders}
+                  published={article.published}
+                  licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
+                />
+                <NoSSR fallback={null}>
+                  <ResourcesPageContent>
+                    <Resources parentId={node.id} rootId={node.context?.rootId} />
+                  </ResourcesPageContent>
+                </NoSSR>
+              </ArticleFooter>
+            )}
           </ArticleWrapper>
         </PageContent>
       </main>

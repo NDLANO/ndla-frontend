@@ -17,6 +17,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import { PageTitle } from "../../components/PageTitle";
+import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
@@ -178,20 +179,22 @@ export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
             )}
           </HeadingWrapper>
         </div>
-        {!!grade?.missingProgrammeSubjects && (
-          <MessageBoxWrapper>
-            <Heading asChild consumeCss textStyle="heading.small">
-              <h2>{t("programmePage.programmeSubjects")}</h2>
-            </Heading>
-            <MessageBox variant="info">
-              <InformationLine />
-              <Text>{t("messageBoxInfo.noContent")}</Text>
-            </MessageBox>
-          </MessageBoxWrapper>
-        )}
-        {grade?.categories?.map((category) => (
-          <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
-        ))}
+        <RestrictedContent context="bleed">
+          {!!grade?.missingProgrammeSubjects && (
+            <MessageBoxWrapper>
+              <Heading asChild consumeCss textStyle="heading.small">
+                <h2>{t("programmePage.programmeSubjects")}</h2>
+              </Heading>
+              <MessageBox variant="info">
+                <InformationLine />
+                <Text>{t("messageBoxInfo.noContent")}</Text>
+              </MessageBox>
+            </MessageBoxWrapper>
+          )}
+          {grade?.categories?.map((category) => (
+            <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
+          ))}
+        </RestrictedContent>
       </main>
     </StyledPageContainer>
   );
