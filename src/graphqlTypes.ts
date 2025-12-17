@@ -623,43 +623,6 @@ export type GQLImageLicense = {
   title: Scalars["String"]["output"];
 };
 
-export type GQLImageMetaInformation = {
-  __typename?: "ImageMetaInformation";
-  altText: Scalars["String"]["output"];
-  caption: Scalars["String"]["output"];
-  contentType: Scalars["String"]["output"];
-  copyright: GQLCopyright;
-  created: Scalars["String"]["output"];
-  createdBy: Scalars["String"]["output"];
-  id: Scalars["String"]["output"];
-  imageUrl: Scalars["String"]["output"];
-  metaUrl: Scalars["String"]["output"];
-  size: Scalars["Int"]["output"];
-  supportedLanguages: Array<Scalars["String"]["output"]>;
-  tags: Array<Scalars["String"]["output"]>;
-  title: Scalars["String"]["output"];
-};
-
-export type GQLImageMetaInformationV2 = {
-  __typename?: "ImageMetaInformationV2";
-  alttext: GQLImageAltText;
-  caption: GQLCaption;
-  contentType: Scalars["String"]["output"];
-  copyright: GQLCopyright;
-  created: Scalars["String"]["output"];
-  createdBy: Scalars["String"]["output"];
-  editorNotes?: Maybe<Array<GQLEditorNote>>;
-  id: Scalars["String"]["output"];
-  imageDimensions?: Maybe<GQLImageDimensions>;
-  imageUrl: Scalars["String"]["output"];
-  metaUrl: Scalars["String"]["output"];
-  modelRelease: Scalars["String"]["output"];
-  size: Scalars["Int"]["output"];
-  supportedLanguages?: Maybe<Array<Scalars["String"]["output"]>>;
-  tags: GQLTags;
-  title: GQLTitle;
-};
-
 export type GQLImageMetaInformationV3 = {
   __typename?: "ImageMetaInformationV3";
   alttext: GQLImageAltText;
@@ -694,6 +657,12 @@ export type GQLImageV3 = {
   imageUrl: Scalars["String"]["output"];
   language: Scalars["String"]["output"];
   size: Scalars["Int"]["output"];
+};
+
+export type GQLImageVariant = {
+  __typename?: "ImageVariant";
+  size: Scalars["String"]["output"];
+  variantUrl: Scalars["String"]["output"];
 };
 
 export type GQLLearningpath = {
@@ -1271,7 +1240,7 @@ export type GQLPodcastLicense = {
 
 export type GQLPodcastMeta = {
   __typename?: "PodcastMeta";
-  image?: Maybe<GQLImageMetaInformation>;
+  image?: Maybe<GQLImageMetaInformationV3>;
   introduction: Scalars["String"]["output"];
   language: Scalars["String"]["output"];
 };
@@ -1282,7 +1251,7 @@ export type GQLPodcastSeries = GQLPodcastSeriesBase & {
   description: GQLDescription;
   hasRSS: Scalars["Boolean"]["output"];
   id: Scalars["Int"]["output"];
-  image: GQLImageMetaInformation;
+  image: GQLImageMetaInformationV3;
   supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
 };
@@ -1292,7 +1261,7 @@ export type GQLPodcastSeriesBase = {
   description: GQLDescription;
   hasRSS: Scalars["Boolean"]["output"];
   id: Scalars["Int"]["output"];
-  image: GQLImageMetaInformation;
+  image: GQLImageMetaInformationV3;
   supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
 };
@@ -1324,7 +1293,7 @@ export type GQLPodcastSeriesWithEpisodes = GQLPodcastSeriesBase & {
   episodes?: Maybe<Array<GQLAudio>>;
   hasRSS: Scalars["Boolean"]["output"];
   id: Scalars["Int"]["output"];
-  image: GQLImageMetaInformation;
+  image: GQLImageMetaInformationV3;
   supportedLanguages: Array<Scalars["String"]["output"]>;
   title: GQLTitle;
 };
@@ -1364,7 +1333,7 @@ export type GQLQuery = {
   folders: GQLUserFolder;
   frontpage?: Maybe<GQLFrontpageMenu>;
   groupSearch?: Maybe<Array<GQLGroupSearch>>;
-  image?: Maybe<GQLImageMetaInformationV2>;
+  image?: Maybe<GQLImageMetaInformationV3>;
   imageSearch: GQLImageSearch;
   imageV3?: Maybe<GQLImageMetaInformationV3>;
   learningpath?: Maybe<GQLLearningpath>;
@@ -4233,7 +4202,7 @@ export type GQLPodcastSeriesQuery = {
     hasRSS: boolean;
     title: { __typename?: "Title"; title: string; language: string };
     description: { __typename?: "Description"; description: string };
-    image: { __typename?: "ImageMetaInformation"; imageUrl: string };
+    image: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
     coverPhoto: { __typename?: "CoverPhoto"; url: string };
     content?: { __typename?: "ResourceEmbed"; content: string };
     episodes?: Array<{
@@ -4245,7 +4214,7 @@ export type GQLPodcastSeriesQuery = {
       podcastMeta?: {
         __typename?: "PodcastMeta";
         introduction: string;
-        image?: { __typename?: "ImageMetaInformation"; imageUrl: string };
+        image?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
       };
       copyright: {
         __typename?: "Copyright";
