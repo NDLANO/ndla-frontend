@@ -100,11 +100,13 @@ export const ResourceItem = ({ contentType, active, showAdditionalResources, res
     >
       <li>
         <StyledListItemImage
-          src={resource.article?.metaImage?.url ?? resource.learningpath?.coverphoto?.url}
+          src={resource.article?.metaImage?.image.imageUrl ?? resource.learningpath?.coverphoto?.image.imageUrl}
           alt=""
           loading="lazy"
           sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
-          isFallback={!resource.article?.metaImage?.url && !resource.learningpath?.coverphoto?.url}
+          isFallback={
+            !resource.article?.metaImage?.image.imageUrl && !resource.learningpath?.coverphoto?.image.imageUrl
+          }
           fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
         />
         <StyledListItemContent>
@@ -150,15 +152,21 @@ ResourceItem.fragments = {
       article {
         id
         metaImage {
-          url
-          alt
+          image {
+            imageUrl
+          }
+          alttext {
+            alttext
+          }
         }
         traits
       }
       learningpath {
         id
         coverphoto {
-          url
+          image {
+            imageUrl
+          }
         }
       }
     }

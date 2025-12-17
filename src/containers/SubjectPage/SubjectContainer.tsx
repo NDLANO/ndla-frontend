@@ -184,7 +184,7 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
             ) : null}
           </HeadingWrapper>
           {!!about?.visualElement && about.visualElement.type === "image" && (
-            <TransportationPageVisualElement metaImage={about.visualElement} />
+            <TransportationPageVisualElement imageUrl={about.visualElement.url} imageAlt={about.visualElement.alt} />
           )}
         </TransportationPageHeader>
       </StyledSubjectWrapper>

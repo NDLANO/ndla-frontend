@@ -101,7 +101,7 @@ export const MovedResourcePage = ({ resource }: Props) => {
         </StyledHeading>
         {resourceId ? (
           <StyledCardRoot>
-            {!!image?.url && <CardImage alt={"alt" in image ? image.alt : ""} src={image.url} />}
+            {!!image && <CardImage alt={image.alttext.alttext} src={image.image.imageUrl} />}
             <CardContent>
               <CardHeading asChild consumeCss>
                 <SafeLink to={resource.url ?? ""} unstyled css={linkOverlay.raw()}>
@@ -150,15 +150,24 @@ MovedResourcePage.fragments = {
         metaDescription
         traits
         metaImage {
-          url
-          alt
+          image {
+            imageUrl
+          }
+          alttext {
+            alttext
+          }
         }
       }
       learningpath {
         id
         description
         coverphoto {
-          url
+          image {
+            imageUrl
+          }
+          alttext {
+            alttext
+          }
         }
       }
       resourceTypes {

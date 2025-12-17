@@ -128,7 +128,7 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
         title={htmlTitle(article.title, [root?.name])}
         trackableContent={article}
         description={article.metaDescription}
-        imageUrl={article.metaImage?.url}
+        imageUrl={article.metaImage?.image.imageUrl}
         path={resource.url}
       />
       <main>

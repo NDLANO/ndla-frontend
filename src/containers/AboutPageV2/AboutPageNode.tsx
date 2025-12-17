@@ -149,7 +149,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
       <SocialMediaMetadata
         title={transformedArticle.title}
         description={transformedArticle.metaDescription}
-        imageUrl={transformedArticle.metaImage?.url}
+        imageUrl={transformedArticle.metaImage?.image.imageUrl}
         trackableContent={transformedArticle}
       />
       <StyledPageContent>
@@ -165,7 +165,10 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
               </Text>
             )}
           </HeaderWrapper>
-          <TransportationPageVisualElement metaImage={article?.metaImage} />
+          <TransportationPageVisualElement
+            imageUrl={article.metaImage?.image.imageUrl}
+            imageAlt={article.metaImage?.alttext.alttext}
+          />
         </TransportationPageHeader>
       </StyledPageContent>
       <StyledPageContainer>
@@ -218,8 +221,12 @@ AboutPageNode.fragments = {
       published
       oembed
       metaImage {
-        url
-        alt
+        image {
+          imageUrl
+        }
+        alttext {
+          alttext
+        }
       }
       transformedContent(transformArgs: $transformArgs) {
         content

@@ -23,7 +23,7 @@ type Article {
   introduction: String
   language: String!
   metaDescription: String!
-  metaImage: MetaImageWithCopyright
+  metaImage: ImageMetaInformationV3
   oembed: String
   oldNdlaUrl: String
   published: String!
@@ -574,7 +574,7 @@ type Learningpath {
   basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
-  coverphoto: LearningpathCoverphoto
+  coverphoto: ImageMetaInformationV3
   created: String!
   description: String!
   duration: Int
@@ -613,11 +613,6 @@ type LearningpathCopyright {
 input LearningpathCopyrightInput {
   contributors: [ContributorInput!]!
   license: LicenseInput!
-}
-
-type LearningpathCoverphoto {
-  metaUrl: String!
-  url: String!
 }
 
 input LearningpathEmbedInput {
@@ -773,12 +768,6 @@ type MetaImage {
   url: String!
 }
 
-type MetaImageWithCopyright {
-  alt: String!
-  copyright: Copyright!
-  url: String!
-}
-
 type Movie {
   id: String!
   metaDescription: String!
@@ -859,7 +848,7 @@ type MyNdlaLearningpath {
   basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
-  coverphoto: LearningpathCoverphoto
+  coverphoto: ImageMetaInformationV3
   created: String!
   description: String!
   duration: Int

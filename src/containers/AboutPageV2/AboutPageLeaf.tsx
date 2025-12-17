@@ -106,7 +106,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
       <SocialMediaMetadata
         title={article.title}
         description={article.metaDescription}
-        imageUrl={article.metaImage?.url}
+        imageUrl={article.metaImage?.image.imageUrl}
         trackableContent={article}
       />
       <Hero variant="primary">

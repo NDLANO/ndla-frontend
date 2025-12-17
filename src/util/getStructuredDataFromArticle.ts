@@ -272,8 +272,12 @@ export const structuredArticleDataFragment = gql`
       ...StructuredArticleData_Copyright
     }
     metaImage {
-      url
-      alt
+      image {
+        imageUrl
+      }
+      alttext {
+        alttext
+      }
     }
     competenceGoals {
       id
@@ -337,8 +341,8 @@ export const getStructuredDataFromArticle = (
     datePublished: article.published,
     dateModified: article.updated,
     educationalAlignment,
-    image: article.metaImage?.url,
-    thumbnailUrl: article.metaImage?.url,
+    image: article.metaImage?.image.imageUrl,
+    thumbnailUrl: article.metaImage?.image.imageUrl,
     ...publisher,
     ...getCopyrightData(article.copyright),
   };

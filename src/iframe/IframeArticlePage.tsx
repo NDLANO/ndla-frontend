@@ -79,7 +79,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
       <LdJson article={propArticle} />
       <SocialMediaMetadata
         title={article.title}
-        imageUrl={article.metaImage?.url}
+        imageUrl={article.metaImage?.image.imageUrl}
         description={article.metaDescription}
         trackableContent={article}
       />
@@ -120,7 +120,9 @@ export const iframeArticlePageFragments = {
       metaDescription
       oembed
       metaImage {
-        url
+        image {
+          imageUrl
+        }
       }
       tags
       ...Article_Article

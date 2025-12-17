@@ -127,7 +127,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}
-        imageUrl={node.article?.metaImage?.url}
+        imageUrl={node.article?.metaImage?.image.imageUrl}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
       />
       <StyledTopicWrapper>
@@ -168,7 +168,11 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               />
             )}
           </HeaderWrapper>
-          <TransportationPageVisualElement embed={embedMeta} metaImage={node.article?.metaImage} />
+          <TransportationPageVisualElement
+            embed={embedMeta}
+            imageUrl={node.article?.metaImage?.image.imageUrl}
+            imageAlt={node.article?.metaImage?.alttext.alttext}
+          />
         </TransportationPageHeader>
       </StyledTopicWrapper>
       <StyledPageContainer>
