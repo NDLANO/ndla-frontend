@@ -34,7 +34,6 @@ export function getArticleScripts(article: BaseArticle, locale = "nb") {
         loader: { load: ["[mml]/mml3"] },
         options: {
           enableMenu: true,
-          enableExplorerHelp: false,
           menuOptions: {
             settings: {
               showSRE: false,
