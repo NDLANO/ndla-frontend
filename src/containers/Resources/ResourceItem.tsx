@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { breakpoints } from "@ndla/core";
 import { Badge, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } from "@ndla/primitives";
@@ -15,8 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
-import config from "../../config";
-import { RELEVANCE_CORE, RELEVANCE_SUPPLEMENTARY } from "../../constants";
+import { RELEVANCE_CORE } from "../../constants";
 import { GQLResourceItem_NodeFragment } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 
@@ -77,7 +75,6 @@ const StyledListItemImage = styled(ListItemImage, {
 });
 
 export const ResourceItem = ({ contentType, active, showAdditionalResources, resource }: Props) => {
-  const { t } = useTranslation();
   const additional = resource.relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
 
@@ -125,9 +122,6 @@ export const ResourceItem = ({ contentType, active, showAdditionalResources, res
                 {trait}
               </Badge>
             ))}
-            {!config.allResourceTypesEnabled && resource.relevanceId === RELEVANCE_SUPPLEMENTARY ? (
-              <Badge size="small">{t("resource.tooltipAdditionalTopic")}</Badge>
-            ) : undefined}
           </BadgesContainer>
         </StyledListItemContent>
       </li>

@@ -9,7 +9,6 @@
 import { useTranslation } from "react-i18next";
 import { RELEVANCE_SUPPLEMENTARY } from "../constants";
 import { useMemo } from "react";
-import config from "../config";
 
 interface ListItemTraitParams {
   /** Article traits */
@@ -25,12 +24,6 @@ interface ListItemTraitParams {
 
 export const getListItemTraits = (params: ListItemTraitParams, t: (key: string) => string) => {
   const traits: string[] = [];
-  if (!config.allResourceTypesEnabled) {
-    if (params.contentType) {
-      traits.push(t(`contentTypes.${params.contentType}`));
-    }
-    return traits;
-  }
 
   if (params.resourceType && !params.resourceTypes?.length) {
     traits.push(t(`contentTypes.${params.resourceType}`));

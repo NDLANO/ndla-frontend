@@ -115,7 +115,6 @@ export type ConfigType = {
   autologinCookieEnabled: boolean;
   loginHint: string | undefined;
   gracePeriodSeconds: number;
-  allResourceTypesEnabled: boolean;
   githubIconEnabled: boolean;
 };
 
@@ -153,7 +152,6 @@ const getServerSideConfig = (): ConfigType => {
     autologinCookieEnabled: getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false),
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false)),
     gracePeriodSeconds: parseInt(getEnvironmentVariable("READINESS_PROBE_DETECTION_SECONDS", "7")),
-    allResourceTypesEnabled: getEnvironmentVariable("ALL_RESOURCE_TYPES_ENABLED", false),
     githubIconEnabled: getEnvironmentVariable("GITHUB_ICON_ENABLED", false),
   };
 };
