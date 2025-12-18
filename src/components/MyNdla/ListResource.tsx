@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode, useMemo } from "react";
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Badge,
@@ -21,7 +21,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { BadgesContainer, contentTypeMapping, contentTypes, resourceEmbedTypeMapping } from "@ndla/ui";
+import { BadgesContainer } from "@ndla/ui";
 import { useListItemTraits } from "../../util/listItemTraits";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
@@ -129,8 +129,6 @@ const StyledContentTypeFallbackIcon = styled(ContentTypeFallbackIcon, {
   },
 });
 
-const learningpathMapping: Record<string, string> = { learningpath: contentTypes.LEARNING_PATH };
-
 export const ListResource = ({
   id,
   link,
@@ -145,21 +143,8 @@ export const ListResource = ({
   nonInteractive,
 }: ListResourceProps & ListItemVariantProps) => {
   const { t } = useTranslation();
-  const firstContentType = resourceTypes?.[0]?.id ?? storedResourceType ?? "";
 
-  const contentType = useMemo(() => {
-    if (!firstContentType) {
-      return contentTypes.MISSING;
-    }
-    return (
-      contentTypeMapping[firstContentType] ??
-      resourceEmbedTypeMapping[firstContentType] ??
-      learningpathMapping[firstContentType] ??
-      contentTypeMapping.default!
-    );
-  }, [firstContentType]);
-
-  const listItemTraits = useListItemTraits({ traits, resourceTypes, contentType, resourceType: storedResourceType });
+  const listItemTraits = useListItemTraits({ traits, resourceTypes, resourceType: storedResourceType });
 
   if (isLoading) {
     return (
@@ -183,19 +168,17 @@ export const ListResource = ({
         src={resourceImage.src}
         alt=""
         isFallback={!resourceImage.src}
-        fallbackElement={<StyledContentTypeFallbackIcon contentType={contentType} />}
+        fallbackElement={<StyledContentTypeFallbackIcon contentType={storedResourceType} />}
       />
       <StyledListItemContent>
         {nonInteractive ? (
-          <StyledListItemHeading color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}>
-            {title}
-          </StyledListItemHeading>
+          <StyledListItemHeading color={!storedResourceType ? "text.subtle" : undefined}>{title}</StyledListItemHeading>
         ) : (
           <StyledListItemHeading
             asChild
             consumeCss
             css={linkOverlay.raw()}
-            color={contentType === contentTypes.MISSING ? "text.subtle" : undefined}
+            color={!storedResourceType ? "text.subtle" : undefined}
           >
             <SafeLink to={link}>{title}</SafeLink>
           </StyledListItemHeading>

@@ -21,7 +21,6 @@ import { NavigationBox } from "../../components/NavigationBox";
 import { PageTitle } from "../../components/PageTitle";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
-import { contentTypeMapping } from "../../util/getContentType";
 import { useListItemTraits } from "../../util/listItemTraits";
 
 interface Props {
@@ -72,7 +71,6 @@ export const MovedResourcePage = ({ resource }: Props) => {
   const traits = useListItemTraits({
     resourceTypes: resource.resourceTypes,
     traits: resource.article?.traits,
-    contentType: resource.resourceTypes?.map((type) => contentTypeMapping[type.id]).find((t) => t),
   });
 
   if (loading) {

@@ -15,7 +15,6 @@ import config from "../../../config";
 import { GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables } from "../../../graphqlTypes";
 import { Breadcrumb } from "../../../interfaces";
 import { getArticleScripts } from "../../../util/getArticleScripts";
-import { getContentType } from "../../../util/getContentType";
 import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
 import { transformArticle } from "../../../util/transformArticle";
 import { Article } from "../../Article/Article";
@@ -113,7 +112,6 @@ export const ArticleStep = ({
       <Article
         id={skipToContentId}
         article={article}
-        contentType={article.articleType === "topic-article" ? "topic-article" : getContentType(resource)}
         resourceTypes={resource?.resourceTypes}
         relevanceId={resource?.relevanceId}
         isInactive={isInactive}

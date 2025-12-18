@@ -47,7 +47,6 @@ import {
   RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
 } from "../../../../constants";
 import { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
-import { contentTypeMapping } from "../../../../util/getContentType";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 import { useDebounce } from "../../../../util/useDebounce";
@@ -188,12 +187,10 @@ export const ResourcePicker = ({ setResource }: Props) => {
     return (
       searchResult.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        const contentType = contentTypeMapping?.[context?.resourceTypes?.[0]?.id ?? "default"];
         const traits = getListItemTraits(
           {
             relevanceId: context?.relevanceId,
             resourceTypes: context?.resourceTypes,
-            contentType,
             traits:
               result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult"
                 ? result.traits
@@ -205,7 +202,6 @@ export const ResourcePicker = ({ setResource }: Props) => {
           ...result,
           id: result.id.toString(),
           resourceType: context?.resourceTypes?.[0]?.id,
-          contentType,
           traits,
           path: context?.url ?? result.url,
         };

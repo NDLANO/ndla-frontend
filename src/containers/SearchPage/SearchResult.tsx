@@ -26,7 +26,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { BadgesContainer, contentTypeMapping } from "@ndla/ui";
+import { BadgesContainer } from "@ndla/ui";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
@@ -89,9 +89,6 @@ export const SearchResult = ({ searchResult }: Props) => {
 
   const listItemTraits = useListItemTraits({
     relevanceId: context?.relevanceId,
-    contentType: context?.resourceTypes?.length
-      ? contentTypeMapping?.[context.resourceTypes[0]?.id ?? "default"]
-      : nodeType,
     resourceType: nodeType,
     resourceTypes: context?.resourceTypes,
     traits:
