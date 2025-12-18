@@ -13,6 +13,11 @@ export const RESOURCE_TYPE_ASSESSMENT_RESOURCES = "urn:resourcetype:reviewResour
 export const RESOURCE_TYPE_CONCEPT = "urn:resourcetype:concept";
 export const RESOURCE_TYPE_SOURCE_MATERIAL = "urn:resourcetype:SourceMaterial";
 
+export const RESOURCE_TYPE_DOCUMENTARY = "urn:resourcetype:documentary";
+export const RESOURCE_TYPE_FEATURE_FILM = "urn:resourcetype:featureFilm";
+export const RESOURCE_TYPE_SERIES = "urn:resourcetype:series";
+export const RESOURCE_TYPE_SHORT_FILM = "urn:resourcetype:shortFilm";
+
 export const FEIDE_ACCESS_TOKEN_COOKIE = "feide_access_token";
 export const FEIDE_ID_TOKEN_COOKIE = "feide_id_token";
 export const NONCE_COOKIE = "ndla_nonce";

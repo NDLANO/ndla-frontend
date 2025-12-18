@@ -37,12 +37,10 @@ import { FilterContainer } from "./FilterContainer";
 import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_CONCEPT,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
+  RESOURCE_TYPE_DOCUMENTARY,
+  RESOURCE_TYPE_FEATURE_FILM,
+  RESOURCE_TYPE_SERIES,
+  RESOURCE_TYPE_SHORT_FILM,
 } from "../../constants";
 import {
   GQLResourceTypeFilter_BucketResultFragment,
@@ -112,13 +110,11 @@ const CheckboxWrapper = styled("div", {
 });
 
 const NODE_TYPES = [ALL_NODE_TYPES, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE];
-const visibleResourceTypes = [
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_CONCEPT,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
+const hiddenResourceTypes = [
+  RESOURCE_TYPE_DOCUMENTARY,
+  RESOURCE_TYPE_FEATURE_FILM,
+  RESOURCE_TYPE_SERIES,
+  RESOURCE_TYPE_SHORT_FILM,
 ];
 
 export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
@@ -137,7 +133,7 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
 
   const resourceTypes = useMemo(() => {
     return resourceTypesProp.reduce<GQLResourceTypeFilter_ResourceTypeDefinitionFragment[]>((acc, type) => {
-      if (!visibleResourceTypes.includes(type.id)) return acc;
+      if (hiddenResourceTypes.includes(type.id)) return acc;
       acc.push({
         ...type,
         id: type.id.replace("urn:resourcetype:", ""),
