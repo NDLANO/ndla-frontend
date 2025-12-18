@@ -52,6 +52,7 @@ export const TransportationNode = ({ node, context }: Props) => {
       <li>
         {!!(context !== "node" && !!node.meta?.metaImage) && (
           <CardImage
+            // TODO: Variants
             src={node.meta.metaImage.url}
             alt=""
             height={200}

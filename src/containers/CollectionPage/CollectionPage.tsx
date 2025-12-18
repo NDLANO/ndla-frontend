@@ -14,6 +14,7 @@ import { useQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { subjectTypes } from "@ndla/ui";
 import { groupBy } from "@ndla/util";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -28,16 +29,30 @@ import { htmlTitle } from "../../util/titleHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 // TODO: We might want to reconsider this at some point. For now it'll do.
-const IMAGE_URL = "https://api.ndla.no/image-api/raw/id/67778";
+const IMAGE_ID = "67778";
 
 const collectionPageQuery = gql`
-  query collectionPage($language: String!) {
+  query collectionPage($language: String!, $imageId: String!) {
     subjectCollection(language: $language) {
       id
       name
       url
       metadata {
         customFields
+      }
+    }
+    imageV3(id: $imageId) {
+      id
+      image {
+        imageUrl
+        dimensions {
+          width
+          height
+        }
+        variants {
+          variantUrl
+          size
+        }
       }
     }
   }
@@ -61,7 +76,7 @@ export const CollectionPage = () => {
   const isValidLanguage = COLLECTION_LANGUAGES.includes(collectionId ?? "");
 
   const collectionQuery = useQuery<GQLCollectionPageQuery, GQLCollectionPageQueryVariables>(collectionPageQuery, {
-    variables: { language: collectionId! },
+    variables: { language: collectionId!, imageId: IMAGE_ID },
     skip: !isValidLanguage,
   });
 
@@ -77,15 +92,22 @@ export const CollectionPage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  return <CollectionPageContent collectionLanguage={collectionId} subjects={collectionQuery.data.subjectCollection} />;
+  return (
+    <CollectionPageContent
+      collectionLanguage={collectionId}
+      subjects={collectionQuery.data.subjectCollection}
+      image={collectionQuery.data.imageV3}
+    />
+  );
 };
 
 interface CollectionpageContentProps {
   collectionLanguage: string;
   subjects: GQLCollectionPageQuery["subjectCollection"];
+  image: GQLCollectionPageQuery["imageV3"];
 }
 
-const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageContentProps) => {
+const CollectionPageContent = ({ collectionLanguage, subjects, image }: CollectionpageContentProps) => {
   const { t } = useTranslation();
 
   const metaTitle = useMemo(
@@ -114,10 +136,17 @@ const CollectionPageContent = ({ collectionLanguage, subjects }: CollectionpageC
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
         <PageTitle title={pageTitle} />
-        <SocialMediaMetadata title={metaTitle} imageUrl={IMAGE_URL} />
+        <SocialMediaMetadata title={metaTitle} imageUrl={image?.image.imageUrl} />
         <div>
-          {/* TODO: Use semantic tokens */}
-          <StyledImage src={IMAGE_URL} alt="" height="400" width="1128" />
+          {!!image && (
+            <StyledImage
+              src={image.image.imageUrl}
+              alt=""
+              height={image.image.dimensions?.height}
+              width={image.image.dimensions?.width}
+              variants={image.image.variants as ImageVariantDTO[]}
+            />
+          )}
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("collectionPage.title", { language: t(`languages.${collectionLanguage}`).toLowerCase() })}
           </Heading>

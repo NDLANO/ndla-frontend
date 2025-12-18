@@ -51,6 +51,7 @@ export const PodcastSeries = ({
   return (
     <ListItemRoot asChild consumeCss>
       <li>
+        {/* TODO: Image variants */}
         <BigListItemImage
           alt={coverPhoto.altText}
           src={coverPhoto.url}

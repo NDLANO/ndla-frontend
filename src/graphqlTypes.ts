@@ -657,6 +657,7 @@ export type GQLImageV3 = {
   imageUrl: Scalars["String"]["output"];
   language: Scalars["String"]["output"];
   size: Scalars["Int"]["output"];
+  variants: Array<GQLImageVariant>;
 };
 
 export type GQLImageVariant = {
@@ -2474,6 +2475,7 @@ export type GQLArticlePage_NodeFragment = {
 
 export type GQLCollectionPageQueryVariables = Exact<{
   language: Scalars["String"]["input"];
+  imageId: Scalars["String"]["input"];
 }>;
 
 export type GQLCollectionPageQuery = {
@@ -2485,6 +2487,16 @@ export type GQLCollectionPageQuery = {
     url?: string;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   }>;
+  imageV3?: {
+    __typename?: "ImageMetaInformationV3";
+    id: string;
+    image: {
+      __typename?: "ImageV3";
+      imageUrl: string;
+      dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+      variants: Array<{ __typename?: "ImageVariant"; variantUrl: string; size: string }>;
+    };
+  };
 };
 
 export type GQLAllMoviesQueryVariables = Exact<{
@@ -2769,7 +2781,12 @@ export type GQLMovedResourcePage_NodeFragment = {
     traits: Array<string>;
     metaImage?: {
       __typename?: "ImageMetaInformationV3";
-      image: { __typename?: "ImageV3"; imageUrl: string };
+      image: {
+        __typename?: "ImageV3";
+        imageUrl: string;
+        dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+        variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
+      };
       alttext: { __typename?: "ImageAltText"; alttext: string };
     };
   };
@@ -2779,7 +2796,12 @@ export type GQLMovedResourcePage_NodeFragment = {
     description: string;
     coverphoto?: {
       __typename?: "ImageMetaInformationV3";
-      image: { __typename?: "ImageV3"; imageUrl: string };
+      image: {
+        __typename?: "ImageV3";
+        imageUrl: string;
+        dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+        variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
+      };
       alttext: { __typename?: "ImageAltText"; alttext: string };
     };
   };
@@ -2942,6 +2964,7 @@ export type GQLImageFragment = {
     contentType: string;
     imageUrl: string;
     language: string;
+    variants: Array<{ __typename?: "ImageVariant"; variantUrl: string; size: string }>;
     dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
   };
 };
@@ -3177,14 +3200,27 @@ export type GQLResourceItem_NodeFragment = {
     traits: Array<string>;
     metaImage?: {
       __typename?: "ImageMetaInformationV3";
-      image: { __typename?: "ImageV3"; imageUrl: string };
+      image: {
+        __typename?: "ImageV3";
+        imageUrl: string;
+        variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
+        dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+      };
       alttext: { __typename?: "ImageAltText"; alttext: string };
     };
   };
   learningpath?: {
     __typename?: "Learningpath";
     id: number;
-    coverphoto?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      image: {
+        __typename?: "ImageV3";
+        imageUrl: string;
+        variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
+        dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+      };
+    };
   };
 };
 

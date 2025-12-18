@@ -117,6 +117,7 @@ export const FilmContentCard = ({ movie: { metaImage, title, id, url, resourceTy
     return acc;
   }, []);
 
+  // TODO: Variants
   return (
     <StyledSafeLink onMouseDown={(e) => e.preventDefault()} {...rest} to={url}>
       <ImageWrapper>

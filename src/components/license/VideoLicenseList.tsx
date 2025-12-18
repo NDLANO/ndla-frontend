@@ -101,6 +101,7 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
+          {/* TODO: Maybe variants? */}
           {!!video.cover && !isResourcePage && <Image alt={video.title} src={video.cover} fallbackWidth={300} />}
           {!isCopyrighted(video.copyright?.license.license) && (
             <MediaListItemActions>
