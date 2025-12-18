@@ -12,20 +12,24 @@ import { log } from "../util/logger/logger";
 
 type ParsedCIDR = ReturnType<typeof ipAddr.parseCIDR>;
 
-type RestrictedRegionMap = Record<string, ParsedCIDR>;
+type RestrictedRegionMap = Record<string, ParsedCIDR[]>;
 
 const ENV_NAME = "NDLA_RESTRICTED_REGION_CIDRS";
 
-function validateRestrictedRegionMap(map: any): map is Record<string, string> {
+function validateRestrictedRegionMap(map: unknown): map is Record<string, string[]> {
   if (typeof map !== "object" || map === null || Array.isArray(map)) {
     return false;
   }
-  return Object.entries(map).every(([cidr, region]) => typeof cidr === "string" && typeof region === "string");
+
+  return Object.entries(map).every(
+    ([region, cidrs]) =>
+      typeof region === "string" && Array.isArray(cidrs) && cidrs.every((cidr) => typeof cidr === "string"),
+  );
 }
 
 function logValidationError() {
   log.warn(
-    `There was a problem parsing '${ENV_NAME}' environment variable, format should be json object like {"10.0.0.0/24":"oslo"}.`,
+    `There was a problem parsing '${ENV_NAME}' environment variable, format should be json object like {"oslo":["10.0.0.0/24","192.168.0.1/24"]}.`,
   );
 }
 
@@ -40,8 +44,8 @@ const parseRestrictedRegionEnv = (): RestrictedRegionMap | undefined => {
       return undefined;
     }
 
-    return Object.entries(parsed).reduce<Record<string, ParsedCIDR>>((acc, [region, cidr]) => {
-      acc[region] = ipAddr.parseCIDR(cidr);
+    return Object.entries(parsed).reduce<Record<string, ParsedCIDR[]>>((acc, [region, cidrs]) => {
+      acc[region] = cidrs.map((cidr) => ipAddr.parseCIDR(cidr));
       return acc;
     }, {});
   } catch {
