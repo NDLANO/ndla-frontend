@@ -16,7 +16,6 @@ import {
   RESOURCE_TYPE_CONCEPT,
 } from "../../constants";
 import { GQLResource, GQLResourceType } from "../../graphqlTypes";
-import { contentTypeMapping } from "../../util/getContentType";
 
 export const sortOrder: Record<string, number> = {
   [RESOURCE_TYPE_LEARNING_PATH]: 1,
@@ -34,23 +33,13 @@ export const sortResources = <T extends GQLResourceLike>(resources: T[], isGroup
   const uniq = uniqBy(resources, (res) => res.id);
   const sortedByRank = sortBy(uniq, (res) => res.rank ?? res.id);
   if (!isGrouped) {
-    // TODO: Just return sortedByRank once we can remove contentType
-    return sortedByRank.map((res) => {
-      const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
-      return { ...res, contentType: firstResourceType ? contentTypeMapping[firstResourceType.id] : undefined };
-    });
+    return sortedByRank;
   }
 
-  // TODO: Convert map to `sortBy` once we can remove contentType
-  const withContentType = sortedByRank.map((res) => {
+  return sortBy(sortedByRank, (res) => {
     const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
-    return {
-      ...res,
-      order: sortOrder[firstResourceType?.id ?? "default"],
-      contentType: contentTypeMapping[firstResourceType?.id ?? "default"],
-    };
+    return sortOrder[firstResourceType?.id ?? "default"];
   });
-  return sortBy(withContentType, (res) => res.order);
 };
 
 type SharedResourceType = Pick<GQLResourceType, "id" | "name">;

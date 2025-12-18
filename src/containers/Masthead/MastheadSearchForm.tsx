@@ -36,7 +36,7 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { BadgesContainer, contentTypeMapping, useComboboxTranslations } from "@ndla/ui";
+import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import { GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables } from "../../graphqlTypes";
 import { getListItemTraits } from "../../util/listItemTraits";
 import { useDebounce } from "../../util/useDebounce";
@@ -271,16 +271,11 @@ export const MastheadSearchForm = ({ root }: Props) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
         const nodeType =
           result.__typename === "NodeSearchResult" ? "subject" : result.url.startsWith("/e/") ? "topic" : undefined;
-        let contentType: string | undefined = nodeType;
-        if (context?.resourceTypes?.length) {
-          contentType = contentTypeMapping[context?.resourceTypes?.[0]?.id ?? "default"];
-        }
 
         const traits = getListItemTraits(
           {
             relevanceId: context?.relevanceId,
             resourceTypes: context?.resourceTypes,
-            contentType,
             resourceType: nodeType,
             traits:
               result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult"

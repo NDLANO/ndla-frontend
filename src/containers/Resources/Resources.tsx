@@ -161,7 +161,6 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
               resource={resource}
               active={currentResourceId === resource.id}
               showAdditionalResources={showAdditionalResources === "true"}
-              contentType={resource.contentType}
             />
           ))}
         </StyledResourceList>

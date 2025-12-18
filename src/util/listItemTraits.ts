@@ -18,8 +18,6 @@ interface ListItemTraitParams {
   relevanceId?: string;
   /** Useful for items that do not support resource types (subjects, topics, images etc). Omitted if resourceTypes are defined. */
   resourceType?: string;
-  /** Fallback for old resource types. TODO: Remove with allResourceTypesEnabled flag */
-  contentType?: string;
 }
 
 export const getListItemTraits = (params: ListItemTraitParams, t: (key: string) => string) => {

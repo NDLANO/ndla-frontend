@@ -12,7 +12,6 @@ import { useNavigate } from "react-router";
 import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons";
 import { Button, PageContent } from "@ndla/primitives";
-import { contentTypes } from "@ndla/ui";
 import { PostResizeMessage } from "./PostResizeMessage";
 import { Article } from "../components/Article/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
@@ -26,7 +25,6 @@ import config from "../config";
 import { GQLIframeArticlePage_ArticleFragment, GQLIframeArticlePage_NodeFragment } from "../graphqlTypes";
 import { LocaleType } from "../interfaces";
 import { getArticleScripts } from "../util/getArticleScripts";
-import { getContentType } from "../util/getContentType";
 import { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
 import { transformArticle } from "../util/transformArticle";
 
@@ -63,12 +61,6 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
   const url = node?.url;
   const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
-  const contentType =
-    article.articleType === "standard"
-      ? getContentType(node)
-      : article.articleType === "topic-article"
-        ? contentTypes.TOPIC
-        : undefined;
   return (
     <>
       <PageTitle title={getDocumentTitle({ article: propArticle })} />
@@ -98,7 +90,6 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
               article={article}
               isTopicArticle={article.articleType === "topic-article"}
               isOembed
-              contentType={contentType}
               resourceTypes={node?.resourceTypes}
               relevanceId={node?.relevanceId}
             >

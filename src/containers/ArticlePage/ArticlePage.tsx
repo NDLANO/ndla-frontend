@@ -23,7 +23,6 @@ import config from "../../config";
 import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
-import { getContentType } from "../../util/getContentType";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { htmlTitle } from "../../util/titleHelper";
 import { transformArticle } from "../../util/transformArticle";
@@ -102,8 +101,6 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
     return <NotFoundPage />;
   }
 
-  const contentType = getContentType(resource);
-
   const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, resource]);
 
   return (
@@ -143,7 +140,6 @@ export const ArticlePage = ({ resource, skipToContentId }: Props) => {
                 id={skipToContentId ?? article.id.toString()}
                 path={resource.url}
                 article={article}
-                contentType={contentType}
                 subjectId={root?.id}
                 isInactive={!!resource.context?.isArchived}
                 resourceTypes={resource.resourceTypes}

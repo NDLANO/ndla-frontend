@@ -28,7 +28,6 @@ import { BadgesContainer } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
 import config from "../../../../config";
-import { contentTypeMapping } from "../../../../util/getContentType";
 import { useListItemTraits } from "../../../../util/listItemTraits";
 
 export interface ResourceFormValues {
@@ -118,9 +117,7 @@ interface ResourceContentProps {
 export const ResourceContent = ({ onRemove, selectedResource }: ResourceContentProps) => {
   const { t } = useTranslation();
 
-  const contentType = selectedResource.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
   const listItemTraits = useListItemTraits({
-    contentType,
     resourceTypes: selectedResource.resourceTypes,
     traits: selectedResource.traits,
   });

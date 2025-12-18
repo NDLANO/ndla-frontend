@@ -39,7 +39,6 @@ interface Props extends HTMLProps<"div"> {
   isTopicArticle?: boolean;
   children?: ReactNode;
   isInactive?: boolean;
-  contentType?: string;
   subjectId?: string;
   isOembed?: boolean;
   path?: string;
@@ -67,7 +66,6 @@ export const Article = ({
   article,
   isTopicArticle = false,
   children,
-  contentType,
   id,
   subjectId,
   isOembed = false,
@@ -82,7 +80,7 @@ export const Article = ({
   useNavigateToHash(article.transformedContent.content);
   const restrictedInfo = useRestrictedMode();
 
-  const traits = useListItemTraits({ contentType, traits: article.traits, relevanceId, resourceTypes });
+  const traits = useListItemTraits({ traits: article.traits, relevanceId, resourceTypes });
 
   if (!article) {
     return children || null;

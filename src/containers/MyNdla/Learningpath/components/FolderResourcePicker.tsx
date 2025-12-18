@@ -39,7 +39,6 @@ import {
   GQLFolderResourceMetaSearchQuery,
 } from "../../../../graphqlTypes";
 import { useFolders, useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
-import { contentTypeMapping } from "../../../../util/getContentType";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 
@@ -97,7 +96,6 @@ type GQLFolderResourceWithCrumb = GQLFolderResource & {
   uniqueId: string;
   breadcrumbs: GQLBreadcrumb[];
   meta?: GQLFolderResourceMetaSearch;
-  contentType?: string;
   traits?: string[];
 };
 
@@ -130,10 +128,8 @@ const stitchResourcesWithMeta = (
   }, {});
   return resources.map((resource) => {
     const meta = keyedMeta[toKeyedMetaId(resource.resourceId, resource.resourceType)];
-    const contentType = meta?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0];
     const traits = getListItemTraits(
       {
-        contentType,
         resourceTypes: meta?.resourceTypes,
         resourceType: resource.resourceType,
         traits: meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined,
@@ -144,7 +140,6 @@ const stitchResourcesWithMeta = (
       ...resource,
       meta,
       traits,
-      contentType: meta?.resourceTypes?.map((type) => contentTypeMapping[type.id]).filter(Boolean)[0],
     };
   });
 };

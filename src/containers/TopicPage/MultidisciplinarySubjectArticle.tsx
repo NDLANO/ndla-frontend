@@ -123,7 +123,6 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const traits = useListItemTraits({
     traits: article?.traits,
     resourceTypes: node.resourceTypes,
-    contentType: node.resourceTypes?.[0]?.id,
     relevanceId: node.relevanceId,
   });
 

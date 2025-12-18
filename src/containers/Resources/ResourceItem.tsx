@@ -29,7 +29,6 @@ const StyledListItemContent = styled(ListItemContent, {
 interface Props {
   showAdditionalResources?: boolean;
   active?: boolean;
-  contentType?: string;
   resource: GQLResourceItem_NodeFragment;
 }
 
@@ -74,7 +73,7 @@ const StyledListItemImage = styled(ListItemImage, {
   },
 });
 
-export const ResourceItem = ({ contentType, active, showAdditionalResources, resource }: Props) => {
+export const ResourceItem = ({ active, showAdditionalResources, resource }: Props) => {
   const additional = resource.relevanceId !== RELEVANCE_CORE;
   const hidden = additional ? !showAdditionalResources : false;
 
@@ -82,7 +81,6 @@ export const ResourceItem = ({ contentType, active, showAdditionalResources, res
     resourceTypes: resource.resourceTypes,
     relevanceId: resource.relevanceId,
     traits: resource.article?.traits,
-    contentType,
   });
 
   if (!resource.learningpath && !resource.article) return null;
@@ -104,7 +102,7 @@ export const ResourceItem = ({ contentType, active, showAdditionalResources, res
           isFallback={
             !resource.article?.metaImage?.image.imageUrl && !resource.learningpath?.coverphoto?.image.imageUrl
           }
-          fallbackElement={<ContentTypeFallbackIcon contentType={contentType} />}
+          fallbackElement={<ContentTypeFallbackIcon />}
         />
         <StyledListItemContent>
           <StyledListItemHeading asChild consumeCss={active} css={active ? undefined : linkOverlay.raw()}>
