@@ -6,6 +6,13 @@
  *
  */
 
+import {
+  RESOURCE_TYPE_DOCUMENTARY,
+  RESOURCE_TYPE_FEATURE_FILM,
+  RESOURCE_TYPE_SERIES,
+  RESOURCE_TYPE_SHORT_FILM,
+} from "../../constants";
+
 export interface MovieResourceType {
   id: string;
   name: string;
@@ -14,18 +21,18 @@ export interface MovieResourceType {
 export const movieResourceTypes = [
   {
     name: "filmfrontpage.resourcetype.documentary",
-    id: "urn:resourcetype:documentary",
+    id: RESOURCE_TYPE_DOCUMENTARY,
   },
   {
     name: "filmfrontpage.resourcetype.featureFilm",
-    id: "urn:resourcetype:featureFilm",
+    id: RESOURCE_TYPE_FEATURE_FILM,
   },
   {
     name: "filmfrontpage.resourcetype.series",
-    id: "urn:resourcetype:series",
+    id: RESOURCE_TYPE_SERIES,
   },
   {
     name: "filmfrontpage.resourcetype.shortFilm",
-    id: "urn:resourcetype:shortFilm",
+    id: RESOURCE_TYPE_SHORT_FILM,
   },
 ];
