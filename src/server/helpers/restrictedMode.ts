@@ -29,10 +29,9 @@ const detectRegionFromIp = (ip: string | undefined): string | undefined => {
   if (!ip) return undefined;
   try {
     const parsedIp = ipAddr.parse(ip);
-    for (const [region, cidr] of Object.entries(restrictedRegionCidrs)) {
-      if (parsedIp.kind() === cidr[0].kind() && parsedIp.match(cidr)) {
-        return region;
-      }
+    for (const [region, cidrs] of Object.entries(restrictedRegionCidrs)) {
+      const match = cidrs.some((cidr) => parsedIp.kind() === cidr[0].kind() && parsedIp.match(cidr));
+      if (match) return region;
     }
   } catch {
     // Ignore invalid IPs
