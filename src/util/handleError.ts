@@ -9,7 +9,6 @@
 import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import { log } from "./logger/logger";
-import config from "../config";
 import { unreachable } from "./guards";
 import { LogLevel } from "../interfaces";
 import { LoggerContext } from "./logger/loggerContext";
@@ -204,10 +203,10 @@ export const ensureError = (unknownError: ErrorLike | unknown): ErrorLike => {
 };
 
 export const handleError = async (error: ErrorLike, extraContext: Record<string, unknown> = {}) => {
-  if (config.runtimeType === "production" && config.isClient) {
+  if (IS_PRODUCTION && IS_CLIENT) {
     const ctx = await getLoggerContext();
     sendToSentry(error, ctx, extraContext);
-  } else if (!config.isClient) {
+  } else if (IS_CLIENT) {
     await logServerError(error, extraContext);
   } else {
     console.error(error); // eslint-disable-line no-console

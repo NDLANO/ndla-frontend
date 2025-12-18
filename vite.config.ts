@@ -70,7 +70,10 @@ export default defineConfig(({ isSsrBuild, mode }) => {
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
-      ...(isDevelopment ? {} : { __IS_SSR_BUILD__: JSON.stringify(isSsrBuild) }),
+      "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+      "process.env.BUILD_TARGET": JSON.stringify(process.env.BUILD_TARGET),
+      IS_CLIENT: JSON.stringify(process.env.BUILD_TARGET === "client"),
+      IS_PRODUCTION: JSON.stringify(process.env.NODE_ENV === "production"),
     },
   };
 });

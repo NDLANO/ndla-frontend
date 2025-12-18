@@ -15,3 +15,5 @@ these files it crash and complain that there is no given type any for the specif
 declare module "*";
 
 declare const __IS_SSR_BUILD__: boolean;
+declare const IS_CLIENT: boolean;
+declare const IS_PRODUCTION: boolean;
