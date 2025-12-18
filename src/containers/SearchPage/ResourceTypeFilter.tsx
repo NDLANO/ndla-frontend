@@ -136,16 +136,18 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
   }, [bucketResult]);
 
   const resourceTypes = useMemo(() => {
-    return resourceTypesProp
-      .filter((type) => visibleResourceTypes.includes(type.id))
-      .map((type) => ({
+    return resourceTypesProp.reduce<GQLResourceTypeFilter_ResourceTypeDefinitionFragment[]>((acc, type) => {
+      if (!visibleResourceTypes.includes(type.id)) return acc;
+      acc.push({
         ...type,
         id: type.id.replace("urn:resourcetype:", ""),
         subtypes: type.subtypes?.map((subtype) => ({
           ...subtype,
           id: subtype.id.replace("urn:resourcetype:", ""),
         })),
-      }));
+      });
+      return acc;
+    }, []);
   }, [resourceTypesProp]);
 
   const currentResourceTypeIds = useMemo(() => searchParams.get("resourceTypes")?.split(",") ?? [], [searchParams]);
