@@ -211,7 +211,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               </TransportationPageNodeListGrid>
             </NodeGridWrapper>
           )}
-          {!!node.article?.transformedContent.metaData?.images && (
+          {!!node.article?.transformedContent.metaData?.images.length && (
             <ImageLicenseAccordion imageLicenses={node.article.transformedContent.metaData.images} />
           )}
         </RestrictedContent>
