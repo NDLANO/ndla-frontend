@@ -19,7 +19,7 @@ interface Props {
 const ClientPrivateRoute = ({ element }: Props) => {
   const { authenticated, authContextLoaded } = useContext(AuthContext);
   const location = useLocation();
-  const loginHref = useHref(`/login?state=${toHref(location)}`);
+  const loginHref = useHref(`/login?returnTo=${toHref(location)}`);
 
   if (!authenticated && authContextLoaded) {
     window.location.href = loginHref;

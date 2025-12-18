@@ -73,7 +73,7 @@ export const LoginModalContent = ({ title, content, masthead = false, loginIngre
           <Button variant="secondary">{t("cancel")}</Button>
         </DialogCloseTrigger>
 
-        <SafeLinkButton reloadDocument to={`/login?state=${masthead ? routes.myNdla.root : toHref(location)}`}>
+        <SafeLinkButton reloadDocument to={`/login?returnTo=${masthead ? routes.myNdla.root : toHref(location)}`}>
           {t("user.buttonLogIn")}
         </SafeLinkButton>
       </DialogFooter>

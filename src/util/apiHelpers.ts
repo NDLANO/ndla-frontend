@@ -20,7 +20,7 @@ import {
 } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { ErrorLink } from "@apollo/client/link/error";
-import { getFeideCookie, isAccessTokenValid } from "./authHelpers";
+import { getActiveSessionCookieClient, getFeideCookie, isActiveSession } from "./authHelpers";
 import {
   NDLAGraphQLError,
   ApolloNetworkError,
@@ -153,15 +153,15 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
 
 export const createApolloLinks = (lang: string, versionHash?: any) => {
   const cookieString = config.isClient ? document.cookie : "";
-  const feideCookie = getFeideCookie(cookieString);
-  const accessTokenValid = isAccessTokenValid(feideCookie);
-  const accessToken = feideCookie?.access_token;
+  const accessToken = getFeideCookie(cookieString);
   const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
 
   const headers = {
     "Accept-Language": lang,
     ...versionHeader,
-    ...(accessToken && accessTokenValid ? { FeideAuthorization: `Bearer ${accessToken}` } : {}),
+    ...(config.isClient && accessToken && isActiveSession(getActiveSessionCookieClient())
+      ? { FeideAuthorization: `Bearer ${accessToken}` }
+      : {}),
   };
 
   const errorLink = new ErrorLink(({ error, operation }) => {

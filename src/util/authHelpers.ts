@@ -6,33 +6,23 @@
  *
  */
 
-import { TokenSetParameters } from "openid-client";
 import { getCookie } from "@ndla/util";
+import { FEIDE_ACCESS_TOKEN_COOKIE, SESSION_EXPIRY_COOKIE } from "../constants";
 
-interface FeideCookie extends TokenSetParameters {
-  ndla_expires_at: number;
-}
-
-export const getFeideCookie = (cookies: string): FeideCookie | null => {
-  const cookieString = getCookie("feide_auth", cookies);
-  if (cookieString) {
-    return JSON.parse(cookieString);
-  }
-
-  return null;
+export const getFeideCookie = (cookies: string) => {
+  return getCookie(FEIDE_ACCESS_TOKEN_COOKIE, cookies);
 };
 
-const getFeideCookieClient = (): FeideCookie | null => {
-  return getFeideCookie(document.cookie);
+export const getActiveSessionCookieClient = () => {
+  return getCookie(SESSION_EXPIRY_COOKIE, document.cookie);
 };
 
-export const millisUntilExpiration = (cookie: FeideCookie | null = getFeideCookieClient()): number => {
-  const expiration = cookie?.ndla_expires_at ?? 0;
-  const currentTime = new Date().getTime();
-
-  return Math.max(0, expiration - currentTime);
+export const millisUntilExpiration = (sessionExpiry: string | undefined | null): number => {
+  const parsedExpiry = sessionExpiry ? Number(sessionExpiry) : 0;
+  if (!parsedExpiry) return 0;
+  return Math.max(0, parsedExpiry - new Date().getTime());
 };
 
-export const isAccessTokenValid = (cookie: FeideCookie | null = getFeideCookieClient()): boolean => {
-  return millisUntilExpiration(cookie) > 10000;
+export const isActiveSession = (sessionExpiry: string | undefined): boolean => {
+  return millisUntilExpiration(sessionExpiry) > 10000;
 };
