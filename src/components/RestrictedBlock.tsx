@@ -74,14 +74,14 @@ export const RestrictedBlock = ({ css }: Props) => {
       <Heading asChild consumeCss textStyle="heading.large" color="text.onAction">
         <h2>{t("restrictedBlock.heading")}</h2>
       </Heading>
-      <Text color="text.onAction">
+      <Text color="text.onAction" textStyle="body.xlarge">
         <Trans
           i18nKey="restrictedBlock.cause"
           components={{ safelink: <SafeLink to={COOP_LINK} /> }}
           values={{ region: restrictedInfo.region ?? t("restrictedBlock.regionFallback") }}
         />
       </Text>
-      <Text color="text.onAction">
+      <Text color="text.onAction" textStyle="body.xlarge">
         <Trans
           i18nKey="restrictedBlock.contact"
           components={{ safelink: <SafeLink to={MAIL_LINK} /> }}
