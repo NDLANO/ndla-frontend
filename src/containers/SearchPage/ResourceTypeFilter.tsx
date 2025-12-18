@@ -37,6 +37,14 @@ import { FilterContainer } from "./FilterContainer";
 import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import {
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+  RESOURCE_TYPE_CONCEPT,
+  RESOURCE_TYPE_SOURCE_MATERIAL,
+} from "../../constants";
+import {
   GQLResourceTypeFilter_BucketResultFragment,
   GQLResourceTypeFilter_ResourceTypeDefinitionFragment,
 } from "../../graphqlTypes";
@@ -104,6 +112,14 @@ const CheckboxWrapper = styled("div", {
 });
 
 const NODE_TYPES = [ALL_NODE_TYPES, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE];
+const visibleResourceTypes = [
+  RESOURCE_TYPE_LEARNING_PATH,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+  RESOURCE_TYPE_CONCEPT,
+  RESOURCE_TYPE_SOURCE_MATERIAL,
+];
 
 export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
@@ -120,14 +136,16 @@ export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesP
   }, [bucketResult]);
 
   const resourceTypes = useMemo(() => {
-    return resourceTypesProp.map((type) => ({
-      ...type,
-      id: type.id.replace("urn:resourcetype:", ""),
-      subtypes: type.subtypes?.map((subtype) => ({
-        ...subtype,
-        id: subtype.id.replace("urn:resourcetype:", ""),
-      })),
-    }));
+    return resourceTypesProp
+      .filter((type) => visibleResourceTypes.includes(type.id))
+      .map((type) => ({
+        ...type,
+        id: type.id.replace("urn:resourcetype:", ""),
+        subtypes: type.subtypes?.map((subtype) => ({
+          ...subtype,
+          id: subtype.id.replace("urn:resourcetype:", ""),
+        })),
+      }));
   }, [resourceTypesProp]);
 
   const currentResourceTypeIds = useMemo(() => searchParams.get("resourceTypes")?.split(",") ?? [], [searchParams]);
