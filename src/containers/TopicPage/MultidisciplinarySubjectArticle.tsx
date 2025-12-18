@@ -160,7 +160,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
           description={socialMediaMetaData.description}
-          imageUrl={socialMediaMetaData.image?.url}
+          imageUrl={socialMediaMetaData.image?.image.imageUrl}
           trackableContent={{
             supportedLanguages: node.article?.supportedLanguages,
           }}
@@ -270,8 +270,12 @@ MultidisciplinarySubjectArticle.fragments = {
         metaDescription
         traits
         metaImage {
-          url
-          alt
+          image {
+            imageUrl
+          }
+          alttext {
+            alttext
+          }
         }
         crossSubjectTopics(subjectId: $rootId) {
           title

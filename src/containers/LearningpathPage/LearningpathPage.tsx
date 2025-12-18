@@ -65,7 +65,7 @@ export const LearningpathPage = ({ node, skipToContentId, stepId }: Props) => {
         title={getTitle(root, learningpath, learningpathStep)}
         trackableContent={learningpath}
         description={learningpath.description}
-        imageUrl={learningpath.coverphoto?.url}
+        imageUrl={learningpath.coverphoto?.image.imageUrl}
       />
       <PageLayout asChild consumeCss>
         <main>
@@ -122,7 +122,9 @@ LearningpathPage.fragments = {
         tags
         description
         coverphoto {
-          url
+          image {
+            imageUrl
+          }
           metaUrl
         }
         learningsteps {
