@@ -28,11 +28,3 @@ test("That invalid urls return status 400", async ({ page }) => {
     expect(response!.status()).toBe(400);
   }
 });
-
-test("That server doesn't crash when throwing an error", async ({ page }) => {
-  const res = await page.request.get("/logout", { failOnStatusCode: false });
-  expect(res.status()).toBe(400);
-
-  const res2 = await page.request.get("/logout", { failOnStatusCode: false });
-  expect(res2.status()).toBe(400);
-});

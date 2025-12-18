@@ -11,7 +11,7 @@ import { STORAGE_STATE } from "../playwright.config";
 
 test("authenticate", async ({ page }) => {
   if (process.env.RECORD_FIXTURES === "true") {
-    await page.goto("/login?state=/minndla");
+    await page.goto("/login?returnTo=/minndla");
     await page.getByRole("link").getByText("Feide test users").click();
     await page.getByLabel("Username").fill(process.env.FEIDE_TEACHER_USER_NAME ?? "");
     await page.getByLabel("Password", { exact: true }).fill(process.env.FEIDE_TEACHER_USER_PASSWORD ?? "");
@@ -19,14 +19,11 @@ test("authenticate", async ({ page }) => {
     await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
   } else {
     const expAt = (32518706430 - 1687564890 - 60) * 1000 + new Date().getTime();
-    const test = {
-      ndla_expires_at: expAt,
-    };
 
     await page.context().addCookies([
       {
-        name: "feide_auth",
-        value: JSON.stringify(test),
+        name: "ndla_session_expires_at",
+        value: expAt.toString(),
         expires: 2147483647,
         path: "/",
         domain: "localhost",

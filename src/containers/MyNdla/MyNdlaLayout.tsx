@@ -141,7 +141,7 @@ export const MyNdlaLayout = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
 
-  const loginlocation = `/login?state=${routes.myNdla.root}`;
+  const loginlocation = `/login?returnTo=${routes.myNdla.root}`;
 
   useEffect(() => {
     const autologin = getCookie(AUTOLOGIN_COOKIE, document.cookie);
@@ -289,7 +289,7 @@ export const menuLinks = (
     name: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
     shortName: user ? t("user.buttonLogOut") : t("user.buttonLogIn"),
     icon: user ? <LogoutBoxRightLine /> : <LoginBoxLine />,
-    to: user ? `/logout?state=${toHref(location)}` : `/login?state=${toHref(location)}`,
+    to: user ? `/logout?returnTo=${toHref(location)}` : `/login?returnTo=${toHref(location)}`,
     reloadDocument: true,
   },
 ];

@@ -410,7 +410,7 @@ const MyNdlaPart = () => {
             {t("masthead.menu.myNdla.myNdla")}
           </MyNdlaSafeLinkButton>
         ) : (
-          <MyNdlaSafeLinkButton variant="secondary" to={`/login?state=${routes.myNdla.root}`} reloadDocument>
+          <MyNdlaSafeLinkButton variant="secondary" to={`/login?returnTo=${routes.myNdla.root}`} reloadDocument>
             <UserLine />
             {t("masthead.menu.myNdla.myNdla")}
           </MyNdlaSafeLinkButton>
@@ -437,7 +437,7 @@ const MyNdlaPart = () => {
         </MyNdlaSafeLinkButton>
       </ButtonsContainer>
       {!!authenticated && !!user && (
-        <LogoutSafeLinkButton to={`/logout?state=${toHref(location)}`} reloadDocument>
+        <LogoutSafeLinkButton to={`/logout?returnTo=${toHref(location)}`} reloadDocument>
           <LogoutBoxRightLine />
           {t("user.buttonLogOut")}
         </LogoutSafeLinkButton>

@@ -27,10 +27,10 @@ import { INTERNAL_SERVER_ERROR } from "./statusCodes";
 import { getRouteChunkInfo } from "./server/getManifestChunks";
 import { getLocaleInfoFromPath } from "./i18n";
 import { privateRoutes, routes } from "./routes";
-import { isAccessTokenValid } from "./util/authHelpers";
+import { isActiveSession } from "./util/authHelpers";
 import { handleError, ensureError } from "./util/handleError";
-import { NOT_FOUND_PAGE_PATH } from "./constants";
 import { isRestrictedMode } from "./server/helpers/restrictedMode";
+import { NOT_FOUND_PAGE_PATH, SESSION_EXPIRY_COOKIE } from "./constants";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";
@@ -216,14 +216,12 @@ app.get(["/", "/*splat"], (req, res, next) => {
   const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend
   const isPrivate = privateRoutes.some((r) => matchPath(r, path));
   res.setHeader("Cache-Control", isPrivate ? "private" : "public, max-age=300");
-  const feideCookie = getCookie("feide_auth", req.headers.cookie ?? "") ?? "";
-  const feideToken = feideCookie ? JSON.parse(feideCookie) : undefined;
-  const isTokenValid = !!feideToken && isAccessTokenValid(feideToken);
-  const shouldRedirect = isPrivate && !isTokenValid;
+  const isValidSession = isActiveSession(getCookie(SESSION_EXPIRY_COOKIE, req.headers.cookie ?? ""));
+  const shouldRedirect = isPrivate && !isValidSession;
 
   if (route && shouldRedirect) {
     applyRestrictedModeCacheHeader(req, res);
-    return res.redirect(`/login?state=${req.path}`);
+    return res.redirect(`/login?returnTo=${req.path}`);
   }
 
   return handleRequest(req, res, next, defaultRoute);

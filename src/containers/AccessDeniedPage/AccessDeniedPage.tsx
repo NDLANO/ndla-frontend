@@ -67,7 +67,7 @@ export const AccessDenied = ({ applySkipToContentId }: AccessDeniedProps) => {
             {t("user.resource.accessDenied")}
           </ErrorMessageDescription>
         </ErrorMessageContent>
-        <SafeLinkButton reloadDocument to={`/login?state=${toHref(location)}`}>
+        <SafeLinkButton reloadDocument to={`/login?returnTo=${toHref(location)}`}>
           {t("user.buttonLogIn")}
           <LoginBoxLine />
         </SafeLinkButton>

@@ -76,7 +76,7 @@ export const MyProfilePage = () => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const { deletePersonalData } = useDeletePersonalData();
-  const logoutPath = useHref("/logout?state=/");
+  const logoutPath = useHref("/logout?returnTo=/");
 
   const onDeleteAccount = async () => {
     await deletePersonalData();
