@@ -70,6 +70,10 @@ const imageFragment = gql`
       size
       contentType
       imageUrl
+      variants {
+        variantUrl
+        size
+      }
       dimensions {
         width
         height

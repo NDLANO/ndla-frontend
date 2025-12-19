@@ -14,6 +14,7 @@ import { Badge, CardContent, CardHeading, CardImage, CardRoot, Heading, Text } f
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { BadgesContainer } from "@ndla/ui";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
@@ -99,7 +100,15 @@ export const MovedResourcePage = ({ resource }: Props) => {
         </StyledHeading>
         {resourceId ? (
           <StyledCardRoot>
-            {!!image && <CardImage alt={image.alttext.alttext} src={image.image.imageUrl} />}
+            {!!image && (
+              <CardImage
+                alt={image.alttext.alttext}
+                src={image.image.imageUrl}
+                width={image.image.dimensions?.width}
+                height={image.image.dimensions?.height}
+                variants={image.image.variants as ImageVariantDTO[]}
+              />
+            )}
             <CardContent>
               <CardHeading asChild consumeCss>
                 <SafeLink to={resource.url ?? ""} unstyled css={linkOverlay.raw()}>
@@ -150,6 +159,14 @@ MovedResourcePage.fragments = {
         metaImage {
           image {
             imageUrl
+            dimensions {
+              width
+              height
+            }
+            variants {
+              size
+              variantUrl
+            }
           }
           alttext {
             alttext
@@ -162,6 +179,14 @@ MovedResourcePage.fragments = {
         coverphoto {
           image {
             imageUrl
+            dimensions {
+              width
+              height
+            }
+            variants {
+              size
+              variantUrl
+            }
           }
           alttext {
             alttext

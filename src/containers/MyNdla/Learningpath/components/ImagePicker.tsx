@@ -13,7 +13,7 @@ import { ImageSearch } from "@ndla/image-search";
 import { licenses } from "@ndla/licenses";
 import { Button, Image, Spinner, Text } from "@ndla/primitives";
 import { HStack, Stack, styled, VStack } from "@ndla/styled-system/jsx";
-import { ImageMetaInformationV3DTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
+import { ImageMetaInformationV3DTO, ImageVariantDTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
 import { GQLImageFragment } from "../../../../graphqlTypes";
 import { useFetchImage, useImageSearch } from "../../imageQueries";
@@ -102,7 +102,13 @@ const SelectedImage = ({ loading, image, onRemove }: SelectedImageProps) => {
   return (
     <Wrapper>
       <HStack gap="small">
-        <StyledImage alt={image.alttext.alttext} src={image.image.imageUrl} />
+        <StyledImage
+          alt={image.alttext.alttext}
+          src={image.image.imageUrl}
+          width={image.image.dimensions?.width}
+          height={image.image.dimensions?.height}
+          variants={image.image.variants as ImageVariantDTO[]}
+        />
         <StyledStack align="start" justify="start" gap="xsmall">
           <Stack align="start" justify="start" gap="4xsmall">
             <Text fontWeight="bold" textStyle="label.medium">

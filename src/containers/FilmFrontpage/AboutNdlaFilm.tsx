@@ -73,6 +73,7 @@ interface VisualElementProps {
 const VisualElement = ({ visualElement }: VisualElementProps) => {
   const { type, url, alt } = visualElement;
   if (type === "image") {
+    // TODO: Variants
     return <Image src={url} alt={alt ?? ""} variant="rounded" />;
   } else if (type === "brightcove") {
     return <StyledIframe allow="fullscreen; encrypted-media" src={url} title={alt ?? ""} />;

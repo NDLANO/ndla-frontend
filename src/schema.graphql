@@ -563,6 +563,7 @@ type ImageV3 {
   imageUrl: String!
   language: String!
   size: Int!
+  variants: [ImageVariant!]!
 }
 
 type ImageVariant {

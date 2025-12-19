@@ -34,6 +34,7 @@ export const TransportationPageVisualElement = ({ embed, imageUrl, imageAlt }: P
   } else if (imageUrl) {
     return (
       <Figure>
+        {/* TODO: Variants */}
         <Image src={imageUrl} alt={imageAlt ?? ""} width={365} fetchPriority="high" />
       </Figure>
     );

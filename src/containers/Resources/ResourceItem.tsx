@@ -12,6 +12,7 @@ import { Badge, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot } 
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { BadgesContainer } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
 import { RELEVANCE_CORE } from "../../constants";
@@ -99,6 +100,9 @@ export const ResourceItem = ({ active, showAdditionalResources, resource }: Prop
           alt=""
           loading="lazy"
           sizes={`(min-width: ${breakpoints.desktop}) 150px, (max-width: ${breakpoints.tablet} ) 100px, 150px`}
+          width={resource.article?.metaImage?.image.dimensions?.width}
+          height={resource.article?.metaImage?.image.dimensions?.height}
+          variants={resource.article?.metaImage?.image.variants as ImageVariantDTO[]}
           isFallback={
             !resource.article?.metaImage?.image.imageUrl && !resource.learningpath?.coverphoto?.image.imageUrl
           }
@@ -145,6 +149,14 @@ ResourceItem.fragments = {
         id
         metaImage {
           image {
+            variants {
+              size
+              variantUrl
+            }
+            dimensions {
+              width
+              height
+            }
             imageUrl
           }
           alttext {
@@ -157,6 +169,14 @@ ResourceItem.fragments = {
         id
         coverphoto {
           image {
+            variants {
+              size
+              variantUrl
+            }
+            dimensions {
+              width
+              height
+            }
             imageUrl
           }
         }

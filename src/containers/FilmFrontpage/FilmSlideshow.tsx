@@ -172,6 +172,7 @@ export const FilmSlideshow = ({ slideshow }: Props) => {
     <BleedPageContent asChild consumeCss>
       <section>
         <StyledSafeLink to={currentSlide?.url ?? ""} tabIndex={-1} aria-hidden>
+          {/* TODO: Variants */}
           {!currentSlide?.metaImage?.url ? (
             <MainImageShimmer />
           ) : (
@@ -205,6 +206,7 @@ export const FilmSlideshow = ({ slideshow }: Props) => {
                   aria-describedby={"currentMovieDescription"}
                   to={movie.url}
                 >
+                  {/* TODO: Variants */}
                   <StyledImg
                     src={movie?.metaImage ? movie?.metaImage.url : ""}
                     sizes={"300px"}

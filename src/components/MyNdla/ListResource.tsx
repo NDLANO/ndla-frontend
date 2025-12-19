@@ -164,6 +164,7 @@ export const ListResource = ({
 
   return (
     <StyledListItemRoot id={id} nonInteractive={nonInteractive}>
+      {/* TODO: Variants */}
       <StyledListItemImage
         src={resourceImage.src}
         alt=""

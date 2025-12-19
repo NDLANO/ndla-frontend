@@ -110,6 +110,7 @@ const ImageLicenseInfo = ({ image, isResourcePage }: ImageLicenseInfoProps) => {
               </AddResourceToFolderModal>
             )}
           </MediaListLicense>
+          {/* TODO: Variants */}
           {!isResourcePage && <Image alt={image.altText} src={image.src} fallbackWidth={300} />}
           {!isCopyrighted(image.copyright.license.license) && (
             <MediaListItemActions>
