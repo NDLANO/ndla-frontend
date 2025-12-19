@@ -39,13 +39,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { BadgesContainer, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
 import { ResourceData } from "./folderTypes";
-import {
-  RESOURCE_TYPE_SOURCE_MATERIAL,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_CONCEPT,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-} from "../../../../constants";
+import { learningPathResourceTypes } from "../../../../constants";
 import { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
@@ -110,14 +104,7 @@ interface Props {
   setResource: (data: ResourceData) => void;
 }
 
-const SEARCH_RESOURCE_TYPES = [
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_CONCEPT,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
-].join();
-
+const SEARCH_RESOURCE_TYPES = learningPathResourceTypes.join();
 const PAGE_SIZE = 10;
 
 const searchQuery = gql`

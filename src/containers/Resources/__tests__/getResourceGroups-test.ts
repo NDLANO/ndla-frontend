@@ -6,19 +6,19 @@
  *
  */
 
-import { resourceTypes } from "./mockResources";
-import { sortResourceTypes } from "../getResourceGroups";
+import { resources, resourceTypes } from "./mockResources";
+import { sortResources } from "../getResourceGroups";
 
-test("resources types sort order", () => {
-  const types = sortResourceTypes(resourceTypes);
+test("resources are sorted according to resource types order", () => {
+  const types = sortResources(resources, resourceTypes, true);
 
   expect(types.length).toBe(6);
-  expect(types[0]?.id).toBe("urn:resourcetype:learningPath");
-  expect(types[1]?.id).toBe("urn:resourcetype:subjectMaterial");
-  expect(types[2]?.id).toBe("urn:resourcetype:tasksAndActivities");
-  expect(types[3]?.id).toBe("urn:resourcetype:reviewResource");
-  expect(types[4]?.id).toBe("urn:resourcetype:SourceMaterial");
-  expect(types[5]?.id).toBe("urn:resourcetype:concept");
+  expect(types[0]?.id).toBe("urn:resource:3");
+  expect(types[1]?.id).toBe("urn:resource:5");
+  expect(types[2]?.id).toBe("urn:resource:2");
+  expect(types[3]?.id).toBe("urn:resource:1");
+  expect(types[4]?.id).toBe("urn:resource:4");
+  expect(types[5]?.id).toBe("urn:resource:6");
 
   expect(types).toMatchSnapshot();
 });

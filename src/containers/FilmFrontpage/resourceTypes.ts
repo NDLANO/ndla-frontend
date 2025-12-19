@@ -7,10 +7,10 @@
  */
 
 import {
-  RESOURCE_TYPE_DOCUMENTARY,
-  RESOURCE_TYPE_FEATURE_FILM,
-  RESOURCE_TYPE_SERIES,
-  RESOURCE_TYPE_SHORT_FILM,
+  NDLAFILM_RESOURCE_TYPE_DOCUMENTARY,
+  NDLAFILM_RESOURCE_TYPE_FEATURE_FILM,
+  NDLAFILM_RESOURCE_TYPE_SERIES,
+  NDLAFILM_RESOURCE_TYPE_SHORT_FILM,
 } from "../../constants";
 
 export interface MovieResourceType {
@@ -21,18 +21,18 @@ export interface MovieResourceType {
 export const movieResourceTypes = [
   {
     name: "filmfrontpage.resourcetype.documentary",
-    id: RESOURCE_TYPE_DOCUMENTARY,
+    id: NDLAFILM_RESOURCE_TYPE_DOCUMENTARY,
   },
   {
     name: "filmfrontpage.resourcetype.featureFilm",
-    id: RESOURCE_TYPE_FEATURE_FILM,
+    id: NDLAFILM_RESOURCE_TYPE_FEATURE_FILM,
   },
   {
     name: "filmfrontpage.resourcetype.series",
-    id: RESOURCE_TYPE_SERIES,
+    id: NDLAFILM_RESOURCE_TYPE_SERIES,
   },
   {
     name: "filmfrontpage.resourcetype.shortFilm",
-    id: RESOURCE_TYPE_SHORT_FILM,
+    id: NDLAFILM_RESOURCE_TYPE_SHORT_FILM,
   },
 ];
