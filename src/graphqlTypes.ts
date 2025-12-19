@@ -3203,6 +3203,7 @@ export type GQLLaunchpadQuery = {
     children?: Array<{ __typename?: "Node"; id: string } & GQLResourceItem_NodeFragment>;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   };
+  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLGrepFilterQueryVariables = Exact<{

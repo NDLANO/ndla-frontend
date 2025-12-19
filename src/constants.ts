@@ -6,17 +6,25 @@
  *
  */
 
-export const RESOURCE_TYPE_LEARNING_PATH = "urn:resourcetype:learningPath";
-export const RESOURCE_TYPE_SUBJECT_MATERIAL = "urn:resourcetype:subjectMaterial";
-export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = "urn:resourcetype:tasksAndActivities";
+export const NDLAFILM_RESOURCE_TYPE_DOCUMENTARY = "urn:resourcetype:documentary";
+export const NDLAFILM_RESOURCE_TYPE_FEATURE_FILM = "urn:resourcetype:featureFilm";
+export const NDLAFILM_RESOURCE_TYPE_SERIES = "urn:resourcetype:series";
+export const NDLAFILM_RESOURCE_TYPE_SHORT_FILM = "urn:resourcetype:shortFilm";
 export const RESOURCE_TYPE_ASSESSMENT_RESOURCES = "urn:resourcetype:reviewResource";
 export const RESOURCE_TYPE_CONCEPT = "urn:resourcetype:concept";
+export const RESOURCE_TYPE_GAME = "urn:resourcetype:game";
 export const RESOURCE_TYPE_SOURCE_MATERIAL = "urn:resourcetype:SourceMaterial";
+export const RESOURCE_TYPE_SUBJECT_MATERIAL = "urn:resourcetype:subjectMaterial";
+export const RESOURCE_TYPE_TASKS_AND_ACTIVITIES = "urn:resourcetype:tasksAndActivities";
 
-export const RESOURCE_TYPE_DOCUMENTARY = "urn:resourcetype:documentary";
-export const RESOURCE_TYPE_FEATURE_FILM = "urn:resourcetype:featureFilm";
-export const RESOURCE_TYPE_SERIES = "urn:resourcetype:series";
-export const RESOURCE_TYPE_SHORT_FILM = "urn:resourcetype:shortFilm";
+export const learningPathResourceTypes = [
+  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
+  RESOURCE_TYPE_CONCEPT,
+  RESOURCE_TYPE_GAME,
+  RESOURCE_TYPE_SOURCE_MATERIAL,
+  RESOURCE_TYPE_SUBJECT_MATERIAL,
+  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
+];
 
 export const FEIDE_ACCESS_TOKEN_COOKIE = "feide_access_token";
 export const FEIDE_ID_TOKEN_COOKIE = "feide_id_token";

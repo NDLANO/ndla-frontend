@@ -37,10 +37,10 @@ import { FilterContainer } from "./FilterContainer";
 import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 import {
-  RESOURCE_TYPE_DOCUMENTARY,
-  RESOURCE_TYPE_FEATURE_FILM,
-  RESOURCE_TYPE_SERIES,
-  RESOURCE_TYPE_SHORT_FILM,
+  NDLAFILM_RESOURCE_TYPE_DOCUMENTARY,
+  NDLAFILM_RESOURCE_TYPE_FEATURE_FILM,
+  NDLAFILM_RESOURCE_TYPE_SERIES,
+  NDLAFILM_RESOURCE_TYPE_SHORT_FILM,
 } from "../../constants";
 import {
   GQLResourceTypeFilter_BucketResultFragment,
@@ -111,10 +111,10 @@ const CheckboxWrapper = styled("div", {
 
 const NODE_TYPES = [ALL_NODE_TYPES, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE, RESOURCE_NODE_TYPE];
 const hiddenResourceTypes = [
-  RESOURCE_TYPE_DOCUMENTARY,
-  RESOURCE_TYPE_FEATURE_FILM,
-  RESOURCE_TYPE_SERIES,
-  RESOURCE_TYPE_SHORT_FILM,
+  NDLAFILM_RESOURCE_TYPE_DOCUMENTARY,
+  NDLAFILM_RESOURCE_TYPE_FEATURE_FILM,
+  NDLAFILM_RESOURCE_TYPE_SERIES,
+  NDLAFILM_RESOURCE_TYPE_SHORT_FILM,
 ];
 
 export const ResourceTypeFilter = ({ bucketResult, resourceTypes: resourceTypesProp, resourceTypesLoading }: Props) => {

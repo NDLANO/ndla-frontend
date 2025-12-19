@@ -104,14 +104,16 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
   });
 
   const node = data?.node;
+  const resourceTypes = data?.resourceTypes;
 
   const sortedResources = useMemo(
     () =>
       sortResources(
         node?.children ?? [],
+        resourceTypes ?? [],
         node?.metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
       ),
-    [node?.children, node?.metadata.customFields],
+    [node?.children, node?.metadata.customFields, resourceTypes],
   );
 
   const supplementaryResourcesCount = useMemo(
@@ -187,6 +189,10 @@ const resourcesQuery = gql`
       metadata {
         customFields
       }
+    }
+    resourceTypes {
+      id
+      name
     }
   }
   ${ResourceItem.fragments.node}

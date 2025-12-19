@@ -7,42 +7,23 @@
  */
 
 import { sortBy, uniqBy } from "@ndla/util";
-import {
-  RESOURCE_TYPE_LEARNING_PATH,
-  RESOURCE_TYPE_SUBJECT_MATERIAL,
-  RESOURCE_TYPE_TASKS_AND_ACTIVITIES,
-  RESOURCE_TYPE_ASSESSMENT_RESOURCES,
-  RESOURCE_TYPE_SOURCE_MATERIAL,
-  RESOURCE_TYPE_CONCEPT,
-} from "../../constants";
-import { GQLResource, GQLResourceType } from "../../graphqlTypes";
-
-export const sortOrder: Record<string, number> = {
-  [RESOURCE_TYPE_LEARNING_PATH]: 1,
-  [RESOURCE_TYPE_SUBJECT_MATERIAL]: 2,
-  [RESOURCE_TYPE_TASKS_AND_ACTIVITIES]: 3,
-  [RESOURCE_TYPE_ASSESSMENT_RESOURCES]: 4,
-  [RESOURCE_TYPE_SOURCE_MATERIAL]: 5,
-  [RESOURCE_TYPE_CONCEPT]: 6,
-  default: 7,
-};
+import { GQLResource, GQLResourceTypeDefinition } from "../../graphqlTypes";
 
 type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes" | "rank" | "relevanceId">;
 
-export const sortResources = <T extends GQLResourceLike>(resources: T[], isGrouped?: boolean) => {
+export const sortResources = <T extends GQLResourceLike>(
+  resources: T[],
+  resourceTypes: GQLResourceTypeDefinition[],
+  isGrouped?: boolean,
+) => {
   const uniq = uniqBy(resources, (res) => res.id);
   const sortedByRank = sortBy(uniq, (res) => res.rank ?? res.id);
   if (!isGrouped) {
     return sortedByRank;
   }
-
-  return sortBy(sortedByRank, (res) => {
-    const firstResourceType = sortResourceTypes(res.resourceTypes ?? [])?.[0];
-    return sortOrder[firstResourceType?.id ?? "default"];
-  });
+  const resourceTypeOrder = resourceTypes.reduce<Record<string, number>>((order, rt, index) => {
+    order[rt.id] = index;
+    return order;
+  }, {});
+  return sortBy(uniq, (res) => resourceTypeOrder[res.resourceTypes?.[0]?.id ?? ""] ?? Number.MAX_SAFE_INTEGER);
 };
-
-type SharedResourceType = Pick<GQLResourceType, "id" | "name">;
-
-export const sortResourceTypes = (resourceTypes: SharedResourceType[]) =>
-  sortBy(resourceTypes, (type) => sortOrder[type.id] ?? sortOrder.default);
