@@ -5,7 +5,7 @@ exports[`resources are sorted according to resource types order 1`] = `
   {
     "id": "urn:resource:3",
     "rank": 3,
-    "relevance": "urn:relevance:core",
+    "relevanceId": "urn:relevance:core",
     "resourceTypes": [
       {
         "id": "urn:resourcetype:learningPath",
@@ -17,7 +17,7 @@ exports[`resources are sorted according to resource types order 1`] = `
   {
     "id": "urn:resource:5",
     "rank": 5,
-    "relevance": "urn:relevance:core",
+    "relevanceId": "urn:relevance:core",
     "resourceTypes": [
       {
         "id": "urn:resourcetype:tasksAndActivities",
@@ -29,7 +29,7 @@ exports[`resources are sorted according to resource types order 1`] = `
   {
     "id": "urn:resource:2",
     "rank": 2,
-    "relevance": "urn:relevance:core",
+    "relevanceId": "urn:relevance:core",
     "resourceTypes": [
       {
         "id": "urn:resourcetype:reviewResource",
@@ -41,7 +41,7 @@ exports[`resources are sorted according to resource types order 1`] = `
   {
     "id": "urn:resource:1",
     "rank": 1,
-    "relevance": "urn:relevance:core",
+    "relevanceId": "urn:relevance:core",
     "resourceTypes": [
       {
         "id": "urn:resourcetype:SourceMaterial",
@@ -53,7 +53,7 @@ exports[`resources are sorted according to resource types order 1`] = `
   {
     "id": "urn:resource:4",
     "rank": 4,
-    "relevance": "urn:relevance:core",
+    "relevanceId": "urn:relevance:core",
     "resourceTypes": [
       {
         "id": "urn:resourcetype:concept",
@@ -65,7 +65,7 @@ exports[`resources are sorted according to resource types order 1`] = `
   {
     "id": "urn:resource:6",
     "rank": 6,
-    "relevance": "urn:relevance:core",
+    "relevanceId": "urn:relevance:core",
     "resourceTypes": [
       {
         "id": "urn:resourcetype:game",
