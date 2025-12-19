@@ -4,7 +4,6 @@ exports[`resources are sorted according to resource types order 1`] = `
 [
   {
     "id": "urn:resource:3",
-    "order": 0,
     "rank": 3,
     "relevance": "urn:relevance:core",
     "resourceTypes": [
@@ -17,7 +16,6 @@ exports[`resources are sorted according to resource types order 1`] = `
   },
   {
     "id": "urn:resource:5",
-    "order": 2,
     "rank": 5,
     "relevance": "urn:relevance:core",
     "resourceTypes": [
@@ -30,7 +28,6 @@ exports[`resources are sorted according to resource types order 1`] = `
   },
   {
     "id": "urn:resource:2",
-    "order": 3,
     "rank": 2,
     "relevance": "urn:relevance:core",
     "resourceTypes": [
@@ -43,7 +40,6 @@ exports[`resources are sorted according to resource types order 1`] = `
   },
   {
     "id": "urn:resource:1",
-    "order": 4,
     "rank": 1,
     "relevance": "urn:relevance:core",
     "resourceTypes": [
@@ -56,7 +52,6 @@ exports[`resources are sorted according to resource types order 1`] = `
   },
   {
     "id": "urn:resource:4",
-    "order": 5,
     "rank": 4,
     "relevance": "urn:relevance:core",
     "resourceTypes": [
@@ -69,7 +64,6 @@ exports[`resources are sorted according to resource types order 1`] = `
   },
   {
     "id": "urn:resource:6",
-    "order": undefined,
     "rank": 6,
     "relevance": "urn:relevance:core",
     "resourceTypes": [
