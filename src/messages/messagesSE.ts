@@ -54,12 +54,6 @@ const messages = {
     collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `En feil har oppstått - ${titleTemplate}`,
   },
-  menu: {
-    about: "Om oss",
-    subjectAndProgramme: "Fag og utdanningsprogram",
-    tipsAndAdvice: "Tips og råd",
-    goBack: "Gå tilbake",
-  },
   podcastPage: {
     meta: "Lytt og lær! NDLA har mer enn 100 fritt tilgjengelige podkaster for engasjerende bruk i videregående opplæring.",
     episodes: "Jearahusat",
@@ -98,7 +92,6 @@ const messages = {
     title: "Søk på ndla.no",
     subjectLetter: "Fag som starter på {{letter}}",
     pagination: "Søkeresultater",
-    querySuggestion: "Søk heller etter ",
     showingResults: {
       hits: "Viser treff {{from}}-{{to}} av {{total}}",
       query: "for",
@@ -107,7 +100,6 @@ const messages = {
     traits: {
       VIDEO: "Video",
       AUDIO: "Lyd",
-      H5P: "Interaktivt innhold",
       INTERACTIVE: "Interaktivt innhold",
       PODCAST: "Podkast",
     },
@@ -148,10 +140,6 @@ const messages = {
       noResultDescription:
         'Dađi bahábut mis ii leat mihkkege fállat dás. Jus dáhtut evttohit sisdoalu dán fáttás, sáhtát geavahit "Jeara NDLA:s" maid gávnnat vulogeahčen olgeš beale šearpmas.',
     },
-    searchFilterMessages: {
-      coreRelevance: "Guovddášávnnas",
-      supplementaryRelevance: "Lassiávnnas",
-    },
     resultType: {
       showingSearchPhrase: "Čájeha deaivama",
       showingCompetenceGoalSearchPhrase: "Čájeha bohtosiid gealbomihtuid ektui {text}",
@@ -159,16 +147,6 @@ const messages = {
   },
   myNdla: {
     tagsTitle: "Mine emneknagger",
-    campaignBlock: {
-      title: "Geahččal min ságastallanbottu",
-      linkText: "Geahččal NDLA ságastallanrobohta",
-      ingressStudent:
-        "Lea go dus juoga maid háliidat oahppat iežat fágas? Háliidatgo veahki teavstta álkidahttit, hárjehallat geahččalit dahje evttohit mo teavstta hábmet? Geahččal min ságastallanrobahttii ja oainnát sáhttágo dat veahkehit du!",
-      ingress:
-        "Áiggut go AI geavahit oahpahusas? NDLA lea ráhkadan guokte hupmanrobota mat suodjalit du priváhtavuođa ja maid sáhttá geavahit sihkkarit sihke barggus ja oahpahusas.",
-      ingressUnauthenticated:
-        "Vil du bruke KI i undervisninga? NDLA har laget to prateroboter som tar vare på personvernet ditt og trygt kan brukes til jobb og i undervisning. I perioder med eksamensgjennomføring kan det hende fylkeskommunen stenger tilgangen til praterobotene. Logg inn for å få tilgang til praterobotene.",
-    },
     resource: {
       added: "Lagt til",
       addedFailed: "Klarte ikke å legge til ressursen",
@@ -216,36 +194,6 @@ const messages = {
       description:
         "I denne delte mappa finner du fagstoff og oppgaver fra NDLA. Artiklene er samlet inn og satt i rekkefølge av en lærer.",
       willOpenInNewTab: "Åpnes i ny fane.",
-    },
-    acceptedShareName: {
-      title: "Nå viser vi navnet ditt når du deler",
-      subtitle: "Vi har endret visningen på delte mapper. Nå vises navnet ditt på alle delte mapper og læringsstier.",
-      description:
-        "Dersom du ikke ønsker at navnet ditt skal være synlig kan du avslutte deling av mapper og læringsstier.",
-      button: "OK",
-      accept: {
-        error: "Kunne ikke lagre",
-      },
-    },
-    arena: {
-      title: "Arenaen",
-      accept: {
-        success: "Du har nå tilgang til Arenaen",
-        error: "Klarte ikke å godta vilkårene.",
-        title: "Velkommen til arenaen",
-        pitch1: "Her kan du diskutere og samarbeide med lærere fra hele Norge.",
-        pitch2:
-          "Her inne skal vi dele og inspirere hverandre - bare husk å respektere personvern og sørg for at alt innhold er lovlig!",
-        listTitle: "Kort oppsummert:",
-        list1: "Ikke del egne eller andres personvernopplysninger",
-        list2: "Sørg for at det du deler er lovlig å dele.",
-        list3: "Hvis du deler innhold du har skrevet selv kan andre dele det videre, så lenge de siterer deg.",
-        terms: "Les mer i våre brukervilkår.",
-        privacyPolicy:
-          "Når du oppretter en bruker i NDLA Arena, vil vi behandle dine personopplysninger. Du kan lese mer om vår behandling av personopplysninger i ",
-        privacyPolicyLink: "vår personvernerklæring.",
-        acceptButton: "Godta",
-      },
     },
     goToMyNdla: "Gå til Min NDLA",
     learningpathstep: {
@@ -570,8 +518,6 @@ const messages = {
     userPictureAltText: "Profilbilde",
     myPage: {
       noRecents: "Du har ikke lagt til noen ressurser ennå. Slik kommer du i gang:",
-      imageAlt:
-        "Halvnært bilde av jente som holder et nettbrett i hendene. Oppå nettbrettet ligger det ei samling fargeprøver i ulike former og farger. Grafikk.",
       confirmDeleteAccount: "Er du sikker på at du vil slette kontoen?",
       confirmDeleteAccountButton: "Slett konto",
       myPage: "Min side",
@@ -595,12 +541,6 @@ const messages = {
       privacyLink: "https://ndla.no/article/personvernerklaering",
       questions: { question: "Lurer du på noe?", ask: "Spør NDLA" },
       wishToDelete: "Vil du ikke ha brukerprofil hos oss lenger?",
-      terms: {
-        terms: "Vilkår for bruk",
-        term1: "Ikke skriv personsensitiv informasjon eller persondata i tekstfelt.",
-        term2: "Ikke skriv noe støtende i tekstfelt.",
-        term3: "NDLA forbeholder seg retten til å oppdatere eller slette utdaterte ressurser.",
-      },
       recentFavourites: {
         title: "Nylig lagt til i mine mapper",
         link: "Se alle mappene dine",
@@ -627,18 +567,6 @@ const messages = {
         employee:
           "Navnet ditt vises når du deler en mappe eller en læringssti. Dersom du ikke ønsker å dele navnet ditt kan du avslutte deling av mapper eller læringsstier.",
         student: "Navnet ditt vises bare for deg selv når du er logget inn.",
-      },
-      editButtonText: "Endre profilbilde",
-      modalTexts: {
-        title: "Last opp nytt profilbilde",
-        uploadSection: {
-          title: "Dra og slipp",
-          subTitle: "eller trykk for å laste opp bilde",
-        },
-        fileName: "Opplastet fil:",
-        fileTypes: "Godkjente filtyper: PNG, JPG (Maks 5MB)",
-        savePicture: "Lagre profilbilde",
-        deletePicture: "Slett profilbilde",
       },
     },
     favoriteSubjects: {
