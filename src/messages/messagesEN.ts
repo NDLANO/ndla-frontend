@@ -54,12 +54,6 @@ const messages = {
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `An error occurred - ${titleTemplate}`,
   },
-  menu: {
-    about: "About us",
-    subjectAndProgramme: "Courses and programmes",
-    tipsAndAdvice: "Tools and advice",
-    goBack: "Go back",
-  },
   podcastPage: {
     meta: "Listen and learn! NDLA offers more than 100 freely available podcasts for engaging use in upper secondary education.",
     episodes: "Episodes",
@@ -98,7 +92,6 @@ const messages = {
     title: "Search on ndla.no",
     subjectLetter: "Subjects starting with {{letter}}",
     pagination: "Search results",
-    querySuggestion: "Search instead for ",
     showingResults: {
       hits: "Showing results {{from}}-{{to}} of {{total}}",
       query: "for",
@@ -107,7 +100,6 @@ const messages = {
     traits: {
       VIDEO: "Video",
       AUDIO: "Audio",
-      H5P: "Interactive content",
       INTERACTIVE: "Interactive content",
       PODCAST: "Podcast",
     },
@@ -148,26 +140,12 @@ const messages = {
       noResultDescription:
         "Unfortunately, we do not have anything to offer here. If you want to suggest any content for this site, you can use Ask NDLA, located at the bottom right of the screen.",
     },
-    searchFilterMessages: {
-      coreRelevance: "Core content",
-      supplementaryRelevance: "Supplementary content",
-    },
     resultType: {
       showingSearchPhrase: "Showing hits for",
     },
   },
   myNdla: {
     tagsTitle: "My tags",
-    campaignBlock: {
-      title: "Try our chatbots",
-      linkText: "Try NDLAs chatbots",
-      ingressStudent:
-        "Are you wondering about anything in your course? Do you need help simplifying a text, practicing for a test, or creating illustrations? Try our chatbots and see if they can help you out! During exams the counties may deny access to the chatbots.",
-      ingress:
-        "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the counties deny access to the chatbots.",
-      ingressUnauthenticated:
-        "Do you want to use AI in your teaching? NDLA has created chatbots that protect your privacy and can be safely used for work and in teaching. During exams the counties deny access to the chatbots. Log in to to access the chatbots.",
-    },
     resource: {
       added: "Added",
       addedFailed: "Failed to add resource",
@@ -215,36 +193,6 @@ const messages = {
       description:
         "In this folder you find articles and tasks from NDLA. The articles have been collected and placed in order by a teacher.",
       willOpenInNewTab: "Opens in a new tab.",
-    },
-    acceptedShareName: {
-      title: "Now we show your name when you share",
-      subtitle:
-        "We have changed the display of shared folders. Your name is now shown on all shared folders and learning paths.",
-      description: "If you do not want your name to be visible, you can stop sharing folders and learning paths.",
-      button: "OK",
-      accept: {
-        error: "Could not save",
-      },
-    },
-    arena: {
-      title: "The arena",
-      accept: {
-        success: "You now have access to the arena",
-        error: "Failed to accept the terms.",
-        title: "Welcome to the arena",
-        pitch1: "Here you can discuss and collaborate with teachers throughout Norway.",
-        pitch2:
-          "In the arena we are going to share and inspire each other - just remember to respect privacy and ensure that all content is legal!",
-        listTitle: "In summary:",
-        list1: "Don't share your own or others personally sensitive information",
-        list2: "Make sure that what you are sharing is legal to share.",
-        list3: "If you share content you have written yourself, others can reshare it as long as they quote you.",
-        terms: "Read more in our terms of service.",
-        privacyPolicy:
-          "When you create a user in the NDLA Arena, we will process your personally sensitive information. You can read more about our usage of personally sensitive information in ",
-        privacyPolicyLink: "our privacy policy",
-        acceptButton: "Accept",
-      },
     },
     goToMyNdla: "Go to My NDLA",
     learningpathstep: {
@@ -573,8 +521,6 @@ const messages = {
     userPictureAltText: "Profile picture",
     myPage: {
       noRecents: "You haven't added any resources yet. This is how you get started:",
-      imageAlt:
-        "Medium close-up of girl holding a tablet. On top of the tablet there are colour samples in different shapes and colours. Graphic image.",
       confirmDeleteAccount: "Are you sure you want to delete your account?",
       confirmDeleteAccountButton: "Delete account",
       myPage: "My page",
@@ -598,12 +544,6 @@ const messages = {
       privacyLink: "https://ndla.no/article/personvernerklaering",
       questions: { question: "Any questions?", ask: "Ask NDLA" },
       wishToDelete: "Do you wish to delete your account?",
-      terms: {
-        terms: "Terms of use",
-        term1: "Do not write personal or sensitive information in text fields.",
-        term2: "Do not write offensive statements in text fields.",
-        term3: "NDLA reserves the right to update or remove resources if they are not up to date.",
-      },
       feide: "We have retrieved this information from Feide",
       feideWrongInfo:
         "If the information is incorrect, it has to be updated by the host organizationg or the school that the account is associated with. An overview of user support can be found here: feide.no/brukerstotte",
@@ -630,18 +570,6 @@ const messages = {
         employee:
           "Your name is displayed when you share a folder or a learning path. If you do not wish to share your name, you can stop sharing folders or learning paths.",
         student: "Your name is only displayed for you",
-      },
-      editButtonText: "Change profile picture",
-      modalTexts: {
-        title: "Upload a new profile picture",
-        uploadSection: {
-          title: "Drag and drop",
-          subTitle: "or press to upload picture",
-        },
-        fileName: "Uploaded file:",
-        fileTypes: "Accepted file types: PNG, JPG (Max 5MB)",
-        savePicture: "Save profile picture",
-        deletePicture: "Delete profile picture",
       },
     },
     favoriteSubjects: {

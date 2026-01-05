@@ -54,12 +54,6 @@ const messages = {
     collectionPage: `Ressursar på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `Ein feil oppstod - ${titleTemplate}`,
   },
-  menu: {
-    about: "Om oss",
-    subjectAndProgramme: "Fag og utdanningsprogram",
-    tipsAndAdvice: "Tips og råd",
-    goBack: "Gå tilbake",
-  },
   podcastPage: {
     meta: "Lytt og lær! NDLA har meir enn 100 fritt tilgjengelege podkastar for engasjerande bruk i vidaregåande opplæring.",
     episodes: "Episodar",
@@ -98,7 +92,6 @@ const messages = {
     title: "Søk på ndla.no",
     subjectLetter: "Fag som startar på {{letter}}",
     pagination: "Søkeresultat",
-    querySuggestion: "Søk heller etter ",
     showingResults: {
       hits: "Viser treff {{from}}-{{to}} av {{total}}",
       query: "for",
@@ -107,7 +100,6 @@ const messages = {
     traits: {
       VIDEO: "Video",
       AUDIO: "Lyd",
-      H5P: "Interaktivt innhald",
       INTERACTIVE: "Interaktivt innhold",
       PODCAST: "Podkast",
     },
@@ -148,26 +140,12 @@ const messages = {
       noResultDescription:
         "Vi har dessverre ikkje noko å tilby her. Om du vil foreslå innhald til dette området, kan du bruke Spør NDLA-knappen som du finn nede til høgre på skjermen.",
     },
-    searchFilterMessages: {
-      coreRelevance: "Kjernestoff",
-      supplementaryRelevance: "Tilleggsstoff",
-    },
     resultType: {
       showingSearchPhrase: "Viser treff for",
     },
   },
   myNdla: {
     tagsTitle: "Mine emneknaggar",
-    campaignBlock: {
-      title: "Prøv robotane våre",
-      linkText: "Prøv robotane våre",
-      ingressStudent:
-        "Vil du ha hjelp til å forenkle ein tekst, øve til ein prøve eller lage illustrasjonar? Prøv robotane våre og sjå om dei kan hjelpe deg! I periodar med eksamensgjennomføring stenger fylkeskommunane tilgangen til robotane.",
-      ingress:
-        "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast i jobb og undervisning. I periodar med eksamensgjennomføring stenger fylkeskommunane tilgangen til robotane.",
-      ingressUnauthenticated:
-        "Vil du bruke KI i undervisninga? NDLA har laga praterobotar og ein biletrobot som trygt kan brukast til jobb og i undervisning. Logg inn for å få tilgang til robotane.",
-    },
     resource: {
       added: "Lagt til",
       addedFailed: "Klarte ikkje å legge til",
@@ -215,36 +193,6 @@ const messages = {
       description:
         "I denne delte mappa finn du fagstoff og oppgåver frå NDLA. Artiklane er samla inn og sette i rekkefølge av ein lærar.",
       willOpenInNewTab: "Blir opna i ny fane.",
-    },
-    acceptedShareName: {
-      title: "No viser vi namnet ditt når du deler",
-      subtitle: "Vi har endra visninga på delte mapper. No visest namnet ditt på alle delte mapper og læringsstiar.",
-      description:
-        "Dersom du ikkje ønsker at namnet ditt skal vere synleg, kan du avslutte deling av mapper og læringsstiar.",
-      button: "OK",
-      accept: {
-        error: "Kunne ikkje lagre",
-      },
-    },
-    arena: {
-      title: "Arenaen",
-      accept: {
-        success: "Du har no tilgang til Arenaen",
-        error: "Klarte ikkje å godta vilkåra.",
-        title: "Velkommen til arenaen",
-        pitch1: "Her kan du diskutere og samarbeide med lærarar frå heile Noreg.",
-        pitch2:
-          "Her inne skal vi dele og inspirere kvarandre - berre hugs å respektere personvern og sørg for at alt innhald er lovleg!",
-        listTitle: "Kort oppsummert:",
-        list1: "Ikkje del eigne eller andres personvernopplysingar",
-        list2: "Sørg for at det du deler er lovleg å dele.",
-        list3: "Om du deler innhald du har skrive sjølv kan andre dele det vidare, så lenge dei siterer deg.",
-        terms: "Les meir i våre brukervilkår.",
-        privacyPolicy:
-          "Når du opprettar ein bruker i NDLA Arena, vil vi behandle dine personopplysingar. Du kan lese meir om vår handsaming av personvernopplysingar i ",
-        privacyPolicyLink: "vår personvernerklæring.",
-        acceptButton: "Godta",
-      },
     },
     goToMyNdla: "Gå til Min NDLA",
     learningpathstep: {
@@ -571,8 +519,6 @@ const messages = {
     userPictureAltText: "Profilbilete",
     myPage: {
       noRecents: "Du har ikkje lagt til ressursar enno. Slik kjem du i gang:",
-      imageAlt:
-        "Halvnært bilete av jente som held eit nettbrett i hendene. Oppå nettbrettet ligg det ei samling fargeprøver i ulike former og fargar. Grafikk.",
       confirmDeleteAccount: "Er du sikker på at du vil slette kontoen?",
       confirmDeleteAccountButton: "Slett konto",
       myPage: "Mi side",
@@ -596,12 +542,6 @@ const messages = {
       privacyLink: "https://ndla.no/article/personvernerklaering",
       questions: { question: "Lurer du på noko?", ask: "Spør NDLA" },
       wishToDelete: "Vil du ikkje ha brukerprofil hos oss lenger?",
-      terms: {
-        terms: "Vilkår for bruk",
-        term1: "Ikkje skriv personsensitiv informasjon eller persondata i tekstfelt.",
-        term2: "Ikkje skriv noko støytande i tekstfelt.",
-        term3: "NDLA tek atterhald om retten til å oppdatere eller slette utdaterte ressursar.",
-      },
       recentFavourites: {
         title: "Nyleg lagt til i mappene mine",
         link: "Sjå alle mappene dine",
@@ -627,18 +567,6 @@ const messages = {
         employee:
           "Namnet ditt blir vist når du deler ei mappe eller ein læringssti. Dersom du ikkje ønskjer å dele namnet ditt, kan du avslutte deling av mapper eller læringsstiar.",
         student: "Namnet ditt blir berre vist for deg sjølv når du er logga inn.",
-      },
-      editButtonText: "Endre profilbilete",
-      modalTexts: {
-        title: "Last opp nytt profilbilete",
-        uploadSection: {
-          title: "Dra og slepp",
-          subTitle: "eller trykk for å lasta opp bilete",
-        },
-        fileName: "Opplasta fil:",
-        fileTypes: "Godkjente filtyper: PNG, JPG (Maks 5MB)",
-        savePicture: "Lagre profilbilete",
-        deletePicture: "Slett profilbilete",
       },
     },
     favoriteSubjects: {
