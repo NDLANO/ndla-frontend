@@ -37,8 +37,8 @@
     "@babel/core": "^7.28.5",
     "@graphql-codegen/cli": "^6.1.0",
     "@graphql-codegen/schema-ast": "^5.0.0",
-    "@graphql-codegen/typescript": "^5.0.6",
-    "@graphql-codegen/typescript-operations": "^5.0.6",
+    "@graphql-codegen/typescript": "^5.0.7",
+    "@graphql-codegen/typescript-operations": "^5.0.7",
     "@graphql-eslint/eslint-plugin": "^4.4.0",
     "@juggle/resize-observer": "^3.4.0",
     "@ndla/preset-panda": "^0.0.68",
@@ -74,7 +74,7 @@
     "vitest": "^4.0.15"
   },
   "dependencies": {
-    "@apollo/client": "^4.0.5",
+    "@apollo/client": "^4.0.11",
     "@ark-ui/react": "^5.25.0",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^8.0.0",
@@ -100,7 +100,7 @@
     "cross-env": "^10.1.0",
     "express": "5.2.1",
     "express-prom-bundle": "^8.0.0",
-    "graphql": "^16.11.0",
+    "graphql": "^16.12.0",
     "graphql-tag": "^2.12.6",
     "helmet": "^8.1.0",
     "html-react-parser": "^5.2.8",
