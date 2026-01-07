@@ -66,7 +66,10 @@ interface CoreElementCurriculum extends GQLReference {
   coreElements: GQLCoreElement[];
 }
 
-export const getCompetenceGoals = (competenceGoals: GQLCompetenceGoal[]): CompetenceGoalCurriculum[] => {
+export const getCompetenceGoals = (
+  competenceGoals: GQLCompetenceGoal[],
+  subject?: GQLCompetenceGoalsQuery["node"],
+): CompetenceGoalCurriculum[] => {
   const curriculums = getUniqueCurriculums(competenceGoals);
   const goalsBySet = groupBy(
     competenceGoals.filter((cg) => cg.competenceGoalSet?.id),
@@ -76,7 +79,7 @@ export const getCompetenceGoals = (competenceGoals: GQLCompetenceGoal[]): Compet
     competenceGoals.filter((cg) => cg.curriculum?.id),
     (goal) => goal.curriculum?.id ?? "",
   );
-  return curriculums.map((curriculum) => {
+  const mappedCuriculums = curriculums.map((curriculum) => {
     const goalSets = uniqBy(setsByCurriculum[curriculum.id] ?? [], (set) => set.competenceGoalSet!.id);
     const sortedGoalSets = sortBy(goalSets, (set) => set.competenceGoalSet!.id);
     const goalSetsWithGoals = sortedGoalSets.map((goalSet) => ({
@@ -85,6 +88,14 @@ export const getCompetenceGoals = (competenceGoals: GQLCompetenceGoal[]): Compet
     }));
     return { ...curriculum, competenceGoalSets: goalSetsWithGoals };
   });
+
+  if (subject?.metadata.grepCodes.length) {
+    return sortBy(mappedCuriculums, (curr) => {
+      return curr.competenceGoalSets.some((set) => subject.metadata.grepCodes.includes(set.id)) ? -1 : 1;
+    });
+  }
+
+  return mappedCuriculums;
 };
 
 const getCoreElements = (coreElements: GQLCoreElement[]): CoreElementCurriculum[] => {
@@ -101,7 +112,7 @@ const toSearchUrl = (code: string, subjectId: string | undefined) => {
 };
 
 const competenceGoalsQuery = gql`
-  query competenceGoals($codes: [String!], $language: String) {
+  query competenceGoals($codes: [String!], $language: String, $subjectId: String, $includeSubject: Boolean!) {
     competenceGoals(codes: $codes, language: $language) {
       id
       title
@@ -124,6 +135,12 @@ const competenceGoalsQuery = gql`
         title
       }
     }
+    node(id: $subjectId) @include(if: $includeSubject) {
+      id
+      metadata {
+        grepCodes
+      }
+    }
   }
 `;
 
@@ -132,7 +149,7 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
   const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
 
   const { error, data, loading } = useQuery<GQLCompetenceGoalsQuery>(competenceGoalsQuery, {
-    variables: { codes, language },
+    variables: { codes, language, subjectId, includeSubject: !!subjectId },
     skip: typeof window === "undefined",
   });
 
@@ -144,7 +161,7 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
 
   const tabs = useMemo(() => {
     const tabs = [];
-    const competenceGoals = getCompetenceGoals(data?.competenceGoals ?? []);
+    const competenceGoals = getCompetenceGoals(data?.competenceGoals ?? [], data?.node);
     const coreElements = getCoreElements(data?.coreElements || []);
 
     if (competenceGoals?.length) {

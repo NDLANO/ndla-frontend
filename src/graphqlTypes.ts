@@ -2083,6 +2083,7 @@ export type GQLMyNdlaDataQuery = {
 export type GQLCompetenceGoalsQueryVariables = Exact<{
   codes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   language?: InputMaybe<Scalars["String"]["input"]>;
+  subjectId?: InputMaybe<Scalars["String"]["input"]>;
 }>;
 
 export type GQLCompetenceGoalsQuery = {
@@ -2102,6 +2103,7 @@ export type GQLCompetenceGoalsQuery = {
     description?: string;
     curriculum?: { __typename?: "Reference"; id: string; title: string };
   }>;
+  node?: { __typename?: "Node"; id: string; metadata: { __typename?: "TaxonomyMetadata"; grepCodes: Array<string> } };
 };
 
 export type GQLFavoriteSubject_NodeFragment = { __typename?: "Node"; id: string; name: string };
