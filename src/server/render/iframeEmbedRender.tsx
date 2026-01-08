@@ -22,6 +22,7 @@ import { iframeEmbedRoutes } from "../../iframe/embedIframeRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
+import { getLazyLoadedChunks } from "../getManifestChunks";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
@@ -41,17 +42,19 @@ export const iframeEmbedRender: RenderFunc = async (req, chunkInfo) => {
   const hash = stringifiedLanguages[locale ?? (config.defaultLocale as LocaleType)].hash;
   const restrictedMode = isRestrictedMode(req);
 
+  const lazyChunkInfo = getLazyLoadedChunks(iframeEmbedRoutes, req.path, chunkInfo);
+
   if (noSSR) {
     return {
       status: OK,
       locale: locale ?? (config.defaultLocale as LocaleType),
       data: {
         htmlContent: renderToString(
-          <Document language={locale ?? (config.defaultLocale as LocaleType)} chunkInfo={chunkInfo} hash={hash} />,
+          <Document language={locale ?? (config.defaultLocale as LocaleType)} chunkInfo={lazyChunkInfo} hash={hash} />,
         ),
         data: {
           config: { ...config, disableSSR: true },
-          chunkInfo,
+          chunkInfo: lazyChunkInfo,
           initialProps,
           hash,
           restrictedMode,
@@ -74,7 +77,7 @@ export const iframeEmbedRender: RenderFunc = async (req, chunkInfo) => {
   const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
-    <Document language={locale ?? config.defaultLocale} chunkInfo={chunkInfo} hash={hash}>
+    <Document language={locale ?? config.defaultLocale} chunkInfo={lazyChunkInfo} hash={hash}>
       <RedirectContext value={context}>
         <RestrictedModeProvider value={restrictedMode}>
           <I18nextProvider i18n={i18n}>
@@ -107,7 +110,7 @@ export const iframeEmbedRender: RenderFunc = async (req, chunkInfo) => {
       htmlContent: result.result,
       data: {
         apolloState,
-        chunkInfo,
+        chunkInfo: lazyChunkInfo,
         config: {
           ...config,
           disableSSR: noSSR,

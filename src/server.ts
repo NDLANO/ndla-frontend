@@ -22,7 +22,7 @@ import { loggerContextMiddleware, getLoggerContextStore } from "./server/middlew
 import { contentSecurityPolicy } from "./server/contentSecurityPolicy";
 import api from "./server/api";
 import { healthRouter } from "./server/routes/healthRouter";
-import { RootRenderFunc, RouteChunkInfo, sendResponse } from "./server/serverHelpers";
+import { RootRenderFunc, RouteChunkInfoWithManifest, sendResponse } from "./server/serverHelpers";
 import { INTERNAL_SERVER_ERROR } from "./statusCodes";
 import { getRouteChunkInfo } from "./server/getManifestChunks";
 import { getLocaleInfoFromPath } from "./i18n";
@@ -97,7 +97,7 @@ if (isProduction) {
   manifest = (await import(`../build/public/.vite/manifest.json`)).default;
 }
 
-const renderRoute = async (req: Request, res: Response, renderer: string, chunkInfo: RouteChunkInfo) => {
+const renderRoute = async (req: Request, res: Response, renderer: string, chunkInfo: RouteChunkInfoWithManifest) => {
   const ctx = getLoggerContextStore();
   if (!ctx) {
     throw new Error("Logger context is not available");

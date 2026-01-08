@@ -12,6 +12,7 @@ import { LocaleType } from "../interfaces";
 import { NDLAError } from "../util/error/NDLAError";
 import { handleError } from "../util/handleError";
 import { LoggerContext } from "../util/logger/loggerContext";
+import { Manifest } from "vite";
 
 interface RenderLocationReturn {
   status: number;
@@ -33,15 +34,19 @@ export interface RouteChunkInfo {
   css?: string[];
 }
 
+export interface RouteChunkInfoWithManifest extends RouteChunkInfo {
+  manifest: Manifest;
+}
+
 export type RenderReturn = RenderLocationReturn | RenderDataReturn;
 
-export type RenderFunc = (req: Request, chunkInfo: RouteChunkInfo) => Promise<RenderReturn>;
+export type RenderFunc = (req: Request, chunkInfo: RouteChunkInfoWithManifest) => Promise<RenderReturn>;
 
 export type RootRenderFunc = (
   req: Request,
   res: Response,
   renderer: string,
-  chunkInfo: RouteChunkInfo,
+  chunkInfo: RouteChunkInfoWithManifest,
   ctx: LoggerContext,
 ) => Promise<RenderReturn>;
 

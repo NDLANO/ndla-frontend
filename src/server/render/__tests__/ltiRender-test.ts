@@ -20,6 +20,7 @@ test("ltiRender 200 OK ", async () => {
   };
   const response = await ltiRender(
     {
+      path: "/article-iframe/nb/urn:resource:123/26050",
       params: {
         lang: "nb",
         articleId: "26050",
@@ -31,7 +32,7 @@ test("ltiRender 200 OK ", async () => {
         "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
       },
     } as any as Request,
-    {},
+    { manifest: {} },
   );
 
   expect(response.status).toBe(200);
@@ -44,6 +45,7 @@ test("ltiRender 200 OK only required params", async () => {
   };
   const response = await ltiRender(
     {
+      path: "/article-iframe/nb/urn:resource:123/26050",
       params: {
         lang: "nb",
         articleId: "26050",
@@ -55,7 +57,7 @@ test("ltiRender 200 OK only required params", async () => {
         "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
       },
     } as any as Request,
-    {},
+    { manifest: {} },
   );
 
   expect(response.status).toBe(200);
@@ -71,6 +73,7 @@ test("ltiRender 400 BAD REQUEST", async () => {
   };
   const response = await ltiRender(
     {
+      path: "/article-iframe/nb/urn:resource:123/26050",
       params: {
         lang: "nb",
         articleId: "26050",
@@ -82,7 +85,7 @@ test("ltiRender 400 BAD REQUEST", async () => {
         "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
       },
     } as any as Request,
-    {},
+    { manifest: {} },
   );
 
   expect(response).toMatchSnapshot();
@@ -99,6 +102,7 @@ test("ltiRender 400 BAD REQUEST wrong values", async () => {
   };
   const response = await ltiRender(
     {
+      path: "/article-iframe/nb/urn:resource:123/26050",
       params: {
         lang: "nb",
         articleId: "26050",
@@ -110,7 +114,7 @@ test("ltiRender 400 BAD REQUEST wrong values", async () => {
         "user-agent": "Mozilla/5.0 Gecko/20100101 Firefox/58.0",
       },
     } as any as Request,
-    {},
+    { manifest: {} },
   );
 
   expect(response).toMatchSnapshot();
