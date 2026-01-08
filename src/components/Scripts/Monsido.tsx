@@ -16,6 +16,7 @@ export const Monsido = () => {
     <>
       <script
         type="text/javascript"
+        defer
         dangerouslySetInnerHTML={{
           __html: `
     window._monsido = window._monsido || {
