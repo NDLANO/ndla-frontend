@@ -92,7 +92,12 @@ export const Document = ({ language, hash, children, chunkInfo }: Props) => {
           }}
         ></script>
         <Scripts />
-        {!!chunkInfo.entryPoint && <script type="module" src={`/${chunkInfo.entryPoint}`}></script>}
+        {!!chunkInfo.entryPoint && (
+          <>
+            <link rel="modulepreload" href={`/${chunkInfo.entryPoint}`}></link>
+            <script type="module" src={`/${chunkInfo.entryPoint}`}></script>
+          </>
+        )}
         {chunkInfo.importedChunks?.map((chunk) => (
           <link rel="modulepreload" href={`/${chunk}`} key={chunk}></link>
         ))}

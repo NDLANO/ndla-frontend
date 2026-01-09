@@ -26,6 +26,7 @@ import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
+import { getLazyLoadedChunks } from "../getManifestChunks";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
@@ -47,17 +48,19 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
   const noSSR = disableSSR(req);
   const hash = stringifiedLanguages[locale].hash;
 
+  const lazyChunkInfo = getLazyLoadedChunks(routes, req.path, chunkInfo);
+
   if (noSSR) {
     return {
       status: OK,
       locale,
       data: {
-        htmlContent: renderToString(<Document language={locale} chunkInfo={chunkInfo} hash={hash} />),
+        htmlContent: renderToString(<Document language={locale} chunkInfo={lazyChunkInfo} hash={hash} />),
         data: {
           config: { ...config, disableSSR: true },
           siteTheme,
           restrictedMode,
-          chunkInfo,
+          chunkInfo: lazyChunkInfo,
           hash,
           serverPath: req.path,
           serverQuery: req.query,
@@ -84,7 +87,7 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
   const router = createStaticRouter(dataRoutes, context);
 
   const Page = (
-    <Document language={locale} chunkInfo={chunkInfo} hash={hash}>
+    <Document language={locale} chunkInfo={lazyChunkInfo} hash={hash}>
       <RedirectContext value={redirectContext}>
         <I18nextProvider i18n={instance}>
           <ApolloProvider client={client}>
@@ -124,7 +127,7 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
       data: {
         siteTheme: siteTheme,
         restrictedMode,
-        chunkInfo,
+        chunkInfo: lazyChunkInfo,
         hash,
         serverResponse: redirectContext.status ?? undefined,
         serverPath: req.path,

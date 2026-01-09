@@ -6,49 +6,72 @@
  *
  */
 
+import { matchRoutes } from "react-router";
 import type { Manifest, ManifestChunk } from "vite";
+import { uniq } from "@ndla/util";
 import { entryPoints, EntryPointType } from "../entrypoints";
-import { RouteChunkInfo } from "./serverHelpers";
+import { RouteChunkInfo, RouteChunkInfoWithManifest } from "./serverHelpers";
 import config from "../config";
+import { RouteObjectWithImportPath } from "../interfaces";
 
-function getImportedChunks(manifest: Manifest, name: string): ManifestChunk[] {
-  const seen = new Set<string>();
+export const getLazyLoadedChunks = (
+  routes: RouteObjectWithImportPath[],
+  path: string,
+  { manifest, ...chunkInfo }: RouteChunkInfoWithManifest,
+) => {
+  const lazyMatches = matchRoutes(routes, path)?.filter((route) => route.route.importPath) ?? [];
+  const existingChunks = new Set(chunkInfo.importedChunks ?? []);
+  const lazyChunks = lazyMatches.flatMap((match) =>
+    getImportedChunks(manifest[match.route.importPath!]!, manifest, existingChunks),
+  );
 
-  function getImportedChunks(chunk: ManifestChunk): ManifestChunk[] {
-    const chunks: ManifestChunk[] = [];
-    for (const file of chunk.imports ?? []) {
-      const importee = manifest[file]!;
-      if (seen.has(file)) {
-        continue;
-      }
-      seen.add(file);
+  const lazyMatchFiles = lazyMatches.map((lm) => manifest[lm.route.importPath!]?.file).filter(Boolean) as string[];
 
-      chunks.push(...getImportedChunks(importee));
-      chunks.push(importee);
+  const allImportedChunks = uniq(
+    (chunkInfo.importedChunks ?? []).concat(lazyMatchFiles).concat(lazyChunks.map((chunk) => chunk.file)),
+  );
+
+  const lazyChunkInfo: RouteChunkInfo = {
+    ...chunkInfo,
+    importedChunks: allImportedChunks,
+  };
+
+  return lazyChunkInfo;
+};
+
+export function getImportedChunks(chunk: ManifestChunk, manifest: Manifest, seen: Set<string>): ManifestChunk[] {
+  const chunks: ManifestChunk[] = [];
+  for (const file of chunk?.imports ?? []) {
+    const importee = manifest[file]!;
+    if (seen.has(file)) {
+      continue;
     }
+    seen.add(file);
 
-    return chunks;
+    chunks.push(...getImportedChunks(importee, manifest, seen));
+    chunks.push(importee);
   }
 
-  return getImportedChunks(manifest[name]!);
+  return chunks;
 }
 
-export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType): RouteChunkInfo => {
+export const getRouteChunkInfo = (manifest: Manifest, entryPoint: EntryPointType): RouteChunkInfoWithManifest => {
   if (config.runtimeType === "development") {
-    return { entryPoint: entryPoints[entryPoint] };
+    return { entryPoint: entryPoints[entryPoint], manifest };
   }
   const mainEntry = manifest[entryPoints[entryPoint]];
-  if (!mainEntry) return {};
+  if (!mainEntry) return { manifest };
   const stylesheets = Object.entries(manifest)
     .filter(([key]) => key.endsWith(".css"))
     .map(([, value]) => value);
   mainEntry.css = (mainEntry.css ?? []).concat(stylesheets.map((chunk) => chunk.file));
-  const importedChunks = getImportedChunks(manifest, entryPoints[entryPoint]);
+  const importedChunks = getImportedChunks(manifest[entryPoints[entryPoint]]!, manifest, new Set<string>());
 
   return {
     entryPoint: mainEntry.file,
     importedChunks: importedChunks.map((chunk) => chunk.file),
     css: getUniqueCss([mainEntry].concat(importedChunks)),
+    manifest,
   };
 };
 

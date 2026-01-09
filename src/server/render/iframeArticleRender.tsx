@@ -22,6 +22,7 @@ import { iframeArticleRoutes } from "../../iframe/iframeArticleRoutes";
 import { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
+import { getLazyLoadedChunks } from "../getManifestChunks";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
@@ -35,6 +36,8 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
   const locale = isValidLocale(htmlLang) ? htmlLang : undefined;
   const { articleId, taxonomyId } = req.params;
   const hash = stringifiedLanguages[locale ?? (config.defaultLocale as LocaleType)].hash;
+
+  const lazyChunkInfo = getLazyLoadedChunks(iframeArticleRoutes, req.path, chunkInfo);
 
   const noSSR = disableSSR(req);
 
@@ -52,10 +55,10 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
       locale: locale ?? (config.defaultLocale as LocaleType),
       data: {
         htmlContent: renderToString(
-          <Document language={locale ?? config.defaultLocale} chunkInfo={chunkInfo} hash={hash} />,
+          <Document language={locale ?? config.defaultLocale} chunkInfo={lazyChunkInfo} hash={hash} />,
         ),
         data: {
-          chunkInfo,
+          chunkInfo: lazyChunkInfo,
           config: { ...config, disableSSR: true },
           initialProps,
           hash,
@@ -79,7 +82,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
   const router = createStaticRouter(dataRoutes, routerContext);
 
   const Page = (
-    <Document language={locale ?? config.defaultLocale} chunkInfo={chunkInfo} hash={hash}>
+    <Document language={locale ?? config.defaultLocale} chunkInfo={lazyChunkInfo} hash={hash}>
       <RedirectContext value={context}>
         <RestrictedModeProvider value={restrictedMode}>
           <I18nextProvider i18n={i18n}>
@@ -111,7 +114,7 @@ export const iframeArticleRender: RenderFunc = async (req, chunkInfo) => {
     data: {
       htmlContent: result.result,
       data: {
-        chunkInfo,
+        chunkInfo: lazyChunkInfo,
         apolloState,
         config: {
           ...config,

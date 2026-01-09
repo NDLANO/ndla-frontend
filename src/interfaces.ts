@@ -6,11 +6,17 @@
  *
  */
 
+import { RouteObject } from "react-router";
 import { NormalizedCacheObject } from "@apollo/client";
 import { ConfigType } from "./config";
 import { LocaleValues } from "./constants";
 import { RouteChunkInfo } from "./server/serverHelpers";
 import { RestrictedModeState } from "./components/RestrictedModeContext";
+
+export type RouteObjectWithImportPath = RouteObject & {
+  importPath?: string;
+  children?: RouteObjectWithImportPath[];
+};
 
 export type InitialProps = {
   articleId?: string;

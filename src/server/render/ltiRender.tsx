@@ -10,7 +10,9 @@ import { renderToString } from "react-dom/server";
 import config from "../../config";
 import { Document } from "../../Document";
 import { getHtmlLang } from "../../i18n";
+import { routes } from "../../lti/routes";
 import { BAD_REQUEST, OK } from "../../statusCodes";
+import { getLazyLoadedChunks } from "../getManifestChunks";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { stringifiedLanguages } from "../locales/locales";
 import { RenderFunc } from "../serverHelpers";
@@ -74,8 +76,10 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
     }
   }
 
+  const lazyChunkInfo = getLazyLoadedChunks(routes, req.path, chunkInfo);
+
   const htmlContent = renderToString(
-    <Document language={lang} chunkInfo={chunkInfo} hash={hash}>
+    <Document language={lang} chunkInfo={lazyChunkInfo} hash={hash}>
       {null}
     </Document>,
   );
@@ -90,7 +94,7 @@ export const ltiRender: RenderFunc = async (req, chunkInfo) => {
           ltiData: validParameters?.ltiData,
           locale: lang,
         },
-        chunkInfo,
+        chunkInfo: lazyChunkInfo,
         config,
         hash,
         restrictedMode,

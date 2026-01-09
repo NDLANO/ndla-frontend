@@ -26,7 +26,7 @@ import { RenderFunc } from "../serverHelpers";
 
 const { query, dataRoutes } = createStaticHandler(errorRoutes);
 
-export const errorRender: RenderFunc = async (req, chunkInfo) => {
+export const errorRender: RenderFunc = async (req, { manifest: _, ...chunkInfo }) => {
   const context: RedirectInfo = {};
 
   const lang = getHtmlLang(req.params.lang ?? "");
