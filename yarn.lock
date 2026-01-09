@@ -9924,7 +9924,7 @@ __metadata:
     react-router: "npm:^7.12.0"
     rxjs: "npm:^7.8.2"
     serialize-javascript: "npm:^7.0.2"
-    sirv: "npm:^3.0.1"
+    sirv: "npm:^3.0.2"
     slate: "npm:^0.118.1"
     slate-dom: "npm:^0.118.1"
     slate-history: "npm:^0.113.1"
@@ -11946,14 +11946,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sirv@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "sirv@npm:3.0.1"
+"sirv@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "sirv@npm:3.0.2"
   dependencies:
     "@polka/url": "npm:^1.0.0-next.24"
     mrmime: "npm:^2.0.0"
     totalist: "npm:^3.0.0"
-  checksum: 10c0/7cf64b28daa69b15f77b38b0efdd02c007b72bb3ec5f107b208ebf59f01b174ef63a1db3aca16d2df925501831f4c209be6ece3302b98765919ef5088b45bf80
+  checksum: 10c0/5930e4397afdb14fbae13751c3be983af4bda5c9aadec832607dc2af15a7162f7d518c71b30e83ae3644b9a24cea041543cc969e5fe2b80af6ce8ea3174b2d04
   languageName: node
   linkType: hard
 
