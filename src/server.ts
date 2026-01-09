@@ -99,6 +99,13 @@ if (isProduction) {
 
 const renderRoute = async (req: Request, res: Response, renderer: string, chunkInfo: RouteChunkInfo) => {
   const ctx = getLoggerContextStore();
+  if (chunkInfo.css?.length) {
+    res.writeEarlyHints({
+      link: chunkInfo.css
+        .map((href) => `</${href}>; rel=preload; as=style`)
+        .concat(`<https://api.fontshare.com/v2/css?f=[]=satoshi@1&display=swap>; rel=preload; as=style`),
+    });
+  }
   if (!ctx) {
     throw new Error("Logger context is not available");
   }
