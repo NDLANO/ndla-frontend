@@ -80,7 +80,7 @@ const StyledSafeLinkButton = styled(SafeLinkButton, {
     justifyContent: "space-between",
     textAlign: "start",
     width: "100%",
-    height: "4xlarge",
+    height: "100%",
     _after: {
       transitionDuration: "normal",
       transitionTimingFunction: "ease-out",
