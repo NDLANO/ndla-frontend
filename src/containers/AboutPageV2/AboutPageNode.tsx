@@ -11,6 +11,7 @@ import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
+import { extractEmbedMeta } from "@ndla/article-converter";
 import {
   AccordionRoot,
   CardContent,
@@ -46,6 +47,7 @@ import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { transformArticle } from "../../util/transformArticle";
+import { ResourceEmbedLicenseContent } from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
 const StyledPageContent = styled(PageContent, {
   base: {
@@ -135,6 +137,12 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
     ];
   }, [article, i18n.language])!;
 
+  const embedMeta = useMemo(() => {
+    if (!article?.transformedContent?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(article.transformedContent?.visualElementEmbed.content);
+    return embedMeta;
+  }, [article?.transformedContent?.visualElementEmbed?.content]);
+
   const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 
   return (
@@ -166,6 +174,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
             )}
           </HeaderWrapper>
           <TransportationPageVisualElement
+            embed={embedMeta}
             imageUrl={article.metaImage?.image.imageUrl}
             imageAlt={article.metaImage?.alttext.alttext}
           />
@@ -230,14 +239,20 @@ AboutPageNode.fragments = {
       }
       transformedContent(transformArgs: $transformArgs) {
         content
+        visualElementEmbed {
+          content
+          meta {
+            ...ResourceEmbedLicenseContent_Meta
+          }
+        }
         metaData {
           copyText
         }
       }
-
       ...LicenseBox_Article
       ...StructuredArticleData
     }
+    ${ResourceEmbedLicenseContent.fragments.metaData}
     ${LicenseBox.fragments.article}
     ${structuredArticleDataFragment}
   `,
