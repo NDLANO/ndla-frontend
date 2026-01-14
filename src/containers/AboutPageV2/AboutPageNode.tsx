@@ -47,7 +47,6 @@ import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { transformArticle } from "../../util/transformArticle";
-import { ResourceEmbedLicenseContent } from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
 
 const StyledPageContent = styled(PageContent, {
   base: {
@@ -241,9 +240,6 @@ AboutPageNode.fragments = {
         content
         visualElementEmbed {
           content
-          meta {
-            ...ResourceEmbedLicenseContent_Meta
-          }
         }
         metaData {
           copyText
@@ -252,7 +248,6 @@ AboutPageNode.fragments = {
       ...LicenseBox_Article
       ...StructuredArticleData
     }
-    ${ResourceEmbedLicenseContent.fragments.metaData}
     ${LicenseBox.fragments.article}
     ${structuredArticleDataFragment}
   `,

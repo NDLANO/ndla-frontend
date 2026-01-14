@@ -2402,11 +2402,7 @@ export type GQLAboutPageNode_ArticleFragment = {
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
-    visualElementEmbed?: {
-      __typename?: "ResourceEmbed";
-      content: string;
-      meta: { __typename?: "ResourceMetaData" } & GQLResourceEmbedLicenseContent_MetaFragment;
-    };
+    visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
     metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
   };
 } & GQLLicenseBox_ArticleFragment &
