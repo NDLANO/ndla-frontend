@@ -2084,6 +2084,7 @@ export type GQLCompetenceGoalsQueryVariables = Exact<{
   codes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   language?: InputMaybe<Scalars["String"]["input"]>;
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
+  includeSubject: Scalars["Boolean"]["input"];
 }>;
 
 export type GQLCompetenceGoalsQuery = {
@@ -2401,6 +2402,11 @@ export type GQLAboutPageNode_ArticleFragment = {
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
+    visualElementEmbed?: {
+      __typename?: "ResourceEmbed";
+      content: string;
+      meta: { __typename?: "ResourceMetaData" } & GQLResourceEmbedLicenseContent_MetaFragment;
+    };
     metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
   };
 } & GQLLicenseBox_ArticleFragment &
