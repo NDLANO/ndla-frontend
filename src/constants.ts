@@ -70,8 +70,6 @@ export const COLLECTION_LANGUAGES = ["nb", "nn", "en", "se", "sma", "ukr"];
 
 export const LocaleValues = ["nb", "nn", "en", "se"] as const;
 
-export const MastheadHeightPx = 84; // See `misc` in @ndla/core for origin
-
 export const AcquireLicensePage =
   "https://support.ndla.no/hc/no/articles/360000945552-Bruk-av-lisenser-og-lisensiering";
 

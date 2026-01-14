@@ -27,7 +27,9 @@ export const TitleAnnouncer = () => {
   }, []);
 
   useEffect(() => {
-    titleRef.current?.focus();
+    if (!window.location.hash.length) {
+      titleRef.current?.focus();
+    }
   }, [title]);
 
   return (

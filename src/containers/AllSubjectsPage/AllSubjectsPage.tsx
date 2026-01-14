@@ -27,7 +27,6 @@ import { sortBy } from "@ndla/util";
 import { FavoriteSubjects } from "./FavoriteSubjects";
 import { LetterNavigation } from "./LetterNavigation";
 import { SubjectCategory } from "./SubjectCategory";
-import { useNavigateToHash } from "../../components/Article/articleHelpers";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -97,8 +96,6 @@ export const AllSubjectsPage = () => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchParams();
   const { user } = useContext(AuthContext);
-
-  useNavigateToHash(undefined);
 
   const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
 
