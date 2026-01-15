@@ -11,6 +11,7 @@ import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
+import { extractEmbedMeta } from "@ndla/article-converter";
 import {
   AccordionRoot,
   CardContent,
@@ -135,6 +136,12 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
     ];
   }, [article, i18n.language])!;
 
+  const embedMeta = useMemo(() => {
+    if (!article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(article.visualElementEmbed.content);
+    return embedMeta;
+  }, [article?.visualElementEmbed?.content]);
+
   const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 
   return (
@@ -166,6 +173,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
             )}
           </HeaderWrapper>
           <TransportationPageVisualElement
+            embed={embedMeta}
             imageUrl={article.metaImage?.image.imageUrl}
             imageAlt={article.metaImage?.alttext.alttext}
           />
@@ -234,7 +242,9 @@ AboutPageNode.fragments = {
           copyText
         }
       }
-
+      visualElementEmbed {
+        content
+      }
       ...LicenseBox_Article
       ...StructuredArticleData
     }

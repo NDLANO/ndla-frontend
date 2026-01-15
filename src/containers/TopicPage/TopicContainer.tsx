@@ -111,10 +111,10 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   }, [node, t]);
 
   const embedMeta = useMemo(() => {
-    if (!node.article?.transformedContent?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(node.article.transformedContent?.visualElementEmbed.content);
+    if (!node.article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(node.article.visualElementEmbed.content);
     return embedMeta;
-  }, [node?.article?.transformedContent?.visualElementEmbed?.content]);
+  }, [node?.article?.visualElementEmbed?.content]);
 
   const mainContext = useMemo(() => {
     return subjectType === "multiDisciplinary" && node.context?.parents?.length === 2 ? "case" : "node";
