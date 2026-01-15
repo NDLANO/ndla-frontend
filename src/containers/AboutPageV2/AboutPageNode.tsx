@@ -137,10 +137,10 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
   }, [article, i18n.language])!;
 
   const embedMeta = useMemo(() => {
-    if (!article?.transformedContent?.visualElementEmbed?.content) return undefined;
-    const embedMeta = extractEmbedMeta(article.transformedContent?.visualElementEmbed.content);
+    if (!article?.visualElementEmbed?.content) return undefined;
+    const embedMeta = extractEmbedMeta(article.visualElementEmbed.content);
     return embedMeta;
-  }, [article?.transformedContent?.visualElementEmbed?.content]);
+  }, [article?.visualElementEmbed?.content]);
 
   const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 
@@ -238,12 +238,12 @@ AboutPageNode.fragments = {
       }
       transformedContent(transformArgs: $transformArgs) {
         content
-        visualElementEmbed {
-          content
-        }
         metaData {
           copyText
         }
+      }
+      visualElementEmbed {
+        content
       }
       ...LicenseBox_Article
       ...StructuredArticleData
