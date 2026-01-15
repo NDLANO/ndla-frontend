@@ -58,6 +58,7 @@ export type GQLArticle = {
   transformedContent: GQLTransformedArticleContent;
   transformedDisclaimer: GQLTransformedArticleContent;
   updated: Scalars["String"]["output"];
+  visualElementEmbed?: Maybe<GQLResourceEmbed>;
 };
 
 export type GQLArticleCrossSubjectTopicsArgs = {
@@ -1929,7 +1930,9 @@ export type GQLTransformedArticleContent = {
   __typename?: "TransformedArticleContent";
   content: Scalars["String"]["output"];
   metaData?: Maybe<GQLArticleMetaData>;
+  /** @deprecated Field no longer supported */
   visualElement?: Maybe<GQLVisualElement>;
+  /** @deprecated Use visualElementEmbed on Article */
   visualElementEmbed?: Maybe<GQLResourceEmbed>;
 };
 
@@ -2402,9 +2405,9 @@ export type GQLAboutPageNode_ArticleFragment = {
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
-    visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
     metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
   };
+  visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
 } & GQLLicenseBox_ArticleFragment &
   GQLStructuredArticleDataFragment;
 
@@ -3562,10 +3565,7 @@ export type GQLTopicPageQuery = {
         image: { __typename?: "ImageV3"; imageUrl: string };
         alttext: { __typename?: "ImageAltText"; alttext: string };
       };
-      transformedContent: {
-        __typename?: "TransformedArticleContent";
-        visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
-      };
+      visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
     };
     meta?: {
       __typename?: "Meta";
