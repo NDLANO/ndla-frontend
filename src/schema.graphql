@@ -39,6 +39,7 @@ type Article {
   transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   transformedDisclaimer(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
+  visualElementEmbed: ResourceEmbed
 }
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {
@@ -1463,8 +1464,8 @@ type Transcription {
 type TransformedArticleContent {
   content: String!
   metaData: ArticleMetaData
-  visualElement: VisualElement
-  visualElementEmbed: ResourceEmbed
+  visualElement: VisualElement @deprecated
+  visualElementEmbed: ResourceEmbed @deprecated(reason: "Use visualElementEmbed on Article")
 }
 
 input TransformedArticleContentInput {
