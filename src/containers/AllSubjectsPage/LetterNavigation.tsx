@@ -102,7 +102,6 @@ export const LetterNavigation = ({ activeLetters }: Props) => {
         return (
           <li key={letter}>
             <StyledLetter
-              asAnchor
               to={`#subject-header-${letter}`}
               size="small"
               variant="secondary"

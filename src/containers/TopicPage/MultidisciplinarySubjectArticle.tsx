@@ -22,7 +22,7 @@ import {
 } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
 import { Article } from "../../components/Article/Article";
-import { useArticleCopyText, useNavigateToHash } from "../../components/Article/articleHelpers";
+import { useArticleCopyText } from "../../components/Article/articleHelpers";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
 import { LicenseBox } from "../../components/license/LicenseBox";
@@ -117,8 +117,6 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   }, [node.article, i18n.language, root?.id]);
 
   const copyText = useArticleCopyText(article);
-
-  useNavigateToHash(article?.transformedContent.content);
 
   const traits = useListItemTraits({
     traits: article?.traits,

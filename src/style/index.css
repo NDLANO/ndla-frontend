@@ -11,6 +11,11 @@
 
 @layer reset, base, tokens, recipes, utilities;
 
+html {
+  /* This is linked to GlobalEffects.tsx */
+  scroll-padding-top: 72px;
+}
+
 .c-topic-resource__item--hidden {
   display: none;
 }

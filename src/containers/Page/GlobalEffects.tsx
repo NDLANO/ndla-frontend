@@ -18,7 +18,8 @@ export const GlobalEffects = () => {
   useEffect(() => {
     if (!htmlRef.current) {
       htmlRef.current = document.querySelector("html");
-    } else if (isSticky) {
+      // This defaults to 72px in index.css
+    } else if (isSticky && htmlRef.current.style.scrollPaddingTop !== `${height}px`) {
       htmlRef.current.style.scrollPaddingTop = `${height}px`;
     }
     document.documentElement.style.setProperty("--masthead-height", `${height}px`);

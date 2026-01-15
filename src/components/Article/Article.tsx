@@ -20,7 +20,7 @@ import {
   ArticleWrapper,
   licenseAttributes,
 } from "@ndla/ui";
-import { useArticleCopyText, useNavigateToHash } from "./articleHelpers";
+import { useArticleCopyText } from "./articleHelpers";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 import { TransformedBaseArticle } from "../../util/transformArticle";
@@ -77,7 +77,6 @@ export const Article = ({
   const { i18n } = useTranslation();
   const copyText = useArticleCopyText(article);
 
-  useNavigateToHash(article.transformedContent.content);
   const restrictedInfo = useRestrictedMode();
 
   const traits = useListItemTraits({ traits: article.traits, relevanceId, resourceTypes });
