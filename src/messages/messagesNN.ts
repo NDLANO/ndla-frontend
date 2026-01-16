@@ -130,7 +130,6 @@ const messages = {
       allLabel: "Vis alle",
       hits: "{{count}} treff",
     },
-    programmeFilter: { title: "Vel utdanningsprogram" },
     noHitsShort: "Ingen treff på søk: {{query}}",
     search: "Søk",
     searchFieldPlaceholder: "Søk i fagstoff, oppgåver og aktivitetar eller læringsstiar",
