@@ -1,5 +1,5 @@
 ### Build stage
-FROM node:24.11.1-alpine3.23 AS builder
+FROM node:24.13.0-alpine3.23 AS builder
 
 ENV HOME=/home/app
 ENV APP_PATH=$HOME/ndla-frontend
@@ -29,7 +29,7 @@ RUN --mount=type=secret,id=sentry_token \
   yarn run build
 
 ### Run stage
-FROM node:24.11.1-alpine3.23
+FROM node:24.13.0-alpine3.23
 
 WORKDIR /home/app/ndla-frontend
 COPY --from=builder /home/app/ndla-frontend/build build
