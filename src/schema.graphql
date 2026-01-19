@@ -39,6 +39,7 @@ type Article {
   transformedContent(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   transformedDisclaimer(transformArgs: TransformedArticleContentInput): TransformedArticleContent!
   updated: String!
+  visualElementEmbed: ResourceEmbed
 }
 
 type ArticleFolderResourceMeta implements FolderResourceMeta {
@@ -507,7 +508,7 @@ type ImageElement {
   focalY: Float
   lowerRightX: Float
   lowerRightY: Float
-  resourceid: String
+  resourceId: String
   src: String!
   upperLeftX: Float
   upperLeftY: Float
@@ -1463,8 +1464,6 @@ type Transcription {
 type TransformedArticleContent {
   content: String!
   metaData: ArticleMetaData
-  visualElement: VisualElement
-  visualElementEmbed: ResourceEmbed
 }
 
 input TransformedArticleContentInput {

@@ -58,6 +58,7 @@ export type GQLArticle = {
   transformedContent: GQLTransformedArticleContent;
   transformedDisclaimer: GQLTransformedArticleContent;
   updated: Scalars["String"]["output"];
+  visualElementEmbed?: Maybe<GQLResourceEmbed>;
 };
 
 export type GQLArticleCrossSubjectTopicsArgs = {
@@ -596,7 +597,7 @@ export type GQLImageElement = {
   focalY?: Maybe<Scalars["Float"]["output"]>;
   lowerRightX?: Maybe<Scalars["Float"]["output"]>;
   lowerRightY?: Maybe<Scalars["Float"]["output"]>;
-  resourceid?: Maybe<Scalars["String"]["output"]>;
+  resourceId?: Maybe<Scalars["String"]["output"]>;
   src: Scalars["String"]["output"];
   upperLeftX?: Maybe<Scalars["Float"]["output"]>;
   upperLeftY?: Maybe<Scalars["Float"]["output"]>;
@@ -1929,8 +1930,6 @@ export type GQLTransformedArticleContent = {
   __typename?: "TransformedArticleContent";
   content: Scalars["String"]["output"];
   metaData?: Maybe<GQLArticleMetaData>;
-  visualElement?: Maybe<GQLVisualElement>;
-  visualElementEmbed?: Maybe<GQLResourceEmbed>;
 };
 
 export type GQLTransformedArticleContentInput = {
@@ -2084,6 +2083,7 @@ export type GQLCompetenceGoalsQueryVariables = Exact<{
   codes?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   language?: InputMaybe<Scalars["String"]["input"]>;
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
+  includeSubject: Scalars["Boolean"]["input"];
 }>;
 
 export type GQLCompetenceGoalsQuery = {
@@ -2403,6 +2403,7 @@ export type GQLAboutPageNode_ArticleFragment = {
     content: string;
     metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
   };
+  visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
 } & GQLLicenseBox_ArticleFragment &
   GQLStructuredArticleDataFragment;
 
@@ -3262,13 +3263,6 @@ export type GQLGrepFilterQuery = {
   coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
 };
 
-export type GQLProgrammesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLProgrammesQuery = {
-  __typename?: "Query";
-  programmes?: Array<{ __typename?: "ProgrammePage"; id: string; title: { __typename?: "Title"; title: string } }>;
-};
-
 export type GQLResourceTypeFilter_BucketResultFragment = { __typename?: "BucketResult"; value: string; count: number };
 
 export type GQLResourceTypeFilter_ResourceTypeDefinitionFragment = {
@@ -3560,10 +3554,7 @@ export type GQLTopicPageQuery = {
         image: { __typename?: "ImageV3"; imageUrl: string };
         alttext: { __typename?: "ImageAltText"; alttext: string };
       };
-      transformedContent: {
-        __typename?: "TransformedArticleContent";
-        visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
-      };
+      visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
     };
     meta?: {
       __typename?: "Meta";

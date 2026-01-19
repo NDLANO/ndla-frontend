@@ -44,10 +44,8 @@ export const topicPageQuery = gql`
             alttext
           }
         }
-        transformedContent(transformArgs: $transformArgs) {
-          visualElementEmbed {
-            content
-          }
+        visualElementEmbed {
+          content
         }
       }
       meta {
