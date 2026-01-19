@@ -597,7 +597,7 @@ export type GQLImageElement = {
   focalY?: Maybe<Scalars["Float"]["output"]>;
   lowerRightX?: Maybe<Scalars["Float"]["output"]>;
   lowerRightY?: Maybe<Scalars["Float"]["output"]>;
-  resourceid?: Maybe<Scalars["String"]["output"]>;
+  resourceId?: Maybe<Scalars["String"]["output"]>;
   src: Scalars["String"]["output"];
   upperLeftX?: Maybe<Scalars["Float"]["output"]>;
   upperLeftY?: Maybe<Scalars["Float"]["output"]>;
@@ -1930,10 +1930,6 @@ export type GQLTransformedArticleContent = {
   __typename?: "TransformedArticleContent";
   content: Scalars["String"]["output"];
   metaData?: Maybe<GQLArticleMetaData>;
-  /** @deprecated Field no longer supported */
-  visualElement?: Maybe<GQLVisualElement>;
-  /** @deprecated Use visualElementEmbed on Article */
-  visualElementEmbed?: Maybe<GQLResourceEmbed>;
 };
 
 export type GQLTransformedArticleContentInput = {
@@ -3265,13 +3261,6 @@ export type GQLGrepFilterQuery = {
     competenceGoalSet?: { __typename?: "Reference"; id: string; title: string };
   }>;
   coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
-};
-
-export type GQLProgrammesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GQLProgrammesQuery = {
-  __typename?: "Query";
-  programmes?: Array<{ __typename?: "ProgrammePage"; id: string; title: { __typename?: "Title"; title: string } }>;
 };
 
 export type GQLResourceTypeFilter_BucketResultFragment = { __typename?: "BucketResult"; value: string; count: number };

@@ -508,7 +508,7 @@ type ImageElement {
   focalY: Float
   lowerRightX: Float
   lowerRightY: Float
-  resourceid: String
+  resourceId: String
   src: String!
   upperLeftX: Float
   upperLeftY: Float
@@ -1464,8 +1464,6 @@ type Transcription {
 type TransformedArticleContent {
   content: String!
   metaData: ArticleMetaData
-  visualElement: VisualElement @deprecated
-  visualElementEmbed: ResourceEmbed @deprecated(reason: "Use visualElementEmbed on Article")
 }
 
 input TransformedArticleContentInput {
