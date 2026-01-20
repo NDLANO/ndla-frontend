@@ -6,8 +6,9 @@
  *
  */
 
-const postcssPresetEnv = require("postcss-preset-env");
+import postcssPresetEnv from "postcss-preset-env";
+import panda from "@pandacss/dev/postcss";
 
-module.exports = {
-  plugins: [require("@pandacss/dev/postcss")(), postcssPresetEnv()],
+export default {
+  plugins: [panda(), postcssPresetEnv()],
 };
