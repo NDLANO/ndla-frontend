@@ -909,7 +909,7 @@ const messages = {
   footer: {
     vision: "Ovttas hábmet boahtteáiggi oahppama",
     linksHeader: "Oktavuohta",
-    info: "NDLA er et samarbeid mellom 14 av landets fylkeskommuner.",
+    info: "NDLA er et samarbeid mellom alle fylkeskommunene i Norge.",
     editorInChief: "Vásttolaš doaimmaheaddji:",
     availabilityLink: "Beasatlašvuođajulggaštus",
     privacyLink: "Persovdnasuodjalusjulggaštus ja diehtočoahkku (gáhkožat)",
