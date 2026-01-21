@@ -909,7 +909,7 @@ const messages = {
   footer: {
     vision: "Saman skapar vi framtidas læring",
     linksHeader: "Kontakt",
-    info: "NDLA er eit samarbeid mellom 14 fylkeskommunar.",
+    info: "NDLA er eit samarbeid mellom alle fylkeskommunane i Noreg.",
     editorInChief: "Ansvarleg redaktør:",
     availabilityLink: "Tilgjengelegheitserklæring",
     privacyLink: "Personvernerklæring",
