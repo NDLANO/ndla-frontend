@@ -8,6 +8,7 @@
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { Badge, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -93,6 +94,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
   const crumbs = useMemo(() => node.context?.parents ?? [], [node]);
   const root = crumbs[0];
   const restrictedInfo = useRestrictedMode();
+  const { pathname } = useLocation();
 
   const metaTitle = useMemo(
     () => htmlTitle(node.article?.title ?? node.name, [root?.name]),
@@ -212,6 +214,8 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
             {!restrictedInfo.restricted && (
               <ArticleFooter>
                 <ArticleByline
+                  // re-render accordions when navigating to new article
+                  key={pathname}
                   footnotes={article.transformedContent.metaData?.footnotes ?? []}
                   authors={authors}
                   suppliers={article.copyright?.rightsholders}
