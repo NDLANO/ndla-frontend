@@ -8,6 +8,7 @@
 
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { HTMLProps } from "@ark-ui/react";
 import { Badge } from "@ndla/primitives";
@@ -76,6 +77,7 @@ export const Article = ({
 }: Props) => {
   const { i18n } = useTranslation();
   const copyText = useArticleCopyText(article);
+  const { pathname } = useLocation();
 
   const restrictedInfo = useRestrictedMode();
 
@@ -138,6 +140,8 @@ export const Article = ({
         <ArticleFooter>
           {!restrictedInfo.restricted && (
             <ArticleByline
+              // re-render accordions when navigating to new article
+              key={pathname}
               footnotes={article.transformedContent.metaData?.footnotes ?? []}
               authors={authors}
               suppliers={article.copyright?.rightsholders}
