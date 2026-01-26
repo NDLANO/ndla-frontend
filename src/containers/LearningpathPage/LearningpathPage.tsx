@@ -122,6 +122,7 @@ LearningpathPage.fragments = {
         tags
         description
         coverphoto {
+          id
           image {
             imageUrl
           }
