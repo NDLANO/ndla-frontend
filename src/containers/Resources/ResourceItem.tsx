@@ -168,6 +168,7 @@ ResourceItem.fragments = {
       learningpath {
         id
         coverphoto {
+          id
           image {
             variants {
               size
