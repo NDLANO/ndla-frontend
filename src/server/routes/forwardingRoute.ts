@@ -8,9 +8,9 @@
 
 import { NextFunction, Request, Response } from "express";
 import { ResolvedUrl, ResolvedOldUrl } from "@ndla/types-taxonomy";
-import { isLearningPathResource, getLearningPathIdFromResource } from "../../containers/Resources/resourceHelpers";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
 import { log } from "../../util/logger/logger";
+import { getLearningPathIdFromResource, isLearningPathResource } from "../utils/resourceHelpers";
 
 interface ExternalIds {
   externalIds: string[];

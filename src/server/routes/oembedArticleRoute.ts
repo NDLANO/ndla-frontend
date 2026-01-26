@@ -12,7 +12,6 @@ import { ApolloClient, gql } from "@apollo/client";
 import { Node } from "@ndla/types-taxonomy";
 import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
-import { getArticleIdFromResource } from "../../containers/Resources/resourceHelpers";
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
@@ -22,6 +21,7 @@ import { NotFoundError } from "../../util/error/StatusError";
 import { isValidLocale } from "../../i18n";
 import { oembedRoutes } from "../../routes";
 import { log } from "../../util/logger/logger";
+import { getArticleIdFromResource } from "../utils/resourceHelpers";
 
 type OembedRouteResponse =
   | { data: OembedResponse; status: typeof OK }
