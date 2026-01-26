@@ -25,7 +25,6 @@ import { ArticlePage } from "../ArticlePage/ArticlePage";
 import { LearningpathPage } from "../LearningpathPage/LearningpathPage";
 import { MovedResourcePage } from "../MovedResourcePage/MovedResourcePage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import { isLearningPathResource } from "../Resources/resourceHelpers";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
 const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "url">[]) => {
@@ -136,7 +135,7 @@ export const ResourcePage = () => {
     }
   }
 
-  if (isLearningPathResource(data.node.contentUri)) {
+  if (data.node.learningpath?.id) {
     return (
       <LearningpathPage key={data.node.url} skipToContentId={SKIP_TO_CONTENT_ID} stepId={stepId} node={data.node} />
     );

@@ -32,7 +32,6 @@ import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLTopicPageQuery } from "../../graphqlTypes";
 import { SubjectType } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
-import { getArticleIdFromResource } from "../Resources/resourceHelpers";
 import { Resources } from "../Resources/Resources";
 
 const NodeGridWrapper = styled("nav", {
@@ -89,7 +88,6 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { t } = useTranslation();
   const headingId = useId();
   const linksHeadingId = useId();
-  const articleId = getArticleIdFromResource(node.contentUri);
 
   const metaTitle = useMemo(() => htmlTitle(node.name, [node.breadcrumbs[0]]), [node.breadcrumbs, node.name]);
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
@@ -139,10 +137,10 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
                 {node.name}
               </Heading>
               {node.relevanceId === RELEVANCE_SUPPLEMENTARY && <Badge>{t("navigation.additionalTopic")}</Badge>}
-              {!!node.url && !!articleId && (
+              {!!node.url && !!node.article?.id && (
                 <AddResourceToFolderModal
                   resource={{
-                    id: articleId,
+                    id: node.article.id.toString(),
                     path: node.url,
                     resourceType: "topic",
                   }}
