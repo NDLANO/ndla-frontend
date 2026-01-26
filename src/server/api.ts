@@ -20,6 +20,7 @@ import { BAD_REQUEST } from "../statusCodes";
 import { log } from "../util/logger/logger";
 import { stringifiedLanguages } from "./locales/locales";
 import authEndpoints from "./authEndpoints";
+import { fetchLmk } from "./siktEndpoints";
 
 const router = express.Router();
 
@@ -142,6 +143,12 @@ router.get(
     }
   },
 );
+
+router.get("/lmk/subjects", async (_, res) => {
+  res.setHeader("Content-Type", "application/ld+json");
+  const response = await fetchLmk();
+  res.json(response);
+});
 
 router.get("/*splat/search/apachesolr_search*secondsplat", (req, res) => {
   sendResponse(req, res, undefined, 410);
