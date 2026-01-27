@@ -15,6 +15,5 @@ test("title with elements gets formatted correctly", () => {
   expect(htmlTitle(undefined, [undefined, "NDLA"])).toBe(" - NDLA");
   expect(htmlTitle("Standalone", [])).toBe("Standalone");
   expect(htmlTitle("Standalone", [undefined])).toBe("Standalone");
-  expect(htmlTitle("Without elements")).toBe("Without elements");
-  expect(htmlTitle(undefined)).toBe("");
+  expect(htmlTitle(undefined, [])).toBe("");
 });
