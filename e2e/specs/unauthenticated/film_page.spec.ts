@@ -15,6 +15,8 @@ test.beforeEach(async ({ page, waitGraphql }) => {
 });
 
 test("film page has content", async ({ page }) => {
-  await expect(page.getByRole("link", { name: "Fun Factory", exact: true }).first()).toBeVisible({ timeout: 10000 });
-  await expect(page.getByTestId("nav-box-list").getByRole("listitem").getByRole("link")).toHaveCount(8);
+  await expect(page.getByRole("link", { name: "Bærekraftig utvikling", exact: true }).first()).toBeVisible({
+    timeout: 10000,
+  });
+  await expect(page.getByTestId("film-frontpage-topics").getByRole("listitem").getByRole("link")).toHaveCount(8);
 });

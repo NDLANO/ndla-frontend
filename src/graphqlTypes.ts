@@ -2560,7 +2560,6 @@ export type GQLFilmFrontPageQuery = {
   __typename?: "Query";
   filmfrontpage?: {
     __typename?: "FilmFrontpage";
-    slideShow: Array<{ __typename?: "Movie" } & GQLFilmSlideshow_MovieFragment>;
     movieThemes: Array<{
       __typename?: "MovieTheme";
       name: Array<{ __typename?: "Name"; name: string; language: string }>;
@@ -2580,11 +2579,11 @@ export type GQLFilmFrontPageQuery = {
     id: string;
     name: string;
     url?: string;
-    children?: Array<{ __typename?: "Node"; id: string; name: string; url?: string }>;
+    children?: Array<
+      { __typename?: "Node"; id: string; name: string; url?: string } & GQLTransportationNode_NodeFragment
+    >;
   };
 };
-
-export type GQLFilmSlideshow_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
 
 export type GQLSelectionMovieGrid_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
 
@@ -2645,6 +2644,7 @@ export type GQLLearningpathPage_NodeFragment = {
     description: string;
     coverphoto?: {
       __typename?: "ImageMetaInformationV3";
+      id: string;
       metaUrl: string;
       image: { __typename?: "ImageV3"; imageUrl: string };
     };
@@ -3217,6 +3217,7 @@ export type GQLResourceItem_NodeFragment = {
     id: number;
     coverphoto?: {
       __typename?: "ImageMetaInformationV3";
+      id: string;
       image: {
         __typename?: "ImageV3";
         imageUrl: string;

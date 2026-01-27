@@ -19,7 +19,7 @@ import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
 interface Props {
   node: GQLTransportationNode_NodeFragment;
-  context: "case" | "link" | "node";
+  context: "case" | "link" | "node" | "frontpage";
 }
 
 const StyledText = styled(Text, {
@@ -44,13 +44,31 @@ const TextWrapper = styled("div", {
   },
 });
 
+const StyledCardRoot = styled(CardRoot, {
+  variants: {
+    context: {
+      link: {},
+      node: {},
+      case: {},
+      frontpage: {
+        _hover: {
+          background: "surface.actionSubtle.hover",
+        },
+        _active: {
+          background: "surface.actionSubtle.active",
+        },
+      },
+    },
+  },
+});
+
 export const TransportationNode = ({ node, context }: Props) => {
   const { t } = useTranslation();
   const parent = node.context?.breadcrumbs?.at(-2);
   return (
-    <CardRoot asChild consumeCss>
+    <StyledCardRoot context={context} asChild consumeCss>
       <li>
-        {!!(context !== "node" && !!node.meta?.metaImage) && (
+        {!!(context !== "node" && context !== "frontpage" && !!node.meta?.metaImage) && (
           <CardImage
             // TODO: Variants
             src={node.meta.metaImage.url}
@@ -79,7 +97,7 @@ export const TransportationNode = ({ node, context }: Props) => {
           {context !== "link" && <StyledText textStyle="body.large">{node.meta?.metaDescription ?? ""}</StyledText>}
         </CardContent>
       </li>
-    </CardRoot>
+    </StyledCardRoot>
   );
 };
 
