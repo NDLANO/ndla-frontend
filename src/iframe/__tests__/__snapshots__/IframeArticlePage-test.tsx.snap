@@ -94,6 +94,7 @@ exports[`IframeArticlePage with article renderers correctly 1`] = `
                   aria-disabled="false"
                   aria-expanded="false"
                   class="d_flex ai_center jc_space-between bg_surface.default cursor_pointer trs-dur_fast trs-tmf_default trs-prop_background,_border-color,_border,_border-radius closed:trs-prop_background,_border-color,_border,_border-radius disabled:cursor_not-allowed disabled:bg_surface.disabled.subtle disabled:bx-sh-c_stroke.disabled disabled:c_text.disabled disabled:hover:bg_surface.disabled.subtle disabled:hover:bx-sh-c_stroke.disabled disabled:hover:c_text.disabled px_medium py_medium w_100% bdr_xsmall bx-sh-c_stroke.subtle bx-sh_inset_0_0_0_1px_var(--shadow-color) hover:bg_surface.actionSubtle.hover hover:bx-sh-c_stroke.hover open:bg_surface.actionSubtle.active open:bx-sh-c_stroke.default open:bdr-b_sharp focusVisible:ring_none focusVisible:bx-sh-c_stroke.default focusVisible:bx-sh_inset_0_0_0_3px_var(--shadow-color)"
+                  data-controls="accordion:_r_0_:content:rulesForUse"
                   data-orientation="vertical"
                   data-ownedby="accordion:_r_0_"
                   data-part="item-trigger"
