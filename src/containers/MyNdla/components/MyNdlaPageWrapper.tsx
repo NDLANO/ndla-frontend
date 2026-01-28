@@ -6,47 +6,19 @@
  *
  */
 
-import { ComponentPropsWithoutRef } from "react";
+import { PageContainerProps, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { JsxStyleProps } from "@ndla/styled-system/types";
-import { MenuItemProps } from "./SettingsMenu";
-import { Toolbar } from "./Toolbar";
-import { PageContainer } from "../../../components/Layout/PageContainer";
 
-interface Props extends ComponentPropsWithoutRef<"div">, JsxStyleProps {
-  menuItems?: MenuItemProps[];
-  showButtons?: boolean;
-  type?: "default" | "learningpath";
-}
+const PageWrapper = ({ children, ...rest }: PageContainerProps) => {
+  return (
+    <PageContent variant="wide" gutters="tabletUp" {...rest} asChild consumeCss>
+      <main>{children}</main>
+    </PageContent>
+  );
+};
 
-const StyledPageContainer = styled(PageContainer, {
+export const MyNdlaPageWrapper = styled(PageWrapper, {
   base: {
     gap: "medium",
   },
 });
-
-const StyledMain = styled("main", {
-  base: {},
-  variants: {
-    variant: {
-      default: {},
-      learningpath: {
-        maxWidth: "surface.contentMax",
-        display: "flex",
-        flexDirection: "column",
-        gap: "medium",
-      },
-    },
-  },
-});
-
-export const MyNdlaPageWrapper = ({ menuItems, type = "default", showButtons, children, ...rest }: Props) => {
-  return (
-    <>
-      <Toolbar menuItems={menuItems} showButtons={showButtons} />
-      <StyledPageContainer {...rest} padding="small" asChild={type === "default"} consumeCss={type === "default"}>
-        <StyledMain variant={type}>{children}</StyledMain>
-      </StyledPageContainer>
-    </>
-  );
-};

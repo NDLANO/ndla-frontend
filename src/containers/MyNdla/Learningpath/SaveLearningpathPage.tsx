@@ -115,7 +115,7 @@ export const SaveLearningpathPage = () => {
   const isShared = !open && learningpath.status === LEARNINGPATH_SHARED;
 
   return (
-    <MyNdlaPageWrapper type="learningpath">
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathSavePage", { name: learningpath.title })} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: `save-${learningpath.id}`, name: t("myNdla.learningpath.form.steps.save") }]}

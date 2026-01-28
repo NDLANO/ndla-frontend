@@ -8,13 +8,10 @@
 
 import { useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import { DeleteBinLine, HashTag, FolderLine, LinkMedium } from "@ndla/icons";
 import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { DragWrapper } from "./DraggableFolder";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModalContent";
@@ -25,9 +22,7 @@ import config from "../../../../config";
 import { GQLFolder, GQLFolderResource, GQLFolderResourceMetaFragment } from "../../../../graphqlTypes";
 import { useDeleteFolderResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
-import { DragHandle } from "../../components/DragHandle";
 import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
-import { DraggableListItem } from "../../Learningpath/components/DraggableListItem";
 
 const StyledTagsWrapper = styled("div", {
   base: {
@@ -49,7 +44,7 @@ interface Props {
   resourceRefId?: string;
 }
 
-export const DraggableResource = ({
+export const ResourceWithMenu = ({
   resource,
   loading,
   index,
@@ -62,13 +57,6 @@ export const DraggableResource = ({
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const toast = useToast();
-  const { attributes, setNodeRef, transform, items, transition, isDragging } = useSortable({
-    id: resource.id,
-    data: {
-      name: resourceMeta?.title,
-      index: index + 1,
-    },
-  });
 
   const [deleteFolderResource] = useDeleteFolderResourceMutation(selectedFolder.id);
 
@@ -194,11 +182,6 @@ export const DraggableResource = ({
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
   const resourcePath = useMemo(() => {
     let resPath = resource.path;
 
@@ -214,39 +197,24 @@ export const DraggableResource = ({
   }, [resourceMeta, resource]);
 
   return (
-    <DraggableListItem
-      key={`resource-${resource.id}`}
-      id={`resource-${resource.id}`}
-      ref={setNodeRef}
-      style={style}
-      isDragging={isDragging}
-    >
-      <DragHandle
-        type="resource"
-        disabled={items.length < 2}
-        name={resourceMeta?.title ?? ""}
-        sortableId={resource.id}
-        {...attributes}
+    <li id={`resource-${resource.id}`}>
+      <ListResource
+        id={resource.id}
+        isLoading={loading}
+        key={resource.id}
+        resourceImage={{
+          src: resourceMeta?.metaImage?.url,
+          alt: "",
+        }}
+        link={resourcePath}
+        storedResourceType={resource.resourceType}
+        resourceTypes={resourceMeta?.resourceTypes}
+        traits={resourceMeta?.__typename === "ArticleFolderResourceMeta" ? resourceMeta.traits : undefined}
+        title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
+        description={resourceMeta?.description ?? ""}
+        menu={menu}
+        nonInteractive={!resourceMeta}
       />
-      <DragWrapper>
-        <ListResource
-          id={resource.id}
-          isLoading={loading}
-          key={resource.id}
-          resourceImage={{
-            src: resourceMeta?.metaImage?.url,
-            alt: "",
-          }}
-          link={resourcePath}
-          storedResourceType={resource.resourceType}
-          resourceTypes={resourceMeta?.resourceTypes}
-          traits={resourceMeta?.__typename === "ArticleFolderResourceMeta" ? resourceMeta.traits : undefined}
-          title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
-          description={resourceMeta?.description ?? ""}
-          menu={menu}
-          nonInteractive={!resourceMeta}
-        />
-      </DragWrapper>
-    </DraggableListItem>
+    </li>
   );
 };

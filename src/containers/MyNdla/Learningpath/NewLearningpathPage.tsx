@@ -65,7 +65,7 @@ export const NewLearningpathPage = () => {
   };
 
   return (
-    <MyNdlaPageWrapper type="learningpath">
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathNewPage")} />
       <MyNdlaBreadcrumb
         breadcrumbs={[{ id: "newLearningpath", name: t("myNdla.learningpath.newLearningpath") }]}
