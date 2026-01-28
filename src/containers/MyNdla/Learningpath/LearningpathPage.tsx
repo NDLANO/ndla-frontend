@@ -7,13 +7,15 @@
  */
 
 import { useTranslation } from "react-i18next";
-import { Heading, Text } from "@ndla/primitives";
+import { Text } from "@ndla/primitives";
 import { useLearningpathActionHooks } from "./components/LearningpathActionHooks";
 import { LearningpathList } from "./components/LearningpathList";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { PageActions } from "../components/PageActions";
 
 export const Component = () => {
   return <PrivateRoute element={<LearningpathPage />} />;
@@ -24,13 +26,16 @@ export const LearningpathPage = () => {
   const menuItems = useLearningpathActionHooks();
 
   return (
-    <MyNdlaPageWrapper menuItems={menuItems} type="learningpath">
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathsPage")} />
-      <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
-        {t("myNdla.learningpath.title")}
-      </Heading>
-      <Text>{t("myNdla.learningpath.description")}</Text>
-      <LearningpathList />
+      <MyNdlaPageContent>
+        <MyNdlaTitle title={t("myNdla.learningpath.title")} />
+        <Text>{t("myNdla.learningpath.description")}</Text>
+      </MyNdlaPageContent>
+      <MyNdlaPageSection>
+        <PageActions actions={menuItems} />
+        <LearningpathList />
+      </MyNdlaPageSection>
     </MyNdlaPageWrapper>
   );
 };

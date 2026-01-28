@@ -10,14 +10,13 @@ import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router";
 import { FolderLine, LinkMedium } from "@ndla/icons";
-import { styled } from "@ndla/styled-system/jsx";
 import { keyBy, usePrevious } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModalContent";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";
 import { ListResource } from "../../../components/MyNdla/ListResource";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
-import { MyNdlaTitle, TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { useToast } from "../../../components/ToastContext";
@@ -28,14 +27,9 @@ import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourcesForTag } from "../../../util/folderHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { SettingsMenu, MenuItemProps } from "../components/SettingsMenu";
-
-const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
-  base: {
-    gap: "xsmall",
-  },
-});
 
 export const Component = () => {
   return <PrivateRoute element={<FoldersTagsPage />} />;
@@ -66,14 +60,14 @@ export const FoldersTagsPage = () => {
   }
 
   return (
-    <StyledMyNdlaPageWrapper>
+    <MyNdlaPageWrapper>
       <PageTitle title={title} />
-      <TitleWrapper>
+      <MyNdlaPageContent>
         <MyNdlaBreadcrumb page="folders" breadcrumbs={tag ? [{ name: tag, id: tag }] : []} />
         <MyNdlaTitle title={`#${tag}`} />
-      </TitleWrapper>
+      </MyNdlaPageContent>
       {!!resources && <Resources resources={resources} />}
-    </StyledMyNdlaPageWrapper>
+    </MyNdlaPageWrapper>
   );
 };
 

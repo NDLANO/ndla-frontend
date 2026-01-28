@@ -20,9 +20,9 @@ import { useFetchLearningpath } from "./learningpathQueries";
 import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { useToast } from "../../../components/ToastContext";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathShareLink } from "./components/LearningpathShareLink";
@@ -30,6 +30,7 @@ import { PageTitle } from "../../../components/PageTitle";
 import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 
 const TextWrapper = styled("div", {
   base: {
@@ -115,45 +116,53 @@ export const SaveLearningpathPage = () => {
   const isShared = !open && learningpath.status === LEARNINGPATH_SHARED;
 
   return (
-    <MyNdlaPageWrapper type="learningpath">
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathSavePage", { name: learningpath.title })} />
-      <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: `save-${learningpath.id}`, name: t("myNdla.learningpath.form.steps.save") }]}
-        page="learningpath"
-      />
-      <Heading id={SKIP_TO_CONTENT_ID} tabIndex={-1} textStyle="heading.medium">
-        {learningpath.title}
-      </Heading>
-      <LearningpathStepper step="save" learningpathId={learningpath.id} />
-      <TextWrapper>
-        <Heading textStyle="heading.small" asChild consumeCss>
-          <h2>{t("myNdla.learningpath.saveLearningpath.pageHeading")}</h2>
-        </Heading>
-        <Text>{t("myNdla.learningpath.saveLearningpath.pageDescription")}</Text>
-      </TextWrapper>
-      <LearningpathItem learningpath={learningpath} context="standalone" />
-      {isShared ? <LearningpathShareLink learningpath={learningpath} /> : null}
-      <LearningpathFormButtonContainer>
-        <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathPreview(learningpath.id)}>
-          {t("myNdla.learningpath.form.back")}
-        </SafeLinkButton>
-        <ButtonWrapper>
-          <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
-            {t("myNdla.learningpath.saveLearningpath.saveAndClose")}
+      <MyNdlaPageContent>
+        <MyNdlaBreadcrumb
+          breadcrumbs={[{ id: `save-${learningpath.id}`, name: t("myNdla.learningpath.form.steps.save") }]}
+          page="learningpath"
+        />
+        <MyNdlaTitle title={learningpath.title} />
+        <LearningpathStepper step="save" learningpathId={learningpath.id} />
+      </MyNdlaPageContent>
+      <MyNdlaPageContent>
+        <TextWrapper>
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t("myNdla.learningpath.saveLearningpath.pageHeading")}</h2>
+          </Heading>
+          <Text>{t("myNdla.learningpath.saveLearningpath.pageDescription")}</Text>
+        </TextWrapper>
+        <LearningpathItem learningpath={learningpath} context="standalone" />
+      </MyNdlaPageContent>
+      {isShared ? (
+        <MyNdlaPageContent>
+          <LearningpathShareLink learningpath={learningpath} />
+        </MyNdlaPageContent>
+      ) : null}
+      <MyNdlaPageContent>
+        <LearningpathFormButtonContainer>
+          <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathPreview(learningpath.id)}>
+            {t("myNdla.learningpath.form.back")}
           </SafeLinkButton>
-          <Button variant={isShared ? "danger" : "primary"} onClick={isShared ? onUnshare : onShare} ref={buttonRef}>
-            {/* TODO: Reconsider this translation. Do we want to tie this up to the menu translations? */}
-            {isShared ? t("myNdla.learningpath.menu.unShare") : t("myNdla.learningpath.menu.share")}
-          </Button>
-        </ButtonWrapper>
-        <DialogRoot
-          open={open}
-          onOpenChange={(details) => setOpen(details.open)}
-          finalFocusEl={() => buttonRef.current}
-        >
-          <LearningpathShareDialogContent learningpath={learningpath} onClose={() => setOpen(false)} />
-        </DialogRoot>
-      </LearningpathFormButtonContainer>
+          <ButtonWrapper>
+            <SafeLinkButton to={routes.myNdla.learningpath} variant="secondary">
+              {t("myNdla.learningpath.saveLearningpath.saveAndClose")}
+            </SafeLinkButton>
+            <Button variant={isShared ? "danger" : "primary"} onClick={isShared ? onUnshare : onShare} ref={buttonRef}>
+              {/* TODO: Reconsider this translation. Do we want to tie this up to the menu translations? */}
+              {isShared ? t("myNdla.learningpath.menu.unShare") : t("myNdla.learningpath.menu.share")}
+            </Button>
+          </ButtonWrapper>
+          <DialogRoot
+            open={open}
+            onOpenChange={(details) => setOpen(details.open)}
+            finalFocusEl={() => buttonRef.current}
+          >
+            <LearningpathShareDialogContent learningpath={learningpath} onClose={() => setOpen(false)} />
+          </DialogRoot>
+        </LearningpathFormButtonContainer>
+      </MyNdlaPageContent>
     </MyNdlaPageWrapper>
   );
 };

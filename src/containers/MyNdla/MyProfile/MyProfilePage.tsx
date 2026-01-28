@@ -35,12 +35,6 @@ import { MyContactArea } from "../components/MyContactArea";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { UserInfo } from "../components/UserInfo";
 
-const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
-  base: {
-    gap: "xxlarge",
-  },
-});
-
 const InfoContainer = styled("div", {
   base: {
     display: "flex",
@@ -84,7 +78,7 @@ export const MyProfilePage = () => {
   };
 
   return (
-    <StyledMyNdlaPageWrapper>
+    <MyNdlaPageWrapper>
       <PageTitle title={t("myNdla.myProfile.title")} />
       <MyNdlaTitle title={t("myNdla.myProfile.title")} />
       <MyContactArea
@@ -156,6 +150,6 @@ export const MyProfilePage = () => {
           </DialogContent>
         </DialogRoot>
       </Stack>
-    </StyledMyNdlaPageWrapper>
+    </MyNdlaPageWrapper>
   );
 };

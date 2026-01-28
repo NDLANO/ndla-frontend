@@ -17,6 +17,9 @@ const StepWrapper = styled("ol", {
     display: "flex",
     listStyle: "none",
     gap: "4xsmall",
+    "& a": {
+      color: "text.strong",
+    },
     tabletWideDown: {
       display: "none",
     },

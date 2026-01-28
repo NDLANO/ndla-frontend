@@ -9,10 +9,10 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
+import { keyBy } from "@ndla/util";
 import { GridList } from "./SubjectCategory";
 import { SubjectLink } from "./SubjectLink";
 import { GQLTaxBase } from "../../graphqlTypes";
-import { sortSubjectsByRecentlyFavourited } from "../MyNdla/myNdlaUtils";
 
 interface Props {
   subjects: GQLTaxBase[];
@@ -23,7 +23,8 @@ export const FavoriteSubjects = ({ favorites, subjects }: Props) => {
   const { t } = useTranslation();
 
   const mappedFavorites = useMemo(() => {
-    return sortSubjectsByRecentlyFavourited(subjects, favorites);
+    const keyed = keyBy(subjects, (sub) => sub.id);
+    return favorites.map((id) => keyed[id]).filter((sub): sub is GQLTaxBase => !!sub);
   }, [favorites, subjects]);
 
   return (

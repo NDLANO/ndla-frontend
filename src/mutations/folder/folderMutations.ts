@@ -23,13 +23,10 @@ import {
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteFolderResourceArgs,
   GQLMutationFavoriteSharedFolderArgs,
-  GQLMutationSortFoldersArgs,
-  GQLMutationSortResourcesArgs,
   GQLMutationUnFavoriteSharedFolderArgs,
   GQLMutationUpdateFolderArgs,
   GQLMutationUpdateFolderResourceArgs,
   GQLMutationUpdateFolderStatusArgs,
-  GQLSortFoldersMutation,
   GQLUnFavoriteSharedFolderMutation,
   GQLUpdateFolderMutation,
   GQLUpdateFolderResourceMutation,
@@ -68,32 +65,6 @@ const updateFolderMutation = gql`
     }
   }
   ${foldersPageQueryFragment}
-`;
-
-const sortFoldersMutation = gql`
-  mutation sortFolders($parentId: String, $sortedIds: [String!]!) {
-    sortFolders(parentId: $parentId, sortedIds: $sortedIds) {
-      parentId
-      sortedIds
-    }
-  }
-`;
-
-const sortSavedSharedFoldersMutation = gql`
-  mutation sortSavedSharedFolders($sortedIds: [String!]!) {
-    sortSavedSharedFolders(sortedIds: $sortedIds) {
-      sortedIds
-    }
-  }
-`;
-
-const sortResourcesMutation = gql`
-  mutation sortResources($parentId: String!, $sortedIds: [String!]!) {
-    sortResources(parentId: $parentId, sortedIds: $sortedIds) {
-      parentId
-      sortedIds
-    }
-  }
 `;
 
 const updateFolderStatusMutation = gql`
@@ -255,13 +226,6 @@ export const useUpdateFolderMutation = () => {
     },
   });
 };
-
-export const useSortFoldersMutation = (options?: { type: "sharedFolder" | "folder" }) => {
-  const mutation = options?.type === "sharedFolder" ? sortSavedSharedFoldersMutation : sortFoldersMutation;
-  return useMutation<GQLSortFoldersMutation, GQLMutationSortFoldersArgs>(mutation);
-};
-
-export const useSortResourcesMutation = () => useMutation<boolean, GQLMutationSortResourcesArgs>(sortResourcesMutation);
 
 const addResourceToFolderQuery = gql`
   mutation addResourceToFolder(

@@ -15,6 +15,7 @@ export const TitleWrapper = styled("div", {
     alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
+    maxWidth: "surface.contentMax",
     gap: "medium",
     "& a": {
       color: "text.default",

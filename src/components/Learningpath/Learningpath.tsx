@@ -56,6 +56,7 @@ interface Props {
 const StyledPageContainer = styled(PageContainer, {
   base: {
     position: "relative",
+    width: "100%",
     background: "background.subtle",
     minHeight: "100vh",
     gap: "large",

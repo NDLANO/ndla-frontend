@@ -6,22 +6,13 @@
  *
  */
 
-import { useMemo, useState, useEffect, SetStateAction, Dispatch } from "react";
-import { useTranslation } from "react-i18next";
-import { Reference } from "@apollo/client";
-import { useApolloClient } from "@apollo/client/react";
-import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { restrictToVerticalAxis, restrictToParentElement } from "@dnd-kit/modifiers";
-import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { DraggableFolder } from "./DraggableFolder";
+import { useMemo, SetStateAction, Dispatch } from "react";
+import { FolderWithMenu } from "./FolderWithMenu";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { PageSpinner } from "../../../../components/PageSpinner";
 import { WhileLoading } from "../../../../components/WhileLoading";
 import { GQLFolder, GQLSharedFolder } from "../../../../graphqlTypes";
-import { useSortFoldersMutation } from "../../../../mutations/folder/folderMutations";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
-import { makeDndTranslations } from "../../dndUtil";
-import { makeDndSortFunction } from "../util";
 
 interface Props {
   loading: boolean;
@@ -30,6 +21,7 @@ interface Props {
   setFocusId: Dispatch<SetStateAction<string | undefined>>;
   folderRefId?: string;
   isFavorited?: boolean;
+  labelledBy: string;
 }
 
 export const getFolderCount = (folders: GQLFolder[] | GQLSharedFolder[]) =>
@@ -38,84 +30,25 @@ export const getFolderCount = (folders: GQLFolder[] | GQLSharedFolder[]) =>
     return acc;
   }, {});
 
-export const FolderList = ({ loading, folders, folderId, setFocusId, folderRefId, isFavorited }: Props) => {
-  const { t } = useTranslation();
-  const [sortFolders] = useSortFoldersMutation({ type: isFavorited ? "sharedFolder" : "folder" });
-  const client = useApolloClient();
-  const [sortedFolders, setSortedFolders] = useState(folders);
-
-  useEffect(() => {
-    setSortedFolders(folders);
-  }, [folders]);
-
+export const FolderList = ({ loading, folders, setFocusId, folderRefId, isFavorited, labelledBy }: Props) => {
   const foldersCount = useMemo(() => getFolderCount(folders), [folders]);
-
-  const updateCache = (newOrder: string[]) => {
-    const typeName = isFavorited ? "SharedFolder" : "Folder";
-    const sortCacheModifierFunction = <T extends Reference>(existing: readonly T[]): T[] => {
-      return newOrder.map((id) => existing.find((ef) => ef.__ref === `${typeName}:${id}`)!);
-    };
-
-    if (folderId) {
-      client.cache.modify({
-        id: client.cache.identify({
-          __ref: `Folder:${folderId}`,
-        }),
-        fields: { subfolders: sortCacheModifierFunction },
-      });
-    } else {
-      const field = isFavorited ? "sharedFolders" : "folders";
-      client.cache.modify({
-        fields: {
-          folders: (input) => {
-            return {
-              ...input,
-              [field]: sortCacheModifierFunction(input[field]),
-            };
-          },
-        },
-      });
-    }
-  };
-
-  const announcements = useMemo(() => makeDndTranslations("folder", t, folders.length), [folders, t]);
-
-  const sortFolderIds = makeDndSortFunction(folderId, folders, sortFolders, updateCache, setSortedFolders);
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    }),
-  );
 
   return (
     <WhileLoading isLoading={loading} fallback={<PageSpinner />}>
-      {folders.length > 0 && (
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={sortFolderIds}
-          accessibility={{ announcements }}
-          modifiers={[restrictToVerticalAxis, restrictToParentElement]}
-        >
-          <SortableContext items={sortedFolders} disabled={folders.length < 2} strategy={verticalListSortingStrategy}>
-            <BlockWrapper>
-              {folders.map((folder, index) => (
-                <DraggableFolder
-                  key={`folder-${folder.id}`}
-                  folder={folder}
-                  index={index}
-                  foldersCount={foldersCount?.[folder.id]}
-                  folders={folders}
-                  setFocusId={setFocusId}
-                  folderRefId={folderRefId}
-                  isFavorited={isFavorited}
-                />
-              ))}
-            </BlockWrapper>
-          </SortableContext>
-        </DndContext>
+      {!!folders.length && (
+        <BlockWrapper aria-labelledby={labelledBy}>
+          {folders.map((folder) => (
+            <FolderWithMenu
+              key={`folder-${folder.id}`}
+              folder={folder}
+              foldersCount={foldersCount?.[folder.id]}
+              folders={folders}
+              setFocusId={setFocusId}
+              folderRefId={folderRefId}
+              isFavorited={isFavorited}
+            />
+          ))}
+        </BlockWrapper>
       )}
     </WhileLoading>
   );
