@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useMemo, useContext, useEffect, ReactElement } from "react";
+import { useMemo, useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router";
 import {
@@ -41,7 +41,6 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { getCookie, NoSSR } from "@ndla/util";
-import { NavigationLink } from "./components/NavigationLink";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { PageLayout } from "../../components/Layout/PageContainer";
@@ -49,7 +48,7 @@ import config from "../../config";
 import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { MenuContainer, MenuList } from "./components/MenuContainer";
+import { MenuContainer, MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
 
@@ -75,25 +74,11 @@ const StyledLayout = styled(PageLayout, {
   },
 });
 
-const StyledLi = styled("li", {
-  base: {
-    width: "100%",
-  },
-});
-
 const StyledMenuContainer = styled(MenuContainer, {
   base: {
     tabletDown: {
       display: "none",
     },
-  },
-});
-
-const Separator = styled("hr", {
-  base: {
-    height: "1px",
-    color: "stroke.subtle",
-    margin: "small",
   },
 });
 
@@ -141,49 +126,22 @@ export const MyNdlaLayout = () => {
   );
 };
 
-interface MenuLink {
-  id: string;
-  name: string;
-  to: string;
-  shortName?: string;
-  icon?: ReactElement;
-  iconFilled?: ReactElement;
-  shownForUser?: boolean;
-  reloadDocument?: boolean;
-  showSeparator?: boolean;
-}
-
 const MyNdlaMenu = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const { user } = useContext(AuthContext);
 
-  const menuLink = useMemo(
-    () =>
-      menuLinks(t, location, user).map(
-        ({ name, shortName, id, icon, to, iconFilled, shownForUser = true, reloadDocument, showSeparator }) =>
-          !!shownForUser && (
-            <StyledLi key={id}>
-              {showSeparator ? <Separator key={`${id}-separator`} aria-hidden={true} /> : null}
-              <NavigationLink
-                name={name}
-                shortName={shortName}
-                icon={icon}
-                to={to}
-                iconFilled={iconFilled}
-                reloadDocument={reloadDocument}
-              />
-            </StyledLi>
-          ),
-      ),
-    [location, t, user],
-  );
+  const linkElements = useMemo(() => menuLinks(t, location, user), [location, t, user]);
 
   return (
     <>
       <StyledMenuContainer asChild consumeCss>
         <nav aria-label={t("myNdla.myNDLAMenu")}>
-          <MenuList data-testid="my-ndla-menu">{menuLink}</MenuList>
+          <MenuList data-testid="my-ndla-menu">
+            {linkElements.map((link) => (
+              <MenuListItem key={link.id} link={link} context="desktop" />
+            ))}
+          </MenuList>
         </nav>
       </StyledMenuContainer>
       <DialogRoot key={location.pathname}>
@@ -202,7 +160,11 @@ const MyNdlaMenu = () => {
           <DialogBody>
             <MenuContainer>
               <nav aria-label={t("myNdla.myNDLAMenu")}>
-                <MenuList>{menuLink}</MenuList>
+                <MenuList>
+                  {linkElements.map((link) => (
+                    <MenuListItem key={link.id} link={link} context="handheld" />
+                  ))}
+                </MenuList>
               </nav>
             </MenuContainer>
           </DialogBody>
@@ -248,7 +210,7 @@ const menuLinks = (
     shortName: t("myNdla.iconMenu.learningpath"),
     icon: <RouteLine />,
     iconFilled: <RouteFill />,
-    shownForUser: user?.role === "employee",
+    hiddenForUser: user?.role !== "employee",
   },
   {
     id: "arena",
