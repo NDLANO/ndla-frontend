@@ -7,7 +7,7 @@
  */
 
 import { TFunction } from "i18next";
-import { useMemo, useContext, useEffect, useState, ReactElement } from "react";
+import { useMemo, useContext, useEffect, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { Location, Outlet, useLocation } from "react-router";
 import {
@@ -24,97 +24,67 @@ import {
   LoginBoxLine,
   RouteLine,
   RouteFill,
-  MoreLine,
   FolderFill,
   FolderLine,
+  MenuLine,
 } from "@ndla/icons";
-import { DialogRoot, DialogTrigger, MessageBox, Text } from "@ndla/primitives";
+import {
+  DialogBody,
+  DialogContent,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+  DialogTrigger,
+  IconButton,
+  MessageBox,
+  Text,
+} from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { getCookie, NoSSR } from "@ndla/util";
-import { NavigationLink, MoreButton } from "./components/NavigationLink";
+import { NavigationLink } from "./components/NavigationLink";
 import { AuthContext } from "../../components/AuthenticationContext";
+import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import config from "../../config";
 import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
+import { MenuContainer, MenuList } from "./components/MenuContainer";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
 
-const StyledLayout = styled(PageLayout, {
+const StyledIconButton = styled(IconButton, {
   base: {
-    display: "flex",
-    flexDirection: "row",
-    mobileWideDown: {
-      flexDirection: "column",
+    width: "fit-content",
+    tablet: {
+      display: "none",
     },
   },
 });
 
-const StyledNavList = styled("ul", {
+const StyledLayout = styled(PageLayout, {
   base: {
     display: "grid",
-    listStyle: "none",
-    gridTemplateColumns: "repeat(4, minmax(auto, 1fr))",
-    gap: "4xsmall",
-    justifyContent: "space-between",
-    mobileWide: {
-      display: "flex",
-      flexDirection: "column",
-      width: "100%",
-    },
-    desktop: {
-      alignItems: "flex-start",
+    gridTemplateColumns: "auto 1fr",
+    padding: "medium",
+    background: "background.strong",
+    tabletDown: {
+      gap: "medium",
+      gridTemplateColumns: "none",
     },
   },
 });
 
 const StyledLi = styled("li", {
   base: {
-    // Menubar on phone should only display first 4 links and the the rest when the modal is open.
-    mobileWideDown: {
-      "&:not(:nth-of-type(-n + 4))": {
-        display: "none",
-      },
-    },
-    desktop: {
-      width: "100%",
-    },
-  },
-});
-
-const StyledContent = styled("div", {
-  base: {
     width: "100%",
   },
 });
 
-const StyledSideBar = styled("div", {
+const StyledMenuContainer = styled(MenuContainer, {
   base: {
-    display: "flex",
-    flexShrink: "0",
-    flexDirection: "row",
-    justifyContent: "center",
-    background: "background.subtle",
-    gap: "4xsmall",
-    mobileWideDown: {
-      paddingBlock: "4xsmall",
-      borderBottom: "1px solid",
-      borderColor: "stroke.subtle",
-      paddingInline: "4xsmall",
-      display: "grid",
-      gridTemplateColumns: "4fr 1fr",
-    },
-    mobileWide: {
-      padding: "3xsmall",
-      borderRight: "1px solid",
-      borderColor: "stroke.subtle",
-    },
-    desktop: {
-      justifyContent: "flex-start",
-      gap: "medium",
-      flexDirection: "column",
-      minWidth: "surface.xsmall",
+    tabletDown: {
+      display: "none",
     },
   },
 });
@@ -135,70 +105,38 @@ export const Component = () => {
   );
 };
 
+const StyledDialogContent = styled(DialogContent, {
+  base: {
+    background: "background.subtle",
+  },
+});
+
+const loginlocation = `/login?returnTo=${routes.myNdla.root}`;
+
 export const MyNdlaLayout = () => {
   const { t } = useTranslation();
-  const { user, examLock, authenticated, authContextLoaded } = useContext(AuthContext);
-  const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const loginlocation = `/login?returnTo=${routes.myNdla.root}`;
+  const { examLock, authenticated, authContextLoaded } = useContext(AuthContext);
 
   useEffect(() => {
+    if (!authContextLoaded || authenticated || !window.location) return;
     const autologin = getCookie(AUTOLOGIN_COOKIE, document.cookie);
     // If in browser, cookie exists due to previous login, and user is not logged in now, redirect user to feide
-    if (window.location && autologin && !authenticated && authContextLoaded) {
+    if (autologin) {
       window.location.replace(loginlocation);
     }
-  }, [loginlocation, authenticated, authContextLoaded]);
-
-  const menuLink = useMemo(
-    () =>
-      menuLinks(t, location, user).map(
-        ({ name, shortName, id, icon, to, iconFilled, shownForUser = true, reloadDocument, showSeparator }) => {
-          if (!shownForUser) {
-            return null;
-          }
-          return (
-            <StyledLi key={id}>
-              {showSeparator ? <Separator key={`${id}-separator`} aria-hidden={true} /> : null}
-              <NavigationLink
-                name={name}
-                shortName={shortName}
-                icon={icon}
-                to={to}
-                iconFilled={iconFilled}
-                reloadDocument={reloadDocument}
-              />
-            </StyledLi>
-          );
-        },
-      ),
-    [location, t, user],
-  );
+  }, [authenticated, authContextLoaded]);
 
   return (
     <StyledLayout>
-      <DialogRoot key={location.pathname} open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
-        <StyledSideBar>
-          <nav aria-label={t("myNdla.myNDLAMenu")}>
-            <StyledNavList data-testid="my-ndla-menu">{menuLink}</StyledNavList>
-          </nav>
-          <DialogTrigger asChild>
-            <MoreButton variant="tertiary">
-              <MoreLine />
-              <Text textStyle="label.xsmall">{t("myNdla.iconMenu.more")}</Text>
-            </MoreButton>
-          </DialogTrigger>
-        </StyledSideBar>
-        <StyledContent>
-          {!!examLock && (
-            <MessageBox variant="warning">
-              <Text>{t("myNdla.examLockInfo")}</Text>
-            </MessageBox>
-          )}
-          <Outlet />
-        </StyledContent>
-      </DialogRoot>
+      <MyNdlaMenu />
+      <div>
+        {!!examLock && (
+          <MessageBox variant="warning">
+            <Text>{t("myNdla.examLockInfo")}</Text>
+          </MessageBox>
+        )}
+        <Outlet />
+      </div>
     </StyledLayout>
   );
 };
@@ -215,7 +153,66 @@ interface MenuLink {
   showSeparator?: boolean;
 }
 
-export const menuLinks = (
+const MyNdlaMenu = () => {
+  const { t } = useTranslation();
+  const location = useLocation();
+  const { user } = useContext(AuthContext);
+
+  const menuLink = useMemo(
+    () =>
+      menuLinks(t, location, user).map(
+        ({ name, shortName, id, icon, to, iconFilled, shownForUser = true, reloadDocument, showSeparator }) =>
+          !!shownForUser && (
+            <StyledLi key={id}>
+              {showSeparator ? <Separator key={`${id}-separator`} aria-hidden={true} /> : null}
+              <NavigationLink
+                name={name}
+                shortName={shortName}
+                icon={icon}
+                to={to}
+                iconFilled={iconFilled}
+                reloadDocument={reloadDocument}
+              />
+            </StyledLi>
+          ),
+      ),
+    [location, t, user],
+  );
+
+  return (
+    <>
+      <StyledMenuContainer asChild consumeCss>
+        <nav aria-label={t("myNdla.myNDLAMenu")}>
+          <MenuList data-testid="my-ndla-menu">{menuLink}</MenuList>
+        </nav>
+      </StyledMenuContainer>
+      <DialogRoot key={location.pathname}>
+        <DialogTrigger asChild>
+          <StyledIconButton variant="tertiary" aria-label={t("myNdla.iconMenu.more")} title={t("myNdla.iconMenu.more")}>
+            <MenuLine />
+          </StyledIconButton>
+        </DialogTrigger>
+        <StyledDialogContent>
+          <DialogHeader>
+            <DialogCloseButton />
+            <DialogTitle textStyle="title.medium" srOnly>
+              {t("myNdla.myNDLA")}
+            </DialogTitle>
+          </DialogHeader>
+          <DialogBody>
+            <MenuContainer>
+              <nav aria-label={t("myNdla.myNDLAMenu")}>
+                <MenuList>{menuLink}</MenuList>
+              </nav>
+            </MenuContainer>
+          </DialogBody>
+        </StyledDialogContent>
+      </DialogRoot>
+    </>
+  );
+};
+
+const menuLinks = (
   t: TFunction,
   location: Location,
   user: GQLMyNdlaPersonalDataFragmentFragment | undefined,

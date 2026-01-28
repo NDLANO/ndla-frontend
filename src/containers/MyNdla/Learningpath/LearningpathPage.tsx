@@ -14,6 +14,7 @@ import { PageTitle } from "../../../components/PageTitle";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { PageActions } from "../components/PageActions";
 
 export const Component = () => {
   return <PrivateRoute element={<LearningpathPage />} />;
@@ -24,12 +25,13 @@ export const LearningpathPage = () => {
   const menuItems = useLearningpathActionHooks();
 
   return (
-    <MyNdlaPageWrapper menuItems={menuItems} type="learningpath">
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathsPage")} />
       <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
         {t("myNdla.learningpath.title")}
       </Heading>
       <Text>{t("myNdla.learningpath.description")}</Text>
+      <PageActions actions={menuItems} />
       <LearningpathList />
     </MyNdlaPageWrapper>
   );

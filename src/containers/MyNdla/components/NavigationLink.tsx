@@ -9,18 +9,9 @@
 import { ReactNode } from "react";
 import { useLocation } from "react-router";
 import { ExternalLinkLine } from "@ndla/icons";
-import { SafeLink, SafeLinkButtonProps } from "@ndla/safelink";
+import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { MyNdlaButton } from "./MyNdlaButton";
 import { routes } from "../../../routeHelpers";
-
-export const MoreButton = styled(MyNdlaButton, {
-  base: {
-    mobileWide: {
-      display: "none",
-    },
-  },
-});
 
 const LongText = styled("span", {
   base: {
@@ -53,13 +44,42 @@ const ExternalWrapper = styled("span", {
   },
 });
 
-interface Props extends Omit<SafeLinkButtonProps, "children"> {
+interface Props extends Omit<SafeLinkButtonProps, "children" | "variant"> {
   icon: ReactNode;
   iconFilled?: ReactNode;
   name: string;
   shortName?: string;
   to: string;
 }
+
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    display: "flex",
+    background: "surface.default",
+    justifyContent: "flex-start",
+    color: "text.default",
+    fontWeight: "normal",
+    paddingInline: "xsmall",
+    desktopDown: {
+      flexDirection: "column",
+      textStyle: "label.xsmall",
+    },
+    tabletDown: {
+      paddingInline: "3xsmall",
+    },
+    _hover: {
+      boxShadow: "none",
+      background: "surface.hover",
+    },
+    _active: {
+      boxShadow: "none",
+      background: "surface.active",
+    },
+    _currentPage: {
+      fontWeight: "bold",
+    },
+  },
+});
 
 export const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to, reloadDocument }: Props) => {
   const location = useLocation();
@@ -69,26 +89,24 @@ export const NavigationLink = ({ icon, iconFilled, name, shortName, onClick, to,
   const external = to.startsWith("http");
 
   return (
-    <MyNdlaButton asChild>
-      <SafeLink
-        unstyled
-        aria-current={selected ? "page" : undefined}
-        to={to}
-        reloadDocument={reloadDocument}
-        onClick={onClick}
-        target={external ? "_blank" : undefined}
-      >
-        {selectedIcon}
-        <LongText>{name}</LongText>
-        {external ? (
-          <ExternalWrapper>
-            <ShortText>{shortName}</ShortText>
-            <StyledExternalLinkLine />
-          </ExternalWrapper>
-        ) : (
+    <StyledSafeLinkButton
+      aria-current={selected ? "page" : undefined}
+      to={to}
+      variant="tertiary"
+      reloadDocument={reloadDocument}
+      onClick={onClick}
+      target={external ? "_blank" : undefined}
+    >
+      {selectedIcon}
+      <LongText>{name}</LongText>
+      {external ? (
+        <ExternalWrapper>
           <ShortText>{shortName}</ShortText>
-        )}
-      </SafeLink>
-    </MyNdlaButton>
+          <StyledExternalLinkLine />
+        </ExternalWrapper>
+      ) : (
+        <ShortText>{shortName}</ShortText>
+      )}
+    </StyledSafeLinkButton>
   );
 };

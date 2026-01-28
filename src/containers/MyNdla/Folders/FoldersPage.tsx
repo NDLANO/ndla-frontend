@@ -25,6 +25,7 @@ import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { PageActions } from "../components/PageActions";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
   base: {
@@ -144,7 +145,7 @@ export const FoldersPage = () => {
   const tags = useMemo(() => getAllTags(folders), [folders]);
 
   return (
-    <StyledMyNdlaPageWrapper menuItems={menuItems} showButtons={!examLock || !!selectedFolder}>
+    <StyledMyNdlaPageWrapper>
       <PageTitle title={title} />
       <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
       {!!selectedFolder && (
@@ -152,6 +153,7 @@ export const FoldersPage = () => {
           <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
         </p>
       )}
+      {!examLock && <PageActions actions={menuItems} />}
       <FolderList
         folders={folders}
         loading={loading}

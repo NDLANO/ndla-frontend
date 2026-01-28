@@ -20,6 +20,7 @@ import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../../AllSubjectsPage/SubjectLink";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { PageActions } from "../components/PageActions";
 import { MenuItemProps } from "../components/SettingsMenu";
 
 const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
@@ -71,9 +72,10 @@ export const FavoriteSubjectsPage = () => {
   ];
 
   return (
-    <StyledMyNdlaPageWrapper menuItems={menuItems}>
+    <StyledMyNdlaPageWrapper>
       <PageTitle title={t("myNdla.favoriteSubjects.title")} />
       <MyNdlaTitle title={t("myNdla.favoriteSubjects.title")} />
+      <PageActions actions={menuItems} />
       {favouriteSubjectsQuery.loading ? (
         <LoadingGrid>
           <LoadingItem />
