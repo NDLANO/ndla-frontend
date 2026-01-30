@@ -1339,6 +1339,7 @@ export type GQLQuery = {
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
   programme?: Maybe<GQLProgrammePage>;
   programmes?: Maybe<Array<GQLProgrammePage>>;
+  recentlyFavoritedResources: Array<GQLFolderResource>;
   resource?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
   resourceEmbeds: GQLResourceEmbed;
@@ -1498,6 +1499,10 @@ export type GQLQueryPodcastSeriesSearchArgs = {
 export type GQLQueryProgrammeArgs = {
   contextId?: InputMaybe<Scalars["String"]["input"]>;
   path?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLQueryRecentlyFavoritedResourcesArgs = {
+  size?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type GQLQueryResourceArgs = {
@@ -3964,35 +3969,6 @@ export type GQLUpdateFolderMutation = {
   updateFolder: { __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment;
 };
 
-export type GQLSortFoldersMutationVariables = Exact<{
-  parentId?: InputMaybe<Scalars["String"]["input"]>;
-  sortedIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
-}>;
-
-export type GQLSortFoldersMutation = {
-  __typename?: "Mutation";
-  sortFolders: { __typename?: "SortResult"; parentId?: string; sortedIds: Array<string> };
-};
-
-export type GQLSortSavedSharedFoldersMutationVariables = Exact<{
-  sortedIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
-}>;
-
-export type GQLSortSavedSharedFoldersMutation = {
-  __typename?: "Mutation";
-  sortSavedSharedFolders: { __typename?: "SortResult"; sortedIds: Array<string> };
-};
-
-export type GQLSortResourcesMutationVariables = Exact<{
-  parentId: Scalars["String"]["input"];
-  sortedIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
-}>;
-
-export type GQLSortResourcesMutation = {
-  __typename?: "Mutation";
-  sortResources: { __typename?: "SortResult"; parentId?: string; sortedIds: Array<string> };
-};
-
 export type GQLUpdateFolderStatusMutationVariables = Exact<{
   folderId: Scalars["String"]["input"];
   status: Scalars["String"]["input"];
@@ -4100,11 +4076,11 @@ export type GQLSharedFolderQuery = {
   sharedFolder: { __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment;
 };
 
-export type GQLRecentlyUsedQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLRecentlyFavoritedQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLRecentlyUsedQuery = {
+export type GQLRecentlyFavoritedQuery = {
   __typename?: "Query";
-  allFolderResources: Array<{
+  recentlyFavoritedResources: Array<{
     __typename?: "FolderResource";
     id: string;
     resourceId: string;

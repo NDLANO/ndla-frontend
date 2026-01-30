@@ -1105,6 +1105,7 @@ type Query {
   podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
   programme(contextId: String, path: String): ProgrammePage
   programmes: [ProgrammePage!]
+  recentlyFavoritedResources(size: Int): [FolderResource!]!
   resource(id: String!, subjectId: String, topicId: String): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
   resourceEmbeds(resources: [ResourceEmbedInput!]!): ResourceEmbed!

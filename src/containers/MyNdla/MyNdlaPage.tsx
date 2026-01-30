@@ -25,7 +25,7 @@ import { myndlaLanguages } from "../../i18n";
 import {
   useFolderResourceMetaSearch,
   useFavouriteSubjects,
-  useRecentlyUsedResources,
+  useRecentlyFavoritedResources,
 } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
@@ -57,16 +57,14 @@ export const MyNdlaPage = () => {
   const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.toReversed().slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
-  const { data: recentlyUsedResources } = useRecentlyUsedResources(!authenticated);
+  const recentlyFavoritedQuery = useRecentlyFavoritedResources(!authenticated);
   const { data: metaData, loading } = useFolderResourceMetaSearch(
-    recentlyUsedResources?.allFolderResources?.map((r) => ({
+    recentlyFavoritedQuery.data?.recentlyFavoritedResources?.map((r) => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
     })) ?? [],
-    {
-      skip: !recentlyUsedResources?.allFolderResources.length,
-    },
+    { skip: !recentlyFavoritedQuery.data?.recentlyFavoritedResources.length },
   );
 
   const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
@@ -137,13 +135,13 @@ export const MyNdlaPage = () => {
             </SafeLink>
           </MyNdlaPageSection>
         </>
-      ) : recentlyUsedResources?.allFolderResources?.length ? (
+      ) : recentlyFavoritedQuery?.data?.recentlyFavoritedResources?.length ? (
         <MyNdlaPageSection>
           <Heading asChild consumeCss textStyle="heading.small" id={recentlyFavoritedHeadingId}>
             <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
           </Heading>
           <StyledList aria-labelledby={recentlyFavoritedHeadingId}>
-            {recentlyUsedResources.allFolderResources.map((res) => {
+            {recentlyFavoritedQuery.data.recentlyFavoritedResources.map((res) => {
               const meta = keyedData[`${res.resourceType}${res.resourceId}`];
               return (
                 <li key={res.id}>

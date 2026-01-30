@@ -32,7 +32,7 @@ import {
   GQLUpdateFolderResourceMutation,
   GQLUpdateFolderStatusMutation,
 } from "../../graphqlTypes";
-import { foldersPageQuery, recentlyUsedQuery } from "./folderQueries";
+import { foldersPageQuery, recentlyFavoritedQuery } from "./folderQueries";
 
 const deleteFolderMutation = gql`
   mutation deleteFolder($id: String!) {
@@ -131,9 +131,9 @@ export const useDeleteFolderMutation = () => {
         query: foldersPageQuery,
       });
       if (beforeDeletion?.folders.folders?.length === 1) {
-        return [{ query: recentlyUsedQuery }, { query: foldersPageQuery }];
+        return [{ query: recentlyFavoritedQuery }, { query: foldersPageQuery }];
       }
-      return [{ query: recentlyUsedQuery }];
+      return [{ query: recentlyFavoritedQuery }];
     },
     onCompleted: ({ deleteFolder: id }) => {
       const normalizedId = client.cache.identify({ id, __typename: "Folder" });
@@ -251,7 +251,7 @@ const addResourceToFolderQuery = gql`
 export const useAddResourceToFolderMutation = (folderId: string) => {
   const { cache } = useApolloClient();
   return useMutation<GQLAddResourceToFolderMutation, GQLMutationAddFolderResourceArgs>(addResourceToFolderQuery, {
-    refetchQueries: [{ query: recentlyUsedQuery }],
+    refetchQueries: [{ query: recentlyFavoritedQuery }],
     onCompleted: (data) => {
       cache.modify({
         id: cache.identify({
@@ -280,7 +280,7 @@ export const useDeleteFolderResourceMutation = (folderId: string) => {
   return useMutation<GQLDeleteFolderResourceMutation, GQLMutationDeleteFolderResourceArgs>(
     deleteFolderResourceMutation,
     {
-      refetchQueries: [{ query: recentlyUsedQuery }],
+      refetchQueries: [{ query: recentlyFavoritedQuery }],
       onCompleted: ({ deleteFolderResource: id }) => {
         cache.modify({
           id: cache.identify({ __typename: "Folder", id: folderId }),
@@ -307,7 +307,7 @@ export const useFavoriteSharedFolder = () => {
   return useMutation<GQLFavoriteSharedFolderMutation, GQLMutationFavoriteSharedFolderArgs>(
     favoriteSharedFolderMutation,
     {
-      refetchQueries: [{ query: recentlyUsedQuery }],
+      refetchQueries: [{ query: recentlyFavoritedQuery }],
       onCompleted: ({ favoriteSharedFolder: folderId }) => {
         client.cache.modify({
           fields: {
@@ -343,7 +343,7 @@ export const useUnFavoriteSharedFolder = () => {
   return useMutation<GQLUnFavoriteSharedFolderMutation, GQLMutationUnFavoriteSharedFolderArgs>(
     unFavoriteSharedFolderMutation,
     {
-      refetchQueries: [{ query: recentlyUsedQuery }],
+      refetchQueries: [{ query: recentlyFavoritedQuery }],
       onCompleted: ({ unFavoriteSharedFolder: id }) => {
         const normalizedId = client.cache.identify({
           id,
