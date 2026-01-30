@@ -8,16 +8,17 @@
 
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
-import { Heading, Spinner } from "@ndla/primitives";
+import { Spinner } from "@ndla/primitives";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { EditLearningpathStepsPageContent } from "./EditLearningpathStepsPageContent";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 
 export const Component = () => {
@@ -46,17 +47,19 @@ export const EditLearningpathStepsPage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper type="learningpath">
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathEditStepsPage", { name: data.myNdlaLearningpath.title })} />
-      <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpath")}` }]}
-        page="learningpath"
-      />
-      <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
-        {data.myNdlaLearningpath.title}
-      </Heading>
-      <LearningpathStepper step="content" learningpathId={data.myNdlaLearningpath.id} />
-      <EditLearningpathStepsPageContent learningpath={data.myNdlaLearningpath} />
+      <MyNdlaPageContent>
+        <MyNdlaBreadcrumb
+          breadcrumbs={[{ id: "0", name: t("myNdla.learningpath.editLearningpath") }]}
+          page="learningpath"
+        />
+        <MyNdlaTitle title={data.myNdlaLearningpath.title} />
+        <LearningpathStepper step="content" learningpathId={data.myNdlaLearningpath.id} />
+      </MyNdlaPageContent>
+      <MyNdlaPageContent>
+        <EditLearningpathStepsPageContent learningpath={data.myNdlaLearningpath} />
+      </MyNdlaPageContent>
     </MyNdlaPageWrapper>
   );
 };

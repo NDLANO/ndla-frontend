@@ -19,14 +19,10 @@ import { useFavouriteSubjects } from "../../../mutations/folder/folderQueries";
 import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../../AllSubjectsPage/SubjectLink";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { PageActions } from "../components/PageActions";
 import { MenuItemProps } from "../components/SettingsMenu";
-
-const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
-  base: {
-    gap: "xxlarge",
-  },
-});
 
 const LoadingGrid = styled("div", {
   base: {
@@ -71,25 +67,30 @@ export const FavoriteSubjectsPage = () => {
   ];
 
   return (
-    <StyledMyNdlaPageWrapper menuItems={menuItems}>
+    <MyNdlaPageWrapper>
       <PageTitle title={t("myNdla.favoriteSubjects.title")} />
-      <MyNdlaTitle title={t("myNdla.favoriteSubjects.title")} />
-      {favouriteSubjectsQuery.loading ? (
-        <LoadingGrid>
-          <LoadingItem />
-          <LoadingItem />
-          <LoadingItem />
-          <LoadingItem />
-        </LoadingGrid>
-      ) : !favouriteSubjectsQuery.data?.subjects?.length ? (
-        <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>
-      ) : (
-        <GridList>
-          {favouriteSubjectsQuery.data.subjects.map((subject) => (
-            <SubjectLink subject={subject} key={subject.id} favorites={user?.favoriteSubjects ?? []} />
-          ))}
-        </GridList>
-      )}
-    </StyledMyNdlaPageWrapper>
+      <MyNdlaPageContent>
+        <MyNdlaTitle title={t("myNdla.favoriteSubjects.title")} />
+      </MyNdlaPageContent>
+      <MyNdlaPageSection>
+        <PageActions actions={menuItems} />
+        {favouriteSubjectsQuery.loading ? (
+          <LoadingGrid>
+            <LoadingItem />
+            <LoadingItem />
+            <LoadingItem />
+            <LoadingItem />
+          </LoadingGrid>
+        ) : !favouriteSubjectsQuery.data?.subjects?.length ? (
+          <p>{t("myNdla.favoriteSubjects.noFavorites")}</p>
+        ) : (
+          <GridList>
+            {favouriteSubjectsQuery.data.subjects.map((subject) => (
+              <SubjectLink subject={subject} key={subject.id} favorites={user?.favoriteSubjects ?? []} />
+            ))}
+          </GridList>
+        )}
+      </MyNdlaPageSection>
+    </MyNdlaPageWrapper>
   );
 };

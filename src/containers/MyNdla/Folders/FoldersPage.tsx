@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { useQuery } from "@apollo/client/react";
@@ -24,13 +24,9 @@ import { foldersPageQuery, useFolder } from "../../../mutations/folder/folderQue
 import { routes } from "../../../routeHelpers";
 import { getAllTags } from "../../../util/folderHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageSection } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
-
-const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
-  base: {
-    gap: "xsmall",
-  },
-});
+import { PageActions } from "../components/PageActions";
 
 const StyledEm = styled("em", {
   base: {
@@ -50,12 +46,6 @@ const StyledUl = styled("ul", {
 const TagsHeading = styled(Heading, {
   base: {
     marginBlockStart: "xlarge",
-  },
-});
-
-const SharedHeading = styled(Heading, {
-  base: {
-    marginBlock: "xsmall",
   },
 });
 
@@ -81,6 +71,8 @@ export const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const { examLock } = useContext(AuthContext);
+  const foldersHeadingId = useId();
+  const sharedByOthersHeadingId = useId();
   const { data, loading } = useQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
@@ -144,28 +136,45 @@ export const FoldersPage = () => {
   const tags = useMemo(() => getAllTags(folders), [folders]);
 
   return (
-    <StyledMyNdlaPageWrapper menuItems={menuItems} showButtons={!examLock || !!selectedFolder}>
+    <MyNdlaPageWrapper>
       <PageTitle title={title} />
-      <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
+      <MyNdlaPageSection>
+        <FoldersPageTitle key={selectedFolder?.id} loading={loading} selectedFolder={selectedFolder} />
+        {!!selectedFolder && (
+          <p>
+            <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
+          </p>
+        )}
+      </MyNdlaPageSection>
+      <MyNdlaPageSection>
+        <Heading asChild consumeCss textStyle="heading.small" id={foldersHeadingId}>
+          <h2>{t("myNdla.folder.folders")}</h2>
+        </Heading>
+        {!examLock && <PageActions actions={menuItems} />}
+        <FolderList
+          labelledBy={foldersHeadingId}
+          folders={folders}
+          loading={loading}
+          folderId={folderId}
+          setFocusId={setFocusId}
+          folderRefId={folderRefId}
+        />
+      </MyNdlaPageSection>
       {!!selectedFolder && (
-        <p>
-          <StyledEm>{selectedFolder.description ?? t("myNdla.folder.defaultPageDescription")}</StyledEm>
-        </p>
+        <MyNdlaPageSection>
+          <Heading asChild consumeCss textStyle="heading.small">
+            <h2>{t("myNdla.folder.resources")}</h2>
+          </Heading>
+          <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />
+        </MyNdlaPageSection>
       )}
-      <FolderList
-        folders={folders}
-        loading={loading}
-        folderId={folderId}
-        setFocusId={setFocusId}
-        folderRefId={folderRefId}
-      />
-      {!!selectedFolder && <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />}
       {!selectedFolder && sharedByOthersFolders?.length > 0 && (
-        <>
-          <SharedHeading asChild consumeCss textStyle="heading.small">
+        <MyNdlaPageSection>
+          <Heading asChild consumeCss textStyle="heading.small" id={sharedByOthersHeadingId}>
             <h2>{t("myNdla.sharedByOthersFolders")}</h2>
-          </SharedHeading>
+          </Heading>
           <FolderList
+            labelledBy={sharedByOthersHeadingId}
             folders={sharedByOthersFolders as unknown as GQLFolder[]}
             loading={loading}
             folderId={folderId}
@@ -173,7 +182,7 @@ export const FoldersPage = () => {
             folderRefId={folderRefId}
             isFavorited={true}
           />
-        </>
+        </MyNdlaPageSection>
       )}
       {!selectedFolder && tags.length ? (
         <>
@@ -193,6 +202,6 @@ export const FoldersPage = () => {
           </nav>
         </>
       ) : null}
-    </StyledMyNdlaPageWrapper>
+    </MyNdlaPageWrapper>
   );
 };

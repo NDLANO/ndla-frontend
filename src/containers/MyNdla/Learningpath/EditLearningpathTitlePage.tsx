@@ -8,21 +8,28 @@
 
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router";
-import { Spinner, Heading, Button } from "@ndla/primitives";
-import { Stack } from "@ndla/styled-system/jsx";
+import { Spinner, Button } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleFormValues, TitleForm } from "./components/TitleForm";
 import { useFetchLearningpath } from "./learningpathQueries";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
 import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import config from "../../../config";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useUpdateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+
+const StyledMyNdlaPageContent = styled(MyNdlaPageContent, {
+  base: {
+    alignItems: "flex-end",
+  },
+});
 
 export const Component = () => {
   return <PrivateRoute element={<EditLearningpathTitlePage />} />;
@@ -80,29 +87,31 @@ export const EditLearningpathTitlePage = () => {
   }
 
   return (
-    <MyNdlaPageWrapper type="learningpath">
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathEditTitlePage", { name: data.myNdlaLearningpath.title })} />
-      <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: "0", name: `${t("myNdla.learningpath.editLearningpathTitle")}` }]}
-        page="learningpath"
-      />
-      <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
-        {data.myNdlaLearningpath.title}
-      </Heading>
-      <LearningpathStepper step="title" learningpathId={data.myNdlaLearningpath.id} />
-      <TitleForm
-        onSave={onSaveTitle}
-        initialValues={{
-          title: data.myNdlaLearningpath.title,
-          imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl,
-          introduction: deserializeToRichText(data.myNdlaLearningpath.introduction ?? ""),
-        }}
-      />
-      <Stack justify="flex-end" direction="row">
+      <MyNdlaPageContent>
+        <MyNdlaBreadcrumb
+          breadcrumbs={[{ id: "0", name: t("myNdla.learningpath.editLearningpathTitle") }]}
+          page="learningpath"
+        />
+        <MyNdlaTitle title={data.myNdlaLearningpath.title} />
+        <LearningpathStepper step="title" learningpathId={data.myNdlaLearningpath.id} />
+      </MyNdlaPageContent>
+      <MyNdlaPageContent>
+        <TitleForm
+          onSave={onSaveTitle}
+          initialValues={{
+            title: data.myNdlaLearningpath.title,
+            imageUrl: data.myNdlaLearningpath.coverphoto?.metaUrl,
+            introduction: deserializeToRichText(data.myNdlaLearningpath.introduction ?? ""),
+          }}
+        />
+      </MyNdlaPageContent>
+      <StyledMyNdlaPageContent>
         <Button variant="secondary" type="submit" form="titleForm">
           {t("myNdla.learningpath.form.next")}
         </Button>
-      </Stack>
+      </StyledMyNdlaPageContent>
     </MyNdlaPageWrapper>
   );
 };

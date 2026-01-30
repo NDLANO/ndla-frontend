@@ -17,15 +17,16 @@ import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContain
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { Learningpath } from "../../../components/Learningpath/Learningpath";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
 
 const TextWrapper = styled("div", {
   base: {
@@ -95,33 +96,35 @@ export const PreviewLearningpathPage = () => {
   return (
     <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathPreviewPage", { name: learningpath.title })} />
-      <MyNdlaBreadcrumb
-        breadcrumbs={[
-          { id: `preview-${learningpath.id}`, name: t("myNdla.learningpath.previewLearningpath.pageHeading") },
-        ]}
-        page="learningpath"
-      />
-      <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
-        {learningpath.title}
-      </Heading>
-      <LearningpathStepper step="preview" learningpathId={learningpath.id} />
-      <TextWrapper>
-        <Heading textStyle="heading.small" asChild consumeCss>
-          <h2>{t("myNdla.learningpath.previewLearningpath.pageHeading")}</h2>
-        </Heading>
-        <Text>{t("myNdla.learningpath.previewLearningpath.pageDescription")}</Text>
-      </TextWrapper>
-      {learningpathStep || learningpath.introduction?.length ? (
-        <Learningpath
-          // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
-          learningpath={learningpath}
-          learningpathStep={learningpathStep}
-          breadcrumbItems={[]}
-          context="preview"
+      <MyNdlaPageContent>
+        <MyNdlaBreadcrumb
+          breadcrumbs={[
+            { id: `preview-${learningpath.id}`, name: t("myNdla.learningpath.previewLearningpath.pageHeading") },
+          ]}
+          page="learningpath"
         />
-      ) : (
-        <Text>{t("myNdla.learningpath.previewLearningpath.noSteps")}</Text>
-      )}
+        <MyNdlaTitle title={learningpath.title} />
+        <LearningpathStepper step="preview" learningpathId={learningpath.id} />
+      </MyNdlaPageContent>
+      <MyNdlaPageSection>
+        <TextWrapper>
+          <Heading textStyle="heading.small" asChild consumeCss>
+            <h2>{t("myNdla.learningpath.previewLearningpath.pageHeading")}</h2>
+          </Heading>
+          <Text>{t("myNdla.learningpath.previewLearningpath.pageDescription")}</Text>
+        </TextWrapper>
+        {learningpathStep || learningpath.introduction?.length ? (
+          <Learningpath
+            // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
+            learningpath={learningpath}
+            learningpathStep={learningpathStep}
+            breadcrumbItems={[]}
+            context="preview"
+          />
+        ) : (
+          <Text>{t("myNdla.learningpath.previewLearningpath.noSteps")}</Text>
+        )}
+      </MyNdlaPageSection>
       <LearningpathFormButtonContainer>
         <SafeLinkButton variant="secondary" to={routes.myNdla.learningpathEditSteps(learningpath.id)}>
           {t("myNdla.learningpath.form.back")}

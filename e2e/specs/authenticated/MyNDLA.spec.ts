@@ -16,9 +16,8 @@ test.beforeEach(async ({ page, waitGraphql }) => {
 
 test("have favourite subjects", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Mine fag" })).toBeVisible();
-  expect(await page.getByRole("main").locator("section").first().getByRole("listitem").count()).toBeGreaterThanOrEqual(
-    1,
-  );
+  const listItems = await page.getByRole("list", { name: "Mine fag" }).getByRole("listitem").count();
+  expect(listItems).toBeGreaterThanOrEqual(1);
 
   const toFolder = page.getByRole("link", { name: "Se alle favorittfag" });
   await expect(toFolder).toBeVisible();
@@ -27,10 +26,10 @@ test("have favourite subjects", async ({ page }) => {
 });
 
 test("have recently added to folder", async ({ page }) => {
-  await expect(page.getByRole("heading", { name: "Nylig lagt til i mine mapper" })).toBeVisible();
-  expect(await page.getByRole("main").locator("section").first().getByRole("listitem").count()).toBeGreaterThanOrEqual(
-    1,
-  );
+  const headingText = "Nylig lagt til i mine mapper";
+  await expect(page.getByRole("heading", { name: headingText })).toBeVisible();
+  const listItems = await page.getByRole("list", { name: headingText }).getByRole("listitem").count();
+  expect(listItems).toBeGreaterThanOrEqual(1);
 
   const toFolder = page.getByRole("link", { name: "Se alle mappene dine" });
   await expect(toFolder).toBeVisible();

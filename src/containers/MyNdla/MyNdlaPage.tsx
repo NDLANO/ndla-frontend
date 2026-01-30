@@ -6,7 +6,7 @@
  *
  */
 
-import { useContext } from "react";
+import { useContext, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
@@ -17,7 +17,7 @@ import { MyNdlaPageWrapper } from "./components/MyNdlaPageWrapper";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ListResource } from "../../components/MyNdla/ListResource";
 import { LoginModalContent } from "../../components/MyNdla/LoginModalContent";
-import { MyNdlaTitle, TitleWrapper } from "../../components/MyNdla/MyNdlaTitle";
+import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -30,6 +30,7 @@ import {
 import { routes } from "../../routeHelpers";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../AllSubjectsPage/SubjectLink";
+import { MyNdlaPageSection, MyNdlaPageContent } from "./components/MyNdlaPageSection";
 
 const StyledList = styled("ul", {
   base: {
@@ -37,26 +38,7 @@ const StyledList = styled("ul", {
     display: "flex",
     flexDirection: "column",
     gap: "xxsmall",
-  },
-});
-
-const SectionWrapper = styled("section", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
-
-const StyledMyNdlaPageWrapper = styled(MyNdlaPageWrapper, {
-  base: {
-    gap: "xxlarge",
-  },
-});
-
-const StyledText = styled(Text, {
-  base: {
-    maxWidth: "surface.contentMax",
+    width: "100%",
   },
 });
 
@@ -69,6 +51,9 @@ const StyledArrowRightLine = styled(ArrowRightLine, {
 export const MyNdlaPage = () => {
   const { user, authenticated } = useContext(AuthContext);
   const { t } = useTranslation();
+  const favoriteSubjectsHeadingId = useId();
+  const recentlyFavoritedHeadingId = useId();
+
   const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.toReversed().slice(0, 4) ?? [], {
     skip: !user?.favoriteSubjects.length,
   });
@@ -89,7 +74,7 @@ export const MyNdlaPage = () => {
   // const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
   return (
-    <StyledMyNdlaPageWrapper>
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.myNdlaPage")} />
       <SocialMediaMetadata
         title={t("myNdla.myNDLA")}
@@ -97,29 +82,18 @@ export const MyNdlaPage = () => {
         trackableContent={{ supportedLanguages: myndlaLanguages }}
         imageUrl={`${config.ndlaFrontendDomain}/static/ndla-ai.jpg`}
       />
-      <TitleWrapper>
+      <MyNdlaPageContent>
         <MyNdlaTitle title={t("myNdla.myNDLA")} />
-        <StyledText textStyle="body.xlarge">
+        <Text textStyle="body.xlarge">
           {authenticated ? t("myNdla.myPage.welcome") : t("myNdla.myPage.loginPitch")}
-        </StyledText>
-      </TitleWrapper>
-      {!authenticated && (
-        <DialogRoot>
-          <DialogTrigger asChild>
-            <Button variant="primary" aria-label={t("myNdla.myPage.loginPitchButton")}>
-              {t("myNdla.myPage.loginPitchButton")}
-              <Feide />
-            </Button>
-          </DialogTrigger>
-          <LoginModalContent masthead />
-        </DialogRoot>
-      )}
+        </Text>
+      </MyNdlaPageContent>
       {!!recentFavouriteSubjectsQuery.data?.subjects?.length && (
-        <SectionWrapper>
-          <Heading asChild consumeCss textStyle="heading.small">
+        <MyNdlaPageSection>
+          <Heading asChild consumeCss textStyle="heading.small" id={favoriteSubjectsHeadingId}>
             <h2>{t("myNdla.favoriteSubjects.title")}</h2>
           </Heading>
-          <GridList>
+          <GridList aria-labelledby={favoriteSubjectsHeadingId}>
             {recentFavouriteSubjectsQuery.data.subjects.map((subject) => (
               <SubjectLink key={subject.id} favorites={user?.favoriteSubjects} subject={subject} />
             ))}
@@ -129,11 +103,20 @@ export const MyNdlaPage = () => {
             {t("myNdla.myPage.favouriteSubjects.viewAll")}
             <StyledArrowRightLine />
           </SafeLink>
-        </SectionWrapper>
+        </MyNdlaPageSection>
       )}
       {!authenticated ? (
         <>
-          <SectionWrapper>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="primary" aria-label={t("myNdla.myPage.loginPitchButton")}>
+                {t("myNdla.myPage.loginPitchButton")}
+                <Feide />
+              </Button>
+            </DialogTrigger>
+            <LoginModalContent masthead />
+          </DialogRoot>
+          <MyNdlaPageSection>
             <Heading asChild consumeCss>
               <h2>{t("myNdla.favoriteSubjects.title")}</h2>
             </Heading>
@@ -142,8 +125,8 @@ export const MyNdlaPage = () => {
               {t("myNdla.myPage.favouriteSubjects.search")}
               <StyledArrowRightLine />
             </SafeLink>
-          </SectionWrapper>
-          <SectionWrapper>
+          </MyNdlaPageSection>
+          <MyNdlaPageSection>
             <Heading asChild consumeCss textStyle="heading.small">
               <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
             </Heading>
@@ -152,14 +135,14 @@ export const MyNdlaPage = () => {
               {t("myNdla.myPage.recentFavourites.search")}
               <StyledArrowRightLine />
             </SafeLink>
-          </SectionWrapper>
+          </MyNdlaPageSection>
         </>
       ) : recentlyUsedResources?.allFolderResources?.length ? (
-        <SectionWrapper>
-          <Heading asChild consumeCss textStyle="heading.small">
+        <MyNdlaPageSection>
+          <Heading asChild consumeCss textStyle="heading.small" id={recentlyFavoritedHeadingId}>
             <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
           </Heading>
-          <StyledList>
+          <StyledList aria-labelledby={recentlyFavoritedHeadingId}>
             {recentlyUsedResources.allFolderResources.map((res) => {
               const meta = keyedData[`${res.resourceType}${res.resourceId}`];
               return (
@@ -186,9 +169,9 @@ export const MyNdlaPage = () => {
             {t("myNdla.myPage.recentFavourites.link")}
             <StyledArrowRightLine />
           </SafeLink>
-        </SectionWrapper>
+        </MyNdlaPageSection>
       ) : null}
-    </StyledMyNdlaPageWrapper>
+    </MyNdlaPageWrapper>
   );
 };
 

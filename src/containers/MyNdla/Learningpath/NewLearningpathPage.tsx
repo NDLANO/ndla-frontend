@@ -10,18 +10,18 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { licenses } from "@ndla/licenses";
-import { Heading } from "@ndla/primitives";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleForm, TitleFormValues } from "./components/TitleForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
+import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
 import { serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import { useToast } from "../../../components/ToastContext";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { useCreateLearningpath } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
+import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 
 export const Component = () => {
@@ -65,17 +65,19 @@ export const NewLearningpathPage = () => {
   };
 
   return (
-    <MyNdlaPageWrapper type="learningpath">
+    <MyNdlaPageWrapper>
       <PageTitle title={t("htmlTitles.learningpathNewPage")} />
-      <MyNdlaBreadcrumb
-        breadcrumbs={[{ id: "newLearningpath", name: t("myNdla.learningpath.newLearningpath") }]}
-        page="learningpath"
-      />
-      <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium">
-        {t("myNdla.learningpath.newLearningpath")}
-      </Heading>
-      <LearningpathStepper step="title" />
-      <TitleForm onSave={onSave} />
+      <MyNdlaPageContent>
+        <MyNdlaBreadcrumb
+          breadcrumbs={[{ id: "newLearningpath", name: t("myNdla.learningpath.newLearningpath") }]}
+          page="learningpath"
+        />
+        <MyNdlaTitle title={t("myNdla.learningpath.newLearningpath")} />
+        <LearningpathStepper step="title" />
+      </MyNdlaPageContent>
+      <MyNdlaPageContent>
+        <TitleForm onSave={onSave} />
+      </MyNdlaPageContent>
     </MyNdlaPageWrapper>
   );
 };
