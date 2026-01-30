@@ -15,7 +15,7 @@ import {
   GQLFolderResourceMetaSearchInput,
   GQLFolderResourceMetaSearchQuery,
   GQLFoldersPageQuery,
-  GQLRecentlyUsedQuery,
+  GQLRecentlyFavoritedQuery,
   GQLSharedFolder,
   GQLSharedFolderQuery,
   GQLSharedFolderQueryVariables,
@@ -159,9 +159,9 @@ export const useGetSharedFolder = ({
   return { folder, loading, error };
 };
 
-export const recentlyUsedQuery = gql`
-  query recentlyUsed {
-    allFolderResources(size: 5) {
+export const recentlyFavoritedQuery = gql`
+  query recentlyFavorited {
+    recentlyFavoritedResources(size: 5) {
       id
       resourceId
       path
@@ -172,8 +172,8 @@ export const recentlyUsedQuery = gql`
   }
 `;
 
-export const useRecentlyUsedResources = (skip?: boolean) => {
-  return useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, { skip });
+export const useRecentlyFavoritedResources = (skip?: boolean) => {
+  return useQuery<GQLRecentlyFavoritedQuery>(recentlyFavoritedQuery, { skip });
 };
 
 const favouriteSubjects = gql`
