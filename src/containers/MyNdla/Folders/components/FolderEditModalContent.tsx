@@ -6,16 +6,16 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client/react";
 import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
-import { FolderForm } from "./FolderForm";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useUpdateFolderMutation } from "../../../../mutations/folder/folderMutations";
 import { useFolders, getFolder } from "../../../../mutations/folder/folderQueries";
+import { FolderForm } from "./FolderForm";
 
 interface Props {
   folder?: GQLFolder;

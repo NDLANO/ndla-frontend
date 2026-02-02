@@ -6,8 +6,8 @@
  *
  */
 
-import { ComponentType, type Ref } from "react";
 import { HeadphoneLine, VolumeUpLine, H5P, ImageLine, MovieLine, TextWrap, IconProps } from "@ndla/icons";
+import { ComponentType, type Ref } from "react";
 
 const getIcon = (contentType: string | undefined) => {
   switch (contentType) {

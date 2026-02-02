@@ -6,14 +6,11 @@
  *
  */
 
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { gql } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
-import { AboutPageLeaf } from "./AboutPageLeaf";
-import { AboutPageNode } from "./AboutPageNode";
-import { findBreadcrumb, getBreadcrumb } from "./aboutPageUtils";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
@@ -21,6 +18,9 @@ import { GQLAboutPageQuery, GQLAboutPageQueryVariables } from "../../graphqlType
 import { GONE } from "../../statusCodes";
 import { isGoneError } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { AboutPageLeaf } from "./AboutPageLeaf";
+import { AboutPageNode } from "./AboutPageNode";
+import { findBreadcrumb, getBreadcrumb } from "./aboutPageUtils";
 
 const aboutPageQuery = gql`
   query aboutPage($slug: String!, $transformArgs: TransformedArticleContentInput) {

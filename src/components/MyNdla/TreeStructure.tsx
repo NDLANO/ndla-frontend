@@ -6,8 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { TreeViewNodeProviderProps } from "@ark-ui/react";
 import { AddLine, ArrowRightShortLine, FolderLine, FolderUserLine, HeartFill } from "@ndla/icons";
 import {
@@ -32,8 +30,10 @@ import {
   useTreeView,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { NewFolder } from "./NewFolder";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { NewFolder } from "./NewFolder";
 
 export const MAX_LEVEL_FOR_FOLDERS = 5;
 

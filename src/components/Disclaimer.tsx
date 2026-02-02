@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { AccessibilityFill } from "@ndla/icons";
 import {
@@ -19,6 +17,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@ndla/primitives";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLTransformedArticleContent } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 

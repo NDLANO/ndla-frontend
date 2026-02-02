@@ -8,8 +8,8 @@
 
 import { Request } from "express";
 import ipAddr from "ipaddr.js";
-import { getEnvironmentVariable } from "../../config";
 import type { RestrictedModeState } from "../../components/RestrictedModeContext";
+import { getEnvironmentVariable } from "../../config";
 import { restrictedRegionCidrs } from "../restrictedRegions";
 
 const ALWAYS_RESTRICTED = getEnvironmentVariable("NDLA_ALWAYS_RESTRICTED", false) as boolean;

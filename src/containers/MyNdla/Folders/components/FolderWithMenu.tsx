@@ -8,11 +8,11 @@
 
 import { Dispatch, SetStateAction, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useFolderActions } from "./FolderActionHooks";
 import { Folder } from "../../../../components/MyNdla/Folder";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount } from "../../../../util/folderHelpers";
 import { SettingsMenu } from "../../components/SettingsMenu";
+import { useFolderActions } from "./FolderActionHooks";
 
 interface Props {
   folder: GQLFolder;

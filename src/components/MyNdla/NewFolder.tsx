@@ -6,13 +6,13 @@
  *
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { useApolloClient } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
 import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Button, FieldHelper } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { FolderDTO } from "@ndla/types-backend/myndla-api";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { useAddFolderMutation } from "../../mutations/folder/folderMutations";
 import { getFolder, useFolders } from "../../mutations/folder/folderQueries";

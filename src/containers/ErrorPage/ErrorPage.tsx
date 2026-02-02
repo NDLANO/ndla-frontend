@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { NdlaLogoText } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import { DefaultErrorMessage } from "../../components/DefaultErrorMessage";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";

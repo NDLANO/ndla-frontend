@@ -6,12 +6,10 @@
  *
  */
 
+import { PencilLine, DeleteBinLine, CloseLine, AddLine, ArrowRightLine, ShareLine, FileCopyLine } from "@ndla/icons";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { PencilLine, DeleteBinLine, CloseLine, AddLine, ArrowRightLine, ShareLine, FileCopyLine } from "@ndla/icons";
-import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
-import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
@@ -29,6 +27,8 @@ import {
   LEARNINGPATH_SHARED,
   learningpathListItemId,
 } from "../utils";
+import { LearningpathDeleteDialogContent } from "./LearningpathDeleteDialogContent";
+import { LearningpathShareDialogContent } from "./LearningpathShareDialogContent";
 
 export const useLearningpathActionHooks = (learningpath?: GQLMyNdlaLearningpathFragment) => {
   const toast = useToast();

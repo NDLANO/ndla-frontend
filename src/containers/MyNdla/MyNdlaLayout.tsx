@@ -6,10 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useMemo, useContext, useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { Location, Outlet, useLocation } from "react-router";
 import {
   BookReadFill,
   BookReadLine,
@@ -41,6 +37,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { getCookie, NoSSR } from "@ndla/util";
+import { TFunction } from "i18next";
+import { useMemo, useContext, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { Location, Outlet, useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { PageLayout } from "../../components/Layout/PageContainer";
@@ -48,9 +48,9 @@ import config from "../../config";
 import { AUTOLOGIN_COOKIE, FILM_PAGE_URL } from "../../constants";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { MenuContainer, MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
+import { MenuContainer, MenuLink, MenuList, MenuListItem } from "./components/MenuContainer";
 
 const StyledIconButton = styled(IconButton, {
   base: {

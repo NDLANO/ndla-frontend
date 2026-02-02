@@ -6,19 +6,19 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { CheckLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
-import { LearningpathContext } from "./learningpathUtils";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import config from "../../config";
 import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
 import { formatDate } from "../../util/formatDate";
+import { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
   resourcePath: string | undefined;

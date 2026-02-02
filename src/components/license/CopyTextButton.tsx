@@ -6,8 +6,8 @@
  *
  */
 
-import { ReactNode, useEffect, useState } from "react";
 import { Button } from "@ndla/primitives";
+import { ReactNode, useEffect, useState } from "react";
 
 interface Props {
   stringToCopy: string;

@@ -6,31 +6,31 @@
  *
  */
 
-import { MouseEvent, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningpathItem } from "./components/LearningpathItem";
-import { LearningpathShareDialogContent } from "./components/LearningpathShareDialogContent";
-import { LearningpathStepper } from "./components/LearningpathStepper";
-import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
-import { useFetchLearningpath } from "./learningpathQueries";
-import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
+import { MouseEvent, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
-import { useToast } from "../../../components/ToastContext";
-import { routes } from "../../../routeHelpers";
-import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
-import { LearningpathShareLink } from "./components/LearningpathShareLink";
 import { PageTitle } from "../../../components/PageTitle";
+import { useToast } from "../../../components/ToastContext";
 import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
+import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { LearningpathItem } from "./components/LearningpathItem";
+import { LearningpathShareDialogContent } from "./components/LearningpathShareDialogContent";
+import { LearningpathShareLink } from "./components/LearningpathShareLink";
+import { LearningpathStepper } from "./components/LearningpathStepper";
+import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
+import { useFetchLearningpath } from "./learningpathQueries";
+import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 
 const TextWrapper = styled("div", {
   base: {

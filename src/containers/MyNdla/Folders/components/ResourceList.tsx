@@ -6,12 +6,12 @@
  *
  */
 
-import { useMemo, useState, useEffect } from "react";
 import { keyBy } from "@ndla/util";
-import { ResourceWithMenu } from "./ResourceWithMenu";
+import { useMemo, useState, useEffect } from "react";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
+import { ResourceWithMenu } from "./ResourceWithMenu";
 
 interface Props {
   selectedFolder: GQLFolder;

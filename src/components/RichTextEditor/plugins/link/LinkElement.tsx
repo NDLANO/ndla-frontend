@@ -6,10 +6,6 @@
  *
  */
 
-import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Node, Selection, Transforms } from "slate";
-import { ReactEditor, RenderElementProps, useSlate } from "slate-react";
 import { DialogContext, Portal } from "@ark-ui/react";
 import { ElementRenderer, isLinkElement, LinkElement as LinkElementType } from "@ndla/editor";
 import { InlineBugfix, useEditorPopover } from "@ndla/editor-components";
@@ -25,6 +21,10 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Node, Selection, Transforms } from "slate";
+import { ReactEditor, RenderElementProps, useSlate } from "slate-react";
 import { LinkDialogContent } from "./LinkDialogContent";
 
 const ActionsWrapper = styled("div", {

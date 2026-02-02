@@ -6,10 +6,6 @@
  *
  */
 
-import parse from "html-react-parser";
-import { FormEvent, useEffect, useId, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createListCollection, usePopoverContext } from "@ark-ui/react";
@@ -37,6 +33,10 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
+import parse from "html-react-parser";
+import { FormEvent, useEffect, useId, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router";
 import { GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables } from "../../graphqlTypes";
 import { getListItemTraits } from "../../util/listItemTraits";
 import { useDebounce } from "../../util/useDebounce";

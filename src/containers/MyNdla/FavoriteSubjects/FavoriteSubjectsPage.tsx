@@ -6,12 +6,12 @@
  *
  */
 
-import { useContext } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { ArrowRightLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";

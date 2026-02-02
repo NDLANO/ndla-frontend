@@ -6,9 +6,6 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import {
   Badge,
@@ -25,10 +22,13 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
-import { ResourceData } from "./folderTypes";
-import { ResourcePicker } from "./ResourcePicker";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import config from "../../../../config";
 import { useListItemTraits } from "../../../../util/listItemTraits";
+import { ResourceData } from "./folderTypes";
+import { ResourcePicker } from "./ResourcePicker";
 
 export interface ResourceFormValues {
   type: "resource";

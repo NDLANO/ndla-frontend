@@ -6,10 +6,6 @@
  *
  */
 
-import { FormEvent, useContext, useEffect, useRef, useState } from "react";
-import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { useNavigate, useOutletContext, useParams } from "react-router";
 import { licenses } from "@ndla/licenses";
 import {
   Button,
@@ -25,12 +21,10 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { AlertDialog } from "./AlertDialog";
-import { ExternalStepForm } from "./ExternalStepForm";
-import { FolderStepForm } from "./FolderStepForm";
-import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
-import { ResourceStepForm } from "./ResourceStepForm";
-import { TextStepForm } from "./TextStepForm";
+import { FormEvent, useContext, useEffect, useRef, useState } from "react";
+import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useNavigate, useOutletContext, useParams } from "react-router";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { TextStep } from "../../../../components/Learningpath/components/TextStep";
 import { useToast } from "../../../../components/ToastContext";
@@ -46,6 +40,12 @@ import { PrivateRoute } from "../../../PrivateRoute/PrivateRoute";
 import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
 import { FormValues, LearningPathOutletContext } from "../types";
 import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
+import { AlertDialog } from "./AlertDialog";
+import { ExternalStepForm } from "./ExternalStepForm";
+import { FolderStepForm } from "./FolderStepForm";
+import { LearningpathStepDeleteDialog } from "./LearningpathStepDeleteDialog";
+import { ResourceStepForm } from "./ResourceStepForm";
+import { TextStepForm } from "./TextStepForm";
 
 const ContentForm = styled("form", {
   base: {

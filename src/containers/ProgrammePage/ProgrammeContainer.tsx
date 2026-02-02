@@ -6,13 +6,13 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons";
 import { Heading, Image, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { TFunction } from "i18next";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";

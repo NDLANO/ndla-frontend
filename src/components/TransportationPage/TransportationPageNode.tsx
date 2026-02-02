@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Additional } from "@ndla/icons";
 import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { useTranslation } from "react-i18next";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLTransportationNode_NodeFragment } from "../../graphqlTypes";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";

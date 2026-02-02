@@ -6,14 +6,14 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useContext, useId } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { SimpleBreadcrumbItem, HomeBreadcrumb, subjectCategories, subjectTypes } from "@ndla/ui";
+import { TFunction } from "i18next";
+import { useContext, useId } from "react";
+import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
 import { FavoriteSubject } from "../../components/FavoriteSubject";

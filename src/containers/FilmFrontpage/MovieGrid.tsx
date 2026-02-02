@@ -6,19 +6,19 @@
  *
  */
 
-import { CSSProperties } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { FilmContentCard } from "./FilmContentCard";
+import { CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
 import { FILM_ID } from "../../constants";
 import {
   GQLResourceTypeMoviesQuery,
   GQLResourceTypeMoviesQueryVariables,
   GQLSelectionMovieGrid_MovieFragment,
 } from "../../graphqlTypes";
+import { FilmContentCard } from "./FilmContentCard";
 
 const StyledSection = styled("section", {
   base: {

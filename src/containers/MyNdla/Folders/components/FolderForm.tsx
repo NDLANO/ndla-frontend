@@ -6,9 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useForm, Controller } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { InformationLine } from "@ndla/icons";
 import {
   Button,
@@ -22,6 +19,9 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { TFunction } from "i18next";
+import { useForm, Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { FieldLength } from "../../components/FieldLength";

@@ -6,17 +6,17 @@
  *
  */
 
-import { useId } from "react";
-import { useTranslation } from "react-i18next";
 import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
-import { BaseStepProps } from "../learningpathTypes";
-import { EmbedPageContent } from "./EmbedPageContent";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { RestrictedBlock } from "../../RestrictedBlock";
 import { useRestrictedMode } from "../../RestrictedModeContext";
+import { BaseStepProps } from "../learningpathTypes";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {

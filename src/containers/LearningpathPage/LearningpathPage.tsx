@@ -6,10 +6,10 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { TFunction } from "i18next";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { gql } from "@apollo/client";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { Learningpath } from "../../components/Learningpath/Learningpath";

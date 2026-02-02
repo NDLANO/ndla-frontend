@@ -6,9 +6,6 @@
  *
  */
 
-import { useContext } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { PresentationLine, LoginBoxLine } from "@ndla/icons";
 import {
   ErrorMessageDescription,
@@ -17,9 +14,11 @@ import {
   ErrorMessageActions,
   Button,
 } from "@ndla/primitives";
-
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";

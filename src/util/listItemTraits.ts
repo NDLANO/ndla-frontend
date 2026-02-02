@@ -6,9 +6,9 @@
  *
  */
 
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { RELEVANCE_SUPPLEMENTARY } from "../constants";
-import { useMemo } from "react";
 
 interface ListItemTraitParams {
   /** Article traits */

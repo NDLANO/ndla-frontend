@@ -6,7 +6,6 @@
  *
  */
 
-import { GraphQLFormattedError } from "graphql";
 import type {
   ApolloLink,
   LocalStateError,
@@ -15,8 +14,9 @@ import type {
   ServerParseError,
   UnconventionalError,
 } from "@apollo/client";
-import { NDLAError } from "./NDLAError";
+import { GraphQLFormattedError } from "graphql";
 import { getLogLevelFromStatusCode } from "../handleError";
+import { NDLAError } from "./NDLAError";
 
 interface OperationInfo {
   operationName: string | undefined;

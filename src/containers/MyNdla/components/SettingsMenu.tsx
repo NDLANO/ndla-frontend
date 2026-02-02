@@ -6,8 +6,6 @@
  *
  */
 
-import { ReactNode, MouseEvent, useState, useCallback, useRef, type Ref } from "react";
-import { useTranslation } from "react-i18next";
 import { Portal } from "@ark-ui/react";
 import { MoreLine } from "@ndla/icons";
 import {
@@ -27,6 +25,8 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { ReactNode, MouseEvent, useState, useCallback, useRef, type Ref } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 
 interface BaseMenuItem {

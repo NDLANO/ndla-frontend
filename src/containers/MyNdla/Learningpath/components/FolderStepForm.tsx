@@ -6,9 +6,6 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, ExternalLinkLine } from "@ndla/icons";
 import {
   FieldHelper,
@@ -23,10 +20,13 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import config from "../../../../config";
 import { FolderResourcePicker } from "./FolderResourcePicker";
 import { FolderResource } from "./folderTypes";
 import { ResourceFormValues } from "./ResourceStepForm";
-import config from "../../../../config";
 
 const TextWrapper = styled("div", {
   base: {

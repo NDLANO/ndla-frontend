@@ -7,7 +7,6 @@
  */
 
 import { gql, Reference } from "@apollo/client";
-import { folderFragment, folderResourceFragment, foldersPageQueryFragment } from "./folderFragments";
 import { useApolloClient, useMutation } from "@apollo/client/react";
 import {
   GQLAddFolderMutation,
@@ -32,6 +31,7 @@ import {
   GQLUpdateFolderResourceMutation,
   GQLUpdateFolderStatusMutation,
 } from "../../graphqlTypes";
+import { folderFragment, folderResourceFragment, foldersPageQueryFragment } from "./folderFragments";
 import { foldersPageQuery, recentlyUsedQuery } from "./folderQueries";
 
 const deleteFolderMutation = gql`

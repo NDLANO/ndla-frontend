@@ -6,16 +6,13 @@
  *
  */
 
-import { useContext, useEffect, useId, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useFolderActions } from "./components/FolderActionHooks";
-import { FolderList } from "./components/FolderList";
-import { ResourceList } from "./components/ResourceList";
+import { useContext, useEffect, useId, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { FoldersPageTitle } from "../../../components/MyNdla/FoldersPageTitle";
 import { PageTitle } from "../../../components/PageTitle";
@@ -27,6 +24,9 @@ import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { PageActions } from "../components/PageActions";
+import { useFolderActions } from "./components/FolderActionHooks";
+import { FolderList } from "./components/FolderList";
+import { ResourceList } from "./components/ResourceList";
 
 const StyledEm = styled("em", {
   base: {

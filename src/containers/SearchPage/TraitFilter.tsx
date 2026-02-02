@@ -6,8 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { CheckLine } from "@ndla/icons";
 import {
   CheckboxControl,
@@ -19,10 +17,12 @@ import {
   Heading,
 } from "@ndla/primitives";
 import { ArticleTrait } from "@ndla/types-backend/article-api";
+import { useCallback, useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLtiContext } from "../../LtiContext";
 import { FilterContainer } from "./FilterContainer";
 import { RESOURCE_NODE_TYPE } from "./searchUtils";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
-import { useLtiContext } from "../../LtiContext";
 
 const TRAITS: ArticleTrait[] = ["VIDEO", "AUDIO", "INTERACTIVE", "PODCAST"];
 

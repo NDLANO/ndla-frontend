@@ -6,12 +6,10 @@
  *
  */
 
+import { licenses } from "@ndla/licenses";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { licenses } from "@ndla/licenses";
-import { LearningpathStepper } from "./components/LearningpathStepper";
-import { TitleForm, TitleFormValues } from "./components/TitleForm";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
@@ -23,6 +21,8 @@ import { routes } from "../../../routeHelpers";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { LearningpathStepper } from "./components/LearningpathStepper";
+import { TitleForm, TitleFormValues } from "./components/TitleForm";
 
 export const Component = () => {
   return <PrivateRoute element={<NewLearningpathPage />} />;

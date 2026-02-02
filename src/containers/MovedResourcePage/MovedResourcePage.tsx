@@ -6,8 +6,6 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Badge, CardContent, CardHeading, CardImage, CardRoot, Heading, Text } from "@ndla/primitives";
@@ -16,6 +14,8 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { BadgesContainer } from "@ndla/ui";
+import parse from "html-react-parser";
+import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";

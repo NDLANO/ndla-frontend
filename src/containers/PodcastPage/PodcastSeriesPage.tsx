@@ -6,10 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Navigate, useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
@@ -30,6 +26,10 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleFooter, ArticleHeader, ArticleHGroup, ArticleWrapper, HomeBreadcrumb } from "@ndla/ui";
+import { TFunction } from "i18next";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Navigate, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageTitle } from "../../components/PageTitle";

@@ -6,11 +6,11 @@
  *
  */
 
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { gql } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
 import config from "../../../config";
 import { GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables } from "../../../graphqlTypes";
 import { Breadcrumb } from "../../../interfaces";
@@ -21,9 +21,9 @@ import { Article } from "../../Article/Article";
 import { CreatedBy } from "../../Article/CreatedBy";
 import { ContentPlaceholder } from "../../ContentPlaceholder";
 import { DefaultErrorMessage } from "../../DefaultErrorMessage";
+import { LdJson } from "../../LdJson";
 import { BaseStepProps } from "../learningpathTypes";
 import { EmbedPageContent } from "./EmbedPageContent";
-import { LdJson } from "../../LdJson";
 
 interface ArticleStepProps extends BaseStepProps {
   breadcrumbItems: Breadcrumb[];

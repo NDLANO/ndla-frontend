@@ -7,8 +7,8 @@
  */
 
 import { useParams } from "react-router";
-import { ResourceEmbed } from "./components/ResourceEmbed";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { ResourceEmbed } from "./components/ResourceEmbed";
 
 export const AudioPage = () => {
   const { audioId } = useParams();

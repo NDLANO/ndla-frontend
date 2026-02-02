@@ -6,12 +6,11 @@
  *
  */
 
+import { ApolloProvider } from "@apollo/client/react";
+import { prerenderStatic } from "@apollo/client/react/ssr";
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
-import { ApolloProvider } from "@apollo/client/react";
-import { prerenderStatic } from "@apollo/client/react/ssr";
-import { disableSSR } from "./renderHelpers";
 import { routes } from "../../appRoutes";
 import { AuthenticationContext } from "../../components/AuthenticationContext";
 import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
@@ -31,6 +30,7 @@ import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
 import { RenderFunc } from "../serverHelpers";
+import { disableSSR } from "./renderHelpers";
 
 export const defaultRender: RenderFunc = async (req, chunkInfo) => {
   const { basename, basepath, abbreviation } = getLocaleInfoFromPath(req.originalUrl);

@@ -6,8 +6,6 @@
  *
  */
 
-import { useId } from "react";
-import { useTranslation } from "react-i18next";
 import {
   FacebookCircleFill,
   GithubFill,
@@ -22,6 +20,8 @@ import { SafeLink, SafeLinkIconButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
 import { ZendeskButton } from "@ndla/ui";
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
 import { useSiteTheme } from "../../../components/SiteThemeContext";
 import config from "../../../config";
 import { UKR_PAGE_URL } from "../../../constants";

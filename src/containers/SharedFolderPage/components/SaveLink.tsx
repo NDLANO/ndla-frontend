@@ -6,8 +6,6 @@
  *
  */
 
-import { useState, useContext, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { BookmarkLine, InformationLine } from "@ndla/icons";
 import {
   Button,
@@ -21,6 +19,8 @@ import {
   MessageBox,
   Text,
 } from "@ndla/primitives";
+import { useState, useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";

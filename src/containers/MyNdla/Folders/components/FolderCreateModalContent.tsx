@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
-import { FolderForm, FolderFormValues } from "./FolderForm";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useFolders } from "../../../../mutations/folder/folderQueries";
+import { FolderForm, FolderFormValues } from "./FolderForm";
 
 interface Props {
   onClose: (e?: Event) => void;

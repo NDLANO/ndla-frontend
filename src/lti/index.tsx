@@ -6,18 +6,18 @@
  *
  */
 
+import { ApolloProvider } from "@apollo/client/react";
 import { createRoot } from "react-dom/client";
 import { I18nextProvider } from "react-i18next";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { ApolloProvider } from "@apollo/client/react";
 import "../style/index.css";
 import { LtiContextProvider } from "../components/LtiContext";
 import { RestrictedModeProvider } from "../components/RestrictedModeContext";
 import { Document } from "../Document";
 import { initializeI18n } from "../i18n";
-import { routes } from "./routes";
 import { createApolloClient } from "../util/apiHelpers";
 import { initSentry } from "../util/sentry";
+import { routes } from "./routes";
 
 const {
   DATA: { initialProps, config, chunkInfo, hash, restrictedMode },

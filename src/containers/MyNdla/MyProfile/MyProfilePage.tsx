@@ -6,9 +6,6 @@
  *
  */
 
-import { useContext } from "react";
-import { useTranslation } from "react-i18next";
-import { useHref } from "react-router";
 import { DeleteBinLine } from "@ndla/icons";
 import {
   Button,
@@ -25,6 +22,9 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { useHref } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";

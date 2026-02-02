@@ -6,16 +6,13 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { SafeLinkButton } from "@ndla/safelink";
-import { CopyBlock } from "./CopyBlock";
-import { CopyTextButton } from "./CopyTextButton";
-import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import {
@@ -33,6 +30,9 @@ import {
   MediaListLicense,
   MediaListContent,
 } from "../MediaList/MediaList";
+import { CopyBlock } from "./CopyBlock";
+import { CopyTextButton } from "./CopyTextButton";
+import { getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 
 interface ConceptLicenseInfoProps {
   concept: GQLConceptLicenseList_ConceptLicenseFragment | GQLGlossLicenseList_GlossLicenseFragment;

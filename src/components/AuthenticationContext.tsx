@@ -6,9 +6,9 @@
  *
  */
 
-import { createContext, ReactNode, useMemo, useSyncExternalStore } from "react";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
+import { createContext, ReactNode, useMemo, useSyncExternalStore } from "react";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { getActiveSessionCookieClient, isActiveSession, millisUntilExpiration } from "../util/authHelpers";
 

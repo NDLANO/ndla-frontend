@@ -6,14 +6,13 @@
  *
  */
 
-import { useContext, useId } from "react";
-import { useTranslation } from "react-i18next";
 import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import { MyNdlaPageWrapper } from "./components/MyNdlaPageWrapper";
+import { useContext, useId } from "react";
+import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ListResource } from "../../components/MyNdla/ListResource";
 import { LoginModalContent } from "../../components/MyNdla/LoginModalContent";
@@ -31,6 +30,7 @@ import { routes } from "../../routeHelpers";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../AllSubjectsPage/SubjectLink";
 import { MyNdlaPageSection, MyNdlaPageContent } from "./components/MyNdlaPageSection";
+import { MyNdlaPageWrapper } from "./components/MyNdlaPageWrapper";
 
 const StyledList = styled("ul", {
   base: {

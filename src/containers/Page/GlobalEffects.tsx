@@ -6,8 +6,8 @@
  *
  */
 
-import { useEffect, useRef } from "react";
 import { useComponentSize } from "@ndla/hooks";
+import { useEffect, useRef } from "react";
 import { useIsMastheadSticky } from "../../util/useIsMastheadSticky";
 
 export const GlobalEffects = () => {

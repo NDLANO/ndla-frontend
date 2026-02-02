@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import { GQLSubjectLinks_SubjectPageFragment } from "../../graphqlTypes";
 
 const LinksWrapper = styled("div", {

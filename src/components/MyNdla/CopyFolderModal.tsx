@@ -6,16 +6,16 @@
  *
  */
 
+import { DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { ReactNode, useCallback, useContext, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DialogRoot, DialogTrigger } from "@ndla/primitives";
-import { CopyFolder } from "./CopyFolder";
-import { Folder } from "./Folder";
-import { LoginModalContent } from "./LoginModalContent";
 import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { CopyFolder } from "./CopyFolder";
+import { Folder } from "./Folder";
+import { LoginModalContent } from "./LoginModalContent";
 
 interface Props {
   folder: GQLFolder;

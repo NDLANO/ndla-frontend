@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import {
   BleedPageContent,
   Button,
@@ -23,6 +21,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";

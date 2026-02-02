@@ -6,9 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useId, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import {
@@ -26,10 +23,9 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { AboutNdlaFilm } from "./AboutNdlaFilm";
-import { FilmContent } from "./FilmContent";
-import { ALL_MOVIES_ID } from "./filmHelper";
-import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
+import { TFunction } from "i18next";
+import { useId, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
@@ -42,6 +38,10 @@ import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { siteThemeToHeroVariant } from "../../util/siteTheme";
 import { htmlTitle } from "../../util/titleHelper";
+import { AboutNdlaFilm } from "./AboutNdlaFilm";
+import { FilmContent } from "./FilmContent";
+import { ALL_MOVIES_ID } from "./filmHelper";
+import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
 
 const Wrapper = styled("div", {
   base: {

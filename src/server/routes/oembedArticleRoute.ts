@@ -6,20 +6,20 @@
  *
  */
 
-import express from "express";
-import { matchPath, Params } from "react-router";
 import { ApolloClient, gql } from "@apollo/client";
 import { Node } from "@ndla/types-taxonomy";
+import express from "express";
+import { matchPath, Params } from "react-router";
 import config from "../../config";
 import { fetchArticle } from "../../containers/ArticlePage/articleApi";
 import { GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables } from "../../graphqlTypes";
+import { isValidLocale } from "../../i18n";
+import { OembedResponse } from "../../interfaces";
+import { oembedRoutes } from "../../routes";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from "../../statusCodes";
 import { apiResourceUrl, createApolloClient, resolveJsonOrRejectWithError } from "../../util/apiHelpers";
-import { handleError, ensureError } from "../../util/handleError";
-import { OembedResponse } from "../../interfaces";
 import { NotFoundError } from "../../util/error/StatusError";
-import { isValidLocale } from "../../i18n";
-import { oembedRoutes } from "../../routes";
+import { handleError, ensureError } from "../../util/handleError";
 import { log } from "../../util/logger/logger";
 import { getArticleIdFromResource } from "../utils/resourceHelpers";
 

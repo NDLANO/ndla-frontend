@@ -6,9 +6,6 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { HTMLProps } from "@ark-ui/react";
 import { Badge } from "@ndla/primitives";
@@ -21,18 +18,21 @@ import {
   ArticleWrapper,
   licenseAttributes,
 } from "@ndla/ui";
-import { useArticleCopyText } from "./articleHelpers";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 import { TransformedBaseArticle } from "../../util/transformArticle";
 import { CompetenceGoals } from "../CompetenceGoals";
 import { Disclaimer } from "../Disclaimer";
-import { FavoriteButton } from "./FavoritesButton";
 import { InactiveMessageBox } from "../InactiveMessageBox";
 import { LicenseBox } from "../license/LicenseBox";
 import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
 import { RestrictedBlock } from "../RestrictedBlock";
 import { useRestrictedMode } from "../RestrictedModeContext";
+import { useArticleCopyText } from "./articleHelpers";
+import { FavoriteButton } from "./FavoritesButton";
 
 interface Props extends HTMLProps<"div"> {
   id?: string;

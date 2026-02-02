@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useHref, useLocation } from "react-router";
 import { GlobalLine } from "@ndla/icons";
 import { Button, ButtonProps } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
+import { useHref, useLocation } from "react-router";
 import { constructNewPath } from "../../util/urlHelper";
 
 export const LanguageSelector = ({ variant = "tertiary", ...props }: ButtonProps) => {

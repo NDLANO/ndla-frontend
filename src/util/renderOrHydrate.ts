@@ -7,9 +7,9 @@
  */
 
 import { ReactNode } from "react";
+import { createRoot, hydrateRoot } from "react-dom/client";
 import { matchRoutes, RouteObject } from "react-router";
 import config from "../config";
-import { createRoot, hydrateRoot } from "react-dom/client";
 
 export const renderOrHydrate = async (
   container: Element | Document,

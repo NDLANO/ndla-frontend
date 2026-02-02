@@ -6,20 +6,20 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { PencilLine, CloseLine } from "@ndla/icons";
 import { ListItemContent, ListItemRoot, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { DraggableListItem } from "./DraggableListItem";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { DragHandle } from "../../components/DragHandle";
 import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";
+import { DraggableListItem } from "./DraggableListItem";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 
 export const DragWrapper = styled("div", {

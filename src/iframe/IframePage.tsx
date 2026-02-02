@@ -6,9 +6,6 @@
  *
  */
 
-import { useContext } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import {
@@ -18,7 +15,9 @@ import {
   ErrorMessageTitle,
   PageContainer,
 } from "@ndla/primitives";
-import { IframeArticlePage, iframeArticlePageFragments } from "./IframeArticlePage";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { PageTitle } from "../components/PageTitle";
 import { RedirectContext } from "../components/RedirectContext";
 import { Status } from "../components/Status";
@@ -26,8 +25,9 @@ import { SKIP_TO_CONTENT_ID } from "../constants";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
 import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
-import "../style/index.css";
 import { isGoneError } from "../util/handleError";
+import "../style/index.css";
+import { IframeArticlePage, iframeArticlePageFragments } from "./IframeArticlePage";
 
 const Error = () => {
   const { t } = useTranslation();

@@ -6,8 +6,6 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -27,9 +25,8 @@ import {
   Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { FilterContainer } from "./FilterContainer";
-import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
-import { useStableSearchPageParams } from "./useStableSearchPageParams";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   NDLAFILM_RESOURCE_TYPE_DOCUMENTARY,
   NDLAFILM_RESOURCE_TYPE_FEATURE_FILM,
@@ -38,6 +35,9 @@ import {
 } from "../../constants";
 import { GQLResourceTypeFilter_ResourceTypeDefinitionFragment } from "../../graphqlTypes";
 import { useLtiContext } from "../../LtiContext";
+import { FilterContainer } from "./FilterContainer";
+import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 const DELIMITER = "//";
 

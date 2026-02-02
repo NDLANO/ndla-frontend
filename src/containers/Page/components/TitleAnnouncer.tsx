@@ -6,8 +6,8 @@
  *
  */
 
-import { useEffect, useRef, useState } from "react";
 import { Text } from "@ndla/primitives";
+import { useEffect, useRef, useState } from "react";
 
 export const TitleAnnouncer = () => {
   const titleRef = useRef<HTMLParagraphElement | null>(null);

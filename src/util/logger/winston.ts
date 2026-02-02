@@ -7,8 +7,8 @@
  */
 
 import "source-map-support/register";
-import pc from "picocolors";
 import type { Formatter } from "picocolors/types";
+import pc from "picocolors";
 import winston from "winston";
 import config from "../../config";
 

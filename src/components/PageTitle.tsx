@@ -8,9 +8,9 @@
 
 import { useContext, useEffect, useRef } from "react";
 import { useHref, useLocation } from "react-router";
-import { AuthContext } from "./AuthenticationContext";
 import { log } from "../util/logger/logger";
 import { getAllDimensions } from "../util/trackingUtil";
+import { AuthContext } from "./AuthenticationContext";
 
 interface Props {
   title: string;

@@ -6,9 +6,9 @@
  *
  */
 
-import { log } from "../../util/logger/logger";
-import config from "../../config";
 import { Server } from "http";
+import config from "../../config";
+import { log } from "../../util/logger/logger";
 import { getActiveRequests } from "../middleware/activeRequestsMiddleware";
 import { getIsShuttingDown, setIsShuttingDown } from "../routes/healthRouter";
 

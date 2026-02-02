@@ -6,13 +6,13 @@
  *
  */
 
-import { useContext } from "react";
-import { useTranslation } from "react-i18next";
 import { Feide, HeartLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { css } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
+import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { LoginModalContent } from "../MyNdla/LoginModalContent";

@@ -6,16 +6,16 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
-import { useLearningpathActionHooks } from "./components/LearningpathActionHooks";
-import { LearningpathList } from "./components/LearningpathList";
+import { useTranslation } from "react-i18next";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { PageActions } from "../components/PageActions";
+import { useLearningpathActionHooks } from "./components/LearningpathActionHooks";
+import { LearningpathList } from "./components/LearningpathList";
 
 export const Component = () => {
   return <PrivateRoute element={<LearningpathPage />} />;

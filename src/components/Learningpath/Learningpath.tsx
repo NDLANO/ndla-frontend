@@ -6,8 +6,6 @@
  *
  */
 
-import { useContext, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
 import {
@@ -25,7 +23,8 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { contains } from "@ndla/util";
-import { LearningpathMenu } from "./LearningpathMenu";
+import { useContext, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { LearningpathContext } from "./learningpathUtils";
 import {
   GQLLearningpath_LearningpathFragment,
@@ -42,6 +41,7 @@ import { RestrictedBlockContextProvider } from "../RestrictedBlock";
 import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathIntroduction } from "./components/LearningpathIntroduction";
 import { LearningpathStep } from "./components/LearningpathStep";
+import { LearningpathMenu } from "./LearningpathMenu";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;

@@ -6,11 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { SubjectContainer, subjectContainerFragments } from "./SubjectContainer";
+import { useTranslation } from "react-i18next";
+import { Navigate, useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
@@ -20,6 +19,7 @@ import { getSubjectType } from "../../routeHelpers";
 import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { SubjectContainer, subjectContainerFragments } from "./SubjectContainer";
 
 const subjectPageQuery = gql`
   query subjectPage($subjectId: String, $contextId: String, $metadataFilterKey: String, $metadataFilterValue: String) {

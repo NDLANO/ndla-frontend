@@ -6,9 +6,6 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useMemo, useSyncExternalStore } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Portal } from "@ark-ui/react";
@@ -33,8 +30,11 @@ import {
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { groupBy, sortBy, uniqBy } from "@ndla/util";
-import { DialogCloseButton } from "./DialogCloseButton";
+import parse from "html-react-parser";
+import { useMemo, useSyncExternalStore } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement, GQLReference } from "../graphqlTypes";
+import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {
   supportedLanguages?: string[];

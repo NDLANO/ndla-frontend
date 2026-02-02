@@ -6,10 +6,10 @@
  *
  */
 
+import { MissingRouterContext } from "@ndla/safelink";
 import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
-import { MissingRouterContext } from "@ndla/safelink";
 import { errorRoutes } from "../../appRoutes";
 import { RedirectInfo } from "../../components/RedirectContext";
 import { RestrictedModeProvider } from "../../components/RestrictedModeContext";

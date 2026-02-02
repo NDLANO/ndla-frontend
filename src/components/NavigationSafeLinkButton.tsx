@@ -6,9 +6,9 @@
  *
  */
 
-import { type Ref } from "react";
 import { SafeLinkButton, SafeLinkButtonProps } from "@ndla/safelink";
 import { RecipeVariantProps, css, cva } from "@ndla/styled-system/css";
+import { type Ref } from "react";
 
 const navigationSafeLinkButtonRecipe = cva({
   base: {

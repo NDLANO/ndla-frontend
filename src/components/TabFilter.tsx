@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import {
   RadioGroupRoot,
   RadioGroupLabel,
@@ -16,6 +15,7 @@ import {
   RadioGroupItemHiddenInput,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 
 const StyledRadioGroupRoot = styled(RadioGroupRoot, {
   base: {

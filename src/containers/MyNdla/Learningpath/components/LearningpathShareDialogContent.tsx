@@ -6,15 +6,15 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningpathItem } from "./LearningpathItem";
-import { LearningpathShareLink } from "./LearningpathShareLink";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
+import { LearningpathItem } from "./LearningpathItem";
+import { LearningpathShareLink } from "./LearningpathShareLink";
 
 const StyledDialogBody = styled(DialogBody, {
   base: {

@@ -7,9 +7,9 @@
  */
 
 import "./style/index.css";
+import { ApolloProvider } from "@apollo/client/react";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { ApolloProvider } from "@apollo/client/react";
 import { routes } from "./appRoutes";
 import { AuthenticationContext } from "./components/AuthenticationContext";
 import { ResponseContext } from "./components/ResponseContext";

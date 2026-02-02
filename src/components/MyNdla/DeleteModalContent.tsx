@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import {
   Text,
   Button,
@@ -17,6 +16,7 @@ import {
   DialogCloseTrigger,
   DialogFooter,
 } from "@ndla/primitives";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../DialogCloseButton";
 
 interface Props {

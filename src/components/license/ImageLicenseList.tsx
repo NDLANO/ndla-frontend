@@ -6,18 +6,14 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { DownloadLine, ExternalLinkLine } from "@ndla/icons";
 import { metaTypes, figureApa7CopyString } from "@ndla/licenses";
 import { Image } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
-import { CopyBlock } from "./CopyBlock";
-import { CopyTextButton } from "./CopyTextButton";
-import { licenseListCopyrightFragment } from "./licenseFragments";
-import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
@@ -32,6 +28,10 @@ import {
   MediaListLicense,
   MediaListContent,
 } from "../MediaList/MediaList";
+import { CopyBlock } from "./CopyBlock";
+import { CopyTextButton } from "./CopyTextButton";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { downloadUrl, getGroupedContributorDescriptionList, isCopyrighted } from "./licenseHelpers";
 
 interface ImageLicenseInfoProps {
   image: GQLImageLicenseList_ImageLicenseFragment;

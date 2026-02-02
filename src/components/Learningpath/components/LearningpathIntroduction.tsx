@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { Badge } from "@ndla/primitives";
 import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
-import { EmbedPageContent } from "./EmbedPageContent";
+import { useTranslation } from "react-i18next";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;

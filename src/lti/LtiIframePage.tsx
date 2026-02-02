@@ -6,8 +6,8 @@
  *
  */
 
-import { useParams } from "react-router";
 import { MissingRouterContext } from "@ndla/safelink";
+import { useParams } from "react-router";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { IframePage } from "../iframe/IframePage";
 

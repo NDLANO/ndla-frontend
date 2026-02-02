@@ -6,9 +6,6 @@
  *
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Outlet, useLocation, useParams } from "react-router";
 import {
   closestCenter,
   DndContext,
@@ -28,14 +25,17 @@ import {
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
-import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Outlet, useLocation, useParams } from "react-router";
 import { useToast } from "../../../components/ToastContext";
+import config from "../../../config";
 import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
+import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
 import { LearningPathOutletContext, LocationState } from "./types";
-import config from "../../../config";
 
 const StyledOl = styled("ol", {
   base: {

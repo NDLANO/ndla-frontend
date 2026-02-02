@@ -6,8 +6,6 @@
  *
  */
 
-import { FormEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
@@ -30,13 +28,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import { GrepFilter } from "./GrepFilter";
-import { ResourceTypeFilter } from "./ResourceTypeFilter";
-import { SearchResult } from "./SearchResult";
-import { ALL_NODE_TYPES, defaultNodeType, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
-import { SubjectFilter } from "./SubjectFilter";
-import { TraitFilter } from "./TraitFilter";
-import { useStableSearchPageParams } from "./useStableSearchPageParams";
+import { FormEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
@@ -47,6 +40,13 @@ import {
 import { preferredLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 import { useLtiContext } from "../../LtiContext";
+import { GrepFilter } from "./GrepFilter";
+import { ResourceTypeFilter } from "./ResourceTypeFilter";
+import { SearchResult } from "./SearchResult";
+import { ALL_NODE_TYPES, defaultNodeType, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
+import { SubjectFilter } from "./SubjectFilter";
+import { TraitFilter } from "./TraitFilter";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 const StyledMain = styled("main", {
   base: {

@@ -6,14 +6,14 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useSlate, useSlateSelection } from "slate-react";
 import { Portal } from "@ark-ui/react";
 import { isLinkElement } from "@ndla/editor";
 import { platformSpecificTooltip } from "@ndla/editor-components";
 import { LinkMedium } from "@ndla/icons";
 import { DialogRoot, DialogTrigger, IconButton, IconButtonProps } from "@ndla/primitives";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useSlate, useSlateSelection } from "slate-react";
 import { LinkDialogContent, LinkFormValues, toInitialLinkFormValues } from "./LinkDialogContent";
 import { LINK_TOOLBAR_BUTTON_ID } from "./linkUtils";
 

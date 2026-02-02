@@ -6,11 +6,11 @@
  *
  */
 
+import { FolderLine, LinkMedium } from "@ndla/icons";
+import { keyBy, usePrevious } from "@ndla/util";
 import { useContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams, useNavigate } from "react-router";
-import { FolderLine, LinkMedium } from "@ndla/icons";
-import { keyBy, usePrevious } from "@ndla/util";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { AddResourceToFolderModalContent } from "../../../components/MyNdla/AddResourceToFolderModalContent";
 import { BlockWrapper } from "../../../components/MyNdla/BlockWrapper";

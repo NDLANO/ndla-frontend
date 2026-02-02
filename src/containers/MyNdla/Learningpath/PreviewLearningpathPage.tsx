@@ -6,27 +6,27 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { Learningpath } from "../../../components/Learningpath/Learningpath";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
+import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
-import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
-import { LearningpathStepper } from "./components/LearningpathStepper";
-import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
+import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { LearningpathStepper } from "./components/LearningpathStepper";
+import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
 
 const TextWrapper = styled("div", {
   base: {

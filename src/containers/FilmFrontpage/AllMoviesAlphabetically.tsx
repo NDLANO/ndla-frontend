@@ -6,16 +6,16 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { movieResourceTypes } from "./resourceTypes";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { FILM_ID } from "../../constants";
 import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
+import { movieResourceTypes } from "./resourceTypes";
 
 const LetterHeading = styled(Heading, {
   base: {

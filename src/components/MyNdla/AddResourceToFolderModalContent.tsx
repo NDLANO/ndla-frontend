@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
-import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
+import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
+import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 
 interface Props {
   close: VoidFunction;

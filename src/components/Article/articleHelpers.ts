@@ -6,9 +6,9 @@
  *
  */
 
+import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import { useTranslation } from "react-i18next";
 import { useHref, useLocation } from "react-router";
-import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import config from "../../config";
 import { GQLArticle } from "../../graphqlTypes";
 
