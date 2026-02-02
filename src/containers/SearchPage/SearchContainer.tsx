@@ -139,7 +139,6 @@ const searchPageQueryFragment = gql`
     $relevance: String
     $grepCodes: String
     $traits: [String!]
-    $aggregatePaths: [String!]
     $filterInactive: Boolean
     $license: String
     $resultTypes: String
@@ -161,7 +160,6 @@ const searchPageQueryFragment = gql`
       relevance: $relevance
       grepCodes: $grepCodes
       traits: $traits
-      aggregatePaths: $aggregatePaths
       filterInactive: $filterInactive
       license: $license
       resultTypes: $resultTypes
@@ -174,15 +172,9 @@ const searchPageQueryFragment = gql`
       results {
         ...SearchResult_SearchResult
       }
-      aggregations {
-        values {
-          ...ResourceTypeFilter_BucketResult
-        }
-      }
     }
   }
   ${SearchResult.fragments.searchResult}
-  ${ResourceTypeFilter.fragments.bucketResult}
 `;
 
 const ContentWrapper = styled("div", {
@@ -244,12 +236,8 @@ const getTypeVariables = (
     .map((id) => `urn:resourcetype:${id}`)
     .join(",");
 
-  const flattenedResourceTypes = allResourceTypes
-    ?.flatMap((rt) => (rt.subtypes?.length ? rt.subtypes.map((st) => st.id) : rt.id))
-    .join(",");
-
   return {
-    resourceTypes: actualResourceTypes ?? flattenedResourceTypes,
+    resourceTypes: actualResourceTypes ?? allResourceTypes?.map((rt) => rt.id).join(","),
     contextTypes: "standard,learningpath",
   };
 };
@@ -289,7 +277,6 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
       subjects,
       pageSize: 10,
-      aggregatePaths: ["context.resourceTypes.id"],
       traits: searchParams.get("traits") ?? undefined,
       fallback: "true",
       license: "all",
@@ -497,11 +484,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
           <Heading id={filterHeadingId} textStyle="title.medium" asChild consumeCss>
             <h2>{t("searchPage.filtersHeading")}</h2>
           </Heading>
-          <ResourceTypeFilter
-            bucketResult={data?.search?.aggregations?.[0]?.values ?? []}
-            resourceTypes={resourceTypes}
-            resourceTypesLoading={resourceTypesLoading}
-          />
+          <ResourceTypeFilter resourceTypes={resourceTypes} resourceTypesLoading={resourceTypesLoading} />
           <GrepFilter />
           <TraitFilter />
           <SubjectFilter />
