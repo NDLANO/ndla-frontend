@@ -1339,6 +1339,7 @@ export type GQLQuery = {
   podcastSeriesSearch?: Maybe<GQLPodcastSeriesSearch>;
   programme?: Maybe<GQLProgrammePage>;
   programmes?: Maybe<Array<GQLProgrammePage>>;
+  recentlyFavoritedResources: Array<GQLFolderResource>;
   resource?: Maybe<GQLResource>;
   resourceEmbed: GQLResourceEmbed;
   resourceEmbeds: GQLResourceEmbed;
@@ -1498,6 +1499,10 @@ export type GQLQueryPodcastSeriesSearchArgs = {
 export type GQLQueryProgrammeArgs = {
   contextId?: InputMaybe<Scalars["String"]["input"]>;
   path?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type GQLQueryRecentlyFavoritedResourcesArgs = {
+  size?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type GQLQueryResourceArgs = {
@@ -4063,11 +4068,11 @@ export type GQLSharedFolderQuery = {
   sharedFolder: { __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment;
 };
 
-export type GQLRecentlyUsedQueryVariables = Exact<{ [key: string]: never }>;
+export type GQLRecentlyFavoritedQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GQLRecentlyUsedQuery = {
+export type GQLRecentlyFavoritedQuery = {
   __typename?: "Query";
-  allFolderResources: Array<{
+  recentlyFavoritedResources: Array<{
     __typename?: "FolderResource";
     id: string;
     resourceId: string;
