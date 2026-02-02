@@ -4262,6 +4262,30 @@ export type GQLEmbedOembedQuery = {
   };
 };
 
+export type GQLLmkDataQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLLmkDataQuery = {
+  __typename?: "Query";
+  nodes?: Array<{
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    supportedLanguages: Array<string>;
+    metadata: { __typename?: "TaxonomyMetadata"; grepCodes: Array<string> };
+    subjectpage?: {
+      __typename?: "SubjectPage";
+      id: number;
+      metaDescription?: string;
+      about?: {
+        __typename?: "SubjectPageAbout";
+        description: string;
+        visualElement: { __typename?: "SubjectPageVisualElement"; imageUrl?: string };
+      };
+    };
+  }>;
+};
+
 export type GQLStructuredArticleData_CopyrightFragment = {
   __typename?: "Copyright";
   processed?: boolean;
