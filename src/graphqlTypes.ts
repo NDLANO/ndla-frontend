@@ -3264,13 +3264,10 @@ export type GQLGrepFilterQuery = {
   coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string; description?: string }>;
 };
 
-export type GQLResourceTypeFilter_BucketResultFragment = { __typename?: "BucketResult"; value: string; count: number };
-
 export type GQLResourceTypeFilter_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
   id: string;
   name: string;
-  subtypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLSearchPageQueryVariables = Exact<{
@@ -3289,7 +3286,6 @@ export type GQLSearchPageQueryVariables = Exact<{
   relevance?: InputMaybe<Scalars["String"]["input"]>;
   grepCodes?: InputMaybe<Scalars["String"]["input"]>;
   traits?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
-  aggregatePaths?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
   filterInactive?: InputMaybe<Scalars["Boolean"]["input"]>;
   license?: InputMaybe<Scalars["String"]["input"]>;
   resultTypes?: InputMaybe<Scalars["String"]["input"]>;
@@ -3309,10 +3305,6 @@ export type GQLSearchPageQuery = {
       | ({ __typename?: "LearningpathSearchResult" } & GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment)
       | ({ __typename?: "NodeSearchResult" } & GQLSearchResult_SearchResult_NodeSearchResult_Fragment)
     >;
-    aggregations: Array<{
-      __typename?: "AggregationResult";
-      values: Array<{ __typename?: "BucketResult" } & GQLResourceTypeFilter_BucketResultFragment>;
-    }>;
   };
 };
 
@@ -3962,35 +3954,6 @@ export type GQLUpdateFolderMutationVariables = Exact<{
 export type GQLUpdateFolderMutation = {
   __typename?: "Mutation";
   updateFolder: { __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment;
-};
-
-export type GQLSortFoldersMutationVariables = Exact<{
-  parentId?: InputMaybe<Scalars["String"]["input"]>;
-  sortedIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
-}>;
-
-export type GQLSortFoldersMutation = {
-  __typename?: "Mutation";
-  sortFolders: { __typename?: "SortResult"; parentId?: string; sortedIds: Array<string> };
-};
-
-export type GQLSortSavedSharedFoldersMutationVariables = Exact<{
-  sortedIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
-}>;
-
-export type GQLSortSavedSharedFoldersMutation = {
-  __typename?: "Mutation";
-  sortSavedSharedFolders: { __typename?: "SortResult"; sortedIds: Array<string> };
-};
-
-export type GQLSortResourcesMutationVariables = Exact<{
-  parentId: Scalars["String"]["input"];
-  sortedIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
-}>;
-
-export type GQLSortResourcesMutation = {
-  __typename?: "Mutation";
-  sortResources: { __typename?: "SortResult"; parentId?: string; sortedIds: Array<string> };
 };
 
 export type GQLUpdateFolderStatusMutationVariables = Exact<{
