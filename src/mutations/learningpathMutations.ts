@@ -264,11 +264,7 @@ export const useCopyLearningpathMutation = (
 
 const updateLearningpathStepSeqNo = gql`
   mutation updateLearningpathStepSeqNo($learningpathId: Int!, $learningpathStepId: Int!, $seqNo: Int!) {
-    updateLearningpathStepSeqNo(
-      learningpathId: $learningpathId
-      learningpathStepId: $learningpathStepId
-      seqNo: $seqNo
-    ) {
+    updateLearningpathStepSeqNo(learningpathId: $learningpathId, learningpathStepId: $learningpathStepId, seqNo: $seqNo) {
       seqNo
     }
   }
