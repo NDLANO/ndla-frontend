@@ -22,14 +22,42 @@ type MyContractAreaProps = {
 
 const MyContactAreaContainer = styled("div", {
   base: {
-    alignItems: "center",
-    backgroundColor: "surface.brand.4",
+    display: "flex",
+    justifyContent: "center",
+    background: "linear-gradient(180deg, #E7DAFA 0%, #D8BFF9 84.41%, #C8A4F7 131.5%)",
+    color: "text.strong",
     borderRadius: "medium",
+    paddingBlock: "xxlarge",
+    paddingInline: "xsmall",
+    textAlign: "center",
+  },
+});
+
+const WeirdLine = styled("div", {
+  base: {
+    position: "relative",
+    height: "medium",
+    width: "100%",
+    _after: {
+      content: '""',
+      position: "absolute",
+      background: "stroke.hover",
+      border: "2px solid",
+      transform: "rotate(4deg)",
+      borderColor: "stroke.hover",
+      width: "100%",
+      top: "50%",
+      left: "0",
+    },
+  },
+});
+
+const ContentContainer = styled("div", {
+  base: {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    paddingBlock: "xxlarge",
-    paddingInline: "xsmall",
+    width: "max-content",
     textAlign: "center",
   },
 });
@@ -37,11 +65,14 @@ const MyContactAreaContainer = styled("div", {
 export const MyContactArea = ({ user }: MyContractAreaProps) => {
   return (
     <MyContactAreaContainer>
-      <Heading textStyle="heading.medium" asChild consumeCss>
-        <h2>{user.displayName}</h2>
-      </Heading>
-      <Text textStyle="title.medium">{user.primaryOrg}</Text>
-      {/* TODO: Vurdere om vi også skal hente fylkesorganisasjonen og legge den her, ref design */}
+      <ContentContainer>
+        <Heading textStyle="heading.medium" asChild consumeCss>
+          <h2>{user.displayName}</h2>
+        </Heading>
+        <WeirdLine />
+        <Text textStyle="title.medium">{user.primaryOrg}</Text>
+        {/* TODO: Vurdere om vi også skal hente fylkesorganisasjonen og legge den her, ref design */}
+      </ContentContainer>
     </MyContactAreaContainer>
   );
 };
