@@ -6,13 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { metaTypes } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
-import { CopyBlock } from "./CopyBlock";
-import { licenseListCopyrightFragment } from "./licenseFragments";
-import { getGroupedContributorDescriptionList } from "./licenseHelpers";
+import { useTranslation } from "react-i18next";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
 import {
   MediaList,
@@ -24,6 +21,9 @@ import {
   MediaListLicense,
   MediaListContent,
 } from "../MediaList/MediaList";
+import { CopyBlock } from "./CopyBlock";
+import { licenseListCopyrightFragment } from "./licenseFragments";
+import { getGroupedContributorDescriptionList } from "./licenseHelpers";
 
 interface TextLicenseInfoProps {
   text: TextItem;

@@ -6,8 +6,8 @@
  *
  */
 
-import { resources, resourceTypes } from "./mockResources";
 import { sortResources } from "../getResourceGroups";
+import { resources, resourceTypes } from "./mockResources";
 
 test("resources are sorted according to resource types order", () => {
   const types = sortResources(resources, resourceTypes, true);

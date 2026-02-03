@@ -6,9 +6,6 @@
  *
  */
 
-import { useContext, useEffect, useId, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
@@ -30,7 +27,9 @@ import { Button, Heading, PopoverRoot, PopoverTrigger, Text } from "@ndla/primit
 import { SafeLink, SafeLinkButton, SafeLinkButtonProps, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePrevious } from "@ndla/util";
-import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
+import { useContext, useEffect, useId, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import config from "../../config";
@@ -43,6 +42,7 @@ import {
 import { routes } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { toHref } from "../../util/urlHelper";
+import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
 
 const NavLink = (props: SafeLinkProps) => {
   const { setOpen } = usePopoverContext();

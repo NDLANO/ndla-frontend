@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
-import { LearningpathItem } from "./LearningpathItem";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import { LearningpathItem } from "./LearningpathItem";
 
 interface Props {
   onDelete: (path: number) => void;

@@ -6,10 +6,6 @@
  *
  */
 
-import parse from "html-react-parser";
-import { TFunction } from "i18next";
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
 import {
@@ -32,6 +28,10 @@ import {
   HomeBreadcrumb,
   licenseAttributes,
 } from "@ndla/ui";
+import parse from "html-react-parser";
+import { TFunction } from "i18next";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { LdJson } from "../../components/LdJson";
 import { LicenseBox } from "../../components/license/LicenseBox";
 import { PageTitle } from "../../components/PageTitle";

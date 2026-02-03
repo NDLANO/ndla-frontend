@@ -8,6 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { useLazyQuery, useQuery } from "@apollo/client/react";
+import { learningpathFragment, learningpathStepOembed } from "../../../fragments/learningpathFragments";
 import {
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
@@ -17,7 +18,6 @@ import {
   GQLOpengraphQuery,
   GQLOpengraphQueryVariables,
 } from "../../../graphqlTypes";
-import { learningpathFragment, learningpathStepOembed } from "../../../fragments/learningpathFragments";
 
 export const myLearningpathQuery = gql`
   query MyLearningpaths($includeSteps: Boolean = false) {

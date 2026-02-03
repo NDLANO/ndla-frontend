@@ -6,11 +6,11 @@
  *
  */
 
+import { gql } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location, useParams } from "react-router";
-import { gql } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";

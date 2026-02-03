@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { FileCopyLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { copyLearningpathSharingLink, sharedLearningpathLink } from "../utils";

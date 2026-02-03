@@ -7,12 +7,12 @@
  */
 
 import { i18n } from "i18next";
+import { preferredLanguages } from "../i18n";
+import { i18nInstanceWithTranslations } from "../i18nInstanceWithTranslations";
 import en from "../messages/messagesEN";
 import nb from "../messages/messagesNB";
 import nn from "../messages/messagesNN";
 import se from "../messages/messagesSE";
-import { i18nInstanceWithTranslations } from "../i18nInstanceWithTranslations";
-import { preferredLanguages } from "../i18n";
 
 export const initializeI18nTest = (language: string): i18n => {
   const i18nInstance = i18nInstanceWithTranslations.cloneInstance({

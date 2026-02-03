@@ -6,9 +6,9 @@
  *
  */
 
+import { styled } from "@ndla/styled-system/jsx";
 import parse from "html-react-parser";
 import { useEffect, useRef, useState } from "react";
-import { styled } from "@ndla/styled-system/jsx";
 import { urlIsNDLAUrl } from "../../util/ndlaUrl";
 
 interface Props {

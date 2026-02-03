@@ -6,16 +6,16 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { CloseLine } from "@ndla/icons";
 import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
 import { FilterContainer } from "./FilterContainer";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
-import { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
 
 const FiltersWrapper = styled("div", {
   base: {

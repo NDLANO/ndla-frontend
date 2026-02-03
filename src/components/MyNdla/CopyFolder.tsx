@@ -6,8 +6,6 @@
  *
  */
 
-import { useContext, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { InformationLine, AlertLine } from "@ndla/icons";
 import {
   Button,
@@ -20,8 +18,8 @@ import {
   DialogFooter,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { Folder } from "./Folder";
-import { FolderSelect } from "./FolderSelect";
+import { useContext, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { useCopySharedFolderMutation } from "../../mutations/folder/folderMutations";
 import { useFolders } from "../../mutations/folder/folderQueries";
@@ -30,6 +28,8 @@ import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { useToast } from "../ToastContext";
+import { Folder } from "./Folder";
+import { FolderSelect } from "./FolderSelect";
 
 interface Props {
   folder: GQLFolder;

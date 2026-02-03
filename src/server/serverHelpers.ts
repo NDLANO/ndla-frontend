@@ -7,12 +7,12 @@
  */
 
 import { Request, Response } from "express";
-import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
+import { Manifest } from "vite";
 import { LocaleType } from "../interfaces";
+import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
 import { NDLAError } from "../util/error/NDLAError";
 import { handleError } from "../util/handleError";
 import { LoggerContext } from "../util/logger/loggerContext";
-import { Manifest } from "vite";
 
 interface RenderLocationReturn {
   status: number;

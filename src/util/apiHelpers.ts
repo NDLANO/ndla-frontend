@@ -20,6 +20,8 @@ import {
 } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { ErrorLink } from "@apollo/client/link/error";
+import config from "../config";
+import { NOT_FOUND } from "../statusCodes";
 import { getActiveSessionCookieClient, getFeideCookie, isActiveSession } from "./authHelpers";
 import {
   NDLAGraphQLError,
@@ -30,8 +32,6 @@ import {
 } from "./error/NDLAApolloErrors";
 import { StatusError } from "./error/StatusError";
 import { handleError } from "./handleError";
-import config from "../config";
-import { NOT_FOUND } from "../statusCodes";
 
 const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
 const uri = config.localGraphQLApi ? "http://localhost:4000/graphql-api/graphql" : `${apiBaseUrl}/graphql-api/graphql`;

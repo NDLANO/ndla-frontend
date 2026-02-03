@@ -8,6 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { useMutation, useApolloClient } from "@apollo/client/react";
+import { learningpathFragment, learningpathStepFragment } from "../fragments/learningpathFragments";
 import {
   GQLDeleteLearningpathMutation,
   GQLMutationDeleteLearningpathArgs,
@@ -29,7 +30,6 @@ import {
   GQLUpdateLearningpathStepSeqNoMutationVariables,
   GQLLearningpath,
 } from "../graphqlTypes";
-import { learningpathFragment, learningpathStepFragment } from "../fragments/learningpathFragments";
 
 const deleteLearningpathMutation = gql`
   mutation deleteLearningpath($id: Int!) {
@@ -264,11 +264,7 @@ export const useCopyLearningpathMutation = (
 
 const updateLearningpathStepSeqNo = gql`
   mutation updateLearningpathStepSeqNo($learningpathId: Int!, $learningpathStepId: Int!, $seqNo: Int!) {
-    updateLearningpathStepSeqNo(
-      learningpathId: $learningpathId
-      learningpathStepId: $learningpathStepId
-      seqNo: $seqNo
-    ) {
+    updateLearningpathStepSeqNo(learningpathId: $learningpathId, learningpathStepId: $learningpathStepId, seqNo: $seqNo) {
       seqNo
     }
   }

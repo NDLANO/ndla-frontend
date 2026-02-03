@@ -6,11 +6,11 @@
  *
  */
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { CheckLine, FileCopyLine } from "@ndla/icons";
 import { Heading, IconButton, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { isCopyrighted } from "./licenseHelpers";
 
 const StyledDiv = styled("div", {

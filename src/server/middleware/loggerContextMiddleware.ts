@@ -6,9 +6,9 @@
  *
  */
 
-import { AsyncLocalStorage } from "node:async_hooks";
-import { NextFunction, Request, Response } from "express";
 import { uuid } from "@ndla/util";
+import { NextFunction, Request, Response } from "express";
+import { AsyncLocalStorage } from "node:async_hooks";
 import { LoggerContext } from "../../util/logger/loggerContext";
 
 const asyncLocalStorage = new AsyncLocalStorage<LoggerContext>();

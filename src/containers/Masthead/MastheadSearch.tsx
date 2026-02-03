@@ -6,17 +6,17 @@
  *
  */
 
-import { useState, useEffect, useMemo, Suspense, lazy } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { SearchLine } from "@ndla/icons";
 import { Button, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
+import { useState, useEffect, useMemo, Suspense, lazy } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { GQLCurrentContextQuery, GQLCurrentContextQueryVariables } from "../../graphqlTypes";
 import { isValidContextId } from "../../util/urlHelper";
+import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
 
 const MastheadSearchForm = lazy(() => import("./MastheadSearchForm"));
 

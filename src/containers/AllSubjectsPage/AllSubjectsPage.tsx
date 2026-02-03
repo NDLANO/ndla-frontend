@@ -6,8 +6,6 @@
  *
  */
 
-import { useContext, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { CheckLine } from "@ndla/icons";
@@ -24,9 +22,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { sortBy } from "@ndla/util";
-import { FavoriteSubjects } from "./FavoriteSubjects";
-import { LetterNavigation } from "./LetterNavigation";
-import { SubjectCategory } from "./SubjectCategory";
+import { useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -37,6 +34,9 @@ import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
 import { createFilters, groupAndFilterSubjectsByCategory } from "../../util/subjectFilter";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
+import { FavoriteSubjects } from "./FavoriteSubjects";
+import { LetterNavigation } from "./LetterNavigation";
+import { SubjectCategory } from "./SubjectCategory";
 
 const StyledPageContainer = styled(PageContainer, {
   base: {

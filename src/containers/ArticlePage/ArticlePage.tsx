@@ -6,14 +6,14 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
+import { TFunction } from "i18next";
+import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { LdJson } from "../../components/LdJson";
 import { PageTitle } from "../../components/PageTitle";

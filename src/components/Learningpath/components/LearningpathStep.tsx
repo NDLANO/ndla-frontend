@@ -13,14 +13,14 @@ import {
   GQLLearningpathPage_NodeFragment,
 } from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
+import { Breadcrumb } from "../../../interfaces";
+import { useRestrictedMode } from "../../RestrictedModeContext";
 import { LastLearningpathStepInfo } from "../LastLearningpathStepInfo";
 import { ArticleStep } from "./ArticleStep";
 import { EmbedStep } from "./EmbedStep";
 import { ExternalStep } from "./ExternalStep";
 import { LearningpathStepTitle } from "./LearningpathStepTitle";
 import { TextStep } from "./TextStep";
-import { Breadcrumb } from "../../../interfaces";
-import { useRestrictedMode } from "../../RestrictedModeContext";
 
 const urlIsNDLAApiUrl = (url: string) => /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
 const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);

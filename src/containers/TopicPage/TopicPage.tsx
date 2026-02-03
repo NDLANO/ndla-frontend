@@ -6,12 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { useLocation, useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { MultidisciplinarySubjectArticle } from "./MultidisciplinarySubjectArticle";
-import { TopicContainer } from "./TopicContainer";
+import { useTranslation } from "react-i18next";
+import { useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
@@ -22,6 +20,8 @@ import { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError"
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { ForbiddenPage } from "../ErrorPage/ForbiddenPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { MultidisciplinarySubjectArticle } from "./MultidisciplinarySubjectArticle";
+import { TopicContainer } from "./TopicContainer";
 
 export const topicPageQuery = gql`
   query topicPage($rootId: String, $contextId: String, $transformArgs: TransformedArticleContentInput) {

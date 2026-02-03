@@ -6,10 +6,10 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import config from "../../config";
 import { LtiData, LtiItem } from "../../interfaces";
 import { resolveJsonOrRejectWithError } from "../../util/apiHelpers";

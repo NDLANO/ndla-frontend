@@ -8,9 +8,9 @@
 
 // @ts-check
 
+import graphqlPlugin from "@graphql-eslint/eslint-plugin";
 import config from "eslint-config-ndla";
 import tseslint from "typescript-eslint";
-import graphqlPlugin from "@graphql-eslint/eslint-plugin";
 
 export default tseslint.config(
   ...config,

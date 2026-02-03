@@ -6,9 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
@@ -17,6 +14,9 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { subjectTypes } from "@ndla/ui";
 import { groupBy } from "@ndla/util";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";

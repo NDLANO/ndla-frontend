@@ -7,8 +7,8 @@
  */
 
 import "@testing-library/jest-dom/vitest";
-import { cleanup } from "@testing-library/react";
 import { ResizeObserver } from "@juggle/resize-observer";
+import { cleanup } from "@testing-library/react";
 
 beforeAll(() => {
   global.ResizeObserver = ResizeObserver;

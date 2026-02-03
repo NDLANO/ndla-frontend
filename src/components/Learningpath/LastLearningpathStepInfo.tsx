@@ -6,12 +6,12 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleContent, ArticleHeader, ArticleWrapper } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
+import { useTranslation } from "react-i18next";
 import { Resources } from "../../containers/Resources/Resources";
 import { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
 import { EmbedPageContent } from "./components/EmbedPageContent";

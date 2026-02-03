@@ -6,11 +6,11 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useTranslation } from "react-i18next";
 import { CloseLine } from "@ndla/icons";
 import { IconButton, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import parse from "html-react-parser";
+import { useTranslation } from "react-i18next";
 import { AlertsProvider, useAlerts } from "./AlertsContext";
 
 const MessageBannerWrapper = styled("div", {

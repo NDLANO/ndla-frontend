@@ -7,17 +7,17 @@
  */
 
 import "../style/index.css";
-import { I18nextProvider } from "react-i18next";
-import { createBrowserRouter, RouterProvider } from "react-router";
 import { ApolloProvider } from "@apollo/client/react";
 import { MissingRouterContext } from "@ndla/safelink";
+import { I18nextProvider } from "react-i18next";
+import { createBrowserRouter, RouterProvider } from "react-router";
+import { RestrictedModeProvider } from "../components/RestrictedModeContext";
 import { Document } from "../Document";
 import { initializeI18n } from "../i18n";
-import { iframeArticleRoutes } from "./iframeArticleRoutes";
-import { RestrictedModeProvider } from "../components/RestrictedModeContext";
 import { createApolloClient } from "../util/apiHelpers";
 import { renderOrHydrate } from "../util/renderOrHydrate";
 import { initSentry } from "../util/sentry";
+import { iframeArticleRoutes } from "./iframeArticleRoutes";
 
 const { config, initialProps, chunkInfo, hash, restrictedMode } = window.DATA;
 

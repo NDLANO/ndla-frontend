@@ -6,8 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
 import {
@@ -23,6 +21,8 @@ import {
   SelectTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { preferredLanguages } from "../../i18n";
 import { LocaleType } from "../../interfaces";
 

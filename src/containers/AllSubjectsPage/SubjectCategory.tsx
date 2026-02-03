@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { SubjectLink } from "./SubjectLink";
+import { useTranslation } from "react-i18next";
 import { GQLTaxBase } from "../../graphqlTypes";
+import { SubjectLink } from "./SubjectLink";
 
 export const GridList = styled("ul", {
   base: {

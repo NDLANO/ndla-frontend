@@ -6,9 +6,6 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useState, useMemo, useRef, useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
@@ -38,12 +35,15 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { BadgesContainer, useComboboxTranslations, usePaginationTranslations } from "@ndla/ui";
-import { ResourceData } from "./folderTypes";
+import parse from "html-react-parser";
+import { useState, useMemo, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { learningPathResourceTypes } from "../../../../constants";
 import { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 import { useDebounce } from "../../../../util/useDebounce";
+import { ResourceData } from "./folderTypes";
 
 const HitsWrapper = styled("div", {
   base: {

@@ -6,11 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { ProgrammeContainer } from "./ProgrammeContainer";
+import { useTranslation } from "react-i18next";
+import { Navigate, useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
@@ -18,6 +17,7 @@ import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { ProgrammeContainer } from "./ProgrammeContainer";
 
 const programmePageQuery = gql`
   query programmePage($contextId: String) {

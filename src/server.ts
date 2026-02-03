@@ -6,31 +6,31 @@
  *
  */
 
-import path from "node:path";
+import { getCookie } from "@ndla/util";
 import express, { NextFunction, Request, Response } from "express";
 import promBundle from "express-prom-bundle";
 import helmet from "helmet";
+import path from "node:path";
 import { matchPath } from "react-router";
 import serialize from "serialize-javascript";
 import { Manifest, ViteDevServer } from "vite";
-import { getCookie } from "@ndla/util";
 import config from "./config";
+import { NOT_FOUND_PAGE_PATH, SESSION_EXPIRY_COOKIE } from "./constants";
+import { getLocaleInfoFromPath } from "./i18n";
+import { privateRoutes, routes } from "./routes";
+import api from "./server/api";
+import { contentSecurityPolicy } from "./server/contentSecurityPolicy";
+import { getRouteChunkInfo } from "./server/getManifestChunks";
 import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
-import { log } from "./util/logger/logger";
+import { isRestrictedMode } from "./server/helpers/restrictedMode";
 import { activeRequestsMiddleware } from "./server/middleware/activeRequestsMiddleware";
 import { loggerContextMiddleware, getLoggerContextStore } from "./server/middleware/loggerContextMiddleware";
-import { contentSecurityPolicy } from "./server/contentSecurityPolicy";
-import api from "./server/api";
 import { healthRouter } from "./server/routes/healthRouter";
 import { RootRenderFunc, RouteChunkInfoWithManifest, sendResponse } from "./server/serverHelpers";
 import { INTERNAL_SERVER_ERROR } from "./statusCodes";
-import { getRouteChunkInfo } from "./server/getManifestChunks";
-import { getLocaleInfoFromPath } from "./i18n";
-import { privateRoutes, routes } from "./routes";
 import { isActiveSession } from "./util/authHelpers";
 import { handleError, ensureError } from "./util/handleError";
-import { isRestrictedMode } from "./server/helpers/restrictedMode";
-import { NOT_FOUND_PAGE_PATH, SESSION_EXPIRY_COOKIE } from "./constants";
+import { log } from "./util/logger/logger";
 
 const base = "/";
 const isProduction = config.runtimeType === "production";

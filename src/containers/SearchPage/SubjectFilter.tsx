@@ -6,8 +6,6 @@
  *
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { CheckLine, CloseLine } from "@ndla/icons";
@@ -33,14 +31,16 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { subjectCategories } from "@ndla/ui";
 import { sortBy } from "@ndla/util";
-import { FilterContainer } from "./FilterContainer";
-import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
-import { useStableSearchPageParams } from "./useStableSearchPageParams";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TabFilter } from "../../components/TabFilter";
 import { GQLSubjectFilterQuery } from "../../graphqlTypes";
 import { useLtiContext } from "../../LtiContext";
 import { createFilters, groupAndFilterSubjectsByCategory } from "../../util/subjectFilter";
+import { FilterContainer } from "./FilterContainer";
+import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";
+import { useStableSearchPageParams } from "./useStableSearchPageParams";
 
 const FiltersWrapper = styled("div", {
   base: {

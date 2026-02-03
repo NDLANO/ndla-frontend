@@ -6,9 +6,6 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router";
 import { gql } from "@apollo/client";
 import { Badge, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -22,6 +19,9 @@ import {
   licenseAttributes,
 } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
 import { Article } from "../../components/Article/Article";
 import { useArticleCopyText } from "../../components/Article/articleHelpers";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";

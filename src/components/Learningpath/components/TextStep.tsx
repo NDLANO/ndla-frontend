@@ -6,13 +6,12 @@
  *
  */
 
-import { useId } from "react";
-import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
-import { EmbedPageContent } from "./EmbedPageContent";
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -22,6 +21,7 @@ import {
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { RestrictedBlock } from "../../RestrictedBlock";
 import { useRestrictedMode } from "../../RestrictedModeContext";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {

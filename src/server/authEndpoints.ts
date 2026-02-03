@@ -6,6 +6,8 @@
  *
  */
 
+import { MyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
+import { getCookie } from "@ndla/util";
 import express, { CookieOptions, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import {
@@ -19,8 +21,7 @@ import {
   randomPKCECodeVerifier,
   randomState,
 } from "openid-client";
-import { MyNDLAUserDTO } from "@ndla/types-backend/myndla-api";
-import { getCookie } from "@ndla/util";
+import { matchPath } from "react-router";
 import config from "../config";
 import {
   AUTOLOGIN_COOKIE,
@@ -33,15 +34,14 @@ import {
   SESSION_EXPIRY_COOKIE,
   STATE_COOKIE,
 } from "../constants";
-import { BAD_REQUEST } from "../statusCodes";
-import { constructNewPath } from "../util/urlHelper";
 import { getLocaleInfoFromPath, isValidLocale } from "../i18n";
+import { routes } from "../routeHelpers";
+import { privateRoutes } from "../routes";
+import { BAD_REQUEST } from "../statusCodes";
+import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
 import { isActiveSession } from "../util/authHelpers";
 import { log } from "../util/logger/logger";
-import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
-import { privateRoutes } from "../routes";
-import { routes } from "../routeHelpers";
-import { matchPath } from "react-router";
+import { constructNewPath } from "../util/urlHelper";
 
 const usernameSanitizerRegexp = new RegExp(/[^'"\s\-.*0-9\u00BF-\u1FFF\u2C00-\uD7FF\w]+/);
 

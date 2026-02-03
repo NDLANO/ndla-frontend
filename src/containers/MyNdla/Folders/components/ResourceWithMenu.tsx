@@ -6,12 +6,12 @@
  *
  */
 
-import { useCallback, useContext, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine, HashTag, FolderLine, LinkMedium } from "@ndla/icons";
 import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
+import { useCallback, useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModalContent";

@@ -6,14 +6,14 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { transform } from "@ndla/article-converter";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
+import { useTranslation } from "react-i18next";
+import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { BaseStepProps } from "../learningpathTypes";
 import { EmbedPageContent } from "./EmbedPageContent";
-import { InactiveMessageBox } from "../../InactiveMessageBox";
 
 export const LearningpathStepTitle = ({
   learningpathStep,

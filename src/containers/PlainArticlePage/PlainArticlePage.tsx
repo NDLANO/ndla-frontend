@@ -6,11 +6,10 @@
  *
  */
 
-import { useContext } from "react";
-import { useLocation, useParams } from "react-router";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { PlainArticleContainer, plainArticleContainerFragments } from "./PlainArticleContainer";
+import { useContext } from "react";
+import { useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext } from "../../components/RedirectContext";
@@ -21,6 +20,7 @@ import { isAccessDeniedError, isGoneError, isNotFoundError } from "../../util/ha
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
+import { PlainArticleContainer, plainArticleContainerFragments } from "./PlainArticleContainer";
 
 const plainArticlePageQuery = gql`
   query plainArticlePage($articleId: String!, $transformArgs: TransformedArticleContentInput) {

@@ -7,13 +7,13 @@
  */
 
 import { Outlet, ScrollRestoration } from "react-router";
-import { Footer } from "./components/Footer";
-import { TitleAnnouncer } from "./components/TitleAnnouncer";
-import { GlobalEffects } from "./GlobalEffects";
 import { PageLayout } from "../../components/Layout/PageContainer";
 import { ToastProvider } from "../../components/ToastContext";
 import { defaultValue, useVersionHash } from "../../components/VersionHashContext";
 import { Masthead } from "../Masthead/Masthead";
+import { Footer } from "./components/Footer";
+import { TitleAnnouncer } from "./components/TitleAnnouncer";
+import { GlobalEffects } from "./GlobalEffects";
 
 export const Layout = () => {
   const hash = useVersionHash();

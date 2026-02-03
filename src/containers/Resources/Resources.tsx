@@ -6,8 +6,6 @@
  *
  */
 
-import { useId, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import {
@@ -21,8 +19,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { sortResources } from "./getResourceGroups";
-import { ResourceItem } from "./ResourceItem";
+import { useId, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import {
   RELEVANCE_SUPPLEMENTARY,
   TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
@@ -30,6 +28,8 @@ import {
 } from "../../constants";
 import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
 import { useLocalStorage } from "../../util/useLocalStorage";
+import { sortResources } from "./getResourceGroups";
+import { ResourceItem } from "./ResourceItem";
 
 interface Props {
   currentResourceId?: string;

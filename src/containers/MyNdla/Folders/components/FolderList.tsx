@@ -7,12 +7,12 @@
  */
 
 import { useMemo, SetStateAction, Dispatch } from "react";
-import { FolderWithMenu } from "./FolderWithMenu";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { PageSpinner } from "../../../../components/PageSpinner";
 import { WhileLoading } from "../../../../components/WhileLoading";
 import { GQLFolder, GQLSharedFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount, getTotalCountForFolder } from "../../../../util/folderHelpers";
+import { FolderWithMenu } from "./FolderWithMenu";
 
 interface Props {
   loading: boolean;

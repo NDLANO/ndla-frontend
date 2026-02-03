@@ -6,8 +6,6 @@
  *
  */
 
-import { useContext, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ArrowRightLine, ChatHeartLine, ExternalLinkLine, HeartLine, MovieLine, RobotFill } from "@ndla/icons";
@@ -16,6 +14,8 @@ import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ArticleWrapper, ArticleContent } from "@ndla/ui";
+import { useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";

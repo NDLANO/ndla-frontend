@@ -6,8 +6,6 @@
  *
  */
 
-import { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   Button,
   DialogBody,
@@ -19,6 +17,8 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import config from "../../config";
 import { fetchArticleOembed } from "../../containers/ArticlePage/articleApi";

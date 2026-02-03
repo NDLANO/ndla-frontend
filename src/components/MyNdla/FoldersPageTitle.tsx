@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { FolderUserLine, FolderLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
+import { GQLFolder } from "../../graphqlTypes";
 import { MyNdlaBreadcrumb } from "./MyNdlaBreadcrumb";
 import { MyNdlaTitle, TitleWrapper } from "./MyNdlaTitle";
-import { GQLFolder } from "../../graphqlTypes";
 
 const TitleRow = styled("div", {
   base: {

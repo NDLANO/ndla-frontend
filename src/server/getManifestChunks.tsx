@@ -6,13 +6,13 @@
  *
  */
 
-import { matchRoutes } from "react-router";
 import type { Manifest, ManifestChunk } from "vite";
 import { uniq } from "@ndla/util";
-import { entryPoints, EntryPointType } from "../entrypoints";
-import { RouteChunkInfo, RouteChunkInfoWithManifest } from "./serverHelpers";
+import { matchRoutes } from "react-router";
 import config from "../config";
+import { entryPoints, EntryPointType } from "../entrypoints";
 import { RouteObjectWithImportPath } from "../interfaces";
+import { RouteChunkInfo, RouteChunkInfoWithManifest } from "./serverHelpers";
 
 export const getLazyLoadedChunks = (
   routes: RouteObjectWithImportPath[],

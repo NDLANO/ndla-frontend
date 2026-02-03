@@ -7,8 +7,8 @@
  */
 
 import { useParams } from "react-router";
-import { IframePage } from "./IframePage";
 import { PageLayout } from "../components/Layout/PageContainer";
+import { IframePage } from "./IframePage";
 
 export const IframePageContainer = () => {
   const { articleId, taxonomyId } = useParams();

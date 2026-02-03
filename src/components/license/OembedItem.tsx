@@ -6,11 +6,11 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { FileCopyLine } from "@ndla/icons";
 import { Heading, Text } from "@ndla/primitives";
-import { CopyTextButton } from "./CopyTextButton";
+import { useTranslation } from "react-i18next";
 import { MediaListContent, MediaList, MediaListItem } from "../MediaList/MediaList";
+import { CopyTextButton } from "./CopyTextButton";
 
 interface Props {
   oembed: string;

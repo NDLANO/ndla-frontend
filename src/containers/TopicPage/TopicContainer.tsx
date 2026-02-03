@@ -6,15 +6,15 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useId, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { extractEmbedMeta } from "@ndla/article-converter";
 import { Badge, Heading, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb } from "@ndla/ui";
 import { NoSSR } from "@ndla/util";
+import parse from "html-react-parser";
+import { useId, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
 import { InactiveMessageBox } from "../../components/InactiveMessageBox";

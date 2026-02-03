@@ -6,10 +6,6 @@
  *
  */
 
-import { useCallback, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { Editor, Range, Transforms } from "slate";
-import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
 import { hasNodeOfType, isSpanElement, SPAN_ELEMENT_TYPE } from "@ndla/editor";
 import { CheckLine, ArrowDownShortLine, CloseLine } from "@ndla/icons";
@@ -29,6 +25,10 @@ import {
   IconButton,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { Editor, Range, Transforms } from "slate";
+import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
 import { defaultSpanBlock, languages } from "./utils";
 
 interface LanguageItem {

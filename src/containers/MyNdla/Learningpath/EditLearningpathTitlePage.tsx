@@ -6,13 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
-import { Navigate, useNavigate, useParams } from "react-router";
 import { Spinner, Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { LearningpathStepper } from "./components/LearningpathStepper";
-import { TitleFormValues, TitleForm } from "./components/TitleForm";
-import { useFetchLearningpath } from "./learningpathQueries";
+import { useTranslation } from "react-i18next";
+import { Navigate, useNavigate, useParams } from "react-router";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
@@ -24,6 +21,9 @@ import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
+import { LearningpathStepper } from "./components/LearningpathStepper";
+import { TitleFormValues, TitleForm } from "./components/TitleForm";
+import { useFetchLearningpath } from "./learningpathQueries";
 
 const StyledMyNdlaPageContent = styled(MyNdlaPageContent, {
   base: {

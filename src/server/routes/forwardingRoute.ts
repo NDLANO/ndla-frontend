@@ -6,8 +6,8 @@
  *
  */
 
-import { NextFunction, Request, Response } from "express";
 import { ResolvedUrl, ResolvedOldUrl } from "@ndla/types-taxonomy";
+import { NextFunction, Request, Response } from "express";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
 import { log } from "../../util/logger/logger";
 import { getLearningPathIdFromResource, isLearningPathResource } from "../utils/resourceHelpers";

@@ -6,10 +6,6 @@
  *
  */
 
-import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { useBlocker } from "react-router";
 import {
   Button,
   DialogBody,
@@ -20,6 +16,10 @@ import {
   DialogTitle,
   Text,
 } from "@ndla/primitives";
+import { useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useBlocker } from "react-router";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 
 interface Props {

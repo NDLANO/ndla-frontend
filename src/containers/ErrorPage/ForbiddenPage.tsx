@@ -6,9 +6,6 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
-import { LinkProps, useNavigate } from "react-router";
 import {
   Button,
   ErrorMessageActions,
@@ -18,6 +15,9 @@ import {
   ErrorMessageTitle,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
+import { LinkProps, useNavigate } from "react-router";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
 import { Status } from "../../components/Status";

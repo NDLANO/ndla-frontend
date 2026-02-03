@@ -7,9 +7,9 @@
  */
 
 import "../../style/index.css";
+import { MissingRouterContext } from "@ndla/safelink";
 import { I18nextProvider } from "react-i18next";
 import { createBrowserRouter, RouterProvider } from "react-router";
-import { MissingRouterContext } from "@ndla/safelink";
 import { errorRoutes } from "../../appRoutes";
 import { RestrictedModeProvider } from "../../components/RestrictedModeContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";

@@ -6,8 +6,6 @@
  *
  */
 
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 import {
   rights,
   getLicenseByAbbreviation,
@@ -20,6 +18,8 @@ import {
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
+import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { LicenseBylineDescriptionList } from "./LicenseBylineDescriptionList";
 
 export const MediaList = styled("ul", {

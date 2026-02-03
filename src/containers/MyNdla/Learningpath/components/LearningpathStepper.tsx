@@ -6,10 +6,10 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { useTranslation } from "react-i18next";
 import { routes } from "../../../../routeHelpers";
 
 const StepWrapper = styled("ol", {

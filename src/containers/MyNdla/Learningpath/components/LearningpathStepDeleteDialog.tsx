@@ -6,8 +6,6 @@
  *
  */
 
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import {
   DialogBody,
   DialogContent,
@@ -18,6 +16,8 @@ import {
   DialogTrigger,
   Button,
 } from "@ndla/primitives";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 
 interface Props {

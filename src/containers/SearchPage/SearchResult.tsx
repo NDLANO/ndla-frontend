@@ -6,8 +6,6 @@
  *
  */
 
-import parse from "html-react-parser";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { Portal } from "@ark-ui/react";
 import {
@@ -27,6 +25,8 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
+import parse from "html-react-parser";
+import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";

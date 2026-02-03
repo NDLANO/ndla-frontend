@@ -7,9 +7,9 @@
  */
 
 import { subjectCategories, subjectTypes } from "@ndla/ui";
+import { groupBy, sortBy } from "@ndla/util";
 import { TFunction } from "i18next";
 import { TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY, TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE } from "../constants";
-import { groupBy, sortBy } from "@ndla/util";
 
 const createFilterTranslation = (t: TFunction, key: string, addTail = true) => {
   const label = addTail

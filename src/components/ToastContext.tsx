@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode, createContext, useContext } from "react";
 import { Toaster, createToaster } from "@ark-ui/react";
 import { CloseLine } from "@ndla/icons";
 import { IconButton, ToastCloseTrigger, ToastDescription, ToastRoot, ToastTitle } from "@ndla/primitives";
+import { ReactNode, createContext, useContext } from "react";
 
 const toaster = createToaster({
   placement: "bottom",

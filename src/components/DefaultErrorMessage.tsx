@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import {
   ErrorMessageDescription,
   ErrorMessageRoot,
@@ -15,6 +14,7 @@ import {
   ErrorMessageActions,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
+import { useTranslation } from "react-i18next";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 import { PageContainer } from "./Layout/PageContainer";

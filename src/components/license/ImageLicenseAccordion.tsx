@@ -6,7 +6,6 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
   AccordionItem,
@@ -16,8 +15,9 @@ import {
   AccordionRoot,
   Heading,
 } from "@ndla/primitives";
-import { ImageLicenseList } from "./ImageLicenseList";
+import { useTranslation } from "react-i18next";
 import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
+import { ImageLicenseList } from "./ImageLicenseList";
 
 type Props = {
   imageLicenses: GQLImageLicenseList_ImageLicenseFragment[];

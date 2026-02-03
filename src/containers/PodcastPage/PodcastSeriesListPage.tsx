@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
@@ -25,7 +23,8 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import { PodcastSeries } from "./PodcastSeries";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
@@ -34,6 +33,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
+import { PodcastSeries } from "./PodcastSeries";
 
 const StyledPageContainer = styled(PageContainer, {
   base: {

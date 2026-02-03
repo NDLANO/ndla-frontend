@@ -6,8 +6,8 @@
  *
  */
 
-import { defineConfig } from "@pandacss/dev";
 import preset from "@ndla/preset-panda";
+import { defineConfig } from "@pandacss/dev";
 
 export default defineConfig({
   presets: [preset],

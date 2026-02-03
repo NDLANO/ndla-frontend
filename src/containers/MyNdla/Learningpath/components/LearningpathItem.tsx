@@ -6,13 +6,13 @@
  *
  */
 
-import { Fragment, ReactNode, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { PencilLine, CheckLine, UserLine, RouteLine } from "@ndla/icons";
 import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { Fragment, ReactNode, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import {

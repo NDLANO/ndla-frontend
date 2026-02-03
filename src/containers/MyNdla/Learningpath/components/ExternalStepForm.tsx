@@ -6,9 +6,6 @@
  *
  */
 
-import { useEffect } from "react";
-import { Controller, useFormContext } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { CheckLine, ExternalLinkLine } from "@ndla/icons";
 import {
   FieldLabel,
@@ -25,6 +22,9 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
+import { useEffect } from "react";
+import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { URL_REGEX } from "../../../../util/urlHelper";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { FieldLength } from "../../components/FieldLength";

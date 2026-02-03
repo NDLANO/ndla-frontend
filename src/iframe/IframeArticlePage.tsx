@@ -6,13 +6,12 @@
  *
  */
 
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
 import { gql } from "@apollo/client";
 import { ArrowLeftLine } from "@ndla/icons";
 import { Button, PageContent } from "@ndla/primitives";
-import { PostResizeMessage } from "./PostResizeMessage";
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 import { Article } from "../components/Article/Article";
 import { CreatedBy } from "../components/Article/CreatedBy";
 import { BannerAlerts } from "../components/BannerAlerts";
@@ -27,6 +26,7 @@ import { LocaleType } from "../interfaces";
 import { getArticleScripts } from "../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../util/getStructuredDataFromArticle";
 import { transformArticle } from "../util/transformArticle";
+import { PostResizeMessage } from "./PostResizeMessage";
 
 interface Props {
   locale?: LocaleType;

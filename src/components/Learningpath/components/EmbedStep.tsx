@@ -6,17 +6,17 @@
  *
  */
 
-import { useId } from "react";
-import { useTranslation } from "react-i18next";
 import { Badge } from "@ndla/primitives";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ExternalEmbed } from "@ndla/ui";
+import { useId } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLLearningpathStepOembedFragment } from "../../../graphqlTypes";
-import { LearningpathIframe } from "../LearningpathIframe";
-import { EmbedPageContent } from "./EmbedPageContent";
 import { urlIsNDLAUrl } from "../../../util/ndlaUrl";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { RestrictedBlock } from "../../RestrictedBlock";
 import { useRestrictedMode } from "../../RestrictedModeContext";
+import { LearningpathIframe } from "../LearningpathIframe";
+import { EmbedPageContent } from "./EmbedPageContent";
 
 interface EmbedStepProps {
   url: string;

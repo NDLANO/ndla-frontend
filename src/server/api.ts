@@ -7,19 +7,19 @@
  */
 
 import express from "express";
+import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
+import { isValidLocale } from "../i18n";
+import { BAD_REQUEST } from "../statusCodes";
+import { log } from "../util/logger/logger";
+import authEndpoints from "./authEndpoints";
 import { generateOauthData } from "./helpers/oauthHelper";
+import { stringifiedLanguages } from "./locales/locales";
 import { ltiConfig } from "./ltiConfig";
 import { contextRedirectRoute } from "./routes/contextRedirectRoute";
 import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
-import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
-import { isValidLocale } from "../i18n";
-import { BAD_REQUEST } from "../statusCodes";
-import { log } from "../util/logger/logger";
-import { stringifiedLanguages } from "./locales/locales";
-import authEndpoints from "./authEndpoints";
 
 const router = express.Router();
 

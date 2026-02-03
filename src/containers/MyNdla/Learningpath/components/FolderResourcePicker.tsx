@@ -6,9 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useState, useMemo, useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
@@ -31,7 +28,9 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
-import { FolderResource } from "./folderTypes";
+import { TFunction } from "i18next";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import {
   GQLBreadcrumb,
   GQLFolder,
@@ -41,6 +40,7 @@ import {
 import { useFolders, useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
+import { FolderResource } from "./folderTypes";
 
 const StyledHitsWrapper = styled("div", {
   base: {

@@ -6,15 +6,14 @@
  *
  */
 
-import { useContext, useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
 import { useQuery } from "@apollo/client/react";
 import { FileCopyLine, PresentationLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { keyBy } from "@ndla/util";
-import { SaveLink } from "./components/SaveLink";
+import { useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
@@ -36,6 +35,7 @@ import { routes } from "../../routeHelpers";
 import { isNotFoundError } from "../../util/handleError";
 import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
+import { SaveLink } from "./components/SaveLink";
 
 const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
   const subResources = folder?.subfolders.flatMap(flattenResources) ?? [];

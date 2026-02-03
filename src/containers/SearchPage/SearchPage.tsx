@@ -6,13 +6,13 @@
  *
  */
 
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { SearchContainer } from "./SearchContainer";
+import { useTranslation } from "react-i18next";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
 import { GQLSearchResourceTypesQuery } from "../../graphqlTypes";
+import { SearchContainer } from "./SearchContainer";
 
 const searchResourceTypesQuery = gql`
   query searchResourceTypes {

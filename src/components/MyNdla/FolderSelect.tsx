@@ -6,11 +6,11 @@
  *
  */
 
+import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { styled } from "@ndla/styled-system/jsx";
-import { TreeStructure } from "./TreeStructure";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { TreeStructure } from "./TreeStructure";
 
 const ComboboxContainer = styled("div", {
   base: {

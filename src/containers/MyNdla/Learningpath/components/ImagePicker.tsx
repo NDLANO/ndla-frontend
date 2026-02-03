@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
 import { licenses } from "@ndla/licenses";
@@ -15,6 +13,8 @@ import { Button, Image, Spinner, Text } from "@ndla/primitives";
 import { HStack, Stack, styled, VStack } from "@ndla/styled-system/jsx";
 import { ImageMetaInformationV3DTO, ImageVariantDTO, SearchResultV3DTO } from "@ndla/types-backend/image-api";
 import { useImageSearchTranslations } from "@ndla/ui";
+import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLImageFragment } from "../../../../graphqlTypes";
 import { useFetchImage, useImageSearch } from "../../imageQueries";
 

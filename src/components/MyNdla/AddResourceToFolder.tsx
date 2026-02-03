@@ -6,8 +6,6 @@
  *
  */
 
-import { useEffect, useState, useContext, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { createListCollection, type ComboboxInputValueChangeDetails } from "@ark-ui/react";
 import { CloseLine, ArrowDownShortLine, InformationLine, CheckLine } from "@ndla/icons";
 import {
@@ -34,8 +32,8 @@ import {
   useTagSelectorTranslations,
 } from "@ndla/ui";
 import { sortBy, uniq } from "@ndla/util";
-import { FolderSelect } from "./FolderSelect";
-import { ListResource } from "./ListResource";
+import { useEffect, useState, useContext, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
 import {
   useAddResourceToFolderMutation,
@@ -46,6 +44,8 @@ import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
+import { FolderSelect } from "./FolderSelect";
+import { ListResource } from "./ListResource";
 
 export interface ResourceAttributes {
   path: string;

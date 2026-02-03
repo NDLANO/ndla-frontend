@@ -6,15 +6,15 @@
  *
  */
 
+import { createHash } from "crypto";
 import { i18n } from "i18next";
+import config from "../../config";
+import { preferredLanguages } from "../../i18n";
+import { i18nInstanceWithTranslations } from "../../i18nInstanceWithTranslations";
 import en from "../../messages/messagesEN";
 import nb from "../../messages/messagesNB";
 import nn from "../../messages/messagesNN";
 import se from "../../messages/messagesSE";
-import { preferredLanguages } from "../../i18n";
-import config from "../../config";
-import { i18nInstanceWithTranslations } from "../../i18nInstanceWithTranslations";
-import { createHash } from "crypto";
 
 export const initializeI18n = (language: string): i18n => {
   const i18nInstance = i18nInstanceWithTranslations.cloneInstance({

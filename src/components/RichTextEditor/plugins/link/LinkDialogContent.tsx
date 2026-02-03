@@ -6,11 +6,6 @@
  *
  */
 
-import { useCallback } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
-import { Editor, Node, Range, Transforms } from "slate";
-import { useSlate } from "slate-react";
 import { useDialogContext } from "@ark-ui/react";
 import { isElementOfType, isLinkElement } from "@ndla/editor";
 import {
@@ -26,6 +21,11 @@ import {
   FieldLabel,
   FieldRoot,
 } from "@ndla/primitives";
+import { useCallback } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { Editor, Node, Range, Transforms } from "slate";
+import { useSlate } from "slate-react";
 import { URL_REGEX } from "../../../../util/urlHelper";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { DialogCloseButton } from "../../../DialogCloseButton";

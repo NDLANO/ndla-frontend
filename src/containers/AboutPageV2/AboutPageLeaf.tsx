@@ -6,9 +6,6 @@
  *
  */
 
-import { TFunction } from "i18next";
-import { useEffect, useMemo } from "react";
-import { useTranslation } from "react-i18next";
 import { gql } from "@apollo/client";
 import { AccordionRoot, Heading, Hero, HeroBackground, HeroContent, PageContent, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -21,6 +18,9 @@ import {
   ArticleBylineAccordionItem,
   licenseAttributes,
 } from "@ndla/ui";
+import { TFunction } from "i18next";
+import { useEffect, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { LdJson } from "../../components/LdJson";
 import { LicenseBox } from "../../components/license/LicenseBox";
 import { PageTitle } from "../../components/PageTitle";

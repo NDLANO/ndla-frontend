@@ -7,6 +7,7 @@
  */
 
 import { ApolloCache, ErrorLike, gql } from "@apollo/client";
+import { useApolloClient, useQuery } from "@apollo/client/react";
 import {
   GQLFavouriteSubjectsQuery,
   GQLFavouriteSubjectsQueryVariables,
@@ -25,7 +26,6 @@ import {
   foldersPageQueryFragment,
   sharedFoldersPageQueryFragment,
 } from "./folderFragments";
-import { useApolloClient, useQuery } from "@apollo/client/react";
 
 const folderResourceMetaQuery = gql`
   query folderResourceMeta($resource: FolderResourceMetaSearchInput!) {
