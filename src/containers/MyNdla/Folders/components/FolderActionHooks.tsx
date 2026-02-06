@@ -7,7 +7,7 @@
  */
 
 import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine, ShareLine, ArrowRightLine } from "@ndla/icons";
-import { Dispatch, SetStateAction, useCallback, useContext, useMemo } from "react";
+import { RefObject, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -32,10 +32,9 @@ import { FolderShareModalContent } from "./FolderShareModalContent";
 
 export const useFolderActions = (
   selectedFolder: GQLFolder | null,
-  setFocusId: Dispatch<SetStateAction<string | undefined>>,
-  folders: GQLFolder[],
+  ref: RefObject<HTMLLIElement | null> | undefined,
   inToolbar?: boolean,
-  folderRefId?: string,
+  fallbackFocusId?: string,
   isFavorited?: boolean,
 ) => {
   const { t } = useTranslation();
@@ -86,121 +85,70 @@ export const useFolderActions = (
 
   const onFolderCopied = useCallback(async () => {
     if (!selectedFolder) return;
-    const res = await cloneFolder({
-      variables: { folderId: selectedFolder.id, destinationFolderId: undefined },
-    });
-    const folder = res.data?.copySharedFolder as GQLFolder | undefined;
-    navigate(routes.myNdla.folder(folder?.id ?? ""));
-
-    if (folder) {
-      toast.create({
-        title: t("myNdla.folder.folderCopied", {
-          folderName: folder.name,
-        }),
-      });
-    } else {
-      toast.create({
-        title: t("myNdla.folder.folderCopiedFailed"),
-      });
+    const res = await cloneFolder({ variables: { folderId: selectedFolder.id, destinationFolderId: undefined } });
+    if (!res.data?.copySharedFolder) {
+      toast.create({ title: t("myNdla.folder.folderCopiedFailed") });
+      return;
     }
+    const folder = res.data.copySharedFolder;
+    navigate(routes.myNdla.folder(folder?.id ?? ""));
+    toast.create({ title: t("myNdla.folder.folderCopied", { folderName: folder.name }) });
   }, [cloneFolder, selectedFolder, navigate, toast, t]);
 
   const onDeleteFolder = useCallback(
     async (close: VoidFunction) => {
       if (!selectedFolder) return;
 
+      const nextFocusElement = ref?.current?.nextElementSibling ?? ref?.current?.previousElementSibling;
+
       const res = await deleteFolder({ variables: { id: selectedFolder.id } });
+      close();
+      if (res.error) {
+        toast.create({ title: t("myNdla.folder.folderDeleted", { folderName: selectedFolder.name }) });
+        return;
+      }
 
-      if (!res.error) {
-        if (selectedFolder?.id === folderId) {
-          navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
-            replace: true,
-          });
-        }
+      toast.create({ title: t("myNdla.folder.folderDeleted", { folderName: selectedFolder.name }) });
 
-        toast.create({
-          title: t("myNdla.folder.folderDeleted", {
-            folderName: selectedFolder.name,
-          }),
-        });
+      if (selectedFolder?.id === folderId) {
+        navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), { replace: true });
+        return;
+      }
 
-        const previousFolderId = folders.indexOf(selectedFolder) - 1;
-        const nextFolderId = folders.indexOf(selectedFolder) + 1;
-        if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
-          setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
-        } else if (folderRefId) {
-          setTimeout(
-            () =>
-              (
-                document.getElementById(folderRefId)?.getElementsByTagName("a")?.[0] ??
-                document.getElementById(folderRefId)
-              )?.focus({ preventScroll: true }),
-            1,
-          );
-        } else if (inToolbar) {
-          document.getElementById("titleAnnouncer")?.focus();
-        }
-      } else {
-        toast.create({
-          title: t("myNdla.folder.folderDeleted", {
-            folderName: selectedFolder.name,
-          }),
-        });
+      if (nextFocusElement instanceof HTMLElement) {
+        setTimeout(() => nextFocusElement.getElementsByTagName("a")?.[0]?.focus({ preventScroll: true }), 1);
+      } else if (fallbackFocusId) {
+        setTimeout(() => document.getElementById(fallbackFocusId)?.focus({ preventScroll: true }), 1);
       }
       close();
     },
-    [selectedFolder, deleteFolder, folderId, toast, t, folders, folderRefId, inToolbar, navigate, setFocusId],
+    [selectedFolder, ref, deleteFolder, toast, t, folderId, fallbackFocusId, navigate],
   );
 
   const onUnFavoriteSharedFolder = useCallback(async () => {
     if (!selectedFolder) return;
 
+    const nextFocusElement = ref?.current?.nextElementSibling ?? ref?.current?.previousElementSibling;
     const res = await unFavoriteSharedFolder({ variables: { folderId: selectedFolder.id } });
     if (res.error) {
-      toast.create({
-        title: t("myNdla.folder.sharing.unSavedLinkFailed"),
-      });
+      toast.create({ title: t("myNdla.folder.sharing.unSavedLinkFailed") });
       return;
     }
 
-    toast.create({
-      title: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
-    });
+    toast.create({ title: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }) });
 
     if (selectedFolder?.id === folderId) {
-      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
-        replace: true,
-      });
+      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), { replace: true });
       return;
     }
 
-    const previousFolderId = folders.indexOf(selectedFolder) - 1;
-    const nextFolderId = folders.indexOf(selectedFolder) + 1;
-    if (folders?.[nextFolderId]?.id || folders?.[previousFolderId]?.id) {
-      setFocusId(folders[nextFolderId]?.id ?? folders?.[previousFolderId]?.id);
-    } else if (folderRefId) {
-      setTimeout(
-        () =>
-          (
-            document.getElementById(folderRefId)?.getElementsByTagName("a")?.[0] ?? document.getElementById(folderRefId)
-          )?.focus({ preventScroll: true }),
-        1,
-      );
-    } else if (inToolbar) {
-      document.getElementById("titleAnnouncer")?.focus();
+    // TODO: This is probably wrong. It should focus on shared folders, which I'm assuming is in another list?
+    if (nextFocusElement instanceof HTMLElement) {
+      setTimeout(() => nextFocusElement.getElementsByTagName("a")?.[0]?.focus({ preventScroll: true }), 1);
+    } else if (fallbackFocusId) {
+      setTimeout(() => document.getElementById(fallbackFocusId)?.focus({ preventScroll: true }), 1);
     }
-  }, [
-    selectedFolder,
-    unFavoriteSharedFolder,
-    folders,
-    folderRefId,
-    inToolbar,
-    toast,
-    t,
-    folderId,
-    navigate,
-    setFocusId,
-  ]);
+  }, [selectedFolder, ref, unFavoriteSharedFolder, toast, t, folderId, fallbackFocusId, navigate]);
 
   const actionItems: MenuItemProps[] = useMemo(() => {
     if (examLock) return [];
@@ -286,9 +234,7 @@ export const useFolderActions = (
       text: t("myNdla.folder.sharing.button.shareLink"),
       onClick: () => {
         navigator.clipboard.writeText(`${config.ndlaFrontendDomain}/folder/${selectedFolder.id}`);
-        toast.create({
-          title: t("myNdla.resource.linkCopied"),
-        });
+        toast.create({ title: t("myNdla.resource.linkCopied") });
       },
     };
 

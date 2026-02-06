@@ -10,7 +10,7 @@ import { DeleteBinLine, HashTag, FolderLine, LinkMedium } from "@ndla/icons";
 import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useCallback, useContext, useMemo } from "react";
+import { useCallback, useContext, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
@@ -23,6 +23,7 @@ import { GQLFolder, GQLFolderResource, GQLFolderResourceMetaFragment } from "../
 import { useDeleteFolderResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
 import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
+import { resourceId, RESOURCES_HEADING_ID } from "../util";
 
 const StyledTagsWrapper = styled("div", {
   base: {
@@ -35,65 +36,37 @@ const StyledTagsWrapper = styled("div", {
 
 interface Props {
   resource: GQLFolderResource;
-  resources: GQLFolderResource[];
   selectedFolder: GQLFolder;
   loading?: boolean;
-  index: number;
   resourceMeta?: GQLFolderResourceMetaFragment;
-  setFocusId: (id: string | undefined) => void;
-  resourceRefId?: string;
 }
 
-export const ResourceWithMenu = ({
-  resource,
-  loading,
-  index,
-  resourceMeta,
-  selectedFolder,
-  resources,
-  setFocusId,
-  resourceRefId,
-}: Props) => {
+export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFolder }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const toast = useToast();
+  const ref = useRef<HTMLLIElement>(null);
 
   const [deleteFolderResource] = useDeleteFolderResourceMutation(selectedFolder.id);
 
-  const onDeleteFolder = useCallback(
-    async (resource: GQLFolderResource, index?: number) => {
-      const next = index !== undefined ? resources[index + 1]?.id : undefined;
-      const prev = index !== undefined ? resources[index - 1]?.id : undefined;
+  const onDeleteResource = useCallback(
+    async (resource: GQLFolderResource) => {
+      const nextFocusElement = ref.current?.nextElementSibling ?? ref?.current?.previousElementSibling;
       const res = await deleteFolderResource({
         variables: { folderId: selectedFolder.id, resourceId: resource.id },
       });
-      if (!res.error) {
-        toast.create({
-          title: t("myNdla.resource.removedFromFolder", {
-            folderName: selectedFolder.name,
-          }),
-        });
-        if (next || prev) {
-          setFocusId(next ?? prev);
-        } else if (resourceRefId) {
-          setTimeout(
-            () =>
-              (
-                document.getElementById(resourceRefId)?.getElementsByTagName("a")?.[0] ??
-                document.getElementById(resourceRefId)
-              )?.focus({ preventScroll: true }),
-            1,
-          );
-        }
+      if (res.error) {
+        toast.create({ title: t("myNdla.resource.removedFromFolderFailed", { folderName: selectedFolder.name }) });
+        return;
+      }
+      toast.create({ title: t("myNdla.resource.removedFromFolder", { folderName: selectedFolder.name }) });
+      if (nextFocusElement instanceof HTMLElement) {
+        nextFocusElement.getElementsByTagName("a")?.[0]?.focus();
       } else {
-        toast.create({
-          title: t("myNdla.resource.removedFromFolderFailed", {
-            folderName: selectedFolder.name,
-          }),
-        });
+        setTimeout(() => document.getElementById(RESOURCES_HEADING_ID)?.focus({ preventScroll: true }), 1);
       }
     },
-    [resources, deleteFolderResource, selectedFolder.id, selectedFolder.name, toast, t, resourceRefId, setFocusId],
+    [deleteFolderResource, selectedFolder.id, selectedFolder.name, toast, t],
   );
 
   const actions: MenuItemProps[] = useMemo(() => {
@@ -123,9 +96,7 @@ export const ResourceWithMenu = ({
         text: t("myNdla.resource.copyLink"),
         onClick: () => {
           navigator.clipboard.writeText(`${config.ndlaFrontendDomain}${resource.path}`);
-          toast.create({
-            title: t("myNdla.resource.linkCopied"),
-          });
+          toast.create({ title: t("myNdla.resource.linkCopied") });
         },
       },
       {
@@ -167,7 +138,7 @@ export const ResourceWithMenu = ({
           <DeleteModalContent
             onClose={close}
             onDelete={async () => {
-              await onDeleteFolder(resource, index);
+              await onDeleteResource(resource);
               close();
             }}
             description={t("myNdla.resource.confirmRemove")}
@@ -178,7 +149,7 @@ export const ResourceWithMenu = ({
         variant: "destructive",
       },
     ];
-  }, [examLock, index, onDeleteFolder, resource, resourceMeta?.title, selectedFolder, t, toast]);
+  }, [examLock, onDeleteResource, resource, resourceMeta?.title, selectedFolder, t, toast]);
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 
@@ -197,11 +168,10 @@ export const ResourceWithMenu = ({
   }, [resourceMeta, resource]);
 
   return (
-    <li id={`resource-${resource.id}`}>
+    <li id={resourceId(resource.id)} ref={ref}>
       <ListResource
         id={resource.id}
         isLoading={loading}
-        key={resource.id}
         resourceImage={{
           src: resourceMeta?.metaImage?.url,
           alt: "",
