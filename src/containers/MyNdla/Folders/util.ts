@@ -17,3 +17,11 @@ export interface withRole {
 }
 
 export const isStudent = (user: withRole | undefined) => user?.role === "student";
+
+export const FOLDERS_HEADING_ID = "folders-section";
+export const RESOURCES_HEADING_ID = "resources-section";
+export const SHARED_FOLDERS_HEADING_ID = "shared-folders-section";
+
+export const sharedFolderId = (id: string) => `shared-folder-${id}`;
+export const folderId = (id: string) => `folder-${id}`;
+export const resourceId = (id: string) => `resource-${id}`;
