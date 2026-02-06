@@ -143,7 +143,7 @@ test("can go to shared folder page", async ({ page }) => {
   await sharedFolder.getByRole("button").last().click();
   await page.getByRole("menuitem", { name: "Gå til delt mappe", exact: true }).click();
   await page.waitForLoadState("networkidle");
-  await expect(page.getByRole("main").getByRole("heading")).toHaveText(sharedFolderTitle);
+  await expect(page.getByRole("heading", { name: sharedFolderTitle, exact: true })).toBeVisible();
 });
 
 test("can edit folder name on list item ", async ({ page, harCheckpoint }) => {
