@@ -6,7 +6,8 @@
  *
  */
 
-import { BookmarkLine, InformationLine } from "@ndla/icons";
+import { useQuery } from "@apollo/client/react";
+import { InformationLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -26,8 +27,9 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";
 import { LoginModalContent } from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
-import { GQLFolder } from "../../../graphqlTypes";
+import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { useFavoriteSharedFolder } from "../../../mutations/folder/folderMutations";
+import { foldersPageQuery } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
 import { getTotalCountForFolder } from "../../../util/folderHelpers";
 
@@ -43,6 +45,17 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
+  const { data: folderData } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+    skip: !authenticated,
+  });
+
+  const folderLinkIsSaved = useMemo(
+    () => folderData?.folders.sharedFolders.some((f) => f.id === folder.id),
+    [folder.id, folderData?.folders.sharedFolders],
+  );
+
+  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
+
   const onSaveLink = async (name: string) => {
     const res = await favoriteSharedFolder({ variables: { folderId: id } });
     if (!res.error) {
@@ -57,13 +70,14 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
     }
   };
 
-  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
+  if (!folderData || folderLinkIsSaved) {
+    return null;
+  }
 
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="tertiary">
-          <BookmarkLine />
+        <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="secondary">
           {t("myNdla.folder.sharing.button.saveLink")}
         </Button>
       </DialogTrigger>
