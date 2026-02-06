@@ -6,27 +6,32 @@
  *
  */
 
-import { Dispatch, SetStateAction, useMemo } from "react";
+import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Folder } from "../../../../components/MyNdla/Folder";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { FolderTotalCount } from "../../../../util/folderHelpers";
 import { SettingsMenu } from "../../components/SettingsMenu";
+import { folderId, FOLDERS_HEADING_ID, SHARED_FOLDERS_HEADING_ID, sharedFolderId } from "../util";
 import { useFolderActions } from "./FolderActionHooks";
 
 interface Props {
   folder: GQLFolder;
   foldersCount?: FolderTotalCount;
-  folders: GQLFolder[];
-  setFocusId: Dispatch<SetStateAction<string | undefined>>;
-  folderRefId?: string;
   isFavorited?: boolean;
 }
 
-export const FolderWithMenu = ({ folder, foldersCount, folders, setFocusId, folderRefId, isFavorited }: Props) => {
+export const FolderWithMenu = ({ folder, foldersCount, isFavorited }: Props) => {
   const { t } = useTranslation();
+  const ref = useRef<HTMLLIElement>(null);
 
-  const folderMenuActions = useFolderActions(folder, setFocusId, folders, false, folderRefId, isFavorited);
+  const folderMenuActions = useFolderActions(
+    folder,
+    ref,
+    false,
+    isFavorited ? SHARED_FOLDERS_HEADING_ID : FOLDERS_HEADING_ID,
+    isFavorited,
+  );
 
   const menu = useMemo(
     () => <SettingsMenu menuItems={folderMenuActions} modalHeader={t("myNdla.tools")} />,
@@ -34,7 +39,7 @@ export const FolderWithMenu = ({ folder, foldersCount, folders, setFocusId, fold
   );
 
   return (
-    <li id={`folder-${folder.id}`}>
+    <li id={isFavorited ? sharedFolderId(folder.id) : folderId(folder.id)} ref={ref}>
       <Folder folder={folder} foldersCount={foldersCount} menu={menu} isFavorited={isFavorited} />
     </li>
   );
