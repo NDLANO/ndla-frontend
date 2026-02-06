@@ -156,20 +156,22 @@ export const useFolderActions = (
     if (!selectedFolder) return;
 
     const res = await unFavoriteSharedFolder({ variables: { folderId: selectedFolder.id } });
-    if (!res.error) {
+    if (res.error) {
       toast.create({
-        title: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
+        title: t("myNdla.folder.sharing.unSavedLinkFailed"),
       });
+      return;
+    }
 
-      if (selectedFolder?.id === folderId) {
-        navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
-          replace: true,
-        });
-      } else {
-        toast.create({
-          title: t("myNdla.folder.sharing.unSavedLinkFailed"),
-        });
-      }
+    toast.create({
+      title: t("myNdla.folder.sharing.unSavedLink", { name: selectedFolder.name }),
+    });
+
+    if (selectedFolder?.id === folderId) {
+      navigate(routes.myNdla.folder(selectedFolder.parentId ?? ""), {
+        replace: true,
+      });
+      return;
     }
 
     const previousFolderId = folders.indexOf(selectedFolder) - 1;
