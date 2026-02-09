@@ -10,7 +10,7 @@ import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { useContext, useEffect, useId, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
@@ -27,6 +27,7 @@ import { PageActions } from "../components/PageActions";
 import { useFolderActions } from "./components/FolderActionHooks";
 import { FolderList } from "./components/FolderList";
 import { ResourceList } from "./components/ResourceList";
+import { FOLDERS_HEADING_ID, RESOURCES_HEADING_ID, SHARED_FOLDERS_HEADING_ID } from "./util";
 
 const StyledEm = styled("em", {
   base: {
@@ -71,8 +72,6 @@ export const FoldersPage = () => {
   const { t } = useTranslation();
   const { folderId } = useParams();
   const { examLock } = useContext(AuthContext);
-  const foldersHeadingId = useId();
-  const sharedByOthersHeadingId = useId();
   const { data, loading } = useQuery<GQLFoldersPageQuery>(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
@@ -91,47 +90,7 @@ export const FoldersPage = () => {
     [selectedFolder, data?.folders.sharedFolders],
   );
 
-  const [previousFolders, setPreviousFolders] = useState<GQLFolder[]>(folders);
-  const [focusId, setFocusId] = useState<string | undefined>(undefined);
-
-  const resourceRefId = useMemo(
-    () =>
-      folders.length === 0 && selectedFolder?.resources.length === 1
-        ? "languageSelectorFooter"
-        : selectedFolder?.resources?.length !== 1
-          ? undefined
-          : `folder-${folders.slice(-1)[0]?.id}`,
-    [folders, selectedFolder?.resources],
-  );
-
-  const folderRefId = useMemo(
-    () =>
-      folders.length === 1 && selectedFolder?.resources.length === 0
-        ? "languageSelectorFooter"
-        : folders.length !== 1
-          ? undefined
-          : `resource-${selectedFolder?.resources[0]?.id}`,
-    [selectedFolder?.resources, folders],
-  );
-
-  useEffect(() => {
-    const folderIds = folders.map((f) => f.id).sort();
-    const prevFolderIds = previousFolders.map((f) => f.id).sort();
-    const isEqual = folderIds.length === prevFolderIds.length && folderIds.every((v, i) => v === prevFolderIds[i]);
-    if (!isEqual && focusId) {
-      setTimeout(() => document.getElementById(`folder-${focusId}`)?.getElementsByTagName("a")?.[0]?.focus(), 0);
-      setFocusId(undefined);
-      setPreviousFolders(folders);
-    } else if (!isEqual && folderIds.length === 1 && prevFolderIds?.length === 1) {
-      const id = folders[0]?.id;
-      if (id) {
-        setTimeout(() => document.getElementById(`folder-${id}`)?.getElementsByTagName("a")?.[0]?.focus(), 0);
-        setPreviousFolders(folders);
-      }
-    }
-  }, [folders, focusId, previousFolders]);
-
-  const menuItems = useFolderActions(selectedFolder, setFocusId, folders, true);
+  const menuItems = useFolderActions(selectedFolder, undefined, true);
 
   const tags = useMemo(() => getAllTags(folders), [folders]);
 
@@ -147,40 +106,31 @@ export const FoldersPage = () => {
         )}
       </MyNdlaPageSection>
       <MyNdlaPageSection>
-        <Heading asChild consumeCss textStyle="heading.small" id={foldersHeadingId}>
+        <Heading asChild consumeCss textStyle="heading.small" id={FOLDERS_HEADING_ID} tabIndex={-1}>
           <h2>{t("myNdla.folder.folders")}</h2>
         </Heading>
         {!examLock && <PageActions actions={menuItems} />}
-        <FolderList
-          labelledBy={foldersHeadingId}
-          folders={folders}
-          loading={loading}
-          folderId={folderId}
-          setFocusId={setFocusId}
-          folderRefId={folderRefId}
-        />
+        <FolderList labelledBy={FOLDERS_HEADING_ID} folders={folders} loading={loading} folderId={folderId} />
       </MyNdlaPageSection>
       {!!selectedFolder && (
         <MyNdlaPageSection>
-          <Heading asChild consumeCss textStyle="heading.small">
+          <Heading asChild consumeCss textStyle="heading.small" id={RESOURCES_HEADING_ID} tabIndex={-1}>
             <h2>{t("myNdla.folder.resources")}</h2>
           </Heading>
-          <ResourceList selectedFolder={selectedFolder} resourceRefId={resourceRefId} />
+          <ResourceList selectedFolder={selectedFolder} labelledBy={RESOURCES_HEADING_ID} />
         </MyNdlaPageSection>
       )}
-      {!selectedFolder && sharedByOthersFolders?.length > 0 && (
+      {!selectedFolder && (
         <MyNdlaPageSection>
-          <Heading asChild consumeCss textStyle="heading.small" id={sharedByOthersHeadingId}>
+          <Heading asChild consumeCss textStyle="heading.small" id={SHARED_FOLDERS_HEADING_ID} tabIndex={-1}>
             <h2>{t("myNdla.sharedByOthersFolders")}</h2>
           </Heading>
           <FolderList
-            labelledBy={sharedByOthersHeadingId}
+            labelledBy={SHARED_FOLDERS_HEADING_ID}
             folders={sharedByOthersFolders as unknown as GQLFolder[]}
             loading={loading}
             folderId={folderId}
-            setFocusId={setFocusId}
-            folderRefId={folderRefId}
-            isFavorited={true}
+            isFavorited
           />
         </MyNdlaPageSection>
       )}
