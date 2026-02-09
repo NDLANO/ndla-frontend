@@ -10,7 +10,7 @@ import { useQuery } from "@apollo/client/react";
 import { FileCopyLine, PresentationLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
-import { keyBy } from "@ndla/util";
+import { keyBy, sortBy } from "@ndla/util";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
@@ -130,6 +130,8 @@ export const SharedFolderPage = () => {
 
   const folderCount = useMemo(() => getFolderCount(folder?.subfolders ?? []), [folder?.subfolders]);
 
+  const sortedResources = useMemo(() => sortBy(folder?.resources, (res) => res.created).reverse(), [folder]);
+
   if (loading) {
     return <PageSpinner />;
   }
@@ -187,7 +189,7 @@ export const SharedFolderPage = () => {
           </BlockWrapper>
         )}
         <BlockWrapper>
-          {folder.resources.map((resource) => {
+          {sortedResources.map((resource) => {
             const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
             return resourceMeta ? (
               <li key={resource.id}>
