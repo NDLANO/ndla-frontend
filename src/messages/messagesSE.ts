@@ -392,6 +392,8 @@ const messages = {
       noResources: "Du har ikke lagt til noen ressurser i denne mappen ennå.",
       noSharedFolders: "Du har ikke lagret noen delte mapper ennå.",
       noFolders: "Du har ikke opprettet noen mapper her ennå.",
+      sortList: "Sorter listen",
+      filterByTags: "Filtrer på emneknagger",
       navigation: "Mappenavigasjon",
       delete: "Slett mappe",
       deleteShort: "Slett",
@@ -412,6 +414,12 @@ const messages = {
       folderCopiedFailed: "Klarte ikke å kopiere mappa {{folderName}}",
       professional: "en fagperson",
       sharedWarning: "Navn og beskrivelse blir synlig for alle du deler mappen med.",
+      sortOption: {
+        nameAsc: "Navn A-Å",
+        nameDesc: "Navn Å-A",
+        lastAdded: "Sist lagt til",
+        contentType: "Innholdstype",
+      },
       sharing: {
         share: "Del mappe",
         shared: "Delt",

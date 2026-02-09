@@ -7,13 +7,37 @@
  */
 
 import { Text } from "@ndla/primitives";
-import { keyBy } from "@ndla/util";
+import { styled } from "@ndla/styled-system/jsx";
+import { keyBy, sortBy } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
+import { useStableSearchParams } from "../../../../util/useStableSearchParams";
+import { SORT_CONTENT_TYPE, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";
+import { ResourceSortOption } from "./ResourceSortOption";
 import { ResourceWithMenu } from "./ResourceWithMenu";
+import { TagsFilter } from "./TagsFilter";
+
+const ListContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
+const ListOptionsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "medium",
+    alignItems: "flex-end",
+  },
+});
+
+const keyId = (type: string, id: string) => `${type}-${id}`;
 
 interface Props {
   selectedFolder: GQLFolder;
@@ -22,36 +46,57 @@ interface Props {
 
 export const ResourceList = ({ selectedFolder, labelledBy }: Props) => {
   const { t } = useTranslation();
-  const resources = useMemo(() => selectedFolder.resources, [selectedFolder]);
+  const [params] = useStableSearchParams();
 
   const { data, loading } = useFolderResourceMetaSearch(
-    resources.map((r) => ({
+    selectedFolder.resources.map((r) => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
     })),
   );
 
-  const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
+  const keyedData = keyBy(data ?? [], (resource) => keyId(resource.type, resource.id));
 
-  if (!resources.length) {
+  const sortedAndFilteredResources = useMemo(() => {
+    let resources = selectedFolder.resources;
+    const tagFilters = params.get("tags")?.split(",") ?? [];
+    if (tagFilters.length) {
+      resources = resources.filter((r) => tagFilters.some((tag) => r.tags.includes(tag)));
+    }
+    const sortParam = params.get("sort");
+    if (sortParam === SORT_NAME_DESC) {
+      return sortBy(resources, (r) => keyedData[keyId(r.resourceType, r.resourceId)]?.title?.toLowerCase()).reverse();
+    } else if (sortParam === SORT_NAME_ASC) {
+      return sortBy(resources, (r) => keyedData[keyId(r.resourceType, r.resourceId)]?.title?.toLowerCase());
+    } else if (sortParam === SORT_CONTENT_TYPE) {
+      return sortBy(resources, (r) => r.resourceType);
+    } else {
+      return sortBy(resources, (r) => r.created).toReversed();
+    }
+  }, [keyedData, params, selectedFolder.resources]);
+
+  if (!sortedAndFilteredResources.length) {
     return <Text>{t("myNdla.folder.noResources")}</Text>;
   }
 
   return (
-    <BlockWrapper aria-labelledby={labelledBy}>
-      {resources.map((resource) => {
-        const resourceMeta = keyedData[`${resource.resourceType}-${resource.resourceId}`];
-        return (
+    <ListContainer>
+      <ListOptionsWrapper>
+        <TagsFilter folder={selectedFolder} />
+        <ResourceSortOption />
+      </ListOptionsWrapper>
+      <BlockWrapper aria-labelledby={labelledBy}>
+        {sortedAndFilteredResources.map((resource) => (
           <ResourceWithMenu
             resource={resource}
             key={resource.id}
             loading={loading}
-            resourceMeta={resourceMeta}
+            resourceMeta={keyedData[keyId(resource.resourceType, resource.resourceId)]}
             selectedFolder={selectedFolder}
           />
-        );
-      })}
-    </BlockWrapper>
+        ))}
+      </BlockWrapper>
+    </ListContainer>
   );
 };

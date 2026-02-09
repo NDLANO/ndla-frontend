@@ -394,6 +394,8 @@ const messages = {
       noResources: "You have not added any resources to this folder yet.",
       noSharedFolders: "You have not saved any shared folders yet.",
       noFolders: "You have not created any folders here yet.",
+      sortList: "Sort folders",
+      filterByTags: "Filter by tags",
       navigation: "Folder navigation",
       delete: "Delete folder",
       deleteShort: "Delete",
@@ -414,6 +416,12 @@ const messages = {
       folderCopiedFailed: "Failed to copy folder {{folderName}}",
       professional: "a professional",
       sharedWarning: "Name and description will be visible for everyone you share the folder with",
+      sortOption: {
+        nameAsc: "Name A-Z",
+        nameDesc: "Name Z-A",
+        lastAdded: "Last added",
+        contentType: "Content type",
+      },
       sharing: {
         share: "Share folder",
         shared: "Shared",

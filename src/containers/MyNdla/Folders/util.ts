@@ -25,3 +25,8 @@ export const SHARED_FOLDERS_HEADING_ID = "shared-folders-section";
 export const sharedFolderId = (id: string) => `shared-folder-${id}`;
 export const folderId = (id: string) => `folder-${id}`;
 export const resourceId = (id: string) => `resource-${id}`;
+
+export const SORT_NAME_ASC = "name-asc";
+export const SORT_NAME_DESC = "name-desc";
+export const SORT_LAST_ADDED = "last-added";
+export const SORT_CONTENT_TYPE = "content-type";
