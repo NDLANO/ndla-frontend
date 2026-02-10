@@ -22,7 +22,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { myndlaLanguages } from "../../i18n";
 import {
-  useFolderResourceMetaSearch,
+  useMyNdlaResourceMetaSearch,
   useFavouriteSubjects,
   useRecentlyUsedResources,
 } from "../../mutations/folder/folderQueries";
@@ -58,14 +58,14 @@ export const MyNdlaPage = () => {
     skip: !user?.favoriteSubjects.length,
   });
   const { data: recentlyUsedResources } = useRecentlyUsedResources(!authenticated);
-  const { data: metaData, loading } = useFolderResourceMetaSearch(
-    recentlyUsedResources?.allFolderResources?.map((r) => ({
+  const { data: metaData, loading } = useMyNdlaResourceMetaSearch(
+    recentlyUsedResources?.allMyNdlaResources?.map((r) => ({
       id: r.resourceId,
       path: r.path,
       resourceType: r.resourceType,
     })) ?? [],
     {
-      skip: !recentlyUsedResources?.allFolderResources.length,
+      skip: !recentlyUsedResources?.allMyNdlaResources.length,
     },
   );
 
@@ -137,13 +137,13 @@ export const MyNdlaPage = () => {
             </SafeLink>
           </MyNdlaPageSection>
         </>
-      ) : recentlyUsedResources?.allFolderResources?.length ? (
+      ) : recentlyUsedResources?.allMyNdlaResources?.length ? (
         <MyNdlaPageSection>
           <Heading asChild consumeCss textStyle="heading.small" id={recentlyFavoritedHeadingId}>
             <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
           </Heading>
           <StyledList aria-labelledby={recentlyFavoritedHeadingId}>
-            {recentlyUsedResources.allFolderResources.map((res) => {
+            {recentlyUsedResources.allMyNdlaResources.map((res) => {
               const meta = keyedData[`${res.resourceType}${res.resourceId}`];
               return (
                 <li key={res.id}>
@@ -157,7 +157,7 @@ export const MyNdlaPage = () => {
                       src: meta?.metaImage?.url,
                       alt: "",
                     }}
-                    traits={meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined}
+                    traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
                     resourceTypes={meta?.resourceTypes}
                     storedResourceType={res.resourceType}
                   />

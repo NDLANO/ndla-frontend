@@ -34,12 +34,12 @@ import {
 import { sortBy, uniq } from "@ndla/util";
 import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { GQLFolder, GQLMyNdlaResource } from "../../graphqlTypes";
 import {
   useAddResourceToFolderMutation,
-  useUpdateFolderResourceMutation,
+  useUpdateMyNdlaResourceMutation,
 } from "../../mutations/folder/folderMutations";
-import { useFolder, useFolderResourceMeta, useFolders } from "../../mutations/folder/folderQueries";
+import { useFolder, useMyNdlaResourceMeta, useFolders } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { getAllTags, getResourceForPath } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
@@ -101,9 +101,9 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
 export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
-  const { meta, loading: metaLoading } = useFolderResourceMeta(resource);
+  const { meta, loading: metaLoading } = useMyNdlaResourceMeta(resource);
   const { folders, loading } = useFolders();
-  const [storedResource, setStoredResource] = useState<GQLFolderResource | undefined>(undefined);
+  const [storedResource, setStoredResource] = useState<GQLMyNdlaResource | undefined>(undefined);
   const [allTags, setAllTags] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -125,7 +125,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
   }, [folders, loading, resource.path, storedResource]);
 
   useEffect(() => {
-    const tagsChanged = !!(storedResource && shouldUpdateFolderResource(storedResource, selectedTags));
+    const tagsChanged = !!(storedResource && shouldUpdateMyNdlaResource(storedResource, selectedTags));
     if (selectedFolder) {
       if (selectedFolder.id === "folders") {
         setCanSave(false);
@@ -139,7 +139,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
     }
   }, [storedResource, selectedTags, selectedFolder, defaultOpenFolder?.id]);
 
-  const shouldUpdateFolderResource = (storedResource: GQLFolderResource, selectedTags: string[]) => {
+  const shouldUpdateMyNdlaResource = (storedResource: GQLMyNdlaResource, selectedTags: string[]) => {
     const sortedStored = sortBy(storedResource.tags, (tag) => tag);
     const sortedSelected = sortBy(selectedTags, (tag) => tag);
     const isEqual =
@@ -148,7 +148,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
     return !isEqual;
   };
 
-  const [updateFolderResource] = useUpdateFolderResourceMutation();
+  const [updateMyNdlaResource] = useUpdateMyNdlaResourceMutation();
   const [addResourceToFolder, { loading: addResourceLoading, called }] = useAddResourceToFolderMutation(
     selectedFolder?.id ?? "",
   );
@@ -179,8 +179,8 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
           title: t("myNdla.resource.addedFailed"),
         });
       }
-    } else if (storedResource && shouldUpdateFolderResource(storedResource, selectedTags)) {
-      const res = await updateFolderResource({
+    } else if (storedResource && shouldUpdateMyNdlaResource(storedResource, selectedTags)) {
+      const res = await updateMyNdlaResource({
         variables: { id: storedResource.id, tags: selectedTags },
       });
       if (!res.error) {
@@ -212,7 +212,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
         isLoading={metaLoading}
         link={resource.path}
         title={meta?.title ?? ""}
-        traits={meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined}
+        traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
         resourceTypes={meta?.resourceTypes}
         storedResourceType={resource.resourceType}
         resourceImage={{

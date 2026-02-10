@@ -42,16 +42,6 @@ type Article {
   visualElementEmbed: ResourceEmbed
 }
 
-type ArticleFolderResourceMeta implements FolderResourceMeta {
-  description: String!
-  id: String!
-  metaImage: MetaImage
-  resourceTypes: [FolderResourceResourceType!]!
-  title: String!
-  traits: [String!]
-  type: String!
-}
-
 type ArticleMetaData {
   audios: [AudioLicense!]!
   brightcoves: [BrightcoveLicense!]!
@@ -105,15 +95,6 @@ type AudioFile {
   language: String!
   mimeType: String!
   url: String!
-}
-
-type AudioFolderResourceMeta implements FolderResourceMeta {
-  description: String!
-  id: String!
-  metaImage: MetaImage
-  resourceTypes: [FolderResourceResourceType!]!
-  title: String!
-  type: String!
 }
 
 type AudioLicense {
@@ -251,15 +232,6 @@ type ConceptCopyright {
   rightsholders: [Contributor!]!
 }
 
-type ConceptFolderResourceMeta implements FolderResourceMeta {
-  description: String!
-  id: String!
-  metaImage: MetaImage
-  resourceTypes: [FolderResourceResourceType!]!
-  title: String!
-  type: String!
-}
-
 type ConceptLicense {
   content: String
   copyright: ConceptCopyright
@@ -375,39 +347,10 @@ type Folder {
   name: String!
   owner: Owner
   parentId: String
-  resources: [FolderResource!]!
+  resources: [MyNdlaResource!]!
   status: String!
   subfolders: [Folder!]!
   updated: String!
-}
-
-type FolderResource {
-  created: String!
-  id: String!
-  path: String!
-  resourceId: String!
-  resourceType: String!
-  tags: [String!]!
-}
-
-interface FolderResourceMeta {
-  description: String!
-  id: String!
-  metaImage: MetaImage
-  resourceTypes: [FolderResourceResourceType!]!
-  title: String!
-  type: String!
-}
-
-input FolderResourceMetaSearchInput {
-  id: String!
-  path: String!
-  resourceType: String!
-}
-
-type FolderResourceResourceType {
-  id: String!
-  name: String!
 }
 
 type FootNote {
@@ -514,15 +457,6 @@ type ImageElement {
   upperLeftY: Float
 }
 
-type ImageFolderResourceMeta implements FolderResourceMeta {
-  description: String!
-  id: String!
-  metaImage: MetaImage
-  resourceTypes: [FolderResourceResourceType!]!
-  title: String!
-  type: String!
-}
-
 type ImageLicense {
   altText: String!
   contentType: String
@@ -620,15 +554,6 @@ input LearningpathCopyrightInput {
 input LearningpathEmbedInput {
   embedType: String!
   url: String!
-}
-
-type LearningpathFolderResourceMeta implements FolderResourceMeta {
-  description: String!
-  id: String!
-  metaImage: MetaImage
-  resourceTypes: [FolderResourceResourceType!]!
-  title: String!
-  type: String!
 }
 
 input LearningpathNewInput {
@@ -796,19 +721,19 @@ type MovieTheme {
 
 type Mutation {
   addFolder(description: String, name: String!, parentId: String, status: String): Folder!
-  addFolderResource(
+  addMyNdlaResource(
     folderId: String!
     path: String!
     resourceId: String!
     resourceType: String!
     tags: [String!]
-  ): FolderResource!
+  ): MyNdlaResource!
   copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
   deleteFolder(id: String!): String!
-  deleteFolderResource(folderId: String!, resourceId: String!): String!
   deleteLearningpath(id: Int!): Boolean
   deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): Boolean
+  deleteMyNdlaResource(folderId: String!, resourceId: String!): String!
   deletePersonalData: Boolean!
   favoriteSharedFolder(folderId: String!): String!
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
@@ -826,7 +751,6 @@ type Mutation {
   ): String!
   unFavoriteSharedFolder(folderId: String!): String!
   updateFolder(description: String, id: String!, name: String, status: String): Folder!
-  updateFolderResource(id: String!, tags: [String!]): FolderResource!
   updateFolderStatus(folderId: String!, status: String!): [String!]!
   updateLearningpath(learningpathId: Int!, params: LearningpathUpdateInput!): MyNdlaLearningpath!
   updateLearningpathStatus(id: Int!, status: String!): MyNdlaLearningpath!
@@ -836,7 +760,36 @@ type Mutation {
     params: LearningpathStepUpdateInput!
   ): MyNdlaLearningpathStep!
   updateLearningpathStepSeqNo(learningpathId: Int!, learningpathStepId: Int!, seqNo: Int!): LearningpathSeqNo!
+  updateMyNdlaResource(id: String!, tags: [String!]): MyNdlaResource!
   updatePersonalData(favoriteSubjects: [String]): MyNdlaPersonalData!
+}
+
+type MyNdlaArticleResourceMeta implements MyNdlaResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [MyNdlaResourceResourceType!]!
+  title: String!
+  traits: [String!]
+  type: String!
+}
+
+type MyNdlaAudioResourceMeta implements MyNdlaResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [MyNdlaResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
+type MyNdlaConceptResourceMeta implements MyNdlaResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [MyNdlaResourceResourceType!]!
+  title: String!
+  type: String!
 }
 
 type MyNdlaGroup {
@@ -844,6 +797,15 @@ type MyNdlaGroup {
   id: String!
   isPrimarySchool: Boolean!
   parentId: String
+}
+
+type MyNdlaImageResourceMeta implements MyNdlaResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [MyNdlaResourceResourceType!]!
+  title: String!
+  type: String!
 }
 
 type MyNdlaLearningpath {
@@ -869,6 +831,15 @@ type MyNdlaLearningpath {
   tags: [String!]!
   title: String!
   verificationStatus: String!
+}
+
+type MyNdlaLearningpathResourceMeta implements MyNdlaResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [MyNdlaResourceResourceType!]!
+  title: String!
+  type: String!
 }
 
 type MyNdlaLearningpathStep {
@@ -906,6 +877,44 @@ type MyNdlaPersonalData {
   username: String!
 }
 
+type MyNdlaResource {
+  created: String!
+  id: String!
+  path: String!
+  resourceId: String!
+  resourceType: String!
+  tags: [String!]!
+}
+
+interface MyNdlaResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [MyNdlaResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
+input MyNdlaResourceMetaSearchInput {
+  id: String!
+  path: String!
+  resourceType: String!
+}
+
+type MyNdlaResourceResourceType {
+  id: String!
+  name: String!
+}
+
+type MyNdlaVideoResourceMeta implements MyNdlaResourceMeta {
+  description: String!
+  id: String!
+  metaImage: MetaImage
+  resourceTypes: [MyNdlaResourceResourceType!]!
+  title: String!
+  type: String!
+}
+
 type Name {
   language: String!
   name: String!
@@ -917,7 +926,7 @@ type NewFolder {
   status: String
 }
 
-type NewFolderResource {
+type NewMyNdlaResource {
   path: String!
   resourceType: String!
   tags: [String!]
@@ -1049,7 +1058,7 @@ type ProgrammePage {
 type Query {
   aiEnabledOrgs: ConfigMetaStringList
   alerts: [UptimeAlert]
-  allFolderResources(size: Int): [FolderResource!]!
+  allMyNdlaResources(size: Int): [MyNdlaResource!]!
   arenaEnabledOrgs: ConfigMetaStringList
   article(id: String!): Article
   articleResource(articleId: String, taxonomyId: String): Resource
@@ -1061,8 +1070,6 @@ type Query {
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
   folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
-  folderResourceMeta(resource: FolderResourceMetaSearchInput!): FolderResourceMeta
-  folderResourceMetaSearch(resources: [FolderResourceMetaSearchInput!]!): [FolderResourceMeta!]!
   folders(includeResources: Boolean, includeSubfolders: Boolean): UserFolder!
   frontpage: FrontpageMenu
   groupSearch(
@@ -1088,6 +1095,8 @@ type Query {
   learningpathStepOembed(url: String!): LearningpathStepOembed!
   myLearningpaths: [MyNdlaLearningpath!]
   myNdlaLearningpath(pathId: String!): MyNdlaLearningpath
+  myNdlaResourceMeta(resource: MyNdlaResourceMetaSearchInput!): MyNdlaResourceMeta
+  myNdlaResourceMetaSearch(resources: [MyNdlaResourceMetaSearchInput!]!): [MyNdlaResourceMeta!]!
   node(contextId: String, id: String, parentId: String, rootId: String): Node
   nodeByArticleId(articleId: String, nodeId: String): Node
   nodes(
@@ -1105,6 +1114,7 @@ type Query {
   podcastSeriesSearch(fallback: Boolean, page: Int!, pageSize: Int!): PodcastSeriesSearch
   programme(contextId: String, path: String): ProgrammePage
   programmes: [ProgrammePage!]
+  recentlyFavoritedResources(size: Int): [MyNdlaResource!]!
   resource(id: String!, subjectId: String, topicId: String): Resource
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
   resourceEmbeds(resources: [ResourceEmbedInput!]!): ResourceEmbed!
@@ -1287,7 +1297,7 @@ type SharedFolder {
   name: String!
   owner: Owner
   parentId: String
-  resources: [FolderResource!]!
+  resources: [MyNdlaResource!]!
   status: String!
   subfolders: [SharedFolder!]!
   updated: String!
@@ -1482,7 +1492,7 @@ type UpdatedFolder {
   status: String
 }
 
-type UpdatedFolderResource {
+type UpdatedMyNdlaResource {
   tags: [String!]
 }
 
@@ -1501,15 +1511,6 @@ type UptimeLabel {
 type UserFolder {
   folders: [Folder!]!
   sharedFolders: [SharedFolder!]!
-}
-
-type VideoFolderResourceMeta implements FolderResourceMeta {
-  description: String!
-  id: String!
-  metaImage: MetaImage
-  resourceTypes: [FolderResourceResourceType!]!
-  title: String!
-  type: String!
 }
 
 type VisualElement {

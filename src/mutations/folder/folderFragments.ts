@@ -8,8 +8,8 @@
 
 import { gql } from "@apollo/client";
 
-export const folderResourceFragment = gql`
-  fragment FolderResourceFragment on FolderResource {
+export const myNdlaResourceFragment = gql`
+  fragment MyNdlaResourceFragment on MyNdlaResource {
     __typename
     resourceId
     id
@@ -40,10 +40,10 @@ export const folderFragment = gql`
       name
     }
     resources {
-      ...FolderResourceFragment
+      ...MyNdlaResourceFragment
     }
   }
-  ${folderResourceFragment}
+  ${myNdlaResourceFragment}
 `;
 
 export const sharedFolderFragment = gql`
@@ -66,10 +66,10 @@ export const sharedFolderFragment = gql`
       name
     }
     resources {
-      ...FolderResourceFragment
+      ...MyNdlaResourceFragment
     }
   }
-  ${folderResourceFragment}
+  ${myNdlaResourceFragment}
 `;
 
 // GraphQL does not support recursion. As such, we just do
@@ -143,8 +143,8 @@ export const sharedFoldersPageQueryFragment = gql`
   ${sharedFolderFragment}
 `;
 
-export const folderResourceMetaFragment = gql`
-  fragment FolderResourceMeta on FolderResourceMeta {
+export const myNdlaResourceMetaFragment = gql`
+  fragment MyNdlaResourceMeta on MyNdlaResourceMeta {
     __typename
     id
     title
@@ -158,7 +158,7 @@ export const folderResourceMetaFragment = gql`
       id
       name
     }
-    ... on ArticleFolderResourceMeta {
+    ... on MyNdlaArticleResourceMeta {
       traits
     }
   }
