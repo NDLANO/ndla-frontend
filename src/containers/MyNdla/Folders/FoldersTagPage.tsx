@@ -21,8 +21,8 @@ import { PageSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
-import { GQLFolderResource } from "../../../graphqlTypes";
-import { useFolders, useFolderResourceMetaSearch } from "../../../mutations/folder/folderQueries";
+import { GQLMyNdlaResource } from "../../../graphqlTypes";
+import { useFolders, useMyNdlaResourceMetaSearch } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
 import { getAllTags, getResourcesForTag } from "../../../util/folderHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
@@ -72,14 +72,14 @@ export const FoldersTagsPage = () => {
 };
 
 interface ResourcesProps {
-  resources: GQLFolderResource[];
+  resources: GQLMyNdlaResource[];
 }
 
 const Resources = ({ resources }: ResourcesProps) => {
   const toast = useToast();
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
-  const { data, loading } = useFolderResourceMetaSearch(
+  const { data, loading } = useMyNdlaResourceMetaSearch(
     resources.map((res) => ({
       id: res.resourceId,
       path: res.path,
@@ -89,7 +89,7 @@ const Resources = ({ resources }: ResourcesProps) => {
   );
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
 
-  const createMenuItems = (resource: GQLFolderResource): MenuItemProps[] => {
+  const createMenuItems = (resource: GQLMyNdlaResource): MenuItemProps[] => {
     if (examLock) return [];
 
     return [
@@ -138,7 +138,7 @@ const Resources = ({ resources }: ResourcesProps) => {
             description={meta?.description ?? ""}
             storedResourceType={resource.resourceType}
             resourceTypes={meta?.resourceTypes}
-            traits={meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined}
+            traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
             resourceImage={{
               src: meta?.metaImage?.url,
               alt: "",

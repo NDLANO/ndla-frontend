@@ -32,7 +32,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { GQLFolder, GQLMyNdlaResource } from "../../graphqlTypes";
 import { NewFolder } from "./NewFolder";
 
 export const MAX_LEVEL_FOR_FOLDERS = 5;
@@ -47,7 +47,7 @@ const StyledTree = styled(Tree, {
 
 export interface TreeStructureProps {
   loading?: boolean;
-  targetResource?: GQLFolderResource;
+  targetResource?: GQLMyNdlaResource;
   defaultOpenFolders?: string[];
   folders: GQLFolder[];
   label?: string;
@@ -57,7 +57,7 @@ export interface TreeStructureProps {
 }
 
 interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolder> {
-  targetResource?: GQLFolderResource;
+  targetResource?: GQLMyNdlaResource;
   selected?: boolean;
   focusId?: string | null;
 }

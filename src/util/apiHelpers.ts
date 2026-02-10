@@ -60,14 +60,14 @@ export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | unde
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
   SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
-  FolderResourceMeta: [
-    "ArticleFolderResourceMeta",
-    "AudioFolderResourceMeta",
-    "ConceptFolderResourceMeta",
-    "ImageFolderResourceMeta",
-    "LearningpathFolderResourceMeta",
-    "TopicFolderResourceMeta",
-    "VideoFolderResourceMeta",
+  MyNdlaResourceMeta: [
+    "MyNdlaArticleResourceMeta",
+    "MyNdlaAudioResourceMeta",
+    "MyNdlaConceptResourceMeta",
+    "MyNdlaImageResourceMeta",
+    "MyNdlaLearningpathResourceMeta",
+    "MyNdlaTopicResourceMeta",
+    "MyNdlaVideoResourceMeta",
   ],
 };
 
@@ -107,10 +107,10 @@ const typePolicies: TypePolicies = {
   TaxonomyContext: {
     keyFields: ["contextId"],
   },
-  FolderResourceMeta: {
+  MyNdlaResourceMeta: {
     keyFields: ["type", "id"],
   },
-  FolderResourceMetaSearch: {
+  MyNdlaResourceMetaSearch: {
     keyFields: ["type", "id"],
   },
   ConfigMetaBoolean: {

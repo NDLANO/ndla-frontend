@@ -13,7 +13,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
+import { useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 import { SORT_CONTENT_TYPE, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";
 import { ResourceSortOption } from "./ResourceSortOption";
@@ -48,7 +48,7 @@ export const ResourceList = ({ selectedFolder, labelledBy }: Props) => {
   const { t } = useTranslation();
   const [params] = useStableSearchParams();
 
-  const { data, loading } = useFolderResourceMetaSearch(
+  const { data, loading } = useMyNdlaResourceMetaSearch(
     selectedFolder.resources.map((r) => ({
       id: r.resourceId,
       path: r.path,

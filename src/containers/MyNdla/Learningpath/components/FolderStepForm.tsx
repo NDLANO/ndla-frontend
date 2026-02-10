@@ -24,8 +24,8 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
-import { FolderResourcePicker } from "./FolderResourcePicker";
-import { FolderResource } from "./folderTypes";
+import { MyNdlaResource } from "./folderTypes";
+import { MyNdlaResourcePicker } from "./MyNdlaResourcePicker";
 import { ResourceFormValues } from "./ResourceStepForm";
 
 const TextWrapper = styled("div", {
@@ -57,12 +57,12 @@ export interface FolderFormValues {
 
 export const FolderStepForm = () => {
   const { t } = useTranslation();
-  const [resource, setResource] = useState<FolderResource | undefined>(undefined);
+  const [resource, setResource] = useState<MyNdlaResource | undefined>(undefined);
   const [focusId, setFocusId] = useState<string | undefined>(undefined);
 
   const { setValue } = useFormContext<ResourceFormValues>();
 
-  const onResourceSelect = async (selectedResource: FolderResource) => {
+  const onResourceSelect = async (selectedResource: MyNdlaResource) => {
     setValue("articleId", selectedResource.articleId, { shouldDirty: true });
     setValue("title", selectedResource.title, { shouldDirty: true });
     setResource(selectedResource);
@@ -88,7 +88,7 @@ export const FolderStepForm = () => {
       <FieldLabel fontWeight="bold">{t("myNdla.learningpath.form.content.folder.label")}</FieldLabel>
       <FieldHelper>{t("myNdla.learningpath.form.content.folder.labelHelper")}</FieldHelper>
       {!resource ? (
-        <FolderResourcePicker onResourceSelect={onResourceSelect} />
+        <MyNdlaResourcePicker onResourceSelect={onResourceSelect} />
       ) : (
         <ListItemRoot>
           <ListItemContent>

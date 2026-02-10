@@ -19,8 +19,8 @@ import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalCon
 import { ListResource } from "../../../../components/MyNdla/ListResource";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLFolder, GQLFolderResource, GQLFolderResourceMetaFragment } from "../../../../graphqlTypes";
-import { useDeleteFolderResourceMutation } from "../../../../mutations/folder/folderMutations";
+import { GQLFolder, GQLMyNdlaResource, GQLMyNdlaResourceMetaFragment } from "../../../../graphqlTypes";
+import { useDeleteMyNdlaResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
 import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
 import { resourceId, RESOURCES_HEADING_ID } from "../util";
@@ -35,10 +35,10 @@ const StyledTagsWrapper = styled("div", {
 });
 
 interface Props {
-  resource: GQLFolderResource;
+  resource: GQLMyNdlaResource;
   selectedFolder: GQLFolder;
   loading?: boolean;
-  resourceMeta?: GQLFolderResourceMetaFragment;
+  resourceMeta?: GQLMyNdlaResourceMetaFragment;
 }
 
 export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFolder }: Props) => {
@@ -47,12 +47,12 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
   const toast = useToast();
   const ref = useRef<HTMLLIElement>(null);
 
-  const [deleteFolderResource] = useDeleteFolderResourceMutation(selectedFolder.id);
+  const [deleteMyNdlaResource] = useDeleteMyNdlaResourceMutation(selectedFolder.id);
 
   const onDeleteResource = useCallback(
-    async (resource: GQLFolderResource) => {
+    async (resource: GQLMyNdlaResource) => {
       const nextFocusElement = ref.current?.nextElementSibling ?? ref?.current?.previousElementSibling;
-      const res = await deleteFolderResource({
+      const res = await deleteMyNdlaResource({
         variables: { folderId: selectedFolder.id, resourceId: resource.id },
       });
       if (res.error) {
@@ -66,7 +66,7 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
         setTimeout(() => document.getElementById(RESOURCES_HEADING_ID)?.focus({ preventScroll: true }), 1);
       }
     },
-    [deleteFolderResource, selectedFolder.id, selectedFolder.name, toast, t],
+    [deleteMyNdlaResource, selectedFolder.id, selectedFolder.name, toast, t],
   );
 
   const actions: MenuItemProps[] = useMemo(() => {
@@ -179,7 +179,7 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
         link={resourcePath}
         storedResourceType={resource.resourceType}
         resourceTypes={resourceMeta?.resourceTypes}
-        traits={resourceMeta?.__typename === "ArticleFolderResourceMeta" ? resourceMeta.traits : undefined}
+        traits={resourceMeta?.__typename === "MyNdlaArticleResourceMeta" ? resourceMeta.traits : undefined}
         title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
         description={resourceMeta?.description ?? ""}
         menu={menu}
