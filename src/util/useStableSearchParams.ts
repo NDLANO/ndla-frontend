@@ -7,14 +7,14 @@
  */
 
 import { useCallback } from "react";
-import { useSearchParams } from "react-router";
+import { NavigateOptions, useSearchParams } from "react-router";
 
 // The purpose of this hook is to provide a stable search params object that is always sorted by key. `useSearchParams` from "react-router" does not guarantee the order of the search params.
 export const useStableSearchParams = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const setSortedSearchParams = useCallback(
-    (newParams: Record<string, string | null | undefined>, options: { replace?: boolean } = {}) => {
+    (newParams: Record<string, string | null | undefined>, options: NavigateOptions = {}) => {
       const mergedParams = new URLSearchParams(searchParams); // Start with existing params
 
       // Merge new params
@@ -34,7 +34,7 @@ export const useStableSearchParams = () => {
 
       // Prevent unnecessary updates
       if (sortedParams.toString() !== searchParams.toString()) {
-        setSearchParams(sortedParams, { replace: options.replace ?? true }); // Default replace=true to prevent history clutter
+        setSearchParams(sortedParams, { ...options, replace: options.replace ?? true }); // Default replace=true to prevent history clutter
       }
     },
     [searchParams, setSearchParams],
