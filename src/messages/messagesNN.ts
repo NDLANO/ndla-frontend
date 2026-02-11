@@ -419,7 +419,7 @@ const messages = {
         nameAsc: "Namn A-Å",
         nameDesc: "Namn Å-A",
         lastAdded: "Sist lagt til",
-        contentType: "Innholdstype",
+        contentType: "Innhaldstype",
       },
       sharing: {
         share: "Del mappe",
