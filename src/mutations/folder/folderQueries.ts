@@ -12,9 +12,9 @@ import {
   GQLFavouriteSubjectsQuery,
   GQLFavouriteSubjectsQueryVariables,
   GQLFolder,
-  GQLFolderResourceMetaQuery,
-  GQLFolderResourceMetaSearchInput,
-  GQLFolderResourceMetaSearchQuery,
+  GQLMyNdlaResourceMetaQuery,
+  GQLMyNdlaResourceMetaSearchInput,
+  GQLMyNdlaResourceMetaSearchQuery,
   GQLFoldersPageQuery,
   GQLRecentlyUsedQuery,
   GQLSharedFolder,
@@ -22,48 +22,48 @@ import {
   GQLSharedFolderQueryVariables,
 } from "../../graphqlTypes";
 import {
-  folderResourceMetaFragment,
   foldersPageQueryFragment,
+  myNdlaResourceMetaFragment,
   sharedFoldersPageQueryFragment,
 } from "./folderFragments";
 
-const folderResourceMetaQuery = gql`
-  query folderResourceMeta($resource: FolderResourceMetaSearchInput!) {
-    folderResourceMeta(resource: $resource) {
-      ...FolderResourceMeta
+const myNdlaResourceMetaQuery = gql`
+  query myNdlaResourceMeta($resource: MyNdlaResourceMetaSearchInput!) {
+    myNdlaResourceMeta(resource: $resource) {
+      ...MyNdlaResourceMeta
     }
   }
-  ${folderResourceMetaFragment}
+  ${myNdlaResourceMetaFragment}
 `;
 
-export const useFolderResourceMeta = (
-  resource: GQLFolderResourceMetaSearchInput,
-  options?: useQuery.Options<GQLFolderResourceMetaQuery>,
+export const useMyNdlaResourceMeta = (
+  resource: GQLMyNdlaResourceMetaSearchInput,
+  options?: useQuery.Options<GQLMyNdlaResourceMetaQuery>,
 ) => {
-  const { data: { folderResourceMeta } = {}, ...rest } = useQuery<GQLFolderResourceMetaQuery>(folderResourceMetaQuery, {
+  const { data: { myNdlaResourceMeta } = {}, ...rest } = useQuery<GQLMyNdlaResourceMetaQuery>(myNdlaResourceMetaQuery, {
     variables: { resource },
     ...options,
   });
 
-  return { meta: folderResourceMeta, ...rest };
+  return { meta: myNdlaResourceMeta, ...rest };
 };
 
-const folderResourceMetaSearchQuery = gql`
-  query folderResourceMetaSearch($resources: [FolderResourceMetaSearchInput!]!) {
-    folderResourceMetaSearch(resources: $resources) {
-      ...FolderResourceMeta
+const myNdlaResourceMetaSearchQuery = gql`
+  query myNdlaResourceMetaSearch($resources: [MyNdlaResourceMetaSearchInput!]!) {
+    myNdlaResourceMetaSearch(resources: $resources) {
+      ...MyNdlaResourceMeta
     }
   }
 
-  ${folderResourceMetaFragment}
+  ${myNdlaResourceMetaFragment}
 `;
 
-export const useFolderResourceMetaSearch = (
-  resources: GQLFolderResourceMetaSearchInput[],
-  options?: useQuery.Options<GQLFolderResourceMetaSearchQuery>,
+export const useMyNdlaResourceMetaSearch = (
+  resources: GQLMyNdlaResourceMetaSearchInput[],
+  options?: useQuery.Options<GQLMyNdlaResourceMetaSearchQuery>,
 ) => {
-  const { data: { folderResourceMetaSearch: data } = {}, ...rest } = useQuery<GQLFolderResourceMetaSearchQuery>(
-    folderResourceMetaSearchQuery,
+  const { data: { myNdlaResourceMetaSearch: data } = {}, ...rest } = useQuery<GQLMyNdlaResourceMetaSearchQuery>(
+    myNdlaResourceMetaSearchQuery,
     {
       variables: { resources },
       ...options,
@@ -161,7 +161,7 @@ export const useGetSharedFolder = ({
 
 export const recentlyUsedQuery = gql`
   query recentlyUsed {
-    allFolderResources(size: 5) {
+    allMyNdlaResources(size: 5) {
       id
       resourceId
       path
