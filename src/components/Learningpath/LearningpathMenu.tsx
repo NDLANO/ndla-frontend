@@ -9,7 +9,6 @@
 import { gql } from "@apollo/client";
 import { CheckLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
 import { useEffect, useState } from "react";
@@ -18,6 +17,7 @@ import config from "../../config";
 import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
 import { formatDate } from "../../util/formatDate";
+import { StepperIndicator, StepperList, StepperListItem, StepperRoot, StepperSafeLink } from "../Stepper";
 import { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
@@ -28,71 +28,7 @@ interface Props {
   hasIntroduction: boolean;
 }
 
-const StepperList = styled("ol", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
-
-const StyledSafeLink = styled(SafeLink, {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    position: "relative",
-    zIndex: "1",
-    gap: "xxsmall",
-    textStyle: "body.link",
-    _hover: {
-      "& [data-indicator]": {
-        background: "surface.actionSubtle.hover",
-      },
-    },
-    _active: {
-      "& [data-indicator]": {
-        background: "surface.actionSubtle.hover.strong",
-      },
-    },
-    _currentPage: {
-      "& [data-indicator]": {
-        background: "surface.actionSubtle.active",
-      },
-    },
-    "& [data-link-text]": {
-      textDecoration: "underline",
-      _hover: {
-        textDecoration: "none",
-      },
-    },
-  },
-});
-
-const StyledNav = styled("nav", {
-  base: {
-    position: "relative",
-  },
-});
-
-const Track = styled("div", {
-  base: {
-    position: "absolute",
-    height: "100%",
-    width: "1px",
-    background: "stroke.default",
-    left: "xsmall",
-  },
-});
-
-const StepIndicatorWrapper = styled("div", {
-  base: {
-    minHeight: "xlarge",
-    height: "100%",
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    background: "background.default",
-  },
+const StyledStepperListItem = styled(StepperListItem, {
   variants: {
     context: {
       default: {
@@ -103,68 +39,21 @@ const StepIndicatorWrapper = styled("div", {
       preview: {},
     },
   },
-});
-
-const StepIndicator = styled("div", {
-  base: {
-    background: "background.default",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: "full",
-    width: "medium",
-    height: "medium",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    flexShrink: "0",
-    transitionProperty: "background",
-    transitionDuration: "fast",
-    transitionTimingFunction: "default",
-    "&[data-completed='true']": {
-      background: "surface.brand.3.moderate",
-    },
-  },
-  variants: {
-    context: {
-      default: {
-        desktop: {
-          background: "background.subtle",
-        },
-      },
-      preview: {},
-    },
+  defaultVariants: {
+    context: "default",
   },
 });
 
-const ListItem = styled("li", {
-  base: {
-    position: "relative",
-    _last: {
-      _after: {
-        content: '""',
-        background: "background.default",
-        position: "absolute",
-        bottom: "0",
-        width: "100%",
-        height: "50%",
-      },
-    },
-  },
-  variants: {
-    context: {
-      default: {
-        _last: {
-          _after: {
-            desktop: {
-              background: "background.subtle",
-            },
-          },
-        },
-      },
-      preview: {},
-    },
-  },
-});
+const stepLink = (
+  learningpathId: number,
+  stepId: number | undefined,
+  resourcePath: string | undefined,
+  context: LearningpathContext | undefined,
+) => {
+  return context === "preview"
+    ? routes.myNdla.learningpathPreview(learningpathId, stepId)
+    : toLearningPath(learningpathId, stepId, resourcePath);
+};
 
 const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
 
@@ -176,6 +65,8 @@ export const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, con
 
   const currentStep = currentIndex !== undefined ? learningpath.learningsteps[currentIndex] : undefined;
   const lastUpdated = formatDate(learningpath.lastUpdated, i18n.language);
+  const indicatorOffset = hasIntroduction ? 2 : 1;
+  const introductionCompleted = !!viewedSteps[INTRODUCTION_ID];
 
   const updateViewedSteps = () => {
     const viewedId =
@@ -202,67 +93,42 @@ export const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, con
 
   return (
     <>
-      <StyledNav aria-label={t("learningpathPage.learningsteps")}>
-        <Track />
+      <StepperRoot aria-label={t("learningpathPage.learningsteps")}>
         <StepperList>
           {!!hasIntroduction && (
-            <ListItem context={context}>
-              <StyledSafeLink
-                to={
-                  context === "preview"
-                    ? routes.myNdla.learningpathPreview(learningpath.id)
-                    : toLearningPath(learningpath.id, undefined, resourcePath)
-                }
+            <StyledStepperListItem context={context} completed={!!introductionCompleted && currentIndex !== undefined}>
+              <StepperIndicator>
+                {introductionCompleted && currentIndex !== undefined ? <CheckLine size="small" /> : 1}
+              </StepperIndicator>
+              <StepperSafeLink
+                to={stepLink(learningpath.id, undefined, resourcePath, context)}
                 aria-current={currentIndex === undefined ? "page" : undefined}
-                data-last={!learningpath.learningsteps.length}
-                aria-label={`${t("learningpathPage.introduction")}${viewedSteps[INTRODUCTION_ID] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+                aria-label={`${t("learningpathPage.introduction")}${introductionCompleted ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
               >
-                <StepIndicatorWrapper context={context}>
-                  <StepIndicator
-                    data-indicator=""
-                    data-completed={!!viewedSteps[INTRODUCTION_ID]}
-                    aria-hidden
-                    context={context}
-                  >
-                    {viewedSteps[INTRODUCTION_ID] && currentIndex !== undefined ? <CheckLine size="small" /> : 1}
-                  </StepIndicator>
-                </StepIndicatorWrapper>
-                <span data-link-text="">{t("learningpathPage.introduction")}</span>
-              </StyledSafeLink>
-            </ListItem>
+                {t("learningpathPage.introduction")}
+              </StepperSafeLink>
+            </StyledStepperListItem>
           )}
           {learningpath.learningsteps.map((step, index) => (
-            <ListItem key={step.id} context={context}>
-              <StyledSafeLink
-                to={
-                  context === "preview"
-                    ? routes.myNdla.learningpathPreview(learningpath.id, step.id)
-                    : toLearningPath(learningpath.id, step.id, resourcePath)
-                }
-                aria-current={index === currentIndex ? "page" : undefined}
-                data-last={index === learningpath.learningsteps.length - 1}
+            <StyledStepperListItem
+              key={step.id}
+              context={context}
+              completed={!!viewedSteps[step.id] && currentIndex !== index}
+            >
+              <StepperIndicator>
+                {viewedSteps[step.id] && index !== currentIndex ? <CheckLine size="small" /> : index + indicatorOffset}
+              </StepperIndicator>
+              <StepperSafeLink
+                to={stepLink(learningpath.id, step.id, resourcePath, context)}
+                aria-current={currentIndex === index ? "page" : undefined}
                 aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
               >
-                <StepIndicatorWrapper context={context}>
-                  <StepIndicator
-                    data-indicator=""
-                    data-completed={!!viewedSteps[step.id]}
-                    aria-hidden
-                    context={context}
-                  >
-                    {viewedSteps[step.id] && index !== currentIndex ? (
-                      <CheckLine size="small" />
-                    ) : (
-                      index + (hasIntroduction ? 2 : 1)
-                    )}
-                  </StepIndicator>
-                </StepIndicatorWrapper>
-                <span data-link-text="">{step.title}</span>
-              </StyledSafeLink>
-            </ListItem>
+                {step.title}
+              </StepperSafeLink>
+            </StyledStepperListItem>
           ))}
         </StepperList>
-      </StyledNav>
+      </StepperRoot>
       <ArticleByline
         authors={learningpath.copyright.contributors}
         published={lastUpdated}
