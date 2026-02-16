@@ -15,7 +15,7 @@ export interface ResourceData {
   traits?: string[];
   resourceTypes?: Pick<GQLResourceType, "id" | "name">[];
 }
-export interface FolderResource {
+export interface MyNdlaResource {
   articleId?: number;
   title: string;
   path: string;

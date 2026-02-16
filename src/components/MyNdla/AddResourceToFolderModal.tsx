@@ -10,7 +10,7 @@ import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, Dialo
 import { lazy, ReactNode, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
-import { useFolderResourceMeta } from "../../mutations/folder/folderQueries";
+import { useMyNdlaResourceMeta } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { ResourceAttributes } from "./AddResourceToFolder";
@@ -29,7 +29,7 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const { meta, loading } = useFolderResourceMeta(resource, {
+  const { meta, loading } = useMyNdlaResourceMeta(resource, {
     skip: !resource || !open,
   });
 
@@ -65,7 +65,7 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
                   src: meta?.metaImage?.url,
                   alt: meta?.metaImage?.alt ?? "",
                 }}
-                traits={meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined}
+                traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
                 resourceTypes={meta?.resourceTypes}
                 storedResourceType={resource.resourceType}
               />

@@ -34,13 +34,13 @@ import { useTranslation } from "react-i18next";
 import {
   GQLBreadcrumb,
   GQLFolder,
-  GQLFolderResource,
-  GQLFolderResourceMetaSearchQuery,
+  GQLMyNdlaResource,
+  GQLMyNdlaResourceMetaSearchQuery,
 } from "../../../../graphqlTypes";
-import { useFolders, useFolderResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
+import { useFolders, useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
-import { FolderResource } from "./folderTypes";
+import { MyNdlaResource } from "./folderTypes";
 
 const StyledHitsWrapper = styled("div", {
   base: {
@@ -91,23 +91,23 @@ const StyledText = styled(Text, {
 
 const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article"];
 
-type GQLFolderResourceMetaSearch = GQLFolderResourceMetaSearchQuery["folderResourceMetaSearch"][number];
-type GQLFolderResourceWithCrumb = GQLFolderResource & {
+type GQLMyNdlaResourceMetaSearch = GQLMyNdlaResourceMetaSearchQuery["myNdlaResourceMetaSearch"][number];
+type GQLMyNdlaResourceWithCrumb = GQLMyNdlaResource & {
   uniqueId: string;
   breadcrumbs: GQLBreadcrumb[];
-  meta?: GQLFolderResourceMetaSearch;
+  meta?: GQLMyNdlaResourceMetaSearch;
   traits?: string[];
 };
 
 const toKeyedMetaId = (id: string, resourceType: string) => `${resourceType}-${id}`;
 
-const flattenResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] => {
+const flattenResources = (folders: GQLFolder[]): GQLMyNdlaResourceWithCrumb[] => {
   if (folders.length === 0) return [];
 
   const resources = folders.flatMap((folder) =>
     folder.resources
       .filter((resource) => LEGAL_RESOURCE_TYPES.includes(resource.resourceType as ResourceType))
-      .map<GQLFolderResourceWithCrumb>((resource) => ({
+      .map<GQLMyNdlaResourceWithCrumb>((resource) => ({
         ...resource,
         breadcrumbs: folder.breadcrumbs,
         uniqueId: `${resource.resourceId}-${resource.resourceType}-${folder.breadcrumbs.map((c) => c.id)}`,
@@ -118,11 +118,11 @@ const flattenResources = (folders: GQLFolder[]): GQLFolderResourceWithCrumb[] =>
 };
 
 const stitchResourcesWithMeta = (
-  resources: GQLFolderResourceWithCrumb[],
-  metaData: GQLFolderResourceMetaSearch[],
+  resources: GQLMyNdlaResourceWithCrumb[],
+  metaData: GQLMyNdlaResourceMetaSearch[],
   t: TFunction,
 ) => {
-  const keyedMeta = metaData.reduce<Record<string, GQLFolderResourceMetaSearch>>((acc, curr) => {
+  const keyedMeta = metaData.reduce<Record<string, GQLMyNdlaResourceMetaSearch>>((acc, curr) => {
     acc[toKeyedMetaId(curr.id, curr.type)] = curr;
     return acc;
   }, {});
@@ -132,7 +132,7 @@ const stitchResourcesWithMeta = (
       {
         resourceTypes: meta?.resourceTypes,
         resourceType: resource.resourceType,
-        traits: meta?.__typename === "ArticleFolderResourceMeta" ? meta.traits : undefined,
+        traits: meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined,
       },
       t,
     );
@@ -145,14 +145,14 @@ const stitchResourcesWithMeta = (
 };
 
 interface ComboboxProps {
-  onResourceSelect: (resource: FolderResource) => void;
+  onResourceSelect: (resource: MyNdlaResource) => void;
 }
 
 // TODO: This should be refactored, and possible share a lot of code with ResourcePicker
-export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
+export const MyNdlaResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState<string>("");
-  const [stitchedResources, setStitchedResources] = useState<GQLFolderResourceWithCrumb[]>([]);
+  const [stitchedResources, setStitchedResources] = useState<GQLMyNdlaResourceWithCrumb[]>([]);
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -167,9 +167,9 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
 
   const {
     data,
-    loading: folderResourceMetaLoading,
-    error: folderResourceMetaError,
-  } = useFolderResourceMetaSearch(resourceSearchInput);
+    loading: myNdlaResourceMetaLoading,
+    error: myNdlaResourceMetaError,
+  } = useMyNdlaResourceMetaSearch(resourceSearchInput);
 
   useEffect(() => {
     if (data && resources.length) {
@@ -191,9 +191,9 @@ export const FolderResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     [filteredResources],
   );
 
-  if (!!foldersLoading || !!folderResourceMetaLoading) return <Spinner />;
+  if (!!foldersLoading || !!myNdlaResourceMetaLoading) return <Spinner />;
 
-  if (!!foldersError || !!folderResourceMetaError)
+  if (!!foldersError || !!myNdlaResourceMetaError)
     return <Text color="text.error">{t("myNdla.learningpath.form.content.folder.error")}</Text>;
 
   if (stitchedResources.length === 0) {

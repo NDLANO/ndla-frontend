@@ -25,10 +25,10 @@ import { ListResource } from "../../components/MyNdla/ListResource";
 import { PageSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { GQLFolder, GQLFolderResource, GQLFoldersPageQuery } from "../../graphqlTypes";
+import { GQLFolder, GQLMyNdlaResource, GQLFoldersPageQuery } from "../../graphqlTypes";
 import {
   useGetSharedFolder,
-  useFolderResourceMetaSearch,
+  useMyNdlaResourceMetaSearch,
   foldersPageQuery,
 } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
@@ -37,7 +37,7 @@ import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SaveLink } from "./components/SaveLink";
 
-const flattenResources = (folder?: GQLFolder): GQLFolderResource[] => {
+const flattenResources = (folder?: GQLFolder): GQLMyNdlaResource[] => {
   const subResources = folder?.subfolders.flatMap(flattenResources) ?? [];
 
   return (folder?.resources ?? []).concat(subResources);
@@ -100,7 +100,7 @@ export const SharedFolderPage = () => {
     skip: !folder || !authenticated,
   });
 
-  const { data } = useFolderResourceMetaSearch(
+  const { data } = useMyNdlaResourceMetaSearch(
     flattenResources(folder).map((res) => ({
       id: res.resourceId,
       path: res.path,
@@ -116,7 +116,7 @@ export const SharedFolderPage = () => {
     name: folder?.owner?.name ?? t("myNdla.folder.professional"),
   });
 
-  const getResourceMetaPath = (resource: GQLFolderResource, resourceMeta: any) =>
+  const getResourceMetaPath = (resource: GQLMyNdlaResource, resourceMeta: any) =>
     resourceMeta &&
     resourceMeta?.resourceTypes.length < 1 &&
     (resource.resourceType === "article" || resource.resourceType === "learningpath")
@@ -202,7 +202,7 @@ export const SharedFolderPage = () => {
                   link={getResourceMetaPath(resource, resourceMeta)}
                   storedResourceType={resource.resourceType}
                   resourceTypes={resourceMeta.resourceTypes}
-                  traits={resourceMeta?.__typename === "ArticleFolderResourceMeta" ? resourceMeta.traits : undefined}
+                  traits={resourceMeta?.__typename === "MyNdlaArticleResourceMeta" ? resourceMeta.traits : undefined}
                   title={resourceMeta ? resourceMeta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}
                   description={resourceMeta?.description ?? ""}
                 />

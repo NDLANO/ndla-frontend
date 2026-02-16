@@ -9,7 +9,7 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder, GQLFolderResource } from "../../graphqlTypes";
+import { GQLFolder, GQLMyNdlaResource } from "../../graphqlTypes";
 import { TreeStructure } from "./TreeStructure";
 
 const ComboboxContainer = styled("div", {
@@ -24,7 +24,7 @@ interface Props {
   selectedFolderId: string | undefined;
   setSelectedFolderId: (v: string | undefined) => void;
   defaultOpenFolder?: GQLFolder;
-  storedResource?: GQLFolderResource;
+  storedResource?: GQLMyNdlaResource;
 }
 
 export const FolderSelect = ({
