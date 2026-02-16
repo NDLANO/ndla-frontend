@@ -32,7 +32,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder, GQLMyNdlaResource } from "../../graphqlTypes";
+import { GQLFolder } from "../../graphqlTypes";
 import { NewFolder } from "./NewFolder";
 
 export const MAX_LEVEL_FOR_FOLDERS = 5;
@@ -47,18 +47,18 @@ const StyledTree = styled(Tree, {
 
 export interface TreeStructureProps {
   loading?: boolean;
-  targetResource?: GQLMyNdlaResource;
   defaultOpenFolders?: string[];
   folders: GQLFolder[];
   label?: string;
   maxLevel?: number;
   onSelectFolder?: (id: string) => void;
   ariaDescribedby?: string;
+  placements: Set<string> | undefined;
 }
 
 interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolder> {
-  targetResource?: GQLMyNdlaResource;
   selected?: boolean;
+  placements: Set<string> | undefined;
   focusId?: string | null;
 }
 
@@ -132,8 +132,8 @@ export const TreeStructure = ({
   folders,
   defaultOpenFolders,
   label,
-  targetResource,
   loading,
+  placements,
   maxLevel = MAX_LEVEL_FOR_FOLDERS,
   onSelectFolder,
   ariaDescribedby,
@@ -230,7 +230,7 @@ export const TreeStructure = ({
           <TreeStructureItem
             node={node}
             key={node.id}
-            targetResource={targetResource}
+            placements={placements}
             indexPath={[idx]}
             focusId={focusedValue}
           />
@@ -240,10 +240,10 @@ export const TreeStructure = ({
   );
 };
 
-export const TreeStructureItem = ({ node, focusId, indexPath, targetResource }: TreeStructureItemProps) => {
+export const TreeStructureItem = ({ node, focusId, indexPath, placements }: TreeStructureItemProps) => {
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
-  const containsResource = targetResource && node.resources.some((r) => r.resourceId === targetResource.resourceId);
+  const containsResource = placements?.has(node.id);
 
   const FolderIcon = node.status === "shared" ? StyledFolderUserLine : StyledFolderLine;
 
@@ -289,7 +289,7 @@ export const TreeStructureItem = ({ node, focusId, indexPath, targetResource }: 
                 key={child.id}
                 node={child}
                 indexPath={[...indexPath, index]}
-                targetResource={targetResource}
+                placements={placements}
                 focusId={focusId}
               />
             ))}

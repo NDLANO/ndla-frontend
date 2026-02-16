@@ -18,12 +18,12 @@ interface Props {
   page: PageType;
 }
 
-type PageType = "folders" | "subjects" | "learningpath";
+type PageType = "favorites" | "subjects" | "learningpath";
 
 const types = {
-  folders: {
-    to: routes.myNdla.folders,
-    name: "myNdla.myFolders",
+  favorites: {
+    to: routes.myNdla.folders(undefined),
+    name: "myNdla.myFavorites",
   },
   subjects: {
     to: routes.myNdla.subjects,
@@ -50,7 +50,7 @@ export const MyNdlaBreadcrumb = ({ breadcrumbs, page }: Props) => {
   const crumbs = [{ to: baseCrumb.to, name: t(baseCrumb.name) }].concat(
     breadcrumbs.map((bc) => ({
       name: bc.name,
-      to: `${routes.myNdla.root}/${page}/${bc.id}`,
+      to: `${routes.myNdla.root}/${page === "favorites" ? "folders" : page}/${bc.id}`,
     })),
   );
 

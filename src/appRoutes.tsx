@@ -149,14 +149,19 @@ export const routes: RouteObjectWithImportPath[] = [
             lazy: () => import("./containers/MyNdla/MyNdlaPage"),
           },
           {
-            path: "folders/:folderId?",
-            importPath: "src/containers/MyNdla/Folders/FoldersPage.tsx",
-            lazy: () => import("./containers/MyNdla/Folders/FoldersPage"),
-          },
-          {
-            path: "folders/tag/:tag",
-            importPath: "src/containers/MyNdla/Folders/FoldersTagPage.tsx",
-            lazy: () => import("./containers/MyNdla/Folders/FoldersTagPage"),
+            path: "folders",
+            children: [
+              {
+                index: true,
+                importPath: "src/containers/MyNdla/Folders/RootFoldersPage.tsx",
+                lazy: () => import("./containers/MyNdla/Folders/RootFoldersPage"),
+              },
+              {
+                path: ":folderId",
+                importPath: "src/containers/MyNdla/Folders/SubFolderPage.tsx",
+                lazy: () => import("./containers/MyNdla/Folders/SubFolderPage"),
+              },
+            ],
           },
           {
             path: "learningpaths",

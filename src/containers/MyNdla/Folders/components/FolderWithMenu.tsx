@@ -10,18 +10,16 @@ import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Folder } from "../../../../components/MyNdla/Folder";
 import { GQLFolder } from "../../../../graphqlTypes";
-import { FolderTotalCount } from "../../../../util/folderHelpers";
 import { SettingsMenu } from "../../components/SettingsMenu";
 import { folderId, FOLDERS_HEADING_ID, SHARED_FOLDERS_HEADING_ID, sharedFolderId } from "../util";
 import { useFolderActions } from "./FolderActionHooks";
 
 interface Props {
   folder: GQLFolder;
-  foldersCount?: FolderTotalCount;
   isFavorited?: boolean;
 }
 
-export const FolderWithMenu = ({ folder, foldersCount, isFavorited }: Props) => {
+export const FolderWithMenu = ({ folder, isFavorited }: Props) => {
   const { t } = useTranslation();
   const ref = useRef<HTMLLIElement>(null);
 
@@ -40,7 +38,7 @@ export const FolderWithMenu = ({ folder, foldersCount, isFavorited }: Props) => 
 
   return (
     <li id={isFavorited ? sharedFolderId(folder.id) : folderId(folder.id)} ref={ref}>
-      <Folder folder={folder} foldersCount={foldersCount} menu={menu} isFavorited={isFavorited} />
+      <Folder folder={folder} menu={menu} isFavorited={isFavorited} />
     </li>
   );
 };

@@ -20,9 +20,9 @@ import {
   LoginBoxLine,
   RouteLine,
   RouteFill,
-  FolderFill,
-  FolderLine,
   MenuLine,
+  HeartLine,
+  HeartFill,
 } from "@ndla/icons";
 import {
   DialogBody,
@@ -208,11 +208,11 @@ const menuLinks = (
   },
   {
     id: "folders",
-    to: routes.myNdla.folders,
-    name: t("myNdla.myFolders"),
-    shortName: t("myNdla.iconMenu.folders"),
-    icon: <FolderLine />,
-    iconFilled: <FolderFill />,
+    to: routes.myNdla.folders(undefined),
+    name: t("myNdla.myFavorites"),
+    shortName: t("myNdla.iconMenu.favorites"),
+    icon: <HeartLine />,
+    iconFilled: <HeartFill />,
   },
   {
     id: "subjects",

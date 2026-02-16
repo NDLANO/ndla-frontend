@@ -19,7 +19,7 @@ import {
   MessageBox,
   Text,
 } from "@ndla/primitives";
-import { useState, useContext, useMemo } from "react";
+import { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
@@ -29,7 +29,6 @@ import { useToast } from "../../../components/ToastContext";
 import { GQLFolder } from "../../../graphqlTypes";
 import { useFavoriteSharedFolder } from "../../../mutations/folder/folderMutations";
 import { routes } from "../../../routeHelpers";
-import { getTotalCountForFolder } from "../../../util/folderHelpers";
 
 interface SaveLinkProps {
   folder: GQLFolder;
@@ -57,8 +56,6 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
     }
   };
 
-  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
-
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
@@ -74,7 +71,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
             <DialogCloseButton />
           </DialogHeader>
           <DialogBody>
-            <Folder nonInteractive folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
+            <Folder nonInteractive folder={folder} link={routes.folder(folder.id)} />
             <MessageBox variant="warning">
               <InformationLine />
               <Text>{t("myNdla.folder.sharing.save.warning")}</Text>
@@ -92,7 +89,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
       ) : (
         <LoginModalContent
           title={t("myNdla.loginSaveFolderLinkPitch")}
-          content={<Folder nonInteractive folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />}
+          content={<Folder nonInteractive folder={folder} link={routes.folder(folder.id)} />}
         />
       )}
     </DialogRoot>

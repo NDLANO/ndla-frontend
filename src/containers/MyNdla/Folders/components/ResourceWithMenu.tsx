@@ -6,14 +6,10 @@
  *
  */
 
-import { DeleteBinLine, HashTag, FolderLine, LinkMedium } from "@ndla/icons";
-import { Text, DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
+import { DeleteBinLine, FolderLine, LinkMedium } from "@ndla/icons";
 import { useCallback, useContext, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
-import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { AddResourceToFolderModalContent } from "../../../../components/MyNdla/AddResourceToFolderModalContent";
 import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
 import { ListResource } from "../../../../components/MyNdla/ListResource";
@@ -21,22 +17,12 @@ import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder, GQLMyNdlaResource, GQLMyNdlaResourceMetaFragment } from "../../../../graphqlTypes";
 import { useDeleteMyNdlaResourceMutation } from "../../../../mutations/folder/folderMutations";
-import { routes } from "../../../../routeHelpers";
 import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
 import { resourceId, RESOURCES_HEADING_ID } from "../util";
 
-const StyledTagsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: "xsmall",
-  },
-});
-
 interface Props {
   resource: GQLMyNdlaResource;
-  selectedFolder: GQLFolder;
+  selectedFolder: GQLFolder | undefined;
   loading?: boolean;
   resourceMeta?: GQLMyNdlaResourceMetaFragment;
 }
@@ -47,26 +33,27 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
   const toast = useToast();
   const ref = useRef<HTMLLIElement>(null);
 
-  const [deleteMyNdlaResource] = useDeleteMyNdlaResourceMutation(selectedFolder.id);
+  const [deleteMyNdlaResource] = useDeleteMyNdlaResourceMutation(selectedFolder?.id);
 
   const onDeleteResource = useCallback(
     async (resource: GQLMyNdlaResource) => {
       const nextFocusElement = ref.current?.nextElementSibling ?? ref?.current?.previousElementSibling;
       const res = await deleteMyNdlaResource({
-        variables: { folderId: selectedFolder.id, resourceId: resource.id },
+        variables: { folderId: selectedFolder?.id, resourceId: resource.id },
       });
+      const name = selectedFolder?.name ?? t("myNdla.myFavorites");
       if (res.error) {
-        toast.create({ title: t("myNdla.resource.removedFromFolderFailed", { folderName: selectedFolder.name }) });
+        toast.create({ title: t("myNdla.resource.removedFromFailed", { name }) });
         return;
       }
-      toast.create({ title: t("myNdla.resource.removedFromFolder", { folderName: selectedFolder.name }) });
+      toast.create({ title: t("myNdla.resource.removedFrom", { name }) });
       if (nextFocusElement instanceof HTMLElement) {
         nextFocusElement.getElementsByTagName("a")?.[0]?.focus();
       } else {
         setTimeout(() => document.getElementById(RESOURCES_HEADING_ID)?.focus({ preventScroll: true }), 1);
       }
     },
-    [deleteMyNdlaResource, selectedFolder.id, selectedFolder.name, toast, t],
+    [deleteMyNdlaResource, selectedFolder?.id, selectedFolder?.name, toast, t],
   );
 
   const actions: MenuItemProps[] = useMemo(() => {
@@ -101,35 +88,6 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
       },
       {
         type: "dialog",
-        value: "showTags",
-        icon: <HashTag />,
-        text: t("myNdla.resource.showTags"),
-        isModal: true,
-        modalContent: () => (
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>{t("myNdla.resource.tagsDialogTitle", { title: resourceMeta?.title ?? "" })}</DialogTitle>
-              <DialogCloseButton />
-            </DialogHeader>
-            <DialogBody>
-              {resource.tags.length ? (
-                <StyledTagsWrapper>
-                  {resource.tags.map((tag) => (
-                    <SafeLinkButton variant="primary" size="small" key={tag} to={routes.myNdla.tag(tag)}>
-                      <HashTag />
-                      {tag}
-                    </SafeLinkButton>
-                  ))}
-                </StyledTagsWrapper>
-              ) : (
-                <Text>{t("myNdla.resource.noTags")}</Text>
-              )}
-            </DialogBody>
-          </DialogContent>
-        ),
-      },
-      {
-        type: "dialog",
         value: "removeResource",
         icon: <DeleteBinLine />,
         text: t("myNdla.resource.remove"),
@@ -149,7 +107,7 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
         variant: "destructive",
       },
     ];
-  }, [examLock, onDeleteResource, resource, resourceMeta?.title, selectedFolder, t, toast]);
+  }, [examLock, onDeleteResource, resource, selectedFolder, t, toast]);
 
   const menu = useMemo(() => <SettingsMenu menuItems={actions} />, [actions]);
 

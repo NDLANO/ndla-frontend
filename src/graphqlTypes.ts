@@ -865,7 +865,7 @@ export type GQLMutationAddFolderArgs = {
 };
 
 export type GQLMutationAddMyNdlaResourceArgs = {
-  folderId: Scalars["String"]["input"];
+  folderId?: InputMaybe<Scalars["String"]["input"]>;
   path: Scalars["String"]["input"];
   resourceId: Scalars["String"]["input"];
   resourceType: Scalars["String"]["input"];
@@ -896,7 +896,7 @@ export type GQLMutationDeleteLearningpathStepArgs = {
 };
 
 export type GQLMutationDeleteMyNdlaResourceArgs = {
-  folderId: Scalars["String"]["input"];
+  folderId?: InputMaybe<Scalars["String"]["input"]>;
   resourceId: Scalars["String"]["input"];
 };
 
@@ -919,7 +919,7 @@ export type GQLMutationSortFoldersArgs = {
 };
 
 export type GQLMutationSortResourcesArgs = {
-  parentId: Scalars["String"]["input"];
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
   sortedIds: Array<Scalars["String"]["input"]>;
 };
 
@@ -1118,6 +1118,12 @@ export type GQLMyNdlaResource = {
   resourceId: Scalars["String"]["output"];
   resourceType: Scalars["String"]["output"];
   tags: Array<Scalars["String"]["output"]>;
+};
+
+export type GQLMyNdlaResourceConnection = {
+  __typename?: "MyNdlaResourceConnection";
+  folderId?: Maybe<Scalars["String"]["output"]>;
+  resourceId: Scalars["String"]["output"];
 };
 
 export type GQLMyNdlaResourceMeta = {
@@ -1337,8 +1343,12 @@ export type GQLQuery = {
   learningpathStepOembed: GQLLearningpathStepOembed;
   myLearningpaths?: Maybe<Array<GQLMyNdlaLearningpath>>;
   myNdlaLearningpath?: Maybe<GQLMyNdlaLearningpath>;
+  myNdlaResource?: Maybe<GQLMyNdlaResource>;
+  myNdlaResourceConnections: Array<GQLMyNdlaResourceConnection>;
   myNdlaResourceMeta?: Maybe<GQLMyNdlaResourceMeta>;
   myNdlaResourceMetaSearch: Array<GQLMyNdlaResourceMeta>;
+  myNdlaResourceTags: Array<Scalars["String"]["output"]>;
+  myNdlaRootResources: Array<GQLMyNdlaResource>;
   node?: Maybe<GQLNode>;
   nodeByArticleId?: Maybe<GQLNode>;
   nodes?: Maybe<Array<GQLNode>>;
@@ -1457,12 +1467,24 @@ export type GQLQueryMyNdlaLearningpathArgs = {
   pathId: Scalars["String"]["input"];
 };
 
+export type GQLQueryMyNdlaResourceArgs = {
+  path: Scalars["String"]["input"];
+};
+
+export type GQLQueryMyNdlaResourceConnectionsArgs = {
+  path: Scalars["String"]["input"];
+};
+
 export type GQLQueryMyNdlaResourceMetaArgs = {
   resource: GQLMyNdlaResourceMetaSearchInput;
 };
 
 export type GQLQueryMyNdlaResourceMetaSearchArgs = {
   resources: Array<GQLMyNdlaResourceMetaSearchInput>;
+};
+
+export type GQLQueryMyNdlaRootResourcesArgs = {
+  folderId?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type GQLQueryNodeArgs = {
@@ -2226,6 +2248,21 @@ export type GQLLearningpathStep_LearningpathStepFragment = {
   __typename?: "LearningpathStep";
 } & GQLArticleStep_LearningpathStepFragment;
 
+export type GQLAddResourceToFolderStructureQueryVariables = Exact<{
+  path: Scalars["String"]["input"];
+}>;
+
+export type GQLAddResourceToFolderStructureQuery = {
+  __typename?: "Query";
+  myNdlaResourceTags: Array<string>;
+  folders: {
+    __typename?: "UserFolder";
+    folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
+  };
+  myNdlaResource?: { __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment;
+  myNdlaResourceConnections: Array<{ __typename?: "MyNdlaResourceConnection"; folderId?: string; resourceId: string }>;
+};
+
 export type GQLSubjectLinks_SubjectPageFragment = {
   __typename?: "SubjectPage";
   buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
@@ -2814,6 +2851,18 @@ export type GQLMovedResourcePage_NodeFragment = {
     };
   };
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+};
+
+export type GQLRootFoldersPageQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLRootFoldersPageQuery = {
+  __typename?: "Query";
+  folders: {
+    __typename?: "UserFolder";
+    folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
+    sharedFolders: Array<{ __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment>;
+  };
+  myNdlaRootResources: Array<{ __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment>;
 };
 
 export type GQLPreviewLearningpathQueryVariables = Exact<{
@@ -3981,21 +4030,21 @@ export type GQLCopySharedFolderMutation = {
   } & GQLFolderFragmentFragment;
 };
 
-export type GQLAddResourceToFolderMutationVariables = Exact<{
+export type GQLAddMyNdlaResourceMutationVariables = Exact<{
   resourceId: Scalars["String"]["input"];
-  folderId: Scalars["String"]["input"];
+  folderId?: InputMaybe<Scalars["String"]["input"]>;
   resourceType: Scalars["String"]["input"];
   path: Scalars["String"]["input"];
   tags?: InputMaybe<Array<Scalars["String"]["input"]> | Scalars["String"]["input"]>;
 }>;
 
-export type GQLAddResourceToFolderMutation = {
+export type GQLAddMyNdlaResourceMutation = {
   __typename?: "Mutation";
   addMyNdlaResource: { __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment;
 };
 
 export type GQLDeleteMyNdlaResourceMutationVariables = Exact<{
-  folderId: Scalars["String"]["input"];
+  folderId?: InputMaybe<Scalars["String"]["input"]>;
   resourceId: Scalars["String"]["input"];
 }>;
 
@@ -4083,6 +4132,21 @@ export type GQLRecentlyUsedQuery = {
   }>;
 };
 
+export type GQLRootResourcesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLRootResourcesQuery = {
+  __typename?: "Query";
+  myNdlaRootResources: Array<{
+    __typename?: "MyNdlaResource";
+    id: string;
+    resourceId: string;
+    path: string;
+    tags: Array<string>;
+    resourceType: string;
+    created: string;
+  }>;
+};
+
 export type GQLFavouriteSubjectsQueryVariables = Exact<{
   ids: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
 }>;
@@ -4096,6 +4160,15 @@ export type GQLFavouriteSubjectsQuery = {
     url?: string;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   }>;
+};
+
+export type GQLResourceConnectionsQueryVariables = Exact<{
+  path: Scalars["String"]["input"];
+}>;
+
+export type GQLResourceConnectionsQuery = {
+  __typename?: "Query";
+  myNdlaResourceConnections: Array<{ __typename?: "MyNdlaResourceConnection"; resourceId: string; folderId?: string }>;
 };
 
 export type GQLDeleteLearningpathMutationVariables = Exact<{

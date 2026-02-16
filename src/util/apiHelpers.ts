@@ -113,6 +113,9 @@ const typePolicies: TypePolicies = {
   MyNdlaResourceMetaSearch: {
     keyFields: ["type", "id"],
   },
+  MyNdlaResourceConnection: {
+    keyFields: ["resourceId", "folderId"],
+  },
   ConfigMetaBoolean: {
     keyFields: ["key"],
   },
