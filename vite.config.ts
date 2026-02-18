@@ -67,6 +67,10 @@ export default defineConfig(({ isSsrBuild, mode }) => {
     resolve: {
       dedupe: ["react-router", "i18next", "react-i18next", "@ark-ui/react", "react", "react-dom"],
       conditions: ["module-sync"],
+      alias: {
+        // Tree-shake away the code for determining config values.
+        "./src/config": isSsrBuild ? "./src/config" : "./src/config.client",
+      },
     },
     define: {
       "globalThis.__DEV__": JSON.stringify(false),
