@@ -63,6 +63,7 @@ const stepperRecipe = sva({
       gap: "xxsmall",
       justifyContent: "flex-start",
       alignItems: "flex-start",
+      background: "background.default",
       _before: {
         content: '""',
         position: "absolute",
