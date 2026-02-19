@@ -339,7 +339,7 @@ export const Learningpath = ({
 
 Learningpath.fragments = {
   learningpathStep: gql`
-    fragment Learningpath_LearningpathStep on LearningpathStep {
+    fragment Learningpath_LearningpathStep on BaseLearningpathStep {
       seqNo
       id
       showTitle
@@ -361,7 +361,7 @@ Learningpath.fragments = {
     ${LearningpathStep.fragments.learningpathStep}
   `,
   learningpath: gql`
-    fragment Learningpath_Learningpath on Learningpath {
+    fragment Learningpath_Learningpath on BaseLearningpath {
       ...LearningpathMenu_Learningpath
     }
     ${LearningpathMenu.fragments.learningpath}

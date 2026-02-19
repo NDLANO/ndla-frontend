@@ -160,7 +160,7 @@ export const LearningpathStep = ({
 
 LearningpathStep.fragments = {
   learningpathStep: gql`
-    fragment LearningpathStep_LearningpathStep on LearningpathStep {
+    fragment LearningpathStep_LearningpathStep on BaseLearningpathStep {
       ...ArticleStep_LearningpathStep
     }
     ${ArticleStep.fragments.learningpathStep}

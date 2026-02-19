@@ -125,6 +125,53 @@ type AudioSummary {
   url: String!
 }
 
+interface BaseLearningpath {
+  basedOn: String
+  canEdit: Boolean!
+  copyright: LearningpathCopyright!
+  coverphoto: ImageMetaInformationV3
+  created: String!
+  description: String!
+  duration: Int
+  id: Int!
+  introduction: String
+  isBasedOn: Int
+  isMyNDLAOwner: Boolean!
+  lastUpdated: String!
+  learningstepUrl: String!
+  learningsteps: [BaseLearningpathStep!]!
+  madeAvailable: String
+  metaUrl: String!
+  revision: Int!
+  status: String!
+  supportedLanguages: [String!]!
+  tags: [String!]!
+  title: String!
+  verificationStatus: String!
+}
+
+interface BaseLearningpathStep {
+  articleId: Int
+  canEdit: Boolean!
+  copyright: LearningpathCopyright
+  description: String
+  embedUrl: LearningpathStepEmbedUrl
+  id: Int!
+  introduction: String
+  license: License
+  metaUrl: String!
+  oembed: LearningpathStepOembed
+  opengraph: ExternalOpengraph
+  resource(parentId: String, rootId: String): Resource
+  revision: Int!
+  seqNo: Int!
+  showTitle: Boolean!
+  status: String!
+  supportedLanguages: [String!]!
+  title: String!
+  type: String!
+}
+
 type Breadcrumb {
   id: String!
   name: String!
@@ -506,7 +553,7 @@ type ImageVariant {
   variantUrl: String!
 }
 
-type Learningpath {
+type Learningpath implements BaseLearningpath {
   basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
@@ -584,7 +631,7 @@ type LearningpathSeqNo {
   seqNo: Int!
 }
 
-type LearningpathStep {
+type LearningpathStep implements BaseLearningpathStep {
   articleId: Int
   canEdit: Boolean!
   copyright: LearningpathCopyright
@@ -722,7 +769,7 @@ type MovieTheme {
 type Mutation {
   addFolder(description: String, name: String!, parentId: String, status: String): Folder!
   addMyNdlaResource(
-    folderId: String!
+    folderId: String
     path: String!
     resourceId: String!
     resourceType: String!
@@ -733,13 +780,13 @@ type Mutation {
   deleteFolder(id: String!): String!
   deleteLearningpath(id: Int!): Boolean
   deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): Boolean
-  deleteMyNdlaResource(folderId: String!, resourceId: String!): String!
+  deleteMyNdlaResource(folderId: String, resourceId: String!): String!
   deletePersonalData: Boolean!
   favoriteSharedFolder(folderId: String!): String!
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
   newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
-  sortResources(parentId: String!, sortedIds: [String!]!): SortResult!
+  sortResources(parentId: String, sortedIds: [String!]!): SortResult!
   sortSavedSharedFolders(sortedIds: [String!]!): SortResult!
   transformArticleContent(
     absoluteUrl: Boolean
@@ -808,7 +855,7 @@ type MyNdlaImageResourceMeta implements MyNdlaResourceMeta {
   type: String!
 }
 
-type MyNdlaLearningpath {
+type MyNdlaLearningpath implements BaseLearningpath {
   basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
@@ -842,7 +889,7 @@ type MyNdlaLearningpathResourceMeta implements MyNdlaResourceMeta {
   type: String!
 }
 
-type MyNdlaLearningpathStep {
+type MyNdlaLearningpathStep implements BaseLearningpathStep {
   articleId: Int
   canEdit: Boolean!
   copyright: LearningpathCopyright
@@ -884,6 +931,11 @@ type MyNdlaResource {
   resourceId: String!
   resourceType: String!
   tags: [String!]!
+}
+
+type MyNdlaResourceConnection {
+  folderId: String
+  resourceId: String!
 }
 
 interface MyNdlaResourceMeta {
@@ -1095,8 +1147,12 @@ type Query {
   learningpathStepOembed(url: String!): LearningpathStepOembed!
   myLearningpaths: [MyNdlaLearningpath!]
   myNdlaLearningpath(pathId: String!): MyNdlaLearningpath
+  myNdlaResource(path: String!): MyNdlaResource
+  myNdlaResourceConnections(path: String!): [MyNdlaResourceConnection!]!
   myNdlaResourceMeta(resource: MyNdlaResourceMetaSearchInput!): MyNdlaResourceMeta
   myNdlaResourceMetaSearch(resources: [MyNdlaResourceMetaSearchInput!]!): [MyNdlaResourceMeta!]!
+  myNdlaResourceTags: [String!]!
+  myNdlaRootResources(folderId: String): [MyNdlaResource!]!
   node(contextId: String, id: String, parentId: String, rootId: String): Node
   nodeByArticleId(articleId: String, nodeId: String): Node
   nodes(
