@@ -580,8 +580,6 @@ const messages = {
   },
   ndlaFilm: {
     heading: "NDLA Film",
-    description:
-      "Sjekk vårt store utvalg av spelefilmar, dokumentarar, TV-seriar og undervisningsklipp. Vi tilbyr oppgaver til fleire av dei.",
     slideBackwardsLabel: "Scroll bakover",
     slideForwardsLabel: "Scroll framover",
     films: "Filmar",

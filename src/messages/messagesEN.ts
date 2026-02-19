@@ -583,8 +583,6 @@ const messages = {
   },
   ndlaFilm: {
     heading: "NDLA Film",
-    description:
-      "Explore our extensive collection of films, documentaries, TV shows and educational videos. We offer tasks for several of them.",
     slideBackwardsLabel: "Scroll backwards",
     slideForwardsLabel: "Scroll forwards",
     films: "Films",
