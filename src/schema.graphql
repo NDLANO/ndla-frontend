@@ -125,6 +125,53 @@ type AudioSummary {
   url: String!
 }
 
+interface BaseLearningpath {
+  basedOn: String
+  canEdit: Boolean!
+  copyright: LearningpathCopyright!
+  coverphoto: ImageMetaInformationV3
+  created: String!
+  description: String!
+  duration: Int
+  id: Int!
+  introduction: String
+  isBasedOn: Int
+  isMyNDLAOwner: Boolean!
+  lastUpdated: String!
+  learningstepUrl: String!
+  learningsteps: [BaseLearningpathStep!]!
+  madeAvailable: String
+  metaUrl: String!
+  revision: Int!
+  status: String!
+  supportedLanguages: [String!]!
+  tags: [String!]!
+  title: String!
+  verificationStatus: String!
+}
+
+interface BaseLearningpathStep {
+  articleId: Int
+  canEdit: Boolean!
+  copyright: LearningpathCopyright
+  description: String
+  embedUrl: LearningpathStepEmbedUrl
+  id: Int!
+  introduction: String
+  license: License
+  metaUrl: String!
+  oembed: LearningpathStepOembed
+  opengraph: ExternalOpengraph
+  resource(parentId: String, rootId: String): Resource
+  revision: Int!
+  seqNo: Int!
+  showTitle: Boolean!
+  status: String!
+  supportedLanguages: [String!]!
+  title: String!
+  type: String!
+}
+
 type Breadcrumb {
   id: String!
   name: String!
@@ -506,7 +553,7 @@ type ImageVariant {
   variantUrl: String!
 }
 
-type Learningpath {
+type Learningpath implements BaseLearningpath {
   basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
@@ -584,7 +631,7 @@ type LearningpathSeqNo {
   seqNo: Int!
 }
 
-type LearningpathStep {
+type LearningpathStep implements BaseLearningpathStep {
   articleId: Int
   canEdit: Boolean!
   copyright: LearningpathCopyright
@@ -808,7 +855,7 @@ type MyNdlaImageResourceMeta implements MyNdlaResourceMeta {
   type: String!
 }
 
-type MyNdlaLearningpath {
+type MyNdlaLearningpath implements BaseLearningpath {
   basedOn: String
   canEdit: Boolean!
   copyright: LearningpathCopyright!
@@ -842,7 +889,7 @@ type MyNdlaLearningpathResourceMeta implements MyNdlaResourceMeta {
   type: String!
 }
 
-type MyNdlaLearningpathStep {
+type MyNdlaLearningpathStep implements BaseLearningpathStep {
   articleId: Int
   canEdit: Boolean!
   copyright: LearningpathCopyright

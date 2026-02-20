@@ -38,7 +38,7 @@ const TextWrapper = styled("div", {
 
 const previewLearningpathQuery = gql`
   query previewLearningpath($pathId: String!, $transformArgs: TransformedArticleContentInput) {
-    learningpath(pathId: $pathId) {
+    myNdlaLearningpath(pathId: $pathId) {
       id
       canEdit
       ...Learningpath_Learningpath
@@ -72,11 +72,11 @@ export const PreviewLearningpathPage = () => {
     return <PageSpinner />;
   }
 
-  if (!learningpathQuery.data?.learningpath || (stepId && isNaN(Number(stepId)))) {
+  if (!learningpathQuery.data?.myNdlaLearningpath || (stepId && isNaN(Number(stepId)))) {
     return <DefaultErrorMessagePage />;
   }
 
-  const learningpath = learningpathQuery.data.learningpath;
+  const learningpath = learningpathQuery.data.myNdlaLearningpath;
   const numericStepId = stepId ? Number(stepId) : undefined;
 
   // If stepId is provided, find it.
