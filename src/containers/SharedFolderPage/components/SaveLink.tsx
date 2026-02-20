@@ -6,7 +6,8 @@
  *
  */
 
-import { BookmarkLine, InformationLine } from "@ndla/icons";
+import { useQuery } from "@apollo/client/react";
+import { InformationLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -19,15 +20,16 @@ import {
   MessageBox,
   Text,
 } from "@ndla/primitives";
-import { useState, useContext } from "react";
+import { useState, useContext, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";
 import { LoginModalContent } from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
-import { GQLFolder } from "../../../graphqlTypes";
-import { useFavoriteSharedFolder } from "../../../mutations/folder/folderMutations";
+import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { useFavoriteSharedFolder, useUnFavoriteSharedFolder } from "../../../mutations/folder/folderMutations";
+import { foldersPageQuery } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
 
 interface SaveLinkProps {
@@ -38,29 +40,64 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { id, name } = folder;
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
+  const saveRef = useRef<HTMLButtonElement>(null);
+  const unsaveRef = useRef<HTMLButtonElement>(null);
   const [favoriteSharedFolder] = useFavoriteSharedFolder();
+  const [unfavoriteSharedFolder] = useUnFavoriteSharedFolder();
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
+  const sharedFoldersQuery = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+    skip: !authenticated,
+  });
+
+  const folderLinkIsSaved = useMemo(
+    () => sharedFoldersQuery.data?.folders.sharedFolders.some((f) => f.id === folder.id),
+    [folder.id, sharedFoldersQuery.data?.folders.sharedFolders],
+  );
+
   const onSaveLink = async (name: string) => {
-    const res = await favoriteSharedFolder({ variables: { folderId: id } });
-    if (!res.error) {
-      setOpen(false);
-      toast.create({
-        title: t("myNdla.folder.sharing.savedLink", { name }),
-      });
-    } else {
-      toast.create({
-        title: t("myNdla.folder.sharing.savedLinkFailed", { name }),
-      });
-    }
+    await favoriteSharedFolder({
+      variables: { folderId: id },
+      onCompleted: () => {
+        setOpen(false);
+        toast.create({ title: t("myNdla.folder.sharing.savedLink", { name }) });
+        unsaveRef.current?.focus();
+      },
+      onError: () => {
+        toast.create({ title: t("myNdla.folder.sharing.savedLinkFailed", { name }) });
+      },
+    });
   };
+
+  const onUnsave = async () => {
+    await unfavoriteSharedFolder({
+      variables: { folderId: folder.id },
+      onCompleted: () => {
+        toast.create({ title: t("myNdla.folder.sharing.unSavedLink", { name: folder.name }) });
+        saveRef.current?.focus();
+      },
+      onError: () => toast.create({ title: t("myNdla.folder.sharing.unSavedLinkFailed") }),
+    });
+  };
+
+  if (folderLinkIsSaved) {
+    return (
+      <Button onClick={onUnsave} variant="danger" ref={unsaveRef}>
+        {t("myNdla.folder.sharing.button.unSaveLink")}
+      </Button>
+    );
+  }
 
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>
-        <Button aria-label={t("myNdla.folder.sharing.button.saveLink")} variant="tertiary">
-          <BookmarkLine />
+        <Button
+          aria-label={t("myNdla.folder.sharing.button.saveLink")}
+          variant="secondary"
+          loading={sharedFoldersQuery.loading}
+          ref={saveRef}
+        >
           {t("myNdla.folder.sharing.button.saveLink")}
         </Button>
       </DialogTrigger>

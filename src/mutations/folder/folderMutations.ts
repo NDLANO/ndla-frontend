@@ -322,13 +322,12 @@ const favoriteSharedFolderMutation = gql`
 `;
 
 export const useFavoriteSharedFolder = () => {
-  const client = useApolloClient();
   return useMutation<GQLFavoriteSharedFolderMutation, GQLMutationFavoriteSharedFolderArgs>(
     favoriteSharedFolderMutation,
     {
       refetchQueries: [{ query: recentlyUsedQuery }],
-      onCompleted: ({ favoriteSharedFolder: folderId }) => {
-        client.cache.modify({
+      update: (cache, { data }) => {
+        cache.modify({
           fields: {
             folders: (
               { sharedFolders: existingFolders, ...rest } = {
@@ -339,7 +338,7 @@ export const useFavoriteSharedFolder = () => {
             ) => {
               return {
                 sharedFolders: existingFolders.concat({
-                  __ref: client.cache.identify({ id: folderId, __typename: "SharedFolder" }),
+                  __ref: cache.identify({ id: data?.favoriteSharedFolder, __typename: "SharedFolder" }),
                 }),
                 ...rest,
               };
@@ -358,18 +357,23 @@ const unFavoriteSharedFolderMutation = gql`
 `;
 
 export const useUnFavoriteSharedFolder = () => {
-  const client = useApolloClient();
   return useMutation<GQLUnFavoriteSharedFolderMutation, GQLMutationUnFavoriteSharedFolderArgs>(
     unFavoriteSharedFolderMutation,
     {
       refetchQueries: [{ query: recentlyUsedQuery }],
-      onCompleted: ({ unFavoriteSharedFolder: id }) => {
-        const normalizedId = client.cache.identify({
-          id,
-          __typename: "SharedFolder",
+      update: (cache, { data }) => {
+        cache.modify({
+          fields: {
+            folders(folders, { readField }) {
+              return {
+                folders: folders.folders,
+                sharedFolders: folders.sharedFolders.filter(
+                  (f: Reference) => readField("id", f) !== data?.unFavoriteSharedFolder,
+                ),
+              };
+            },
+          },
         });
-        client.cache.evict({ id: normalizedId });
-        client.cache.gc();
       },
     },
   );

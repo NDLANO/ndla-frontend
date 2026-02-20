@@ -169,6 +169,7 @@ const messages = {
       learningpathUnsupportedTitle: "Learning paths are not supported",
       resourceRemovedTitle: "Resource not available",
       folderCopied: "The folder was copied.",
+      sharedBy: "Shared by: {{sharedBy}}",
       info: "This folder contains learning resources and tasks from NDLA, gathered by a teacher.",
       shared: "This folder contains learning resources and tasks from NDLA, gathered by {{sharedBy}}.",
       aTeacher: "a teacher",
@@ -442,12 +443,6 @@ const messages = {
           shared:
             "Now you can share this link to students or other teachers. If you make changes in the folder, they become visible to everybody you have shared the link with.",
         },
-        warning: {
-          authenticated:
-            "This folder is shared by {{ name }}, and contains course material, assignments and links to texts from both NDLA and other websites.",
-          unauthenticated:
-            "This folder is shared by {{ name }}, and contains course material, assignments and links to texts from both NDLA and other websites. Log onto My NDLA to copy the folder or save the link.",
-        },
         button: {
           share: "Share folder",
           shareShort: "Share",
@@ -456,8 +451,8 @@ const messages = {
           goTo: "Go to shared folder",
           unShare: "Stop sharing",
           shareLink: "Copy link",
-          saveLink: "Save the link",
-          unSaveLink: "Remove the link",
+          saveLink: "Save the link to the folder",
+          unSaveLink: "Remove link to shared folder",
         },
         save: {
           warning:
