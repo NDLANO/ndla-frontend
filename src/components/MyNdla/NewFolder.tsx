@@ -18,6 +18,7 @@ import { useAddFolderMutation } from "../../mutations/folder/folderMutations";
 import { getFolder, useFolders } from "../../mutations/folder/folderQueries";
 import { useValidationTranslation } from "../../util/useValidationTranslation";
 import { useToast } from "../ToastContext";
+import { ROOT_FOLDER_ID } from "./FolderSelect";
 
 const FolderContainer = styled("div", {
   base: {
@@ -51,7 +52,7 @@ export const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) 
   const { setOpen } = usePopoverContext();
   const ref = useRef<HTMLInputElement>(null);
   const siblings = useMemo(
-    () => (parentFolder.id !== "folders" ? (getFolder(cache, parentFolder.id)?.subfolders ?? []) : folders),
+    () => (parentFolder.id !== ROOT_FOLDER_ID ? (getFolder(cache, parentFolder.id)?.subfolders ?? []) : folders),
     [parentFolder?.id, cache, folders],
   );
   const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
@@ -69,7 +70,7 @@ export const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) 
     }
     const res = await addFolder({
       variables: {
-        parentId: parentFolder.id === "folders" ? undefined : parentFolder.id,
+        parentId: parentFolder.id === ROOT_FOLDER_ID ? undefined : parentFolder.id,
         name,
       },
     });

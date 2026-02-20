@@ -7,11 +7,10 @@
  */
 
 import { DialogRoot, DialogTrigger } from "@ndla/primitives";
-import { ReactNode, useCallback, useContext, useMemo, useState } from "react";
+import { ReactNode, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { CopyFolder } from "./CopyFolder";
 import { Folder } from "./Folder";
@@ -29,8 +28,6 @@ export const CopyFolderModal = ({ folder, children }: Props) => {
 
   const close = useCallback(() => setOpen(false), []);
 
-  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
-
   return (
     <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -39,11 +36,7 @@ export const CopyFolderModal = ({ folder, children }: Props) => {
       ) : (
         <LoginModalContent
           title={t("myNdla.loginCopyFolderPitch")}
-          content={
-            !!folder && (
-              <Folder nonInteractive folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
-            )
-          }
+          content={!!folder && <Folder nonInteractive folder={folder} link={routes.folder(folder.id)} />}
         />
       )}
     </DialogRoot>

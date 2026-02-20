@@ -6,10 +6,9 @@
  *
  */
 
-import { ButtonHTMLAttributes, type Ref, useContext, useMemo } from "react";
+import { ButtonHTMLAttributes, type Ref, useContext } from "react";
 import { FavoriteButton as UIFavoriteButton } from "../../components/MyNdla/FavoriteButton";
-import { useFolders } from "../../mutations/folder/folderQueries";
-import { getAllResources } from "../../util/folderHelpers";
+import { useResourceConnections } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";
 
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "type"> {
@@ -19,8 +18,6 @@ interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "
 
 export const FavoriteButton = (props: Props) => {
   const { authenticated } = useContext(AuthContext);
-  const { folders } = useFolders({ skip: !authenticated });
-  const resources = useMemo(() => getAllResources(folders), [folders]);
-  const exists = resources.some((r) => r.path === props.path);
-  return <UIFavoriteButton isFavorite={exists} {...props} />;
+  const connectionsQuery = useResourceConnections({ skip: !authenticated, variables: { path: props.path } });
+  return <UIFavoriteButton isFavorite={!!connectionsQuery.data?.myNdlaResourceConnections?.length} {...props} />;
 };

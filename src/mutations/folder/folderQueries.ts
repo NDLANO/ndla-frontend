@@ -20,6 +20,10 @@ import {
   GQLSharedFolder,
   GQLSharedFolderQuery,
   GQLSharedFolderQueryVariables,
+  GQLRootResourcesQuery,
+  GQLRootResourcesQueryVariables,
+  GQLResourceConnectionsQuery,
+  GQLResourceConnectionsQueryVariables,
 } from "../../graphqlTypes";
 import {
   foldersPageQueryFragment,
@@ -176,6 +180,23 @@ export const useRecentlyUsedResources = (skip?: boolean) => {
   return useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, { skip });
 };
 
+export const rootResourcesQuery = gql`
+  query rootResources {
+    myNdlaRootResources {
+      id
+      resourceId
+      path
+      tags
+      resourceType
+      created
+    }
+  }
+`;
+
+export const useRootResources = (options?: useQuery.Options<GQLRootResourcesQuery, GQLRootResourcesQueryVariables>) => {
+  return useQuery<GQLRootResourcesQuery, GQLRootResourcesQueryVariables>(rootResourcesQuery, options);
+};
+
 const favouriteSubjects = gql`
   query favouriteSubjects($ids: [String!]!) {
     subjects: nodes(nodeType: "SUBJECT", ids: $ids) {
@@ -188,6 +209,21 @@ const favouriteSubjects = gql`
     }
   }
 `;
+
+const resourceConnectionsQuery = gql`
+  query resourceConnections($path: String!) {
+    myNdlaResourceConnections(path: $path) {
+      resourceId
+      folderId
+    }
+  }
+`;
+
+export const useResourceConnections = (
+  options: useQuery.Options<GQLResourceConnectionsQuery, GQLResourceConnectionsQueryVariables>,
+) => {
+  return useQuery<GQLResourceConnectionsQuery, GQLResourceConnectionsQueryVariables>(resourceConnectionsQuery, options);
+};
 
 export const useFavouriteSubjects = (
   ids: string[],

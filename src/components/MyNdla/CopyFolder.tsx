@@ -18,18 +18,17 @@ import {
   DialogFooter,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { useCopySharedFolderMutation } from "../../mutations/folder/folderMutations";
 import { useFolders } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
-import { getTotalCountForFolder } from "../../util/folderHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { useToast } from "../ToastContext";
 import { Folder } from "./Folder";
-import { FolderSelect } from "./FolderSelect";
+import { FolderSelect, ROOT_FOLDER_ID } from "./FolderSelect";
 
 interface Props {
   folder: GQLFolder;
@@ -52,13 +51,12 @@ export const CopyFolder = ({ folder, onClose }: Props) => {
   const toast = useToast();
   const { folders, loading } = useFolders();
   const [copySharedFolder, { error, loading: copyLoading }] = useCopySharedFolderMutation();
-  const folderCount = useMemo(() => getTotalCountForFolder(folder), [folder]);
 
   const onSave = async () => {
     await copySharedFolder({
       variables: {
         folderId: folder.id,
-        destinationFolderId: selectedFolderId === "folders" ? undefined : selectedFolderId,
+        destinationFolderId: selectedFolderId === ROOT_FOLDER_ID ? undefined : selectedFolderId,
       },
     });
     onClose();
@@ -72,7 +70,7 @@ export const CopyFolder = ({ folder, onClose }: Props) => {
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
-        <Folder nonInteractive folder={folder} foldersCount={folderCount} link={routes.folder(folder.id)} />
+        <Folder nonInteractive folder={folder} link={routes.folder(folder.id)} />
         {examLock ? (
           <MessageBox variant="warning">
             <InformationLine />

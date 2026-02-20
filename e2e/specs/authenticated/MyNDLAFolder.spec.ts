@@ -12,7 +12,7 @@ import { test } from "../../apiMock";
 test.beforeEach(async ({ page, waitGraphql }) => {
   await page.goto("/minndla/folders?disableSSR=true");
   await waitGraphql();
-  const pageHeading = page.getByRole("heading", { name: "Mine mapper", exact: true });
+  const pageHeading = page.getByRole("heading", { name: "Mine favoritter", exact: true });
   await expect(pageHeading).toBeVisible();
 });
 

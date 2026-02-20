@@ -21,11 +21,11 @@ import { styled } from "@ndla/styled-system/jsx";
 import { uniq } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../../../graphqlTypes";
+import { GQLMyNdlaResource } from "../../../../graphqlTypes";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 
 interface Props {
-  folder: GQLFolder;
+  resources: GQLMyNdlaResource[];
 }
 
 const StyledCheckboxGroup = styled(CheckboxGroup, {
@@ -43,14 +43,14 @@ const StyledFieldsetRoot = styled(FieldsetRoot, {
   },
 });
 
-export const TagsFilter = ({ folder }: Props) => {
+export const TagsFilter = ({ resources }: Props) => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchParams();
   const activeTags = params.get("tags")?.split(",") ?? [];
 
   const tags = useMemo(() => {
-    return uniq(folder.resources.flatMap((r) => r.tags));
-  }, [folder]);
+    return uniq(resources.flatMap((r) => r.tags));
+  }, [resources]);
 
   if (!tags.length) {
     return <div />;

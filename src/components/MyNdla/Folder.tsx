@@ -15,7 +15,6 @@ import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
-import { FolderTotalCount } from "../../util/folderHelpers";
 
 interface IconCountProps {
   type: "resource" | "folder";
@@ -67,7 +66,6 @@ interface Props {
   description?: string;
   menu?: ReactNode;
   folder: GQLFolder;
-  foldersCount?: FolderTotalCount;
   isFavorited?: boolean;
   link?: string;
   nonInteractive?: boolean;
@@ -123,8 +121,7 @@ const StyledListItemContent = styled(ListItemContent, {
 
 export const Folder = ({
   menu,
-  folder: { id, status, name, owner },
-  foldersCount,
+  folder: { id, status, name, owner, resources, subfolders },
   isFavorited,
   nonInteractive,
   link,
@@ -132,7 +129,7 @@ export const Folder = ({
   const { t } = useTranslation();
   const isShared = status === "shared";
   const Icon = getIcon(isFavorited, isShared);
-  const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folder(id);
+  const defaultLink = isFavorited ? routes.folder(id) : routes.myNdla.folders(id);
 
   return (
     <ListItemRoot nonInteractive={nonInteractive} id={id}>
@@ -163,8 +160,8 @@ export const Folder = ({
           )}
           {!isFavorited && (
             <>
-              <Count type={"folder"} count={foldersCount?.folders} />
-              <Count type={"resource"} count={foldersCount?.resources} />
+              <Count type={"folder"} count={subfolders.length} />
+              <Count type={"resource"} count={resources.length} />
             </>
           )}
         </FolderInfo>

@@ -14,10 +14,10 @@ test.beforeEach(async ({ page, waitGraphql }) => {
   await waitGraphql();
 });
 
-test("can navigate to folders", async ({ page }) => {
+test("can navigate to my favorites", async ({ page }) => {
   await expect(page.getByRole("heading").getByText("Min NDLA")).toBeVisible();
-  await page.getByRole("listitem").getByRole("link", { name: "Mine mapper" }).click();
-  await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
+  await page.getByRole("listitem").getByRole("link", { name: "Mine favoritter" }).click();
+  await expect(page.getByRole("heading").getByText("Mine favoritter")).toBeVisible();
 });
 
 test("can navigate to learningpaths", async ({ page }) => {
@@ -43,8 +43,8 @@ test("have all options at the different pages", async ({ page, waitGraphql }) =>
   await expect(page.getByRole("link", { name: "Logg ut" })).toBeVisible({ timeout: 10000 });
   const options = await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts();
 
-  await page.getByRole("listitem").getByRole("link", { name: "Mine mapper" }).click();
-  await expect(page.getByRole("heading").getByText("Mine mapper")).toBeVisible();
+  await page.getByRole("listitem").getByRole("link", { name: "Mine favoritter" }).click();
+  await expect(page.getByRole("heading").getByText("Mine favoritter")).toBeVisible();
   expect(await page.getByTestId("my-ndla-menu").getByRole("listitem").allInnerTexts()).toMatchObject(options);
 
   await page.getByRole("listitem").getByRole("link", { name: "Mine læringsstier" }).click();

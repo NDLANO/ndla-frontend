@@ -10,14 +10,11 @@ import { gql, Reference } from "@apollo/client";
 import { useApolloClient, useMutation } from "@apollo/client/react";
 import {
   GQLAddFolderMutation,
-  GQLAddResourceToFolderMutation,
   GQLCopySharedFolderMutation,
   GQLDeleteFolderMutation,
   GQLDeleteMyNdlaResourceMutation,
   GQLFavoriteSharedFolderMutation,
-  GQLFoldersPageQuery,
   GQLMutationAddFolderArgs,
-  GQLMutationAddMyNdlaResourceArgs,
   GQLMutationCopySharedFolderArgs,
   GQLMutationDeleteFolderArgs,
   GQLMutationDeleteMyNdlaResourceArgs,
@@ -30,9 +27,11 @@ import {
   GQLUpdateFolderMutation,
   GQLUpdateMyNdlaResourceMutation,
   GQLUpdateFolderStatusMutation,
+  GQLAddMyNdlaResourceMutation,
+  GQLAddMyNdlaResourceMutationVariables,
 } from "../../graphqlTypes";
 import { folderFragment, myNdlaResourceFragment, foldersPageQueryFragment } from "./folderFragments";
-import { foldersPageQuery, recentlyUsedQuery } from "./folderQueries";
+import { recentlyUsedQuery } from "./folderQueries";
 
 const deleteFolderMutation = gql`
   mutation deleteFolder($id: String!) {
@@ -124,21 +123,21 @@ export const useAddFolderMutation = () => {
 };
 
 export const useDeleteFolderMutation = () => {
-  const client = useApolloClient();
   return useMutation<GQLDeleteFolderMutation, GQLMutationDeleteFolderArgs>(deleteFolderMutation, {
-    refetchQueries: () => {
-      const beforeDeletion: GQLFoldersPageQuery | null = client.cache.readQuery({
-        query: foldersPageQuery,
+    refetchQueries: [{ query: recentlyUsedQuery }],
+    update: (cache, { data }) => {
+      cache.modify({
+        fields: {
+          folders(existingFolders, { readField }) {
+            return {
+              folders: existingFolders.folders.filter((r: any) => readField("id", r) !== data?.deleteFolder),
+              sharedFolders: existingFolders.sharedFolders.filter(
+                (r: any) => readField("id", r) !== data?.deleteFolder,
+              ),
+            };
+          },
+        },
       });
-      if (beforeDeletion?.folders.folders?.length === 1) {
-        return [{ query: recentlyUsedQuery }, { query: foldersPageQuery }];
-      }
-      return [{ query: recentlyUsedQuery }];
-    },
-    onCompleted: ({ deleteFolder: id }) => {
-      const normalizedId = client.cache.identify({ id, __typename: "Folder" });
-      client.cache.evict({ id: normalizedId });
-      client.cache.gc();
     },
   });
 };
@@ -227,11 +226,10 @@ export const useUpdateFolderMutation = () => {
   });
 };
 
-const addResourceToFolderQuery = gql`
-# TODO: Rename this at some point when backend is merged
-  mutation addResourceToFolder(
+const addMyNdlaResourceQuery = gql`
+  mutation addMyNdlaResource(
     $resourceId: String!
-    $folderId: String!
+    $folderId: String
     $resourceType: String!
     $path: String!
     $tags: [String!]
@@ -249,49 +247,68 @@ const addResourceToFolderQuery = gql`
   ${myNdlaResourceFragment}
 `;
 
-// TODO: Rename this
-export const useAddResourceToFolderMutation = (folderId: string) => {
+export const useAddMyNdlaResourceMutation = (folderId?: string) => {
   const { cache } = useApolloClient();
-  return useMutation<GQLAddResourceToFolderMutation, GQLMutationAddMyNdlaResourceArgs>(addResourceToFolderQuery, {
+  return useMutation<GQLAddMyNdlaResourceMutation, GQLAddMyNdlaResourceMutationVariables>(addMyNdlaResourceQuery, {
     refetchQueries: [{ query: recentlyUsedQuery }],
     onCompleted: (data) => {
-      cache.modify({
-        id: cache.identify({
-          __ref: `Folder:${folderId}`,
-        }),
-        fields: {
-          resources(existingResources = []) {
-            return existingResources.concat({
-              __ref: cache.identify(data.addMyNdlaResource),
-            });
+      if (folderId) {
+        cache.modify({
+          id: cache.identify({
+            __ref: `Folder:${folderId}`,
+          }),
+          fields: {
+            resources(existingResources = []) {
+              return existingResources.concat({
+                __ref: cache.identify(data.addMyNdlaResource),
+              });
+            },
           },
-        },
-      });
+        });
+      } else {
+        cache.modify({
+          fields: {
+            myNdlaRootResources(existingResources = []) {
+              return existingResources.concat({ __ref: cache.identify(data.addMyNdlaResource) });
+            },
+          },
+        });
+      }
     },
   });
 };
 
 const deleteMyNdlaResourceMutation = gql`
-  mutation deleteMyNdlaResource($folderId: String!, $resourceId: String!) {
+  mutation deleteMyNdlaResource($folderId: String, $resourceId: String!) {
     deleteMyNdlaResource(folderId: $folderId, resourceId: $resourceId)
   }
 `;
 
-export const useDeleteMyNdlaResourceMutation = (folderId: string) => {
+export const useDeleteMyNdlaResourceMutation = (folderId: string | undefined) => {
   const { cache } = useApolloClient();
   return useMutation<GQLDeleteMyNdlaResourceMutation, GQLMutationDeleteMyNdlaResourceArgs>(
     deleteMyNdlaResourceMutation,
     {
       refetchQueries: [{ query: recentlyUsedQuery }],
       onCompleted: ({ deleteMyNdlaResource: id }) => {
-        cache.modify({
-          id: cache.identify({ __typename: "Folder", id: folderId }),
-          fields: {
-            resources(existing = []) {
-              return existing.filter((res: Reference) => res.__ref !== `MyNdlaResource:${id}`);
+        if (folderId) {
+          cache.modify({
+            id: cache.identify({ __typename: "Folder", id: folderId }),
+            fields: {
+              resources(existing = []) {
+                return existing.filter((res: Reference) => res.__ref !== `MyNdlaResource:${id}`);
+              },
             },
-          },
-        });
+          });
+        } else {
+          cache.modify({
+            fields: {
+              myNdlaRootResources(existing = []) {
+                return existing.filter((res: Reference) => res.__ref !== `MyNdlaResource:${id}`);
+              },
+            },
+          });
+        }
         cache.gc();
       },
     },

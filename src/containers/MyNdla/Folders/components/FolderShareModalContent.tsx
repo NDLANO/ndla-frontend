@@ -16,7 +16,6 @@ import { Folder } from "../../../../components/MyNdla/Folder";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
-import { getTotalCountForFolder } from "../../../../util/folderHelpers";
 import { sharedFolderLink } from "../util";
 
 const GapWrapper = styled("div", {
@@ -72,7 +71,7 @@ export const FolderShareModalContent = ({ onClose, folder, onCopyText }: FolderS
         <DialogCloseButton />
       </DialogHeader>
       <StyledDialogBody>
-        <Folder folder={folder} nonInteractive foldersCount={getTotalCountForFolder(folder)} />
+        <Folder folder={folder} nonInteractive />
         <Text textStyle="body.large">{t("myNdla.folder.sharing.description.shared")}</Text>
         <GapWrapper>
           <Text textStyle="label.medium" fontWeight="bold" asChild consumeCss>

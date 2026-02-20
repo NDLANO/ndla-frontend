@@ -76,11 +76,8 @@ export const routes = {
   myNdla: {
     root: "/minndla",
     profile: "/minndla/profile",
-    folders: "/minndla/folders",
+    folders: (folderId: string | undefined) => `/minndla/folders${folderId ? `/${folderId}` : ""}`,
     subjects: "/minndla/subjects",
-    folder: (folderId: string) => `/minndla/folders/${folderId}`,
-    tag: (tag: string) => `/minndla/folders/tag/${encodeURIComponent(tag)}`,
-    tags: "/minndla/folders/tag",
     learningpath: "/minndla/learningpaths",
     learningpathNew: "/minndla/learningpaths/new",
     learningpathEditTitle: (learningpathId: number) => `/minndla/learningpaths/${learningpathId}/edit/title`,

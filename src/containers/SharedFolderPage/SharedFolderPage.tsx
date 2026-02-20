@@ -7,7 +7,7 @@
  */
 
 import { useQuery } from "@apollo/client/react";
-import { FileCopyLine, PresentationLine } from "@ndla/icons";
+import { FileCopyLine, FolderUserLine, PresentationLine } from "@ndla/icons";
 import { Button, Text } from "@ndla/primitives";
 import { HStack, styled, VStack } from "@ndla/styled-system/jsx";
 import { keyBy, sortBy } from "@ndla/util";
@@ -20,8 +20,8 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { BlockWrapper } from "../../components/MyNdla/BlockWrapper";
 import { CopyFolderModal } from "../../components/MyNdla/CopyFolderModal";
 import { Folder } from "../../components/MyNdla/Folder";
-import { FoldersPageTitle } from "../../components/MyNdla/FoldersPageTitle";
 import { ListResource } from "../../components/MyNdla/ListResource";
+import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
@@ -33,7 +33,6 @@ import {
 } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { isNotFoundError } from "../../util/handleError";
-import { getFolderCount } from "../MyNdla/Folders/components/FolderList";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SaveLink } from "./components/SaveLink";
 
@@ -79,6 +78,14 @@ const InformationWrapper = styled(VStack, {
     tabletDown: {
       paddingBlockEnd: "small",
     },
+  },
+});
+
+const TitleRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    gap: "xsmall",
   },
 });
 
@@ -128,8 +135,6 @@ export const SharedFolderPage = () => {
     [folderData?.folders.sharedFolders, folderId],
   );
 
-  const folderCount = useMemo(() => getFolderCount(folder?.subfolders ?? []), [folder?.subfolders]);
-
   const sortedResources = useMemo(() => sortBy(folder?.resources, (res) => res.created).reverse(), [folder]);
 
   if (loading) {
@@ -169,7 +174,10 @@ export const SharedFolderPage = () => {
             {!folderLinkIsSaved ? <SaveLink folder={folder} /> : null}
           </HStack>
         </InformationWrapper>
-        <FoldersPageTitle key={folder?.id} selectedFolder={folder} enableBreadcrumb={false} />
+        <TitleRow>
+          <FolderUserLine />
+          <MyNdlaTitle title={folder.name} />
+        </TitleRow>
         <FolderDescription textStyle="label.large">
           {folder.description ?? t("myNdla.folder.defaultPageDescription")}
         </FolderDescription>
@@ -178,11 +186,7 @@ export const SharedFolderPage = () => {
             {folder.subfolders.map((subFolder) =>
               containsFolder(subFolder) ? (
                 <li key={`folder-${subFolder.id}`}>
-                  <Folder
-                    folder={subFolder}
-                    link={routes.folder(subFolder.id)}
-                    foldersCount={folderCount?.[subFolder.id]}
-                  />
+                  <Folder folder={subFolder} link={routes.folder(subFolder.id)} />
                 </li>
               ) : null,
             )}
