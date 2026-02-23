@@ -6,72 +6,30 @@
  *
  */
 
-import { useApolloClient } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
-import { FieldErrorMessage, FieldInput, FieldLabel, FieldRoot, Button, FieldHelper } from "@ndla/primitives";
-import { styled } from "@ndla/styled-system/jsx";
 import { FolderDTO } from "@ndla/types-backend/myndla-api";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { useAddFolderMutation } from "../../mutations/folder/folderMutations";
-import { getFolder, useFolders } from "../../mutations/folder/folderQueries";
-import { useValidationTranslation } from "../../util/useValidationTranslation";
 import { useToast } from "../ToastContext";
+import { FolderForm, FolderFormValues } from "./FolderForm";
 import { ROOT_FOLDER_ID } from "./FolderSelect";
-
-const FolderContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
-
-const ButtonsWrapper = styled("div", {
-  base: {
-    alignSelf: "flex-end",
-    display: "flex",
-    gap: "3xsmall",
-  },
-});
 
 interface Props {
   parentFolder: GQLFolder;
-  initialValue?: string;
+  siblings: GQLFolder[];
   onCreate?: (folder: FolderDTO) => void;
 }
 
-export const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) => {
-  const [name, setName] = useState(initialValue);
-  const hasWritten = useRef(false);
+export const NewFolder = ({ parentFolder, siblings, onCreate }: Props) => {
   const toast = useToast();
-  const [error, setError] = useState("");
-  const { folders } = useFolders();
-  const { cache } = useApolloClient();
   const { setOpen } = usePopoverContext();
-  const ref = useRef<HTMLInputElement>(null);
-  const siblings = useMemo(
-    () => (parentFolder.id !== ROOT_FOLDER_ID ? (getFolder(cache, parentFolder.id)?.subfolders ?? []) : folders),
-    [parentFolder?.id, cache, folders],
-  );
-  const siblingNames = siblings.map((sib) => sib.name.toLowerCase());
   const [addFolder, { loading }] = useAddFolderMutation();
-  const { t } = useTranslation();
-  const { validationT } = useValidationTranslation();
 
-  useEffect(() => {
-    ref.current?.scrollIntoView({ behavior: "smooth" });
-  }, [ref]);
-
-  const onSave = async () => {
-    if (error) {
-      return;
-    }
+  const onSave = async (values: FolderFormValues) => {
     const res = await addFolder({
       variables: {
         parentId: parentFolder.id === ROOT_FOLDER_ID ? undefined : parentFolder.id,
-        name,
+        name: values.name,
       },
     });
     const createdFolder = res.data?.addFolder as FolderDTO | undefined;
@@ -84,65 +42,7 @@ export const NewFolder = ({ parentFolder, initialValue = "", onCreate }: Props) 
     }
   };
 
-  useEffect(() => {
-    if (!hasWritten.current) {
-      hasWritten.current = true;
-      return;
-    }
-    if (name.length === 0) {
-      setError(validationT({ field: "name", type: "required" }));
-    } else if (siblingNames.includes(name.toLowerCase())) {
-      setError(validationT({ type: "notUnique" }));
-    } else if (name.length > 64) {
-      setError(
-        validationT({
-          type: "maxLength",
-          field: "name",
-          vars: { count: 64 },
-        }),
-      );
-    } else {
-      setError("");
-    }
-  }, [name, validationT, siblingNames]);
-
   return (
-    <FolderContainer>
-      <FieldRoot required invalid={!!error}>
-        <FieldLabel>{t("treeStructure.newFolder.folderName")}</FieldLabel>
-        <FieldHelper>{t("treeStructure.newFolder.placedUnder", { folderName: parentFolder.name })}</FieldHelper>
-        <FieldErrorMessage>{error}</FieldErrorMessage>
-        <FieldInput
-          autoComplete="off"
-          disabled={loading}
-          ref={ref}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus
-          placeholder={t("treeStructure.newFolder.placeholder")}
-          onChange={(e) => {
-            if (!loading) {
-              setName(e.currentTarget.value);
-            }
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Escape") {
-              e.preventDefault();
-              setOpen(false);
-            } else if (e.key === "Enter") {
-              e.preventDefault();
-              onSave();
-            }
-          }}
-        />
-      </FieldRoot>
-      <ButtonsWrapper>
-        <Button onClick={() => setOpen(false)} variant="secondary">
-          {t("cancel")}
-        </Button>
-        <Button onClick={onSave} loading={loading}>
-          {t("save")}
-        </Button>
-      </ButtonsWrapper>
-    </FolderContainer>
+    <FolderForm onSave={onSave} onClose={() => setOpen(false)} siblings={siblings} loading={loading} context="simple" />
   );
 };

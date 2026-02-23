@@ -9,7 +9,6 @@
 import { InformationLine } from "@ndla/icons";
 import {
   Button,
-  DialogCloseTrigger,
   FieldErrorMessage,
   FieldInput,
   FieldLabel,
@@ -22,14 +21,16 @@ import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../../../graphqlTypes";
-import { useValidationTranslation } from "../../../../util/useValidationTranslation";
-import { FieldLength } from "../../components/FieldLength";
+import { FieldLength } from "../../containers/MyNdla/components/FieldLength";
+import { GQLFolder } from "../../graphqlTypes";
+import { useValidationTranslation } from "../../util/useValidationTranslation";
 
 interface EditFolderFormProps {
   folder?: GQLFolder;
+  onClose: () => void;
   onSave: (values: FolderFormValues) => Promise<void>;
   siblings: GQLFolder[];
+  context?: "simple" | "full";
   loading?: boolean;
 }
 
@@ -65,7 +66,7 @@ const toFormValues = (folder: GQLFolder | undefined, t: TFunction): FolderFormVa
 const descriptionMaxLength = 300;
 const nameMaxLength = 64;
 
-export const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderFormProps) => {
+export const FolderForm = ({ folder, onSave, onClose, siblings, loading, context = "full" }: EditFolderFormProps) => {
   const { t } = useTranslation();
   const { validationT } = useValidationTranslation();
   const { control, handleSubmit } = useForm({ defaultValues: toFormValues(folder, t) });
@@ -102,36 +103,40 @@ export const FolderForm = ({ folder, onSave, siblings, loading }: EditFolderForm
           </FieldRoot>
         )}
       />
-      <Controller
-        control={control}
-        name="description"
-        rules={{
-          maxLength: {
-            value: descriptionMaxLength,
-            message: validationT({
-              type: "maxLength",
-              field: "description",
-              vars: { count: descriptionMaxLength },
-            }),
-          },
-        }}
-        render={({ field, fieldState }) => (
-          <FieldRoot invalid={!!fieldState.error?.message}>
-            <FieldLabel>{t("validation.fields.description")}</FieldLabel>
-            <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
-            <FieldTextArea {...field} />
-            <FieldLength value={field.value?.length ?? 0} maxLength={descriptionMaxLength} />
-          </FieldRoot>
-        )}
-      />
-      <MessageBox>
-        <InformationLine />
-        <Text>{t("myNdla.folder.sharedWarning")}</Text>
-      </MessageBox>
+      {context === "full" && (
+        <>
+          <Controller
+            control={control}
+            name="description"
+            rules={{
+              maxLength: {
+                value: descriptionMaxLength,
+                message: validationT({
+                  type: "maxLength",
+                  field: "description",
+                  vars: { count: descriptionMaxLength },
+                }),
+              },
+            }}
+            render={({ field, fieldState }) => (
+              <FieldRoot invalid={!!fieldState.error?.message}>
+                <FieldLabel>{t("validation.fields.description")}</FieldLabel>
+                <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
+                <FieldTextArea {...field} />
+                <FieldLength value={field.value?.length ?? 0} maxLength={descriptionMaxLength} />
+              </FieldRoot>
+            )}
+          />
+          <MessageBox>
+            <InformationLine />
+            <Text>{t("myNdla.folder.sharedWarning")}</Text>
+          </MessageBox>
+        </>
+      )}
       <ButtonRow>
-        <DialogCloseTrigger asChild>
-          <Button variant="secondary">{t("cancel")}</Button>
-        </DialogCloseTrigger>
+        <Button variant="secondary" onClick={onClose}>
+          {t("cancel")}
+        </Button>
         <Button loading={loading} disabled={loading} type="submit" aria-label={loading ? t("loading") : undefined}>
           {t("save")}
         </Button>
