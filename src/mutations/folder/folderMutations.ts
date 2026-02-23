@@ -247,34 +247,9 @@ const addMyNdlaResourceQuery = gql`
   ${myNdlaResourceFragment}
 `;
 
-export const useAddMyNdlaResourceMutation = (folderId?: string) => {
-  const { cache } = useApolloClient();
+export const useAddMyNdlaResourceMutation = () => {
   return useMutation<GQLAddMyNdlaResourceMutation, GQLAddMyNdlaResourceMutationVariables>(addMyNdlaResourceQuery, {
     refetchQueries: [{ query: recentlyUsedQuery }],
-    onCompleted: (data) => {
-      if (folderId) {
-        cache.modify({
-          id: cache.identify({
-            __ref: `Folder:${folderId}`,
-          }),
-          fields: {
-            resources(existingResources = []) {
-              return existingResources.concat({
-                __ref: cache.identify(data.addMyNdlaResource),
-              });
-            },
-          },
-        });
-      } else {
-        cache.modify({
-          fields: {
-            myNdlaRootResources(existingResources = []) {
-              return existingResources.concat({ __ref: cache.identify(data.addMyNdlaResource) });
-            },
-          },
-        });
-      }
-    },
   });
 };
 
@@ -309,6 +284,18 @@ export const useDeleteMyNdlaResourceMutation = (folderId: string | undefined) =>
             },
           });
         }
+        const connectionId = cache.identify({
+          __typename: "MyNdlaResourceConnection",
+          resourceId: id,
+          folderId: folderId,
+        });
+        cache.modify({
+          fields: {
+            myNdlaResourceConnections(existing = []) {
+              return existing.filter((res: Reference) => res.__ref !== connectionId);
+            },
+          },
+        });
         cache.gc();
       },
     },
