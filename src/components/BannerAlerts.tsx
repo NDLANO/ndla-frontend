@@ -54,7 +54,9 @@ const AlertsConsumer = () => {
     <>
       {alerts.map((message) => (
         <MessageBannerWrapper key={message.number}>
-          <StyledText textStyle="body.large">{message.content}</StyledText>
+          <StyledText textStyle="body.large" asChild consumeCss>
+            <div>{message.content}</div>
+          </StyledText>
           {!!message.closable && (
             <StyledCloseButton
               variant="clear"
