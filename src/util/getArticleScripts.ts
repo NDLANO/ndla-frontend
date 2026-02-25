@@ -54,7 +54,7 @@ export function getArticleScripts(article: BaseArticle, locale = "nb") {
     }
 
     scripts.push({
-      src: "https://cdn.jsdelivr.net/npm/mathjax@4.1.0/mml-chtml.js",
+      src: "https://cdn.jsdelivr.net/npm/mathjax@4.1.1/mml-chtml.js",
       type: "text/javascript",
       async: true,
       defer: true,
