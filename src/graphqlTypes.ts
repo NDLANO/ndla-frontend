@@ -168,6 +168,58 @@ export type GQLAudioSummary = {
   url: Scalars["String"]["output"];
 };
 
+export type GQLBaseLearningpath = {
+  basedOn?: Maybe<Scalars["String"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
+  copyright: GQLLearningpathCopyright;
+  coverphoto?: Maybe<GQLImageMetaInformationV3>;
+  created: Scalars["String"]["output"];
+  description: Scalars["String"]["output"];
+  duration?: Maybe<Scalars["Int"]["output"]>;
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
+  isBasedOn?: Maybe<Scalars["Int"]["output"]>;
+  isMyNDLAOwner: Scalars["Boolean"]["output"];
+  lastUpdated: Scalars["String"]["output"];
+  learningstepUrl: Scalars["String"]["output"];
+  learningsteps: Array<GQLBaseLearningpathStep>;
+  madeAvailable?: Maybe<Scalars["String"]["output"]>;
+  metaUrl: Scalars["String"]["output"];
+  revision: Scalars["Int"]["output"];
+  status: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  tags: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  verificationStatus: Scalars["String"]["output"];
+};
+
+export type GQLBaseLearningpathStep = {
+  articleId?: Maybe<Scalars["Int"]["output"]>;
+  canEdit: Scalars["Boolean"]["output"];
+  copyright?: Maybe<GQLLearningpathCopyright>;
+  description?: Maybe<Scalars["String"]["output"]>;
+  embedUrl?: Maybe<GQLLearningpathStepEmbedUrl>;
+  id: Scalars["Int"]["output"];
+  introduction?: Maybe<Scalars["String"]["output"]>;
+  license?: Maybe<GQLLicense>;
+  metaUrl: Scalars["String"]["output"];
+  oembed?: Maybe<GQLLearningpathStepOembed>;
+  opengraph?: Maybe<GQLExternalOpengraph>;
+  resource?: Maybe<GQLResource>;
+  revision: Scalars["Int"]["output"];
+  seqNo: Scalars["Int"]["output"];
+  showTitle: Scalars["Boolean"]["output"];
+  status: Scalars["String"]["output"];
+  supportedLanguages: Array<Scalars["String"]["output"]>;
+  title: Scalars["String"]["output"];
+  type: Scalars["String"]["output"];
+};
+
+export type GQLBaseLearningpathStepResourceArgs = {
+  parentId?: InputMaybe<Scalars["String"]["input"]>;
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
+};
+
 export type GQLBreadcrumb = {
   __typename?: "Breadcrumb";
   id: Scalars["String"]["output"];
@@ -595,7 +647,7 @@ export type GQLImageVariant = {
   variantUrl: Scalars["String"]["output"];
 };
 
-export type GQLLearningpath = {
+export type GQLLearningpath = GQLBaseLearningpath & {
   __typename?: "Learningpath";
   basedOn?: Maybe<Scalars["String"]["output"]>;
   canEdit: Scalars["Boolean"]["output"];
@@ -677,7 +729,7 @@ export type GQLLearningpathSeqNo = {
   seqNo: Scalars["Int"]["output"];
 };
 
-export type GQLLearningpathStep = {
+export type GQLLearningpathStep = GQLBaseLearningpathStep & {
   __typename?: "LearningpathStep";
   articleId?: Maybe<Scalars["Int"]["output"]>;
   canEdit: Scalars["Boolean"]["output"];
@@ -1032,7 +1084,7 @@ export type GQLMyNdlaImageResourceMeta = GQLMyNdlaResourceMeta & {
   type: Scalars["String"]["output"];
 };
 
-export type GQLMyNdlaLearningpath = {
+export type GQLMyNdlaLearningpath = GQLBaseLearningpath & {
   __typename?: "MyNdlaLearningpath";
   basedOn?: Maybe<Scalars["String"]["output"]>;
   canEdit: Scalars["Boolean"]["output"];
@@ -1068,7 +1120,7 @@ export type GQLMyNdlaLearningpathResourceMeta = GQLMyNdlaResourceMeta & {
   type: Scalars["String"]["output"];
 };
 
-export type GQLMyNdlaLearningpathStep = {
+export type GQLMyNdlaLearningpathStep = GQLBaseLearningpathStep & {
   __typename?: "MyNdlaLearningpathStep";
   articleId?: Maybe<Scalars["Int"]["output"]>;
   canEdit: Scalars["Boolean"]["output"];
@@ -2135,7 +2187,7 @@ export type GQLCompetenceGoalsQuery = {
 
 export type GQLFavoriteSubject_NodeFragment = { __typename?: "Node"; id: string; name: string };
 
-export type GQLLearningpath_LearningpathStepFragment = {
+type GQLLearningpath_LearningpathStep_LearningpathStep_Fragment = {
   __typename?: "LearningpathStep";
   seqNo: number;
   id: number;
@@ -2147,14 +2199,41 @@ export type GQLLearningpath_LearningpathStepFragment = {
     license: { __typename?: "License"; license: string };
     contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
   };
-} & GQLLearningpathMenu_LearningpathStepFragment &
-  GQLLearningpathStep_LearningpathStepFragment;
+} & GQLLearningpathMenu_LearningpathStep_LearningpathStep_Fragment &
+  GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment;
 
-export type GQLLearningpath_LearningpathFragment = {
+type GQLLearningpath_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
+  __typename?: "MyNdlaLearningpathStep";
+  seqNo: number;
+  id: number;
+  showTitle: boolean;
+  title: string;
+  description?: string;
+  copyright?: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+} & GQLLearningpathMenu_LearningpathStep_MyNdlaLearningpathStep_Fragment &
+  GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment;
+
+export type GQLLearningpath_LearningpathStepFragment =
+  | GQLLearningpath_LearningpathStep_LearningpathStep_Fragment
+  | GQLLearningpath_LearningpathStep_MyNdlaLearningpathStep_Fragment;
+
+type GQLLearningpath_Learningpath_Learningpath_Fragment = {
   __typename?: "Learningpath";
-} & GQLLearningpathMenu_LearningpathFragment;
+} & GQLLearningpathMenu_Learningpath_Learningpath_Fragment;
 
-export type GQLLearningpathMenu_LearningpathFragment = {
+type GQLLearningpath_Learningpath_MyNdlaLearningpath_Fragment = {
+  __typename?: "MyNdlaLearningpath";
+} & GQLLearningpathMenu_Learningpath_MyNdlaLearningpath_Fragment;
+
+export type GQLLearningpath_LearningpathFragment =
+  | GQLLearningpath_Learningpath_Learningpath_Fragment
+  | GQLLearningpath_Learningpath_MyNdlaLearningpath_Fragment;
+
+type GQLLearningpathMenu_Learningpath_Learningpath_Fragment = {
   __typename?: "Learningpath";
   id: number;
   title: string;
@@ -2170,11 +2249,41 @@ export type GQLLearningpathMenu_LearningpathFragment = {
   learningsteps: Array<{ __typename?: "LearningpathStep"; id: number; title: string; seqNo: number }>;
 };
 
-export type GQLLearningpathMenu_LearningpathStepFragment = {
+type GQLLearningpathMenu_Learningpath_MyNdlaLearningpath_Fragment = {
+  __typename?: "MyNdlaLearningpath";
+  id: number;
+  title: string;
+  introduction?: string;
+  lastUpdated: string;
+  basedOn?: string;
+  isMyNDLAOwner: boolean;
+  copyright: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+  learningsteps: Array<{ __typename?: "MyNdlaLearningpathStep"; id: number; title: string; seqNo: number }>;
+};
+
+export type GQLLearningpathMenu_LearningpathFragment =
+  | GQLLearningpathMenu_Learningpath_Learningpath_Fragment
+  | GQLLearningpathMenu_Learningpath_MyNdlaLearningpath_Fragment;
+
+type GQLLearningpathMenu_LearningpathStep_LearningpathStep_Fragment = {
   __typename?: "LearningpathStep";
   id: number;
   seqNo: number;
 };
+
+type GQLLearningpathMenu_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
+  __typename?: "MyNdlaLearningpathStep";
+  id: number;
+  seqNo: number;
+};
+
+export type GQLLearningpathMenu_LearningpathStepFragment =
+  | GQLLearningpathMenu_LearningpathStep_LearningpathStep_Fragment
+  | GQLLearningpathMenu_LearningpathStep_MyNdlaLearningpathStep_Fragment;
 
 export type GQLLearningpathEmbed_ArticleFragment = {
   __typename?: "Article";
@@ -2187,7 +2296,7 @@ export type GQLLearningpathEmbed_ArticleFragment = {
 } & GQLStructuredArticleDataFragment &
   GQLArticle_ArticleFragment;
 
-export type GQLArticleStep_LearningpathStepFragment = {
+type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
   __typename?: "LearningpathStep";
   id: number;
   title: string;
@@ -2213,6 +2322,37 @@ export type GQLArticleStep_LearningpathStepFragment = {
     version: string;
   };
 };
+
+type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
+  __typename?: "MyNdlaLearningpathStep";
+  id: number;
+  title: string;
+  description?: string;
+  introduction?: string;
+  opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+  resource?: {
+    __typename?: "Resource";
+    id: string;
+    nodeType: string;
+    url?: string;
+    relevanceId?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    article?: { __typename?: "Article" } & GQLLearningpathEmbed_ArticleFragment;
+  };
+  embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+  oembed?: {
+    __typename?: "LearningpathStepOembed";
+    html: string;
+    width: number;
+    height: number;
+    type: string;
+    version: string;
+  };
+};
+
+export type GQLArticleStep_LearningpathStepFragment =
+  | GQLArticleStep_LearningpathStep_LearningpathStep_Fragment
+  | GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment;
 
 export type GQLLearningpathStepQueryVariables = Exact<{
   articleId: Scalars["String"]["input"];
@@ -2244,9 +2384,17 @@ export type GQLCopyPublicLearningpathMutation = {
   copyLearningpath: { __typename?: "MyNdlaLearningpath"; id: number };
 };
 
-export type GQLLearningpathStep_LearningpathStepFragment = {
+type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
   __typename?: "LearningpathStep";
-} & GQLArticleStep_LearningpathStepFragment;
+} & GQLArticleStep_LearningpathStep_LearningpathStep_Fragment;
+
+type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
+  __typename?: "MyNdlaLearningpathStep";
+} & GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment;
+
+export type GQLLearningpathStep_LearningpathStepFragment =
+  | GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment
+  | GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment;
 
 export type GQLAddResourceToFolderStructureQueryVariables = Exact<{
   path: Scalars["String"]["input"];
@@ -2691,8 +2839,10 @@ export type GQLLearningpathPage_NodeFragment = {
       metaUrl: string;
       image: { __typename?: "ImageV3"; imageUrl: string };
     };
-    learningsteps: Array<{ __typename?: "LearningpathStep"; type: string } & GQLLearningpath_LearningpathStepFragment>;
-  } & GQLLearningpath_LearningpathFragment;
+    learningsteps: Array<
+      { __typename?: "LearningpathStep"; type: string } & GQLLearningpath_LearningpathStep_LearningpathStep_Fragment
+    >;
+  } & GQLLearningpath_Learningpath_Learningpath_Fragment;
 };
 
 export type GQLDynamicMenuQueryVariables = Exact<{ [key: string]: never }>;
@@ -2873,12 +3023,14 @@ export type GQLPreviewLearningpathQueryVariables = Exact<{
 
 export type GQLPreviewLearningpathQuery = {
   __typename?: "Query";
-  learningpath?: {
-    __typename?: "Learningpath";
+  myNdlaLearningpath?: {
+    __typename?: "MyNdlaLearningpath";
     id: number;
     canEdit: boolean;
-    learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
-  } & GQLLearningpath_LearningpathFragment;
+    learningsteps: Array<
+      { __typename?: "MyNdlaLearningpathStep" } & GQLLearningpath_LearningpathStep_MyNdlaLearningpathStep_Fragment
+    >;
+  } & GQLLearningpath_Learningpath_MyNdlaLearningpath_Fragment;
 };
 
 export type GQLResourcePickerSearchQueryVariables = Exact<{
@@ -3079,8 +3231,10 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
   tags: Array<string>;
   description: string;
   coverphoto?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
-  learningsteps: Array<{ __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStepFragment>;
-} & GQLLearningpath_LearningpathFragment;
+  learningsteps: Array<
+    { __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStep_LearningpathStep_Fragment
+  >;
+} & GQLLearningpath_Learningpath_Learningpath_Fragment;
 
 export type GQLPlainLearningpathPageQueryVariables = Exact<{
   pathId: Scalars["String"]["input"];

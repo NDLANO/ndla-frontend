@@ -142,7 +142,7 @@ export const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, con
 
 LearningpathMenu.fragments = {
   learningpath: gql`
-    fragment LearningpathMenu_Learningpath on Learningpath {
+    fragment LearningpathMenu_Learningpath on BaseLearningpath {
       id
       title
       introduction
@@ -166,7 +166,7 @@ LearningpathMenu.fragments = {
     }
   `,
   step: gql`
-    fragment LearningpathMenu_LearningpathStep on LearningpathStep {
+    fragment LearningpathMenu_LearningpathStep on BaseLearningpathStep {
       id
       seqNo
     }

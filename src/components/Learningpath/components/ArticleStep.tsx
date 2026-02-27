@@ -145,7 +145,7 @@ export const articleFragment = gql`
 ArticleStep.fragments = {
   article: articleFragment,
   learningpathStep: gql`
-    fragment ArticleStep_LearningpathStep on LearningpathStep {
+    fragment ArticleStep_LearningpathStep on BaseLearningpathStep {
       id
       title
       description

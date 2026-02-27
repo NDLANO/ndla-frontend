@@ -60,6 +60,7 @@ export function resolveJsonOrRejectWithError<T>(res: Response): Promise<T | unde
 const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
   SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
+  BaseLearningpath: ["MyNdlaLearningpath", "Learningpath"],
   MyNdlaResourceMeta: [
     "MyNdlaArticleResourceMeta",
     "MyNdlaAudioResourceMeta",
