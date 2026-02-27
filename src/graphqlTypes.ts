@@ -3708,6 +3708,24 @@ export type GQLCopyPublicLearningpathMutation = {
   copyLearningpath: { __typename?: "MyNdlaLearningpath"; id: number };
 };
 
+type GQLLearningpathNavigation_Learningpath_Learningpath_Fragment = {
+  __typename?: "Learningpath";
+  id: number;
+  introduction?: string;
+  learningsteps: Array<{ __typename?: "LearningpathStep"; id: number }>;
+};
+
+type GQLLearningpathNavigation_Learningpath_MyNdlaLearningpath_Fragment = {
+  __typename?: "MyNdlaLearningpath";
+  id: number;
+  introduction?: string;
+  learningsteps: Array<{ __typename?: "MyNdlaLearningpathStep"; id: number }>;
+};
+
+export type GQLLearningpathNavigation_LearningpathFragment =
+  | GQLLearningpathNavigation_Learningpath_Learningpath_Fragment
+  | GQLLearningpathNavigation_Learningpath_MyNdlaLearningpath_Fragment;
+
 type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
   __typename?: "LearningpathStep";
   id: number;
@@ -5240,6 +5258,75 @@ export type GQLAllSubjectsQuery = {
     url?: string;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   }>;
+};
+
+export type GQLArticleLaunchpad_ResourceFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  relevanceId?: string;
+  contentUri?: string;
+  url?: string;
+  language?: string;
+  resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+  context?: { __typename?: "TaxonomyContext"; contextId: string };
+  learningpath?: { __typename?: "Learningpath"; id: number; description: string };
+  article?: { __typename?: "Article"; id: number; traits: Array<string> };
+};
+
+export type GQLArticleLaunchpad_NodeFragment = {
+  __typename?: "Node";
+  id: string;
+  name: string;
+  links?: Array<{
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+  }>;
+};
+
+export type GQLArticleLayoutQueryVariables = Exact<{
+  id: Scalars["String"]["input"];
+  rootId?: InputMaybe<Scalars["String"]["input"]>;
+}>;
+
+export type GQLArticleLayoutQuery = {
+  __typename?: "Query";
+  node?: {
+    __typename?: "Node";
+    id: string;
+    name: string;
+    url?: string;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+    context?: {
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
+    };
+    children?: Array<{
+      __typename?: "Node";
+      id: string;
+      name: string;
+      relevanceId?: string;
+      contentUri?: string;
+      url?: string;
+      language?: string;
+      context?: { __typename?: "TaxonomyContext"; contextId: string; url: string };
+      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+      learningpath?: { __typename?: "Learningpath"; id: number; description: string };
+      article?: { __typename?: "Article"; id: number; traits: Array<string> };
+    }>;
+    links?: Array<{
+      __typename?: "Node";
+      id: string;
+      name: string;
+      url?: string;
+      context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+    }>;
+  };
+  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLArticlePage_NodeFragment = {
@@ -9130,20 +9217,7 @@ export type GQLResourceItem_NodeFragment = {
       alttext: { __typename?: "ImageAltText"; alttext: string };
     };
   };
-  learningpath?: {
-    __typename?: "Learningpath";
-    id: number;
-    coverphoto?: {
-      __typename?: "ImageMetaInformationV3";
-      id: string;
-      image: {
-        __typename?: "ImageV3";
-        imageUrl: string;
-        variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
-        dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
-      };
-    };
-  };
+  learningpath?: { __typename?: "Learningpath"; id: number; description: string };
 };
 
 export type GQLLaunchpadQueryVariables = Exact<{
@@ -9183,20 +9257,21 @@ export type GQLLaunchpadQuery = {
           alttext: { __typename?: "ImageAltText"; alttext: string };
         };
       };
-      learningpath?: {
-        __typename?: "Learningpath";
-        id: number;
-        coverphoto?: {
-          __typename?: "ImageMetaInformationV3";
-          id: string;
-          image: {
-            __typename?: "ImageV3";
-            imageUrl: string;
-            variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
-            dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
-          };
-        };
+      learningpath?: { __typename?: "Learningpath"; id: number; description: string };
+    }>;
+    links?: Array<{
+      __typename?: "Node";
+      id: string;
+      nodeType: string;
+      name: string;
+      url?: string;
+      relevanceId?: string;
+      meta?: {
+        __typename?: "Meta";
+        metaDescription?: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
       };
+      context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
     }>;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   };
@@ -9837,20 +9912,6 @@ export type GQLTopicContainer_NodeFragment = {
   name: string;
   contentUri?: string;
   url?: string;
-  links?: Array<{
-    __typename?: "Node";
-    id: string;
-    nodeType: string;
-    name: string;
-    url?: string;
-    relevanceId?: string;
-    meta?: {
-      __typename?: "Meta";
-      metaDescription?: string;
-      metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-    };
-    context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
-  }>;
   children?: Array<{
     __typename?: "Node";
     id: string;
@@ -10078,20 +10139,6 @@ export type GQLTopicPageQuery = {
       parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
     };
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-    links?: Array<{
-      __typename?: "Node";
-      id: string;
-      nodeType: string;
-      name: string;
-      url?: string;
-      relevanceId?: string;
-      meta?: {
-        __typename?: "Meta";
-        metaDescription?: string;
-        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-      };
-      context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
-    }>;
     children?: Array<{
       __typename?: "Node";
       id: string;

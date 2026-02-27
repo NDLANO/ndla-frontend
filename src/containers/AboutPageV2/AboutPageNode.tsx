@@ -160,7 +160,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
         trackableContent={transformedArticle}
       />
       <StyledPageContent>
-        <HomeBreadcrumb items={crumbs} />
+        <HomeBreadcrumb items={crumbs.map((bc) => ({ ...bc, to: bc.url }))} />
         <TransportationPageHeader>
           <HeaderWrapper>
             <Heading id={SKIP_TO_CONTENT_ID} textStyle="heading.medium" tabIndex={-1}>

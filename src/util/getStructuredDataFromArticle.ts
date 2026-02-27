@@ -154,7 +154,7 @@ const getBreadcrumbs = (breadcrumbItems?: Breadcrumb[]): StructuredData | undefi
     "@type": ITEM_TYPE,
     name: item.name,
     position: index + 1,
-    item: `${config.ndlaFrontendDomain}${item.to}`,
+    item: `${config.ndlaFrontendDomain}${item.url}`,
   }));
 
   return {

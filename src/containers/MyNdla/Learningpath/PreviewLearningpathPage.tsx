@@ -36,6 +36,20 @@ const TextWrapper = styled("div", {
   },
 });
 
+const LearningpathWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+    background: "background.subtle",
+    borderRadius: "xsmall",
+    padding: "xsmall",
+    desktop: {
+      padding: "medium",
+    },
+  },
+});
+
 const previewLearningpathQuery = gql`
   query previewLearningpath($pathId: String!, $transformArgs: TransformedArticleContentInput) {
     myNdlaLearningpath(pathId: $pathId) {
@@ -114,13 +128,15 @@ export const PreviewLearningpathPage = () => {
           <Text>{t("myNdla.learningpath.previewLearningpath.pageDescription")}</Text>
         </TextWrapper>
         {learningpathStep || learningpath.introduction?.length ? (
-          <Learningpath
-            // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
-            learningpath={learningpath}
-            learningpathStep={learningpathStep}
-            breadcrumbItems={[]}
-            context="preview"
-          />
+          <LearningpathWrapper>
+            <Learningpath
+              // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
+              learningpath={learningpath}
+              learningpathStep={learningpathStep}
+              context="preview"
+              loading={learningpathQuery.loading}
+            />
+          </LearningpathWrapper>
         ) : (
           <Text>{t("myNdla.learningpath.previewLearningpath.noSteps")}</Text>
         )}
