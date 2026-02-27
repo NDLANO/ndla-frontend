@@ -2110,6 +2110,8 @@ export type GQLArticle_ArticleFragment = {
   oembed?: string;
   traits: Array<string>;
   language: string;
+  title: string;
+  published: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
@@ -2126,10 +2128,144 @@ export type GQLArticle_ArticleFragment = {
         publisher?: string;
         url?: string;
       }>;
+      concepts: Array<{
+        __typename?: "ConceptLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      glosses: Array<{
+        __typename?: "GlossLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      h5ps: Array<{
+        __typename?: "H5pLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        id: string;
+        title: string;
+        download?: string;
+        src?: string;
+        cover?: string;
+        iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        id: string;
+        src: string;
+        title: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        id: string;
+        src: string;
+        copyText?: string;
+        title: string;
+        description?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      images: Array<{
+        __typename?: "ImageLicense";
+        id: string;
+        title: string;
+        altText: string;
+        src: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      textblocks: Array<{
+        __typename?: "TextblockLicense";
+        title?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
     };
   };
   transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
-} & GQLLicenseBox_ArticleFragment;
+  copyright: {
+    __typename?: "Copyright";
+    origin?: string;
+    processed?: boolean;
+    license: { __typename?: "License"; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
+};
 
 export type GQLMyNdlaPersonalDataFragmentFragment = {
   __typename: "MyNdlaPersonalData";
@@ -2155,7 +2291,24 @@ export type GQLMyNdlaDataQueryVariables = Exact<{ [key: string]: never }>;
 export type GQLMyNdlaDataQuery = {
   __typename?: "Query";
   examLockStatus: { __typename?: "ConfigMetaBoolean"; key: string; value: boolean };
-  personalData?: { __typename?: "MyNdlaPersonalData" } & GQLMyNdlaPersonalDataFragmentFragment;
+  personalData?: {
+    __typename: "MyNdlaPersonalData";
+    id: number;
+    username: string;
+    email: string;
+    displayName: string;
+    organization: string;
+    favoriteSubjects: Array<string>;
+    role: string;
+    arenaEnabled: boolean;
+    groups: Array<{
+      __typename?: "MyNdlaGroup";
+      id: string;
+      displayName: string;
+      isPrimarySchool: boolean;
+      parentId?: string;
+    }>;
+  };
 };
 
 export type GQLCompetenceGoalsQueryVariables = Exact<{
@@ -2194,13 +2347,222 @@ type GQLLearningpath_LearningpathStep_LearningpathStep_Fragment = {
   showTitle: boolean;
   title: string;
   description?: string;
+  introduction?: string;
   copyright?: {
     __typename?: "LearningpathCopyright";
     license: { __typename?: "License"; license: string };
     contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
   };
-} & GQLLearningpathMenu_LearningpathStep_LearningpathStep_Fragment &
-  GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment;
+  opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+  resource?: {
+    __typename?: "Resource";
+    id: string;
+    nodeType: string;
+    url?: string;
+    relevanceId?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      metaDescription: string;
+      created: string;
+      updated: string;
+      articleType: string;
+      title: string;
+      published: string;
+      supportedLanguages?: Array<string>;
+      grepCodes?: Array<string>;
+      htmlIntroduction?: string;
+      htmlTitle: string;
+      oembed?: string;
+      traits: Array<string>;
+      language: string;
+      requiredLibraries?: Array<{
+        __typename?: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
+      copyright: {
+        __typename?: "Copyright";
+        processed?: boolean;
+        origin?: string;
+        license: { __typename?: "License"; url?: string; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: { __typename?: "ImageV3"; imageUrl: string };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      competenceGoals?: Array<{
+        __typename?: "CompetenceGoal";
+        id: string;
+        code?: string;
+        title: string;
+        type: string;
+      }>;
+      coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          images: Array<{
+            __typename?: "ImageLicense";
+            src: string;
+            title: string;
+            id: string;
+            altText: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            src: string;
+            title: string;
+            id: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            src: string;
+            title: string;
+            description?: string;
+            id: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            src?: string;
+            title: string;
+            cover?: string;
+            description?: string;
+            download?: string;
+            uploadDate?: string;
+            id: string;
+            copyright?: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          }>;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    };
+  };
+  embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+  oembed?: {
+    __typename?: "LearningpathStepOembed";
+    html: string;
+    width: number;
+    height: number;
+    type: string;
+    version: string;
+  };
+};
 
 type GQLLearningpath_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
   __typename?: "MyNdlaLearningpathStep";
@@ -2209,13 +2571,222 @@ type GQLLearningpath_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
   showTitle: boolean;
   title: string;
   description?: string;
+  introduction?: string;
   copyright?: {
     __typename?: "LearningpathCopyright";
     license: { __typename?: "License"; license: string };
     contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
   };
-} & GQLLearningpathMenu_LearningpathStep_MyNdlaLearningpathStep_Fragment &
-  GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment;
+  opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+  resource?: {
+    __typename?: "Resource";
+    id: string;
+    nodeType: string;
+    url?: string;
+    relevanceId?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      metaDescription: string;
+      created: string;
+      updated: string;
+      articleType: string;
+      title: string;
+      published: string;
+      supportedLanguages?: Array<string>;
+      grepCodes?: Array<string>;
+      htmlIntroduction?: string;
+      htmlTitle: string;
+      oembed?: string;
+      traits: Array<string>;
+      language: string;
+      requiredLibraries?: Array<{
+        __typename?: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
+      copyright: {
+        __typename?: "Copyright";
+        processed?: boolean;
+        origin?: string;
+        license: { __typename?: "License"; url?: string; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: { __typename?: "ImageV3"; imageUrl: string };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      competenceGoals?: Array<{
+        __typename?: "CompetenceGoal";
+        id: string;
+        code?: string;
+        title: string;
+        type: string;
+      }>;
+      coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          images: Array<{
+            __typename?: "ImageLicense";
+            src: string;
+            title: string;
+            id: string;
+            altText: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            src: string;
+            title: string;
+            id: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            src: string;
+            title: string;
+            description?: string;
+            id: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            src?: string;
+            title: string;
+            cover?: string;
+            description?: string;
+            download?: string;
+            uploadDate?: string;
+            id: string;
+            copyright?: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          }>;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    };
+  };
+  embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+  oembed?: {
+    __typename?: "LearningpathStepOembed";
+    html: string;
+    width: number;
+    height: number;
+    type: string;
+    version: string;
+  };
+};
 
 export type GQLLearningpath_LearningpathStepFragment =
   | GQLLearningpath_LearningpathStep_LearningpathStep_Fragment
@@ -2223,11 +2794,35 @@ export type GQLLearningpath_LearningpathStepFragment =
 
 type GQLLearningpath_Learningpath_Learningpath_Fragment = {
   __typename?: "Learningpath";
-} & GQLLearningpathMenu_Learningpath_Learningpath_Fragment;
+  id: number;
+  title: string;
+  introduction?: string;
+  lastUpdated: string;
+  basedOn?: string;
+  isMyNDLAOwner: boolean;
+  copyright: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+  learningsteps: Array<{ __typename?: "LearningpathStep"; id: number; title: string; seqNo: number }>;
+};
 
 type GQLLearningpath_Learningpath_MyNdlaLearningpath_Fragment = {
   __typename?: "MyNdlaLearningpath";
-} & GQLLearningpathMenu_Learningpath_MyNdlaLearningpath_Fragment;
+  id: number;
+  title: string;
+  introduction?: string;
+  lastUpdated: string;
+  basedOn?: string;
+  isMyNDLAOwner: boolean;
+  copyright: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+  learningsteps: Array<{ __typename?: "MyNdlaLearningpathStep"; id: number; title: string; seqNo: number }>;
+};
 
 export type GQLLearningpath_LearningpathFragment =
   | GQLLearningpath_Learningpath_Learningpath_Fragment
@@ -2292,9 +2887,179 @@ export type GQLLearningpathEmbed_ArticleFragment = {
   created: string;
   updated: string;
   articleType: string;
+  title: string;
+  published: string;
+  supportedLanguages?: Array<string>;
+  grepCodes?: Array<string>;
+  htmlIntroduction?: string;
+  htmlTitle: string;
+  oembed?: string;
+  traits: Array<string>;
+  language: string;
   requiredLibraries?: Array<{ __typename?: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
-} & GQLStructuredArticleDataFragment &
-  GQLArticle_ArticleFragment;
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    origin?: string;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
+  metaImage?: {
+    __typename?: "ImageMetaInformationV3";
+    image: { __typename?: "ImageV3"; imageUrl: string };
+    alttext: { __typename?: "ImageAltText"; alttext: string };
+  };
+  competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+  transformedContent: {
+    __typename?: "TransformedArticleContent";
+    content: string;
+    metaData?: {
+      __typename?: "ArticleMetaData";
+      copyText?: string;
+      images: Array<{
+        __typename?: "ImageLicense";
+        src: string;
+        title: string;
+        id: string;
+        altText: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        src: string;
+        title: string;
+        id: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        src: string;
+        title: string;
+        description?: string;
+        id: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        src?: string;
+        title: string;
+        cover?: string;
+        description?: string;
+        download?: string;
+        uploadDate?: string;
+        id: string;
+        copyright?: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+        iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+      }>;
+      footnotes: Array<{
+        __typename?: "FootNote";
+        ref: number;
+        title: string;
+        year: string;
+        authors: Array<string>;
+        edition?: string;
+        publisher?: string;
+        url?: string;
+      }>;
+      concepts: Array<{
+        __typename?: "ConceptLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      glosses: Array<{
+        __typename?: "GlossLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      h5ps: Array<{
+        __typename?: "H5pLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      textblocks: Array<{
+        __typename?: "TextblockLicense";
+        title?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+    };
+  };
+  transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+};
 
 type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
   __typename?: "LearningpathStep";
@@ -2310,7 +3075,197 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
     url?: string;
     relevanceId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-    article?: { __typename?: "Article" } & GQLLearningpathEmbed_ArticleFragment;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      metaDescription: string;
+      created: string;
+      updated: string;
+      articleType: string;
+      title: string;
+      published: string;
+      supportedLanguages?: Array<string>;
+      grepCodes?: Array<string>;
+      htmlIntroduction?: string;
+      htmlTitle: string;
+      oembed?: string;
+      traits: Array<string>;
+      language: string;
+      requiredLibraries?: Array<{
+        __typename?: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
+      copyright: {
+        __typename?: "Copyright";
+        processed?: boolean;
+        origin?: string;
+        license: { __typename?: "License"; url?: string; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: { __typename?: "ImageV3"; imageUrl: string };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      competenceGoals?: Array<{
+        __typename?: "CompetenceGoal";
+        id: string;
+        code?: string;
+        title: string;
+        type: string;
+      }>;
+      coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          images: Array<{
+            __typename?: "ImageLicense";
+            src: string;
+            title: string;
+            id: string;
+            altText: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            src: string;
+            title: string;
+            id: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            src: string;
+            title: string;
+            description?: string;
+            id: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            src?: string;
+            title: string;
+            cover?: string;
+            description?: string;
+            download?: string;
+            uploadDate?: string;
+            id: string;
+            copyright?: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          }>;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    };
   };
   embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
   oembed?: {
@@ -2337,7 +3292,197 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
     url?: string;
     relevanceId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-    article?: { __typename?: "Article" } & GQLLearningpathEmbed_ArticleFragment;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      metaDescription: string;
+      created: string;
+      updated: string;
+      articleType: string;
+      title: string;
+      published: string;
+      supportedLanguages?: Array<string>;
+      grepCodes?: Array<string>;
+      htmlIntroduction?: string;
+      htmlTitle: string;
+      oembed?: string;
+      traits: Array<string>;
+      language: string;
+      requiredLibraries?: Array<{
+        __typename?: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
+      copyright: {
+        __typename?: "Copyright";
+        processed?: boolean;
+        origin?: string;
+        license: { __typename?: "License"; url?: string; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: { __typename?: "ImageV3"; imageUrl: string };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      competenceGoals?: Array<{
+        __typename?: "CompetenceGoal";
+        id: string;
+        code?: string;
+        title: string;
+        type: string;
+      }>;
+      coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          images: Array<{
+            __typename?: "ImageLicense";
+            src: string;
+            title: string;
+            id: string;
+            altText: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            src: string;
+            title: string;
+            id: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            src: string;
+            title: string;
+            description?: string;
+            id: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            src?: string;
+            title: string;
+            cover?: string;
+            description?: string;
+            download?: string;
+            uploadDate?: string;
+            id: string;
+            copyright?: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          }>;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    };
   };
   embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
   oembed?: {
@@ -2363,7 +3508,186 @@ export type GQLLearningpathStepQueryVariables = Exact<{
 
 export type GQLLearningpathStepQuery = {
   __typename?: "Query";
-  article?: { __typename?: "Article"; oembed?: string } & GQLLearningpathEmbed_ArticleFragment;
+  article?: {
+    __typename?: "Article";
+    oembed?: string;
+    id: number;
+    metaDescription: string;
+    created: string;
+    updated: string;
+    articleType: string;
+    title: string;
+    published: string;
+    supportedLanguages?: Array<string>;
+    grepCodes?: Array<string>;
+    htmlIntroduction?: string;
+    htmlTitle: string;
+    traits: Array<string>;
+    language: string;
+    requiredLibraries?: Array<{ __typename?: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
+    copyright: {
+      __typename?: "Copyright";
+      processed?: boolean;
+      origin?: string;
+      license: { __typename?: "License"; url?: string; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+    metaImage?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
+    competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+    coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+    transformedContent: {
+      __typename?: "TransformedArticleContent";
+      content: string;
+      metaData?: {
+        __typename?: "ArticleMetaData";
+        copyText?: string;
+        images: Array<{
+          __typename?: "ImageLicense";
+          src: string;
+          title: string;
+          id: string;
+          altText: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        audios: Array<{
+          __typename?: "AudioLicense";
+          src: string;
+          title: string;
+          id: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        podcasts: Array<{
+          __typename?: "PodcastLicense";
+          src: string;
+          title: string;
+          description?: string;
+          id: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        brightcoves: Array<{
+          __typename?: "BrightcoveLicense";
+          src?: string;
+          title: string;
+          cover?: string;
+          description?: string;
+          download?: string;
+          uploadDate?: string;
+          id: string;
+          copyright?: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+          iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+        }>;
+        footnotes: Array<{
+          __typename?: "FootNote";
+          ref: number;
+          title: string;
+          year: string;
+          authors: Array<string>;
+          edition?: string;
+          publisher?: string;
+          url?: string;
+        }>;
+        concepts: Array<{
+          __typename?: "ConceptLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        glosses: Array<{
+          __typename?: "GlossLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        h5ps: Array<{
+          __typename?: "H5pLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        textblocks: Array<{
+          __typename?: "TextblockLicense";
+          title?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+      };
+    };
+    transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+  };
   node?: {
     __typename?: "Node";
     id: string;
@@ -2386,11 +3710,437 @@ export type GQLCopyPublicLearningpathMutation = {
 
 type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
   __typename?: "LearningpathStep";
-} & GQLArticleStep_LearningpathStep_LearningpathStep_Fragment;
+  id: number;
+  title: string;
+  description?: string;
+  introduction?: string;
+  opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+  resource?: {
+    __typename?: "Resource";
+    id: string;
+    nodeType: string;
+    url?: string;
+    relevanceId?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      metaDescription: string;
+      created: string;
+      updated: string;
+      articleType: string;
+      title: string;
+      published: string;
+      supportedLanguages?: Array<string>;
+      grepCodes?: Array<string>;
+      htmlIntroduction?: string;
+      htmlTitle: string;
+      oembed?: string;
+      traits: Array<string>;
+      language: string;
+      requiredLibraries?: Array<{
+        __typename?: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
+      copyright: {
+        __typename?: "Copyright";
+        processed?: boolean;
+        origin?: string;
+        license: { __typename?: "License"; url?: string; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: { __typename?: "ImageV3"; imageUrl: string };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      competenceGoals?: Array<{
+        __typename?: "CompetenceGoal";
+        id: string;
+        code?: string;
+        title: string;
+        type: string;
+      }>;
+      coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          images: Array<{
+            __typename?: "ImageLicense";
+            src: string;
+            title: string;
+            id: string;
+            altText: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            src: string;
+            title: string;
+            id: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            src: string;
+            title: string;
+            description?: string;
+            id: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            src?: string;
+            title: string;
+            cover?: string;
+            description?: string;
+            download?: string;
+            uploadDate?: string;
+            id: string;
+            copyright?: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          }>;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    };
+  };
+  embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+  oembed?: {
+    __typename?: "LearningpathStepOembed";
+    html: string;
+    width: number;
+    height: number;
+    type: string;
+    version: string;
+  };
+};
 
 type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
   __typename?: "MyNdlaLearningpathStep";
-} & GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment;
+  id: number;
+  title: string;
+  description?: string;
+  introduction?: string;
+  opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+  resource?: {
+    __typename?: "Resource";
+    id: string;
+    nodeType: string;
+    url?: string;
+    relevanceId?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      metaDescription: string;
+      created: string;
+      updated: string;
+      articleType: string;
+      title: string;
+      published: string;
+      supportedLanguages?: Array<string>;
+      grepCodes?: Array<string>;
+      htmlIntroduction?: string;
+      htmlTitle: string;
+      oembed?: string;
+      traits: Array<string>;
+      language: string;
+      requiredLibraries?: Array<{
+        __typename?: "ArticleRequiredLibrary";
+        name: string;
+        url: string;
+        mediaType: string;
+      }>;
+      copyright: {
+        __typename?: "Copyright";
+        processed?: boolean;
+        origin?: string;
+        license: { __typename?: "License"; url?: string; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: { __typename?: "ImageV3"; imageUrl: string };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      competenceGoals?: Array<{
+        __typename?: "CompetenceGoal";
+        id: string;
+        code?: string;
+        title: string;
+        type: string;
+      }>;
+      coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          images: Array<{
+            __typename?: "ImageLicense";
+            src: string;
+            title: string;
+            id: string;
+            altText: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            src: string;
+            title: string;
+            id: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            src: string;
+            title: string;
+            description?: string;
+            id: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            src?: string;
+            title: string;
+            cover?: string;
+            description?: string;
+            download?: string;
+            uploadDate?: string;
+            id: string;
+            copyright?: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          }>;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    };
+  };
+  embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+  oembed?: {
+    __typename?: "LearningpathStepOembed";
+    html: string;
+    width: number;
+    height: number;
+    type: string;
+    version: string;
+  };
+};
 
 export type GQLLearningpathStep_LearningpathStepFragment =
   | GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment
@@ -2405,9 +4155,226 @@ export type GQLAddResourceToFolderStructureQuery = {
   myNdlaResourceTags: Array<string>;
   folders: {
     __typename?: "UserFolder";
-    folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
+    folders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "Folder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      subfolders: Array<{
+                        __typename: "Folder";
+                        id: string;
+                        name: string;
+                        status: string;
+                        parentId?: string;
+                        created: string;
+                        updated: string;
+                        description?: string;
+                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        owner?: { __typename: "Owner"; name: string };
+                        resources: Array<{
+                          __typename: "MyNdlaResource";
+                          resourceId: string;
+                          id: string;
+                          resourceType: string;
+                          path: string;
+                          created: string;
+                          tags: Array<string>;
+                        }>;
+                      }>;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
   };
-  myNdlaResource?: { __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment;
+  myNdlaResource?: {
+    __typename: "MyNdlaResource";
+    resourceId: string;
+    id: string;
+    resourceType: string;
+    path: string;
+    created: string;
+    tags: Array<string>;
+  };
   myNdlaResourceConnections: Array<{ __typename?: "MyNdlaResourceConnection"; folderId?: string; resourceId: string }>;
 };
 
@@ -2438,7 +4405,15 @@ export type GQLAudioLicenseList_AudioLicenseFragment = {
   id: string;
   src: string;
   title: string;
-  copyright: { __typename?: "Copyright"; origin?: string } & GQLLicenseListCopyrightFragment;
+  copyright: {
+    __typename?: "Copyright";
+    origin?: string;
+    processed?: boolean;
+    license: { __typename?: "License"; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
 export type GQLGlossLicenseList_GlossLicenseFragment = {
@@ -2478,7 +4453,15 @@ export type GQLH5pLicenseList_H5pLicenseFragment = {
   id: string;
   title: string;
   src?: string;
-  copyright?: { __typename?: "Copyright" } & GQLLicenseListCopyrightFragment;
+  copyright?: {
+    __typename?: "Copyright";
+    origin?: string;
+    processed?: boolean;
+    license: { __typename?: "License"; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
 export type GQLImageLicenseList_ImageLicenseFragment = {
@@ -2488,7 +4471,15 @@ export type GQLImageLicenseList_ImageLicenseFragment = {
   altText: string;
   src: string;
   copyText?: string;
-  copyright: { __typename?: "Copyright"; origin?: string } & GQLLicenseListCopyrightFragment;
+  copyright: {
+    __typename?: "Copyright";
+    origin?: string;
+    processed?: boolean;
+    license: { __typename?: "License"; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
 export type GQLLicenseBox_ArticleFragment = {
@@ -2497,23 +4488,144 @@ export type GQLLicenseBox_ArticleFragment = {
   title: string;
   htmlTitle: string;
   published: string;
-  copyright: { __typename?: "Copyright" } & GQLTextLicenseList_CopyrightFragment;
+  copyright: {
+    __typename?: "Copyright";
+    origin?: string;
+    processed?: boolean;
+    license: { __typename?: "License"; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
   transformedContent: {
     __typename?: "TransformedArticleContent";
     metaData?: {
       __typename?: "ArticleMetaData";
       copyText?: string;
-      concepts: Array<{ __typename?: "ConceptLicense" } & GQLConceptLicenseList_ConceptLicenseFragment>;
-      glosses: Array<{ __typename?: "GlossLicense" } & GQLGlossLicenseList_GlossLicenseFragment>;
-      h5ps: Array<{ __typename?: "H5pLicense" } & GQLH5pLicenseList_H5pLicenseFragment>;
-      brightcoves: Array<{ __typename?: "BrightcoveLicense" } & GQLVideoLicenseList_BrightcoveLicenseFragment>;
-      audios: Array<{ __typename?: "AudioLicense" } & GQLAudioLicenseList_AudioLicenseFragment>;
-      podcasts: Array<{ __typename?: "PodcastLicense" } & GQLPodcastLicenseList_PodcastLicenseFragment>;
-      images: Array<{ __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment>;
+      concepts: Array<{
+        __typename?: "ConceptLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      glosses: Array<{
+        __typename?: "GlossLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      h5ps: Array<{
+        __typename?: "H5pLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        id: string;
+        title: string;
+        download?: string;
+        src?: string;
+        cover?: string;
+        iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        id: string;
+        src: string;
+        title: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        id: string;
+        src: string;
+        copyText?: string;
+        title: string;
+        description?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      images: Array<{
+        __typename?: "ImageLicense";
+        id: string;
+        title: string;
+        altText: string;
+        src: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
       textblocks: Array<{
         __typename?: "TextblockLicense";
         title?: string;
-        copyright: { __typename?: "Copyright" } & GQLTextLicenseList_CopyrightFragment;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
       }>;
     };
   };
@@ -2526,10 +4638,26 @@ export type GQLPodcastLicenseList_PodcastLicenseFragment = {
   copyText?: string;
   title: string;
   description?: string;
-  copyright: { __typename?: "Copyright"; origin?: string } & GQLLicenseListCopyrightFragment;
+  copyright: {
+    __typename?: "Copyright";
+    origin?: string;
+    processed?: boolean;
+    license: { __typename?: "License"; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
-export type GQLTextLicenseList_CopyrightFragment = { __typename?: "Copyright" } & GQLLicenseListCopyrightFragment;
+export type GQLTextLicenseList_CopyrightFragment = {
+  __typename?: "Copyright";
+  origin?: string;
+  processed?: boolean;
+  license: { __typename?: "License"; license: string };
+  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+};
 
 export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
   __typename?: "BrightcoveLicense";
@@ -2539,7 +4667,15 @@ export type GQLVideoLicenseList_BrightcoveLicenseFragment = {
   src?: string;
   cover?: string;
   iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
-  copyright?: { __typename?: "Copyright" } & GQLLicenseListCopyrightFragment;
+  copyright?: {
+    __typename?: "Copyright";
+    origin?: string;
+    processed?: boolean;
+    license: { __typename?: "License"; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
 export type GQLLicenseListCopyrightFragment = {
@@ -2563,13 +4699,162 @@ export type GQLAboutPageLeaf_ArticleFragment = {
   slug?: string;
   language: string;
   published: string;
+  title: string;
+  htmlTitle: string;
+  metaDescription: string;
+  supportedLanguages?: Array<string>;
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
-    metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
+    metaData?: {
+      __typename?: "ArticleMetaData";
+      copyText?: string;
+      concepts: Array<{
+        __typename?: "ConceptLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      glosses: Array<{
+        __typename?: "GlossLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      h5ps: Array<{
+        __typename?: "H5pLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        src?: string;
+        title: string;
+        cover?: string;
+        description?: string;
+        download?: string;
+        uploadDate?: string;
+        id: string;
+        copyright?: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+        iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        src: string;
+        title: string;
+        id: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        src: string;
+        title: string;
+        description?: string;
+        id: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      images: Array<{
+        __typename?: "ImageLicense";
+        src: string;
+        title: string;
+        id: string;
+        altText: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      textblocks: Array<{
+        __typename?: "TextblockLicense";
+        title?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+    };
   };
-} & GQLLicenseBox_ArticleFragment &
-  GQLStructuredArticleDataFragment;
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    origin?: string;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
+  metaImage?: {
+    __typename?: "ImageMetaInformationV3";
+    image: { __typename?: "ImageV3"; imageUrl: string };
+    alttext: { __typename?: "ImageAltText"; alttext: string };
+  };
+  competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+};
 
 export type GQLAboutPageNode_ArticleFragment = {
   __typename?: "Article";
@@ -2583,6 +4868,9 @@ export type GQLAboutPageNode_ArticleFragment = {
   updated: string;
   published: string;
   oembed?: string;
+  htmlTitle: string;
+  metaDescription: string;
+  supportedLanguages?: Array<string>;
   metaImage?: {
     __typename?: "ImageMetaInformationV3";
     image: { __typename?: "ImageV3"; imageUrl: string };
@@ -2591,11 +4879,151 @@ export type GQLAboutPageNode_ArticleFragment = {
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
-    metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
+    metaData?: {
+      __typename?: "ArticleMetaData";
+      copyText?: string;
+      concepts: Array<{
+        __typename?: "ConceptLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      glosses: Array<{
+        __typename?: "GlossLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      h5ps: Array<{
+        __typename?: "H5pLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        src?: string;
+        title: string;
+        cover?: string;
+        description?: string;
+        download?: string;
+        uploadDate?: string;
+        id: string;
+        copyright?: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+        iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        src: string;
+        title: string;
+        id: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        src: string;
+        title: string;
+        description?: string;
+        id: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      images: Array<{
+        __typename?: "ImageLicense";
+        src: string;
+        title: string;
+        id: string;
+        altText: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      textblocks: Array<{
+        __typename?: "TextblockLicense";
+        title?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+    };
   };
   visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
-} & GQLLicenseBox_ArticleFragment &
-  GQLStructuredArticleDataFragment;
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    origin?: string;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
+  competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+};
 
 export type GQLAboutPageNode_FrontpageMenuFragment = {
   __typename?: "FrontpageMenu";
@@ -2610,21 +5038,195 @@ export type GQLAboutPageQueryVariables = Exact<{
 
 export type GQLAboutPageQuery = {
   __typename?: "Query";
-  article?: { __typename?: "Article" } & GQLAboutPageLeaf_ArticleFragment & GQLAboutPageNode_ArticleFragment;
+  article?: {
+    __typename?: "Article";
+    id: number;
+    introduction?: string;
+    grepCodes?: Array<string>;
+    htmlIntroduction?: string;
+    created: string;
+    updated: string;
+    slug?: string;
+    language: string;
+    published: string;
+    title: string;
+    oembed?: string;
+    htmlTitle: string;
+    metaDescription: string;
+    supportedLanguages?: Array<string>;
+    transformedContent: {
+      __typename?: "TransformedArticleContent";
+      content: string;
+      metaData?: {
+        __typename?: "ArticleMetaData";
+        copyText?: string;
+        concepts: Array<{
+          __typename?: "ConceptLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        glosses: Array<{
+          __typename?: "GlossLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        h5ps: Array<{
+          __typename?: "H5pLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        brightcoves: Array<{
+          __typename?: "BrightcoveLicense";
+          src?: string;
+          title: string;
+          cover?: string;
+          description?: string;
+          download?: string;
+          uploadDate?: string;
+          id: string;
+          copyright?: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+          iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+        }>;
+        audios: Array<{
+          __typename?: "AudioLicense";
+          src: string;
+          title: string;
+          id: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        podcasts: Array<{
+          __typename?: "PodcastLicense";
+          src: string;
+          title: string;
+          description?: string;
+          id: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        images: Array<{
+          __typename?: "ImageLicense";
+          src: string;
+          title: string;
+          id: string;
+          altText: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        textblocks: Array<{
+          __typename?: "TextblockLicense";
+          title?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+      };
+    };
+    metaImage?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
+    visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
+    copyright: {
+      __typename?: "Copyright";
+      processed?: boolean;
+      origin?: string;
+      license: { __typename?: "License"; url?: string; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+    competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+    coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+  };
   frontpage?: {
     __typename?: "FrontpageMenu";
-    menu?: Array<
-      {
+    articleId: number;
+    menu?: Array<{
+      __typename?: "FrontpageMenu";
+      articleId: number;
+      menu?: Array<{
         __typename?: "FrontpageMenu";
-        menu?: Array<
-          {
-            __typename?: "FrontpageMenu";
-            menu?: Array<{ __typename?: "FrontpageMenu" } & GQLAboutPageNode_FrontpageMenuFragment>;
-          } & GQLAboutPageNode_FrontpageMenuFragment
-        >;
-      } & GQLAboutPageNode_FrontpageMenuFragment
-    >;
-  } & GQLAboutPageNode_FrontpageMenuFragment;
+        articleId: number;
+        menu?: Array<{
+          __typename?: "FrontpageMenu";
+          articleId: number;
+          article: { __typename?: "Article"; id: number; title: string; slug?: string; metaDescription: string };
+        }>;
+        article: { __typename?: "Article"; id: number; title: string; slug?: string; metaDescription: string };
+      }>;
+      article: { __typename?: "Article"; id: number; title: string; slug?: string; metaDescription: string };
+    }>;
+    article: { __typename?: "Article"; id: number; title: string; slug?: string; metaDescription: string };
+  };
 };
 
 export type GQLAllSubjectsQueryVariables = Exact<{ [key: string]: never }>;
@@ -2662,8 +5264,178 @@ export type GQLArticlePage_NodeFragment = {
     metaDescription: string;
     oembed?: string;
     tags?: Array<string>;
-  } & GQLStructuredArticleDataFragment &
-    GQLArticle_ArticleFragment;
+    id: number;
+    title: string;
+    published: string;
+    supportedLanguages?: Array<string>;
+    grepCodes?: Array<string>;
+    htmlIntroduction?: string;
+    htmlTitle: string;
+    traits: Array<string>;
+    language: string;
+    copyright: {
+      __typename?: "Copyright";
+      processed?: boolean;
+      origin?: string;
+      license: { __typename?: "License"; url?: string; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+    metaImage?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
+    competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+    coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+    transformedContent: {
+      __typename?: "TransformedArticleContent";
+      content: string;
+      metaData?: {
+        __typename?: "ArticleMetaData";
+        copyText?: string;
+        images: Array<{
+          __typename?: "ImageLicense";
+          src: string;
+          title: string;
+          id: string;
+          altText: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        audios: Array<{
+          __typename?: "AudioLicense";
+          src: string;
+          title: string;
+          id: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        podcasts: Array<{
+          __typename?: "PodcastLicense";
+          src: string;
+          title: string;
+          description?: string;
+          id: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        brightcoves: Array<{
+          __typename?: "BrightcoveLicense";
+          src?: string;
+          title: string;
+          cover?: string;
+          description?: string;
+          download?: string;
+          uploadDate?: string;
+          id: string;
+          copyright?: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+          iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+        }>;
+        footnotes: Array<{
+          __typename?: "FootNote";
+          ref: number;
+          title: string;
+          year: string;
+          authors: Array<string>;
+          edition?: string;
+          publisher?: string;
+          url?: string;
+        }>;
+        concepts: Array<{
+          __typename?: "ConceptLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        glosses: Array<{
+          __typename?: "GlossLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        h5ps: Array<{
+          __typename?: "H5pLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        textblocks: Array<{
+          __typename?: "TextblockLicense";
+          title?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+      };
+    };
+    transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+  };
 };
 
 export type GQLCollectionPageQueryVariables = Exact<{
@@ -2729,7 +5501,15 @@ export type GQLAllMoviesQuery = {
   };
 };
 
-export type GQLFilmContent_MovieFragment = { __typename?: "Movie" } & GQLSelectionMovieGrid_MovieFragment;
+export type GQLFilmContent_MovieFragment = {
+  __typename?: "Movie";
+  id: string;
+  title: string;
+  metaDescription: string;
+  url: string;
+  metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
+  resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+};
 
 export type GQLFilmContentCard_MovieFragment = {
   __typename?: "Movie";
@@ -2750,11 +5530,27 @@ export type GQLFilmFrontPageQuery = {
   __typename?: "Query";
   filmfrontpage?: {
     __typename?: "FilmFrontpage";
-    slideShow: Array<{ __typename?: "Movie" } & GQLFilmSlideshow_MovieFragment>;
+    slideShow: Array<{
+      __typename?: "Movie";
+      id: string;
+      title: string;
+      metaDescription: string;
+      url: string;
+      metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
+      resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    }>;
     movieThemes: Array<{
       __typename?: "MovieTheme";
       name: Array<{ __typename?: "Name"; name: string; language: string }>;
-      movies: Array<{ __typename?: "Movie" } & GQLFilmContent_MovieFragment>;
+      movies: Array<{
+        __typename?: "Movie";
+        id: string;
+        title: string;
+        metaDescription: string;
+        url: string;
+        metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
+        resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+      }>;
     }>;
     about: Array<{
       __typename?: "FilmPageAbout";
@@ -2763,7 +5559,174 @@ export type GQLFilmFrontPageQuery = {
       language: string;
       visualElement: { __typename?: "SubjectPageVisualElement"; alt?: string; url: string; type: string };
     }>;
-    article?: { __typename?: "Article" } & GQLArticle_ArticleFragment;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      created: string;
+      updated: string;
+      supportedLanguages?: Array<string>;
+      grepCodes?: Array<string>;
+      htmlIntroduction?: string;
+      htmlTitle: string;
+      oembed?: string;
+      traits: Array<string>;
+      language: string;
+      title: string;
+      published: string;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            id: string;
+            title: string;
+            download?: string;
+            src?: string;
+            cover?: string;
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            id: string;
+            src: string;
+            title: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            id: string;
+            src: string;
+            copyText?: string;
+            title: string;
+            description?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          images: Array<{
+            __typename?: "ImageLicense";
+            id: string;
+            title: string;
+            altText: string;
+            src: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+      copyright: {
+        __typename?: "Copyright";
+        origin?: string;
+        processed?: boolean;
+        license: { __typename?: "License"; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+    };
   };
   node?: {
     __typename?: "Node";
@@ -2774,9 +5737,25 @@ export type GQLFilmFrontPageQuery = {
   };
 };
 
-export type GQLFilmSlideshow_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
+export type GQLFilmSlideshow_MovieFragment = {
+  __typename?: "Movie";
+  id: string;
+  title: string;
+  metaDescription: string;
+  url: string;
+  metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
+  resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+};
 
-export type GQLSelectionMovieGrid_MovieFragment = { __typename?: "Movie" } & GQLFilmContentCard_MovieFragment;
+export type GQLSelectionMovieGrid_MovieFragment = {
+  __typename?: "Movie";
+  id: string;
+  title: string;
+  metaDescription: string;
+  url: string;
+  metaImage?: { __typename?: "MetaImage"; alt: string; url: string };
+  resourceTypes: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+};
 
 export type GQLResourceTypeMoviesQueryVariables = Exact<{
   resourceType: Scalars["String"]["input"];
@@ -2833,16 +5812,247 @@ export type GQLLearningpathPage_NodeFragment = {
     supportedLanguages: Array<string>;
     tags: Array<string>;
     description: string;
+    title: string;
+    introduction?: string;
+    lastUpdated: string;
+    basedOn?: string;
+    isMyNDLAOwner: boolean;
     coverphoto?: {
       __typename?: "ImageMetaInformationV3";
       id: string;
       metaUrl: string;
       image: { __typename?: "ImageV3"; imageUrl: string };
     };
-    learningsteps: Array<
-      { __typename?: "LearningpathStep"; type: string } & GQLLearningpath_LearningpathStep_LearningpathStep_Fragment
-    >;
-  } & GQLLearningpath_Learningpath_Learningpath_Fragment;
+    learningsteps: Array<{
+      __typename?: "LearningpathStep";
+      type: string;
+      id: number;
+      title: string;
+      seqNo: number;
+      showTitle: boolean;
+      description?: string;
+      introduction?: string;
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        nodeType: string;
+        url?: string;
+        relevanceId?: string;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          published: string;
+          supportedLanguages?: Array<string>;
+          grepCodes?: Array<string>;
+          htmlIntroduction?: string;
+          htmlTitle: string;
+          oembed?: string;
+          traits: Array<string>;
+          language: string;
+          requiredLibraries?: Array<{
+            __typename?: "ArticleRequiredLibrary";
+            name: string;
+            url: string;
+            mediaType: string;
+          }>;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+          metaImage?: {
+            __typename?: "ImageMetaInformationV3";
+            image: { __typename?: "ImageV3"; imageUrl: string };
+            alttext: { __typename?: "ImageAltText"; alttext: string };
+          };
+          competenceGoals?: Array<{
+            __typename?: "CompetenceGoal";
+            id: string;
+            code?: string;
+            title: string;
+            type: string;
+          }>;
+          coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+          transformedContent: {
+            __typename?: "TransformedArticleContent";
+            content: string;
+            metaData?: {
+              __typename?: "ArticleMetaData";
+              copyText?: string;
+              images: Array<{
+                __typename?: "ImageLicense";
+                src: string;
+                title: string;
+                id: string;
+                altText: string;
+                copyText?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              audios: Array<{
+                __typename?: "AudioLicense";
+                src: string;
+                title: string;
+                id: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              podcasts: Array<{
+                __typename?: "PodcastLicense";
+                src: string;
+                title: string;
+                description?: string;
+                id: string;
+                copyText?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              brightcoves: Array<{
+                __typename?: "BrightcoveLicense";
+                src?: string;
+                title: string;
+                cover?: string;
+                description?: string;
+                download?: string;
+                uploadDate?: string;
+                id: string;
+                copyright?: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+                iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+              }>;
+              footnotes: Array<{
+                __typename?: "FootNote";
+                ref: number;
+                title: string;
+                year: string;
+                authors: Array<string>;
+                edition?: string;
+                publisher?: string;
+                url?: string;
+              }>;
+              concepts: Array<{
+                __typename?: "ConceptLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "ConceptCopyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license?: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              glosses: Array<{
+                __typename?: "GlossLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "ConceptCopyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license?: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              h5ps: Array<{
+                __typename?: "H5pLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "Copyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              textblocks: Array<{
+                __typename?: "TextblockLicense";
+                title?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+            };
+          };
+          transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+        };
+      };
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        html: string;
+        width: number;
+        height: number;
+        type: string;
+        version: string;
+      };
+    }>;
+    copyright: {
+      __typename?: "LearningpathCopyright";
+      license: { __typename?: "License"; license: string };
+      contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    };
+  };
 };
 
 export type GQLDynamicMenuQueryVariables = Exact<{ [key: string]: never }>;
@@ -3010,10 +6220,436 @@ export type GQLRootFoldersPageQuery = {
   __typename?: "Query";
   folders: {
     __typename?: "UserFolder";
-    folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
-    sharedFolders: Array<{ __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment>;
+    folders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "Folder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      subfolders: Array<{
+                        __typename: "Folder";
+                        id: string;
+                        name: string;
+                        status: string;
+                        parentId?: string;
+                        created: string;
+                        updated: string;
+                        description?: string;
+                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        owner?: { __typename: "Owner"; name: string };
+                        resources: Array<{
+                          __typename: "MyNdlaResource";
+                          resourceId: string;
+                          id: string;
+                          resourceType: string;
+                          path: string;
+                          created: string;
+                          tags: Array<string>;
+                        }>;
+                      }>;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    sharedFolders: Array<{
+      __typename: "SharedFolder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "SharedFolder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "SharedFolder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "SharedFolder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "SharedFolder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "SharedFolder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "SharedFolder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "SharedFolder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "SharedFolder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      subfolders: Array<{
+                        __typename: "SharedFolder";
+                        id: string;
+                        name: string;
+                        status: string;
+                        parentId?: string;
+                        created: string;
+                        updated: string;
+                        description?: string;
+                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        owner?: { __typename: "Owner"; name: string };
+                        resources: Array<{
+                          __typename: "MyNdlaResource";
+                          resourceId: string;
+                          id: string;
+                          resourceType: string;
+                          path: string;
+                          created: string;
+                          tags: Array<string>;
+                        }>;
+                      }>;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
   };
-  myNdlaRootResources: Array<{ __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment>;
+  myNdlaRootResources: Array<{
+    __typename: "MyNdlaResource";
+    resourceId: string;
+    id: string;
+    resourceType: string;
+    path: string;
+    created: string;
+    tags: Array<string>;
+  }>;
 };
 
 export type GQLPreviewLearningpathQueryVariables = Exact<{
@@ -3027,10 +6663,240 @@ export type GQLPreviewLearningpathQuery = {
     __typename?: "MyNdlaLearningpath";
     id: number;
     canEdit: boolean;
-    learningsteps: Array<
-      { __typename?: "MyNdlaLearningpathStep" } & GQLLearningpath_LearningpathStep_MyNdlaLearningpathStep_Fragment
-    >;
-  } & GQLLearningpath_Learningpath_MyNdlaLearningpath_Fragment;
+    title: string;
+    introduction?: string;
+    lastUpdated: string;
+    basedOn?: string;
+    isMyNDLAOwner: boolean;
+    learningsteps: Array<{
+      __typename?: "MyNdlaLearningpathStep";
+      id: number;
+      title: string;
+      seqNo: number;
+      showTitle: boolean;
+      description?: string;
+      introduction?: string;
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        nodeType: string;
+        url?: string;
+        relevanceId?: string;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          published: string;
+          supportedLanguages?: Array<string>;
+          grepCodes?: Array<string>;
+          htmlIntroduction?: string;
+          htmlTitle: string;
+          oembed?: string;
+          traits: Array<string>;
+          language: string;
+          requiredLibraries?: Array<{
+            __typename?: "ArticleRequiredLibrary";
+            name: string;
+            url: string;
+            mediaType: string;
+          }>;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+          metaImage?: {
+            __typename?: "ImageMetaInformationV3";
+            image: { __typename?: "ImageV3"; imageUrl: string };
+            alttext: { __typename?: "ImageAltText"; alttext: string };
+          };
+          competenceGoals?: Array<{
+            __typename?: "CompetenceGoal";
+            id: string;
+            code?: string;
+            title: string;
+            type: string;
+          }>;
+          coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+          transformedContent: {
+            __typename?: "TransformedArticleContent";
+            content: string;
+            metaData?: {
+              __typename?: "ArticleMetaData";
+              copyText?: string;
+              images: Array<{
+                __typename?: "ImageLicense";
+                src: string;
+                title: string;
+                id: string;
+                altText: string;
+                copyText?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              audios: Array<{
+                __typename?: "AudioLicense";
+                src: string;
+                title: string;
+                id: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              podcasts: Array<{
+                __typename?: "PodcastLicense";
+                src: string;
+                title: string;
+                description?: string;
+                id: string;
+                copyText?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              brightcoves: Array<{
+                __typename?: "BrightcoveLicense";
+                src?: string;
+                title: string;
+                cover?: string;
+                description?: string;
+                download?: string;
+                uploadDate?: string;
+                id: string;
+                copyright?: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+                iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+              }>;
+              footnotes: Array<{
+                __typename?: "FootNote";
+                ref: number;
+                title: string;
+                year: string;
+                authors: Array<string>;
+                edition?: string;
+                publisher?: string;
+                url?: string;
+              }>;
+              concepts: Array<{
+                __typename?: "ConceptLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "ConceptCopyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license?: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              glosses: Array<{
+                __typename?: "GlossLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "ConceptCopyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license?: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              h5ps: Array<{
+                __typename?: "H5pLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "Copyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              textblocks: Array<{
+                __typename?: "TextblockLicense";
+                title?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+            };
+          };
+          transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+        };
+      };
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        html: string;
+        width: number;
+        height: number;
+        type: string;
+        version: string;
+      };
+    }>;
+    copyright: {
+      __typename?: "LearningpathCopyright";
+      license: { __typename?: "License"; license: string };
+      contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    };
+  };
 };
 
 export type GQLResourcePickerSearchQueryVariables = Exact<{
@@ -3108,7 +6974,71 @@ export type GQLMyLearningpathsQueryVariables = Exact<{
 
 export type GQLMyLearningpathsQuery = {
   __typename?: "Query";
-  myLearningpaths?: Array<{ __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment>;
+  myLearningpaths?: Array<{
+    __typename?: "MyNdlaLearningpath";
+    id: number;
+    title: string;
+    description: string;
+    introduction?: string;
+    created: string;
+    canEdit: boolean;
+    status: string;
+    madeAvailable?: string;
+    revision: number;
+    supportedLanguages: Array<string>;
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      metaUrl: string;
+      image: { __typename?: "ImageV3"; imageUrl: string };
+    };
+    learningsteps?: Array<{
+      __typename?: "MyNdlaLearningpathStep";
+      id: number;
+      title: string;
+      seqNo: number;
+      canEdit: boolean;
+      articleId?: number;
+      description?: string;
+      introduction?: string;
+      type: string;
+      supportedLanguages: Array<string>;
+      showTitle: boolean;
+      revision: number;
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        type: string;
+        version: string;
+        height: number;
+        html: string;
+        width: number;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        url?: string;
+        breadcrumbs: Array<string>;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          traits: Array<string>;
+          language: string;
+        };
+      };
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+    }>;
+  }>;
 };
 
 export type GQLMyNdlaLearningpathQueryVariables = Exact<{
@@ -3118,7 +7048,71 @@ export type GQLMyNdlaLearningpathQueryVariables = Exact<{
 
 export type GQLMyNdlaLearningpathQuery = {
   __typename?: "Query";
-  myNdlaLearningpath?: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+  myNdlaLearningpath?: {
+    __typename?: "MyNdlaLearningpath";
+    id: number;
+    title: string;
+    description: string;
+    introduction?: string;
+    created: string;
+    canEdit: boolean;
+    status: string;
+    madeAvailable?: string;
+    revision: number;
+    supportedLanguages: Array<string>;
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      metaUrl: string;
+      image: { __typename?: "ImageV3"; imageUrl: string };
+    };
+    learningsteps?: Array<{
+      __typename?: "MyNdlaLearningpathStep";
+      id: number;
+      title: string;
+      seqNo: number;
+      canEdit: boolean;
+      articleId?: number;
+      description?: string;
+      introduction?: string;
+      type: string;
+      supportedLanguages: Array<string>;
+      showTitle: boolean;
+      revision: number;
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        type: string;
+        version: string;
+        height: number;
+        html: string;
+        width: number;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        url?: string;
+        breadcrumbs: Array<string>;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          traits: Array<string>;
+          language: string;
+        };
+      };
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+    }>;
+  };
 };
 
 export type GQLLearningpathStepOembedQueryVariables = Exact<{
@@ -3127,7 +7121,14 @@ export type GQLLearningpathStepOembedQueryVariables = Exact<{
 
 export type GQLLearningpathStepOembedQuery = {
   __typename?: "Query";
-  learningpathStepOembed: { __typename?: "LearningpathStepOembed" } & GQLLearningpathStepOembedFragment;
+  learningpathStepOembed: {
+    __typename?: "LearningpathStepOembed";
+    type: string;
+    version: string;
+    height: number;
+    html: string;
+    width: number;
+  };
 };
 
 export type GQLOpengraphQueryVariables = Exact<{
@@ -3194,7 +7195,39 @@ export type GQLImageSearchQuery = {
     pageSize: number;
     page: number;
     language: string;
-    results: Array<{ __typename?: "ImageMetaInformationV3" } & GQLImageFragment>;
+    results: Array<{
+      __typename?: "ImageMetaInformationV3";
+      id: string;
+      metaUrl: string;
+      supportedLanguages: Array<string>;
+      created: string;
+      createdBy: string;
+      modelRelease: string;
+      title: { __typename?: "Title"; title: string; language: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string; language: string };
+      copyright: {
+        __typename?: "Copyright";
+        origin?: string;
+        processed?: boolean;
+        license: { __typename?: "License"; license: string; url?: string; description?: string };
+        creators: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+        processors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+      tags: { __typename?: "Tags"; tags: Array<string>; language: string };
+      caption: { __typename?: "Caption"; caption: string; language: string };
+      editorNotes?: Array<{ __typename?: "EditorNote"; timestamp: string; updatedBy: string; note: string }>;
+      image: {
+        __typename?: "ImageV3";
+        fileName: string;
+        size: number;
+        contentType: string;
+        imageUrl: string;
+        language: string;
+        variants: Array<{ __typename?: "ImageVariant"; variantUrl: string; size: string }>;
+        dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+      };
+    }>;
   };
 };
 
@@ -3204,15 +7237,220 @@ export type GQLFetchImageQueryVariables = Exact<{
 
 export type GQLFetchImageQuery = {
   __typename?: "Query";
-  imageV3?: { __typename?: "ImageMetaInformationV3" } & GQLImageFragment;
+  imageV3?: {
+    __typename?: "ImageMetaInformationV3";
+    id: string;
+    metaUrl: string;
+    supportedLanguages: Array<string>;
+    created: string;
+    createdBy: string;
+    modelRelease: string;
+    title: { __typename?: "Title"; title: string; language: string };
+    alttext: { __typename?: "ImageAltText"; alttext: string; language: string };
+    copyright: {
+      __typename?: "Copyright";
+      origin?: string;
+      processed?: boolean;
+      license: { __typename?: "License"; license: string; url?: string; description?: string };
+      creators: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      processors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    };
+    tags: { __typename?: "Tags"; tags: Array<string>; language: string };
+    caption: { __typename?: "Caption"; caption: string; language: string };
+    editorNotes?: Array<{ __typename?: "EditorNote"; timestamp: string; updatedBy: string; note: string }>;
+    image: {
+      __typename?: "ImageV3";
+      fileName: string;
+      size: number;
+      contentType: string;
+      imageUrl: string;
+      language: string;
+      variants: Array<{ __typename?: "ImageVariant"; variantUrl: string; size: string }>;
+      dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+    };
+  };
 };
 
 export type GQLPlainArticleContainer_ArticleFragment = {
   __typename?: "Article";
   created: string;
   tags?: Array<string>;
-} & GQLArticle_ArticleFragment &
-  GQLStructuredArticleDataFragment;
+  id: number;
+  updated: string;
+  supportedLanguages?: Array<string>;
+  grepCodes?: Array<string>;
+  htmlIntroduction?: string;
+  htmlTitle: string;
+  oembed?: string;
+  traits: Array<string>;
+  language: string;
+  title: string;
+  metaDescription: string;
+  published: string;
+  transformedContent: {
+    __typename?: "TransformedArticleContent";
+    content: string;
+    metaData?: {
+      __typename?: "ArticleMetaData";
+      copyText?: string;
+      images: Array<{
+        __typename?: "ImageLicense";
+        src: string;
+        title: string;
+        id: string;
+        altText: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        src: string;
+        title: string;
+        id: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        src: string;
+        title: string;
+        description?: string;
+        id: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        src?: string;
+        title: string;
+        cover?: string;
+        description?: string;
+        download?: string;
+        uploadDate?: string;
+        id: string;
+        copyright?: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+        iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+      }>;
+      footnotes: Array<{
+        __typename?: "FootNote";
+        ref: number;
+        title: string;
+        year: string;
+        authors: Array<string>;
+        edition?: string;
+        publisher?: string;
+        url?: string;
+      }>;
+      concepts: Array<{
+        __typename?: "ConceptLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      glosses: Array<{
+        __typename?: "GlossLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      h5ps: Array<{
+        __typename?: "H5pLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      textblocks: Array<{
+        __typename?: "TextblockLicense";
+        title?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+    };
+  };
+  transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    origin?: string;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
+  metaImage?: {
+    __typename?: "ImageMetaInformationV3";
+    image: { __typename?: "ImageV3"; imageUrl: string };
+    alttext: { __typename?: "ImageAltText"; alttext: string };
+  };
+  competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+};
 
 export type GQLPlainArticlePageQueryVariables = Exact<{
   articleId: Scalars["String"]["input"];
@@ -3221,7 +7459,185 @@ export type GQLPlainArticlePageQueryVariables = Exact<{
 
 export type GQLPlainArticlePageQuery = {
   __typename?: "Query";
-  article?: { __typename?: "Article" } & GQLPlainArticleContainer_ArticleFragment;
+  article?: {
+    __typename?: "Article";
+    created: string;
+    tags?: Array<string>;
+    id: number;
+    updated: string;
+    supportedLanguages?: Array<string>;
+    grepCodes?: Array<string>;
+    htmlIntroduction?: string;
+    htmlTitle: string;
+    oembed?: string;
+    traits: Array<string>;
+    language: string;
+    title: string;
+    metaDescription: string;
+    published: string;
+    transformedContent: {
+      __typename?: "TransformedArticleContent";
+      content: string;
+      metaData?: {
+        __typename?: "ArticleMetaData";
+        copyText?: string;
+        images: Array<{
+          __typename?: "ImageLicense";
+          src: string;
+          title: string;
+          id: string;
+          altText: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        audios: Array<{
+          __typename?: "AudioLicense";
+          src: string;
+          title: string;
+          id: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        podcasts: Array<{
+          __typename?: "PodcastLicense";
+          src: string;
+          title: string;
+          description?: string;
+          id: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        brightcoves: Array<{
+          __typename?: "BrightcoveLicense";
+          src?: string;
+          title: string;
+          cover?: string;
+          description?: string;
+          download?: string;
+          uploadDate?: string;
+          id: string;
+          copyright?: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+          iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+        }>;
+        footnotes: Array<{
+          __typename?: "FootNote";
+          ref: number;
+          title: string;
+          year: string;
+          authors: Array<string>;
+          edition?: string;
+          publisher?: string;
+          url?: string;
+        }>;
+        concepts: Array<{
+          __typename?: "ConceptLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        glosses: Array<{
+          __typename?: "GlossLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        h5ps: Array<{
+          __typename?: "H5pLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        textblocks: Array<{
+          __typename?: "TextblockLicense";
+          title?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+      };
+    };
+    transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    copyright: {
+      __typename?: "Copyright";
+      processed?: boolean;
+      origin?: string;
+      license: { __typename?: "License"; url?: string; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+    metaImage?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
+    competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+    coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+  };
 };
 
 export type GQLPlainLearningpathContainer_LearningpathFragment = {
@@ -3230,11 +7646,241 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
   supportedLanguages: Array<string>;
   tags: Array<string>;
   description: string;
+  title: string;
+  introduction?: string;
+  lastUpdated: string;
+  basedOn?: string;
+  isMyNDLAOwner: boolean;
   coverphoto?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
-  learningsteps: Array<
-    { __typename?: "LearningpathStep" } & GQLLearningpath_LearningpathStep_LearningpathStep_Fragment
-  >;
-} & GQLLearningpath_Learningpath_Learningpath_Fragment;
+  learningsteps: Array<{
+    __typename?: "LearningpathStep";
+    id: number;
+    title: string;
+    seqNo: number;
+    showTitle: boolean;
+    description?: string;
+    introduction?: string;
+    copyright?: {
+      __typename?: "LearningpathCopyright";
+      license: { __typename?: "License"; license: string };
+      contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    };
+    opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+    resource?: {
+      __typename?: "Resource";
+      id: string;
+      nodeType: string;
+      url?: string;
+      relevanceId?: string;
+      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+      article?: {
+        __typename?: "Article";
+        id: number;
+        metaDescription: string;
+        created: string;
+        updated: string;
+        articleType: string;
+        title: string;
+        published: string;
+        supportedLanguages?: Array<string>;
+        grepCodes?: Array<string>;
+        htmlIntroduction?: string;
+        htmlTitle: string;
+        oembed?: string;
+        traits: Array<string>;
+        language: string;
+        requiredLibraries?: Array<{
+          __typename?: "ArticleRequiredLibrary";
+          name: string;
+          url: string;
+          mediaType: string;
+        }>;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+        metaImage?: {
+          __typename?: "ImageMetaInformationV3";
+          image: { __typename?: "ImageV3"; imageUrl: string };
+          alttext: { __typename?: "ImageAltText"; alttext: string };
+        };
+        competenceGoals?: Array<{
+          __typename?: "CompetenceGoal";
+          id: string;
+          code?: string;
+          title: string;
+          type: string;
+        }>;
+        coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+        transformedContent: {
+          __typename?: "TransformedArticleContent";
+          content: string;
+          metaData?: {
+            __typename?: "ArticleMetaData";
+            copyText?: string;
+            images: Array<{
+              __typename?: "ImageLicense";
+              src: string;
+              title: string;
+              id: string;
+              altText: string;
+              copyText?: string;
+              copyright: {
+                __typename?: "Copyright";
+                processed?: boolean;
+                origin?: string;
+                license: { __typename?: "License"; url?: string; license: string };
+                creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              };
+            }>;
+            audios: Array<{
+              __typename?: "AudioLicense";
+              src: string;
+              title: string;
+              id: string;
+              copyright: {
+                __typename?: "Copyright";
+                processed?: boolean;
+                origin?: string;
+                license: { __typename?: "License"; url?: string; license: string };
+                creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              };
+            }>;
+            podcasts: Array<{
+              __typename?: "PodcastLicense";
+              src: string;
+              title: string;
+              description?: string;
+              id: string;
+              copyText?: string;
+              copyright: {
+                __typename?: "Copyright";
+                processed?: boolean;
+                origin?: string;
+                license: { __typename?: "License"; url?: string; license: string };
+                creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              };
+            }>;
+            brightcoves: Array<{
+              __typename?: "BrightcoveLicense";
+              src?: string;
+              title: string;
+              cover?: string;
+              description?: string;
+              download?: string;
+              uploadDate?: string;
+              id: string;
+              copyright?: {
+                __typename?: "Copyright";
+                processed?: boolean;
+                origin?: string;
+                license: { __typename?: "License"; url?: string; license: string };
+                creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              };
+              iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+            }>;
+            footnotes: Array<{
+              __typename?: "FootNote";
+              ref: number;
+              title: string;
+              year: string;
+              authors: Array<string>;
+              edition?: string;
+              publisher?: string;
+              url?: string;
+            }>;
+            concepts: Array<{
+              __typename?: "ConceptLicense";
+              id: string;
+              title: string;
+              src?: string;
+              copyright?: {
+                __typename?: "ConceptCopyright";
+                origin?: string;
+                processed?: boolean;
+                license?: { __typename?: "License"; license: string };
+                creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              };
+            }>;
+            glosses: Array<{
+              __typename?: "GlossLicense";
+              id: string;
+              title: string;
+              src?: string;
+              copyright?: {
+                __typename?: "ConceptCopyright";
+                origin?: string;
+                processed?: boolean;
+                license?: { __typename?: "License"; license: string };
+                creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              };
+            }>;
+            h5ps: Array<{
+              __typename?: "H5pLicense";
+              id: string;
+              title: string;
+              src?: string;
+              copyright?: {
+                __typename?: "Copyright";
+                origin?: string;
+                processed?: boolean;
+                license: { __typename?: "License"; license: string };
+                creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              };
+            }>;
+            textblocks: Array<{
+              __typename?: "TextblockLicense";
+              title?: string;
+              copyright: {
+                __typename?: "Copyright";
+                origin?: string;
+                processed?: boolean;
+                license: { __typename?: "License"; license: string };
+                creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              };
+            }>;
+          };
+        };
+        transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+      };
+    };
+    embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+    oembed?: {
+      __typename?: "LearningpathStepOembed";
+      html: string;
+      width: number;
+      height: number;
+      type: string;
+      version: string;
+    };
+  }>;
+  copyright: {
+    __typename?: "LearningpathCopyright";
+    license: { __typename?: "License"; license: string };
+    contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+  };
+};
 
 export type GQLPlainLearningpathPageQueryVariables = Exact<{
   pathId: Scalars["String"]["input"];
@@ -3243,7 +7889,247 @@ export type GQLPlainLearningpathPageQueryVariables = Exact<{
 
 export type GQLPlainLearningpathPageQuery = {
   __typename?: "Query";
-  learningpath?: { __typename?: "Learningpath" } & GQLPlainLearningpathContainer_LearningpathFragment;
+  learningpath?: {
+    __typename?: "Learningpath";
+    id: number;
+    supportedLanguages: Array<string>;
+    tags: Array<string>;
+    description: string;
+    title: string;
+    introduction?: string;
+    lastUpdated: string;
+    basedOn?: string;
+    isMyNDLAOwner: boolean;
+    coverphoto?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
+    learningsteps: Array<{
+      __typename?: "LearningpathStep";
+      id: number;
+      title: string;
+      seqNo: number;
+      showTitle: boolean;
+      description?: string;
+      introduction?: string;
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        nodeType: string;
+        url?: string;
+        relevanceId?: string;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          published: string;
+          supportedLanguages?: Array<string>;
+          grepCodes?: Array<string>;
+          htmlIntroduction?: string;
+          htmlTitle: string;
+          oembed?: string;
+          traits: Array<string>;
+          language: string;
+          requiredLibraries?: Array<{
+            __typename?: "ArticleRequiredLibrary";
+            name: string;
+            url: string;
+            mediaType: string;
+          }>;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+          metaImage?: {
+            __typename?: "ImageMetaInformationV3";
+            image: { __typename?: "ImageV3"; imageUrl: string };
+            alttext: { __typename?: "ImageAltText"; alttext: string };
+          };
+          competenceGoals?: Array<{
+            __typename?: "CompetenceGoal";
+            id: string;
+            code?: string;
+            title: string;
+            type: string;
+          }>;
+          coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+          transformedContent: {
+            __typename?: "TransformedArticleContent";
+            content: string;
+            metaData?: {
+              __typename?: "ArticleMetaData";
+              copyText?: string;
+              images: Array<{
+                __typename?: "ImageLicense";
+                src: string;
+                title: string;
+                id: string;
+                altText: string;
+                copyText?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              audios: Array<{
+                __typename?: "AudioLicense";
+                src: string;
+                title: string;
+                id: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              podcasts: Array<{
+                __typename?: "PodcastLicense";
+                src: string;
+                title: string;
+                description?: string;
+                id: string;
+                copyText?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              brightcoves: Array<{
+                __typename?: "BrightcoveLicense";
+                src?: string;
+                title: string;
+                cover?: string;
+                description?: string;
+                download?: string;
+                uploadDate?: string;
+                id: string;
+                copyright?: {
+                  __typename?: "Copyright";
+                  processed?: boolean;
+                  origin?: string;
+                  license: { __typename?: "License"; url?: string; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+                iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+              }>;
+              footnotes: Array<{
+                __typename?: "FootNote";
+                ref: number;
+                title: string;
+                year: string;
+                authors: Array<string>;
+                edition?: string;
+                publisher?: string;
+                url?: string;
+              }>;
+              concepts: Array<{
+                __typename?: "ConceptLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "ConceptCopyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license?: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              glosses: Array<{
+                __typename?: "GlossLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "ConceptCopyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license?: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              h5ps: Array<{
+                __typename?: "H5pLicense";
+                id: string;
+                title: string;
+                src?: string;
+                copyright?: {
+                  __typename?: "Copyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+              textblocks: Array<{
+                __typename?: "TextblockLicense";
+                title?: string;
+                copyright: {
+                  __typename?: "Copyright";
+                  origin?: string;
+                  processed?: boolean;
+                  license: { __typename?: "License"; license: string };
+                  creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                };
+              }>;
+            };
+          };
+          transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+        };
+      };
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        html: string;
+        width: number;
+        height: number;
+        type: string;
+        version: string;
+      };
+    }>;
+    copyright: {
+      __typename?: "LearningpathCopyright";
+      license: { __typename?: "License"; license: string };
+      contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    };
+  };
 };
 
 export type GQLPodcastSeries_PodcastSeriesSummaryFragment = {
@@ -3265,7 +8151,13 @@ export type GQLPodcastSeriesListPageQuery = {
   podcastSeriesSearch?: {
     __typename?: "PodcastSeriesSearch";
     totalCount: number;
-    results: Array<{ __typename?: "PodcastSeriesSummary" } & GQLPodcastSeries_PodcastSeriesSummaryFragment>;
+    results: Array<{
+      __typename?: "PodcastSeriesSummary";
+      id: number;
+      title: { __typename?: "Title"; title: string };
+      description: { __typename?: "Description"; description: string };
+      coverPhoto: { __typename?: "CoverPhoto"; url: string; altText: string };
+    }>;
   };
 };
 
@@ -3286,7 +8178,125 @@ export type GQLPodcastSeriesPageQuery = {
     content?: {
       __typename?: "ResourceEmbed";
       content: string;
-      meta: { __typename?: "ResourceMetaData" } & GQLResourceEmbedLicenseContent_MetaFragment;
+      meta: {
+        __typename?: "ResourceMetaData";
+        concepts: Array<{
+          __typename?: "ConceptLicense";
+          content?: string;
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        glosses: Array<{
+          __typename?: "GlossLicense";
+          content?: string;
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        h5ps: Array<{
+          __typename?: "H5pLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        brightcoves: Array<{
+          __typename?: "BrightcoveLicense";
+          description?: string;
+          id: string;
+          title: string;
+          download?: string;
+          src?: string;
+          cover?: string;
+          iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        audios: Array<{
+          __typename?: "AudioLicense";
+          id: string;
+          src: string;
+          title: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        podcasts: Array<{
+          __typename?: "PodcastLicense";
+          coverPhotoUrl?: string;
+          id: string;
+          src: string;
+          copyText?: string;
+          title: string;
+          description?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        images: Array<{
+          __typename?: "ImageLicense";
+          altText: string;
+          id: string;
+          title: string;
+          src: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+      };
     };
     episodes?: Array<{
       __typename?: "Audio";
@@ -3344,8 +8354,31 @@ export type GQLProgrammePageQuery = {
   programme?: {
     __typename?: "ProgrammePage";
     supportedLanguages: Array<string>;
-    grades?: Array<{ __typename?: "Grade"; title: { __typename?: "Title"; title: string } }>;
-  } & GQLProgrammeContainer_ProgrammeFragment;
+    id: string;
+    metaDescription?: string;
+    url?: string;
+    grades?: Array<{
+      __typename?: "Grade";
+      id: string;
+      url?: string;
+      title: { __typename?: "Title"; title: string };
+      categories?: Array<{
+        __typename?: "Category";
+        id: string;
+        isProgrammeSubject: boolean;
+        title: { __typename?: "Title"; title: string };
+        subjects?: Array<{
+          __typename?: "Subject";
+          id: string;
+          name: string;
+          url?: string;
+          subjectpage?: { __typename?: "SubjectPage"; about?: { __typename?: "SubjectPageAbout"; title: string } };
+        }>;
+      }>;
+    }>;
+    title: { __typename?: "Title"; title: string; language: string };
+    desktopImage?: { __typename?: "MetaImage"; url: string };
+  };
 };
 
 export type GQLResourceEmbedQueryVariables = Exact<{
@@ -3358,23 +8391,246 @@ export type GQLResourceEmbedQuery = {
   resourceEmbed: {
     __typename?: "ResourceEmbed";
     content: string;
-    meta: { __typename?: "ResourceMetaData" } & GQLResourceEmbedLicenseContent_MetaFragment;
+    meta: {
+      __typename?: "ResourceMetaData";
+      concepts: Array<{
+        __typename?: "ConceptLicense";
+        content?: string;
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      glosses: Array<{
+        __typename?: "GlossLicense";
+        content?: string;
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      h5ps: Array<{
+        __typename?: "H5pLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        description?: string;
+        id: string;
+        title: string;
+        download?: string;
+        src?: string;
+        cover?: string;
+        iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        id: string;
+        src: string;
+        title: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        coverPhotoUrl?: string;
+        id: string;
+        src: string;
+        copyText?: string;
+        title: string;
+        description?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      images: Array<{
+        __typename?: "ImageLicense";
+        altText: string;
+        id: string;
+        title: string;
+        src: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+    };
   };
 };
 
 export type GQLResourceEmbedLicenseContent_MetaFragment = {
   __typename?: "ResourceMetaData";
-  concepts: Array<{ __typename?: "ConceptLicense"; content?: string } & GQLConceptLicenseList_ConceptLicenseFragment>;
-  glosses: Array<{ __typename?: "GlossLicense"; content?: string } & GQLGlossLicenseList_GlossLicenseFragment>;
-  h5ps: Array<{ __typename?: "H5pLicense" } & GQLH5pLicenseList_H5pLicenseFragment>;
-  brightcoves: Array<
-    { __typename?: "BrightcoveLicense"; description?: string } & GQLVideoLicenseList_BrightcoveLicenseFragment
-  >;
-  audios: Array<{ __typename?: "AudioLicense" } & GQLAudioLicenseList_AudioLicenseFragment>;
-  podcasts: Array<
-    { __typename?: "PodcastLicense"; coverPhotoUrl?: string } & GQLPodcastLicenseList_PodcastLicenseFragment
-  >;
-  images: Array<{ __typename?: "ImageLicense"; altText: string } & GQLImageLicenseList_ImageLicenseFragment>;
+  concepts: Array<{
+    __typename?: "ConceptLicense";
+    content?: string;
+    id: string;
+    title: string;
+    src?: string;
+    copyright?: {
+      __typename?: "ConceptCopyright";
+      origin?: string;
+      processed?: boolean;
+      license?: { __typename?: "License"; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+  }>;
+  glosses: Array<{
+    __typename?: "GlossLicense";
+    content?: string;
+    id: string;
+    title: string;
+    src?: string;
+    copyright?: {
+      __typename?: "ConceptCopyright";
+      origin?: string;
+      processed?: boolean;
+      license?: { __typename?: "License"; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+  }>;
+  h5ps: Array<{
+    __typename?: "H5pLicense";
+    id: string;
+    title: string;
+    src?: string;
+    copyright?: {
+      __typename?: "Copyright";
+      origin?: string;
+      processed?: boolean;
+      license: { __typename?: "License"; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+  }>;
+  brightcoves: Array<{
+    __typename?: "BrightcoveLicense";
+    description?: string;
+    id: string;
+    title: string;
+    download?: string;
+    src?: string;
+    cover?: string;
+    iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+    copyright?: {
+      __typename?: "Copyright";
+      origin?: string;
+      processed?: boolean;
+      license: { __typename?: "License"; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+  }>;
+  audios: Array<{
+    __typename?: "AudioLicense";
+    id: string;
+    src: string;
+    title: string;
+    copyright: {
+      __typename?: "Copyright";
+      origin?: string;
+      processed?: boolean;
+      license: { __typename?: "License"; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+  }>;
+  podcasts: Array<{
+    __typename?: "PodcastLicense";
+    coverPhotoUrl?: string;
+    id: string;
+    src: string;
+    copyText?: string;
+    title: string;
+    description?: string;
+    copyright: {
+      __typename?: "Copyright";
+      origin?: string;
+      processed?: boolean;
+      license: { __typename?: "License"; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+  }>;
+  images: Array<{
+    __typename?: "ImageLicense";
+    altText: string;
+    id: string;
+    title: string;
+    src: string;
+    copyText?: string;
+    copyright: {
+      __typename?: "Copyright";
+      origin?: string;
+      processed?: boolean;
+      license: { __typename?: "License"; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+  }>;
 };
 
 export type GQLResourcePageQueryVariables = Exact<{
@@ -3389,11 +8645,464 @@ export type GQLResourcePageQuery = {
     relevanceId?: string;
     breadcrumbs: Array<string>;
     supportedLanguages: Array<string>;
-    context?: { __typename?: "TaxonomyContext"; contextId: string; url: string };
-    contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string }>;
-  } & GQLMovedResourcePage_NodeFragment &
-    GQLArticlePage_NodeFragment &
-    GQLLearningpathPage_NodeFragment;
+    id: string;
+    nodeType: string;
+    name: string;
+    url?: string;
+    contentUri?: string;
+    context?: {
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      url: string;
+      isArchived: boolean;
+      parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
+    };
+    contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      metaDescription: string;
+      traits: Array<string>;
+      created: string;
+      updated: string;
+      oembed?: string;
+      tags?: Array<string>;
+      title: string;
+      published: string;
+      supportedLanguages?: Array<string>;
+      grepCodes?: Array<string>;
+      htmlIntroduction?: string;
+      htmlTitle: string;
+      language: string;
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: {
+          __typename?: "ImageV3";
+          imageUrl: string;
+          dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+          variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
+        };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      copyright: {
+        __typename?: "Copyright";
+        processed?: boolean;
+        origin?: string;
+        license: { __typename?: "License"; url?: string; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+      competenceGoals?: Array<{
+        __typename?: "CompetenceGoal";
+        id: string;
+        code?: string;
+        title: string;
+        type: string;
+      }>;
+      coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          images: Array<{
+            __typename?: "ImageLicense";
+            src: string;
+            title: string;
+            id: string;
+            altText: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            src: string;
+            title: string;
+            id: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            src: string;
+            title: string;
+            description?: string;
+            id: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            src?: string;
+            title: string;
+            cover?: string;
+            description?: string;
+            download?: string;
+            uploadDate?: string;
+            id: string;
+            copyright?: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          }>;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    };
+    learningpath?: {
+      __typename?: "Learningpath";
+      id: number;
+      description: string;
+      supportedLanguages: Array<string>;
+      tags: Array<string>;
+      title: string;
+      introduction?: string;
+      lastUpdated: string;
+      basedOn?: string;
+      isMyNDLAOwner: boolean;
+      coverphoto?: {
+        __typename?: "ImageMetaInformationV3";
+        id: string;
+        metaUrl: string;
+        image: {
+          __typename?: "ImageV3";
+          imageUrl: string;
+          dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+          variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
+        };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      learningsteps: Array<{
+        __typename?: "LearningpathStep";
+        type: string;
+        id: number;
+        title: string;
+        seqNo: number;
+        showTitle: boolean;
+        description?: string;
+        introduction?: string;
+        copyright?: {
+          __typename?: "LearningpathCopyright";
+          license: { __typename?: "License"; license: string };
+          contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+        };
+        opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+        resource?: {
+          __typename?: "Resource";
+          id: string;
+          nodeType: string;
+          url?: string;
+          relevanceId?: string;
+          resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+          article?: {
+            __typename?: "Article";
+            id: number;
+            metaDescription: string;
+            created: string;
+            updated: string;
+            articleType: string;
+            title: string;
+            published: string;
+            supportedLanguages?: Array<string>;
+            grepCodes?: Array<string>;
+            htmlIntroduction?: string;
+            htmlTitle: string;
+            oembed?: string;
+            traits: Array<string>;
+            language: string;
+            requiredLibraries?: Array<{
+              __typename?: "ArticleRequiredLibrary";
+              name: string;
+              url: string;
+              mediaType: string;
+            }>;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              origin?: string;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+            metaImage?: {
+              __typename?: "ImageMetaInformationV3";
+              image: { __typename?: "ImageV3"; imageUrl: string };
+              alttext: { __typename?: "ImageAltText"; alttext: string };
+            };
+            competenceGoals?: Array<{
+              __typename?: "CompetenceGoal";
+              id: string;
+              code?: string;
+              title: string;
+              type: string;
+            }>;
+            coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+            transformedContent: {
+              __typename?: "TransformedArticleContent";
+              content: string;
+              metaData?: {
+                __typename?: "ArticleMetaData";
+                copyText?: string;
+                images: Array<{
+                  __typename?: "ImageLicense";
+                  src: string;
+                  title: string;
+                  id: string;
+                  altText: string;
+                  copyText?: string;
+                  copyright: {
+                    __typename?: "Copyright";
+                    processed?: boolean;
+                    origin?: string;
+                    license: { __typename?: "License"; url?: string; license: string };
+                    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  };
+                }>;
+                audios: Array<{
+                  __typename?: "AudioLicense";
+                  src: string;
+                  title: string;
+                  id: string;
+                  copyright: {
+                    __typename?: "Copyright";
+                    processed?: boolean;
+                    origin?: string;
+                    license: { __typename?: "License"; url?: string; license: string };
+                    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  };
+                }>;
+                podcasts: Array<{
+                  __typename?: "PodcastLicense";
+                  src: string;
+                  title: string;
+                  description?: string;
+                  id: string;
+                  copyText?: string;
+                  copyright: {
+                    __typename?: "Copyright";
+                    processed?: boolean;
+                    origin?: string;
+                    license: { __typename?: "License"; url?: string; license: string };
+                    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  };
+                }>;
+                brightcoves: Array<{
+                  __typename?: "BrightcoveLicense";
+                  src?: string;
+                  title: string;
+                  cover?: string;
+                  description?: string;
+                  download?: string;
+                  uploadDate?: string;
+                  id: string;
+                  copyright?: {
+                    __typename?: "Copyright";
+                    processed?: boolean;
+                    origin?: string;
+                    license: { __typename?: "License"; url?: string; license: string };
+                    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  };
+                  iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+                }>;
+                footnotes: Array<{
+                  __typename?: "FootNote";
+                  ref: number;
+                  title: string;
+                  year: string;
+                  authors: Array<string>;
+                  edition?: string;
+                  publisher?: string;
+                  url?: string;
+                }>;
+                concepts: Array<{
+                  __typename?: "ConceptLicense";
+                  id: string;
+                  title: string;
+                  src?: string;
+                  copyright?: {
+                    __typename?: "ConceptCopyright";
+                    origin?: string;
+                    processed?: boolean;
+                    license?: { __typename?: "License"; license: string };
+                    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  };
+                }>;
+                glosses: Array<{
+                  __typename?: "GlossLicense";
+                  id: string;
+                  title: string;
+                  src?: string;
+                  copyright?: {
+                    __typename?: "ConceptCopyright";
+                    origin?: string;
+                    processed?: boolean;
+                    license?: { __typename?: "License"; license: string };
+                    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  };
+                }>;
+                h5ps: Array<{
+                  __typename?: "H5pLicense";
+                  id: string;
+                  title: string;
+                  src?: string;
+                  copyright?: {
+                    __typename?: "Copyright";
+                    origin?: string;
+                    processed?: boolean;
+                    license: { __typename?: "License"; license: string };
+                    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  };
+                }>;
+                textblocks: Array<{
+                  __typename?: "TextblockLicense";
+                  title?: string;
+                  copyright: {
+                    __typename?: "Copyright";
+                    origin?: string;
+                    processed?: boolean;
+                    license: { __typename?: "License"; license: string };
+                    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+                  };
+                }>;
+              };
+            };
+            transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+          };
+        };
+        embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; embedType: string; url: string };
+        oembed?: {
+          __typename?: "LearningpathStepOembed";
+          html: string;
+          width: number;
+          height: number;
+          type: string;
+          version: string;
+        };
+      }>;
+      copyright: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+    };
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+  };
 };
 
 export type GQLResourceItem_NodeFragment = {
@@ -3449,7 +9158,46 @@ export type GQLLaunchpadQuery = {
     id: string;
     name: string;
     url?: string;
-    children?: Array<{ __typename?: "Node"; id: string } & GQLResourceItem_NodeFragment>;
+    children?: Array<{
+      __typename?: "Node";
+      id: string;
+      nodeType: string;
+      rank?: number;
+      name: string;
+      url?: string;
+      language?: string;
+      relevanceId?: string;
+      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+      article?: {
+        __typename?: "Article";
+        id: number;
+        traits: Array<string>;
+        metaImage?: {
+          __typename?: "ImageMetaInformationV3";
+          image: {
+            __typename?: "ImageV3";
+            imageUrl: string;
+            variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
+            dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+          };
+          alttext: { __typename?: "ImageAltText"; alttext: string };
+        };
+      };
+      learningpath?: {
+        __typename?: "Learningpath";
+        id: number;
+        coverphoto?: {
+          __typename?: "ImageMetaInformationV3";
+          id: string;
+          image: {
+            __typename?: "ImageV3";
+            imageUrl: string;
+            variants: Array<{ __typename?: "ImageVariant"; size: string; variantUrl: string }>;
+            dimensions?: { __typename?: "ImageDimensions"; width: number; height: number };
+          };
+        };
+      };
+    }>;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   };
   resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
@@ -3510,22 +9258,100 @@ export type GQLSearchPageQuery = {
     language: string;
     totalCount: number;
     results: Array<
-      | ({ __typename?: "ArticleSearchResult" } & GQLSearchResult_SearchResult_ArticleSearchResult_Fragment)
-      | ({ __typename?: "LearningpathSearchResult" } & GQLSearchResult_SearchResult_LearningpathSearchResult_Fragment)
-      | ({ __typename?: "NodeSearchResult" } & GQLSearchResult_SearchResult_NodeSearchResult_Fragment)
+      | {
+          __typename?: "ArticleSearchResult";
+          htmlTitle: string;
+          traits: Array<string>;
+          id: string;
+          url: string;
+          title: string;
+          metaDescription: string;
+          context?: {
+            __typename?: "SearchContext";
+            contextId: string;
+            publicId: string;
+            url: string;
+            relevanceId: string;
+            breadcrumbs: Array<string>;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          };
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            publicId: string;
+            url: string;
+            breadcrumbs: Array<string>;
+            relevanceId: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          }>;
+        }
+      | {
+          __typename?: "LearningpathSearchResult";
+          htmlTitle: string;
+          traits: Array<string>;
+          id: string;
+          url: string;
+          title: string;
+          metaDescription: string;
+          context?: {
+            __typename?: "SearchContext";
+            contextId: string;
+            publicId: string;
+            url: string;
+            relevanceId: string;
+            breadcrumbs: Array<string>;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          };
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            publicId: string;
+            url: string;
+            breadcrumbs: Array<string>;
+            relevanceId: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          }>;
+        }
+      | {
+          __typename?: "NodeSearchResult";
+          id: string;
+          url: string;
+          title: string;
+          metaDescription: string;
+          context?: {
+            __typename?: "SearchContext";
+            contextId: string;
+            publicId: string;
+            url: string;
+            relevanceId: string;
+            breadcrumbs: Array<string>;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          };
+          contexts: Array<{
+            __typename?: "SearchContext";
+            contextId: string;
+            publicId: string;
+            url: string;
+            breadcrumbs: Array<string>;
+            relevanceId: string;
+            resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
+          }>;
+        }
     >;
   };
 };
 
 export type GQLSearchContainer_ResourceTypeDefinitionFragment = {
   __typename?: "ResourceTypeDefinition";
-} & GQLResourceTypeFilter_ResourceTypeDefinitionFragment;
+  id: string;
+  name: string;
+};
 
 export type GQLSearchResourceTypesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLSearchResourceTypesQuery = {
   __typename?: "Query";
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLSearchContainer_ResourceTypeDefinitionFragment>;
+  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 type GQLSearchResult_SearchResult_ArticleSearchResult_Fragment = {
@@ -3645,8 +9471,34 @@ export type GQLSubjectContainer_NodeFragment = {
     parentIds: Array<string>;
     url: string;
   };
-  links?: Array<{ __typename?: "Node" } & GQLTransportationNode_NodeFragment>;
-  nodes?: Array<{ __typename?: "Node" } & GQLTransportationNode_NodeFragment>;
+  links?: Array<{
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    name: string;
+    url?: string;
+    relevanceId?: string;
+    meta?: {
+      __typename?: "Meta";
+      metaDescription?: string;
+      metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+    };
+    context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+  }>;
+  nodes?: Array<{
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    name: string;
+    url?: string;
+    relevanceId?: string;
+    meta?: {
+      __typename?: "Meta";
+      metaDescription?: string;
+      metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+    };
+    context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+  }>;
   subjectpage?: {
     __typename?: "SubjectPage";
     id: number;
@@ -3660,11 +9512,30 @@ export type GQLSubjectContainer_NodeFragment = {
         alt?: string;
         url: string;
         imageUrl?: string;
-        imageLicense?: { __typename?: "ImageLicense" } & GQLImageLicenseList_ImageLicenseFragment;
+        imageLicense?: {
+          __typename?: "ImageLicense";
+          id: string;
+          title: string;
+          altText: string;
+          src: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        };
       };
     };
-  } & GQLSubjectLinks_SubjectPageFragment;
-} & GQLFavoriteSubject_NodeFragment;
+    buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
+    connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
+    leadsTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
+  };
+};
 
 export type GQLSubjectPageQueryVariables = Exact<{
   subjectId?: InputMaybe<Scalars["String"]["input"]>;
@@ -3675,7 +9546,88 @@ export type GQLSubjectPageQueryVariables = Exact<{
 
 export type GQLSubjectPageQuery = {
   __typename?: "Query";
-  node?: { __typename?: "Node" } & GQLSubjectContainer_NodeFragment;
+  node?: {
+    __typename?: "Node";
+    id: string;
+    name: string;
+    supportedLanguages: Array<string>;
+    url?: string;
+    nodeType: string;
+    grepCodes?: Array<string>;
+    metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
+    context?: {
+      __typename?: "TaxonomyContext";
+      contextId: string;
+      isArchived: boolean;
+      rootId: string;
+      parentIds: Array<string>;
+      url: string;
+    };
+    links?: Array<{
+      __typename?: "Node";
+      id: string;
+      nodeType: string;
+      name: string;
+      url?: string;
+      relevanceId?: string;
+      meta?: {
+        __typename?: "Meta";
+        metaDescription?: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+      };
+      context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+    }>;
+    nodes?: Array<{
+      __typename?: "Node";
+      id: string;
+      nodeType: string;
+      name: string;
+      url?: string;
+      relevanceId?: string;
+      meta?: {
+        __typename?: "Meta";
+        metaDescription?: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+      };
+      context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+    }>;
+    subjectpage?: {
+      __typename?: "SubjectPage";
+      id: number;
+      metaDescription?: string;
+      about?: {
+        __typename?: "SubjectPageAbout";
+        title: string;
+        visualElement: {
+          __typename?: "SubjectPageVisualElement";
+          type: string;
+          alt?: string;
+          url: string;
+          imageUrl?: string;
+          imageLicense?: {
+            __typename?: "ImageLicense";
+            id: string;
+            title: string;
+            altText: string;
+            src: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          };
+        };
+      };
+      buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
+      connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
+      leadsTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
+    };
+  };
   nodes?: Array<{
     __typename?: "Node";
     url?: string;
@@ -3710,13 +9662,172 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     introduction?: string;
     metaDescription: string;
     traits: Array<string>;
+    supportedLanguages?: Array<string>;
+    grepCodes?: Array<string>;
+    htmlIntroduction?: string;
+    htmlTitle: string;
+    title: string;
+    published: string;
     metaImage?: {
       __typename?: "ImageMetaInformationV3";
       image: { __typename?: "ImageV3"; imageUrl: string };
       alttext: { __typename?: "ImageAltText"; alttext: string };
     };
     crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string; url?: string }>;
-  } & GQLArticle_ArticleFragment;
+    transformedContent: {
+      __typename?: "TransformedArticleContent";
+      content: string;
+      metaData?: {
+        __typename?: "ArticleMetaData";
+        copyText?: string;
+        footnotes: Array<{
+          __typename?: "FootNote";
+          ref: number;
+          title: string;
+          year: string;
+          authors: Array<string>;
+          edition?: string;
+          publisher?: string;
+          url?: string;
+        }>;
+        concepts: Array<{
+          __typename?: "ConceptLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        glosses: Array<{
+          __typename?: "GlossLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        h5ps: Array<{
+          __typename?: "H5pLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        brightcoves: Array<{
+          __typename?: "BrightcoveLicense";
+          id: string;
+          title: string;
+          download?: string;
+          src?: string;
+          cover?: string;
+          iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        audios: Array<{
+          __typename?: "AudioLicense";
+          id: string;
+          src: string;
+          title: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        podcasts: Array<{
+          __typename?: "PodcastLicense";
+          id: string;
+          src: string;
+          copyText?: string;
+          title: string;
+          description?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        images: Array<{
+          __typename?: "ImageLicense";
+          id: string;
+          title: string;
+          altText: string;
+          src: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        textblocks: Array<{
+          __typename?: "TextblockLicense";
+          title?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+      };
+    };
+    transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    copyright: {
+      __typename?: "Copyright";
+      origin?: string;
+      processed?: boolean;
+      license: { __typename?: "License"; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+  };
 };
 
 export type GQLTopicContainer_NodeFragment = {
@@ -3726,8 +9837,34 @@ export type GQLTopicContainer_NodeFragment = {
   name: string;
   contentUri?: string;
   url?: string;
-  links?: Array<{ __typename?: "Node" } & GQLTransportationNode_NodeFragment>;
-  children?: Array<{ __typename?: "Node"; id: string } & GQLTransportationNode_NodeFragment>;
+  links?: Array<{
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    name: string;
+    url?: string;
+    relevanceId?: string;
+    meta?: {
+      __typename?: "Meta";
+      metaDescription?: string;
+      metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+    };
+    context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+  }>;
+  children?: Array<{
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    name: string;
+    url?: string;
+    relevanceId?: string;
+    meta?: {
+      __typename?: "Meta";
+      metaDescription?: string;
+      metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+    };
+    context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+  }>;
 };
 
 export type GQLTopicPageQueryVariables = Exact<{
@@ -3746,17 +9883,184 @@ export type GQLTopicPageQuery = {
     breadcrumbs: Array<string>;
     relevanceId?: string;
     nodeType: string;
+    url?: string;
+    contentUri?: string;
     article?: {
       __typename?: "Article";
       htmlTitle: string;
       htmlIntroduction?: string;
       grepCodes?: Array<string>;
+      id: number;
+      language: string;
+      created: string;
+      updated: string;
+      oembed?: string;
+      introduction?: string;
+      metaDescription: string;
+      traits: Array<string>;
+      supportedLanguages?: Array<string>;
+      title: string;
+      published: string;
       metaImage?: {
         __typename?: "ImageMetaInformationV3";
         image: { __typename?: "ImageV3"; imageUrl: string };
         alttext: { __typename?: "ImageAltText"; alttext: string };
       };
       visualElementEmbed?: { __typename?: "ResourceEmbed"; content: string };
+      crossSubjectTopics?: Array<{ __typename?: "CrossSubjectElement"; title: string; path?: string; url?: string }>;
+      transformedContent: {
+        __typename?: "TransformedArticleContent";
+        content: string;
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          footnotes: Array<{
+            __typename?: "FootNote";
+            ref: number;
+            title: string;
+            year: string;
+            authors: Array<string>;
+            edition?: string;
+            publisher?: string;
+            url?: string;
+          }>;
+          concepts: Array<{
+            __typename?: "ConceptLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          glosses: Array<{
+            __typename?: "GlossLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "ConceptCopyright";
+              origin?: string;
+              processed?: boolean;
+              license?: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          h5ps: Array<{
+            __typename?: "H5pLicense";
+            id: string;
+            title: string;
+            src?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            id: string;
+            title: string;
+            download?: string;
+            src?: string;
+            cover?: string;
+            iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+            copyright?: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            id: string;
+            src: string;
+            title: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            id: string;
+            src: string;
+            copyText?: string;
+            title: string;
+            description?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          images: Array<{
+            __typename?: "ImageLicense";
+            id: string;
+            title: string;
+            altText: string;
+            src: string;
+            copyText?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          textblocks: Array<{
+            __typename?: "TextblockLicense";
+            title?: string;
+            copyright: {
+              __typename?: "Copyright";
+              origin?: string;
+              processed?: boolean;
+              license: { __typename?: "License"; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
+      };
+      transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+      copyright: {
+        __typename?: "Copyright";
+        origin?: string;
+        processed?: boolean;
+        license: { __typename?: "License"; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
     };
     meta?: {
       __typename?: "Meta";
@@ -3770,10 +10074,39 @@ export type GQLTopicPageQuery = {
       name: string;
       url: string;
       isArchived: boolean;
-      parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; name: string; url: string }>;
+      breadcrumbs: Array<string>;
+      parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
     };
-  } & GQLMultidisciplinarySubjectArticle_NodeFragment &
-    GQLTopicContainer_NodeFragment;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+    links?: Array<{
+      __typename?: "Node";
+      id: string;
+      nodeType: string;
+      name: string;
+      url?: string;
+      relevanceId?: string;
+      meta?: {
+        __typename?: "Meta";
+        metaDescription?: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+      };
+      context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+    }>;
+    children?: Array<{
+      __typename?: "Node";
+      id: string;
+      nodeType: string;
+      name: string;
+      url?: string;
+      relevanceId?: string;
+      meta?: {
+        __typename?: "Meta";
+        metaDescription?: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+      };
+      context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+    }>;
+  };
 };
 
 export type GQLFrontpageDataQueryVariables = Exact<{
@@ -3800,12 +10133,96 @@ export type GQLFrontpageDataQuery = {
       published: string;
       language: string;
       htmlTitle: string;
+      title: string;
+      metaDescription: string;
+      supportedLanguages?: Array<string>;
       transformedContent: {
         __typename?: "TransformedArticleContent";
         content: string;
-        metaData?: { __typename?: "ArticleMetaData"; copyText?: string };
+        metaData?: {
+          __typename?: "ArticleMetaData";
+          copyText?: string;
+          images: Array<{
+            __typename?: "ImageLicense";
+            src: string;
+            title: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          audios: Array<{
+            __typename?: "AudioLicense";
+            src: string;
+            title: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          podcasts: Array<{
+            __typename?: "PodcastLicense";
+            src: string;
+            title: string;
+            description?: string;
+            copyright: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+          brightcoves: Array<{
+            __typename?: "BrightcoveLicense";
+            src?: string;
+            title: string;
+            cover?: string;
+            description?: string;
+            download?: string;
+            uploadDate?: string;
+            copyright?: {
+              __typename?: "Copyright";
+              processed?: boolean;
+              license: { __typename?: "License"; url?: string; license: string };
+              creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+              rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            };
+          }>;
+        };
       };
-    } & GQLStructuredArticleDataFragment;
+      copyright: {
+        __typename?: "Copyright";
+        processed?: boolean;
+        license: { __typename?: "License"; url?: string; license: string };
+        creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      };
+      metaImage?: {
+        __typename?: "ImageMetaInformationV3";
+        image: { __typename?: "ImageV3"; imageUrl: string };
+        alttext: { __typename?: "ImageAltText"; alttext: string };
+      };
+      competenceGoals?: Array<{
+        __typename?: "CompetenceGoal";
+        id: string;
+        code?: string;
+        title: string;
+        type: string;
+      }>;
+      coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+    };
   };
 };
 
@@ -3849,8 +10266,15 @@ export type GQLMyNdlaLearningpathStepFragment = {
   supportedLanguages: Array<string>;
   showTitle: boolean;
   revision: number;
-  embedUrl?: { __typename?: "LearningpathStepEmbedUrl" } & GQLLearningpathStepEmbedUrlFragment;
-  oembed?: { __typename?: "LearningpathStepOembed" } & GQLLearningpathStepOembedFragment;
+  embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+  oembed?: {
+    __typename?: "LearningpathStepOembed";
+    type: string;
+    version: string;
+    height: number;
+    html: string;
+    width: number;
+  };
   opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
   resource?: {
     __typename?: "Resource";
@@ -3858,7 +10282,17 @@ export type GQLMyNdlaLearningpathStepFragment = {
     url?: string;
     breadcrumbs: Array<string>;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
-    article?: { __typename?: "Article" } & GQLResource_ArticleFragment;
+    article?: {
+      __typename?: "Article";
+      id: number;
+      metaDescription: string;
+      created: string;
+      updated: string;
+      articleType: string;
+      title: string;
+      traits: Array<string>;
+      language: string;
+    };
   };
   copyright?: {
     __typename?: "LearningpathCopyright";
@@ -3884,7 +10318,53 @@ export type GQLMyNdlaLearningpathFragment = {
     metaUrl: string;
     image: { __typename?: "ImageV3"; imageUrl: string };
   };
-  learningsteps?: Array<{ __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment>;
+  learningsteps?: Array<{
+    __typename?: "MyNdlaLearningpathStep";
+    id: number;
+    title: string;
+    seqNo: number;
+    canEdit: boolean;
+    articleId?: number;
+    description?: string;
+    introduction?: string;
+    type: string;
+    supportedLanguages: Array<string>;
+    showTitle: boolean;
+    revision: number;
+    embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+    oembed?: {
+      __typename?: "LearningpathStepOembed";
+      type: string;
+      version: string;
+      height: number;
+      html: string;
+      width: number;
+    };
+    opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+    resource?: {
+      __typename?: "Resource";
+      id: string;
+      url?: string;
+      breadcrumbs: Array<string>;
+      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+      article?: {
+        __typename?: "Article";
+        id: number;
+        metaDescription: string;
+        created: string;
+        updated: string;
+        articleType: string;
+        title: string;
+        traits: Array<string>;
+        language: string;
+      };
+    };
+    copyright?: {
+      __typename?: "LearningpathCopyright";
+      license: { __typename?: "License"; license: string };
+      contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    };
+  }>;
 };
 
 export type GQLIframeArticlePage_ArticleFragment = {
@@ -3895,9 +10375,178 @@ export type GQLIframeArticlePage_ArticleFragment = {
   metaDescription: string;
   oembed?: string;
   tags?: Array<string>;
-  metaImage?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
-} & GQLArticle_ArticleFragment &
-  GQLStructuredArticleDataFragment;
+  id: number;
+  supportedLanguages?: Array<string>;
+  grepCodes?: Array<string>;
+  htmlIntroduction?: string;
+  htmlTitle: string;
+  traits: Array<string>;
+  language: string;
+  title: string;
+  published: string;
+  metaImage?: {
+    __typename?: "ImageMetaInformationV3";
+    image: { __typename?: "ImageV3"; imageUrl: string };
+    alttext: { __typename?: "ImageAltText"; alttext: string };
+  };
+  transformedContent: {
+    __typename?: "TransformedArticleContent";
+    content: string;
+    metaData?: {
+      __typename?: "ArticleMetaData";
+      copyText?: string;
+      images: Array<{
+        __typename?: "ImageLicense";
+        src: string;
+        title: string;
+        id: string;
+        altText: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        src: string;
+        title: string;
+        id: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        src: string;
+        title: string;
+        description?: string;
+        id: string;
+        copyText?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        src?: string;
+        title: string;
+        cover?: string;
+        description?: string;
+        download?: string;
+        uploadDate?: string;
+        id: string;
+        copyright?: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          origin?: string;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+        iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+      }>;
+      footnotes: Array<{
+        __typename?: "FootNote";
+        ref: number;
+        title: string;
+        year: string;
+        authors: Array<string>;
+        edition?: string;
+        publisher?: string;
+        url?: string;
+      }>;
+      concepts: Array<{
+        __typename?: "ConceptLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      glosses: Array<{
+        __typename?: "GlossLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "ConceptCopyright";
+          origin?: string;
+          processed?: boolean;
+          license?: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      h5ps: Array<{
+        __typename?: "H5pLicense";
+        id: string;
+        title: string;
+        src?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      textblocks: Array<{
+        __typename?: "TextblockLicense";
+        title?: string;
+        copyright: {
+          __typename?: "Copyright";
+          origin?: string;
+          processed?: boolean;
+          license: { __typename?: "License"; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+    };
+  };
+  transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    origin?: string;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
+  competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+  coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+};
 
 export type GQLIframeArticlePage_NodeFragment = {
   __typename?: "Node";
@@ -3917,15 +10566,202 @@ export type GQLIframePageQueryVariables = Exact<{
 
 export type GQLIframePageQuery = {
   __typename?: "Query";
-  article?: { __typename?: "Article" } & GQLIframeArticlePage_ArticleFragment;
-  nodeByArticleId?: { __typename?: "Node" } & GQLIframeArticlePage_NodeFragment;
+  article?: {
+    __typename?: "Article";
+    articleType: string;
+    created: string;
+    updated: string;
+    metaDescription: string;
+    oembed?: string;
+    tags?: Array<string>;
+    id: number;
+    supportedLanguages?: Array<string>;
+    grepCodes?: Array<string>;
+    htmlIntroduction?: string;
+    htmlTitle: string;
+    traits: Array<string>;
+    language: string;
+    title: string;
+    published: string;
+    metaImage?: {
+      __typename?: "ImageMetaInformationV3";
+      image: { __typename?: "ImageV3"; imageUrl: string };
+      alttext: { __typename?: "ImageAltText"; alttext: string };
+    };
+    transformedContent: {
+      __typename?: "TransformedArticleContent";
+      content: string;
+      metaData?: {
+        __typename?: "ArticleMetaData";
+        copyText?: string;
+        images: Array<{
+          __typename?: "ImageLicense";
+          src: string;
+          title: string;
+          id: string;
+          altText: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        audios: Array<{
+          __typename?: "AudioLicense";
+          src: string;
+          title: string;
+          id: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        podcasts: Array<{
+          __typename?: "PodcastLicense";
+          src: string;
+          title: string;
+          description?: string;
+          id: string;
+          copyText?: string;
+          copyright: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        brightcoves: Array<{
+          __typename?: "BrightcoveLicense";
+          src?: string;
+          title: string;
+          cover?: string;
+          description?: string;
+          download?: string;
+          uploadDate?: string;
+          id: string;
+          copyright?: {
+            __typename?: "Copyright";
+            processed?: boolean;
+            origin?: string;
+            license: { __typename?: "License"; url?: string; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+          iframe?: { __typename?: "BrightcoveIframe"; width: number; height: number; src: string };
+        }>;
+        footnotes: Array<{
+          __typename?: "FootNote";
+          ref: number;
+          title: string;
+          year: string;
+          authors: Array<string>;
+          edition?: string;
+          publisher?: string;
+          url?: string;
+        }>;
+        concepts: Array<{
+          __typename?: "ConceptLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        glosses: Array<{
+          __typename?: "GlossLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "ConceptCopyright";
+            origin?: string;
+            processed?: boolean;
+            license?: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        h5ps: Array<{
+          __typename?: "H5pLicense";
+          id: string;
+          title: string;
+          src?: string;
+          copyright?: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+        textblocks: Array<{
+          __typename?: "TextblockLicense";
+          title?: string;
+          copyright: {
+            __typename?: "Copyright";
+            origin?: string;
+            processed?: boolean;
+            license: { __typename?: "License"; license: string };
+            creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+            rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          };
+        }>;
+      };
+    };
+    transformedDisclaimer: { __typename?: "TransformedArticleContent"; content: string };
+    copyright: {
+      __typename?: "Copyright";
+      processed?: boolean;
+      origin?: string;
+      license: { __typename?: "License"; url?: string; license: string };
+      creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+      rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    };
+    competenceGoals?: Array<{ __typename?: "CompetenceGoal"; id: string; code?: string; title: string; type: string }>;
+    coreElements?: Array<{ __typename?: "CoreElement"; id: string; title: string }>;
+  };
+  nodeByArticleId?: {
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    name: string;
+    url?: string;
+    relevanceId?: string;
+    resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+  };
 };
 
 export type GQLLtiSearchResourceTypesQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GQLLtiSearchResourceTypesQuery = {
   __typename?: "Query";
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition" } & GQLSearchContainer_ResourceTypeDefinitionFragment>;
+  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLMyNdlaResourceFragmentFragment = {
@@ -3949,7 +10785,15 @@ export type GQLFolderFragmentFragment = {
   description?: string;
   breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
   owner?: { __typename: "Owner"; name: string };
-  resources: Array<{ __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment>;
+  resources: Array<{
+    __typename: "MyNdlaResource";
+    resourceId: string;
+    id: string;
+    resourceType: string;
+    path: string;
+    created: string;
+    tags: Array<string>;
+  }>;
 };
 
 export type GQLSharedFolderFragmentFragment = {
@@ -3963,98 +10807,438 @@ export type GQLSharedFolderFragmentFragment = {
   description?: string;
   breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
   owner?: { __typename: "Owner"; name: string };
-  resources: Array<{ __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment>;
+  resources: Array<{
+    __typename: "MyNdlaResource";
+    resourceId: string;
+    id: string;
+    resourceType: string;
+    path: string;
+    created: string;
+    tags: Array<string>;
+  }>;
 };
 
 export type GQLFoldersPageQueryFragmentFragment = {
-  __typename?: "Folder";
-  subfolders: Array<
-    {
-      __typename?: "Folder";
-      subfolders: Array<
-        {
-          __typename?: "Folder";
-          subfolders: Array<
-            {
-              __typename?: "Folder";
-              subfolders: Array<
-                {
-                  __typename?: "Folder";
-                  subfolders: Array<
-                    {
-                      __typename?: "Folder";
-                      subfolders: Array<
-                        {
-                          __typename?: "Folder";
-                          subfolders: Array<
-                            {
-                              __typename?: "Folder";
-                              subfolders: Array<
-                                {
-                                  __typename?: "Folder";
-                                  subfolders: Array<{ __typename?: "Folder" } & GQLFolderFragmentFragment>;
-                                } & GQLFolderFragmentFragment
-                              >;
-                            } & GQLFolderFragmentFragment
-                          >;
-                        } & GQLFolderFragmentFragment
-                      >;
-                    } & GQLFolderFragmentFragment
-                  >;
-                } & GQLFolderFragmentFragment
-              >;
-            } & GQLFolderFragmentFragment
-          >;
-        } & GQLFolderFragmentFragment
-      >;
-    } & GQLFolderFragmentFragment
-  >;
-} & GQLFolderFragmentFragment;
+  __typename: "Folder";
+  id: string;
+  name: string;
+  status: string;
+  parentId?: string;
+  created: string;
+  updated: string;
+  description?: string;
+  subfolders: Array<{
+    __typename: "Folder";
+    id: string;
+    name: string;
+    status: string;
+    parentId?: string;
+    created: string;
+    updated: string;
+    description?: string;
+    subfolders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+    owner?: { __typename: "Owner"; name: string };
+    resources: Array<{
+      __typename: "MyNdlaResource";
+      resourceId: string;
+      id: string;
+      resourceType: string;
+      path: string;
+      created: string;
+      tags: Array<string>;
+    }>;
+  }>;
+  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+  owner?: { __typename: "Owner"; name: string };
+  resources: Array<{
+    __typename: "MyNdlaResource";
+    resourceId: string;
+    id: string;
+    resourceType: string;
+    path: string;
+    created: string;
+    tags: Array<string>;
+  }>;
+};
 
 export type GQLSharedFoldersPageQueryFragmentFragment = {
-  __typename?: "SharedFolder";
-  subfolders: Array<
-    {
-      __typename?: "SharedFolder";
-      subfolders: Array<
-        {
-          __typename?: "SharedFolder";
-          subfolders: Array<
-            {
-              __typename?: "SharedFolder";
-              subfolders: Array<
-                {
-                  __typename?: "SharedFolder";
-                  subfolders: Array<
-                    {
-                      __typename?: "SharedFolder";
-                      subfolders: Array<
-                        {
-                          __typename?: "SharedFolder";
-                          subfolders: Array<
-                            {
-                              __typename?: "SharedFolder";
-                              subfolders: Array<
-                                {
-                                  __typename?: "SharedFolder";
-                                  subfolders: Array<{ __typename?: "SharedFolder" } & GQLSharedFolderFragmentFragment>;
-                                } & GQLSharedFolderFragmentFragment
-                              >;
-                            } & GQLSharedFolderFragmentFragment
-                          >;
-                        } & GQLSharedFolderFragmentFragment
-                      >;
-                    } & GQLSharedFolderFragmentFragment
-                  >;
-                } & GQLSharedFolderFragmentFragment
-              >;
-            } & GQLSharedFolderFragmentFragment
-          >;
-        } & GQLSharedFolderFragmentFragment
-      >;
-    } & GQLSharedFolderFragmentFragment
-  >;
-} & GQLSharedFolderFragmentFragment;
+  __typename: "SharedFolder";
+  id: string;
+  name: string;
+  status: string;
+  parentId?: string;
+  created: string;
+  updated: string;
+  description?: string;
+  subfolders: Array<{
+    __typename: "SharedFolder";
+    id: string;
+    name: string;
+    status: string;
+    parentId?: string;
+    created: string;
+    updated: string;
+    description?: string;
+    subfolders: Array<{
+      __typename: "SharedFolder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "SharedFolder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "SharedFolder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "SharedFolder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "SharedFolder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "SharedFolder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "SharedFolder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "SharedFolder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+    owner?: { __typename: "Owner"; name: string };
+    resources: Array<{
+      __typename: "MyNdlaResource";
+      resourceId: string;
+      id: string;
+      resourceType: string;
+      path: string;
+      created: string;
+      tags: Array<string>;
+    }>;
+  }>;
+  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+  owner?: { __typename: "Owner"; name: string };
+  resources: Array<{
+    __typename: "MyNdlaResource";
+    resourceId: string;
+    id: string;
+    resourceType: string;
+    path: string;
+    created: string;
+    tags: Array<string>;
+  }>;
+};
 
 type GQLMyNdlaResourceMeta_MyNdlaArticleResourceMeta_Fragment = {
   __typename: "MyNdlaArticleResourceMeta";
@@ -4138,7 +11322,15 @@ export type GQLUpdateMyNdlaResourceMutationVariables = Exact<{
 
 export type GQLUpdateMyNdlaResourceMutation = {
   __typename?: "Mutation";
-  updateMyNdlaResource: { __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment;
+  updateMyNdlaResource: {
+    __typename: "MyNdlaResource";
+    resourceId: string;
+    id: string;
+    resourceType: string;
+    path: string;
+    created: string;
+    tags: Array<string>;
+  };
 };
 
 export type GQLAddFolderMutationVariables = Exact<{
@@ -4150,7 +11342,216 @@ export type GQLAddFolderMutationVariables = Exact<{
 
 export type GQLAddFolderMutation = {
   __typename?: "Mutation";
-  addFolder: { __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment;
+  addFolder: {
+    __typename: "Folder";
+    id: string;
+    name: string;
+    status: string;
+    parentId?: string;
+    created: string;
+    updated: string;
+    description?: string;
+    subfolders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "Folder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+    owner?: { __typename: "Owner"; name: string };
+    resources: Array<{
+      __typename: "MyNdlaResource";
+      resourceId: string;
+      id: string;
+      resourceType: string;
+      path: string;
+      created: string;
+      tags: Array<string>;
+    }>;
+  };
 };
 
 export type GQLUpdateFolderMutationVariables = Exact<{
@@ -4162,7 +11563,216 @@ export type GQLUpdateFolderMutationVariables = Exact<{
 
 export type GQLUpdateFolderMutation = {
   __typename?: "Mutation";
-  updateFolder: { __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment;
+  updateFolder: {
+    __typename: "Folder";
+    id: string;
+    name: string;
+    status: string;
+    parentId?: string;
+    created: string;
+    updated: string;
+    description?: string;
+    subfolders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "Folder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+    owner?: { __typename: "Owner"; name: string };
+    resources: Array<{
+      __typename: "MyNdlaResource";
+      resourceId: string;
+      id: string;
+      resourceType: string;
+      path: string;
+      created: string;
+      tags: Array<string>;
+    }>;
+  };
 };
 
 export type GQLUpdateFolderStatusMutationVariables = Exact<{
@@ -4180,9 +11790,236 @@ export type GQLCopySharedFolderMutationVariables = Exact<{
 export type GQLCopySharedFolderMutation = {
   __typename?: "Mutation";
   copySharedFolder: {
-    __typename?: "Folder";
-    subfolders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
-  } & GQLFolderFragmentFragment;
+    __typename: "Folder";
+    id: string;
+    name: string;
+    status: string;
+    parentId?: string;
+    created: string;
+    updated: string;
+    description?: string;
+    subfolders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "Folder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      subfolders: Array<{
+                        __typename: "Folder";
+                        id: string;
+                        name: string;
+                        status: string;
+                        parentId?: string;
+                        created: string;
+                        updated: string;
+                        description?: string;
+                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        owner?: { __typename: "Owner"; name: string };
+                        resources: Array<{
+                          __typename: "MyNdlaResource";
+                          resourceId: string;
+                          id: string;
+                          resourceType: string;
+                          path: string;
+                          created: string;
+                          tags: Array<string>;
+                        }>;
+                      }>;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+    owner?: { __typename: "Owner"; name: string };
+    resources: Array<{
+      __typename: "MyNdlaResource";
+      resourceId: string;
+      id: string;
+      resourceType: string;
+      path: string;
+      created: string;
+      tags: Array<string>;
+    }>;
+  };
 };
 
 export type GQLAddMyNdlaResourceMutationVariables = Exact<{
@@ -4195,7 +12032,15 @@ export type GQLAddMyNdlaResourceMutationVariables = Exact<{
 
 export type GQLAddMyNdlaResourceMutation = {
   __typename?: "Mutation";
-  addMyNdlaResource: { __typename?: "MyNdlaResource" } & GQLMyNdlaResourceFragmentFragment;
+  addMyNdlaResource: {
+    __typename: "MyNdlaResource";
+    resourceId: string;
+    id: string;
+    resourceType: string;
+    path: string;
+    created: string;
+    tags: Array<string>;
+  };
 };
 
 export type GQLDeleteMyNdlaResourceMutationVariables = Exact<{
@@ -4224,14 +12069,61 @@ export type GQLMyNdlaResourceMetaQueryVariables = Exact<{
 export type GQLMyNdlaResourceMetaQuery = {
   __typename?: "Query";
   myNdlaResourceMeta?:
-    | ({ __typename?: "MyNdlaArticleResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaArticleResourceMeta_Fragment)
-    | ({ __typename?: "MyNdlaAudioResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaAudioResourceMeta_Fragment)
-    | ({ __typename?: "MyNdlaConceptResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaConceptResourceMeta_Fragment)
-    | ({ __typename?: "MyNdlaImageResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaImageResourceMeta_Fragment)
-    | ({
-        __typename?: "MyNdlaLearningpathResourceMeta";
-      } & GQLMyNdlaResourceMeta_MyNdlaLearningpathResourceMeta_Fragment)
-    | ({ __typename?: "MyNdlaVideoResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaVideoResourceMeta_Fragment);
+    | {
+        __typename: "MyNdlaArticleResourceMeta";
+        traits?: Array<string>;
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaAudioResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaConceptResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaImageResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaLearningpathResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaVideoResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      };
 };
 
 export type GQLMyNdlaResourceMetaSearchQueryVariables = Exact<{
@@ -4241,14 +12133,61 @@ export type GQLMyNdlaResourceMetaSearchQueryVariables = Exact<{
 export type GQLMyNdlaResourceMetaSearchQuery = {
   __typename?: "Query";
   myNdlaResourceMetaSearch: Array<
-    | ({ __typename?: "MyNdlaArticleResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaArticleResourceMeta_Fragment)
-    | ({ __typename?: "MyNdlaAudioResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaAudioResourceMeta_Fragment)
-    | ({ __typename?: "MyNdlaConceptResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaConceptResourceMeta_Fragment)
-    | ({ __typename?: "MyNdlaImageResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaImageResourceMeta_Fragment)
-    | ({
-        __typename?: "MyNdlaLearningpathResourceMeta";
-      } & GQLMyNdlaResourceMeta_MyNdlaLearningpathResourceMeta_Fragment)
-    | ({ __typename?: "MyNdlaVideoResourceMeta" } & GQLMyNdlaResourceMeta_MyNdlaVideoResourceMeta_Fragment)
+    | {
+        __typename: "MyNdlaArticleResourceMeta";
+        traits?: Array<string>;
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaAudioResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaConceptResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaImageResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaLearningpathResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
+    | {
+        __typename: "MyNdlaVideoResourceMeta";
+        id: string;
+        title: string;
+        description: string;
+        type: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        resourceTypes: Array<{ __typename?: "MyNdlaResourceResourceType"; id: string; name: string }>;
+      }
   >;
 };
 
@@ -4258,8 +12197,426 @@ export type GQLFoldersPageQuery = {
   __typename?: "Query";
   folders: {
     __typename?: "UserFolder";
-    folders: Array<{ __typename?: "Folder" } & GQLFoldersPageQueryFragmentFragment>;
-    sharedFolders: Array<{ __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment>;
+    folders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "Folder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      subfolders: Array<{
+                        __typename: "Folder";
+                        id: string;
+                        name: string;
+                        status: string;
+                        parentId?: string;
+                        created: string;
+                        updated: string;
+                        description?: string;
+                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        owner?: { __typename: "Owner"; name: string };
+                        resources: Array<{
+                          __typename: "MyNdlaResource";
+                          resourceId: string;
+                          id: string;
+                          resourceType: string;
+                          path: string;
+                          created: string;
+                          tags: Array<string>;
+                        }>;
+                      }>;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    sharedFolders: Array<{
+      __typename: "SharedFolder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "SharedFolder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "SharedFolder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "SharedFolder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "SharedFolder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "SharedFolder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "SharedFolder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "SharedFolder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "SharedFolder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      subfolders: Array<{
+                        __typename: "SharedFolder";
+                        id: string;
+                        name: string;
+                        status: string;
+                        parentId?: string;
+                        created: string;
+                        updated: string;
+                        description?: string;
+                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        owner?: { __typename: "Owner"; name: string };
+                        resources: Array<{
+                          __typename: "MyNdlaResource";
+                          resourceId: string;
+                          id: string;
+                          resourceType: string;
+                          path: string;
+                          created: string;
+                          tags: Array<string>;
+                        }>;
+                      }>;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
   };
 };
 
@@ -4269,7 +12626,216 @@ export type GQLSharedFolderQueryVariables = Exact<{
 
 export type GQLSharedFolderQuery = {
   __typename?: "Query";
-  sharedFolder: { __typename?: "SharedFolder" } & GQLSharedFoldersPageQueryFragmentFragment;
+  sharedFolder: {
+    __typename: "SharedFolder";
+    id: string;
+    name: string;
+    status: string;
+    parentId?: string;
+    created: string;
+    updated: string;
+    description?: string;
+    subfolders: Array<{
+      __typename: "SharedFolder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "SharedFolder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "SharedFolder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "SharedFolder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "SharedFolder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "SharedFolder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "SharedFolder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "SharedFolder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "SharedFolder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+    owner?: { __typename: "Owner"; name: string };
+    resources: Array<{
+      __typename: "MyNdlaResource";
+      resourceId: string;
+      id: string;
+      resourceType: string;
+      path: string;
+      created: string;
+      tags: Array<string>;
+    }>;
+  };
 };
 
 export type GQLRecentlyUsedQueryVariables = Exact<{ [key: string]: never }>;
@@ -4340,7 +12906,71 @@ export type GQLUpdateLearningpathStatusMutationVariables = Exact<{
 
 export type GQLUpdateLearningpathStatusMutation = {
   __typename?: "Mutation";
-  updateLearningpathStatus: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+  updateLearningpathStatus: {
+    __typename?: "MyNdlaLearningpath";
+    id: number;
+    title: string;
+    description: string;
+    introduction?: string;
+    created: string;
+    canEdit: boolean;
+    status: string;
+    madeAvailable?: string;
+    revision: number;
+    supportedLanguages: Array<string>;
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      metaUrl: string;
+      image: { __typename?: "ImageV3"; imageUrl: string };
+    };
+    learningsteps?: Array<{
+      __typename?: "MyNdlaLearningpathStep";
+      id: number;
+      title: string;
+      seqNo: number;
+      canEdit: boolean;
+      articleId?: number;
+      description?: string;
+      introduction?: string;
+      type: string;
+      supportedLanguages: Array<string>;
+      showTitle: boolean;
+      revision: number;
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        type: string;
+        version: string;
+        height: number;
+        html: string;
+        width: number;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        url?: string;
+        breadcrumbs: Array<string>;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          traits: Array<string>;
+          language: string;
+        };
+      };
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+    }>;
+  };
 };
 
 export type GQLNewLearningpathMutationVariables = Exact<{
@@ -4350,7 +12980,71 @@ export type GQLNewLearningpathMutationVariables = Exact<{
 
 export type GQLNewLearningpathMutation = {
   __typename?: "Mutation";
-  newLearningpath: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+  newLearningpath: {
+    __typename?: "MyNdlaLearningpath";
+    id: number;
+    title: string;
+    description: string;
+    introduction?: string;
+    created: string;
+    canEdit: boolean;
+    status: string;
+    madeAvailable?: string;
+    revision: number;
+    supportedLanguages: Array<string>;
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      metaUrl: string;
+      image: { __typename?: "ImageV3"; imageUrl: string };
+    };
+    learningsteps?: Array<{
+      __typename?: "MyNdlaLearningpathStep";
+      id: number;
+      title: string;
+      seqNo: number;
+      canEdit: boolean;
+      articleId?: number;
+      description?: string;
+      introduction?: string;
+      type: string;
+      supportedLanguages: Array<string>;
+      showTitle: boolean;
+      revision: number;
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        type: string;
+        version: string;
+        height: number;
+        html: string;
+        width: number;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        url?: string;
+        breadcrumbs: Array<string>;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          traits: Array<string>;
+          language: string;
+        };
+      };
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+    }>;
+  };
 };
 
 export type GQLNewLearningpathStepMutationVariables = Exact<{
@@ -4360,7 +13054,53 @@ export type GQLNewLearningpathStepMutationVariables = Exact<{
 
 export type GQLNewLearningpathStepMutation = {
   __typename?: "Mutation";
-  newLearningpathStep: { __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment;
+  newLearningpathStep: {
+    __typename?: "MyNdlaLearningpathStep";
+    id: number;
+    title: string;
+    seqNo: number;
+    canEdit: boolean;
+    articleId?: number;
+    description?: string;
+    introduction?: string;
+    type: string;
+    supportedLanguages: Array<string>;
+    showTitle: boolean;
+    revision: number;
+    embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+    oembed?: {
+      __typename?: "LearningpathStepOembed";
+      type: string;
+      version: string;
+      height: number;
+      html: string;
+      width: number;
+    };
+    opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+    resource?: {
+      __typename?: "Resource";
+      id: string;
+      url?: string;
+      breadcrumbs: Array<string>;
+      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+      article?: {
+        __typename?: "Article";
+        id: number;
+        metaDescription: string;
+        created: string;
+        updated: string;
+        articleType: string;
+        title: string;
+        traits: Array<string>;
+        language: string;
+      };
+    };
+    copyright?: {
+      __typename?: "LearningpathCopyright";
+      license: { __typename?: "License"; license: string };
+      contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    };
+  };
 };
 
 export type GQLUpdateLearningpathStepMutationVariables = Exact<{
@@ -4371,7 +13111,53 @@ export type GQLUpdateLearningpathStepMutationVariables = Exact<{
 
 export type GQLUpdateLearningpathStepMutation = {
   __typename?: "Mutation";
-  updateLearningpathStep: { __typename?: "MyNdlaLearningpathStep" } & GQLMyNdlaLearningpathStepFragment;
+  updateLearningpathStep: {
+    __typename?: "MyNdlaLearningpathStep";
+    id: number;
+    title: string;
+    seqNo: number;
+    canEdit: boolean;
+    articleId?: number;
+    description?: string;
+    introduction?: string;
+    type: string;
+    supportedLanguages: Array<string>;
+    showTitle: boolean;
+    revision: number;
+    embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+    oembed?: {
+      __typename?: "LearningpathStepOembed";
+      type: string;
+      version: string;
+      height: number;
+      html: string;
+      width: number;
+    };
+    opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+    resource?: {
+      __typename?: "Resource";
+      id: string;
+      url?: string;
+      breadcrumbs: Array<string>;
+      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+      article?: {
+        __typename?: "Article";
+        id: number;
+        metaDescription: string;
+        created: string;
+        updated: string;
+        articleType: string;
+        title: string;
+        traits: Array<string>;
+        language: string;
+      };
+    };
+    copyright?: {
+      __typename?: "LearningpathCopyright";
+      license: { __typename?: "License"; license: string };
+      contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+    };
+  };
 };
 
 export type GQLDeleteLearningpathStepMutationVariables = Exact<{
@@ -4389,7 +13175,71 @@ export type GQLUpdateLearningpathMutationVariables = Exact<{
 
 export type GQLUpdateLearningpathMutation = {
   __typename?: "Mutation";
-  updateLearningpath: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+  updateLearningpath: {
+    __typename?: "MyNdlaLearningpath";
+    id: number;
+    title: string;
+    description: string;
+    introduction?: string;
+    created: string;
+    canEdit: boolean;
+    status: string;
+    madeAvailable?: string;
+    revision: number;
+    supportedLanguages: Array<string>;
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      metaUrl: string;
+      image: { __typename?: "ImageV3"; imageUrl: string };
+    };
+    learningsteps?: Array<{
+      __typename?: "MyNdlaLearningpathStep";
+      id: number;
+      title: string;
+      seqNo: number;
+      canEdit: boolean;
+      articleId?: number;
+      description?: string;
+      introduction?: string;
+      type: string;
+      supportedLanguages: Array<string>;
+      showTitle: boolean;
+      revision: number;
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        type: string;
+        version: string;
+        height: number;
+        html: string;
+        width: number;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        url?: string;
+        breadcrumbs: Array<string>;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          traits: Array<string>;
+          language: string;
+        };
+      };
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+    }>;
+  };
 };
 
 export type GQLCopyLearningpathMutationVariables = Exact<{
@@ -4400,7 +13250,71 @@ export type GQLCopyLearningpathMutationVariables = Exact<{
 
 export type GQLCopyLearningpathMutation = {
   __typename?: "Mutation";
-  copyLearningpath: { __typename?: "MyNdlaLearningpath" } & GQLMyNdlaLearningpathFragment;
+  copyLearningpath: {
+    __typename?: "MyNdlaLearningpath";
+    id: number;
+    title: string;
+    description: string;
+    introduction?: string;
+    created: string;
+    canEdit: boolean;
+    status: string;
+    madeAvailable?: string;
+    revision: number;
+    supportedLanguages: Array<string>;
+    coverphoto?: {
+      __typename?: "ImageMetaInformationV3";
+      metaUrl: string;
+      image: { __typename?: "ImageV3"; imageUrl: string };
+    };
+    learningsteps?: Array<{
+      __typename?: "MyNdlaLearningpathStep";
+      id: number;
+      title: string;
+      seqNo: number;
+      canEdit: boolean;
+      articleId?: number;
+      description?: string;
+      introduction?: string;
+      type: string;
+      supportedLanguages: Array<string>;
+      showTitle: boolean;
+      revision: number;
+      embedUrl?: { __typename?: "LearningpathStepEmbedUrl"; url: string; embedType: string };
+      oembed?: {
+        __typename?: "LearningpathStepOembed";
+        type: string;
+        version: string;
+        height: number;
+        html: string;
+        width: number;
+      };
+      opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
+      resource?: {
+        __typename?: "Resource";
+        id: string;
+        url?: string;
+        breadcrumbs: Array<string>;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
+        article?: {
+          __typename?: "Article";
+          id: number;
+          metaDescription: string;
+          created: string;
+          updated: string;
+          articleType: string;
+          title: string;
+          traits: Array<string>;
+          language: string;
+        };
+      };
+      copyright?: {
+        __typename?: "LearningpathCopyright";
+        license: { __typename?: "License"; license: string };
+        contributors: Array<{ __typename?: "Contributor"; type: string; name: string }>;
+      };
+    }>;
+  };
 };
 
 export type GQLUpdateLearningpathStepSeqNoMutationVariables = Exact<{
@@ -4432,7 +13346,13 @@ export type GQLUpdatePersonalDataMutationVariables = Exact<{
 
 export type GQLUpdatePersonalDataMutation = {
   __typename?: "Mutation";
-  updatePersonalData: { __typename?: "MyNdlaPersonalData" } & GQLMySubjectMyNdlaPersonalDataFragmentFragment;
+  updatePersonalData: {
+    __typename?: "MyNdlaPersonalData";
+    id: number;
+    favoriteSubjects: Array<string>;
+    role: string;
+    arenaEnabled: boolean;
+  };
 };
 
 export type GQLPodcastSeriesQueryVariables = Exact<{
@@ -4508,14 +13428,28 @@ export type GQLStructuredArticleData_ImageLicenseFragment = {
   __typename?: "ImageLicense";
   src: string;
   title: string;
-  copyright: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
 export type GQLStructuredArticleData_AudioLicenseFragment = {
   __typename?: "AudioLicense";
   src: string;
   title: string;
-  copyright: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
 export type GQLStructuredArticleData_PodcastLicenseFragment = {
@@ -4523,7 +13457,14 @@ export type GQLStructuredArticleData_PodcastLicenseFragment = {
   src: string;
   title: string;
   description?: string;
-  copyright: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
 export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
@@ -4534,7 +13475,14 @@ export type GQLStructuredArticleData_BrightcoveLicenseFragment = {
   description?: string;
   download?: string;
   uploadDate?: string;
-  copyright?: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
+  copyright?: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
 };
 
 export type GQLStructuredArticleDataFragment = {
@@ -4545,7 +13493,14 @@ export type GQLStructuredArticleDataFragment = {
   published: string;
   updated: string;
   supportedLanguages?: Array<string>;
-  copyright: { __typename?: "Copyright" } & GQLStructuredArticleData_CopyrightFragment;
+  copyright: {
+    __typename?: "Copyright";
+    processed?: boolean;
+    license: { __typename?: "License"; url?: string; license: string };
+    creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+    rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+  };
   metaImage?: {
     __typename?: "ImageMetaInformationV3";
     image: { __typename?: "ImageV3"; imageUrl: string };
@@ -4557,10 +13512,63 @@ export type GQLStructuredArticleDataFragment = {
     __typename?: "TransformedArticleContent";
     metaData?: {
       __typename?: "ArticleMetaData";
-      images: Array<{ __typename?: "ImageLicense" } & GQLStructuredArticleData_ImageLicenseFragment>;
-      audios: Array<{ __typename?: "AudioLicense" } & GQLStructuredArticleData_AudioLicenseFragment>;
-      podcasts: Array<{ __typename?: "PodcastLicense" } & GQLStructuredArticleData_PodcastLicenseFragment>;
-      brightcoves: Array<{ __typename?: "BrightcoveLicense" } & GQLStructuredArticleData_BrightcoveLicenseFragment>;
+      images: Array<{
+        __typename?: "ImageLicense";
+        src: string;
+        title: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      audios: Array<{
+        __typename?: "AudioLicense";
+        src: string;
+        title: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      podcasts: Array<{
+        __typename?: "PodcastLicense";
+        src: string;
+        title: string;
+        description?: string;
+        copyright: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
+      brightcoves: Array<{
+        __typename?: "BrightcoveLicense";
+        src?: string;
+        title: string;
+        cover?: string;
+        description?: string;
+        download?: string;
+        uploadDate?: string;
+        copyright?: {
+          __typename?: "Copyright";
+          processed?: boolean;
+          license: { __typename?: "License"; url?: string; license: string };
+          creators: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          processors: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+          rightsholders: Array<{ __typename?: "Contributor"; name: string; type: string }>;
+        };
+      }>;
     };
   };
 };
