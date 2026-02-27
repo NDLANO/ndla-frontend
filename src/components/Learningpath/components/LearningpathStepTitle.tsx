@@ -12,8 +12,8 @@ import { Heading } from "@ndla/primitives";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
+import { ResourceContent } from "../../Resource/ResourceLayout";
 import { BaseStepProps } from "../learningpathTypes";
-import { EmbedPageContent } from "./EmbedPageContent";
 
 export const LearningpathStepTitle = ({
   learningpathStep,
@@ -22,7 +22,7 @@ export const LearningpathStepTitle = ({
 }: BaseStepProps & { isInactive?: boolean }) => {
   const { i18n } = useTranslation();
   return learningpathStep.showTitle || learningpathStep.description ? (
-    <EmbedPageContent variant="content">
+    <ResourceContent variant="content">
       <ArticleWrapper>
         {!!learningpathStep.showTitle && (
           <ArticleHeader>
@@ -37,6 +37,6 @@ export const LearningpathStepTitle = ({
           {!!learningpathStep.description && <section>{transform(learningpathStep.description, {})}</section>}
         </ArticleContent>
       </ArticleWrapper>
-    </EmbedPageContent>
+    </ResourceContent>
   ) : null;
 };

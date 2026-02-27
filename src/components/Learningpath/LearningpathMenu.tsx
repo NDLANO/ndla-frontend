@@ -11,36 +11,33 @@ import { CheckLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
 import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
 import { formatDate } from "../../util/formatDate";
+import { FavoriteButton } from "../Article/FavoritesButton";
+import { AuthContext } from "../AuthenticationContext";
+import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
+import { Launchpad } from "../Resource/Launchpad";
 import { StepperIndicator, StepperList, StepperListItem, StepperRoot, StepperSafeLink } from "../Stepper";
+import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
   resourcePath: string | undefined;
-  learningpath: GQLLearningpathMenu_LearningpathFragment;
+  learningpath: GQLLearningpathMenu_LearningpathFragment | undefined;
   currentIndex: number | undefined;
   context?: LearningpathContext;
+  displayContext: "mobile" | "desktop";
+  loading: boolean;
   hasIntroduction: boolean;
 }
 
-const StyledStepperListItem = styled(StepperListItem, {
-  variants: {
-    context: {
-      default: {
-        desktop: {
-          background: "background.subtle",
-        },
-      },
-      preview: {},
-    },
-  },
-  defaultVariants: {
-    context: "default",
+const StyledStepperList = styled(StepperList, {
+  base: {
+    gap: "xxsmall",
   },
 });
 
@@ -55,88 +52,133 @@ const stepLink = (
     : toLearningPath(learningpathId, stepId, resourcePath);
 };
 
-const LEARNING_PATHS_STORAGE_KEY = "LEARNING_PATHS_COOKIES_KEY";
+const INTRODUCTION_ID = -1;
 
-const INTRODUCTION_ID = "intro";
-
-export const LearningpathMenu = ({ resourcePath, learningpath, currentIndex, context, hasIntroduction }: Props) => {
-  const [viewedSteps, setViewedSteps] = useState<Record<string, boolean>>({});
+export const LearningpathMenu = ({
+  resourcePath,
+  learningpath,
+  currentIndex,
+  context,
+  hasIntroduction,
+  displayContext,
+  loading,
+}: Props) => {
+  const currentStep = currentIndex !== undefined ? learningpath?.learningsteps[currentIndex] : undefined;
+  const [completed, setCompleted] = useState<number[]>(
+    learningpath && currentStep?.seqNo !== undefined
+      ? [currentStep.id]
+      : hasIntroduction && !currentIndex
+        ? [INTRODUCTION_ID]
+        : [],
+  );
   const { t, i18n } = useTranslation();
 
-  const currentStep = currentIndex !== undefined ? learningpath.learningsteps[currentIndex] : undefined;
-  const lastUpdated = formatDate(learningpath.lastUpdated, i18n.language);
   const indicatorOffset = hasIntroduction ? 2 : 1;
-  const introductionCompleted = !!viewedSteps[INTRODUCTION_ID];
-
-  const updateViewedSteps = () => {
-    const viewedId =
-      learningpath && currentStep?.seqNo !== undefined
-        ? currentStep.id
-        : hasIntroduction && !currentIndex
-          ? INTRODUCTION_ID
-          : undefined;
-
-    if (viewedId) {
-      const storageKey = `${LEARNING_PATHS_STORAGE_KEY}_${learningpath.id}`;
-      const currentViewedSteps = window.localStorage?.getItem(storageKey);
-      const updatedViewedSteps = currentViewedSteps ? JSON.parse(currentViewedSteps) : {};
-      setViewedSteps(updatedViewedSteps);
-      updatedViewedSteps[viewedId] = true;
-      window.localStorage?.setItem(storageKey, JSON.stringify(updatedViewedSteps));
-    }
-  };
-
-  useEffect(() => {
-    updateViewedSteps();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentStep?.id]);
+  const { user } = useContext(AuthContext);
 
   return (
-    <>
-      <StepperRoot aria-label={t("learningpathPage.learningsteps")}>
-        <StepperList>
-          {!!hasIntroduction && (
-            <StyledStepperListItem context={context} completed={!!introductionCompleted && currentIndex !== undefined}>
-              <StepperIndicator>
-                {introductionCompleted && currentIndex !== undefined ? <CheckLine size="small" /> : 1}
-              </StepperIndicator>
-              <StepperSafeLink
-                to={stepLink(learningpath.id, undefined, resourcePath, context)}
-                aria-current={currentIndex === undefined ? "page" : undefined}
-                aria-label={`${t("learningpathPage.introduction")}${introductionCompleted ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
-              >
-                {t("learningpathPage.introduction")}
-              </StepperSafeLink>
-            </StyledStepperListItem>
-          )}
-          {learningpath.learningsteps.map((step, index) => (
-            <StyledStepperListItem
-              key={step.id}
-              context={context}
-              completed={!!viewedSteps[step.id] && currentIndex !== index}
+    <Launchpad
+      type={t("contentTypes.learningpath")}
+      name={learningpath?.title ?? ""}
+      context={displayContext}
+      actions={
+        learningpath ? (
+          <>
+            <AddResourceToFolderModal
+              resource={{
+                id: learningpath.id.toString(),
+                path: resourcePath ?? toLearningPath(learningpath.id),
+                resourceType: "learningpath",
+              }}
             >
-              <StepperIndicator>
-                {viewedSteps[step.id] && index !== currentIndex ? <CheckLine size="small" /> : index + indicatorOffset}
-              </StepperIndicator>
-              <StepperSafeLink
-                to={stepLink(learningpath.id, step.id, resourcePath, context)}
-                aria-current={currentIndex === index ? "page" : undefined}
-                aria-label={`${step.title}${viewedSteps[step.id] ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
-              >
-                {step.title}
-              </StepperSafeLink>
-            </StyledStepperListItem>
-          ))}
-        </StepperList>
-      </StepperRoot>
-      <ArticleByline
-        authors={learningpath.copyright.contributors}
-        published={lastUpdated}
-        bylineType="learningPath"
-        bylineSuffix={learningpath.isMyNDLAOwner ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
-        learningpathCopiedFrom={learningpath.basedOn ? config.ndlaFrontendDomain + learningpath.basedOn : undefined}
-      />
-    </>
+              <FavoriteButton path={resourcePath ?? toLearningPath(learningpath.id)} />
+            </AddResourceToFolderModal>
+            {user?.role === "employee" && <CopyLearningPath learningpath={learningpath} />}
+          </>
+        ) : null
+      }
+      loading={loading}
+    >
+      {(collapsed) =>
+        !learningpath ? undefined : (
+          <>
+            <StepperRoot
+              aria-label={t("learningpathPage.learningsteps")}
+              line
+              aria-hidden={collapsed}
+              collapsed={collapsed}
+            >
+              <StyledStepperList>
+                {!!hasIntroduction && (
+                  <StepperListItem
+                    completed={completed.includes(INTRODUCTION_ID)}
+                    // for collapsed styling
+                    data-current={currentIndex === undefined ? "" : undefined}
+                  >
+                    <StepperIndicator>
+                      {completed.includes(INTRODUCTION_ID) && currentIndex !== undefined ? (
+                        <CheckLine size="small" />
+                      ) : (
+                        1
+                      )}
+                    </StepperIndicator>
+                    {!collapsed && (
+                      <StepperSafeLink
+                        to={stepLink(learningpath.id, undefined, resourcePath, context)}
+                        onClick={() =>
+                          setCompleted((prev) => (prev.includes(INTRODUCTION_ID) ? prev : [...prev, INTRODUCTION_ID]))
+                        }
+                        aria-current={currentIndex === undefined ? "page" : undefined}
+                        aria-label={`${t("learningpathPage.introduction")}${completed.includes(INTRODUCTION_ID) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+                      >
+                        {t("learningpathPage.introduction")}
+                      </StepperSafeLink>
+                    )}
+                  </StepperListItem>
+                )}
+                {learningpath.learningsteps.map((step, index) => (
+                  <StepperListItem
+                    key={step.id}
+                    completed={completed.includes(step.id)}
+                    // for collapsed styling
+                    data-current={currentIndex === index ? "" : undefined}
+                  >
+                    <StepperIndicator>
+                      {completed.includes(step.id) && index !== currentIndex ? (
+                        <CheckLine size="small" />
+                      ) : (
+                        index + indicatorOffset
+                      )}
+                    </StepperIndicator>
+                    {!collapsed && (
+                      <StepperSafeLink
+                        to={stepLink(learningpath.id, step.id, resourcePath, context)}
+                        onClick={() => setCompleted((prev) => (prev.includes(step.id) ? prev : prev.concat(step.id)))}
+                        aria-current={currentIndex === index ? "page" : undefined}
+                        aria-label={`${step.title}${completed.includes(step.id) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+                      >
+                        {step.title}
+                      </StepperSafeLink>
+                    )}
+                  </StepperListItem>
+                ))}
+              </StyledStepperList>
+            </StepperRoot>
+            {!collapsed && (
+              <ArticleByline
+                authors={learningpath.copyright.contributors}
+                published={formatDate(learningpath.lastUpdated, i18n.language)}
+                bylineType="learningPath"
+                bylineSuffix={learningpath.isMyNDLAOwner ? <Text>{t("learningpathPage.bylineSuffix")}</Text> : null}
+                learningpathCopiedFrom={
+                  learningpath.basedOn ? config.ndlaFrontendDomain + learningpath.basedOn : undefined
+                }
+              />
+            )}
+          </>
+        )
+      }
+    </Launchpad>
   );
 };
 

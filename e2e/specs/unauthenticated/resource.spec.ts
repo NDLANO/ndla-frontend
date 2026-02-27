@@ -15,8 +15,8 @@ test.beforeEach(async ({ page }) => {
 
 test("contains content", async ({ page, waitGraphql }) => {
   await waitGraphql();
-  await expect(page.getByLabel("Brødsmulesti").getByRole("listitem")).toHaveCount(4);
-  await expect(page.getByLabel("Brødsmulesti").getByRole("listitem").getByRole("link")).toHaveCount(3);
+  await expect(page.getByLabel("Brødsmulesti").getByRole("listitem")).toHaveCount(3);
+  await expect(page.getByLabel("Brødsmulesti").getByRole("listitem").getByRole("link")).toHaveCount(2);
 
   const heading = page.getByRole("heading").getByText("Årsplan helse- og oppvekstfag");
   expect(heading).toBeDefined();

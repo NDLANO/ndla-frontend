@@ -16,10 +16,12 @@ const stepperRecipe = sva({
   base: {
     root: {
       position: "relative",
+      width: "inherit",
     },
     indicator: {
       display: "inline-flex",
       alignItems: "center",
+      userSelect: "none",
       justifyContent: "center",
       borderRadius: "full",
       width: "medium",
@@ -38,20 +40,11 @@ const stepperRecipe = sva({
       gap: "large",
       position: "relative",
       zIndex: "base",
-      _before: {
-        content: '""',
-        zIndex: "1",
-        position: "absolute",
-        height: "100%",
-        top: "0",
-        left: "xsmall",
-        width: "1px",
-        background: "stroke.default",
-      },
     },
     link: {
       textStyle: "body.medium",
       textDecoration: "underline",
+      zIndex: "3",
       _hover: {
         textDecoration: "none",
       },
@@ -63,22 +56,8 @@ const stepperRecipe = sva({
       gap: "xxsmall",
       justifyContent: "flex-start",
       alignItems: "flex-start",
+      minHeight: "xxlarge",
       background: "background.default",
-      _before: {
-        content: '""',
-        position: "absolute",
-        left: "0",
-        top: "-xxsmall",
-        height: "calc(token(spacing.medium) + token(spacing.small))",
-        width: "medium",
-        backgroundColor: "inherit",
-        zIndex: "1",
-      },
-      _last: {
-        _before: {
-          height: "calc(100% + token(spacing.small))",
-        },
-      },
       _hover: {
         "& [data-indicator]": {
           backgroundColor: "surface.action.brand.1.hover",
@@ -89,11 +68,58 @@ const stepperRecipe = sva({
           backgroundColor: "surface.action.brand.1.active",
         },
       },
-      "&:has([aria-current='page'])": {
+      "&:has([aria-current='page']), &[data-current]": {
         "& [data-indicator]": {
           backgroundColor: "surface.action.brand.1.hover.strong",
         },
       },
+    },
+  },
+  variants: {
+    collapsed: {
+      true: {
+        root: {
+          pointerEvents: "none",
+        },
+        list: {
+          alignItems: "center",
+        },
+      },
+      false: {},
+    },
+    line: {
+      true: {
+        list: {
+          _before: {
+            content: '""',
+            zIndex: "1",
+            position: "absolute",
+            height: "100%",
+            top: "0",
+            left: "xsmall",
+            width: "1px",
+            background: "stroke.default",
+          },
+        },
+        listItem: {
+          _before: {
+            content: '""',
+            position: "absolute",
+            left: "0",
+            top: "-xxsmall",
+            height: "calc(token(spacing.medium) + token(spacing.small))",
+            width: "medium",
+            backgroundColor: "inherit",
+            zIndex: "1",
+          },
+          _last: {
+            _before: {
+              height: "calc(100% + token(spacing.small))",
+            },
+          },
+        },
+      },
+      false: {},
     },
   },
 });

@@ -84,7 +84,6 @@ const messages = {
   },
   topicsPage: {
     topics: "Topics",
-    multidisciplinaryLinksHeader: "Work multidisciplinary with the topic",
   },
   searchPage: {
     title: "Search on ndla.no",
@@ -828,9 +827,6 @@ const messages = {
   },
   learningPath: {
     lastUpdated: "Last updated",
-    youAreInALearningPath: "You are now in a learningpath",
-    nextArrow: "Go to next step",
-    previousArrow: "Go to previous step",
     lastStep: {
       heading: "Last step of this learningpath",
       headingSmall: "You are now in the last step of the learningpath {{learningPathName}}",
@@ -871,9 +867,6 @@ const messages = {
     subject_other: "Subjects",
   },
   resource: {
-    noCoreResourcesAvailableUnspecific: "There is no core content available.",
-    noCoreResourcesAvailable: "There is no core content available for {{name}}.",
-    activateAdditionalResources: "Show additional content in the list",
     label: "Learning content",
     tooltipCoreTopic: "Core content",
     tooltipAdditionalTopic: "Additional content",
@@ -956,6 +949,24 @@ const messages = {
   archivedPage: "This page has been archived. The content may be out of date.",
   licenseBox: {
     sourceTitle: "Source reference",
+  },
+  launchpad: {
+    coreContentTitle: "Learning resources",
+    linksTitle: "Work multidisciplinarily with the topic",
+    supplementaryContentTitle: "Supplementary content",
+    learningpathsTitle: "Learning paths",
+    collapse: "Hide content",
+    expand: "Show content",
+    showMore: "Show more",
+    showLess: "Show less",
+  },
+  resourcePage: {
+    previous: "Previous",
+    next: "Next",
+    backToTopic: "Back to topic",
+    menuTrigger: "View content list",
+    closeMenuTrigger: "Close content list",
+    contentList: "Content list",
   },
 };
 

@@ -147,11 +147,11 @@ test("util/getStructuredDataFromArticle article with breadcrumbs should return b
   const article = getBaseArticle();
   const breadcrumbItems = [
     {
-      to: "/",
+      url: "/",
       name: "NDLA",
     },
     {
-      to: "/subject:1/",
+      url: "/subject:1/",
       name: "MEDIEUTTRYKK OG MEDIESAMFUNNET",
     },
   ];

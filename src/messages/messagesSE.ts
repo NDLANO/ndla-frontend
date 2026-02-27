@@ -84,7 +84,6 @@ const messages = {
   },
   topicsPage: {
     topics: "Fáttát",
-    multidisciplinaryLinksHeader: "Jobb tverrfaglig med emnet",
   },
   searchPage: {
     title: "Søk på ndla.no",
@@ -824,9 +823,6 @@ const messages = {
     leadsTo: "Dát doalvu",
   },
   learningPath: {
-    nextArrow: "Mana boahtte lávkái",
-    previousArrow: "Mana ovddit lávkái",
-    youAreInALearningPath: "Don leat dál muhtin oahppobálgás",
     lastUpdated: "Maŋemus ođastuvvon",
     lastStep: {
       heading: "Maŋemus ceahkki oahppobálgás",
@@ -868,9 +864,6 @@ const messages = {
     subject_other: "Fágat",
   },
   resource: {
-    noCoreResourcesAvailableUnspecific: "Ii leat makkárge guovddášávnnas olamuttus.",
-    noCoreResourcesAvailable: "Ii leat guovddášávnnas čuovvovačča ovddas {{name}}.",
-    activateAdditionalResources: "Vis tilleggsstoff i listen",
     label: "Oahppanresurssat",
     tooltipCoreTopic: "Guovddášávnnas",
     tooltipAdditionalTopic: "Lassiávnnas",
@@ -952,6 +945,24 @@ const messages = {
   },
   licenseBox: {
     sourceTitle: "Kildehenvisning",
+  },
+  launchpad: {
+    coreContentTitle: "Læringsressurser",
+    linksTitle: "Jobb tverrfaglig med emnet",
+    supplementaryContentTitle: "Tilleggsstoff",
+    learningpathsTitle: "Læringsstier om emnet",
+    collapse: "Skjul innhold",
+    expand: "Vis innhold",
+    showMore: "Vis flere",
+    showLess: "Vis færre",
+  },
+  resourcePage: {
+    previous: "Forrige",
+    next: "Neste",
+    backToTopic: "Tilbake til emnet",
+    menuTrigger: "Se innholdsliste",
+    closeMenuTrigger: "Lukk innholdsliste",
+    contentList: "Innholdsliste",
   },
 };
 
