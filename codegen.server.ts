@@ -15,7 +15,6 @@ const config: CodegenConfig = {
   config: {
     maybeValue: "T",
     typesPrefix: "GQL",
-    inlineFragmentTypes: "combine",
   },
 };
 export default config;
