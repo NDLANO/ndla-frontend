@@ -11,7 +11,8 @@ import { CheckLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline } from "@ndla/ui";
-import { useContext, useState } from "react";
+import { usePrevious } from "@ndla/util";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
 import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
@@ -64,17 +65,24 @@ export const LearningpathMenu = ({
   loading,
 }: Props) => {
   const currentStep = currentIndex !== undefined ? learningpath?.learningsteps[currentIndex] : undefined;
-  const [completed, setCompleted] = useState<number[]>(
+  const currentId =
     learningpath && currentStep?.seqNo !== undefined
-      ? [currentStep.id]
+      ? currentStep.id
       : hasIntroduction && !currentIndex
-        ? [INTRODUCTION_ID]
-        : [],
-  );
+        ? INTRODUCTION_ID
+        : undefined;
+  const previousCurrentId = usePrevious(currentId);
+  const [completed, setCompleted] = useState<number[]>(currentId ? [currentId] : []);
   const { t, i18n } = useTranslation();
 
   const indicatorOffset = hasIntroduction ? 2 : 1;
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (previousCurrentId) {
+      setCompleted((prev) => (prev.includes(previousCurrentId) ? prev : prev.concat(previousCurrentId)));
+    }
+  }, [previousCurrentId]);
 
   return (
     <Launchpad
@@ -125,9 +133,6 @@ export const LearningpathMenu = ({
                     {!collapsed && (
                       <StepperSafeLink
                         to={stepLink(learningpath.id, undefined, resourcePath, context)}
-                        onClick={() =>
-                          setCompleted((prev) => (prev.includes(INTRODUCTION_ID) ? prev : [...prev, INTRODUCTION_ID]))
-                        }
                         aria-current={currentIndex === undefined ? "page" : undefined}
                         aria-label={`${t("learningpathPage.introduction")}${completed.includes(INTRODUCTION_ID) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
                       >
@@ -153,7 +158,6 @@ export const LearningpathMenu = ({
                     {!collapsed && (
                       <StepperSafeLink
                         to={stepLink(learningpath.id, step.id, resourcePath, context)}
-                        onClick={() => setCompleted((prev) => (prev.includes(step.id) ? prev : prev.concat(step.id)))}
                         aria-current={currentIndex === index ? "page" : undefined}
                         aria-label={`${step.title}${completed.includes(step.id) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
                       >

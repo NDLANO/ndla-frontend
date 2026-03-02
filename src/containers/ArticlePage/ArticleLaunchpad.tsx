@@ -13,7 +13,8 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
-import { ReactNode, useId, useState } from "react";
+import { usePrevious } from "@ndla/util";
+import { ReactNode, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Launchpad } from "../../components/Resource/Launchpad";
@@ -110,11 +111,18 @@ export const ArticleLaunchpad = ({
 }: Props) => {
   const { t } = useTranslation();
   const { contextId } = useParams();
+  const previousContextId = usePrevious(contextId);
   const [showAll, setShowAll] = useState(coreArticles.findIndex((a) => a.context?.contextId === contextId) >= 20);
   const [completed, setCompleted] = useState<string[]>(contextId ? [contextId] : []);
   const listId = useId();
 
   const coreArticlesToDisplay = !showAll && coreArticles.length > 20 ? coreArticles.slice(0, 20) : coreArticles;
+
+  useEffect(() => {
+    if (previousContextId) {
+      setCompleted((prev) => (prev.includes(previousContextId) ? prev : prev.concat(previousContextId)));
+    }
+  }, [previousContextId]);
 
   return (
     <Launchpad loading={loading} type={t("contentTypes.topic")} name={topic?.name ?? ""} context={context}>
@@ -149,13 +157,6 @@ export const ArticleLaunchpad = ({
                             to={article.url || ""}
                             lang={article.language}
                             css={linkOverlay.raw()}
-                            onClick={() => {
-                              setCompleted((prev) =>
-                                article.context?.contextId && !prev.includes(article.context.contextId)
-                                  ? prev.concat(article.context?.contextId)
-                                  : prev,
-                              );
-                            }}
                             aria-current={
                               article.context?.contextId && article.context?.contextId === contextId
                                 ? "page"
