@@ -113,7 +113,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
         <HeroBackground />
         <PageContent variant="article">
           <StyledHeroContent>
-            <HomeBreadcrumb items={crumbs} />
+            <HomeBreadcrumb items={crumbs.map((bc) => ({ ...bc, to: bc.url }))} />
           </StyledHeroContent>
         </PageContent>
         <StyledPageContent variant="article" gutters="tabletUp">

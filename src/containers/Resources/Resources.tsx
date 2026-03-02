@@ -8,31 +8,17 @@
 
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import {
-  Heading,
-  Spinner,
-  SwitchControl,
-  SwitchHiddenInput,
-  SwitchLabel,
-  SwitchRoot,
-  SwitchThumb,
-  Text,
-} from "@ndla/primitives";
+import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useId, useMemo } from "react";
+import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  RELEVANCE_SUPPLEMENTARY,
-  TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES,
-  TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-} from "../../constants";
+import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
+import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
-import { useLocalStorage } from "../../util/useLocalStorage";
-import { sortResources } from "./getResourceGroups";
+import { partitionResources } from "./getResourceGroups";
 import { ResourceItem } from "./ResourceItem";
 
 interface Props {
-  currentResourceId?: string;
   parentId: string;
   rootId?: string;
 }
@@ -42,59 +28,19 @@ const StyledNav = styled("nav", {
     display: "flex",
     flexDirection: "column",
     gap: "xsmall",
-    _print: {
-      display: "none",
-    },
   },
 });
 
-const TitleWrapper = styled("div", {
+const LayoutContainer = styled("div", {
   base: {
-    display: "flex",
-    gap: "xsmall",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingBlockEnd: "3xsmall",
-  },
-});
-
-const StyledHGroup = styled("hgroup", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    flexWrap: "wrap",
-    alignItems: "baseline",
-  },
-});
-
-const StyledSwitchRoot = styled(SwitchRoot, {
-  base: {
-    marginInlineStart: "auto",
-  },
-});
-
-const SpinnerWrapper = styled("div", {
-  base: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
-
-const StyledResourceList = styled("ol", {
-  base: {
-    listStyle: "none",
     display: "flex",
     flexDirection: "column",
-    gap: "xxsmall",
+    gap: "xxlarge",
   },
 });
 
-export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
-  const [showAdditionalResources, setShowAdditionalResources] = useLocalStorage("showAdditionalResources", "false");
+export const Resources = ({ parentId, rootId }: Props) => {
   const { t } = useTranslation();
-  const navHeadingId = useId();
 
   const { error, loading, data } = useQuery<GQLLaunchpadQuery, GQLLaunchpadQueryVariables>(resourcesQuery, {
     variables: {
@@ -106,72 +52,86 @@ export const Resources = ({ parentId, rootId, currentResourceId }: Props) => {
   const node = data?.node;
   const resourceTypes = data?.resourceTypes;
 
-  const sortedResources = useMemo(
-    () =>
-      sortResources(
-        node?.children ?? [],
-        resourceTypes ?? [],
-        node?.metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-      ),
-    [node?.children, node?.metadata.customFields, resourceTypes],
-  );
-
-  const supplementaryResourcesCount = useMemo(
-    () => node?.children?.filter((r) => r.relevanceId === RELEVANCE_SUPPLEMENTARY).length ?? 0,
-    [node],
+  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(
+    node?.children ?? [],
+    resourceTypes ?? [],
+    node?.metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
   );
 
   if (loading) {
-    return (
-      <SpinnerWrapper>
-        <Spinner />
-      </SpinnerWrapper>
-    );
+    return <Spinner />;
   }
 
-  if (error || !sortedResources.length) {
+  if (error || !node?.children?.length) {
     return null;
   }
 
   return (
-    <StyledNav aria-labelledby={navHeadingId}>
-      <TitleWrapper>
-        <StyledHGroup>
-          <Heading id={navHeadingId} textStyle="title.large" asChild consumeCss>
-            <h2>{t("resource.label")}</h2>
-          </Heading>
-          <Text textStyle="label.medium">{node?.name}</Text>
-        </StyledHGroup>
-        {!!supplementaryResourcesCount && (
-          <StyledSwitchRoot
-            checked={showAdditionalResources === "true"}
-            onCheckedChange={(details) => setShowAdditionalResources(details.checked.toString())}
-          >
-            <SwitchLabel>{t("resource.activateAdditionalResources")}</SwitchLabel>
-            <SwitchControl>
-              <SwitchThumb />
-            </SwitchControl>
-            <SwitchHiddenInput />
-          </StyledSwitchRoot>
-        )}
-      </TitleWrapper>
-      <div>
-        <StyledResourceList>
-          {sortedResources.map((resource) => (
-            <ResourceItem
-              key={resource.id}
-              resource={resource}
-              active={currentResourceId === resource.id}
-              showAdditionalResources={showAdditionalResources === "true"}
-            />
+    <LayoutContainer>
+      {!!coreArticles.length && (
+        <NavSection title={t("launchpad.coreContentTitle")} variant="listItems">
+          {coreArticles.map((resource) => (
+            <ResourceItem key={resource.id} resource={resource} />
           ))}
-        </StyledResourceList>
-        {!!(
-          !showAdditionalResources &&
-          supplementaryResourcesCount &&
-          supplementaryResourcesCount === node?.children?.length
-        ) && <Text>{t("resource.noCoreResourcesAvailableUnspecific")}</Text>}
-      </div>
+        </NavSection>
+      )}
+      {!!learningpaths.length && (
+        <NavSection title={t("launchpad.learningpathsTitle")} variant="listItems">
+          {learningpaths.map((resource) => (
+            <ResourceItem key={resource.id} resource={resource} />
+          ))}
+        </NavSection>
+      )}
+      {!!node.links?.length && (
+        <NavSection title={t("launchpad.linksTitle")} variant="cards">
+          {node.links.map((link) => (
+            <TransportationNode key={link.id} node={link} context="link" />
+          ))}
+        </NavSection>
+      )}
+      {!!supplementaryArticles.length && (
+        <NavSection title={t("launchpad.supplementaryContentTitle")} variant="listItems">
+          {supplementaryArticles.map((resource) => (
+            <ResourceItem key={resource.id} resource={resource} />
+          ))}
+        </NavSection>
+      )}
+    </LayoutContainer>
+  );
+};
+
+interface NavSectionProps {
+  title: string;
+  children: ReactNode;
+  variant: "listItems" | "cards";
+}
+
+const StyledOl = styled("ol", {
+  base: {
+    display: "flex",
+  },
+  variants: {
+    variant: {
+      listItems: {
+        flexDirection: "column",
+        gap: "xxsmall",
+      },
+      cards: {
+        flexWrap: "wrap",
+        gap: "medium",
+      },
+    },
+  },
+});
+
+const NavSection = ({ title, children, variant }: NavSectionProps) => {
+  const headingId = useId();
+  return (
+    <StyledNav aria-describedby={headingId}>
+      <Heading id={headingId} textStyle="title.large" asChild consumeCss>
+        <h2>{title}</h2>
+      </Heading>
+      <StyledOl variant={variant}>{children}</StyledOl>
     </StyledNav>
   );
 };
@@ -186,6 +146,9 @@ const resourcesQuery = gql`
         id
         ...ResourceItem_Node
       }
+      links {
+        ...TransportationNode_Node
+      }
       metadata {
         customFields
       }
@@ -196,4 +159,5 @@ const resourcesQuery = gql`
     }
   }
   ${ResourceItem.fragments.node}
+  ${TransportationNode.fragments.node}
 `;

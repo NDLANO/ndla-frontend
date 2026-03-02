@@ -343,7 +343,7 @@ test("can preview learningpath", async ({ page, waitGraphql }) => {
 
   await expect(page.getByRole("heading", { name: "Se gjennom" })).toBeVisible();
 
-  await expect(page.getByLabel("Gå til neste steg")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Se innholdsliste" })).toBeVisible();
 });
 
 test("can share learningpath", async ({ page, waitGraphql }) => {

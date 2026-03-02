@@ -7,23 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { ArrowDownShortLine, ArrowLeftLine, ArrowRightLine } from "@ndla/icons";
-import {
-  AccordionItem,
-  AccordionItemContent,
-  AccordionItemIndicator,
-  AccordionItemTrigger,
-  AccordionRoot,
-  Badge,
-  Heading,
-  PageContent,
-  Text,
-} from "@ndla/primitives";
-import { SafeLinkButton } from "@ndla/safelink";
-import { styled } from "@ndla/styled-system/jsx";
-import { HomeBreadcrumb } from "@ndla/ui";
-import { contains } from "@ndla/util";
-import { useContext, useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import type { LearningpathContext } from "./learningpathUtils";
 import {
@@ -32,156 +16,27 @@ import {
   GQLLearningpathPage_NodeFragment,
 } from "../../graphqlTypes";
 import { Breadcrumb } from "../../interfaces";
-import { routes, toLearningPath } from "../../routeHelpers";
-import { FavoriteButton } from "../Article/FavoritesButton";
-import { AuthContext } from "../AuthenticationContext";
-import { PageContainer } from "../Layout/PageContainer";
-import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
+import { toBreadcrumbItems } from "../../routeHelpers";
+import { ContentPlaceholder } from "../ContentPlaceholder";
+import { MobileLaunchpadMenu } from "../Resource/Launchpad";
+import { ResourceBreadcrumb } from "../Resource/ResourceBreadcrumb";
+import { LayoutWrapper, ResourceContent, ResourceContentContainer } from "../Resource/ResourceLayout";
 import { RestrictedBlockContextProvider } from "../RestrictedBlock";
-import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathIntroduction } from "./components/LearningpathIntroduction";
+import { LearningpathNavigation } from "./components/LearningpathNavigation";
 import { LearningpathStep } from "./components/LearningpathStep";
+import { LastLearningpathStepInfo } from "./LastLearningpathStepInfo";
 import { LearningpathMenu } from "./LearningpathMenu";
 
 interface Props {
-  learningpath: GQLLearningpath_LearningpathFragment;
+  learningpath: GQLLearningpath_LearningpathFragment | undefined;
   learningpathStep: GQLLearningpath_LearningpathStepFragment | undefined;
   resource?: GQLLearningpathPage_NodeFragment;
   skipToContentId?: string;
-  breadcrumbItems: Breadcrumb[];
   resourcePath?: string;
   context?: LearningpathContext;
+  loading: boolean;
 }
-
-const StyledPageContainer = styled(PageContainer, {
-  base: {
-    position: "relative",
-    width: "100%",
-    background: "background.subtle",
-    minHeight: "100vh",
-    gap: "large",
-  },
-  variants: {
-    rounded: {
-      true: {
-        borderRadius: "xsmall",
-      },
-    },
-  },
-});
-
-const ContentWrapper = styled("div", {
-  base: {
-    display: "grid",
-    gap: "medium",
-  },
-  variants: {
-    context: {
-      preview: {
-        display: "flex",
-        flexDirection: "column",
-      },
-      default: {
-        gridTemplateRows: "auto auto 1fr",
-        gridAutoFlow: "column dense",
-        gridTemplateColumns: "minmax(200px, 1fr) minmax(300px, 3fr)",
-        gridTemplateAreas: `
-"meta   content"
-"steps  content"
-".      content"
-`,
-        desktopDown: {
-          display: "flex",
-          flexDirection: "column",
-        },
-      },
-    },
-  },
-});
-
-const PageButtonsContainer = styled("div", {
-  base: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: "medium",
-    height: "fit-content",
-  },
-});
-
-const StyledPageContent = styled(PageContent, {
-  base: {
-    gridArea: "content",
-    gap: "medium",
-  },
-});
-
-const ContentTypeWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    alignItems: "center",
-  },
-});
-
-const StyledAccordionItemContent = styled(AccordionItemContent, {
-  base: {
-    background: "background.default",
-  },
-});
-
-const StyledAccordionRoot = styled(AccordionRoot, {
-  base: {
-    display: "block",
-    gridArea: "steps",
-    position: "sticky",
-    zIndex: "sticky",
-    top: "var(--masthead-height)",
-  },
-  variants: {
-    context: {
-      default: {
-        desktop: {
-          display: "none",
-        },
-      },
-      preview: {},
-    },
-  },
-});
-
-const StyledAccordionItem = styled(AccordionItem, {
-  base: {
-    borderRadius: "xsmall",
-    boxShadow: "small",
-  },
-});
-
-const MetaWrapper = styled("div", {
-  base: {
-    gridArea: "meta",
-    tabletDown: {
-      paddingInline: "xsmall",
-    },
-  },
-});
-
-const MenuWrapper = styled("div", {
-  base: {
-    display: "none",
-    desktop: {
-      display: "block",
-    },
-  },
-});
-
-const BreadcrumbWrapper = styled("div", {
-  base: {
-    tabletDown: {
-      paddingInline: "xsmall",
-    },
-  },
-});
 
 export const Learningpath = ({
   learningpath,
@@ -189,151 +44,95 @@ export const Learningpath = ({
   resourcePath,
   resource,
   skipToContentId,
-  breadcrumbItems,
+  loading,
   context = "default",
 }: Props) => {
   const { t } = useTranslation();
-  const [accordionValue, setAccordionValue] = useState<string[]>();
-  const accordionRef = useRef<HTMLDivElement>(null);
-  const { user } = useContext(AuthContext);
-
   const index = learningpathStep
-    ? learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id)
+    ? learningpath?.learningsteps.findIndex((step) => step.id === learningpathStep.id)
     : undefined;
-  const previousStep = index !== undefined ? learningpath.learningsteps[index - 1] : undefined;
-  const nextStep = index !== undefined ? learningpath.learningsteps[index + 1] : learningpath.learningsteps[0];
 
-  const menu = useMemo(
-    () => (
-      <LearningpathMenu
-        resourcePath={resourcePath}
-        learningpath={learningpath}
-        currentIndex={index}
-        context={context}
-        hasIntroduction={!!learningpath.introduction?.length}
-      />
-    ),
-    [context, index, learningpath, resourcePath],
+  const breadcrumbs: Breadcrumb[] = useMemo(() => {
+    const crumbs: Breadcrumb[] = resource?.context?.parents?.slice() ?? [];
+    if (resource?.url) {
+      crumbs.push({ name: resource.name, url: resource.url });
+    }
+
+    return crumbs;
+  }, [resource]);
+
+  const ldCrumbs: Breadcrumb[] = useMemo(
+    () => toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...(resource?.context?.parents ?? []), resource]),
+    [resource, t],
   );
-  const parents = resource?.context?.parents || [];
-  const root = parents[0];
-  const path = resourcePath ? resourcePath : toLearningPath(learningpath.id);
 
   return (
-    <StyledPageContainer variant="wide" gutters="tabletUp" rounded={context === "preview"}>
-      {!!breadcrumbItems.length && (
-        <BreadcrumbWrapper>
-          <HomeBreadcrumb items={breadcrumbItems} />
-        </BreadcrumbWrapper>
-      )}
-      <ContentWrapper context={context}>
-        {context === "default" && (
-          <MetaWrapper data-testid="learningpath-meta">
-            <ContentTypeWrapper>
-              <Badge>{t("contentTypes.learningpath")}</Badge>
-              <AddResourceToFolderModal
-                resource={{
-                  id: learningpath.id.toString(),
-                  path: path,
-                  resourceType: "learningpath",
-                }}
-              >
-                <FavoriteButton path={path} />
-              </AddResourceToFolderModal>
-              {user?.role === "employee" && <CopyLearningPath learningpath={learningpath} />}
-            </ContentTypeWrapper>
-            <Text textStyle="label.large">
-              {`${t("learningPath.youAreInALearningPath")}:`}
-              <br />
-              <strong>{learningpath.title}</strong>
-            </Text>
-          </MetaWrapper>
-        )}
-        <StyledAccordionRoot
-          ref={accordionRef}
-          id={learningpathStep?.id.toString()}
-          value={accordionValue}
-          onValueChange={(details) => setAccordionValue(details.value)}
-          variant="bordered"
+    <>
+      {!!breadcrumbs.length && <ResourceBreadcrumb breadcrumbs={breadcrumbs} loading={loading} />}
+      <MobileLaunchpadMenu alwaysVisisble={context === "preview"}>
+        <LearningpathMenu
+          resourcePath={resourcePath}
+          learningpath={learningpath}
+          currentIndex={index}
           context={context}
-          multiple
-          onBlur={(e) => {
-            // automatically close the accordion when focus leaves the accordion on mobile.
-            if (!contains(accordionRef.current, e.relatedTarget ?? e.target)) {
-              setAccordionValue([]);
-            }
-          }}
-        >
-          <StyledAccordionItem value="menu">
-            <Heading asChild consumeCss textStyle="label.medium" fontWeight="bold">
-              <span>
-                <AccordionItemTrigger>
-                  {t("learningpathPage.accordionTitle")}
-                  <AccordionItemIndicator asChild>
-                    <ArrowDownShortLine />
-                  </AccordionItemIndicator>
-                </AccordionItemTrigger>
-              </span>
-            </Heading>
-            <StyledAccordionItemContent>{menu}</StyledAccordionItemContent>
-          </StyledAccordionItem>
-        </StyledAccordionRoot>
-        {context === "default" && <MenuWrapper>{menu}</MenuWrapper>}
-        <StyledPageContent variant="article" gutters="never">
-          {!learningpathStep && !!learningpath.introduction?.length && (
+          hasIntroduction={!!learningpath?.introduction?.length}
+          displayContext="mobile"
+          loading={loading}
+        />
+      </MobileLaunchpadMenu>
+      <LayoutWrapper>
+        {context === "default" && (
+          <LearningpathMenu
+            resourcePath={resourcePath}
+            learningpath={learningpath}
+            currentIndex={index}
+            context={context}
+            hasIntroduction={!!learningpath?.introduction?.length}
+            displayContext="desktop"
+            loading={loading}
+          />
+        )}
+        <ResourceContentContainer>
+          {!learningpathStep && !!learningpath?.introduction?.length && (
             <LearningpathIntroduction learningpath={learningpath} isInactive={!!resource?.context?.isArchived} />
           )}
-          {!!learningpathStep && (
+          {!!loading && (
+            <ResourceContent>
+              <ContentPlaceholder variant="article" />
+            </ResourceContent>
+          )}
+          {!!learningpathStep && !!learningpath && (
             <RestrictedBlockContextProvider value="learningpath">
               <LearningpathStep
-                resource={resource}
-                subjectId={root?.id}
+                ldCrumbs={ldCrumbs}
+                subjectId={resource?.context?.parents?.[0]?.id}
                 learningpath={learningpath}
-                breadcrumbItems={breadcrumbItems}
                 skipToContentId={skipToContentId}
                 learningpathStep={learningpathStep}
                 isInactive={!!resource?.context?.isArchived}
               />
+              <LastLearningpathStepInfo
+                seqNo={learningpath.learningsteps.findIndex((step) => step.id === learningpathStep.id)}
+                numberOfLearningSteps={learningpath.learningsteps.length - 1}
+                title={learningpath.title}
+                resource={resource}
+              />
             </RestrictedBlockContextProvider>
           )}
-          {/* TODO: How should this handle long titles on smaller screens? */}
-          <PageButtonsContainer>
-            {previousStep || (learningpathStep && learningpath.introduction?.length) ? (
-              <SafeLinkButton
-                to={
-                  context === "preview"
-                    ? routes.myNdla.learningpathPreview(learningpath.id, previousStep?.id)
-                    : toLearningPath(learningpath.id, previousStep?.id, resourcePath)
-                }
-                variant="secondary"
-                aria-label={t("learningPath.previousArrow")}
-              >
-                <ArrowLeftLine />
-                {previousStep?.title ?? t("learningpathPage.introduction")}
-              </SafeLinkButton>
-            ) : (
-              <div />
+          {!!learningpath &&
+            learningpath.learningsteps.findIndex((step) => step.id === learningpathStep?.id) !==
+              learningpath.learningsteps.length - 1 && (
+              <LearningpathNavigation
+                learningpath={learningpath}
+                currentId={learningpathStep?.id}
+                context={context}
+                parentUrl={resource?.context?.parents?.[resource.context.parents.length - 1]?.url}
+                resourcePath={resourcePath}
+              />
             )}
-            {nextStep ? (
-              <SafeLinkButton
-                to={
-                  context === "preview"
-                    ? routes.myNdla.learningpathPreview(learningpath.id, nextStep.id)
-                    : toLearningPath(learningpath.id, nextStep.id, resourcePath)
-                }
-                variant="secondary"
-                aria-label={t("learningPath.nextArrow")}
-              >
-                {nextStep.title}
-                <ArrowRightLine />
-              </SafeLinkButton>
-            ) : (
-              <div />
-            )}
-          </PageButtonsContainer>
-        </StyledPageContent>
-      </ContentWrapper>
-    </StyledPageContainer>
+        </ResourceContentContainer>
+      </LayoutWrapper>
+    </>
   );
 };
 
@@ -363,7 +162,9 @@ Learningpath.fragments = {
   learningpath: gql`
     fragment Learningpath_Learningpath on BaseLearningpath {
       ...LearningpathMenu_Learningpath
+      ...LearningpathNavigation_Learningpath
     }
     ${LearningpathMenu.fragments.learningpath}
+    ${LearningpathNavigation.fragments.learningpath}
   `,
 };

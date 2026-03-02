@@ -40,12 +40,12 @@ export const getBreadcrumb = <T extends BaseMenuType>(crumbs: T[], t: TFunction)
   return [
     {
       name: t("breadcrumb.toFrontpage"),
-      to: "/",
+      url: "/",
     },
   ].concat(
     crumbs.map((crumb) => ({
       name: crumb.article.title,
-      to: toAbout(crumb.article.slug),
+      url: toAbout(crumb.article.slug),
     })),
   );
 };

@@ -7,13 +7,13 @@
  */
 
 import { gql } from "@apollo/client";
+import { Hero, HeroBackground } from "@ndla/primitives";
 import { TFunction } from "i18next";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { PageLayout } from "../../components/Layout/PageContainer";
 import { Learningpath } from "../../components/Learningpath/Learningpath";
 import { PageTitle } from "../../components/PageTitle";
+import { RootPageContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import {
   GQLLearningpath,
@@ -21,33 +21,22 @@ import {
   GQLLearningpathStep,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
-import { toBreadcrumbItems } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 
 interface Props {
-  node: GQLLearningpathPage_NodeFragment | undefined;
+  node: GQLLearningpathPage_NodeFragment;
   skipToContentId: string;
   stepId?: string;
+  loading: boolean;
 }
 
-export const LearningpathPage = ({ node, skipToContentId, stepId }: Props) => {
+export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => {
   const { t } = useTranslation();
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-      try {
-        window.MathJax.typesetPromise();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
-  if (!node || !node.learningpath || !node?.learningpath?.learningsteps?.length) {
+  if (!node.learningpath || !node?.learningpath?.learningsteps?.length) {
     return <DefaultErrorMessagePage />;
   }
-  const crumbs = node.context?.parents ?? [];
-  const root = crumbs[0];
-  const learningpath = node.learningpath!;
+  const learningpath = node.learningpath;
 
   const learningpathStep = stepId
     ? learningpath.learningsteps?.find((step) => step.id.toString() === stepId.toString())
@@ -55,30 +44,31 @@ export const LearningpathPage = ({ node, skipToContentId, stepId }: Props) => {
       ? undefined
       : learningpath.learningsteps?.[0];
 
-  const breadcrumbItems = toBreadcrumbItems(t("breadcrumb.toFrontpage"), [...crumbs, node]);
-
   return (
     <>
       <PageTitle title={getDocumentTitle(t, node, stepId)} />
       {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
-        title={getTitle(root, learningpath, learningpathStep)}
+        title={getTitle(node.context?.parents?.[0], learningpath, learningpathStep)}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.image.imageUrl}
       />
-      <PageLayout asChild consumeCss>
-        <main>
-          <Learningpath
-            skipToContentId={skipToContentId}
-            learningpath={learningpath}
-            learningpathStep={learningpathStep}
-            resource={node}
-            resourcePath={node.url}
-            breadcrumbItems={breadcrumbItems}
-          />
-        </main>
-      </PageLayout>
+      <Hero variant="brand3Moderate">
+        <HeroBackground />
+        <RootPageContent variant="wide" asChild consumeCss>
+          <main>
+            <Learningpath
+              skipToContentId={skipToContentId}
+              learningpath={learningpath}
+              learningpathStep={learningpathStep}
+              resource={node}
+              resourcePath={node.url}
+              loading={loading}
+            />
+          </main>
+        </RootPageContent>
+      </Hero>
     </>
   );
 };

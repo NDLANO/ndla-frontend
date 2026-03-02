@@ -55,7 +55,7 @@ export type LocaleType = (typeof LocaleValues)[number];
 
 export type SiteTheme = "brand1" | "brand2" | "brand3" | "brand4" | "brand5";
 
-export type Breadcrumb = { to: string; name: string };
+export type Breadcrumb = { url: string; name: string };
 
 export type HeadingType = "h1" | "h2" | "h3" | "h4" | "h5";
 
