@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
+import { FolderFormValues } from "../../../../components/MyNdla/FolderForm";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
 import { GQLFolder } from "../../../../graphqlTypes";
@@ -27,7 +28,6 @@ import { MenuItemProps } from "../../components/SettingsMenu";
 import { copyFolderSharingLink, isStudent } from "../util";
 import { FolderCreateModalContent } from "./FolderCreateModalContent";
 import { FolderEditModalContent } from "./FolderEditModalContent";
-import { FolderFormValues } from "./FolderForm";
 import { FolderShareModalContent } from "./FolderShareModalContent";
 
 export const useFolderActions = (

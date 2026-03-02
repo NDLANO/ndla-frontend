@@ -6,7 +6,7 @@
  *
  */
 
-import { TreeViewNodeProviderProps } from "@ark-ui/react";
+import { Portal, TreeViewNodeProviderProps } from "@ark-ui/react";
 import { AddLine, ArrowRightShortLine, FolderLine, FolderUserLine, HeartFill } from "@ndla/icons";
 import {
   Button,
@@ -33,6 +33,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
+import { ROOT_FOLDER_ID } from "./FolderSelect";
 import { NewFolder } from "./NewFolder";
 
 export const MAX_LEVEL_FOR_FOLDERS = 5;
@@ -220,9 +221,17 @@ export const TreeStructure = ({
               {t("myNdla.newFolder")}
             </Button>
           </PopoverTrigger>
-          <PopoverContent>
-            {!!selectedFolder && <NewFolder parentFolder={selectedFolder} onCreate={onCreateFolder} />}
-          </PopoverContent>
+          <Portal>
+            <PopoverContent>
+              {!!selectedFolder && (
+                <NewFolder
+                  parentFolder={selectedFolder}
+                  siblings={selectedFolder.parentId === ROOT_FOLDER_ID ? folders : selectedFolder.subfolders}
+                  onCreate={onCreateFolder}
+                />
+              )}
+            </PopoverContent>
+          </Portal>
         </PopoverRoot>
       </LabelWrapper>
       <StyledTree aria-describedby={ariaDescribedby}>
