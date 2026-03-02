@@ -169,6 +169,7 @@ const messages = {
       learningpathUnsupportedTitle: "Læringsstier støttast ikkje",
       resourceRemovedTitle: "Ressurs ikkje tilgjengeleg",
       folderCopied: "Mappa vart kopiert.",
+      sharedBy: "Delt av: {{sharedBy}}",
       info: "Denne mappa inneheld fagstoff og oppgåver frå NDLA, samla av ein lærar.",
       shared: "Denne mappa inneheld fagstoff og oppgåver frå NDLA, samla av {{sharedBy}}.",
       aTeacher: "ein lærar",
@@ -441,12 +442,6 @@ const messages = {
           shared:
             "No kan du dele denne lenka med elevar eller andre lærarar. Dersom du gjer endringar i mappa, blir dei synlege for alle du har delt lenka med.",
         },
-        warning: {
-          authenticated:
-            "Denne mappa er delt av {{ name }}, og inneheld fagstoff, oppgåver og lenker til tekster frå både NDLA og andre nettstader.",
-          unauthenticated:
-            "Denne mappa er delt av {{ name }}, og inneheld fagstoff, oppgåver og lenker til tekster frå både NDLA og andre nettstader. Logg inn på Min NDLA for å kopiere mappa eller lagre lenka.",
-        },
         button: {
           share: "Del mappe",
           shareShort: "Del",
@@ -455,8 +450,8 @@ const messages = {
           goTo: "Gå til delt mappe",
           unShare: "Avslutt deling",
           shareLink: "Kopier lenke",
-          saveLink: "Lagre lenka",
-          unSaveLink: "Fjern lenka",
+          saveLink: "Lagre lenka til mappa",
+          unSaveLink: "Fjern lenke til delt mappe",
         },
         save: {
           warning:
