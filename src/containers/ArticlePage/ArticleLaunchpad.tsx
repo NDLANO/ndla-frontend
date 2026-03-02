@@ -84,7 +84,6 @@ const StepperItemContent = styled("div", {
 const StyledStepperList = styled(StepperList, {
   base: {
     gap: "xsmall",
-    width: "100%",
   },
 });
 
