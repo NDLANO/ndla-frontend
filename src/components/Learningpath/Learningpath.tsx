@@ -25,7 +25,6 @@ import { HomeBreadcrumb } from "@ndla/ui";
 import { contains } from "@ndla/util";
 import { useContext, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { LearningpathContext } from "./learningpathUtils";
 import {
   GQLLearningpath_LearningpathFragment,
   GQLLearningpath_LearningpathStepFragment,
@@ -42,6 +41,7 @@ import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathIntroduction } from "./components/LearningpathIntroduction";
 import { LearningpathStep } from "./components/LearningpathStep";
 import { LearningpathMenu } from "./LearningpathMenu";
+import type { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;

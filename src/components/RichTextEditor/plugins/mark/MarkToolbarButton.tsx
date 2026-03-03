@@ -6,10 +6,10 @@
  *
  */
 
-import type { EditorMarks } from "slate";
 import { platformSpecificTooltip, useMarkToolbarButton, useMarkToolbarButtonState } from "@ndla/editor-components";
 import { IconButton, IconButtonProps } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
+import type { EditorMarks } from "slate";
 import { useSlateSelection } from "slate-react";
 
 interface MarkToolbarButtonProps extends IconButtonProps {

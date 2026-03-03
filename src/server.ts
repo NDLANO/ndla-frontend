@@ -6,11 +6,11 @@
  *
  */
 
+import path from "node:path";
 import { getCookie } from "@ndla/util";
 import express, { NextFunction, Request, Response } from "express";
 import promBundle from "express-prom-bundle";
 import helmet from "helmet";
-import path from "node:path";
 import { matchPath } from "react-router";
 import serialize from "serialize-javascript";
 import { Manifest, ViteDevServer } from "vite";

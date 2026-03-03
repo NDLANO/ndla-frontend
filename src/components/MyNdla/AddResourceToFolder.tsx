@@ -121,7 +121,6 @@ const structureQueryDef = gql`
     }
     myNdlaResource(path: $path) {
       ...MyNdlaResourceFragment
-
     }
     myNdlaResourceConnections(path: $path) {
       folderId
