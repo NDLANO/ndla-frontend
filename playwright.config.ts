@@ -6,9 +6,9 @@
  *
  */
 
-import { defineConfig } from "@playwright/test";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { defineConfig } from "@playwright/test";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

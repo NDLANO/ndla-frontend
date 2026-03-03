@@ -6,8 +6,8 @@
  *
  */
 
-import { TestInfo } from "@playwright/test";
 import { readFile, writeFile } from "fs/promises";
+import { TestInfo } from "@playwright/test";
 
 const MOCK_DIR = "e2e/apiMocks/";
 const TEST_IMAGE_REGEX = "https://api.test.ndla.no/(?!image-api/raw.*).*";
