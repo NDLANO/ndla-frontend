@@ -11,11 +11,11 @@ import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/prim
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
+import { FolderForm } from "../../../../components/MyNdla/FolderForm";
 import { useToast } from "../../../../components/ToastContext";
 import { GQLFolder } from "../../../../graphqlTypes";
 import { useUpdateFolderMutation } from "../../../../mutations/folder/folderMutations";
 import { useFolders, getFolder } from "../../../../mutations/folder/folderQueries";
-import { FolderForm } from "./FolderForm";
 
 interface Props {
   folder?: GQLFolder;
@@ -48,6 +48,7 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
           <FolderForm
             folder={folder}
             siblings={siblings}
+            onClose={onClose}
             onSave={async (values) => {
               const res = await updateFolder({
                 variables: {

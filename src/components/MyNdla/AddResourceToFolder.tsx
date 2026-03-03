@@ -41,6 +41,7 @@ import {
   GQLAddResourceToFolderStructureQueryVariables,
   GQLFolder,
   GQLMyNdlaResource,
+  GQLMyNdlaResourceConnection,
 } from "../../graphqlTypes";
 import { foldersPageQueryFragment, myNdlaResourceFragment } from "../../mutations/folder/folderFragments";
 import { useAddMyNdlaResourceMutation, useUpdateMyNdlaResourceMutation } from "../../mutations/folder/folderMutations";
@@ -148,9 +149,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
   const toast = useToast();
   const tagSelectorTranslations = useTagSelectorTranslations();
   const [updateMyNdlaResource] = useUpdateMyNdlaResourceMutation();
-  const [addResourceToFolder, { loading: addResourceLoading, called }] = useAddMyNdlaResourceMutation(
-    selectedFolder?.id,
-  );
+  const [addResourceToFolder, { loading: addResourceLoading, called }] = useAddMyNdlaResourceMutation();
 
   const placements = useMemo(() => {
     const placements = structureQuery.data?.myNdlaResourceConnections.map((c) => c.folderId ?? ROOT_FOLDER_ID) ?? [];
@@ -198,6 +197,43 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
           path: resource.path,
           folderId: selectedFolder?.id,
           tags: selectedTags,
+        },
+        update: (cache, { data }, opts) => {
+          if (!data?.addMyNdlaResource) return;
+          if (opts.variables?.folderId) {
+            cache.modify({
+              id: cache.identify({
+                __ref: `Folder:${opts.variables.folderId}`,
+              }),
+              fields: {
+                resources(existingResources = []) {
+                  return existingResources.concat({
+                    __ref: cache.identify(data.addMyNdlaResource),
+                  });
+                },
+              },
+            });
+          } else {
+            cache.modify({
+              fields: {
+                myNdlaRootResources(existingResources = []) {
+                  return existingResources.concat({ __ref: cache.identify(data.addMyNdlaResource) });
+                },
+              },
+            });
+          }
+          const newResourceConnection: GQLMyNdlaResourceConnection = {
+            folderId: opts.variables?.folderId,
+            resourceId: data.addMyNdlaResource.id,
+          };
+          cache.writeQuery({
+            query: structureQueryDef,
+            variables: { path: resource.path },
+            data: {
+              ...structureQuery.data,
+              myNdlaResourceConnections: structureQuery.data?.myNdlaResourceConnections.concat(newResourceConnection),
+            },
+          });
         },
       });
       if (!res.error) {
