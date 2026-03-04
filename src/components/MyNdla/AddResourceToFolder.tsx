@@ -8,31 +8,10 @@
 
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { createListCollection } from "@ark-ui/react";
-import { CloseLine, ArrowDownShortLine, InformationLine, CheckLine } from "@ndla/icons";
-import {
-  MessageBox,
-  Button,
-  ComboboxContent,
-  ComboboxItem,
-  ComboboxItemIndicator,
-  ComboboxItemText,
-  IconButton,
-  Input,
-  InputContainer,
-  Text,
-} from "@ndla/primitives";
+import { InformationLine } from "@ndla/icons";
+import { MessageBox, Button, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import {
-  TagSelectorClearTrigger,
-  TagSelectorControl,
-  TagSelectorInput,
-  TagSelectorLabel,
-  TagSelectorRoot,
-  TagSelectorTrigger,
-  useTagSelectorTranslations,
-} from "@ndla/ui";
 import { uniq } from "@ndla/util";
 import { useEffect, useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -40,14 +19,12 @@ import {
   GQLAddResourceToFolderStructureQuery,
   GQLAddResourceToFolderStructureQueryVariables,
   GQLFolder,
-  GQLMyNdlaResource,
   GQLMyNdlaResourceConnection,
 } from "../../graphqlTypes";
 import { foldersPageQueryFragment, myNdlaResourceFragment } from "../../mutations/folder/folderFragments";
-import { useAddMyNdlaResourceMutation, useUpdateMyNdlaResourceMutation } from "../../mutations/folder/folderMutations";
+import { useAddMyNdlaResourceMutation } from "../../mutations/folder/folderMutations";
 import { useFolder, useMyNdlaResourceMeta } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
-import { useDebounce } from "../../util/useDebounce";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
 import { FolderSelect, ROOT_FOLDER_ID } from "./FolderSelect";
@@ -70,14 +47,6 @@ const AddResourceContainer = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "medium",
-  },
-});
-
-const StyledComboboxContent = styled(ComboboxContent, {
-  base: {
-    display: "flex",
-    maxHeight: "320px",
-    overflow: "hidden",
   },
 });
 
@@ -104,12 +73,6 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
       >{`"${folder ? folder.name : t("myNdla.myFavorites")}"`}</SafeLink>
     </div>
   );
-};
-
-const shouldUpdateMyNdlaResource = (storedResource: GQLMyNdlaResource, selectedTags: string[]) => {
-  if (storedResource.tags.length !== selectedTags.length) return true;
-  const storedSet = new Set(storedResource.tags);
-  return !selectedTags.every((tag) => storedSet.has(tag));
 };
 
 const structureQueryDef = gql`
@@ -140,14 +103,10 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
     structureQueryDef,
     { variables: { path: resource.path } },
   );
-  const [query, setQuery] = useState("");
-  const debouncedQuery = useDebounce(query, 100);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
   const toast = useToast();
-  const tagSelectorTranslations = useTagSelectorTranslations();
-  const [updateMyNdlaResource] = useUpdateMyNdlaResourceMutation();
   const [addResourceToFolder, { loading: addResourceLoading, called }] = useAddMyNdlaResourceMutation();
 
   const placements = useMemo(() => {
@@ -156,15 +115,6 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
   }, [structureQuery.data?.myNdlaResourceConnections]);
 
   const storedResource = structureQuery.data?.myNdlaResource;
-
-  const filteredTags = useMemo(() => {
-    if (!debouncedQuery) return structureQuery.data?.myNdlaResourceTags ?? [];
-    return (
-      structureQuery.data?.myNdlaResourceTags.filter((tag) =>
-        tag.toLowerCase().includes(debouncedQuery.toLowerCase()),
-      ) ?? []
-    );
-  }, [debouncedQuery, structureQuery.data?.myNdlaResourceTags]);
 
   useEffect(() => {
     if (storedResource) {
@@ -177,81 +127,62 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
     [placements, selectedFolder],
   );
 
-  const canSave = useMemo(() => {
-    if (!storedResource) return true;
-    return !alreadyAdded || shouldUpdateMyNdlaResource(storedResource, selectedTags);
-  }, [alreadyAdded, selectedTags, storedResource]);
-
-  const allTagsCollection = useMemo(
-    () => createListCollection({ items: structureQuery.data?.myNdlaResourceTags ?? [] }),
-    [structureQuery.data?.myNdlaResourceTags],
-  );
-
   const onSave = async () => {
-    if (!alreadyAdded) {
-      const res = await addResourceToFolder({
-        variables: {
-          resourceId: resource.id,
-          resourceType: resource.resourceType,
-          path: resource.path,
-          folderId: selectedFolder?.id,
-          tags: selectedTags,
-        },
-        update: (cache, { data }, opts) => {
-          if (!data?.addMyNdlaResource) return;
-          if (opts.variables?.folderId) {
-            cache.modify({
-              id: cache.identify({
-                __ref: `Folder:${opts.variables.folderId}`,
-              }),
-              fields: {
-                resources(existingResources = []) {
-                  return existingResources.concat({
-                    __ref: cache.identify(data.addMyNdlaResource),
-                  });
-                },
+    if (alreadyAdded) return;
+    const res = await addResourceToFolder({
+      variables: {
+        resourceId: resource.id,
+        resourceType: resource.resourceType,
+        path: resource.path,
+        folderId: selectedFolder?.id,
+        tags: selectedTags,
+      },
+      update: (cache, { data }, opts) => {
+        if (!data?.addMyNdlaResource) return;
+        if (opts.variables?.folderId) {
+          cache.modify({
+            id: cache.identify({
+              __ref: `Folder:${opts.variables.folderId}`,
+            }),
+            fields: {
+              resources(existingResources = []) {
+                return existingResources.concat({
+                  __ref: cache.identify(data.addMyNdlaResource),
+                });
               },
-            });
-          } else {
-            cache.modify({
-              fields: {
-                myNdlaRootResources(existingResources = []) {
-                  return existingResources.concat({ __ref: cache.identify(data.addMyNdlaResource) });
-                },
-              },
-            });
-          }
-          const newResourceConnection: GQLMyNdlaResourceConnection = {
-            folderId: opts.variables?.folderId,
-            resourceId: data.addMyNdlaResource.id,
-          };
-          cache.writeQuery({
-            query: structureQueryDef,
-            variables: { path: resource.path },
-            data: {
-              ...structureQuery.data,
-              myNdlaResourceConnections: structureQuery.data?.myNdlaResourceConnections.concat(newResourceConnection),
             },
           });
-        },
-      });
-      if (!res.error) {
-        onClose();
-        toast.create({
-          title: t("myNdla.resource.added"),
-          description: <ResourceAddedSnack folder={selectedFolder} />,
+        } else {
+          cache.modify({
+            fields: {
+              myNdlaRootResources(existingResources = []) {
+                return existingResources.concat({ __ref: cache.identify(data.addMyNdlaResource) });
+              },
+            },
+          });
+        }
+        const newResourceConnection: GQLMyNdlaResourceConnection = {
+          folderId: opts.variables?.folderId,
+          resourceId: data.addMyNdlaResource.id,
+        };
+        cache.writeQuery({
+          query: structureQueryDef,
+          variables: { path: resource.path },
+          data: {
+            ...structureQuery.data,
+            myNdlaResourceConnections: structureQuery.data?.myNdlaResourceConnections.concat(newResourceConnection),
+          },
         });
-      } else {
-        toast.create({ title: t("myNdla.resource.addedFailed") });
-      }
-    } else if (storedResource && shouldUpdateMyNdlaResource(storedResource, selectedTags)) {
-      const res = await updateMyNdlaResource({ variables: { id: storedResource.id, tags: selectedTags } });
-      if (!res.error) {
-        onClose();
-        toast.create({ title: t("myNdla.resource.tagsUpdated") });
-      } else {
-        toast.create({ title: t("myNdla.resource.tagsUpdatedFailed") });
-      }
+      },
+    });
+    if (!res.error) {
+      onClose();
+      toast.create({
+        title: t("myNdla.resource.added"),
+        description: <ResourceAddedSnack folder={selectedFolder} />,
+      });
+    } else {
+      toast.create({ title: t("myNdla.resource.addedFailed") });
     }
   };
 
@@ -298,45 +229,6 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
               </MessageBox>
             )}
           </StyledInfoMessages>
-          <TagSelectorRoot
-            value={selectedTags}
-            collection={allTagsCollection}
-            onInputValueChange={(details) => setQuery(details.inputValue)}
-            onValueChange={(details) => setSelectedTags(details.value)}
-            translations={tagSelectorTranslations}
-          >
-            <TagSelectorLabel>{t("myNdla.myTags")}</TagSelectorLabel>
-            <HStack gap="4xsmall">
-              <TagSelectorControl asChild>
-                <InputContainer>
-                  <TagSelectorInput asChild>
-                    <Input placeholder={t("tagSelector.placeholder")} />
-                  </TagSelectorInput>
-
-                  <TagSelectorClearTrigger asChild>
-                    <IconButton variant="clear">
-                      <CloseLine />
-                    </IconButton>
-                  </TagSelectorClearTrigger>
-                </InputContainer>
-              </TagSelectorControl>
-              <TagSelectorTrigger asChild>
-                <IconButton variant="secondary">
-                  <ArrowDownShortLine />
-                </IconButton>
-              </TagSelectorTrigger>
-            </HStack>
-            <StyledComboboxContent>
-              {filteredTags.map((item) => (
-                <ComboboxItem key={item} item={item}>
-                  <ComboboxItemText>{item}</ComboboxItemText>
-                  <ComboboxItemIndicator>
-                    <CheckLine />
-                  </ComboboxItemIndicator>
-                </ComboboxItem>
-              ))}
-            </StyledComboboxContent>
-          </TagSelectorRoot>
         </>
       )}
       <HStack justify="flex-end" gap="xsmall">
@@ -346,7 +238,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
         <Button
           onClick={onSave}
           loading={addResourceLoading}
-          disabled={!canSave || examLock}
+          disabled={alreadyAdded || examLock}
           aria-label={addResourceLoading ? t("loading") : undefined}
         >
           {t("myNdla.resource.save")}

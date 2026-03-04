@@ -163,6 +163,7 @@ const messages = {
       titleUpdated: "Tittel oppdatert",
       tagsUpdated: "Emneknagger oppdatert",
       tagsUpdatedFailed: "Klarte ikke å oppdatere emneknagger",
+      updateTags: "Oppdater emneknagger",
       show: "Vis",
       save: "Lagre ressurs",
     },
