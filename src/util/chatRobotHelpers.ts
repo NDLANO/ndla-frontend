@@ -11,6 +11,7 @@ import { getNdlaRobotDateFormat } from "./formatDate";
 
 export const getChatRobotUrl = (user: GQLMyNdlaPersonalDataFragmentFragment | undefined) => {
   const dateString = getNdlaRobotDateFormat(new Date());
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const token = user ? btoa(dateString) : "";
-  return `https://ndla-ki.no/${token}`;
+  return `https://ndla-ki.no/`; // `https://ndla-ki.no/${token}`;
 };
