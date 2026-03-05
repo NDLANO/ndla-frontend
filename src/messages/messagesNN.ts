@@ -162,6 +162,7 @@ const messages = {
       titleUpdated: "Tittel oppdatert",
       tagsUpdated: "Emneknaggar oppdaterte",
       tagsUpdatedFailed: "Klarte ikkje å oppdatere emneknaggar",
+      updateTags: "Oppdater emneknaggar",
       show: "Vis",
       save: "Lagre ressurs",
     },

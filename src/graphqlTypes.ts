@@ -4378,6 +4378,10 @@ export type GQLAddResourceToFolderStructureQuery = {
   myNdlaResourceConnections: Array<{ __typename?: "MyNdlaResourceConnection"; folderId?: string; resourceId: string }>;
 };
 
+export type GQLUpdateResourceTagsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLUpdateResourceTagsQuery = { __typename?: "Query"; myNdlaResourceTags: Array<string> };
+
 export type GQLSubjectLinks_SubjectPageFragment = {
   __typename?: "SubjectPage";
   buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;

@@ -162,6 +162,7 @@ const messages = {
       titleUpdated: "Title updated",
       tagsUpdated: "Tags updated",
       tagsUpdatedFailed: "Failed to update tags",
+      updateTags: "Update tags",
       show: "Show",
       save: "Save resource",
     },
