@@ -116,6 +116,7 @@ export type ConfigType = {
   loginHint: string | undefined;
   gracePeriodSeconds: number;
   githubIconEnabled: boolean;
+  disableKiToken: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -153,6 +154,7 @@ const getServerSideConfig = (): ConfigType => {
     loginHint: loginHint(ndlaEnvironment, getEnvironmentVariable("AUTOLOGIN_COOKIE_ENABLED", false)),
     gracePeriodSeconds: parseInt(getEnvironmentVariable("READINESS_PROBE_DETECTION_SECONDS", "7")),
     githubIconEnabled: getEnvironmentVariable("GITHUB_ICON_ENABLED", false),
+    disableKiToken: getEnvironmentVariable("DISABLE_KI_TOKEN", false),
   };
 };
 
