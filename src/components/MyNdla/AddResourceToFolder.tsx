@@ -9,11 +9,10 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
-import { MessageBox, Button, Text } from "@ndla/primitives";
+import { MessageBox, Button, Text, DialogFooter } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
-import { HStack, styled } from "@ndla/styled-system/jsx";
-import { uniq } from "@ndla/util";
-import { useEffect, useState, useContext, useMemo } from "react";
+import { styled } from "@ndla/styled-system/jsx";
+import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import {
   GQLAddResourceToFolderStructureQuery,
@@ -21,14 +20,14 @@ import {
   GQLFolder,
   GQLMyNdlaResourceConnection,
 } from "../../graphqlTypes";
-import { foldersPageQueryFragment, myNdlaResourceFragment } from "../../mutations/folder/folderFragments";
+import { foldersPageQueryFragment } from "../../mutations/folder/folderFragments";
 import { useAddMyNdlaResourceMutation } from "../../mutations/folder/folderMutations";
-import { useFolder, useMyNdlaResourceMeta } from "../../mutations/folder/folderQueries";
+import { useFolder } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { useToast } from "../ToastContext";
 import { FolderSelect, ROOT_FOLDER_ID } from "./FolderSelect";
-import { ListResource } from "./ListResource";
+import { AddResourceType } from "./types";
 
 export interface ResourceAttributes {
   path: string;
@@ -38,6 +37,7 @@ export interface ResourceAttributes {
 
 interface Props {
   onClose: () => void;
+  type: AddResourceType;
   resource: ResourceAttributes;
   defaultOpenFolder?: GQLFolder;
 }
@@ -50,11 +50,11 @@ const AddResourceContainer = styled("div", {
   },
 });
 
-const StyledInfoMessages = styled("div", {
+const WarningText = styled(Text, {
   base: {
     display: "flex",
-    flexDirection: "column",
     gap: "xsmall",
+    paddingInline: "medium",
   },
 });
 
@@ -82,45 +82,30 @@ const structureQueryDef = gql`
         ...FoldersPageQueryFragment
       }
     }
-    myNdlaResource(path: $path) {
-      ...MyNdlaResourceFragment
-    }
     myNdlaResourceConnections(path: $path) {
       folderId
       resourceId
     }
-    myNdlaResourceTags
   }
-  ${myNdlaResourceFragment}
   ${foldersPageQueryFragment}
 `;
 
-export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Props) => {
+export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type }: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
-  const { meta, loading: metaLoading } = useMyNdlaResourceMeta(resource);
   const structureQuery = useQuery<GQLAddResourceToFolderStructureQuery, GQLAddResourceToFolderStructureQueryVariables>(
     structureQueryDef,
     { variables: { path: resource.path } },
   );
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
   const toast = useToast();
-  const [addResourceToFolder, { loading: addResourceLoading, called }] = useAddMyNdlaResourceMutation();
+  const [addResourceToFolder, { loading: addResourceLoading }] = useAddMyNdlaResourceMutation();
 
   const placements = useMemo(() => {
     const placements = structureQuery.data?.myNdlaResourceConnections.map((c) => c.folderId ?? ROOT_FOLDER_ID) ?? [];
     return new Set(placements);
   }, [structureQuery.data?.myNdlaResourceConnections]);
-
-  const storedResource = structureQuery.data?.myNdlaResource;
-
-  useEffect(() => {
-    if (storedResource) {
-      setSelectedTags((prevTags) => uniq(prevTags.concat(storedResource?.tags ?? [])));
-    }
-  }, [storedResource]);
 
   const alreadyAdded = useMemo(
     () => placements.has(selectedFolder?.id ?? ROOT_FOLDER_ID),
@@ -135,7 +120,6 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
         resourceType: resource.resourceType,
         path: resource.path,
         folderId: selectedFolder?.id,
-        tags: selectedTags,
       },
       update: (cache, { data }, opts) => {
         if (!data?.addMyNdlaResource) return;
@@ -188,20 +172,6 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
 
   return (
     <AddResourceContainer>
-      <ListResource
-        nonInteractive
-        id={resource.id.toString()}
-        isLoading={metaLoading}
-        link={resource.path}
-        title={meta?.title ?? ""}
-        traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
-        resourceTypes={meta?.resourceTypes}
-        storedResourceType={resource.resourceType}
-        resourceImage={{
-          src: meta?.metaImage?.url,
-          alt: meta?.metaImage?.alt ?? "",
-        }}
-      />
       {examLock ? (
         <MessageBox variant="warning">
           <InformationLine />
@@ -211,27 +181,21 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
         <>
           <FolderSelect
             folders={(structureQuery.data?.folders.folders ?? []) as GQLFolder[]}
-            loading={structureQuery.loading}
+            type={type}
             selectedFolderId={selectedFolderId}
             setSelectedFolderId={setSelectedFolderId}
             defaultOpenFolder={defaultOpenFolder}
             placements={placements}
           />
-          <StyledInfoMessages id="treestructure-error-label" aria-live="assertive">
-            {!!alreadyAdded && !called && (
-              <MessageBox variant="warning">
-                <Text>{t("myNdla.alreadyInFolder")}</Text>
-              </MessageBox>
-            )}
-            {selectedFolder?.status === "shared" && (
-              <MessageBox variant="warning">
-                <Text>{t("myNdla.addInSharedFolder")}</Text>
-              </MessageBox>
-            )}
-          </StyledInfoMessages>
+          {selectedFolder?.status === "shared" && (
+            <WarningText id="treestructure-error-label" aria-live="assertive">
+              <InformationLine />
+              {t("myNdla.addInSharedFolder")}
+            </WarningText>
+          )}
         </>
       )}
-      <HStack justify="flex-end" gap="xsmall">
+      <DialogFooter>
         <Button variant="secondary" onClick={onClose}>
           {t("cancel")}
         </Button>
@@ -243,7 +207,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder }: Pr
         >
           {t("myNdla.resource.save")}
         </Button>
-      </HStack>
+      </DialogFooter>
     </AddResourceContainer>
   );
 };
