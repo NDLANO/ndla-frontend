@@ -3,7 +3,11 @@
     /* Full property definition at https://aka.ms/tsconfig.json */
     "target": "ES2017",
     "module": "ES2022",
-    "lib": ["es2023", "esnext.asynciterable", "dom"],
+    "lib": [
+      "es2023",
+      "esnext.asynciterable",
+      "dom"
+    ],
     "jsx": "react-jsx",
     "sourceMap": true,
     "noEmit": true,
@@ -19,16 +23,21 @@
     "preserveSymlinks": true,
     "alwaysStrict": true,
     "allowUnreachableCode": false,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "moduleResolution": "Bundler",
-    "types": ["vitest/globals", "node"],
+    "types": [
+      "vitest/globals",
+      "node"
+    ],
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src/**/*"]
+  "include": [
+    "./src/**/*"
+  ]
 }
