@@ -11,9 +11,10 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
-import { EmbedPageContent } from "./components/EmbedPageContent";
+import { ResourceContent } from "../Resource/ResourceLayout";
+import { useRestrictedMode } from "../RestrictedModeContext";
 
-const StyledEmbedPageContent = styled(EmbedPageContent, {
+const StyledEmbedPageContent = styled(ResourceContent, {
   base: {
     paddingBlockStart: "xlarge",
     paddingBlockEnd: "xxlarge",
@@ -30,9 +31,10 @@ interface Props {
 
 export const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningSteps, title }: Props) => {
   const { t } = useTranslation();
+  const restrictedInfo = useRestrictedMode();
   const isLastStep = seqNo === numberOfLearningSteps;
 
-  if (!isLastStep || !resource?.context) {
+  if (restrictedInfo.restricted || !isLastStep || !resource?.context) {
     return null;
   }
 

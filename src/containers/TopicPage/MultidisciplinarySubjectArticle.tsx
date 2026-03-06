@@ -165,7 +165,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           }}
         />
         <HeaderWrapper>
-          <HomeBreadcrumb items={breadCrumbs} />
+          <HomeBreadcrumb items={breadCrumbs.map((bc) => ({ ...bc, to: bc.url }))} />
           {!!subjectLinks?.length && (
             <SubjectLinkSet
               set="test"

@@ -13,10 +13,10 @@ import { useTranslation } from "react-i18next";
 import { GQLLearningpathStepOembedFragment } from "../../../graphqlTypes";
 import { urlIsNDLAUrl } from "../../../util/ndlaUrl";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
+import { ResourceContent } from "../../Resource/ResourceLayout";
 import { RestrictedBlock } from "../../RestrictedBlock";
 import { useRestrictedMode } from "../../RestrictedModeContext";
 import { LearningpathIframe } from "../LearningpathIframe";
-import { EmbedPageContent } from "./EmbedPageContent";
 
 interface EmbedStepProps {
   url: string;
@@ -36,7 +36,7 @@ export const EmbedStep = ({ skipToContentId, url, title, oembed, isInactive }: E
   }
 
   return (
-    <EmbedPageContent variant="content">
+    <ResourceContent variant="content">
       <ArticleWrapper>
         <ArticleTitle
           id={skipToContentId ?? fallbackId}
@@ -66,6 +66,6 @@ export const EmbedStep = ({ skipToContentId, url, title, oembed, isInactive }: E
           )}
         </ArticleContent>
       </ArticleWrapper>
-    </EmbedPageContent>
+    </ResourceContent>
   );
 };

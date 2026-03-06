@@ -7,15 +7,9 @@
  */
 
 import { gql } from "@apollo/client";
-import {
-  GQLLearningpath_LearningpathStepFragment,
-  GQLLearningpath_LearningpathFragment,
-  GQLLearningpathPage_NodeFragment,
-} from "../../../graphqlTypes";
+import { GQLLearningpath_LearningpathStepFragment, GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
 import { Breadcrumb } from "../../../interfaces";
-import { useRestrictedMode } from "../../RestrictedModeContext";
-import { LastLearningpathStepInfo } from "../LastLearningpathStepInfo";
 import { ArticleStep } from "./ArticleStep";
 import { EmbedStep } from "./EmbedStep";
 import { ExternalStep } from "./ExternalStep";
@@ -46,36 +40,24 @@ const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefin
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
   learningpathStep: GQLLearningpath_LearningpathStepFragment;
-  resource?: GQLLearningpathPage_NodeFragment;
   skipToContentId?: string;
-  breadcrumbItems: Breadcrumb[];
   subjectId?: string;
   isInactive?: boolean;
+  ldCrumbs: Breadcrumb[];
 }
 
 export const LearningpathStep = ({
   learningpath,
   learningpathStep,
-  breadcrumbItems,
   subjectId,
   skipToContentId,
-  resource,
+  ldCrumbs,
   isInactive,
 }: Props) => {
-  const restrictedInfo = useRestrictedMode();
   const [taxId, articleId] =
     !learningpathStep.resource && learningpathStep.embedUrl?.url
       ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
       : [undefined, undefined];
-
-  const lastLearningpathStepInfo = !restrictedInfo.restricted ? (
-    <LastLearningpathStepInfo
-      seqNo={learningpath.learningsteps.findIndex(({ id }) => id === learningpathStep.id)}
-      numberOfLearningSteps={learningpath.learningsteps.length - 1}
-      title={learningpath.title}
-      resource={resource}
-    />
-  ) : null;
 
   const shouldUseConverter =
     !!articleId &&
@@ -99,7 +81,6 @@ export const LearningpathStep = ({
           oembed={learningpathStep.oembed}
           isInactive={isInactive}
         />
-        {lastLearningpathStepInfo}
       </>
     );
   } else if (learningpathStep.resource) {
@@ -111,49 +92,39 @@ export const LearningpathStep = ({
           articleId={articleId}
           learningpathStep={learningpathStep}
           subjectId={subjectId}
-          breadcrumbItems={breadcrumbItems}
+          breadcrumbItems={ldCrumbs}
           skipToContentId={skipToContentId}
           isInactive={isInactive}
         />
-        {lastLearningpathStepInfo}
       </>
     );
   } else if (learningpathStep.embedUrl?.embedType === "external") {
     return (
-      <>
-        <ExternalStep
-          learningpathStep={learningpathStep}
-          skipToContentId={skipToContentId}
-          learningpath={learningpath}
-          isInactive={isInactive}
-        />
-        {lastLearningpathStepInfo}
-      </>
+      <ExternalStep
+        learningpathStep={learningpathStep}
+        skipToContentId={skipToContentId}
+        learningpath={learningpath}
+        isInactive={isInactive}
+      />
     );
     // this is either a plain text step from stier, or a text step from my ndla.
     // There's really no way to know, so we have to make an educated guess.
   } else if (learningpathStep.introduction || learningpathStep.description?.startsWith("<section>")) {
     return (
-      <>
-        <TextStep
-          learningpathStep={learningpathStep}
-          skipToContentId={skipToContentId}
-          learningpath={learningpath}
-          isInactive={isInactive}
-        />
-        {lastLearningpathStepInfo}
-      </>
+      <TextStep
+        learningpathStep={learningpathStep}
+        skipToContentId={skipToContentId}
+        learningpath={learningpath}
+        isInactive={isInactive}
+      />
     );
   } else {
     return (
-      <>
-        <LearningpathStepTitle
-          learningpathStep={learningpathStep}
-          skipToContentId={skipToContentId}
-          isInactive={isInactive}
-        />
-        {lastLearningpathStepInfo}
-      </>
+      <LearningpathStepTitle
+        learningpathStep={learningpathStep}
+        skipToContentId={skipToContentId}
+        isInactive={isInactive}
+      />
     );
   }
 };

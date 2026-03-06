@@ -19,9 +19,9 @@ import {
   GQLMyNdlaLearningpathStepFragment,
 } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
+import { ResourceContent } from "../../Resource/ResourceLayout";
 import { RestrictedBlock } from "../../RestrictedBlock";
 import { useRestrictedMode } from "../../RestrictedModeContext";
-import { EmbedPageContent } from "./EmbedPageContent";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -45,7 +45,7 @@ export const TextStep = ({ learningpathStep, learningpath, skipToContentId, isIn
   const restrictedInfo = useRestrictedMode();
 
   return (
-    <EmbedPageContent variant="content">
+    <ResourceContent variant="content">
       <ArticleWrapper>
         <ArticleTitle
           id={skipToContentId ?? fallbackId}
@@ -69,6 +69,6 @@ export const TextStep = ({ learningpathStep, learningpath, skipToContentId, isIn
           </StyledArticleFooter>
         )}
       </ArticleWrapper>
-    </EmbedPageContent>
+    </ResourceContent>
   );
 };

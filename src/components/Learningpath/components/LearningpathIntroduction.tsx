@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
-import { EmbedPageContent } from "./EmbedPageContent";
+import { ResourceContent } from "../../Resource/ResourceLayout";
 
 interface Props {
   learningpath: GQLLearningpath_LearningpathFragment;
@@ -23,7 +23,7 @@ interface Props {
 export const LearningpathIntroduction = ({ learningpath, isInactive }: Props) => {
   const { t } = useTranslation();
   return (
-    <EmbedPageContent variant="content">
+    <ResourceContent variant="content">
       <ArticleWrapper>
         <ArticleTitle
           id={SKIP_TO_CONTENT_ID}
@@ -35,6 +35,6 @@ export const LearningpathIntroduction = ({ learningpath, isInactive }: Props) =>
           {!!learningpath.introduction?.length && <section>{transform(learningpath.introduction, {})}</section>}
         </ArticleContent>
       </ArticleWrapper>
-    </EmbedPageContent>
+    </ResourceContent>
   );
 };

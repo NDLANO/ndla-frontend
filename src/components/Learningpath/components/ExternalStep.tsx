@@ -13,10 +13,10 @@ import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
+import { ResourceContent } from "../../Resource/ResourceLayout";
 import { RestrictedBlock } from "../../RestrictedBlock";
 import { useRestrictedMode } from "../../RestrictedModeContext";
 import { BaseStepProps } from "../learningpathTypes";
-import { EmbedPageContent } from "./EmbedPageContent";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -36,7 +36,7 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath, 
   const fallbackId = useId();
   const restrictedInfo = useRestrictedMode();
   return (
-    <EmbedPageContent variant="content" css={{ paddingBlock: "medium" }}>
+    <ResourceContent variant="content" css={{ paddingBlock: "medium" }}>
       <ArticleWrapper>
         <ArticleTitle
           title={learningpathStep.title}
@@ -65,6 +65,6 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath, 
           </StyledArticleFooter>
         )}
       </ArticleWrapper>
-    </EmbedPageContent>
+    </ResourceContent>
   );
 };

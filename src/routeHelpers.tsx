@@ -58,11 +58,11 @@ export function toBreadcrumbItems(
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
     return {
-      to: crumb?.url ?? "",
+      url: crumb?.url ?? "",
       name: crumb?.name ?? "",
     };
   });
-  return [{ to: "/", name: rootName }, ...breadcrumbs];
+  return [{ url: "/", name: rootName }, ...breadcrumbs];
 }
 
 export function toProgramme(programmePath?: string, grade?: string) {

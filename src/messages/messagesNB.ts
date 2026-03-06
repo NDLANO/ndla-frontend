@@ -84,7 +84,6 @@ const messages = {
   },
   topicsPage: {
     topics: "Emner",
-    multidisciplinaryLinksHeader: "Jobb tverrfaglig med emnet",
   },
   searchPage: {
     title: "Søk på ndla.no",
@@ -821,9 +820,6 @@ const messages = {
     leadsTo: "Leder til",
   },
   learningPath: {
-    youAreInALearningPath: "Du er nå inne i en læringssti",
-    nextArrow: "Gå til neste steg",
-    previousArrow: "Gå til forrige steg",
     lastUpdated: "Sist oppdatert",
     lastStep: {
       heading: "Siste steg i læringsstien",
@@ -865,9 +861,6 @@ const messages = {
     subject_other: "Fag",
   },
   resource: {
-    noCoreResourcesAvailableUnspecific: "Det er ikke noe kjernestoff tilgjengelig.",
-    noCoreResourcesAvailable: "Det er ikke noe kjernestoff for {{name}}.",
-    activateAdditionalResources: "Vis tilleggsstoff i listen",
     label: "Læringsressurser",
     tooltipCoreTopic: "Kjernestoff",
     tooltipAdditionalTopic: "Tilleggsstoff",
@@ -950,6 +943,24 @@ const messages = {
   archivedPage: "Denne sida er arkivert. Innholdet kan være utdatert.",
   licenseBox: {
     sourceTitle: "Kildehenvisning",
+  },
+  launchpad: {
+    coreContentTitle: "Læringsressurser",
+    linksTitle: "Jobb tverrfaglig med emnet",
+    supplementaryContentTitle: "Tilleggsstoff",
+    learningpathsTitle: "Læringsstier om emnet",
+    collapse: "Skjul innhold",
+    expand: "Vis innhold",
+    showMore: "Vis flere",
+    showLess: "Vis færre",
+  },
+  resourcePage: {
+    previous: "Forrige",
+    next: "Neste",
+    backToTopic: "Tilbake til emnet",
+    menuTrigger: "Se innholdsliste",
+    closeMenuTrigger: "Lukk innholdsliste",
+    contentList: "Innholdsliste",
   },
 };
 

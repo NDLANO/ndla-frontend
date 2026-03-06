@@ -11,7 +11,6 @@ import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, Location, useParams } from "react-router";
-import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
@@ -21,6 +20,7 @@ import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
 import { findAccessDeniedErrors, isGoneError, isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
+import { ArticleLayout } from "../ArticlePage/ArticleLayout";
 import { ArticlePage } from "../ArticlePage/ArticlePage";
 import { LearningpathPage } from "../LearningpathPage/LearningpathPage";
 import { MovedResourcePage } from "../MovedResourcePage/MovedResourcePage";
@@ -66,7 +66,7 @@ export const ResourcePage = () => {
   const location = useLocation();
   const { contextId, stepId } = useParams();
 
-  const { error, loading, data } = useQuery<GQLResourcePageQuery>(resourcePageQuery, {
+  const { error, loading, data, previousData } = useQuery<GQLResourcePageQuery>(resourcePageQuery, {
     variables: {
       contextId,
       transformArgs: {
@@ -77,10 +77,6 @@ export const ResourcePage = () => {
   });
   const redirectContext = useContext<RedirectInfo | undefined>(RedirectContext);
   const responseContext = useContext(ResponseContext);
-
-  if (loading) {
-    return <ContentPlaceholder variant="article" />;
-  }
 
   const accessDeniedErrors = findAccessDeniedErrors(error);
   if (accessDeniedErrors) {
@@ -108,39 +104,58 @@ export const ResourcePage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  if (!data || !data.node || !data.node.url) {
-    return <NotFoundPage />;
-  }
+  if (!loading) {
+    if (!data || !data.node || !data.node.url) {
+      return <NotFoundPage />;
+    }
 
-  if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
-    return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
-  }
+    if (i18n.language === "se" && !data.node.supportedLanguages?.includes("se")) {
+      return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
+    }
 
-  if (
-    data.node &&
-    (contextId ? !contextIdInContexts(data.node.contexts, contextId) : !urlInContexts(location, data.node.contexts))
-  ) {
-    if (data.node.contexts?.length === 1) {
-      if (typeof window === "undefined") {
-        if (redirectContext) {
-          redirectContext.status = 301;
-          redirectContext.url = data.node.contexts[0]?.url ?? "";
-          return null;
+    if (
+      data.node &&
+      (contextId ? !contextIdInContexts(data.node.contexts, contextId) : !urlInContexts(location, data.node.contexts))
+    ) {
+      if (data.node.contexts?.length === 1) {
+        if (typeof window === "undefined") {
+          if (redirectContext) {
+            redirectContext.status = 301;
+            redirectContext.url = data.node.contexts[0]?.url ?? "";
+            return null;
+          }
+        } else {
+          return <Navigate to={data.node.contexts[0]?.url ?? ""} replace />;
         }
       } else {
-        return <Navigate to={data.node.contexts[0]?.url ?? ""} replace />;
+        return <MovedResourcePage resource={data.node} />;
       }
-    } else {
-      return <MovedResourcePage resource={data.node} />;
     }
   }
 
-  if (data.node.learningpath?.id) {
+  if (data?.node?.learningpath?.id) {
     return (
-      <LearningpathPage key={data.node.url} skipToContentId={SKIP_TO_CONTENT_ID} stepId={stepId} node={data.node} />
+      <LearningpathPage
+        key={data.node.url}
+        skipToContentId={SKIP_TO_CONTENT_ID}
+        stepId={stepId}
+        node={data.node}
+        loading={loading}
+      />
     );
   }
-  return <ArticlePage key={data.node.url} skipToContentId={SKIP_TO_CONTENT_ID} resource={data.node} />;
+
+  const ctx = data?.node?.context ?? previousData?.node?.context;
+
+  return (
+    <ArticleLayout
+      parentId={ctx?.parents?.[ctx.parents.length - 1]?.id}
+      rootId={ctx?.parents?.[0]?.id}
+      rootLoading={loading}
+    >
+      <ArticlePage key={data?.node?.url} skipToContentId={SKIP_TO_CONTENT_ID} resource={data?.node} loading={loading} />
+    </ArticleLayout>
+  );
 };
 
 export const Component = ResourcePage;

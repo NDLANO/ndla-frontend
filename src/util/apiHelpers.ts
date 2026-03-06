@@ -61,6 +61,7 @@ const possibleTypes = {
   TaxonomyEntity: ["Resource", "Topic"],
   SearchResult: ["ArticleSearchResult", "LearningpathSearchResult", "NodeSearchResult"],
   BaseLearningpath: ["MyNdlaLearningpath", "Learningpath"],
+  BaseLearningpathStep: ["MyNdlaLearningpathStep", "LearningpathStep"],
   MyNdlaResourceMeta: [
     "MyNdlaArticleResourceMeta",
     "MyNdlaAudioResourceMeta",
