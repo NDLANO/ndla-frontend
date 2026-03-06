@@ -36,6 +36,7 @@ const stepperRecipe = sva({
     },
     list: {
       display: "flex",
+      width: "inherit",
       flexDirection: "column",
       gap: "large",
       position: "relative",
