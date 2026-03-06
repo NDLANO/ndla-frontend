@@ -4170,7 +4170,6 @@ export type GQLAddResourceToFolderStructureQueryVariables = Exact<{
 
 export type GQLAddResourceToFolderStructureQuery = {
   __typename?: "Query";
-  myNdlaResourceTags: Array<string>;
   folders: {
     __typename?: "UserFolder";
     folders: Array<{
@@ -4383,15 +4382,6 @@ export type GQLAddResourceToFolderStructureQuery = {
         tags: Array<string>;
       }>;
     }>;
-  };
-  myNdlaResource?: {
-    __typename: "MyNdlaResource";
-    resourceId: string;
-    id: string;
-    resourceType: string;
-    path: string;
-    created: string;
-    tags: Array<string>;
   };
   myNdlaResourceConnections: Array<{ __typename?: "MyNdlaResourceConnection"; folderId?: string; resourceId: string }>;
 };

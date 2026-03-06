@@ -6,7 +6,7 @@
  *
  */
 
-import { DeleteBinLine, FolderLine, HashTag, LinkMedium } from "@ndla/icons";
+import { DeleteBinLine, FolderLine, LinkMedium } from "@ndla/icons";
 import { useCallback, useContext, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -89,6 +89,13 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
       },
       {
         type: "dialog",
+        value: "updateTags",
+        text: t("myNdla.resource.updateTags"),
+        isModal: true,
+        modalContent: (close) => <UpdateResourceTagsDialogContent onClose={close} resource={resource} />,
+      },
+      {
+        type: "dialog",
         value: "removeResource",
         icon: <DeleteBinLine />,
         text: t("myNdla.resource.remove"),
@@ -106,14 +113,6 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
           />
         ),
         variant: "destructive",
-      },
-      {
-        type: "dialog",
-        value: "updateTags",
-        icon: <HashTag />,
-        text: t("myNdla.resource.updateTags"),
-        isModal: true,
-        modalContent: (close) => <UpdateResourceTagsDialogContent onClose={close} resource={resource} />,
       },
     ];
   }, [examLock, onDeleteResource, resource, selectedFolder, t, toast]);

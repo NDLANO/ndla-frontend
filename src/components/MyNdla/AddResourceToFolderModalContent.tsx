@@ -6,7 +6,7 @@
  *
  */
 
-import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
+import { DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -26,9 +26,7 @@ export const AddResourceToFolderModalContent = ({ resource, defaultOpenFolder, c
         <DialogTitle>{t("myNdla.resource.addToMyNdla")}</DialogTitle>
         <DialogCloseButton />
       </DialogHeader>
-      <DialogBody>
-        <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
-      </DialogBody>
+      <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} type="myNdla" />
     </DialogContent>
   );
 };

@@ -106,6 +106,13 @@ const StyledList = styled("ul", {
   },
 });
 
+const IconPlaceholder = styled("div", {
+  base: {
+    width: "medium",
+    height: "medium",
+  },
+});
+
 const StyledDialogBody = styled(DialogBody, {
   base: {
     paddingBlockStart: "0",
@@ -205,7 +212,7 @@ export const SettingsMenu = ({ menuItems, modalHeader, elementSize = "medium" }:
                 handleDialogItemOpenChange={handleDialogItemOpenChange}
                 dropdownTriggerRef={dropdownTriggerRef}
               >
-                {item.icon}
+                {item.icon ?? <IconPlaceholder />}
                 {item.text}
               </MenuItemElement>
             </MenuItem>

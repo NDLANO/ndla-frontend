@@ -49,7 +49,7 @@ export const CopyFolder = ({ folder, onClose }: Props) => {
   const { examLock } = useContext(AuthContext);
   const { t } = useTranslation();
   const toast = useToast();
-  const { folders, loading } = useFolders();
+  const { folders } = useFolders();
   const [copySharedFolder, { error, loading: copyLoading }] = useCopySharedFolderMutation();
 
   const onSave = async () => {
@@ -79,8 +79,8 @@ export const CopyFolder = ({ folder, onClose }: Props) => {
         ) : (
           <>
             <FolderSelect
+              type="myNdla"
               folders={folders}
-              loading={loading}
               selectedFolderId={selectedFolderId}
               setSelectedFolderId={setSelectedFolderId}
             />

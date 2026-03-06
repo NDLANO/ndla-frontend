@@ -6,14 +6,11 @@
  *
  */
 
-import { Portal, TreeViewNodeProviderProps } from "@ark-ui/react";
-import { AddLine, ArrowRightShortLine, FolderLine, FolderUserLine, HeartFill } from "@ndla/icons";
+import { TreeViewNodeProviderProps } from "@ark-ui/react";
+import { ArrowRightShortLine, FolderLine, FolderUserLine, HeartFill } from "@ndla/icons";
 import {
-  Button,
   IconButton,
-  PopoverContent,
-  PopoverRoot,
-  PopoverTrigger,
+  Text,
   Tree,
   TreeBranch,
   TreeBranchContent,
@@ -30,28 +27,28 @@ import {
   useTreeView,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
-import { ROOT_FOLDER_ID } from "./FolderSelect";
-import { NewFolder } from "./NewFolder";
-
-export const MAX_LEVEL_FOR_FOLDERS = 5;
+import { AddResourceType } from "./types";
 
 const StyledTree = styled(Tree, {
   base: {
     padding: "3xsmall",
-    maxHeight: "surface.xsmall",
     overflow: "auto",
+    paddingInlineStart: "medium",
+    paddingInlineEnd: "xxlarge",
+    tabletWide: {
+      maxHeight: "surface.xsmall",
+    },
   },
 });
 
 export interface TreeStructureProps {
-  loading?: boolean;
+  type: AddResourceType;
   defaultOpenFolders?: string[];
   folders: GQLFolder[];
   label?: string;
-  maxLevel?: number;
   onSelectFolder?: (id: string) => void;
   ariaDescribedby?: string;
   placements: Set<string> | undefined;
@@ -61,6 +58,7 @@ interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolder> {
   selected?: boolean;
   placements: Set<string> | undefined;
   focusId?: string | null;
+  type: AddResourceType;
 }
 
 const BranchInfo = styled("div", {
@@ -89,20 +87,25 @@ const StyledFolderUserLine = styled(FolderUserLine, {
   },
 });
 
-const LabelWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "space-between",
-  },
-});
-
 const StyledTreeItem = styled(TreeItem, {
   base: {
     display: "flex",
     gap: "xsmall",
     justifyContent: "space-between",
     scrollMargin: "xsmall",
+  },
+  variants: {
+    variant: {
+      resource: {
+        border: "1px solid",
+        borderColor: "stroke.default",
+        paddingInlineStart: "small",
+        paddingInlineEnd: "small",
+        paddingBlock: "medium",
+        height: "unset",
+      },
+      myNdla: {},
+    },
   },
 });
 
@@ -123,6 +126,12 @@ const StyledTreeRootProvider = styled(TreeRootProvider<RootNode>, {
   },
 });
 
+const StyledText = styled(Text, {
+  base: {
+    paddingInline: "medium",
+  },
+});
+
 interface RootNode {
   id: string;
   name: string;
@@ -133,16 +142,15 @@ export const TreeStructure = ({
   folders,
   defaultOpenFolders,
   label,
-  loading,
   placements,
-  maxLevel = MAX_LEVEL_FOR_FOLDERS,
   onSelectFolder,
   ariaDescribedby,
+  type,
 }: TreeStructureProps) => {
   const [selectedValue, setSelectedValue] = useState(defaultOpenFolders?.[defaultOpenFolders?.length - 1] ?? "");
   const [focusedValue, setFocusedValue] = useState<string | null>(selectedValue);
   const { t } = useTranslation();
-  const rootFolderIds = useMemo(() => folders.map((folder) => folder.id), [folders]);
+  const errorId = useId();
 
   const collection = useMemo(() => {
     return createTreeCollection<RootNode>({
@@ -172,73 +180,21 @@ export const TreeStructure = ({
     expandOnClick: false,
   });
 
-  const selectedFolder = useMemo(() => {
-    const selectedValue = treeView.selectedValue[0];
-    if (selectedValue) {
-      return treeView.collection.findNode(selectedValue) as GQLFolder;
-    }
-    return undefined;
-  }, [treeView.collection, treeView.selectedValue]);
-
-  const disableCreateFolder = useMemo(() => {
-    return (selectedFolder?.breadcrumbs.length ?? 0) > maxLevel - 1;
-  }, [maxLevel, selectedFolder?.breadcrumbs.length]);
-
-  const onCreateFolder = useCallback(
-    (folder: GQLFolder | undefined) => {
-      if (!folder) return;
-      const newExpandedIds = rootFolderIds.concat(folder.breadcrumbs.map((bc) => bc.id) ?? []);
-      treeView.setExpandedValue(newExpandedIds);
-      setTimeout(() => {
-        treeView.focus(folder.id);
-        setSelectedValue(folder.id);
-        onSelectFolder?.(folder.id);
-      });
-    },
-    [onSelectFolder, rootFolderIds, treeView],
-  );
-
-  const addTooltip = loading
-    ? t("loading")
-    : disableCreateFolder
-      ? t("treeStructure.maxFoldersAlreadyAdded")
-      : t("myNdla.newFolderUnder", { folderName: selectedFolder?.name });
-
   return (
     <StyledTreeRootProvider value={treeView} {...treeView.getRootProps()}>
-      <LabelWrapper>
-        <TreeLabel>{label}</TreeLabel>
-        <PopoverRoot
-          onExitComplete={() => {
-            if (focusedValue) {
-              treeView.focus(focusedValue);
-            }
-          }}
-        >
-          <PopoverTrigger disabled={disableCreateFolder} title={addTooltip} aria-label={addTooltip} asChild>
-            <Button size="small" variant="tertiary" loading={loading}>
-              <AddLine />
-              {t("myNdla.newFolder")}
-            </Button>
-          </PopoverTrigger>
-          <Portal>
-            <PopoverContent>
-              {!!selectedFolder && (
-                <NewFolder
-                  parentFolder={selectedFolder}
-                  siblings={selectedFolder.parentId === ROOT_FOLDER_ID ? folders : selectedFolder.subfolders}
-                  onCreate={onCreateFolder}
-                />
-              )}
-            </PopoverContent>
-          </Portal>
-        </PopoverRoot>
-      </LabelWrapper>
-      <StyledTree aria-describedby={ariaDescribedby}>
+      <TreeLabel srOnly>{label}</TreeLabel>
+      {/* TODO: Check if this triggers after saving a folder. We used to work around that. */}
+      {!!placements?.has(selectedValue) && (
+        <StyledText color="text.error" id={errorId} aria-live="assertive">
+          {t("myNdla.alreadyInFolderError")}
+        </StyledText>
+      )}
+      <StyledTree aria-describedby={`${errorId} ${ariaDescribedby}`}>
         {collection.rootNode.subfolders.map((node, idx) => (
           <TreeStructureItem
             node={node}
             key={node.id}
+            type={type}
             placements={placements}
             indexPath={[idx]}
             focusId={focusedValue}
@@ -249,7 +205,7 @@ export const TreeStructure = ({
   );
 };
 
-export const TreeStructureItem = ({ node, focusId, indexPath, placements }: TreeStructureItemProps) => {
+export const TreeStructureItem = ({ node, focusId, indexPath, placements, type }: TreeStructureItemProps) => {
   const { t } = useTranslation();
   const ref = useRef<HTMLDivElement>(null);
   const containsResource = placements?.has(node.id);
@@ -299,13 +255,14 @@ export const TreeStructureItem = ({ node, focusId, indexPath, placements }: Tree
                 node={child}
                 indexPath={[...indexPath, index]}
                 placements={placements}
+                type={type}
                 focusId={focusId}
               />
             ))}
           </TreeBranchContent>
         </TreeBranch>
       ) : (
-        <StyledTreeItem ref={ref}>
+        <StyledTreeItem ref={ref} variant={type}>
           <BranchInfo>
             <FolderIcon />
             <TreeItemText aria-label={ariaLabel} title={ariaLabel}>
