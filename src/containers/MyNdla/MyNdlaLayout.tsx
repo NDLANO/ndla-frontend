@@ -25,6 +25,7 @@ import {
   HeartFill,
 } from "@ndla/icons";
 import {
+  BleedPageContent,
   DialogBody,
   DialogContent,
   DialogHeader,
@@ -61,6 +62,13 @@ const StyledIconButton = styled(IconButton, {
   },
 });
 
+const StyledBleedPageContent = styled(BleedPageContent, {
+  base: {
+    position: "relative",
+    overflowX: "clip",
+  },
+});
+
 const StyledLayout = styled(PageLayout, {
   base: {
     background: "background.strong",
@@ -70,6 +78,7 @@ const StyledLayout = styled(PageLayout, {
 
 const GridLayout = styled("div", {
   base: {
+    position: "relative",
     display: "grid",
     maxWidth: "surface.wideMax",
     gap: "medium",
@@ -78,6 +87,7 @@ const GridLayout = styled("div", {
     transitionProperty: "gap",
     transitionDuration: "fast",
     transitionTimingFunction: "default",
+    zIndex: "1",
     tablet: {
       padding: "medium",
       gridTemplateColumns: "max-content minmax(0, 1fr)",
@@ -115,6 +125,51 @@ const StyledDialogContent = styled(DialogContent, {
 
 const loginlocation = `/login?returnTo=${routes.myNdla.root}`;
 
+interface MyFavoritesHeartProps {
+  position: "top" | "bottom";
+}
+
+const StyledHeartFill = styled(HeartFill, {
+  base: {
+    position: "absolute",
+    width: "surface.medium",
+    height: "surface.medium",
+    color: "surface.brand.1.subtle",
+  },
+
+  variants: {
+    position: {
+      top: {
+        top: "surface.3xsmall",
+        left: "min(calc(100% - token(sizes.surface.medium)), token(sizes.surface.wideMax) - token(sizes.surface.medium) - token(sizes.medium))",
+        transform: "rotate(16deg)",
+        desktop: {
+          top: "3xlarge",
+        },
+      },
+      bottom: {
+        transform: "rotate(-19deg)",
+        bottom: "0",
+        left: "medium",
+      },
+    },
+  },
+});
+
+const MyFavoritesHeart = ({ position }: MyFavoritesHeartProps) => {
+  const { pathname } = useLocation();
+
+  if (!pathname.includes("folders")) {
+    return null;
+  }
+
+  return (
+    <StyledBleedPageContent>
+      <StyledHeartFill position={position} />
+    </StyledBleedPageContent>
+  );
+};
+
 export const MyNdlaLayout = () => {
   const { t } = useTranslation();
   const { examLock, authenticated, authContextLoaded } = useContext(AuthContext);
@@ -130,6 +185,7 @@ export const MyNdlaLayout = () => {
 
   return (
     <StyledLayout>
+      <MyFavoritesHeart position="top" />
       <GridLayout>
         <MyNdlaMenu />
         <div>
@@ -141,6 +197,7 @@ export const MyNdlaLayout = () => {
           <Outlet />
         </div>
       </GridLayout>
+      <MyFavoritesHeart position="bottom" />
     </StyledLayout>
   );
 };
