@@ -1112,7 +1112,7 @@ type Query {
   alerts: [UptimeAlert]
   allMyNdlaResources(size: Int): [MyNdlaResource!]!
   arenaEnabledOrgs: ConfigMetaStringList
-  article(id: String!): Article
+  article(id: String!, revision: Int): Article
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
@@ -1175,6 +1175,7 @@ type Query {
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
   resourceEmbeds(resources: [ResourceEmbedInput!]!): ResourceEmbed!
   resourceTypes: [ResourceTypeDefinition!]
+  revisions(articleId: Int!): [Int!]!
   search(
     aggregatePaths: [String!]
     contextTypes: String

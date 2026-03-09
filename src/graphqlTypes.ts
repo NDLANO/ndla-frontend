@@ -1416,6 +1416,7 @@ export type GQLQuery = {
   resourceEmbed: GQLResourceEmbed;
   resourceEmbeds: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
+  revisions: Array<Scalars["Int"]["output"]>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
   sharedFolder: GQLSharedFolder;
@@ -1433,6 +1434,7 @@ export type GQLQueryAllMyNdlaResourcesArgs = {
 
 export type GQLQueryArticleArgs = {
   id: Scalars["String"]["input"];
+  revision?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type GQLQueryArticleResourceArgs = {
@@ -1602,6 +1604,10 @@ export type GQLQueryResourceEmbedArgs = {
 
 export type GQLQueryResourceEmbedsArgs = {
   resources: Array<GQLResourceEmbedInput>;
+};
+
+export type GQLQueryRevisionsArgs = {
+  articleId: Scalars["Int"]["input"];
 };
 
 export type GQLQuerySearchArgs = {
@@ -7535,6 +7541,7 @@ export type GQLPlainArticleContainer_ArticleFragment = {
 
 export type GQLPlainArticlePageQueryVariables = Exact<{
   articleId: Scalars["String"]["input"];
+  revision?: InputMaybe<Scalars["Int"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
@@ -9270,6 +9277,17 @@ export type GQLLaunchpadQuery = {
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   };
   resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
+};
+
+export type GQLRevisionsQueryVariables = Exact<{
+  articleId: Scalars["Int"]["input"];
+  articleIdString: Scalars["String"]["input"];
+}>;
+
+export type GQLRevisionsQuery = {
+  __typename?: "Query";
+  revisions: Array<number>;
+  article?: { __typename?: "Article"; id: number; title: string; revision: number };
 };
 
 export type GQLGrepFilterQueryVariables = Exact<{

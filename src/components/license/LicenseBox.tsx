@@ -55,7 +55,7 @@ function buildLicenseTabList(
   tabs.push({
     title: t("license.tabs.text"),
     id: "text",
-    content: <TextLicenseList texts={articleTexts} />,
+    content: <TextLicenseList texts={articleTexts} articleId={article.id} />,
   });
 
   if (metaData?.images.some((img) => img.copyright.license.license)) {

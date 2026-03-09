@@ -951,6 +951,17 @@ const messages = {
     closeMenuTrigger: "Lukk innholdsliste",
     contentList: "Innholdsliste",
   },
+  revision: {
+    revisionNo: "Versjon {{revision}}",
+    backToArticle: "Tilbake til artikkel",
+    backToRevisions: "Tilbake til endringslogg",
+    viewPreviousRevisions: "Se tidligere versjoner",
+  },
+  revisionsPage: {
+    changelogFor: "Endringslogg for artikkelen",
+    currentRevision: "Nåværende versjon",
+    previousRevisions: "Tidligere versjoner",
+  },
 };
 
 export default messages;

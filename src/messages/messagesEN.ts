@@ -955,6 +955,17 @@ const messages = {
     closeMenuTrigger: "Close content list",
     contentList: "Content list",
   },
+  revision: {
+    revisionNo: "Version {{revision}}",
+    backToArticle: "Back to article",
+    backToRevisions: "Back to changelog",
+    viewPreviousRevisions: "View previous versions",
+  },
+  revisionsPage: {
+    changelogFor: "Changelog for the article",
+    currentRevision: "Current version",
+    previousRevisions: "Previous versions",
+  },
 };
 
 export default messages;
