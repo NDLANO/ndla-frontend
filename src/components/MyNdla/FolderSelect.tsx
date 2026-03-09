@@ -11,21 +11,25 @@ import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
 import { TreeStructure } from "./TreeStructure";
-
-const ComboboxContainer = styled("div", {
-  base: {
-    display: "flex",
-  },
-});
+import { AddResourceType } from "./types";
 
 interface Props {
   folders: GQLFolder[];
-  loading: boolean;
+  type: AddResourceType;
   selectedFolderId: string | undefined;
   setSelectedFolderId: (v: string | undefined) => void;
   defaultOpenFolder?: GQLFolder;
   placements?: Set<string>;
 }
+
+const StyledDiv = styled("div", {
+  base: {
+    tabletWide: {
+      paddingBlockEnd: "1px",
+      boxShadow: "inner",
+    },
+  },
+});
 
 export const ROOT_FOLDER_ID = "favorites";
 
@@ -33,7 +37,7 @@ const DEFAULT_OPEN = [ROOT_FOLDER_ID];
 
 export const FolderSelect = ({
   folders,
-  loading,
+  type,
   selectedFolderId,
   setSelectedFolderId,
   defaultOpenFolder,
@@ -41,21 +45,25 @@ export const FolderSelect = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const structureFolders: GQLFolder[] = useMemo(
-    () => [
-      {
-        id: ROOT_FOLDER_ID,
-        name: t("myNdla.myFavorites"),
-        status: "private",
-        subfolders: folders,
-        breadcrumbs: [],
-        resources: [],
-        created: "",
-        updated: "",
-      },
-    ],
-    [folders, t],
-  );
+  const structureFolders: GQLFolder[] = useMemo(() => {
+    const favoritesFolder: GQLFolder = {
+      id: ROOT_FOLDER_ID,
+      name: t("myNdla.myFavorites"),
+      status: "private",
+      subfolders: [],
+      breadcrumbs: [],
+      resources: [],
+      created: "",
+      updated: "",
+    };
+
+    if (type === "resource") {
+      const foldersWithoutChildren = folders.map((f) => ({ ...f, subfolders: [] }));
+      return [favoritesFolder].concat(foldersWithoutChildren);
+    }
+    favoritesFolder.subfolders = folders;
+    return [favoritesFolder];
+  }, [folders, t, type]);
 
   const defaultOpenFolders = useMemo(() => {
     return defaultOpenFolder ? DEFAULT_OPEN.concat(defaultOpenFolder.breadcrumbs.map((c) => c.id)) : DEFAULT_OPEN;
@@ -69,9 +77,9 @@ export const FolderSelect = ({
   }, [defaultOpenFolders, selectedFolderId, setSelectedFolderId]);
 
   return (
-    <ComboboxContainer>
+    <StyledDiv>
       <TreeStructure
-        loading={loading}
+        type={type}
         folders={structureFolders}
         label={t("myNdla.myFolders")}
         onSelectFolder={setSelectedFolderId}
@@ -79,6 +87,6 @@ export const FolderSelect = ({
         placements={placements}
         ariaDescribedby="treestructure-error-label"
       />
-    </ComboboxContainer>
+    </StyledDiv>
   );
 };

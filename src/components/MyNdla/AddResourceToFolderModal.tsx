@@ -6,7 +6,7 @@
  *
  */
 
-import { DialogBody, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
+import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import { lazy, ReactNode, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolder } from "../../graphqlTypes";
@@ -36,7 +36,7 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
   const close = useCallback(() => setOpen(false), []);
 
   return (
-    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)} modal={!authenticated}>
+    <DialogRoot open={open} onOpenChange={(details) => setOpen(details.open)}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       {authenticated ? (
         <DialogContent>
@@ -44,11 +44,14 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
             <DialogTitle>{t("myNdla.resource.addToMyNdla")}</DialogTitle>
             <DialogCloseButton />
           </DialogHeader>
-          <DialogBody>
-            <Suspense>
-              <AddResourceToFolder onClose={close} resource={resource} defaultOpenFolder={defaultOpenFolder} />
-            </Suspense>
-          </DialogBody>
+          <Suspense>
+            <AddResourceToFolder
+              onClose={close}
+              resource={resource}
+              defaultOpenFolder={defaultOpenFolder}
+              type="resource"
+            />
+          </Suspense>
         </DialogContent>
       ) : (
         <LoginModalContent
