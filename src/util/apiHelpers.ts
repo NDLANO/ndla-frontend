@@ -74,20 +74,6 @@ const possibleTypes = {
 };
 
 const typePolicies: TypePolicies = {
-  Folder: {
-    fields: {
-      subfolders: {
-        merge(existing, incoming) {
-          return existing ? existing : incoming;
-        },
-      },
-      resources: {
-        merge(existing, incoming) {
-          return existing ? existing : incoming;
-        },
-      },
-    },
-  },
   SubjectPage: {
     fields: {
       about: {
