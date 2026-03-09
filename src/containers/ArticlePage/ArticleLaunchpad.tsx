@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { ark } from "@ark-ui/react";
-import { ArrowRightLine, CheckLine, Puzzle2Line, RouteFill, StickyNoteAddLine } from "@ndla/icons";
+import { ArrowRightLine, CheckLine } from "@ndla/icons";
 import { Badge, Button, CardContent, CardHeading, CardRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -48,7 +48,6 @@ const StyledNav = styled(
       display: "flex",
       flexDirection: "column",
       gap: "small",
-      width: "100%",
     },
   },
   { baseComponent: true },
@@ -62,22 +61,17 @@ const NavHeading = styled(Heading, {
   },
 });
 
-const StyledStepperRoot = styled(StepperRoot, {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-    width: "100%",
-  },
-  variants: {
-    variant: {
-      core: {
-        alignItems: "center",
-      },
-      other: {},
+const StyledStepperWrapper = styled(
+  ark.div,
+  {
+    base: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "medium",
     },
   },
-});
+  { baseComponent: true },
+);
 
 const StyledButton = styled(Button, {
   base: {
@@ -136,20 +130,22 @@ export const ArticleLaunchpad = ({
         !topic ? null : (
           <>
             {!!coreArticlesToDisplay.length && (
-              <StyledStepperRoot line={!isUnordered} aria-hidden={collapsed} collapsed={collapsed} variant="core">
-                <StyledStepperList id={listId}>
-                  {coreArticlesToDisplay.map((article, idx) => (
-                    <ArticleStepperListItem
-                      key={article.id}
-                      article={article}
-                      index={idx}
-                      completed={completed.includes(article.context?.contextId ?? "")}
-                      current={article.context?.contextId === contextId}
-                      isUnordered={isUnordered}
-                      collapsed={collapsed}
-                    />
-                  ))}
-                </StyledStepperList>
+              <StyledStepperWrapper>
+                <StepperRoot line aria-hidden={collapsed} collapsed={collapsed}>
+                  <StyledStepperList id={listId}>
+                    {coreArticlesToDisplay.map((article, idx) => (
+                      <ArticleStepperListItem
+                        key={article.id}
+                        article={article}
+                        index={idx}
+                        completed={completed.includes(article.context?.contextId ?? "")}
+                        current={article.context?.contextId === contextId}
+                        isUnordered={isUnordered}
+                        collapsed={collapsed}
+                      />
+                    ))}
+                  </StyledStepperList>
+                </StepperRoot>
                 {coreArticles.length > 20 && !collapsed && (
                   <StyledButton
                     variant="secondary"
@@ -160,49 +156,41 @@ export const ArticleLaunchpad = ({
                     {showAll ? t("launchpad.showLess") : t("launchpad.showMore")}
                   </StyledButton>
                 )}
-              </StyledStepperRoot>
+              </StyledStepperWrapper>
             )}
-            {!!learningpaths.length &&
-              (collapsed ? (
-                <RouteFill />
-              ) : (
-                <StyledNav asChild consumeCss>
-                  <NavSection title={t("launchpad.learningpathsTitle")} icon={<RouteFill />}>
-                    {learningpaths.map((lp) => (
-                      <LearningpathCard key={lp.id} learningpath={lp} />
+            {!!learningpaths.length && !collapsed && (
+              <StyledNav asChild consumeCss>
+                <NavSection title={t("launchpad.learningpathsTitle")}>
+                  {learningpaths.map((lp) => (
+                    <LearningpathCard key={lp.id} learningpath={lp} />
+                  ))}
+                </NavSection>
+              </StyledNav>
+            )}
+            {!!topic.links?.length && !collapsed && (
+              <StepperRoot asChild consumeCss>
+                <NavSection title={t("launchpad.linksTitle")}>
+                  <StyledStepperList>
+                    {topic.links.map((link) => (
+                      <StyledStepperListItem key={link.id}>
+                        <StepperItemContent>
+                          <StepperSafeLink to={link.url ?? ""} css={linkOverlay.raw()}>
+                            {link.name}
+                          </StepperSafeLink>
+                          <Text textStyle="label.small" color="text.subtle">
+                            {link.context?.breadcrumbs.at(-1)}
+                          </Text>
+                        </StepperItemContent>
+                      </StyledStepperListItem>
                     ))}
-                  </NavSection>
-                </StyledNav>
-              ))}
-            {!!topic.links?.length &&
-              (collapsed ? (
-                <Puzzle2Line />
-              ) : (
-                <StyledStepperRoot asChild consumeCss>
-                  <NavSection title={t("launchpad.linksTitle")} icon={<Puzzle2Line />}>
-                    <StyledStepperList>
-                      {topic.links.map((link) => (
-                        <StyledStepperListItem key={link.id}>
-                          <StepperItemContent>
-                            <StepperSafeLink to={link.url ?? ""} css={linkOverlay.raw()}>
-                              {link.name}
-                            </StepperSafeLink>
-                            <Text textStyle="label.small" color="text.subtle">
-                              {link.context?.breadcrumbs.at(-1)}
-                            </Text>
-                          </StepperItemContent>
-                        </StyledStepperListItem>
-                      ))}
-                    </StyledStepperList>
-                  </NavSection>
-                </StyledStepperRoot>
-              ))}
-            {!!supplementaryArticles.length &&
-              (collapsed ? (
-                <StickyNoteAddLine />
-              ) : (
-                <StyledStepperRoot asChild consumeCss>
-                  <NavSection title={t("launchpad.supplementaryContentTitle")} icon={<StickyNoteAddLine />}>
+                  </StyledStepperList>
+                </NavSection>
+              </StepperRoot>
+            )}
+            {!!supplementaryArticles.length && !collapsed && (
+              <StyledStepperWrapper asChild consumeCss>
+                <NavSection title={t("launchpad.supplementaryContentTitle")}>
+                  <StepperRoot>
                     <StyledStepperList>
                       {supplementaryArticles.map((article, idx) => (
                         <ArticleStepperListItem
@@ -216,9 +204,10 @@ export const ArticleLaunchpad = ({
                         />
                       ))}
                     </StyledStepperList>
-                  </NavSection>
-                </StyledStepperRoot>
-              ))}
+                  </StepperRoot>
+                </NavSection>
+              </StyledStepperWrapper>
+            )}
           </>
         )
       }
@@ -290,20 +279,16 @@ const TextWrapper = styled("div", {
 
 interface NavSectionProps extends ComponentProps<"nav"> {
   title: string;
-  icon: ReactNode;
   children: ReactNode;
 }
 
-const NavSection = ({ title, icon, children, ...rest }: NavSectionProps) => {
+const NavSection = ({ title, children, ...rest }: NavSectionProps) => {
   const headingId = useId();
 
   return (
     <nav aria-labelledby={headingId} {...rest}>
       <NavHeading asChild consumeCss textStyle="title.small" id={headingId}>
-        <h2>
-          {icon}
-          {title}
-        </h2>
+        <h2>{title}</h2>
       </NavHeading>
       <StyledList>{children}</StyledList>
     </nav>
