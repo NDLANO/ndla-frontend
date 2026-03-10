@@ -6,7 +6,7 @@
  *
  */
 
-import { CloseLine, HomeLine, MenuFold, MenuLine } from "@ndla/icons";
+import { CloseLine, MenuFold, MenuLine } from "@ndla/icons";
 import {
   Button,
   DialogBody,
@@ -24,7 +24,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ReactNode, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { StepperList, StepperRoot } from "../Stepper";
+import { StepperRoot } from "../Stepper";
 
 const StyledDialogButton = styled(Button, {
   base: {
@@ -183,18 +183,25 @@ const StyledText = styled(Text, {
   },
 });
 
-const NameWrapper = styled("div", {
-  base: {
-    display: "flex",
-    gap: "xsmall",
-    justifyContent: "center",
-  },
-});
-
 const ActionsContainer = styled("div", {
   base: {
     display: "flex",
     gap: "xsmall",
+  },
+});
+
+const SkeletonItem = styled(Skeleton, {
+  base: {
+    width: "100%",
+    height: "xxlarge",
+  },
+});
+
+const SkeletonItemContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "large",
   },
 });
 
@@ -216,20 +223,18 @@ export const Launchpad = ({ type, name, actions, children, loading, context }: L
         )}
         <StepperRoot asChild consumeCss collapsed={collapsed} css={{ width: "100%" }}>
           <div>
-            <StepperList asChild consumeCss css={{ width: "100%" }}>
-              <div>
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-                <Skeleton css={{ width: "100%", height: "xxlarge" }} />
-              </div>
-            </StepperList>
+            <SkeletonItemContainer>
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+              <SkeletonItem />
+            </SkeletonItemContainer>
           </div>
         </StepperRoot>
       </LaunchpadContainer>
@@ -257,10 +262,7 @@ export const Launchpad = ({ type, name, actions, children, loading, context }: L
             )}
           </ActionsContainer>
         </HeaderContainer>
-        <NameWrapper>
-          <HomeLine />
-          {!collapsed && <StyledText textStyle="title.medium">{name}</StyledText>}
-        </NameWrapper>
+        {!collapsed && <StyledText textStyle="title.medium">{name}</StyledText>}
       </MetaContainer>
       {children(collapsed)}
     </LaunchpadContainer>
