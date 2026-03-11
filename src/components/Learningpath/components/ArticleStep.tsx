@@ -73,7 +73,7 @@ export const ArticleStep = ({
     if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
         window.MathJax.typesetPromise();
-      } catch (err) {
+      } catch (_) {
         // do nothing
       }
     }

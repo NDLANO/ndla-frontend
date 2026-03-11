@@ -30,7 +30,7 @@ export const useLocalStorage = (key: string, initialValue?: string | null) => {
       try {
         const data = localStorage.getItem(key);
         return data || initialValue;
-      } catch (e) {
+      } catch (_) {
         log.error(`Could not read ${key} from localStorage`);
         return initialValue;
       }
@@ -43,7 +43,7 @@ export const useLocalStorage = (key: string, initialValue?: string | null) => {
       try {
         localStorage.setItem(key, value);
         window.dispatchEvent(new CustomEvent("local-storage-change", { detail: { key } }));
-      } catch (e) {
+      } catch (_) {
         log.error(`Could not save ${key} to localStorage`);
       }
     },

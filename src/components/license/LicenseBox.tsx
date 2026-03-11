@@ -29,12 +29,7 @@ const StyledTabsRoot = styled(TabsRoot, {
   },
 });
 
-function buildLicenseTabList(
-  article: GQLLicenseBox_ArticleFragment,
-  t: TFunction,
-  copyText?: string,
-  oembed?: string | undefined,
-) {
+function buildLicenseTabList(article: GQLLicenseBox_ArticleFragment, t: TFunction, copyText?: string, oembed?: string) {
   const metaData = article.transformedContent?.metaData;
   const tabs = [];
   const articleTexts: TextItem[] = [

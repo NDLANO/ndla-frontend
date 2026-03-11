@@ -37,7 +37,7 @@ export const PlainArticleContainer = ({ article: propArticle, skipToContentId }:
     if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
       try {
         window.MathJax.typesetPromise();
-      } catch (err) {
+      } catch (_) {
         // do nothing
       }
     }

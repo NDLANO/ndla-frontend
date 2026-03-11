@@ -34,7 +34,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import parse from "html-react-parser";
-import { FormEvent, useEffect, useId, useMemo, useState } from "react";
+import { SubmitEvent, useEffect, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables } from "../../graphqlTypes";
@@ -254,7 +254,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
     },
   );
 
-  const onSearch = (evt?: FormEvent) => {
+  const onSearch = (evt?: SubmitEvent) => {
     evt?.preventDefault();
     const searchString = new URLSearchParams(
       query?.length ? { query: encodeURIComponent(query) } : undefined,

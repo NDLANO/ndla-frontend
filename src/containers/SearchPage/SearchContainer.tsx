@@ -28,7 +28,7 @@ import {
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
-import { FormEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { SubmitEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
@@ -311,7 +311,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
   const data = searchQuery.data ?? searchQuery.previousData;
 
   const handleSubmit = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
+    (e: SubmitEvent<HTMLFormElement>) => {
       e.preventDefault();
       setSearchParams({ query: encodeURIComponent(query) });
     },
