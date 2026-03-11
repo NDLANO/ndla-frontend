@@ -159,16 +159,16 @@ export const ArticleLaunchpad = ({
               </StyledStepperWrapper>
             )}
             {!!learningpaths.length && !collapsed && (
-              <StyledNav asChild consumeCss>
-                <NavSection title={t("launchpad.learningpathsTitle")}>
+              <NavSection title={t("launchpad.learningpathsTitle")}>
+                <StyledList>
                   {learningpaths.map((lp) => (
                     <LearningpathCard key={lp.id} learningpath={lp} />
                   ))}
-                </NavSection>
-              </StyledNav>
+                </StyledList>
+              </NavSection>
             )}
             {!!topic.links?.length && !collapsed && (
-              <StepperRoot asChild consumeCss>
+              <StepperRoot asChild>
                 <NavSection title={t("launchpad.linksTitle")}>
                   <StyledStepperList>
                     {topic.links.map((link) => (
@@ -188,25 +188,23 @@ export const ArticleLaunchpad = ({
               </StepperRoot>
             )}
             {!!supplementaryArticles.length && !collapsed && (
-              <StyledStepperWrapper asChild consumeCss>
+              <StepperRoot asChild>
                 <NavSection title={t("launchpad.supplementaryContentTitle")}>
-                  <StepperRoot>
-                    <StyledStepperList>
-                      {supplementaryArticles.map((article, idx) => (
-                        <ArticleStepperListItem
-                          key={article.id}
-                          article={article}
-                          index={idx}
-                          completed={completed.includes(article.context?.contextId ?? "")}
-                          current={article.context?.contextId === contextId}
-                          isUnordered
-                          collapsed={collapsed}
-                        />
-                      ))}
-                    </StyledStepperList>
-                  </StepperRoot>
+                  <StyledStepperList>
+                    {supplementaryArticles.map((article, idx) => (
+                      <ArticleStepperListItem
+                        key={article.id}
+                        article={article}
+                        index={idx}
+                        completed={completed.includes(article.context?.contextId ?? "")}
+                        current={article.context?.contextId === contextId}
+                        isUnordered
+                        collapsed={collapsed}
+                      />
+                    ))}
+                  </StyledStepperList>
                 </NavSection>
-              </StyledStepperWrapper>
+              </StepperRoot>
             )}
           </>
         )
@@ -286,12 +284,12 @@ const NavSection = ({ title, children, ...rest }: NavSectionProps) => {
   const headingId = useId();
 
   return (
-    <nav aria-labelledby={headingId} {...rest}>
+    <StyledNav aria-labelledby={headingId} {...rest}>
       <NavHeading asChild consumeCss textStyle="title.small" id={headingId}>
         <h2>{title}</h2>
       </NavHeading>
-      <StyledList>{children}</StyledList>
-    </nav>
+      {children}
+    </StyledNav>
   );
 };
 
