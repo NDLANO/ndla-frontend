@@ -20,6 +20,7 @@ import { forwardingRoute } from "./routes/forwardingRoute";
 import { oembedArticleRoute } from "./routes/oembedArticleRoute";
 import { podcastFeedRoute } from "./routes/podcastFeedRoute";
 import { sendResponse } from "./serverHelpers";
+import { fetchLmk } from "./siktEndpoints";
 
 const router = express.Router();
 
@@ -142,6 +143,12 @@ router.get(
     }
   },
 );
+
+router.get("/lmk/subjects", async (_, res) => {
+  res.setHeader("Content-Type", "application/ld+json");
+  const response = await fetchLmk();
+  res.json(response);
+});
 
 router.get("/*splat/search/apachesolr_search*secondsplat", (req, res) => {
   sendResponse(req, res, undefined, 410);
