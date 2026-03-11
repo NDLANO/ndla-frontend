@@ -86,7 +86,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
     if (window.MathJax && typeof window.MathJax.typeset === "function") {
       try {
         window.MathJax.typeset();
-      } catch (err) {
+      } catch (_) {
         // do nothing
       }
     }

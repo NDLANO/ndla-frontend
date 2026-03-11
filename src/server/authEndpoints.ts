@@ -77,7 +77,7 @@ const isSafeRedirect = (url: string) => {
   try {
     const decodedUrl = decodeURIComponent(url).trim();
     return decodedUrl.startsWith("/") && !decodedUrl.startsWith("//");
-  } catch (e) {
+  } catch (_) {
     return false;
   }
 };

@@ -9,22 +9,22 @@
 // @ts-check
 
 import graphqlPlugin from "@graphql-eslint/eslint-plugin";
-import config from "eslint-config-ndla";
-import tseslint from "typescript-eslint";
+import tsParser from "@typescript-eslint/parser";
 
-export default tseslint.config(
-  ...config,
+const config = [
   {
-    ignores: ["**/graphqlTypes.ts", "**/schema.graphql"],
+    ignores: ["src/schema.graphql", "**/graphqlTypes.ts"],
   },
   {
-    files: ["**/*.graphql"],
-    rules: {
-      "header/header": "off",
+    files: ["src/**/*.{js,mjs,cjs,ts,jsx,tsx,mts,cts,mtsx,ctsx}"],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
-  },
-  {
-    files: ["**/*.{js,mjs,cjs,ts,jsx,tsx,mts,cts,mtsx,ctsx}"],
     processor: graphqlPlugin.processor,
   },
   {
@@ -47,6 +47,9 @@ export default tseslint.config(
       // TODO: Consider enabling these later
       "@graphql-eslint/selection-set-depth": "off",
       "@graphql-eslint/require-selections": "off",
+      "@graphql-eslint/naming-convention": "off",
     },
   },
-);
+];
+
+export default config;
