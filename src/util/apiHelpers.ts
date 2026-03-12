@@ -20,6 +20,7 @@ import {
 } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";
 import { ErrorLink } from "@apollo/client/link/error";
+import { uniqBy } from "@ndla/util";
 import config from "../config";
 import { NOT_FOUND } from "../statusCodes";
 import { getActiveSessionCookieClient, getFeideCookie, isActiveSession } from "./authHelpers";
@@ -74,6 +75,16 @@ const possibleTypes = {
 };
 
 const typePolicies: TypePolicies = {
+  Folder: {
+    fields: {
+      resources: {
+        merge(existing, incoming) {
+          const allResources = [...(existing ?? []), ...(incoming ?? [])];
+          return uniqBy(allResources, (resource) => resource.__ref);
+        },
+      },
+    },
+  },
   SubjectPage: {
     fields: {
       about: {
