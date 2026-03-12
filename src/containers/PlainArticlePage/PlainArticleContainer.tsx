@@ -26,12 +26,13 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   article: GQLPlainArticleContainer_ArticleFragment;
+  revision: number | undefined;
   skipToContentId?: string;
 }
 
 const getDocumentTitle = (t: TFunction, title: string) => htmlTitle(title, [t("htmlTitles.titleTemplate")]);
 
-export const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props) => {
+export const PlainArticleContainer = ({ article: propArticle, revision, skipToContentId }: Props) => {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
@@ -73,7 +74,7 @@ export const PlainArticleContainer = ({ article: propArticle, skipToContentId }:
       />
       <RestrictedBlockContextProvider value="bleed">
         <PageContent variant="content" asChild>
-          <Article id={skipToContentId} article={article} />
+          <Article id={skipToContentId} article={article} revision={revision} />
         </PageContent>
       </RestrictedBlockContextProvider>
     </>

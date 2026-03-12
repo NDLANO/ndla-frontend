@@ -9,6 +9,7 @@
 import { gql } from "@apollo/client";
 import { metaTypes } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { useTranslation } from "react-i18next";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
 import {
@@ -27,8 +28,9 @@ import { getGroupedContributorDescriptionList } from "./licenseHelpers";
 
 interface TextLicenseInfoProps {
   text: TextItem;
+  articleId: number;
 }
-const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
+const TextLicenseInfo = ({ text, articleId }: TextLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
 
   const items: ItemType[] = getGroupedContributorDescriptionList(text.copyright, t);
@@ -81,6 +83,7 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />
+            {!!articleId && <SafeLink to={`/revisions/${articleId}`}>{t("revision.viewPreviousRevisions")}</SafeLink>}
             <CopyBlock stringToCopy={text.copyText} license={text.copyright.license.license} />
           </MediaListContent>
         </MediaListItemActions>
@@ -98,13 +101,14 @@ export interface TextItem {
 
 interface Props {
   texts: TextItem[];
+  articleId: number;
 }
 
-export const TextLicenseList = ({ texts }: Props) => {
+export const TextLicenseList = ({ texts, articleId }: Props) => {
   return (
     <MediaList>
       {texts.map((text, index) => (
-        <TextLicenseInfo text={text} key={index} />
+        <TextLicenseInfo text={text} key={index} articleId={articleId} />
       ))}
     </MediaList>
   );

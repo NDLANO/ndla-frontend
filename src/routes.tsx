@@ -62,6 +62,7 @@ export const routes = [
   "r/:contextId/:stepId",
   "r/:root/:name/:contextId",
   "r/:root/:name/:contextId/:stepId",
+  "revisions/:articleId",
   "minndla",
   ...privateRoutes,
 ];
