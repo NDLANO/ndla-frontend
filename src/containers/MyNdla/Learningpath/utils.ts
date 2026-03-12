@@ -24,8 +24,8 @@ export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";
 
 export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment): FormValues["type"] => {
   if (!step?.resource && !step?.oembed && !step?.embedUrl) return "text";
-  if (step?.resource || step.embedUrl?.url.includes("resource")) return "resource";
   if (step?.embedUrl?.embedType === "external") return "external";
+  if (step?.resource || step.embedUrl?.url.includes("resource")) return "resource";
   return "text";
 };
 
