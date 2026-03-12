@@ -18,7 +18,7 @@ test("contains content", async ({ page }) => {
   expect(heading).toBeDefined();
   await expect(heading).toBeVisible();
 
-  const steps = page.getByLabel("Læringssteg");
+  const steps = page.getByLabel("Læringssteg", { exact: true });
 
   expect(steps).toBeDefined();
   await expect(steps).toBeVisible();

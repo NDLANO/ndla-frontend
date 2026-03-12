@@ -16,6 +16,7 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  Heading,
   IconButton,
   Skeleton,
   Text,
@@ -94,6 +95,7 @@ interface LaunchpadProps {
   name: string;
   context: "desktop" | "mobile";
   actions?: ReactNode;
+  ariaLabel?: string;
   loading: boolean;
   children: (collapsed: boolean) => ReactNode;
 }
@@ -175,7 +177,7 @@ const MetaContainer = styled("div", {
   },
 });
 
-const StyledText = styled(Text, {
+const StyledHeading = styled(Heading, {
   base: {
     alignItems: "center",
     overflowWrap: "anywhere",
@@ -205,7 +207,7 @@ const SkeletonItemContainer = styled("div", {
   },
 });
 
-export const Launchpad = ({ type, name, actions, children, loading, context }: LaunchpadProps) => {
+export const Launchpad = ({ type, name, actions, children, loading, context, ariaLabel }: LaunchpadProps) => {
   const [collapsed, setCollapsed] = useState(false);
   const containerId = useId();
   const { t } = useTranslation();
@@ -262,7 +264,11 @@ export const Launchpad = ({ type, name, actions, children, loading, context }: L
             )}
           </ActionsContainer>
         </HeaderContainer>
-        {!collapsed && <StyledText textStyle="title.medium">{name}</StyledText>}
+        {!collapsed && (
+          <StyledHeading textStyle="title.medium" aria-label={ariaLabel} asChild consumeCss>
+            <h2>{name}</h2>
+          </StyledHeading>
+        )}
       </MetaContainer>
       {children(collapsed)}
     </LaunchpadContainer>

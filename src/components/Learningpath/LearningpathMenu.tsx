@@ -87,6 +87,7 @@ export const LearningpathMenu = ({
   return (
     <Launchpad
       type={t("contentTypes.learningpath")}
+      ariaLabel={t("launchpad.learningpathLabel", { learningpath: learningpath?.title })}
       name={learningpath?.title ?? ""}
       context={displayContext}
       actions={

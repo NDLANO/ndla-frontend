@@ -125,26 +125,34 @@ export const ArticleLaunchpad = ({
   }, [previousContextId]);
 
   return (
-    <Launchpad loading={loading} type={t("contentTypes.topic")} name={topic?.name ?? ""} context={context}>
+    <Launchpad
+      loading={loading}
+      type={t("contentTypes.topic")}
+      ariaLabel={t("launchpad.articleLabel", { topic: topic?.name })}
+      name={topic?.name ?? ""}
+      context={context}
+    >
       {(collapsed) =>
         !topic ? null : (
           <>
             {!!coreArticlesToDisplay.length && (
               <StyledStepperWrapper>
-                <StepperRoot line aria-hidden={collapsed} collapsed={collapsed}>
-                  <StyledStepperList id={listId}>
-                    {coreArticlesToDisplay.map((article, idx) => (
-                      <ArticleStepperListItem
-                        key={article.id}
-                        article={article}
-                        index={idx}
-                        completed={completed.includes(article.context?.contextId ?? "")}
-                        current={article.context?.contextId === contextId}
-                        isUnordered={isUnordered}
-                        collapsed={collapsed}
-                      />
-                    ))}
-                  </StyledStepperList>
+                <StepperRoot line aria-hidden={collapsed} collapsed={collapsed} asChild>
+                  <NavSection title={t("launchpad.coreContentTitle")} srOnlyHeading>
+                    <StyledStepperList id={listId}>
+                      {coreArticlesToDisplay.map((article, idx) => (
+                        <ArticleStepperListItem
+                          key={article.id}
+                          article={article}
+                          index={idx}
+                          completed={completed.includes(article.context?.contextId ?? "")}
+                          current={article.context?.contextId === contextId}
+                          isUnordered={isUnordered}
+                          collapsed={collapsed}
+                        />
+                      ))}
+                    </StyledStepperList>
+                  </NavSection>
                 </StepperRoot>
                 {coreArticles.length > 20 && !collapsed && (
                   <StyledButton
@@ -277,16 +285,17 @@ const TextWrapper = styled("div", {
 
 interface NavSectionProps extends ComponentProps<"nav"> {
   title: string;
+  srOnlyHeading?: boolean;
   children: ReactNode;
 }
 
-const NavSection = ({ title, children, ...rest }: NavSectionProps) => {
+const NavSection = ({ title, children, srOnlyHeading, ...rest }: NavSectionProps) => {
   const headingId = useId();
 
   return (
     <StyledNav aria-labelledby={headingId} {...rest}>
-      <NavHeading asChild consumeCss textStyle="title.small" id={headingId}>
-        <h2>{title}</h2>
+      <NavHeading asChild consumeCss textStyle="title.small" id={headingId} srOnly={srOnlyHeading}>
+        <h3>{title}</h3>
       </NavHeading>
       {children}
     </StyledNav>

@@ -938,6 +938,8 @@ const messages = {
     sourceTitle: "Source reference",
   },
   launchpad: {
+    articleLabel: "Learning resources for {{topic}}",
+    learningpathLabel: "Learning steps for {{learningpath}}",
     coreContentTitle: "Learning resources",
     linksTitle: "Work multidisciplinarily with the topic",
     supplementaryContentTitle: "Supplementary content",

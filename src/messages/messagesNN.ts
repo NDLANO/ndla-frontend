@@ -935,6 +935,8 @@ const messages = {
     sourceTitle: "Kjeldetilvising",
   },
   launchpad: {
+    articleLabel: "Læringsressursar for {{topic}}",
+    learningpathLabel: "Læringssteg for {{learningpath}}",
     coreContentTitle: "Læringsressursar",
     linksTitle: "Jobb tverrfagleg med emnet",
     supplementaryContentTitle: "Tilleggsstoff",
