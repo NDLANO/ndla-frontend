@@ -43,6 +43,14 @@ const StyledFieldsetRoot = styled(FieldsetRoot, {
   },
 });
 
+const StyledCheckboxRoot = styled(CheckboxRoot, {
+  base: {
+    backgroundColor: "surface.brand.1",
+    borderColor: "transparent",
+    outlineColor: "stroke.hover",
+  },
+});
+
 export const TagsFilter = ({ resources }: Props) => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchParams();
@@ -66,7 +74,7 @@ export const TagsFilter = ({ resources }: Props) => {
         onValueChange={(value) => setParams({ tags: value.join(",") }, { replace: false, preventScrollReset: true })}
       >
         {tags.map((tag) => (
-          <CheckboxRoot variant="chip" key={tag} value={tag}>
+          <StyledCheckboxRoot variant="chip" key={tag} value={tag}>
             <CheckboxControl>
               <CheckboxIndicator asChild>
                 <CheckLine />
@@ -75,7 +83,7 @@ export const TagsFilter = ({ resources }: Props) => {
             {/* TODO: This can overflow on long tags. Consider wrapping or ellipsis */}
             <CheckboxLabel>{tag}</CheckboxLabel>
             <CheckboxHiddenInput />
-          </CheckboxRoot>
+          </StyledCheckboxRoot>
         ))}
       </StyledCheckboxGroup>
     </StyledFieldsetRoot>
