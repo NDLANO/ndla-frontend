@@ -9,6 +9,7 @@
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import { gqlPlugin } from "vite-plugin-graphql-tag";
 
 export default defineConfig(({ isSsrBuild, mode }) => {
   const componentVersion = process.env.COMPONENT_VERSION ?? "SNAPSHOT";
@@ -21,11 +22,8 @@ export default defineConfig(({ isSsrBuild, mode }) => {
       setupFiles: "./src/__tests__/vitest.setup.ts",
     },
     plugins: [
-      react({
-        babel: {
-          configFile: "./babel.config.cjs",
-        },
-      }),
+      gqlPlugin({ strip: true }),
+      react(),
       sentryVitePlugin({
         authToken: process.env.SENTRY_AUTH_TOKEN,
         org: process.env.SENTRY_ORG ?? "ndlano",
