@@ -49,6 +49,7 @@ const articleLayoutQueryDef = gql`
       }
       children(nodeType: "RESOURCE") {
         id
+        rank
         context {
           contextId
           url

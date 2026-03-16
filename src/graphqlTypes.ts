@@ -5302,6 +5302,7 @@ export type GQLArticleLayoutQuery = {
     children?: Array<{
       __typename?: "Node";
       id: string;
+      rank?: number;
       name: string;
       relevanceId?: string;
       contentUri?: string;
