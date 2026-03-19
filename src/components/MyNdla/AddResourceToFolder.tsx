@@ -25,6 +25,7 @@ import { useAddMyNdlaResourceMutation } from "../../mutations/folder/folderMutat
 import { useFolder } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
+import { SaveHeartButton } from "../SaveHeartButton";
 import { useToast } from "../ToastContext";
 import { FolderSelect, ROOT_FOLDER_ID } from "./FolderSelect";
 import { AddResourceType } from "./types";
@@ -92,6 +93,7 @@ const structureQueryDef = gql`
 
 export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type }: Props) => {
   const { t } = useTranslation();
+  const [saved, setSaved] = useState(false);
   const { examLock } = useContext(AuthContext);
   const structureQuery = useQuery<GQLAddResourceToFolderStructureQuery, GQLAddResourceToFolderStructureQueryVariables>(
     structureQueryDef,
@@ -101,6 +103,11 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
   const selectedFolder = useFolder(selectedFolderId);
   const toast = useToast();
   const [addResourceToFolder, { loading: addResourceLoading }] = useAddMyNdlaResourceMutation();
+
+  const onSetSelectedFolderId = (id: string | undefined) => {
+    setSelectedFolderId(id);
+    setSaved(false);
+  };
 
   const placements = useMemo(() => {
     const placements = structureQuery.data?.myNdlaResourceConnections.map((c) => c.folderId ?? ROOT_FOLDER_ID) ?? [];
@@ -113,7 +120,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
   );
 
   const onSave = async () => {
-    if (alreadyAdded) return;
+    if (alreadyAdded || saved) return;
     const res = await addResourceToFolder({
       variables: {
         resourceId: resource.id,
@@ -160,11 +167,14 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
       },
     });
     if (!res.error) {
-      onClose();
-      toast.create({
-        title: t("myNdla.resource.added"),
-        description: <ResourceAddedSnack folder={selectedFolder} />,
-      });
+      setSaved(true);
+      setTimeout(() => {
+        toast.create({
+          title: t("myNdla.resource.added"),
+          description: <ResourceAddedSnack folder={selectedFolder} />,
+        });
+        onClose();
+      }, 1500);
     } else {
       toast.create({ title: t("myNdla.resource.addedFailed") });
     }
@@ -183,7 +193,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
             folders={(structureQuery.data?.folders.folders ?? []) as GQLFolder[]}
             type={type}
             selectedFolderId={selectedFolderId}
-            setSelectedFolderId={setSelectedFolderId}
+            setSelectedFolderId={onSetSelectedFolderId}
             defaultOpenFolder={defaultOpenFolder}
             placements={placements}
           />
@@ -199,14 +209,15 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
         <Button variant="secondary" onClick={onClose}>
           {t("cancel")}
         </Button>
-        <Button
+        <SaveHeartButton
           onClick={onSave}
+          saved={saved}
           loading={addResourceLoading}
-          disabled={alreadyAdded || examLock}
-          aria-label={addResourceLoading ? t("loading") : undefined}
-        >
-          {t("myNdla.resource.save")}
-        </Button>
+          disabled={(!saved && alreadyAdded) || examLock}
+          aria-label={
+            saved ? t("myNdla.resource.added") : addResourceLoading ? t("loading") : t("myNdla.resource.save")
+          }
+        />
       </DialogFooter>
     </AddResourceContainer>
   );
