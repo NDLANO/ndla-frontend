@@ -52,6 +52,7 @@ export interface TreeStructureProps {
   onSelectFolder?: (id: string) => void;
   ariaDescribedby?: string;
   placements: Set<string> | undefined;
+  folderToMove?: GQLFolder;
 }
 
 interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolder> {
@@ -105,6 +106,7 @@ const StyledTreeItem = styled(TreeItem, {
         height: "unset",
       },
       myNdla: {},
+      folder: {},
     },
   },
 });
@@ -136,7 +138,18 @@ interface RootNode {
   id: string;
   name: string;
   subfolders: GQLFolder[];
+  disabled?: boolean;
 }
+
+const recursivelyDisableChildren = (nodes: GQLFolder[], folderToMove: GQLFolder): GQLFolder[] => {
+  return nodes.reduce<GQLFolder[]>((acc, curr) => {
+    if (curr.id !== folderToMove.id) {
+      const subfolders = recursivelyDisableChildren(curr.subfolders, folderToMove);
+      acc.push({ ...curr, subfolders });
+    }
+    return acc;
+  }, []);
+};
 
 export const TreeStructure = ({
   folders,
@@ -145,6 +158,7 @@ export const TreeStructure = ({
   placements,
   onSelectFolder,
   ariaDescribedby,
+  folderToMove,
   type,
 }: TreeStructureProps) => {
   const [selectedValue, setSelectedValue] = useState(defaultOpenFolders?.[defaultOpenFolders?.length - 1] ?? "");
@@ -157,13 +171,13 @@ export const TreeStructure = ({
       rootNode: {
         id: "ROOT",
         name: "",
-        subfolders: folders,
+        subfolders: type === "folder" && folderToMove ? recursivelyDisableChildren(folders, folderToMove) : folders,
       },
       nodeToString: (node) => node.name,
       nodeToValue: (node) => node.id,
-      nodeToChildren: (node) => node.subfolders,
+      nodeToChildren: (node) => node?.subfolders ?? [],
     });
-  }, [folders]);
+  }, [folderToMove, folders, type]);
 
   const treeView = useTreeView<RootNode>({
     collection,

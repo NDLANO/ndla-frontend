@@ -29,6 +29,8 @@ import {
   GQLUpdateFolderStatusMutation,
   GQLAddMyNdlaResourceMutation,
   GQLAddMyNdlaResourceMutationVariables,
+  GQLMoveFolderMutation,
+  GQLMoveFolderMutationVariables,
 } from "../../graphqlTypes";
 import { folderFragment, myNdlaResourceFragment, foldersPageQueryFragment } from "./folderFragments";
 import { recentlyUsedQuery } from "./folderQueries";
@@ -202,6 +204,19 @@ export const useCopySharedFolderMutation = () => {
       }
     },
   });
+};
+
+const moveFolderMutation = gql`
+  mutation moveFolder($id: String!, $parentId: StringOrNull) {
+    moveFolder(id: $id, parentId: $parentId) {
+      ...FoldersPageQueryFragment
+    }
+  }
+  ${foldersPageQueryFragment}
+`;
+
+export const useMoveFolderMutation = () => {
+  return useMutation<GQLMoveFolderMutation, GQLMoveFolderMutationVariables>(moveFolderMutation);
 };
 
 export const useUpdateFolderMutation = () => {

@@ -29,6 +29,7 @@ import { copyFolderSharingLink, isStudent } from "../util";
 import { FolderCreateModalContent } from "./FolderCreateModalContent";
 import { FolderEditModalContent } from "./FolderEditModalContent";
 import { FolderShareModalContent } from "./FolderShareModalContent";
+import { MoveFolderDialogContent } from "./MoveFolderDialogContent";
 
 export const useFolderActions = (
   selectedFolder: GQLFolder | null,
@@ -270,6 +271,20 @@ export const useFolderActions = (
       onClick: onUnFavoriteSharedFolder,
     };
 
+    const moveFolder: MenuItemProps = {
+      type: "dialog",
+      value: "moveFolder",
+      text: t("myNdla.folder.move"),
+      modalContent: (close) => (
+        <MoveFolderDialogContent
+          close={close}
+          currentFolder={selectedFolder}
+          ref={ref}
+          fallbackFocusId={fallbackFocusId}
+        />
+      ),
+    };
+
     const deleteOpt: MenuItemProps = {
       type: "dialog",
       value: "deleteFolder",
@@ -298,29 +313,31 @@ export const useFolderActions = (
     }
 
     if (isStudent(user)) {
-      return actions.concat(editFolder, deleteOpt);
+      return actions.concat(editFolder, moveFolder, deleteOpt);
     }
 
     if (selectedFolder.status === "shared") {
-      return actions.concat(editFolder, share, previewFolder, copyLink, unShare, copyFolder, deleteOpt);
+      return actions.concat(editFolder, moveFolder, share, previewFolder, copyLink, unShare, copyFolder, deleteOpt);
     }
 
-    return actions.concat(editFolder, share, copyFolder, deleteOpt);
+    return actions.concat(editFolder, moveFolder, share, copyFolder, deleteOpt);
   }, [
     examLock,
     t,
     selectedFolder,
+    onFolderCopied,
     isFolderShared,
+    onUnFavoriteSharedFolder,
     inToolbar,
     isFavorited,
     user,
     onFolderAdded,
-    onFolderCopied,
     onFolderUpdated,
     updateFolderStatus,
     toast,
     navigate,
-    onUnFavoriteSharedFolder,
+    ref,
+    fallbackFocusId,
     onDeleteFolder,
   ]);
   return actionItems;

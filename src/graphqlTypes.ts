@@ -12,6 +12,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean };
   Int: { input: number; output: number };
   Float: { input: number; output: number };
+  StringOrNull: { input: any; output: any };
   StringRecord: { input: any; output: any };
 };
 
@@ -96,6 +97,11 @@ export type GQLArticleRequiredLibrary = {
   mediaType: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
+};
+
+export type GQLArticleRevisionHistory = {
+  __typename?: "ArticleRevisionHistory";
+  revisions: Array<GQLArticle>;
 };
 
 export type GQLArticleSearchResult = GQLSearchResult & {
@@ -892,6 +898,7 @@ export type GQLMutation = {
   deleteMyNdlaResource: Scalars["String"]["output"];
   deletePersonalData: Scalars["Boolean"]["output"];
   favoriteSharedFolder: Scalars["String"]["output"];
+  moveFolder: GQLFolder;
   newLearningpath: GQLMyNdlaLearningpath;
   newLearningpathStep: GQLMyNdlaLearningpathStep;
   sortFolders: GQLSortResult;
@@ -954,6 +961,11 @@ export type GQLMutationDeleteMyNdlaResourceArgs = {
 
 export type GQLMutationFavoriteSharedFolderArgs = {
   folderId: Scalars["String"]["input"];
+};
+
+export type GQLMutationMoveFolderArgs = {
+  id: Scalars["String"]["input"];
+  parentId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
 };
 
 export type GQLMutationNewLearningpathArgs = {
@@ -1416,6 +1428,8 @@ export type GQLQuery = {
   resourceEmbed: GQLResourceEmbed;
   resourceEmbeds: GQLResourceEmbed;
   resourceTypes?: Maybe<Array<GQLResourceTypeDefinition>>;
+  revisionHistory?: Maybe<GQLArticleRevisionHistory>;
+  revisions: Array<Scalars["Int"]["output"]>;
   search?: Maybe<GQLSearch>;
   searchWithoutPagination?: Maybe<GQLSearchWithoutPagination>;
   sharedFolder: GQLSharedFolder;
@@ -1433,6 +1447,7 @@ export type GQLQueryAllMyNdlaResourcesArgs = {
 
 export type GQLQueryArticleArgs = {
   id: Scalars["String"]["input"];
+  revision?: InputMaybe<Scalars["Int"]["input"]>;
 };
 
 export type GQLQueryArticleResourceArgs = {
@@ -1602,6 +1617,14 @@ export type GQLQueryResourceEmbedArgs = {
 
 export type GQLQueryResourceEmbedsArgs = {
   resources: Array<GQLResourceEmbedInput>;
+};
+
+export type GQLQueryRevisionHistoryArgs = {
+  id: Scalars["Int"]["input"];
+};
+
+export type GQLQueryRevisionsArgs = {
+  articleId: Scalars["Int"]["input"];
 };
 
 export type GQLQuerySearchArgs = {
@@ -6732,6 +6755,225 @@ export type GQLRootFoldersPageQuery = {
     created: string;
     tags: Array<string>;
   }>;
+};
+
+export type GQLMoveFolderDialogQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GQLMoveFolderDialogQuery = {
+  __typename?: "Query";
+  folders: {
+    __typename?: "UserFolder";
+    folders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "Folder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
+                      subfolders: Array<{
+                        __typename: "Folder";
+                        id: string;
+                        name: string;
+                        status: string;
+                        parentId?: string;
+                        created: string;
+                        updated: string;
+                        description?: string;
+                        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                        owner?: { __typename: "Owner"; name: string };
+                        resources: Array<{
+                          __typename: "MyNdlaResource";
+                          resourceId: string;
+                          id: string;
+                          resourceType: string;
+                          path: string;
+                          created: string;
+                          tags: Array<string>;
+                        }>;
+                      }>;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+  };
 };
 
 export type GQLPreviewLearningpathQueryVariables = Exact<{
@@ -11942,6 +12184,225 @@ export type GQLCopySharedFolderMutation = {
                           tags: Array<string>;
                         }>;
                       }>;
+                      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                      owner?: { __typename: "Owner"; name: string };
+                      resources: Array<{
+                        __typename: "MyNdlaResource";
+                        resourceId: string;
+                        id: string;
+                        resourceType: string;
+                        path: string;
+                        created: string;
+                        tags: Array<string>;
+                      }>;
+                    }>;
+                    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                    owner?: { __typename: "Owner"; name: string };
+                    resources: Array<{
+                      __typename: "MyNdlaResource";
+                      resourceId: string;
+                      id: string;
+                      resourceType: string;
+                      path: string;
+                      created: string;
+                      tags: Array<string>;
+                    }>;
+                  }>;
+                  breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                  owner?: { __typename: "Owner"; name: string };
+                  resources: Array<{
+                    __typename: "MyNdlaResource";
+                    resourceId: string;
+                    id: string;
+                    resourceType: string;
+                    path: string;
+                    created: string;
+                    tags: Array<string>;
+                  }>;
+                }>;
+                breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+                owner?: { __typename: "Owner"; name: string };
+                resources: Array<{
+                  __typename: "MyNdlaResource";
+                  resourceId: string;
+                  id: string;
+                  resourceType: string;
+                  path: string;
+                  created: string;
+                  tags: Array<string>;
+                }>;
+              }>;
+              breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+              owner?: { __typename: "Owner"; name: string };
+              resources: Array<{
+                __typename: "MyNdlaResource";
+                resourceId: string;
+                id: string;
+                resourceType: string;
+                path: string;
+                created: string;
+                tags: Array<string>;
+              }>;
+            }>;
+            breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+            owner?: { __typename: "Owner"; name: string };
+            resources: Array<{
+              __typename: "MyNdlaResource";
+              resourceId: string;
+              id: string;
+              resourceType: string;
+              path: string;
+              created: string;
+              tags: Array<string>;
+            }>;
+          }>;
+          breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+          owner?: { __typename: "Owner"; name: string };
+          resources: Array<{
+            __typename: "MyNdlaResource";
+            resourceId: string;
+            id: string;
+            resourceType: string;
+            path: string;
+            created: string;
+            tags: Array<string>;
+          }>;
+        }>;
+        breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+        owner?: { __typename: "Owner"; name: string };
+        resources: Array<{
+          __typename: "MyNdlaResource";
+          resourceId: string;
+          id: string;
+          resourceType: string;
+          path: string;
+          created: string;
+          tags: Array<string>;
+        }>;
+      }>;
+      breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+      owner?: { __typename: "Owner"; name: string };
+      resources: Array<{
+        __typename: "MyNdlaResource";
+        resourceId: string;
+        id: string;
+        resourceType: string;
+        path: string;
+        created: string;
+        tags: Array<string>;
+      }>;
+    }>;
+    breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
+    owner?: { __typename: "Owner"; name: string };
+    resources: Array<{
+      __typename: "MyNdlaResource";
+      resourceId: string;
+      id: string;
+      resourceType: string;
+      path: string;
+      created: string;
+      tags: Array<string>;
+    }>;
+  };
+};
+
+export type GQLMoveFolderMutationVariables = Exact<{
+  id: Scalars["String"]["input"];
+  parentId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
+}>;
+
+export type GQLMoveFolderMutation = {
+  __typename?: "Mutation";
+  moveFolder: {
+    __typename: "Folder";
+    id: string;
+    name: string;
+    status: string;
+    parentId?: string;
+    created: string;
+    updated: string;
+    description?: string;
+    subfolders: Array<{
+      __typename: "Folder";
+      id: string;
+      name: string;
+      status: string;
+      parentId?: string;
+      created: string;
+      updated: string;
+      description?: string;
+      subfolders: Array<{
+        __typename: "Folder";
+        id: string;
+        name: string;
+        status: string;
+        parentId?: string;
+        created: string;
+        updated: string;
+        description?: string;
+        subfolders: Array<{
+          __typename: "Folder";
+          id: string;
+          name: string;
+          status: string;
+          parentId?: string;
+          created: string;
+          updated: string;
+          description?: string;
+          subfolders: Array<{
+            __typename: "Folder";
+            id: string;
+            name: string;
+            status: string;
+            parentId?: string;
+            created: string;
+            updated: string;
+            description?: string;
+            subfolders: Array<{
+              __typename: "Folder";
+              id: string;
+              name: string;
+              status: string;
+              parentId?: string;
+              created: string;
+              updated: string;
+              description?: string;
+              subfolders: Array<{
+                __typename: "Folder";
+                id: string;
+                name: string;
+                status: string;
+                parentId?: string;
+                created: string;
+                updated: string;
+                description?: string;
+                subfolders: Array<{
+                  __typename: "Folder";
+                  id: string;
+                  name: string;
+                  status: string;
+                  parentId?: string;
+                  created: string;
+                  updated: string;
+                  description?: string;
+                  subfolders: Array<{
+                    __typename: "Folder";
+                    id: string;
+                    name: string;
+                    status: string;
+                    parentId?: string;
+                    created: string;
+                    updated: string;
+                    description?: string;
+                    subfolders: Array<{
+                      __typename: "Folder";
+                      id: string;
+                      name: string;
+                      status: string;
+                      parentId?: string;
+                      created: string;
+                      updated: string;
+                      description?: string;
                       breadcrumbs: Array<{ __typename: "Breadcrumb"; id: string; name: string }>;
                       owner?: { __typename: "Owner"; name: string };
                       resources: Array<{

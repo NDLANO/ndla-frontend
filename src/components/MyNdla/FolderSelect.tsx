@@ -20,6 +20,7 @@ interface Props {
   setSelectedFolderId: (v: string | undefined) => void;
   defaultOpenFolder?: GQLFolder;
   placements?: Set<string>;
+  folderToMove?: GQLFolder;
 }
 
 const StyledDiv = styled("div", {
@@ -41,6 +42,7 @@ export const FolderSelect = ({
   selectedFolderId,
   setSelectedFolderId,
   defaultOpenFolder,
+  folderToMove,
   placements,
 }: Props) => {
   const { t } = useTranslation();
@@ -86,6 +88,7 @@ export const FolderSelect = ({
         defaultOpenFolders={defaultOpenFolders}
         placements={placements}
         ariaDescribedby="treestructure-error-label"
+        folderToMove={folderToMove}
       />
     </StyledDiv>
   );

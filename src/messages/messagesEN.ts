@@ -412,6 +412,12 @@ const messages = {
       folderCopiedFailed: "Failed to copy folder {{folderName}}",
       professional: "a professional",
       sharedWarning: "Name and description will be visible for everyone you share the folder with",
+      move: "Move",
+      save: "Save folder",
+      added: "Added",
+      moveFolderFailed: "Failed to move folder",
+      movedFolder: "Moved folder",
+      moveFolderTitle: "Move folder",
       sortOption: {
         nameAsc: "Name A-Z",
         nameDesc: "Name Z-A",

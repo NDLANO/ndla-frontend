@@ -61,6 +61,10 @@ type ArticleRequiredLibrary {
   url: String!
 }
 
+type ArticleRevisionHistory {
+  revisions: [Article!]!
+}
+
 type ArticleSearchResult implements SearchResult {
   context: SearchContext
   contexts: [SearchContext!]!
@@ -783,6 +787,7 @@ type Mutation {
   deleteMyNdlaResource(folderId: String, resourceId: String!): String!
   deletePersonalData: Boolean!
   favoriteSharedFolder(folderId: String!): String!
+  moveFolder(id: String!, parentId: StringOrNull): Folder!
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
   newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
@@ -1112,7 +1117,7 @@ type Query {
   alerts: [UptimeAlert]
   allMyNdlaResources(size: Int): [MyNdlaResource!]!
   arenaEnabledOrgs: ConfigMetaStringList
-  article(id: String!): Article
+  article(id: String!, revision: Int): Article
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
@@ -1175,6 +1180,8 @@ type Query {
   resourceEmbed(id: String!, type: String!): ResourceEmbed!
   resourceEmbeds(resources: [ResourceEmbedInput!]!): ResourceEmbed!
   resourceTypes: [ResourceTypeDefinition!]
+  revisionHistory(id: Int!): ArticleRevisionHistory
+  revisions(articleId: Int!): [Int!]!
   search(
     aggregatePaths: [String!]
     contextTypes: String
@@ -1363,6 +1370,8 @@ type SortResult {
   parentId: String
   sortedIds: [String!]!
 }
+
+scalar StringOrNull
 
 scalar StringRecord
 
