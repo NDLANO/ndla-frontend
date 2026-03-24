@@ -10,6 +10,7 @@ import { gql } from "@apollo/client";
 import { CheckLine } from "@ndla/icons";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ArticleByline } from "@ndla/ui";
 import { usePrevious } from "@ndla/util";
 import { useContext, useEffect, useState } from "react";
@@ -22,7 +23,14 @@ import { FavoriteButton } from "../Article/FavoritesButton";
 import { AuthContext } from "../AuthenticationContext";
 import { AddResourceToFolderModal } from "../MyNdla/AddResourceToFolderModal";
 import { Launchpad } from "../Resource/Launchpad";
-import { StepperIndicator, StepperList, StepperListItem, StepperRoot, StepperSafeLink } from "../Stepper";
+import {
+  CollapsedLinkComponent,
+  StepperIndicator,
+  StepperList,
+  StepperListItem,
+  StepperRoot,
+  StepperSafeLink,
+} from "../Stepper";
 import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathContext } from "./learningpathUtils";
 
@@ -124,17 +132,27 @@ export const LearningpathMenu = ({
                     // for collapsed styling
                     data-current={currentIndex === undefined ? "" : undefined}
                   >
-                    <StepperIndicator>
-                      {completed.includes(INTRODUCTION_ID) && currentIndex !== undefined ? (
-                        <CheckLine size="small" />
-                      ) : (
-                        1
-                      )}
-                    </StepperIndicator>
+                    <CollapsedLinkComponent
+                      to={stepLink(learningpath.id, undefined, resourcePath, context)}
+                      collapsed={collapsed}
+                      aria-current={currentIndex === undefined ? "page" : undefined}
+                      css={linkOverlay.raw()}
+                      aria-label={`${t("learningpathPage.introduction")}${completed.includes(INTRODUCTION_ID) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+                      title={`${t("learningpathPage.introduction")}${completed.includes(INTRODUCTION_ID) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+                    >
+                      <StepperIndicator>
+                        {completed.includes(INTRODUCTION_ID) && currentIndex !== undefined ? (
+                          <CheckLine size="small" />
+                        ) : (
+                          1
+                        )}
+                      </StepperIndicator>
+                    </CollapsedLinkComponent>
                     {!collapsed && (
                       <StepperSafeLink
                         to={stepLink(learningpath.id, undefined, resourcePath, context)}
                         aria-current={currentIndex === undefined ? "page" : undefined}
+                        css={linkOverlay.raw()}
                         aria-label={`${t("learningpathPage.introduction")}${completed.includes(INTRODUCTION_ID) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
                       >
                         {t("learningpathPage.introduction")}
@@ -149,16 +167,27 @@ export const LearningpathMenu = ({
                     // for collapsed styling
                     data-current={currentIndex === index ? "" : undefined}
                   >
-                    <StepperIndicator>
-                      {completed.includes(step.id) && index !== currentIndex ? (
-                        <CheckLine size="small" />
-                      ) : (
-                        index + indicatorOffset
-                      )}
-                    </StepperIndicator>
+                    <CollapsedLinkComponent
+                      to={stepLink(learningpath.id, step.id, resourcePath, context)}
+                      collapsed={collapsed}
+                      aria-current={currentIndex === index ? "page" : undefined}
+                      css={linkOverlay.raw()}
+                      aria-label={`${step.title}${completed.includes(step.id) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+                      title={`${step.title}${completed.includes(step.id) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
+                    >
+                      <StepperIndicator>
+                        {completed.includes(step.id) && index !== currentIndex ? (
+                          <CheckLine size="small" />
+                        ) : (
+                          index + indicatorOffset
+                        )}
+                      </StepperIndicator>
+                    </CollapsedLinkComponent>
+
                     {!collapsed && (
                       <StepperSafeLink
                         to={stepLink(learningpath.id, step.id, resourcePath, context)}
+                        css={linkOverlay.raw()}
                         aria-current={currentIndex === index ? "page" : undefined}
                         aria-label={`${step.title}${completed.includes(step.id) ? `. ${t("learningpathPage.stepCompleted")}` : ""}`}
                       >
