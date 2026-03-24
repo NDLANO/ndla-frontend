@@ -19,7 +19,14 @@ import { ComponentProps, ReactNode, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Launchpad } from "../../components/Resource/Launchpad";
-import { StepperIndicator, StepperList, StepperListItem, StepperRoot, StepperSafeLink } from "../../components/Stepper";
+import {
+  CollapsedLinkComponent,
+  StepperIndicator,
+  StepperList,
+  StepperListItem,
+  StepperRoot,
+  StepperSafeLink,
+} from "../../components/Stepper";
 import { GQLArticleLaunchpad_NodeFragment, GQLArticleLaunchpad_ResourceFragment } from "../../graphqlTypes";
 import { getListItemTraits, useListItemTraits } from "../../util/listItemTraits";
 
@@ -246,9 +253,24 @@ const ArticleStepperListItem = ({
       // for collapsed styling
       data-current={current ? "" : undefined}
     >
-      <StepperIndicator>
-        {!current && completed ? <CheckLine size="small" /> : isUnordered ? <ArrowRightLine size="small" /> : index + 1}
-      </StepperIndicator>
+      <CollapsedLinkComponent
+        to={article.url || ""}
+        collapsed={collapsed}
+        aria-current={current ? "page" : undefined}
+        css={linkOverlay.raw()}
+        aria-label={article.name}
+        title={article.name}
+      >
+        <StepperIndicator>
+          {!current && completed ? (
+            <CheckLine size="small" />
+          ) : isUnordered ? (
+            <ArrowRightLine size="small" />
+          ) : (
+            index + 1
+          )}
+        </StepperIndicator>
+      </CollapsedLinkComponent>
       {!collapsed && (
         <StepperItemContent>
           <StepperSafeLink

@@ -7,9 +7,10 @@
  */
 
 import { ark } from "@ark-ui/react";
-import { SafeLink } from "@ndla/safelink";
+import { SafeLink, SafeLinkProps } from "@ndla/safelink";
 import { sva } from "@ndla/styled-system/css";
 import { createStyleContext, styled } from "@ndla/styled-system/jsx";
+import { ReactNode } from "react";
 
 const stepperRecipe = sva({
   slots: ["root", "track", "link", "list", "listItem", "indicator"],
@@ -79,9 +80,6 @@ const stepperRecipe = sva({
   variants: {
     collapsed: {
       true: {
-        root: {
-          pointerEvents: "none",
-        },
         list: {
           alignItems: "center",
         },
@@ -136,6 +134,27 @@ export const StepperIndicator = withContext(ark.div, "indicator", {
   defaultProps: { "data-indicator": "", "aria-hidden": true },
 });
 export const StepperSafeLink = withContext(SafeLink, "link", { baseComponent: true });
+
+interface CollapsedLinkComponentProps extends SafeLinkProps {
+  children: ReactNode;
+  collapsed: boolean;
+}
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+
+export const CollapsedLinkComponent = ({ collapsed, children, ...rest }: CollapsedLinkComponentProps) => {
+  if (collapsed) {
+    return <StyledSafeLink {...rest}>{children}</StyledSafeLink>;
+  }
+
+  return children;
+};
 
 export const StepperListItem = styled(BaseStepperListItem, {
   variants: {
