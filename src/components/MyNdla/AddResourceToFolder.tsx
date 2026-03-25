@@ -214,6 +214,8 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
           saved={saved}
           loading={addResourceLoading}
           disabled={(!saved && alreadyAdded) || examLock}
+          saveText={t("myNdla.resource.save")}
+          savedText={t("myNdla.resource.added")}
           aria-label={
             saved ? t("myNdla.resource.added") : addResourceLoading ? t("loading") : t("myNdla.resource.save")
           }

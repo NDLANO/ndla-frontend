@@ -413,6 +413,12 @@ const messages = {
       folderCopiedFailed: "Klarte ikkje å kopiere mappa {{folderName}}",
       professional: "ein fagperson",
       sharedWarning: "Namn og skildring blir synleg for alle du deler mappa med.",
+      move: "Flytt",
+      save: "Lagre mappe",
+      added: "Lagt til",
+      moveFolderFailed: "Klarte ikkje å flytte mappa",
+      movedFolder: "Flytta mappa",
+      moveFolderTitle: "Flytt mappe",
       sortOption: {
         nameAsc: "Namn A-Å",
         nameDesc: "Namn Å-A",

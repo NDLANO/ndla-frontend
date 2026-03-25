@@ -6,4 +6,4 @@
  *
  */
 
-export type AddResourceType = "resource" | "myNdla";
+export type AddResourceType = "resource" | "myNdla" | "folder";

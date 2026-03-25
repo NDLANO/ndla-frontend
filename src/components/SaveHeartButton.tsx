@@ -10,7 +10,6 @@ import { HeartFill, HeartLine } from "@ndla/icons";
 import { Button, ButtonProps, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { type MouseEvent, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 const HeartContainer = styled("div", {
   base: {
@@ -145,6 +144,8 @@ const MovingHeart3 = styled(BurstHeartBase, {
 
 interface Props extends ButtonProps {
   saved: boolean;
+  saveText: string;
+  savedText: string;
 }
 
 const SaveButtonLabel = styled("span", {
@@ -221,9 +222,8 @@ const StyledSpinner = styled(Spinner, {
   },
 });
 
-export const SaveHeartButton = ({ saved, loading, onClick: onClickProp, ...rest }: Props) => {
+export const SaveHeartButton = ({ saved, loading, onClick: onClickProp, saveText, savedText, ...rest }: Props) => {
   const [triggered, setTriggered] = useState(false);
-  const { t } = useTranslation();
 
   const onClick = (e: MouseEvent<HTMLButtonElement>) => {
     if (loading) return;
@@ -234,8 +234,8 @@ export const SaveHeartButton = ({ saved, loading, onClick: onClickProp, ...rest 
   return (
     <Button onClick={onClick} {...rest}>
       <SaveButtonLabel aria-hidden>
-        <SaveText saved={!!saved && !triggered}>{t("myNdla.resource.save")}</SaveText>
-        <AddedText saved={!!saved && !triggered}>{t("myNdla.resource.added")}</AddedText>
+        <SaveText saved={!!saved && !triggered}>{saveText}</SaveText>
+        <AddedText saved={!!saved && !triggered}>{savedText}</AddedText>
       </SaveButtonLabel>
       <HeartContainer aria-hidden>
         <StyledSpinner visible={!triggered && !!loading} />
