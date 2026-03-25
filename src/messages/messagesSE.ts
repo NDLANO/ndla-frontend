@@ -947,7 +947,7 @@ const messages = {
     coreContentTitle: "Læringsressurser",
     linksTitle: "Jobb tverrfaglig med emnet",
     supplementaryContentTitle: "Tilleggsstoff",
-    learningpathsTitle: "Læringsstier om emnet",
+    learningpathsTitle: "Læringsstier i emnet",
     collapse: "Skjul innhold",
     expand: "Vis innhold",
     showMore: "Vis flere",
