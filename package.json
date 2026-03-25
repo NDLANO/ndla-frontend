@@ -121,7 +121,7 @@
     "esbuild": "^0.27.3",
     "eslint": "^9.39.4",
     "eslint-config-ndla": "^6.0.15-alpha.0",
-    "jsdom": "^28.1.0",
+    "jsdom": "^29.0.1",
     "nock": "^14.0.11",
     "oxfmt": "^0.36.0",
     "postcss": "^8.5.8",
