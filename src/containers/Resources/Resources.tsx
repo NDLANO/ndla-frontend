@@ -13,6 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
+import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
 import { partitionResources } from "./getResourceGroups";
@@ -109,18 +110,8 @@ interface NavSectionProps {
 const StyledOl = styled("ol", {
   base: {
     display: "flex",
-  },
-  variants: {
-    variant: {
-      listItems: {
-        flexDirection: "column",
-        gap: "xxsmall",
-      },
-      cards: {
-        flexWrap: "wrap",
-        gap: "medium",
-      },
-    },
+    flexDirection: "column",
+    gap: "xxsmall",
   },
 });
 
@@ -131,7 +122,11 @@ const NavSection = ({ title, children, variant }: NavSectionProps) => {
       <Heading id={headingId} textStyle="title.large" asChild consumeCss>
         <h2>{title}</h2>
       </Heading>
-      <StyledOl variant={variant}>{children}</StyledOl>
+      {variant === "cards" ? (
+        <TransportationPageNodeListGrid context="case">{children}</TransportationPageNodeListGrid>
+      ) : (
+        <StyledOl>{children}</StyledOl>
+      )}
     </StyledNav>
   );
 };
