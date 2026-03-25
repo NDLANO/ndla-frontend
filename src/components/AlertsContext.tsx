@@ -51,7 +51,7 @@ const AlertsProvider = ({ children }: Props) => {
       const parsed = JSON.parse(closedAlerts);
       if (Array.isArray(parsed) && parsed.every((id) => typeof id === "number")) return parsed;
       return [];
-    } catch (e) {
+    } catch (_) {
       return [];
     }
   }, [closedAlerts]);

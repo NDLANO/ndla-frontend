@@ -210,6 +210,6 @@ export const handleError = async (error: ErrorLike, extraContext: Record<string,
   } else if (!config.isClient) {
     await logServerError(error, extraContext);
   } else {
-    console.error(error); // eslint-disable-line no-console
+    console.error(error); // oxlint-disable-line no-console
   }
 };

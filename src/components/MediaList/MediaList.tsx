@@ -198,7 +198,7 @@ const ItemText = ({ item }: { item: ItemType }) => {
   return (
     <Text textStyle="body.medium">
       {`${item.label}: `}
-      {/* eslint-disable-next-line react/no-unknown-property */}
+      {/* oxlint-disable-next-line react/no-unknown-property */}
       <span property={licenseMap[item.metaType]}>{item.description}</span>
     </Text>
   );
