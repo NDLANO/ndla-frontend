@@ -7,13 +7,17 @@
  */
 
 import { gql } from "@apollo/client";
-import { PageContent } from "@ndla/primitives";
+import { ArrowLeftLine } from "@ndla/icons";
+import { Hero, HeroBackground, PageContent } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { LdJson } from "../../components/LdJson";
 import { PageTitle } from "../../components/PageTitle";
+import { RootPageContent } from "../../components/Resource/ResourceLayout";
 import { RestrictedBlockContextProvider } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
@@ -26,12 +30,39 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface Props {
   article: GQLPlainArticleContainer_ArticleFragment;
+  revision: number | undefined;
   skipToContentId?: string;
 }
 
+const LinksContainer = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xxsmall",
+    backgroundColor: "background.default",
+    boxShadow: " xsmall",
+    padding: "medium",
+    desktopDown: {
+      borderRadius: "xsmall",
+    },
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "flex",
+    gap: "xxsmall",
+    width: "fit-content",
+    textDecoration: "underline",
+    _hover: {
+      textDecoration: "none",
+    },
+  },
+});
+
 const getDocumentTitle = (t: TFunction, title: string) => htmlTitle(title, [t("htmlTitles.titleTemplate")]);
 
-export const PlainArticleContainer = ({ article: propArticle, skipToContentId }: Props) => {
+export const PlainArticleContainer = ({ article: propArticle, revision, skipToContentId }: Props) => {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
@@ -72,9 +103,24 @@ export const PlainArticleContainer = ({ article: propArticle, skipToContentId }:
         trackableContent={article}
       />
       <RestrictedBlockContextProvider value="bleed">
-        <PageContent variant="content" asChild>
-          <Article id={skipToContentId} article={article} />
-        </PageContent>
+        <Hero variant="brand1Subtle">
+          <HeroBackground />
+          <RootPageContent variant="article" asChild consumeCss>
+            <main>
+              {!!revision && (
+                <LinksContainer>
+                  <StyledSafeLink to={`/revisions/${article.id}`}>
+                    <ArrowLeftLine />
+                    {t("revision.backToRevisions")}
+                  </StyledSafeLink>
+                </LinksContainer>
+              )}
+              <PageContent variant="content" asChild>
+                <Article id={skipToContentId} article={article} revision={revision} />
+              </PageContent>
+            </main>
+          </RootPageContent>
+        </Hero>
       </RestrictedBlockContextProvider>
     </>
   );

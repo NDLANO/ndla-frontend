@@ -39,6 +39,9 @@ export type BaseArticle = Pick<
 > & { transformedContent: TransformedContent };
 
 export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "transformedContent"> & {
+  originalCreated?: string;
+  originalPublished?: string;
+  originalUpdated?: string;
   transformedContent: T["transformedContent"] & {
     content: ReactNode;
     introduction: ReactNode;
@@ -63,6 +66,9 @@ export const transformArticle = <T extends BaseArticle>(
     created: formatDate(article.created, locale),
     updated: formatDate(article.updated, locale),
     published: formatDate(article.published, locale),
+    originalCreated: article.created,
+    originalUpdated: article.updated,
+    originalPublished: article.published,
     footNotes,
     requiredLibraries: article.requiredLibraries ?? [],
   };

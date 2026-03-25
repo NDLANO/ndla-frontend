@@ -53,6 +53,7 @@ const messages = {
     learningpathNewPage: `New Learningpath - ${titleTemplate}`,
     collectionPage: `Resources in $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `An error occurred - ${titleTemplate}`,
+    revisionsPage: `Changelog for {{name}} - ${titleTemplate}`,
   },
   podcastPage: {
     meta: "Listen and learn! NDLA offers more than 100 freely available podcasts for engaging use in upper secondary education.",
@@ -964,6 +965,22 @@ const messages = {
     menuTrigger: "View content list",
     closeMenuTrigger: "Close content list",
     contentList: "Content list",
+  },
+  revision: {
+    revisionNo: "Version {{revision}}",
+    backToArticle: "Back to article",
+    backToRevisions: "Back to changelog",
+    viewPreviousRevisions: "View previous versions",
+    currentRevision: "Newest version of the article.",
+    inRevisionWarning:
+      "This article might have several versions. The version you are currently vieweing might contain outdated information, or it could have other errors.",
+    outdatedRevision:
+      "A newer version of this article is available. It is possible that the content in this version does not work, or that it contains outdated information.",
+  },
+  revisionsPage: {
+    changelogFor: "Changelog for the article",
+    currentRevision: "Current version",
+    previousRevisions: "Previous versions",
   },
 };
 

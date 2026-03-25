@@ -94,6 +94,9 @@ const typePolicies: TypePolicies = {
       },
     },
   },
+  Article: {
+    keyFields: (_, opts) => (opts.readField("revision") ? ["id", "revision"] : ["id"]),
+  },
   SearchContext: {
     keyFields: ["contextId"],
   },

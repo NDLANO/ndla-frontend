@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { HTMLProps } from "@ark-ui/react";
-import { Badge } from "@ndla/primitives";
+import { Badge, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
   ArticleByline,
@@ -44,6 +44,7 @@ interface Props extends HTMLProps<"div"> {
   isOembed?: boolean;
   path?: string;
   relevanceId?: string;
+  revision?: number;
   resourceTypes?: { id: string; name: string }[];
 }
 
@@ -62,6 +63,22 @@ const StyledArticleWrapper = styled(ArticleWrapper, {
   },
 });
 
+const StyledMessageBox = styled(MessageBox, {
+  base: {
+    width: "100%",
+    gap: "medium",
+  },
+});
+
+const TextBlock = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "xsmall",
+    textWrap: "nowrap",
+  },
+});
+
 export const Article = ({
   path,
   article,
@@ -73,9 +90,10 @@ export const Article = ({
   isInactive,
   resourceTypes,
   relevanceId,
+  revision,
   ...rest
 }: Props) => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const copyText = useArticleCopyText(article);
   const { pathname } = useLocation();
 
@@ -130,6 +148,15 @@ export const Article = ({
         }
       >
         {!!isInactive && <InactiveMessageBox />}
+        {!!revision && (
+          <StyledMessageBox variant="warning">
+            <TextBlock>
+              <Text fontWeight="bold">{t("revision.revisionNo", { revision })}</Text>
+              {!!article.originalUpdated && <time dateTime={article.originalUpdated}>{article.updated}</time>}
+            </TextBlock>
+            <Text>{t("revision.inRevisionWarning")}</Text>
+          </StyledMessageBox>
+        )}
       </ArticleTitle>
       {restrictedInfo.restricted ? (
         <RestrictedBlock />
@@ -168,6 +195,7 @@ Article.fragments = {
       htmlTitle
       oembed
       traits
+      revision
       transformedContent(transformArgs: $transformArgs) {
         content
         metaData {

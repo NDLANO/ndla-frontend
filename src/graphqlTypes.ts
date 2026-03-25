@@ -2132,6 +2132,7 @@ export type GQLArticle_ArticleFragment = {
   htmlTitle: string;
   oembed?: string;
   traits: Array<string>;
+  revision: number;
   language: string;
   title: string;
   published: string;
@@ -2399,6 +2400,7 @@ type GQLLearningpath_LearningpathStep_LearningpathStep_Fragment = {
       htmlTitle: string;
       oembed?: string;
       traits: Array<string>;
+      revision: number;
       language: string;
       requiredLibraries?: Array<{
         __typename?: "ArticleRequiredLibrary";
@@ -2623,6 +2625,7 @@ type GQLLearningpath_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       htmlTitle: string;
       oembed?: string;
       traits: Array<string>;
+      revision: number;
       language: string;
       requiredLibraries?: Array<{
         __typename?: "ArticleRequiredLibrary";
@@ -2918,6 +2921,7 @@ export type GQLLearningpathEmbed_ArticleFragment = {
   htmlTitle: string;
   oembed?: string;
   traits: Array<string>;
+  revision: number;
   language: string;
   requiredLibraries?: Array<{ __typename?: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
   copyright: {
@@ -3113,6 +3117,7 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
       htmlTitle: string;
       oembed?: string;
       traits: Array<string>;
+      revision: number;
       language: string;
       requiredLibraries?: Array<{
         __typename?: "ArticleRequiredLibrary";
@@ -3330,6 +3335,7 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       htmlTitle: string;
       oembed?: string;
       traits: Array<string>;
+      revision: number;
       language: string;
       requiredLibraries?: Array<{
         __typename?: "ArticleRequiredLibrary";
@@ -3546,6 +3552,7 @@ export type GQLLearningpathStepQuery = {
     htmlIntroduction?: string;
     htmlTitle: string;
     traits: Array<string>;
+    revision: number;
     language: string;
     requiredLibraries?: Array<{ __typename?: "ArticleRequiredLibrary"; name: string; url: string; mediaType: string }>;
     copyright: {
@@ -3778,6 +3785,7 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
       htmlTitle: string;
       oembed?: string;
       traits: Array<string>;
+      revision: number;
       language: string;
       requiredLibraries?: Array<{
         __typename?: "ArticleRequiredLibrary";
@@ -3995,6 +4003,7 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       htmlTitle: string;
       oembed?: string;
       traits: Array<string>;
+      revision: number;
       language: string;
       requiredLibraries?: Array<{
         __typename?: "ArticleRequiredLibrary";
@@ -5377,6 +5386,7 @@ export type GQLArticlePage_NodeFragment = {
     htmlIntroduction?: string;
     htmlTitle: string;
     traits: Array<string>;
+    revision: number;
     language: string;
     copyright: {
       __typename?: "Copyright";
@@ -5675,6 +5685,7 @@ export type GQLFilmFrontPageQuery = {
       htmlTitle: string;
       oembed?: string;
       traits: Array<string>;
+      revision: number;
       language: string;
       title: string;
       published: string;
@@ -5965,6 +5976,7 @@ export type GQLLearningpathPage_NodeFragment = {
           htmlTitle: string;
           oembed?: string;
           traits: Array<string>;
+          revision: number;
           language: string;
           requiredLibraries?: Array<{
             __typename?: "ArticleRequiredLibrary";
@@ -7028,6 +7040,7 @@ export type GQLPreviewLearningpathQuery = {
           htmlTitle: string;
           oembed?: string;
           traits: Array<string>;
+          revision: number;
           language: string;
           requiredLibraries?: Array<{
             __typename?: "ArticleRequiredLibrary";
@@ -7608,6 +7621,7 @@ export type GQLPlainArticleContainer_ArticleFragment = {
   htmlTitle: string;
   oembed?: string;
   traits: Array<string>;
+  revision: number;
   language: string;
   title: string;
   metaDescription: string;
@@ -7778,6 +7792,7 @@ export type GQLPlainArticleContainer_ArticleFragment = {
 
 export type GQLPlainArticlePageQueryVariables = Exact<{
   articleId: Scalars["String"]["input"];
+  revision?: InputMaybe<Scalars["Int"]["input"]>;
   transformArgs?: InputMaybe<GQLTransformedArticleContentInput>;
 }>;
 
@@ -7795,6 +7810,7 @@ export type GQLPlainArticlePageQuery = {
     htmlTitle: string;
     oembed?: string;
     traits: Array<string>;
+    revision: number;
     language: string;
     title: string;
     metaDescription: string;
@@ -8012,6 +8028,7 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
         htmlTitle: string;
         oembed?: string;
         traits: Array<string>;
+        revision: number;
         language: string;
         requiredLibraries?: Array<{
           __typename?: "ArticleRequiredLibrary";
@@ -8261,6 +8278,7 @@ export type GQLPlainLearningpathPageQuery = {
           htmlTitle: string;
           oembed?: string;
           traits: Array<string>;
+          revision: number;
           language: string;
           requiredLibraries?: Array<{
             __typename?: "ArticleRequiredLibrary";
@@ -8997,6 +9015,7 @@ export type GQLResourcePageQuery = {
       grepCodes?: Array<string>;
       htmlIntroduction?: string;
       htmlTitle: string;
+      revision: number;
       language: string;
       metaImage?: {
         __typename?: "ImageMetaInformationV3";
@@ -9232,6 +9251,7 @@ export type GQLResourcePageQuery = {
             htmlTitle: string;
             oembed?: string;
             traits: Array<string>;
+            revision: number;
             language: string;
             requiredLibraries?: Array<{
               __typename?: "ArticleRequiredLibrary";
@@ -9513,6 +9533,20 @@ export type GQLLaunchpadQuery = {
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   };
   resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
+};
+
+export type GQLRevisionsQueryVariables = Exact<{
+  articleId: Scalars["Int"]["input"];
+  articleIdString: Scalars["String"]["input"];
+}>;
+
+export type GQLRevisionsQuery = {
+  __typename?: "Query";
+  revisionHistory?: {
+    __typename?: "ArticleRevisionHistory";
+    revisions: Array<{ __typename?: "Article"; id: number; revision: number; updated: string }>;
+  };
+  article?: { __typename?: "Article"; id: number; title: string; revision: number; updated: string };
 };
 
 export type GQLGrepFilterQueryVariables = Exact<{
@@ -9978,6 +10012,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     grepCodes?: Array<string>;
     htmlIntroduction?: string;
     htmlTitle: string;
+    revision: number;
     title: string;
     published: string;
     metaImage?: {
@@ -10197,6 +10232,7 @@ export type GQLTopicPageQuery = {
       metaDescription: string;
       traits: Array<string>;
       supportedLanguages?: Array<string>;
+      revision: number;
       title: string;
       published: string;
       metaImage?: {
@@ -10665,6 +10701,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
   htmlIntroduction?: string;
   htmlTitle: string;
   traits: Array<string>;
+  revision: number;
   language: string;
   title: string;
   published: string;
@@ -10864,6 +10901,7 @@ export type GQLIframePageQuery = {
     htmlIntroduction?: string;
     htmlTitle: string;
     traits: Array<string>;
+    revision: number;
     language: string;
     title: string;
     published: string;

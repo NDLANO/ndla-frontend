@@ -9,7 +9,7 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
-import { useLocation, useParams } from "react-router";
+import { useLocation, useParams, useSearchParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext } from "../../components/RedirectContext";
@@ -23,8 +23,8 @@ import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedR
 import { PlainArticleContainer, plainArticleContainerFragments } from "./PlainArticleContainer";
 
 const plainArticlePageQuery = gql`
-  query plainArticlePage($articleId: String!, $transformArgs: TransformedArticleContentInput) {
-    article(id: $articleId) {
+  query plainArticlePage($articleId: String!, $revision: Int, $transformArgs: TransformedArticleContentInput) {
+    article(id: $articleId, revision: $revision) {
       ...PlainArticleContainer_Article
     }
   }
@@ -34,13 +34,17 @@ const plainArticlePageQuery = gql`
 export const PlainArticlePage = () => {
   const { articleId } = useParams();
   const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+  const revision = searchParams.get("revision");
   const redirectContext = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
+  const parsedRevision = revision ? Number(revision) : undefined;
   const { loading, data, error } = useQuery<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables>(
     plainArticlePageQuery,
     {
       variables: {
         articleId: articleId ?? "",
+        revision: parsedRevision ? parsedRevision : undefined,
         transformArgs: {
           showVisualElement: "true",
           path: pathname,
@@ -81,7 +85,14 @@ export const PlainArticlePage = () => {
     return <NotFoundPage />;
   }
 
-  return <PlainArticleContainer key={data.article.id} article={data.article} skipToContentId={SKIP_TO_CONTENT_ID} />;
+  return (
+    <PlainArticleContainer
+      key={data.article.id}
+      article={data.article}
+      skipToContentId={SKIP_TO_CONTENT_ID}
+      revision={parsedRevision}
+    />
+  );
 };
 
 export const Component = PlainArticlePage;

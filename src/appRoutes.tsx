@@ -139,6 +139,11 @@ export const routes: RouteObjectWithImportPath[] = [
         lazy: () => import("./containers/ResourceEmbed/H5pPage"),
       },
       {
+        path: "revisions/:articleId",
+        importPath: "src/containers/RevisionsPage/RevisionsPage.tsx",
+        lazy: () => import("./containers/RevisionsPage/RevisionsPage"),
+      },
+      {
         path: "minndla",
         importPath: "src/containers/MyNdla/MyNdlaLayout.tsx",
         lazy: () => import("./containers/MyNdla/MyNdlaLayout"),
