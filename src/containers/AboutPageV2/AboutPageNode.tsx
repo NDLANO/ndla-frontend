@@ -132,7 +132,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
         ...transformedArticle,
         introduction: transformedArticle.introduction ?? "",
       },
-      getArticleScripts(article, i18n.language),
+      getArticleScripts(article),
     ];
   }, [article, i18n.language])!;
 

@@ -19,7 +19,7 @@ import {
   licenseAttributes,
 } from "@ndla/ui";
 import { TFunction } from "i18next";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LdJson } from "../../components/LdJson";
 import { LicenseBox } from "../../components/license/LicenseBox";
@@ -78,19 +78,9 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
         },
         introduction: transformedArticle.introduction ?? "",
       },
-      getArticleScripts(_article, i18n.language),
+      getArticleScripts(_article),
     ];
   }, [_article, i18n.language])!;
-
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typeset === "function") {
-      try {
-        window.MathJax.typeset();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   const licenseProps = licenseAttributes(article.copyright?.license?.license, i18n.language, undefined);
 

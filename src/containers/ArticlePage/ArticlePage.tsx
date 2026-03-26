@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { TFunction } from "i18next";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
@@ -45,19 +45,9 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
         subject: root?.id,
         articleLanguage: resource.article.language,
       }),
-      getArticleScripts(resource.article, i18n.language),
+      getArticleScripts(resource.article),
     ];
   }, [resource, i18n.language, root?.id]);
-
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-      try {
-        window.MathJax.typesetPromise();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   if (!loading && (!resource?.article || !article)) {
     return <NotFoundPage />;

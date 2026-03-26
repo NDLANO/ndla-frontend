@@ -54,7 +54,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
         isOembed: true,
         articleLanguage: propArticle.language,
       }),
-      getArticleScripts(propArticle, locale),
+      getArticleScripts(propArticle),
     ];
   }, [propArticle, locale]);
 

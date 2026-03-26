@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { ReactNode, useEffect, useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import config from "../../../config";
@@ -69,16 +69,6 @@ export const ArticleStep = ({
   const url = !learningpathStep.resource?.url ? data?.node?.url : undefined;
   const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-      try {
-        window.MathJax.typesetPromise();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
-
   const [article, scripts] = useMemo(() => {
     const article = learningpathStep.resource?.article ? learningpathStep.resource.article : data?.article;
     if (!article) return [undefined, undefined];
@@ -88,7 +78,7 @@ export const ArticleStep = ({
         subject: subjectId,
         articleLanguage: article.language,
       }),
-      getArticleScripts(article, i18n.language),
+      getArticleScripts(article),
     ];
   }, [data?.article, i18n.language, learningpathStep.resource, subjectId]);
 

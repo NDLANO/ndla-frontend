@@ -12,7 +12,7 @@ import { Hero, HeroBackground, PageContent } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { LdJson } from "../../components/LdJson";
@@ -64,15 +64,6 @@ const getDocumentTitle = (t: TFunction, title: string) => htmlTitle(title, [t("h
 
 export const PlainArticleContainer = ({ article: propArticle, revision, skipToContentId }: Props) => {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    if (window.MathJax && typeof window.MathJax.typesetPromise === "function") {
-      try {
-        window.MathJax.typesetPromise();
-      } catch (err) {
-        // do nothing
-      }
-    }
-  });
 
   const [article, scripts] = useMemo(() => {
     return [
@@ -80,7 +71,7 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         articleLanguage: propArticle.language,
       }),
-      getArticleScripts(propArticle, i18n.language),
+      getArticleScripts(propArticle),
     ];
   }, [propArticle, i18n.language]);
 

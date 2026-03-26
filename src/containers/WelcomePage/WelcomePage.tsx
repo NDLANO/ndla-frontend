@@ -240,7 +240,7 @@ export const WelcomePage = () => {
           processed: _article.copyright.processed ?? false,
         },
       },
-      getArticleScripts(_article, i18n.language),
+      getArticleScripts(_article),
     ];
   }, [fpQuery.data?.frontpage?.article, i18n.language])!;
 
