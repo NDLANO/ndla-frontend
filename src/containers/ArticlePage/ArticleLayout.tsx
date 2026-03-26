@@ -117,35 +117,35 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
   return (
     <Hero variant="brand1Subtle">
       <HeroBackground />
-      <RootPageContent variant="wide" asChild consumeCss>
-        <main>
-          <ResourceBreadcrumb breadcrumbs={crumbs} loading={isLoading} />
+      <RootPageContent variant="wide">
+        <ResourceBreadcrumb breadcrumbs={crumbs} loading={isLoading} />
+        {!restrictedInfo.restricted && (
+          <MobileLaunchpadMenu>
+            <ArticleLaunchpad
+              context="mobile"
+              topic={topicQuery.data?.node}
+              learningpaths={learningpaths}
+              coreArticles={coreArticles}
+              supplementaryArticles={supplementaryArticles}
+              isUnordered={isUnordered}
+              loading={isLoading}
+            />
+          </MobileLaunchpadMenu>
+        )}
+        <LayoutWrapper>
           {!restrictedInfo.restricted && (
-            <MobileLaunchpadMenu>
-              <ArticleLaunchpad
-                context="mobile"
-                topic={topicQuery.data?.node}
-                learningpaths={learningpaths}
-                coreArticles={coreArticles}
-                supplementaryArticles={supplementaryArticles}
-                isUnordered={isUnordered}
-                loading={isLoading}
-              />
-            </MobileLaunchpadMenu>
+            <ArticleLaunchpad
+              context="desktop"
+              topic={topicQuery.data?.node}
+              loading={isLoading}
+              learningpaths={learningpaths}
+              coreArticles={coreArticles}
+              supplementaryArticles={supplementaryArticles}
+              isUnordered={isUnordered}
+            />
           )}
-          <LayoutWrapper>
-            {!restrictedInfo.restricted && (
-              <ArticleLaunchpad
-                context="desktop"
-                topic={topicQuery.data?.node}
-                loading={isLoading}
-                learningpaths={learningpaths}
-                coreArticles={coreArticles}
-                supplementaryArticles={supplementaryArticles}
-                isUnordered={isUnordered}
-              />
-            )}
-            <ResourceContentContainer>
+          <ResourceContentContainer asChild consumeCss>
+            <main>
               {children}
               <ResourceNavigation
                 parentUrl={topicQuery.data?.node?.url}
@@ -154,9 +154,9 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
                 getUrl={getUrl}
                 getId={getId}
               />
-            </ResourceContentContainer>
-          </LayoutWrapper>
-        </main>
+            </main>
+          </ResourceContentContainer>
+        </LayoutWrapper>
       </RootPageContent>
     </Hero>
   );

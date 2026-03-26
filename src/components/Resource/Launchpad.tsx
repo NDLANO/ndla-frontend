@@ -6,6 +6,7 @@
  *
  */
 
+import { ark } from "@ark-ui/react";
 import { CloseLine, MenuFold, MenuLine } from "@ndla/icons";
 import {
   Button,
@@ -100,50 +101,54 @@ interface LaunchpadProps {
   children: (collapsed: boolean) => ReactNode;
 }
 
-const LaunchpadContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xxlarge",
-    transitionProperty: "all",
-    animationDuration: "fast",
-    _print: {
-      display: "none",
+const LaunchpadContainer = styled(
+  ark.div,
+  {
+    base: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "xxlarge",
+      transitionProperty: "all",
+      animationDuration: "fast",
+      _print: {
+        display: "none",
+      },
     },
-  },
-  variants: {
-    context: {
-      mobile: {},
-      desktop: {
-        background: "background.default",
-        padding: "medium",
-        boxShadow: "xsmall",
-        maxWidth: "surface.small",
-        height: "fit-content",
-        desktopDown: {
-          display: "none",
+    variants: {
+      context: {
+        mobile: {},
+        desktop: {
+          background: "background.default",
+          padding: "medium",
+          boxShadow: "xsmall",
+          maxWidth: "surface.small",
+          height: "fit-content",
+          desktopDown: {
+            display: "none",
+          },
+        },
+      },
+      isLoading: {
+        true: {
+          width: "4xlarge",
+        },
+        false: {},
+      },
+      collapsed: {
+        true: {
+          alignItems: "center",
+        },
+        false: {
+          width: "100%",
         },
       },
     },
-    isLoading: {
-      true: {
-        width: "4xlarge",
-      },
-      false: {},
-    },
-    collapsed: {
-      true: {
-        alignItems: "center",
-      },
-      false: {
-        width: "100%",
-      },
+    defaultVariants: {
+      isLoading: false,
     },
   },
-  defaultVariants: {
-    isLoading: false,
-  },
-});
+  { baseComponent: true },
+);
 
 const StyledIconButton = styled(IconButton, {
   variants: {
@@ -212,6 +217,8 @@ export const Launchpad = ({ type, name, actions, children, loading, context, ari
   const containerId = useId();
   const { t } = useTranslation();
 
+  const Component = context === "mobile" ? "div" : "aside";
+
   if (loading) {
     return (
       <LaunchpadContainer isLoading={loading} collapsed={collapsed} context={context}>
@@ -244,33 +251,35 @@ export const Launchpad = ({ type, name, actions, children, loading, context, ari
   }
 
   return (
-    <LaunchpadContainer id={containerId} context={context} collapsed={collapsed}>
-      <MetaContainer>
-        <HeaderContainer>
-          {!collapsed && <Text color="text.subtle">{type}</Text>}
-          <ActionsContainer>
-            {collapsed ? null : actions}
-            {context === "desktop" && (
-              <StyledIconButton
-                variant="tertiary"
-                onClick={() => setCollapsed((prev) => !prev)}
-                collapsed={collapsed}
-                aria-label={collapsed ? t("launchpad.expand") : t("launchpad.collapse")}
-                title={collapsed ? t("launchpad.expand") : t("launchpad.collapse")}
-                aria-controls={containerId}
-              >
-                <MenuFold />
-              </StyledIconButton>
-            )}
-          </ActionsContainer>
-        </HeaderContainer>
-        {!collapsed && (
-          <StyledHeading textStyle="title.medium" aria-label={ariaLabel} asChild consumeCss>
-            <h2>{name}</h2>
-          </StyledHeading>
-        )}
-      </MetaContainer>
-      {children(collapsed)}
+    <LaunchpadContainer id={containerId} context={context} collapsed={collapsed} asChild consumeCss>
+      <Component>
+        <MetaContainer>
+          <HeaderContainer>
+            {!collapsed && <Text color="text.subtle">{type}</Text>}
+            <ActionsContainer>
+              {collapsed ? null : actions}
+              {context === "desktop" && (
+                <StyledIconButton
+                  variant="tertiary"
+                  onClick={() => setCollapsed((prev) => !prev)}
+                  collapsed={collapsed}
+                  aria-label={collapsed ? t("launchpad.expand") : t("launchpad.collapse")}
+                  title={collapsed ? t("launchpad.expand") : t("launchpad.collapse")}
+                  aria-controls={containerId}
+                >
+                  <MenuFold />
+                </StyledIconButton>
+              )}
+            </ActionsContainer>
+          </HeaderContainer>
+          {!collapsed && (
+            <StyledHeading textStyle="title.medium" aria-label={ariaLabel} asChild consumeCss>
+              <h2>{name}</h2>
+            </StyledHeading>
+          )}
+        </MetaContainer>
+        {children(collapsed)}
+      </Component>
     </LaunchpadContainer>
   );
 };

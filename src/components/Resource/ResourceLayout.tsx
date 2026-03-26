@@ -6,6 +6,7 @@
  *
  */
 
+import { ark } from "@ark-ui/react";
 import { PageContainer, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 
@@ -35,17 +36,21 @@ export const LayoutWrapper = styled("div", {
   },
 });
 
-export const ResourceContentContainer = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xlarge",
-    width: "100%",
-    // without this, wide tables overflow within articles
-    minWidth: "0",
-    flex: "1",
+export const ResourceContentContainer = styled(
+  ark.div,
+  {
+    base: {
+      display: "flex",
+      flexDirection: "column",
+      gap: "xlarge",
+      width: "100%",
+      // without this, wide tables overflow within articles
+      minWidth: "0",
+      flex: "1",
+    },
   },
-});
+  { baseComponent: true },
+);
 
 export const ResourceContent = styled(PageContent, {
   base: {

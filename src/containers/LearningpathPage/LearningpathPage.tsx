@@ -17,7 +17,7 @@ import { LearningpathMenu } from "../../components/Learningpath/LearningpathMenu
 import { PageTitle } from "../../components/PageTitle";
 import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb";
-import { LayoutWrapper, RootPageContent } from "../../components/Resource/ResourceLayout";
+import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import {
   GQLLearningpath,
@@ -74,37 +74,39 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
       />
       <Hero variant="brand3Moderate">
         <HeroBackground />
-        <RootPageContent variant="wide" asChild consumeCss>
-          <main>
-            {!!breadcrumbs.length && <ResourceBreadcrumb breadcrumbs={breadcrumbs} loading={loading} />}
-            <MobileLaunchpadMenu>
-              <LearningpathMenu
-                resourcePath={node.url}
-                learningpath={learningpath}
-                currentIndex={index}
-                hasIntroduction={!!learningpath?.introduction?.length}
-                displayContext="mobile"
-                loading={loading}
-              />
-            </MobileLaunchpadMenu>
-            <LayoutWrapper>
-              <LearningpathMenu
-                resourcePath={node.url}
-                learningpath={learningpath}
-                currentIndex={index}
-                hasIntroduction={!!learningpath?.introduction?.length}
-                displayContext="desktop"
-                loading={loading}
-              />
-              <LearningpathContent
-                learningpath={learningpath}
-                learningpathStep={learningpathStep}
-                resource={node}
-                skipToContentId={skipToContentId}
-                loading={loading}
-              />
-            </LayoutWrapper>
-          </main>
+        <RootPageContent variant="wide">
+          {!!breadcrumbs.length && <ResourceBreadcrumb breadcrumbs={breadcrumbs} loading={loading} />}
+          <MobileLaunchpadMenu>
+            <LearningpathMenu
+              resourcePath={node.url}
+              learningpath={learningpath}
+              currentIndex={index}
+              hasIntroduction={!!learningpath?.introduction?.length}
+              displayContext="mobile"
+              loading={loading}
+            />
+          </MobileLaunchpadMenu>
+          <LayoutWrapper>
+            <LearningpathMenu
+              resourcePath={node.url}
+              learningpath={learningpath}
+              currentIndex={index}
+              hasIntroduction={!!learningpath?.introduction?.length}
+              displayContext="desktop"
+              loading={loading}
+            />
+            <ResourceContentContainer asChild consumeCss>
+              <main>
+                <LearningpathContent
+                  learningpath={learningpath}
+                  learningpathStep={learningpathStep}
+                  resource={node}
+                  skipToContentId={skipToContentId}
+                  loading={loading}
+                />
+              </main>
+            </ResourceContentContainer>
+          </LayoutWrapper>
         </RootPageContent>
       </Hero>
     </>
