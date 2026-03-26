@@ -31,6 +31,8 @@ import {
   GQLAddMyNdlaResourceMutationVariables,
   GQLMoveFolderMutation,
   GQLMoveFolderMutationVariables,
+  GQLMoveMyNdlaResourceMutation,
+  GQLMoveMyNdlaResourceMutationVariables,
 } from "../../graphqlTypes";
 import { folderFragment, myNdlaResourceFragment, foldersPageQueryFragment } from "./folderFragments";
 import { recentlyUsedQuery } from "./folderQueries";
@@ -315,6 +317,16 @@ export const useDeleteMyNdlaResourceMutation = (folderId: string | undefined) =>
       },
     },
   );
+};
+
+const moveMyNdlaResourceMutation = gql`
+  mutation moveMyNdlaResource($id: String!, $fromFolderId: StringOrNull, $toFolderId: StringOrNull) {
+    moveMyNdlaResource(id: $id, fromFolderId: $fromFolderId, toFolderId: $toFolderId)
+  }
+`;
+
+export const useMoveMyNdlaResourceMutation = () => {
+  return useMutation<GQLMoveMyNdlaResourceMutation, GQLMoveMyNdlaResourceMutationVariables>(moveMyNdlaResourceMutation);
 };
 
 const favoriteSharedFolderMutation = gql`
