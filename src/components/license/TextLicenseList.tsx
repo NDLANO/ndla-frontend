@@ -7,10 +7,14 @@
  */
 
 import { gql } from "@apollo/client";
+import { ExternalLinkLine } from "@ndla/icons";
 import { metaTypes } from "@ndla/licenses";
 import { Button } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
+import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
+import { toRevisions } from "../../routeHelpers";
 import {
   MediaList,
   MediaListItem,
@@ -27,8 +31,23 @@ import { getGroupedContributorDescriptionList } from "./licenseHelpers";
 
 interface TextLicenseInfoProps {
   text: TextItem;
+  articleId: number;
 }
-const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    display: "flex",
+    gap: "xxsmall",
+    color: "text.link",
+    textDecoration: "underline",
+    width: "fit-content",
+    _hover: {
+      textDecoration: "none",
+    },
+  },
+});
+
+const TextLicenseInfo = ({ text, articleId }: TextLicenseInfoProps) => {
   const { t, i18n } = useTranslation();
 
   const items: ItemType[] = getGroupedContributorDescriptionList(text.copyright, t);
@@ -81,6 +100,12 @@ const TextLicenseInfo = ({ text }: TextLicenseInfoProps) => {
         <MediaListItemActions>
           <MediaListContent>
             <MediaListItemMeta items={items} />
+            {!!articleId && (
+              <StyledSafeLink to={toRevisions(articleId)} target="_blank" rel="noopener noreferrer">
+                {t("revision.viewPreviousRevisions")}
+                <ExternalLinkLine />
+              </StyledSafeLink>
+            )}
             <CopyBlock stringToCopy={text.copyText} license={text.copyright.license.license} />
           </MediaListContent>
         </MediaListItemActions>
@@ -98,13 +123,14 @@ export interface TextItem {
 
 interface Props {
   texts: TextItem[];
+  articleId: number;
 }
 
-export const TextLicenseList = ({ texts }: Props) => {
+export const TextLicenseList = ({ texts, articleId }: Props) => {
   return (
     <MediaList>
       {texts.map((text, index) => (
-        <TextLicenseInfo text={text} key={index} />
+        <TextLicenseInfo text={text} key={index} articleId={articleId} />
       ))}
     </MediaList>
   );

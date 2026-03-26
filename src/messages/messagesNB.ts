@@ -53,6 +53,7 @@ const messages = {
     learningpathNewPage: `Ny Læringssti - ${titleTemplate}`,
     collectionPage: `Ressurser på $t(languages.{{language}}) - ${titleTemplate}`,
     errorPage: `En feil har oppstått - ${titleTemplate}`,
+    revisionsPage: `Endringslogg for {{name}} - ${titleTemplate}`,
   },
   podcastPage: {
     meta: "Lytt og lær! NDLA har mer enn 100 fritt tilgjengelige podkaster for engasjerende bruk i videregående opplæring.",
@@ -962,6 +963,22 @@ const messages = {
     menuTrigger: "Se innholdsliste",
     closeMenuTrigger: "Lukk innholdsliste",
     contentList: "Innholdsliste",
+  },
+  revision: {
+    revisionNo: "Versjon {{revision}}",
+    backToArticle: "Tilbake til artikkel",
+    backToRevisions: "Tilbake til endringslogg",
+    viewPreviousRevisions: "Se tidligere versjoner",
+    currentRevision: "Nyeste versjon av artikkelen.",
+    inRevisionWarning:
+      "Det kan finnes flere versjoner av denne artikkelen. Versjonen du ser på, kan inneholde utdatert informasjon eller ha andre feil.",
+    outdatedRevision:
+      "Det finnes en nyere versjon av denne artikkelen. Det kan hende innhold ikke virker eller at informasjonen er utdatert.",
+  },
+  revisionsPage: {
+    changelogFor: "Endringslogg for artikkelen",
+    currentRevision: "Nåværende versjon",
+    previousRevisions: "Tidligere versjoner",
   },
 };
 

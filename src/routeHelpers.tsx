@@ -48,6 +48,14 @@ export function toLearningPath(pathId?: string | number, stepId?: string | numbe
   return LEARNINGPATHS;
 }
 
+export const toRevision = (articleId: number | string, revision: number | string) => {
+  return `/article/${articleId}?revision=${revision}`;
+};
+
+export const toRevisions = (articleId: number | string) => {
+  return `/revisions/${articleId}`;
+};
+
 export const toAbout = (slug = "") => `${ABOUT_PATH}/${slug}`;
 
 export function toBreadcrumbItems(
