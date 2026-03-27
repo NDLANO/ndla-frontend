@@ -84,7 +84,7 @@ const BurstHeartBase = styled(HeartFill, {
     transitionProperty: "transform",
     transitionTimingFunction: "ease-out",
     transitionDuration: "0ms",
-    transform: "translate(0, 0) scale(0.7) rotate(0deg)",
+    transform: "translate(0, 0) scale(1.0) rotate(0deg)",
     _motionReduce: {
       animation: "none",
       transitionDuration: "0ms",
@@ -107,7 +107,7 @@ const MovingHeart1 = styled(BurstHeartBase, {
   variants: {
     triggered: {
       true: {
-        transform: "translate(-22px, -44px) scale(0.95) rotate(-20deg)",
+        transform: "translate(-30px, -62px) scale(2) rotate(-20deg)",
         animationDuration: "220ms",
         animationDelay: "150ms",
         transitionDuration: "760ms",
@@ -120,7 +120,7 @@ const MovingHeart2 = styled(BurstHeartBase, {
   variants: {
     triggered: {
       true: {
-        transform: "translate(30px, -46px) scale(0.9) rotate(26deg)",
+        transform: "translate(42px, -64px) scale(1.9) rotate(26deg)",
         animationDuration: "240ms",
         transitionDuration: "860ms",
         animationDelay: "180ms",
@@ -133,7 +133,7 @@ const MovingHeart3 = styled(BurstHeartBase, {
   variants: {
     triggered: {
       true: {
-        transform: "translate(6px, -58px) scale(0.85) rotate(6deg)",
+        transform: "translate(8px, -80px) scale(1.85) rotate(6deg)",
         animationDuration: "260ms",
         transitionDuration: "980ms",
         animationDelay: "220ms",
