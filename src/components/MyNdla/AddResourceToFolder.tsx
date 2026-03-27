@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useApolloClient, useQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
 import { MessageBox, Button, Text, DialogFooter } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -95,6 +95,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
   const { t } = useTranslation();
   const [saved, setSaved] = useState(false);
   const { examLock } = useContext(AuthContext);
+  const client = useApolloClient();
   const structureQuery = useQuery<GQLAddResourceToFolderStructureQuery, GQLAddResourceToFolderStructureQueryVariables>(
     structureQueryDef,
     { variables: { path: resource.path } },
@@ -128,56 +129,55 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
         path: resource.path,
         folderId: selectedFolder?.id,
       },
-      update: (cache, { data }, opts) => {
-        if (!data?.addMyNdlaResource) return;
-        if (opts.variables?.folderId) {
-          cache.modify({
-            id: cache.identify({
-              __ref: `Folder:${opts.variables.folderId}`,
-            }),
-            fields: {
-              resources(existingResources = []) {
-                return existingResources.concat({
-                  __ref: cache.identify(data.addMyNdlaResource),
-                });
-              },
-            },
-          });
-        } else {
-          cache.modify({
-            fields: {
-              myNdlaRootResources(existingResources = []) {
-                return existingResources.concat({ __ref: cache.identify(data.addMyNdlaResource) });
-              },
-            },
-          });
-        }
-        const newResourceConnection: GQLMyNdlaResourceConnection = {
-          folderId: opts.variables?.folderId,
-          resourceId: data.addMyNdlaResource.id,
-        };
-        cache.writeQuery({
-          query: structureQueryDef,
-          variables: { path: resource.path },
-          data: {
-            ...structureQuery.data,
-            myNdlaResourceConnections: structureQuery.data?.myNdlaResourceConnections.concat(newResourceConnection),
-          },
-        });
-      },
     });
-    if (!res.error) {
-      setSaved(true);
-      setTimeout(() => {
-        toast.create({
-          title: t("myNdla.resource.added"),
-          description: <ResourceAddedSnack folder={selectedFolder} />,
-        });
-        onClose();
-      }, 1500);
-    } else {
+    setSaved(true);
+    const data = res.data;
+    if (res.error || !data) {
       toast.create({ title: t("myNdla.resource.addedFailed") });
     }
+    setTimeout(() => {
+      const data = res.data;
+      if (!data?.addMyNdlaResource) return;
+      if (selectedFolder?.id) {
+        client.cache.modify({
+          id: client.cache.identify({
+            __ref: `Folder:${selectedFolder.id}`,
+          }),
+          fields: {
+            resources(existingResources = []) {
+              return existingResources.concat({
+                __ref: client.cache.identify(data.addMyNdlaResource),
+              });
+            },
+          },
+        });
+      } else {
+        client.cache.modify({
+          fields: {
+            myNdlaRootResources(existingResources = []) {
+              return existingResources.concat({ __ref: client.cache.identify(data.addMyNdlaResource) });
+            },
+          },
+        });
+      }
+      const newResourceConnection: GQLMyNdlaResourceConnection = {
+        folderId: selectedFolder?.id,
+        resourceId: data.addMyNdlaResource.id,
+      };
+      client.cache.writeQuery({
+        query: structureQueryDef,
+        variables: { path: resource.path },
+        data: {
+          ...structureQuery.data,
+          myNdlaResourceConnections: structureQuery.data?.myNdlaResourceConnections.concat(newResourceConnection),
+        },
+      });
+      toast.create({
+        title: t("myNdla.resource.added"),
+        description: <ResourceAddedSnack folder={selectedFolder} />,
+      });
+      onClose();
+    }, 1500);
   };
 
   return (
