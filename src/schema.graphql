@@ -788,6 +788,7 @@ type Mutation {
   deletePersonalData: Boolean!
   favoriteSharedFolder(folderId: String!): String!
   moveFolder(id: String!, parentId: StringOrNull): Folder!
+  moveMyNdlaResource(fromFolderId: StringOrNull, id: String!, toFolderId: StringOrNull): Boolean
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
   newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!

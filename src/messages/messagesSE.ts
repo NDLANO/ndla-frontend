@@ -168,6 +168,10 @@ const messages = {
       updateTags: "Endre emneknagger",
       show: "Vis",
       save: "Lagre ressurs",
+      move: "Flytt",
+      moveResourceFailed: "Klarte ikke å flytte ressursen",
+      movedResource: "Flyttet ressursen",
+      moveResourceTitle: "Flytt ressurs",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Læringsstier støttes ikke",

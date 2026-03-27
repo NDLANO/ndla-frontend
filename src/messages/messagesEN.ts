@@ -167,6 +167,10 @@ const messages = {
       updateTags: "Update tags",
       show: "Show",
       save: "Save resource",
+      move: "Move",
+      moveResourceFailed: "Failed to move resource",
+      movedResource: "Moved resource",
+      moveResourceTitle: "Move resource",
     },
     sharedFolder: {
       learningpathUnsupportedTitle: "Learning paths are not supported",

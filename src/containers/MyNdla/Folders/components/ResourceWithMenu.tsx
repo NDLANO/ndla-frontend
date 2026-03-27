@@ -20,6 +20,7 @@ import { GQLFolder, GQLMyNdlaResource, GQLMyNdlaResourceMetaFragment } from "../
 import { useDeleteMyNdlaResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
 import { resourceId, RESOURCES_HEADING_ID } from "../util";
+import { MoveResourceDialogContent } from "./MoveResourceDialogContent";
 
 interface Props {
   resource: GQLMyNdlaResource;
@@ -74,6 +75,20 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
               resourceType: resource.resourceType,
               path: resource.path,
             }}
+          />
+        ),
+      },
+      {
+        type: "dialog",
+        value: "moveResource",
+        text: t("myNdla.resource.move"),
+        modalContent: (close) => (
+          <MoveResourceDialogContent
+            close={close}
+            resource={resource}
+            currentFolder={selectedFolder}
+            ref={ref}
+            fallbackFocusId={RESOURCES_HEADING_ID}
           />
         ),
       },
