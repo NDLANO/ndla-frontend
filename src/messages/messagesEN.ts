@@ -153,6 +153,7 @@ const messages = {
       remove: "Remove from folder",
       removeTitle: "Remove resource",
       confirmRemove: "Are you sure you want to remove the resource from this folder?",
+      copy: "Copy",
       copyLink: "Copy link",
       linkCopied: "Copied to clipboard",
       addToMyNdla: "Add to My NDLA",

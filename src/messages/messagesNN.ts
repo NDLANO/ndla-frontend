@@ -153,6 +153,7 @@ const messages = {
       remove: "Fjern frå mappe",
       removeTitle: "Fjern ressurs",
       confirmRemove: "Er du sikker på at du ønsker å fjerne ressursen frå denne mappa?",
+      copy: "Kopier",
       copyLink: "Kopier lenke",
       linkCopied: "Kopiert til utklippstavla",
       addToMyNdla: "Legg i Min NDLA",

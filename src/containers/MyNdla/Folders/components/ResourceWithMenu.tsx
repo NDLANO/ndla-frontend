@@ -6,7 +6,7 @@
  *
  */
 
-import { DeleteBinLine, FolderLine, LinkMedium } from "@ndla/icons";
+import { DeleteBinLine, FileCopyLine, LinkMedium } from "@ndla/icons";
 import { useCallback, useContext, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -63,9 +63,9 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
     return [
       {
         type: "dialog",
-        value: "addResource",
-        icon: <FolderLine />,
-        text: t("myNdla.resource.add"),
+        value: "copyResource",
+        icon: <FileCopyLine />,
+        text: t("myNdla.resource.copy"),
         modalContent: (close) => (
           <AddResourceToFolderModalContent
             close={close}
