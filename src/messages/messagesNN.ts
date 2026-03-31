@@ -705,7 +705,7 @@ const messages = {
   },
   subjectPage: {
     topicsTitle: "Emne i {{topic}}",
-    multidisciplinaryLinksHeader: "Jobb tverrfagleg med faget",
+    multidisciplinaryLinksHeader: "Jobb med dei tverrfaglege temaa",
   },
   toolboxPage: {
     introduction:
@@ -952,7 +952,7 @@ const messages = {
     articleLabel: "Læringsressursar for {{topic}}",
     learningpathLabel: "Læringssteg for {{learningpath}}",
     coreContentTitle: "Læringsressursar",
-    linksTitle: "Jobb tverrfagleg med emnet",
+    linksTitle: "Jobb med dei tverrfaglege temaa",
     supplementaryContentTitle: "Tilleggsstoff",
     learningpathsTitle: "Læringsstiar i emnet",
     collapse: "Skjul innhald",
