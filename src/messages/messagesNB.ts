@@ -702,7 +702,7 @@ const messages = {
   },
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",
-    multidisciplinaryLinksHeader: "Jobb tverrfaglig med faget",
+    multidisciplinaryLinksHeader: "Jobb med de tverrfaglige temaene",
   },
   aboutPage: {
     menuItems: "Undersider",
@@ -953,7 +953,7 @@ const messages = {
     articleLabel: "Læringsressurser for {{topic}}",
     learningpathLabel: "Læringssteg for {{learningpath}}",
     coreContentTitle: "Læringsressurser",
-    linksTitle: "Jobb tverrfaglig med emnet",
+    linksTitle: "Jobb med de tverrfaglige temaene",
     supplementaryContentTitle: "Tilleggsstoff",
     learningpathsTitle: "Læringsstier i emnet",
     collapse: "Skjul innhold",

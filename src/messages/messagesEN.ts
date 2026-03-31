@@ -118,7 +118,7 @@ const messages = {
       heading: "Show pages with",
     },
     grepFilter: {
-      heading: "Filter by competence goals",
+      heading: "Filter by Competence aims",
       removeFilter: "Remove {{code}}",
     },
     resourceTypeFilter: {
@@ -813,12 +813,12 @@ const messages = {
     licenseFrom: "published at",
     competenceGoalResourceSearchText: "View resources for {{code}}",
     coreResourceSearchText: "View resources to core element {{code}}",
-    competenceTabLK20label: "Competence goal",
+    competenceTabLK20label: "Competence aims",
     competenceTabCorelabel: "Core element",
     modalText: "Explore curriculum links",
-    showCompetenceGoals: "Show competence goals",
+    showCompetenceGoals: "Show Competence aims",
     competenceGoalItem: {
-      title: "Competence goals and assessment",
+      title: "Competence aims and assessment",
     },
   },
   subjectFrontPage: {
