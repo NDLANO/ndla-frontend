@@ -118,7 +118,7 @@ const messages = {
       heading: "Show pages with",
     },
     grepFilter: {
-      heading: "Filter by Competence aims",
+      heading: "Filter by competence aims",
       removeFilter: "Remove {{code}}",
     },
     resourceTypeFilter: {
