@@ -21,7 +21,7 @@ interface ExtendedTestOptions {
  */
 export const test = Ptest.extend<ExtendedTestOptions>({
   harCheckpoint: [
-    async ({ context, page }, use) => {
+    async ({ context, page }, call) => {
       let checkpointIndex = 0;
 
       // Appending the checkpoint index to the request headers
@@ -41,21 +41,21 @@ export const test = Ptest.extend<ExtendedTestOptions>({
       await page.setExtraHTTPHeaders(createCheckpoint(checkpointIndex));
 
       // Appending the new checkpoint index to the request headers
-      await use(async () => {
+      await call(async () => {
         checkpointIndex += 1;
         await page.setExtraHTTPHeaders(createCheckpoint(checkpointIndex));
       });
     },
     { auto: true, scope: "test" },
   ],
-  waitGraphql: async ({ page }, use) => {
-    await use(async () => {
+  waitGraphql: async ({ page }, call) => {
+    await call(async () => {
       if (process.env.RECORD_FIXTURES === "true") {
         await page.waitForResponse("**/graphql-api/graphql");
       }
     });
   },
-  page: async ({ page }, use, testInfo) => {
+  page: async ({ page }, call, testInfo) => {
     // Creating the API mocking for the wanted API's
     const mockdataFilename = getMockdataFilename(testInfo);
     await page.routeFromHAR(mockdataFilename, {
@@ -65,12 +65,12 @@ export const test = Ptest.extend<ExtendedTestOptions>({
       updateContent: "embed",
     });
 
-    await use(page);
+    await call(page);
 
     await page.close();
   },
-  context: async ({ context }, use, testInfo) => {
-    await use(context);
+  context: async ({ context }, call, testInfo) => {
+    await call(context);
     await context.close();
 
     // Removing sensitive data from the HAR file after saving. Har files are saved on close.

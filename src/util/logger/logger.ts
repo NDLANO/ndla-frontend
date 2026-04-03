@@ -93,7 +93,7 @@ class NDLALogger {
     if (!config.isClient && winstonLogger) {
       winstonLogger[level](msg);
     } else {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console[level](msg, ...meta);
     }
   }

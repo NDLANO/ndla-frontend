@@ -107,7 +107,7 @@ export const EditLearningpathStepsPageContent = ({ learningpath }: Props) => {
           onError();
         }
       }
-    } catch (err) {
+    } catch (_) {
       onError();
     }
   };
