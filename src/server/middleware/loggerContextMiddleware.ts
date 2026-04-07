@@ -7,7 +7,6 @@
  */
 
 import { AsyncLocalStorage } from "node:async_hooks";
-import { uuid } from "@ndla/util";
 import { NextFunction, Request, Response } from "express";
 import { LoggerContext } from "../../util/logger/loggerContext";
 
@@ -23,7 +22,7 @@ export const withCtx = <T>(ctx: LoggerContext, f: () => T): T => {
 
 export const loggerContextMiddleware = (req: Request, _res: Response, next: NextFunction): void => {
   const fromReq = getAsString(req.headers["x-correlation-id"]);
-  const correlationID = fromReq ? fromReq : uuid();
+  const correlationID = fromReq ? fromReq : crypto.randomUUID();
 
   const ctx: LoggerContext = {
     correlationID,
