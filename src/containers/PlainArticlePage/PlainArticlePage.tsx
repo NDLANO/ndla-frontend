@@ -81,7 +81,7 @@ export const PlainArticlePage = () => {
     return <DefaultErrorMessagePage />;
   }
 
-  if (!data.article) {
+  if (!data.article || parsedRevision === 0 || (revision && !parsedRevision)) {
     return <NotFoundPage />;
   }
 
