@@ -26,8 +26,6 @@ import { useSiteTheme } from "../../../components/SiteThemeContext";
 import config from "../../../config";
 import { UKR_PAGE_URL } from "../../../constants";
 
-// TODO: Add new translations for the footer.
-
 export const FooterBlock = styled("footer", {
   base: {
     position: "relative",
