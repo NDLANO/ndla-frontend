@@ -13,6 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
@@ -32,6 +33,7 @@ const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
 interface GradesData {
   id: string;
   name: string;
+  slug: string;
   missingProgrammeSubjects: boolean;
   categories?: {
     name: string;
@@ -45,8 +47,11 @@ interface GradesData {
 interface Props {
   locale: LocaleType;
   programme: GQLProgrammeContainer_ProgrammeFragment;
-  grade: string;
 }
+
+export const sanitizeGrade = (grade: string) => {
+  return encodeURIComponent(grade.replace("/", "").trim().toLowerCase());
+};
 
 const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]): GradesData[] => {
   if (!grades) return [];
@@ -69,6 +74,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
     return {
       id: grade.id,
       name: grade.title.title,
+      slug: sanitizeGrade(grade.title.title),
       missingProgrammeSubjects: !foundProgrammeSubject,
       categories,
     };
@@ -134,25 +140,17 @@ const StyledImage = styled(Image, {
   },
 });
 
-export const sanitizeGrade = (grade: string) => {
-  return encodeURIComponent(grade.replace("/", "").trim().toLowerCase());
-};
-
-export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
+export const ProgrammeContainer = ({ programme }: Props) => {
   const { t } = useTranslation();
+  const { grade: gradeParam = "" } = useParams();
   const heading = programme.title.title;
   const grades = mapGradesData(programme.grades || []);
-  const socialMediaTitle = `${programme.title.title} - ${gradeProp}`;
+  const socialMediaTitle = `${programme.title.title} - ${gradeParam}`;
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || "";
-  const pageTitle = getDocumentTitle(programme.title.title, gradeProp, t);
+  const pageTitle = getDocumentTitle(programme.title.title, gradeParam, t);
 
-  const selectedGrade = sanitizeGrade(gradeProp);
-
-  const grade = useMemo(
-    () => grades?.find((grade) => sanitizeGrade(grade.name) === selectedGrade) ?? grades?.[0],
-    [grades, selectedGrade],
-  );
+  const grade = useMemo(() => grades?.find((grade) => grade.slug === gradeParam) ?? grades?.[0], [grades, gradeParam]);
 
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
@@ -172,9 +170,9 @@ export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
                 {grades?.map((item) => (
                   <li key={item.id}>
                     <StyledNavigationSafeLinkButton
-                      to={toProgramme(programme.url, sanitizeGrade(item.name))}
+                      to={toProgramme(programme.url, item.slug)}
                       variant="secondary"
-                      aria-current={sanitizeGrade(item.name) === selectedGrade ? "page" : undefined}
+                      aria-current={item.slug === gradeParam ? "page" : undefined}
                     >
                       {item.name}
                     </StyledNavigationSafeLinkButton>

@@ -17,7 +17,7 @@ import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import { ProgrammeContainer, sanitizeGrade } from "./ProgrammeContainer";
+import { ProgrammeContainer } from "./ProgrammeContainer";
 
 const programmePageQuery = gql`
   query programmePage($contextId: String) {
@@ -37,7 +37,7 @@ const programmePageQuery = gql`
 export const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const location = useLocation();
-  const { programme, contextId, grade } = useParams();
+  const { programme, contextId } = useParams();
 
   const { loading, data, error } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
     variables: { contextId: contextId },
@@ -70,12 +70,7 @@ export const ProgrammePage = () => {
     return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
 
-  const selectedGrade =
-    data.programme.grades?.find((g) => sanitizeGrade(g.title.title) === grade) ?? data.programme.grades?.[0];
-
-  return (
-    <ProgrammeContainer programme={data.programme} grade={selectedGrade?.title.title || ""} locale={i18n.language} />
-  );
+  return <ProgrammeContainer programme={data.programme} locale={i18n.language} />;
 };
 
 export const Component = ProgrammePage;
