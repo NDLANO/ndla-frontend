@@ -182,6 +182,25 @@ export const ArticleLaunchpad = ({
                 </StyledList>
               </NavSection>
             )}
+            {!!supplementaryArticles.length && !collapsed && (
+              <StepperRoot asChild>
+                <NavSection title={t("launchpad.supplementaryContentTitle")}>
+                  <StyledStepperList>
+                    {supplementaryArticles.map((article, idx) => (
+                      <ArticleStepperListItem
+                        key={article.id}
+                        article={article}
+                        index={idx}
+                        completed={completed.includes(article.context?.contextId ?? "")}
+                        current={article.context?.contextId === contextId}
+                        isUnordered
+                        collapsed={collapsed}
+                      />
+                    ))}
+                  </StyledStepperList>
+                </NavSection>
+              </StepperRoot>
+            )}
             {!!topic.links?.length && !collapsed && (
               <StepperRoot asChild>
                 <NavSection title={t("launchpad.linksTitle")}>
@@ -197,25 +216,6 @@ export const ArticleLaunchpad = ({
                           </Text>
                         </StepperItemContent>
                       </StyledStepperListItem>
-                    ))}
-                  </StyledStepperList>
-                </NavSection>
-              </StepperRoot>
-            )}
-            {!!supplementaryArticles.length && !collapsed && (
-              <StepperRoot asChild>
-                <NavSection title={t("launchpad.supplementaryContentTitle")}>
-                  <StyledStepperList>
-                    {supplementaryArticles.map((article, idx) => (
-                      <ArticleStepperListItem
-                        key={article.id}
-                        article={article}
-                        index={idx}
-                        completed={completed.includes(article.context?.contextId ?? "")}
-                        current={article.context?.contextId === contextId}
-                        isUnordered
-                        collapsed={collapsed}
-                      />
                     ))}
                   </StyledStepperList>
                 </NavSection>
