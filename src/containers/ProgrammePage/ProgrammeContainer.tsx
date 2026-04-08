@@ -134,6 +134,10 @@ const StyledImage = styled(Image, {
   },
 });
 
+const sanitizeGrade = (grade: string) => {
+  return encodeURI(grade.replace("/", "").trim().toLowerCase());
+};
+
 export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const { t } = useTranslation();
   const heading = programme.title.title;
@@ -143,10 +147,10 @@ export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
   const image = programme.desktopImage?.url || "";
   const pageTitle = getDocumentTitle(programme.title.title, gradeProp, t);
 
-  const selectedGrade = gradeProp.toLowerCase();
+  const selectedGrade = sanitizeGrade(gradeProp);
 
   const grade = useMemo(
-    () => grades?.find((grade) => grade.name.toLowerCase() === selectedGrade) ?? grades?.[0],
+    () => grades?.find((grade) => sanitizeGrade(grade.name) === selectedGrade) ?? grades?.[0],
     [grades, selectedGrade],
   );
 
@@ -168,9 +172,9 @@ export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
                 {grades?.map((item) => (
                   <li key={item.id}>
                     <StyledNavigationSafeLinkButton
-                      to={toProgramme(programme.url, item.name.toLowerCase())}
+                      to={toProgramme(programme.url, sanitizeGrade(item.name))}
                       variant="secondary"
-                      aria-current={item.name.toLowerCase() === selectedGrade ? "page" : undefined}
+                      aria-current={sanitizeGrade(item.name) === selectedGrade ? "page" : undefined}
                     >
                       {item.name}
                     </StyledNavigationSafeLinkButton>
