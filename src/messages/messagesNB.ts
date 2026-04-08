@@ -974,14 +974,14 @@ const messages = {
     backToArticle: "Tilbake til artikkel",
     backToRevisions: "Tilbake til endringslogg",
     viewPreviousRevisions: "Se tidligere versjoner",
-    currentRevision: "Nyeste versjon av artikkelen.",
+    currentRevision: "Nyeste versjon av læringsressursen.",
     inRevisionWarning:
-      "Det kan finnes flere versjoner av denne artikkelen. Versjonen du ser på, kan inneholde utdatert informasjon eller ha andre feil.",
+      "Det kan finnes flere versjoner av denne læringsressursen. Versjonen du ser på, kan inneholde utdatert informasjon eller ha andre feil.",
     outdatedRevision:
-      "Det finnes en nyere versjon av denne artikkelen. Det kan hende innhold ikke virker eller at informasjonen er utdatert.",
+      "Det finnes en nyere versjon av denne læringsressursen. Det kan hende innhold ikke virker eller at informasjonen er utdatert.",
   },
   revisionsPage: {
-    changelogFor: "Endringslogg for artikkelen",
+    changelogFor: "Endringslogg for læringsressursen",
     currentRevision: "Nåværende versjon",
     previousRevisions: "Tidligere versjoner",
   },

@@ -976,14 +976,14 @@ const messages = {
     backToArticle: "Back to article",
     backToRevisions: "Back to changelog",
     viewPreviousRevisions: "View previous versions",
-    currentRevision: "Newest version of the article.",
+    currentRevision: "Newest version of the learning resource.",
     inRevisionWarning:
-      "This article might have several versions. The version you are currently vieweing might contain outdated information, or it could have other errors.",
+      "This learning resource might have several versions. The version you are currently vieweing might contain outdated information, or it could have other errors.",
     outdatedRevision:
-      "A newer version of this article is available. It is possible that the content in this version does not work, or that it contains outdated information.",
+      "A newer version of this learning resource is available. It is possible that the content in this version does not work, or that it contains outdated information.",
   },
   revisionsPage: {
-    changelogFor: "Changelog for the article",
+    changelogFor: "Changelog for the learning resource",
     currentRevision: "Current version",
     previousRevisions: "Previous versions",
   },
