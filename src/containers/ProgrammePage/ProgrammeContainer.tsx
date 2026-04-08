@@ -26,8 +26,8 @@ import { LocaleType } from "../../interfaces";
 import { toProgramme } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 
-const getDocumentTitle = (title: string, grade: string, t: TFunction) => {
-  return htmlTitle(`${title} - ${grade}`, [t("htmlTitles.titleTemplate")]);
+const getDocumentTitle = (title: string, t: TFunction) => {
+  return htmlTitle(`${title}`, [t("htmlTitles.titleTemplate")]);
 };
 
 interface GradesData {
@@ -145,12 +145,15 @@ export const ProgrammeContainer = ({ programme }: Props) => {
   const { grade: gradeParam = "" } = useParams();
   const heading = programme.title.title;
   const grades = mapGradesData(programme.grades || []);
-  const socialMediaTitle = `${programme.title.title} - ${gradeParam}`;
+  const grade = useMemo(
+    () => grades?.find((grade) => grade.slug === sanitizeGrade(gradeParam)) ?? grades?.[0],
+    [grades, gradeParam],
+  );
+
+  const socialMediaTitle = `${programme.title.title} - ${grade?.name}`;
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || "";
-  const pageTitle = getDocumentTitle(programme.title.title, gradeParam, t);
-
-  const grade = useMemo(() => grades?.find((grade) => grade.slug === gradeParam) ?? grades?.[0], [grades, gradeParam]);
+  const pageTitle = getDocumentTitle(socialMediaTitle, t);
 
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
