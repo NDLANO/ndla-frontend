@@ -23,7 +23,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { linkOverlay } from "@ndla/styled-system/patterns";
+import { linkOverlay, visuallyHidden } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
@@ -110,9 +110,10 @@ export const SearchResult = ({ searchResult }: Props) => {
         {!!searchResult.metaDescription && <Text textStyle="body.large">{searchResult.metaDescription}</Text>}
         {!!context && (
           <Text color="text.subtle" textStyle="label.small">
-            <span aria-label={`${t("breadcrumb.breadcrumb")}: ${context.breadcrumbs.join(",")}`}>
-              {context.breadcrumbs.join(" › ")}
+            <span className={visuallyHidden()}>
+              {`${t("breadcrumb.breadcrumb")}: ${context.breadcrumbs.join(",")}`}
             </span>
+            <span aria-hidden>{context.breadcrumbs.join(" › ")}</span>
             {searchResult.contexts.length > 1 && (
               <DialogRoot>
                 <DialogTrigger asChild>
