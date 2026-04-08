@@ -172,7 +172,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
                     <StyledNavigationSafeLinkButton
                       to={toProgramme(programme.url, item.slug)}
                       variant="secondary"
-                      aria-current={item.slug === gradeParam ? "page" : undefined}
+                      aria-current={item.slug === sanitizeGrade(gradeParam) ? "page" : undefined}
                     >
                       {item.name}
                     </StyledNavigationSafeLinkButton>
