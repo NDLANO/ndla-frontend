@@ -83,17 +83,17 @@ export const Resources = ({ parentId, rootId }: Props) => {
           ))}
         </NavSection>
       )}
-      {!!node.links?.length && (
-        <NavSection title={t("launchpad.linksTitle")} variant="cards">
-          {node.links.map((link) => (
-            <TransportationNode key={link.id} node={link} context="link" />
-          ))}
-        </NavSection>
-      )}
       {!!supplementaryArticles.length && (
         <NavSection title={t("launchpad.supplementaryContentTitle")} variant="listItems">
           {supplementaryArticles.map((resource) => (
             <ResourceItem key={resource.id} resource={resource} />
+          ))}
+        </NavSection>
+      )}
+      {!!node.links?.length && (
+        <NavSection title={t("launchpad.linksTitle")} variant="cards">
+          {node.links.map((link) => (
+            <TransportationNode key={link.id} node={link} context="link" />
           ))}
         </NavSection>
       )}
