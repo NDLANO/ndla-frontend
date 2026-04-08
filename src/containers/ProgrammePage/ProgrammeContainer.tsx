@@ -135,7 +135,7 @@ const StyledImage = styled(Image, {
 });
 
 export const sanitizeGrade = (grade: string) => {
-  return encodeURI(grade.replace("/", "").trim().toLowerCase());
+  return encodeURIComponent(grade.replace("/", "").trim().toLowerCase());
 };
 
 export const ProgrammeContainer = ({ programme, grade: gradeProp }: Props) => {
