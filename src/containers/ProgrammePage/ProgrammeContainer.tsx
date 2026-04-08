@@ -134,7 +134,7 @@ const StyledImage = styled(Image, {
   },
 });
 
-const sanitizeGrade = (grade: string) => {
+export const sanitizeGrade = (grade: string) => {
   return encodeURI(grade.replace("/", "").trim().toLowerCase());
 };
 

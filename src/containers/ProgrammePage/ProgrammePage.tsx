@@ -17,7 +17,7 @@ import { GQLProgrammePageQuery } from "../../graphqlTypes";
 import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import { ProgrammeContainer } from "./ProgrammeContainer";
+import { ProgrammeContainer, sanitizeGrade } from "./ProgrammeContainer";
 
 const programmePageQuery = gql`
   query programmePage($contextId: String) {
@@ -71,7 +71,7 @@ export const ProgrammePage = () => {
   }
 
   const selectedGrade =
-    data.programme.grades?.find((g) => g.title.title.toLowerCase() === grade) ?? data.programme.grades?.[0];
+    data.programme.grades?.find((g) => sanitizeGrade(g.title.title) === grade) ?? data.programme.grades?.[0];
 
   return (
     <ProgrammeContainer programme={data.programme} grade={selectedGrade?.title.title || ""} locale={i18n.language} />
