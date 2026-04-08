@@ -37,7 +37,7 @@ const programmePageQuery = gql`
 export const ProgrammePage = () => {
   const { i18n } = useTranslation();
   const location = useLocation();
-  const { programme, contextId, grade } = useParams();
+  const { programme, contextId } = useParams();
 
   const { loading, data, error } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
     variables: { contextId: contextId },
@@ -70,12 +70,7 @@ export const ProgrammePage = () => {
     return <RedirectExternal to={constructNewPath(location.pathname, "nb")} />;
   }
 
-  const selectedGrade =
-    data.programme.grades?.find((g) => g.title.title.toLowerCase() === grade) ?? data.programme.grades?.[0];
-
-  return (
-    <ProgrammeContainer programme={data.programme} grade={selectedGrade?.title.title || ""} locale={i18n.language} />
-  );
+  return <ProgrammeContainer programme={data.programme} locale={i18n.language} />;
 };
 
 export const Component = ProgrammePage;
