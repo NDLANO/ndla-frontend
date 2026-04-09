@@ -377,6 +377,7 @@ ArticleLaunchpad.fragments = {
       }
       article {
         id
+        revision
         traits
       }
     }
