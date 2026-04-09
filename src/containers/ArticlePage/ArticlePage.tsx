@@ -70,7 +70,6 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
       {!!resource && !!resource.article && !!article && (
         <>
           <PageTitle title={getDocumentTitle(t, resource, root)} />
-          <title>{`${getDocumentTitle(t, resource, root)}`}</title>
           {scripts?.map((script) => (
             <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
