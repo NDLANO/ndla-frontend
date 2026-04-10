@@ -187,7 +187,7 @@ const messages = {
       learningpathUnsupported:
         "Læringsstiar og tverrfaglege caser kan ikkje visast direkte i delte mapper. Dersom du trykker på lenka i navigasjonsmenyen til venstre, blir stien opna i ei ny fane.",
       description:
-        "I denne delte mappa finn du fagstoff og oppgåver frå NDLA. Artiklane er samla inn og sette i rekkefølge av ein lærar.",
+        "I denne delte mappa finn du fagstoff og oppgåver frå NDLA. Artiklane er samla inn og delt av ein lærar.",
       willOpenInNewTab: "Blir opna i ny fane.",
     },
     goToMyNdla: "Gå til Min NDLA",
