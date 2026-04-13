@@ -157,6 +157,7 @@ MovedResourcePage.fragments = {
         metaDescription
         traits
         metaImage {
+          id
           image {
             imageUrl
             dimensions {
