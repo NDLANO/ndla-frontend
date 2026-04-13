@@ -187,7 +187,7 @@ const messages = {
       drawerButton: "Show folders and resources",
       drawerTitle: "Folders and resources",
       description:
-        "In this folder you find articles and tasks from NDLA. The articles have been collected and placed in order by a teacher.",
+        "In this folder you find articles and tasks from NDLA. The articles have been collected and shared by a teacher.",
       willOpenInNewTab: "Opens in a new tab.",
     },
     goToMyNdla: "Go to My NDLA",

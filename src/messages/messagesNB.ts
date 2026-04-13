@@ -187,7 +187,7 @@ const messages = {
       drawerButton: "Vis mapper og ressurser",
       drawerTitle: "Mapper og ressurser",
       description:
-        "I denne delte mappa finner du fagstoff og oppgaver fra NDLA. Artiklene er samlet inn og satt i rekkefølge av en lærer.",
+        "I denne delte mappa finner du fagstoff og oppgaver fra NDLA. Artiklene er samlet og delt av en lærer.",
       willOpenInNewTab: "Åpnes i ny fane.",
     },
     goToMyNdla: "Gå til Min NDLA",
