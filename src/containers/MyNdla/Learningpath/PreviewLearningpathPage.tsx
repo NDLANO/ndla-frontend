@@ -14,11 +14,13 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
-import { Learningpath } from "../../../components/Learningpath/Learningpath";
+import { LearningpathContent } from "../../../components/Learningpath/LearningpathContent";
+import { LearningpathMenu } from "../../../components/Learningpath/LearningpathMenu";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
+import { MobileLaunchpadMenu } from "../../../components/Resource/Launchpad";
 import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
@@ -55,14 +57,16 @@ const previewLearningpathQuery = gql`
     myNdlaLearningpath(pathId: $pathId) {
       id
       canEdit
-      ...Learningpath_Learningpath
+      ...LearningpathMenu_Learningpath
+      ...LearningpathContent_Learningpath
       learningsteps {
-        ...Learningpath_LearningpathStep
+        ...LearningpathContent_LearningpathStep
       }
     }
   }
-  ${Learningpath.fragments.learningpath}
-  ${Learningpath.fragments.learningpathStep}
+  ${LearningpathMenu.fragments.learningpath}
+  ${LearningpathContent.fragments.learningpath}
+  ${LearningpathContent.fragments.learningpathStep}
 `;
 
 export const Component = () => {
@@ -102,6 +106,10 @@ export const PreviewLearningpathPage = () => {
       ? undefined
       : learningpath.learningsteps[0];
 
+  const index = learningpathStep
+    ? learningpath?.learningsteps.findIndex((step) => step.id === learningpathStep.id)
+    : undefined;
+
   // stepId is defined, but not found within the learningpath
   if (!learningpath.canEdit || (numericStepId && numericStepId > 0 && !learningpathStep)) {
     return <NotFoundPage />;
@@ -129,7 +137,17 @@ export const PreviewLearningpathPage = () => {
         </TextWrapper>
         {learningpathStep || learningpath.introduction?.length ? (
           <LearningpathWrapper>
-            <Learningpath
+            <MobileLaunchpadMenu alwaysVisisble>
+              <LearningpathMenu
+                learningpath={learningpath}
+                currentIndex={index}
+                context="preview"
+                hasIntroduction={!!learningpath?.introduction?.length}
+                displayContext="mobile"
+                loading={learningpathQuery.loading}
+              />
+            </MobileLaunchpadMenu>
+            <LearningpathContent
               // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
               learningpath={learningpath}
               learningpathStep={learningpathStep}

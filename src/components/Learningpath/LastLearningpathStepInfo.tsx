@@ -6,11 +6,12 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
+import { GQLLastLearningpathStepInfo_NodeFragment } from "../../graphqlTypes";
 import { ResourceContent } from "../Resource/ResourceLayout";
 import { useRestrictedMode } from "../RestrictedModeContext";
 
@@ -23,7 +24,7 @@ const StyledEmbedPageContent = styled(ResourceContent, {
 });
 
 interface Props {
-  resource?: GQLLearningpathPage_NodeFragment;
+  resource?: GQLLastLearningpathStepInfo_NodeFragment;
   seqNo: number;
   numberOfLearningSteps: number;
   title: string;
@@ -62,4 +63,20 @@ export const LastLearningpathStepInfo = ({ resource, seqNo, numberOfLearningStep
       )}
     </StyledEmbedPageContent>
   );
+};
+
+LastLearningpathStepInfo.fragments = {
+  node: gql`
+    fragment LastLearningpathStepInfo_Node on Node {
+      id
+      context {
+        parents {
+          id
+          contextId
+          name
+          url
+        }
+      }
+    }
+  `,
 };

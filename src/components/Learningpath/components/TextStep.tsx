@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
 import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -13,10 +14,9 @@ import { ArticleWrapper, ArticleTitle, ArticleContent, ArticleFooter, ArticleByl
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  GQLLearningpath_LearningpathFragment,
-  GQLLearningpath_LearningpathStepFragment,
+  GQLTextStep_LearningpathFragment,
   GQLLearningpathPage_NodeFragment,
-  GQLMyNdlaLearningpathStepFragment,
+  GQLTextStep_LearningpathStepFragment,
 } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { ResourceContent } from "../../Resource/ResourceLayout";
@@ -32,9 +32,9 @@ const StyledArticleFooter = styled(ArticleFooter, {
 });
 
 interface TextStepProps {
-  learningpathStep: GQLLearningpath_LearningpathStepFragment | GQLMyNdlaLearningpathStepFragment;
+  learningpathStep: GQLTextStep_LearningpathStepFragment;
   skipToContentId?: string;
-  learningpath?: GQLLearningpath_LearningpathFragment;
+  learningpath?: GQLTextStep_LearningpathFragment;
   resource?: GQLLearningpathPage_NodeFragment;
   isInactive?: boolean;
 }
@@ -71,4 +71,31 @@ export const TextStep = ({ learningpathStep, learningpath, skipToContentId, isIn
       </ArticleWrapper>
     </ResourceContent>
   );
+};
+
+TextStep.fragments = {
+  learningpathStep: gql`
+    fragment TextStep_LearningpathStep on BaseLearningpathStep {
+      id
+      title
+      introduction
+      description
+      copyright {
+        contributors {
+          type
+          name
+        }
+      }
+    }
+  `,
+  learningpath: gql`
+    fragment TextStep_Learningpath on BaseLearningpath {
+      copyright {
+        contributors {
+          type
+          name
+        }
+      }
+    }
+  `,
 };

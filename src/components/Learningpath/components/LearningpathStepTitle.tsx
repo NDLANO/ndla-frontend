@@ -6,20 +6,23 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
 import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
+import { GQLLearningpathStepTitle_LearningpathStepFragment } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { ResourceContent } from "../../Resource/ResourceLayout";
-import { BaseStepProps } from "../learningpathTypes";
 
-export const LearningpathStepTitle = ({
-  learningpathStep,
-  skipToContentId,
-  isInactive,
-}: BaseStepProps & { isInactive?: boolean }) => {
+interface Props {
+  isInactive?: boolean;
+  learningpathStep: GQLLearningpathStepTitle_LearningpathStepFragment;
+  skipToContentId?: string;
+}
+
+export const LearningpathStepTitle = ({ learningpathStep, skipToContentId, isInactive }: Props) => {
   const { i18n } = useTranslation();
   return learningpathStep.showTitle || learningpathStep.description ? (
     <ResourceContent variant="content">
@@ -39,4 +42,20 @@ export const LearningpathStepTitle = ({
       </ArticleWrapper>
     </ResourceContent>
   ) : null;
+};
+
+LearningpathStepTitle.fragments = {
+  learningpathStep: gql`
+    fragment LearningpathStepTitle_LearningpathStep on BaseLearningpathStep {
+      id
+      showTitle
+      description
+      title
+      copyright {
+        license {
+          license
+        }
+      }
+    }
+  `,
 };

@@ -9,11 +9,15 @@
 import { gql } from "@apollo/client";
 import { Hero, HeroBackground } from "@ndla/primitives";
 import { TFunction } from "i18next";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
-import { Learningpath } from "../../components/Learningpath/Learningpath";
+import { LearningpathContent } from "../../components/Learningpath/LearningpathContent";
+import { LearningpathMenu } from "../../components/Learningpath/LearningpathMenu";
 import { PageTitle } from "../../components/PageTitle";
-import { RootPageContent } from "../../components/Resource/ResourceLayout";
+import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
+import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb";
+import { LayoutWrapper, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import {
   GQLLearningpath,
@@ -21,6 +25,7 @@ import {
   GQLLearningpathStep,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
+import { Breadcrumb } from "../../interfaces";
 import { htmlTitle } from "../../util/titleHelper";
 
 interface Props {
@@ -33,6 +38,15 @@ interface Props {
 export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Props) => {
   const { t } = useTranslation();
 
+  const breadcrumbs: Breadcrumb[] = useMemo(() => {
+    const crumbs: Breadcrumb[] = node?.context?.parents?.slice() ?? [];
+    if (node?.url) {
+      crumbs.push({ name: node.name, url: node.url });
+    }
+
+    return crumbs;
+  }, [node]);
+
   if (!node.learningpath || !node?.learningpath?.learningsteps?.length) {
     return <DefaultErrorMessagePage />;
   }
@@ -43,6 +57,10 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
     : learningpath.introduction?.length
       ? undefined
       : learningpath.learningsteps?.[0];
+
+  const index = learningpathStep
+    ? learningpath?.learningsteps.findIndex((step) => step.id === learningpathStep.id)
+    : undefined;
 
   return (
     <>
@@ -58,14 +76,34 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
         <HeroBackground />
         <RootPageContent variant="wide" asChild consumeCss>
           <main>
-            <Learningpath
-              skipToContentId={skipToContentId}
-              learningpath={learningpath}
-              learningpathStep={learningpathStep}
-              resource={node}
-              resourcePath={node.url}
-              loading={loading}
-            />
+            {!!breadcrumbs.length && <ResourceBreadcrumb breadcrumbs={breadcrumbs} loading={loading} />}
+            <MobileLaunchpadMenu>
+              <LearningpathMenu
+                resourcePath={node.url}
+                learningpath={learningpath}
+                currentIndex={index}
+                hasIntroduction={!!learningpath?.introduction?.length}
+                displayContext="mobile"
+                loading={loading}
+              />
+            </MobileLaunchpadMenu>
+            <LayoutWrapper>
+              <LearningpathMenu
+                resourcePath={node.url}
+                learningpath={learningpath}
+                currentIndex={index}
+                hasIntroduction={!!learningpath?.introduction?.length}
+                displayContext="desktop"
+                loading={loading}
+              />
+              <LearningpathContent
+                learningpath={learningpath}
+                learningpathStep={learningpathStep}
+                resource={node}
+                skipToContentId={skipToContentId}
+                loading={loading}
+              />
+            </LayoutWrapper>
           </main>
         </RootPageContent>
       </Hero>
@@ -120,12 +158,16 @@ LearningpathPage.fragments = {
         }
         learningsteps {
           type
-          ...Learningpath_LearningpathStep
+          ...LearningpathContent_LearningpathStep
         }
-        ...Learningpath_Learningpath
+        ...LearningpathContent_Learningpath
+        ...LearningpathMenu_Learningpath
       }
+      ...LearningpathContent_Node
     }
-    ${Learningpath.fragments.learningpathStep}
-    ${Learningpath.fragments.learningpath}
+    ${LearningpathMenu.fragments.learningpath}
+    ${LearningpathContent.fragments.learningpath}
+    ${LearningpathContent.fragments.learningpathStep}
+    ${LearningpathContent.fragments.node}
   `,
 };

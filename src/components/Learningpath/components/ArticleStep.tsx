@@ -12,7 +12,11 @@ import { ReactNode, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import config from "../../../config";
-import { GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables } from "../../../graphqlTypes";
+import {
+  GQLArticleStep_LearningpathStepFragment,
+  GQLLearningpathStepQuery,
+  GQLLearningpathStepQueryVariables,
+} from "../../../graphqlTypes";
 import { Breadcrumb } from "../../../interfaces";
 import { getArticleScripts } from "../../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../../util/getStructuredDataFromArticle";
@@ -23,15 +27,16 @@ import { ContentPlaceholder } from "../../ContentPlaceholder";
 import { DefaultErrorMessage } from "../../DefaultErrorMessage";
 import { LdJson } from "../../LdJson";
 import { ResourceContent } from "../../Resource/ResourceLayout";
-import { BaseStepProps } from "../learningpathTypes";
 
-interface ArticleStepProps extends BaseStepProps {
+interface ArticleStepProps {
+  learningpathStep: GQLArticleStep_LearningpathStepFragment;
   breadcrumbItems: Breadcrumb[];
   subjectId?: string;
   taxId?: string;
   articleId?: string;
   children?: ReactNode;
   isInactive?: boolean;
+  skipToContentId?: string;
 }
 
 export const ArticleStep = ({
