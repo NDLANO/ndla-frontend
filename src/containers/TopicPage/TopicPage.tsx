@@ -62,6 +62,7 @@ export const topicPageQuery = gql`
         rootId
         name
         url
+        defaultUrl
         isArchived
         parents {
           id

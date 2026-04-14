@@ -118,7 +118,10 @@ export const PreviewLearningpathPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.learningpathPreviewPage", { name: learningpath.title })} />
+      <PageTitle
+        title={t("htmlTitles.learningpathPreviewPage", { name: learningpath.title })}
+        useLocationForCustomPath={true}
+      />
       <MyNdlaPageContent>
         <MyNdlaBreadcrumb
           breadcrumbs={[

@@ -63,7 +63,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
 
   return (
     <>
-      <PageTitle title={getDocumentTitle({ article: propArticle })} />
+      <PageTitle title={getDocumentTitle({ article: propArticle })} useLocationForCustomPath={true} />
       <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
@@ -74,6 +74,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
         imageUrl={article.metaImage?.image.imageUrl}
         description={article.metaDescription}
         trackableContent={article}
+        useLocationForCanonicalPath={true}
       />
       <PostResizeMessage />
       <main>
@@ -128,6 +129,7 @@ export const iframeArticlePageFragments = {
       nodeType
       name
       url
+      defaultUrl
       relevanceId
       resourceTypes {
         id

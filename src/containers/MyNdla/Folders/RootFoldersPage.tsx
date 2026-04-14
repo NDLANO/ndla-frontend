@@ -62,7 +62,7 @@ const RootFoldersPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.myFavoritesPage")} />
+      <PageTitle title={t("htmlTitles.myFavoritesPage")} useLocationForCustomPath={true} />
       <MyNdlaTitle title={t("myNdla.myFavorites")} />
       <MyNdlaPageSection>
         <Heading asChild consumeCss textStyle="heading.small" id={FOLDERS_HEADING_ID} tabIndex={-1}>

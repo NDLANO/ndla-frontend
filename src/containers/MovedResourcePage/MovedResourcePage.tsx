@@ -92,7 +92,7 @@ export const MovedResourcePage = ({ resource }: Props) => {
 
   return (
     <PageContainer>
-      <PageTitle title={t("htmlTitles.movedResourcePage")} />
+      <PageTitle title={t("htmlTitles.movedResourcePage")} useLocationForCustomPath={true} />
       <meta name="robots" content="noindex" />
       <StyledMain>
         <StyledHeading id={SKIP_TO_CONTENT_ID} textStyle="heading.large">

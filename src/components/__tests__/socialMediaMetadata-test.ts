@@ -35,9 +35,24 @@ test("getCanonicalUrl with article-url and empty language", () => {
   expect(canonicalUrl).toMatch("https://test.ndla.no/article/123");
 });
 
+test("getCanonicalUrl with article-url and non-default language", () => {
+  const canonicalUrl = getCanonicalUrl("/nn/article/123");
+  expect(canonicalUrl).toMatch("https://test.ndla.no/nn/article/123");
+});
+
+test("getCanonicalUrl with article-url and default language", () => {
+  const canonicalUrl = getCanonicalUrl("/nb/article/123");
+  expect(canonicalUrl).toMatch("https://test.ndla.no/article/123");
+});
+
 test("getCanonicalUrl with iframe-url and nb language", () => {
   const canonicalUrl = getCanonicalUrl("/article-iframe/nb/urn:topic:123/1");
   expect(canonicalUrl).toMatch("https://test.ndla.no/article-iframe/urn:topic:123/1");
+});
+
+test("getCanonicalUrl with iframe-url and nn language", () => {
+  const canonicalUrl = getCanonicalUrl("/article-iframe/nn/urn:topic:123/1");
+  expect(canonicalUrl).toMatch("https://test.ndla.no/article-iframe/nn/urn:topic:123/1");
 });
 
 test("getCanonicalUrl with iframe-url and no language", () => {

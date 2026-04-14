@@ -36,7 +36,7 @@ export const Forbidden = ({ applySkipToContentId, navigationLink }: Props) => {
   return (
     <Status code={403}>
       <ErrorMessageRoot>
-        <PageTitle title={t("htmlTitles.forbidden")} />
+        <PageTitle title={t("htmlTitles.forbidden")} useLocationForCustomPath={true} />
         <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>
           <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>

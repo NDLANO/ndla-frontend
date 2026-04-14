@@ -64,13 +64,14 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
 
   return (
     <>
-      <PageTitle title={getDocumentTitle(t, node, stepId)} />
+      <PageTitle title={getDocumentTitle(t, node, stepId)} customPath={node.context?.defaultUrl} />
       {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
         title={getTitle(node.context?.parents?.[0], learningpath, learningpathStep)}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.image.imageUrl}
+        canonicalPath={node.context?.url}
       />
       <Hero variant="brand3Moderate">
         <HeroBackground />
@@ -139,6 +140,8 @@ LearningpathPage.fragments = {
       context {
         contextId
         isArchived
+        url
+        defaultUrl
         parents {
           contextId
           id

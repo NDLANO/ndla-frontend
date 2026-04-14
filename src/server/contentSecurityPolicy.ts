@@ -44,6 +44,7 @@ const connectSrc = (() => {
       "http://localhost",
       "http://localhost:24678",
       "ws://localhost:24678",
+      "https://tall.test.ndla.no",
     ];
   }
   // Temp for testing xapi
@@ -115,13 +116,7 @@ const scriptSrc = (() => {
     "https://app.formbricks.com",
   ];
   if (config.runtimeType === "development") {
-    return [
-      ...defaultScriptSrc,
-      "http://localhost:3001",
-      "ws://localhost:3001",
-      "http://localhost:3000",
-      "blob:http://localhost:3000",
-    ];
+    return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
   }
   // Temp for testing xapi
   if (config.ndlaEnvironment === "test") {
@@ -240,9 +235,43 @@ const fontSrc = (() => {
   return defaultFontSrc;
 })();
 
+const imgSrc = (() => {
+  const defaultImgSrc = [
+    "'self'",
+    "http://api-gateway.ndla-local",
+    "https://*.ndla.no",
+    "https://*.google-analytics.com",
+    "https://*.analytics.google.com",
+    "https://stats.g.doubleclick.net",
+    "http://metrics.brightcove.com",
+    "https://httpsak-a.akamaihd.net",
+    "https://*.boltdns.net",
+    "https://www.nrk.no/",
+    "https://ssl.gstatic.com",
+    "https://www.gstatic.com",
+    "https://*.clarity.ms",
+    "https://ndla.zendesk.com",
+    "tracking.monsido.com",
+    "*.facebook.com",
+    "*.twitter.com",
+    "*.twimg.com",
+    "*.kaltura.com",
+    " data:",
+  ];
+  if (config.runtimeType === "development") {
+    return defaultImgSrc.concat("https://tall.test.ndla.no");
+  }
+  return defaultImgSrc;
+})();
+
+const baseUri =
+  config.runtimeType === "development"
+    ? ["'self'", "https://tall.ndla.no", "https://tall.test.ndla.no"]
+    : ["'self'", "https://tall.ndla.no"];
+
 export const contentSecurityPolicy = {
   directives: {
-    baseUri: ["'self'", "https://tall.ndla.no"],
+    baseUri,
     defaultSrc: ["'self'", "blob:"],
     upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
@@ -268,29 +297,8 @@ export const contentSecurityPolicy = {
       "cdn.jsdelivr.net",
       "*.fontshare.com",
     ],
-    fontSrc: fontSrc,
-    imgSrc: [
-      "'self'",
-      "http://api-gateway.ndla-local",
-      "https://*.ndla.no",
-      "https://*.google-analytics.com",
-      "https://*.analytics.google.com",
-      "https://stats.g.doubleclick.net",
-      "http://metrics.brightcove.com",
-      "https://httpsak-a.akamaihd.net",
-      "https://*.boltdns.net",
-      "https://www.nrk.no/",
-      "https://ssl.gstatic.com",
-      "https://www.gstatic.com",
-      "https://*.clarity.ms",
-      "https://ndla.zendesk.com",
-      "tracking.monsido.com",
-      "*.facebook.com",
-      "*.twitter.com",
-      "*.twimg.com",
-      "*.kaltura.com",
-      " data:",
-    ],
+    fontSrc,
+    imgSrc,
     mediaSrc: ["'self'", "blob:", "https://*.ndla.no", "*.brightcove.com", "brightcove.com"],
     connectSrc,
   },

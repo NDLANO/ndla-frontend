@@ -59,7 +59,7 @@ export const AccessDenied = ({ applySkipToContentId }: AccessDeniedProps) => {
   return (
     <Status code={statusCode}>
       <ErrorMessageRoot>
-        <PageTitle title={t("htmlTitles.accessDenied")} />
+        <PageTitle title={t("htmlTitles.accessDenied")} useLocationForCustomPath={true} />
         <StyledPresentationLine />
         <ErrorMessageContent>
           <ErrorMessageDescription id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>

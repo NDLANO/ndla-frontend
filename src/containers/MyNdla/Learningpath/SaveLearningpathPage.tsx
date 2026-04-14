@@ -117,7 +117,10 @@ export const SaveLearningpathPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.learningpathSavePage", { name: learningpath.title })} />
+      <PageTitle
+        title={t("htmlTitles.learningpathSavePage", { name: learningpath.title })}
+        useLocationForCustomPath={true}
+      />
       <MyNdlaPageContent>
         <MyNdlaBreadcrumb
           breadcrumbs={[{ id: `save-${learningpath.id}`, name: t("myNdla.learningpath.form.steps.save") }]}

@@ -135,8 +135,8 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
-        <PageTitle title={pageTitle} />
-        <SocialMediaMetadata title={metaTitle} imageUrl={image?.image.imageUrl} />
+        <PageTitle title={pageTitle} useLocationForCustomPath={true} />
+        <SocialMediaMetadata title={metaTitle} imageUrl={image?.image.imageUrl} useLocationForCanonicalPath={true} />
         <div>
           {!!image && (
             <StyledImage

@@ -74,7 +74,7 @@ const SubFolderPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={title} />
+      <PageTitle title={title} useLocationForCustomPath={true} />
       <MyNdlaPageSection>
         <TitleWrapper>
           <MyNdlaBreadcrumb breadcrumbs={selectedFolder.breadcrumbs} page="favorites" />

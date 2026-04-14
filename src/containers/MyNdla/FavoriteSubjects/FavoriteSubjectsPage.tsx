@@ -68,7 +68,7 @@ export const FavoriteSubjectsPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.mySubjectsPage")} />
+      <PageTitle title={t("htmlTitles.mySubjectsPage")} useLocationForCustomPath={true} />
       <MyNdlaPageContent>
         <MyNdlaTitle title={t("myNdla.favoriteSubjects.title")} />
       </MyNdlaPageContent>

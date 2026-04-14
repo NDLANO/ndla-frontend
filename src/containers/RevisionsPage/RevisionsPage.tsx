@@ -143,8 +143,12 @@ export const RevisionsPage = () => {
 
   return (
     <StyledMain>
-      <PageTitle title={t("htmlTitles.revisionsPage", { name: article.title })} />
-      <SocialMediaMetadata type="website" title={`${t("revisionsPage.changelogFor")} ${article.title}`} />
+      <PageTitle title={t("htmlTitles.revisionsPage", { name: article.title })} useLocationForCustomPath={true} />
+      <SocialMediaMetadata
+        type="website"
+        title={`${t("revisionsPage.changelogFor")} ${article.title}`}
+        useLocationForCanonicalPath={true}
+      />
       <meta name="robots" content="noindex" />
       <StyledPageContent>
         <hgroup>

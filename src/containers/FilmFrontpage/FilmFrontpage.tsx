@@ -113,8 +113,13 @@ export const FilmFrontpage = () => {
 
   return (
     <>
-      {!!node && <PageTitle title={getDocumentTitle(t, node)} />}
-      <SocialMediaMetadata type="website" title={node?.name ?? ""} description={about?.description} />
+      {!!node && <PageTitle title={getDocumentTitle(t, node)} useLocationForCustomPath={true} />}
+      <SocialMediaMetadata
+        type="website"
+        title={node?.name ?? ""}
+        description={about?.description}
+        useLocationForCanonicalPath={true}
+      />
       <StyledPageContainer asChild consumeCss>
         <main>
           <FilmSlideshow slideshow={definedSlideshowMovies} />

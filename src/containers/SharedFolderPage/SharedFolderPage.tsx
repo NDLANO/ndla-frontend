@@ -122,12 +122,13 @@ export const SharedFolderPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <PageTitle title={folder.name} />
+        <PageTitle title={folder.name} useLocationForCustomPath={true} />
         <SocialMediaMetadata
           type="website"
           title={folder.name}
           imageUrl={metaWithMetaImage?.metaImage?.url}
           description={folder.description ?? t("myNdla.sharedFolder.description")}
+          useLocationForCanonicalPath={true}
         >
           <meta name="robots" content="noindex, nofollow" />
         </SocialMediaMetadata>

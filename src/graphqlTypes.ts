@@ -1283,6 +1283,7 @@ export type GQLNode = GQLTaxBase &
     context?: Maybe<GQLTaxonomyContext>;
     contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
+    defaultUrl?: Maybe<Scalars["String"]["output"]>;
     grepCodes?: Maybe<Array<Scalars["String"]["output"]>>;
     id: Scalars["String"]["output"];
     language?: Maybe<Scalars["String"]["output"]>;
@@ -1399,6 +1400,7 @@ export type GQLProgrammePage = {
   __typename?: "ProgrammePage";
   contentUri?: Maybe<Scalars["String"]["output"]>;
   contextId?: Maybe<Scalars["String"]["output"]>;
+  defaultUrl?: Maybe<Scalars["String"]["output"]>;
   desktopImage?: Maybe<GQLMetaImage>;
   grades?: Maybe<Array<GQLGrade>>;
   id: Scalars["String"]["output"];
@@ -1752,6 +1754,7 @@ export type GQLResource = GQLTaxBase &
     context?: Maybe<GQLTaxonomyContext>;
     contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
+    defaultUrl?: Maybe<Scalars["String"]["output"]>;
     id: Scalars["String"]["output"];
     language?: Maybe<Scalars["String"]["output"]>;
     learningpath?: Maybe<GQLLearningpath>;
@@ -1894,6 +1897,7 @@ export type GQLSubject = GQLTaxBase &
     context?: Maybe<GQLTaxonomyContext>;
     contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
+    defaultUrl?: Maybe<Scalars["String"]["output"]>;
     grepCodes?: Maybe<Array<Scalars["String"]["output"]>>;
     id: Scalars["String"]["output"];
     language?: Maybe<Scalars["String"]["output"]>;
@@ -1970,6 +1974,7 @@ export type GQLTags = {
 };
 
 export type GQLTaxBase = {
+  defaultUrl?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
   url?: Maybe<Scalars["String"]["output"]>;
@@ -1979,6 +1984,7 @@ export type GQLTaxonomyContext = {
   __typename?: "TaxonomyContext";
   breadcrumbs: Array<Scalars["String"]["output"]>;
   contextId: Scalars["String"]["output"];
+  defaultUrl: Scalars["String"]["output"];
   isActive: Scalars["Boolean"]["output"];
   isArchived: Scalars["Boolean"]["output"];
   name: Scalars["String"]["output"];
@@ -1993,6 +1999,7 @@ export type GQLTaxonomyContext = {
 export type GQLTaxonomyCrumb = GQLTaxBase & {
   __typename?: "TaxonomyCrumb";
   contextId: Scalars["String"]["output"];
+  defaultUrl?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
   url: Scalars["String"]["output"];
@@ -2004,6 +2011,7 @@ export type GQLTaxonomyEntity = {
   context?: Maybe<GQLTaxonomyContext>;
   contextId?: Maybe<Scalars["String"]["output"]>;
   contexts: Array<GQLTaxonomyContext>;
+  defaultUrl?: Maybe<Scalars["String"]["output"]>;
   id: Scalars["String"]["output"];
   language?: Maybe<Scalars["String"]["output"]>;
   metadata: GQLTaxonomyMetadata;
@@ -2046,6 +2054,7 @@ export type GQLTopic = GQLTaxBase &
     context?: Maybe<GQLTaxonomyContext>;
     contextId?: Maybe<Scalars["String"]["output"]>;
     contexts: Array<GQLTaxonomyContext>;
+    defaultUrl?: Maybe<Scalars["String"]["output"]>;
     id: Scalars["String"]["output"];
     isPrimary?: Maybe<Scalars["Boolean"]["output"]>;
     language?: Maybe<Scalars["String"]["output"]>;
@@ -5550,6 +5559,7 @@ export type GQLArticlePage_NodeFragment = {
   nodeType: string;
   name: string;
   url?: string;
+  defaultUrl?: string;
   contentUri?: string;
   relevanceId?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; name: string; id: string }>;
@@ -6108,6 +6118,8 @@ export type GQLLearningpathPage_NodeFragment = {
     __typename?: "TaxonomyContext";
     contextId: string;
     isArchived: boolean;
+    url: string;
+    defaultUrl: string;
     parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }>;
   };
   learningpath?: {
@@ -9077,6 +9089,7 @@ export type GQLProgrammeContainer_ProgrammeFragment = {
   __typename?: "ProgrammePage";
   id: string;
   metaDescription?: string;
+  defaultUrl?: string;
   url?: string;
   title: { __typename?: "Title"; title: string; language: string };
   desktopImage?: { __typename?: "MetaImage"; url: string };
@@ -9112,6 +9125,7 @@ export type GQLProgrammePageQuery = {
     supportedLanguages: Array<string>;
     id: string;
     metaDescription?: string;
+    defaultUrl?: string;
     url?: string;
     grades?: Array<{
       __typename?: "Grade";
@@ -9405,12 +9419,14 @@ export type GQLResourcePageQuery = {
     nodeType: string;
     name: string;
     url?: string;
+    defaultUrl?: string;
     contentUri?: string;
     context?: {
       __typename?: "TaxonomyContext";
       contextId: string;
       url: string;
       isArchived: boolean;
+      defaultUrl: string;
       parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }>;
     };
     contexts: Array<{ __typename?: "TaxonomyContext"; contextId: string; url: string; breadcrumbs: Array<string> }>;
@@ -10231,6 +10247,7 @@ export type GQLSubjectContainer_NodeFragment = {
     rootId: string;
     parentIds: Array<string>;
     url: string;
+    defaultUrl: string;
   };
   links?: Array<{
     __typename?: "Node";
@@ -10323,6 +10340,7 @@ export type GQLSubjectPageQuery = {
       rootId: string;
       parentIds: Array<string>;
       url: string;
+      defaultUrl: string;
     };
     links?: Array<{
       __typename?: "Node";
@@ -10409,6 +10427,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     rootId: string;
     breadcrumbs: Array<string>;
     url: string;
+    defaultUrl: string;
     isArchived: boolean;
     parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
   };
@@ -10599,6 +10618,7 @@ export type GQLTopicContainer_NodeFragment = {
   name: string;
   contentUri?: string;
   url?: string;
+  defaultUrl?: string;
   children?: Array<{
     __typename?: "Node";
     id: string;
@@ -10633,6 +10653,7 @@ export type GQLTopicPageQuery = {
     nodeType: string;
     url?: string;
     contentUri?: string;
+    defaultUrl?: string;
     article?: {
       __typename?: "Article";
       htmlTitle: string;
@@ -10822,6 +10843,7 @@ export type GQLTopicPageQuery = {
       rootId: string;
       name: string;
       url: string;
+      defaultUrl: string;
       isArchived: boolean;
       breadcrumbs: Array<string>;
       parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }>;
@@ -11290,6 +11312,7 @@ export type GQLIframeArticlePage_NodeFragment = {
   nodeType: string;
   name: string;
   url?: string;
+  defaultUrl?: string;
   relevanceId?: string;
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
 };
@@ -11489,6 +11512,7 @@ export type GQLIframePageQuery = {
     nodeType: string;
     name: string;
     url?: string;
+    defaultUrl?: string;
     relevanceId?: string;
     resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   };

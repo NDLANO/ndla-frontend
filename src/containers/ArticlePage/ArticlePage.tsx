@@ -69,7 +69,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
     <>
       {!!resource && !!resource.article && !!article && (
         <>
-          <PageTitle title={getDocumentTitle(t, resource, root)} />
+          <PageTitle title={getDocumentTitle(t, resource, root)} customPath={resource.defaultUrl} />
           {scripts?.map((script) => (
             <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
@@ -89,7 +89,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
             trackableContent={article}
             description={article.metaDescription}
             imageUrl={article.metaImage?.image.imageUrl}
-            path={resource.url}
+            canonicalPath={resource.url}
           />
         </>
       )}
@@ -127,6 +127,7 @@ ArticlePage.fragments = {
       nodeType
       name
       url
+      defaultUrl
       contentUri
       relevanceId
       resourceTypes {

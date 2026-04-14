@@ -89,7 +89,7 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
 
   return (
     <>
-      <PageTitle title={getDocumentTitle(t, article.title)} />
+      <PageTitle title={getDocumentTitle(t, article.title)} useLocationForCustomPath={true} />
       <meta name="robots" content="noindex, nofollow" />
       {scripts.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
@@ -101,6 +101,7 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
         description={article.metaDescription}
         imageUrl={article.metaImage?.image.imageUrl}
         trackableContent={article}
+        useLocationForCanonicalPath={true}
       />
       <RestrictedBlockContextProvider value="bleed">
         <Hero variant="brand1Subtle">
