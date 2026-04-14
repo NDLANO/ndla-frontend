@@ -28,7 +28,7 @@ import { useTranslation } from "react-i18next";
 import {
   GQLCopyPublicLearningpathMutation,
   GQLCopyPublicLearningpathMutationVariables,
-  GQLLearningpath_LearningpathFragment,
+  GQLCopyLearningpath_LearningpathFragment,
   GQLMyNdlaPersonalDataFragmentFragment,
 } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
@@ -44,7 +44,7 @@ const StyledFileCopyLine = styled(FileCopyLine, {
 });
 
 interface Props {
-  learningpath: GQLLearningpath_LearningpathFragment;
+  learningpath: GQLCopyLearningpath_LearningpathFragment;
 }
 
 const copyLearningpathMutation = gql`
@@ -150,4 +150,18 @@ export const CopyLearningPath = ({ learningpath }: Props) => {
       )}
     </DialogRoot>
   );
+};
+
+CopyLearningPath.fragments = {
+  learningpath: gql`
+    fragment CopyLearningpath_Learningpath on BaseLearningpath {
+      id
+      title
+      copyright {
+        license {
+          license
+        }
+      }
+    }
+  `,
 };

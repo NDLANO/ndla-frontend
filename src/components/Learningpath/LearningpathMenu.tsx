@@ -35,7 +35,7 @@ import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
-  resourcePath: string | undefined;
+  resourcePath?: string;
   learningpath: GQLLearningpathMenu_LearningpathFragment | undefined;
   currentIndex: number | undefined;
   context?: LearningpathContext;
@@ -67,7 +67,7 @@ export const LearningpathMenu = ({
   resourcePath,
   learningpath,
   currentIndex,
-  context,
+  context = "default",
   hasIntroduction,
   displayContext,
   loading,
@@ -221,12 +221,8 @@ LearningpathMenu.fragments = {
     fragment LearningpathMenu_Learningpath on BaseLearningpath {
       id
       title
-      introduction
       lastUpdated
       copyright {
-        license {
-          license
-        }
         contributors {
           type
           name
@@ -239,12 +235,8 @@ LearningpathMenu.fragments = {
       }
       basedOn
       isMyNDLAOwner
+      ...CopyLearningpath_Learningpath
     }
-  `,
-  step: gql`
-    fragment LearningpathMenu_LearningpathStep on BaseLearningpathStep {
-      id
-      seqNo
-    }
+    ${CopyLearningPath.fragments.learningpath}
   `,
 };

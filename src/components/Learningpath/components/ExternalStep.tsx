@@ -6,17 +6,17 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { Badge } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+import { GQLExternalStep_LearningpathFragment, GQLExternalStep_LearningpathStepFragment } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { ResourceContent } from "../../Resource/ResourceLayout";
 import { RestrictedBlock } from "../../RestrictedBlock";
 import { useRestrictedMode } from "../../RestrictedModeContext";
-import { BaseStepProps } from "../learningpathTypes";
 
 const StyledArticleFooter = styled(ArticleFooter, {
   base: {
@@ -26,9 +26,11 @@ const StyledArticleFooter = styled(ArticleFooter, {
   },
 });
 
-interface Props extends BaseStepProps {
-  learningpath: GQLLearningpath_LearningpathFragment;
+interface Props {
+  learningpath: GQLExternalStep_LearningpathFragment;
   isInactive?: boolean;
+  skipToContentId?: string;
+  learningpathStep: GQLExternalStep_LearningpathStepFragment;
 }
 
 export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath, isInactive }: Props) => {
@@ -67,4 +69,32 @@ export const ExternalStep = ({ learningpathStep, skipToContentId, learningpath, 
       </ArticleWrapper>
     </ResourceContent>
   );
+};
+
+ExternalStep.fragments = {
+  learningpathStep: gql`
+    fragment ExternalStep_LearningpathStep on BaseLearningpathStep {
+      id
+      title
+      introduction
+      opengraph {
+        title
+        description
+        url
+      }
+      embedUrl {
+        url
+      }
+    }
+  `,
+  learningpath: gql`
+    fragment ExternalStep_Learningpath on BaseLearningpath {
+      copyright {
+        contributors {
+          type
+          name
+        }
+      }
+    }
+  `,
 };

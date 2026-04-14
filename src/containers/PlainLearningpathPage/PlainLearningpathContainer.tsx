@@ -10,9 +10,11 @@ import { gql } from "@apollo/client";
 import { Hero, HeroBackground } from "@ndla/primitives";
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { Learningpath } from "../../components/Learningpath/Learningpath";
+import { LearningpathContent } from "../../components/Learningpath/LearningpathContent";
+import { LearningpathMenu } from "../../components/Learningpath/LearningpathMenu";
 import { PageTitle } from "../../components/PageTitle";
-import { RootPageContent } from "../../components/Resource/ResourceLayout";
+import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
+import { LayoutWrapper, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
@@ -36,6 +38,8 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
       ? undefined
       : steps?.[0];
 
+  const index = currentStep ? learningpath?.learningsteps.findIndex((step) => step.id === currentStep.id) : undefined;
+
   return (
     <>
       <meta name="robots" content="noindex, nofollow" />
@@ -54,12 +58,30 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
         <HeroBackground />
         <RootPageContent variant="wide" asChild consumeCss>
           <main>
-            <Learningpath
-              learningpath={learningpath}
-              learningpathStep={currentStep}
-              skipToContentId={skipToContentId}
-              loading={loading}
-            />
+            <MobileLaunchpadMenu>
+              <LearningpathMenu
+                learningpath={learningpath}
+                currentIndex={index}
+                hasIntroduction={!!learningpath?.introduction?.length}
+                displayContext="mobile"
+                loading={loading}
+              />
+            </MobileLaunchpadMenu>
+            <LayoutWrapper>
+              <LearningpathMenu
+                learningpath={learningpath}
+                currentIndex={index}
+                hasIntroduction={!!learningpath?.introduction?.length}
+                displayContext="desktop"
+                loading={loading}
+              />
+              <LearningpathContent
+                learningpath={learningpath}
+                learningpathStep={currentStep}
+                skipToContentId={skipToContentId}
+                loading={loading}
+              />
+            </LayoutWrapper>
           </main>
         </RootPageContent>
       </Hero>
@@ -80,11 +102,13 @@ export const plainLearningpathContainerFragments = {
         }
       }
       learningsteps {
-        ...Learningpath_LearningpathStep
+        ...LearningpathContent_LearningpathStep
       }
-      ...Learningpath_Learningpath
+      ...LearningpathMenu_Learningpath
+      ...LearningpathContent_Learningpath
     }
-    ${Learningpath.fragments.learningpath}
-    ${Learningpath.fragments.learningpathStep}
+    ${LearningpathMenu.fragments.learningpath}
+    ${LearningpathContent.fragments.learningpath}
+    ${LearningpathContent.fragments.learningpathStep}
   `,
 };

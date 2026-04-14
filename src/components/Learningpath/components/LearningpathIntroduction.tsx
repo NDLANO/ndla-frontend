@@ -11,16 +11,15 @@ import { Badge } from "@ndla/primitives";
 import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
 import { SKIP_TO_CONTENT_ID } from "../../../constants";
-import { GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { ResourceContent } from "../../Resource/ResourceLayout";
 
 interface Props {
-  learningpath: GQLLearningpath_LearningpathFragment;
+  introduction?: string;
   isInactive?: boolean;
 }
 
-export const LearningpathIntroduction = ({ learningpath, isInactive }: Props) => {
+export const LearningpathIntroduction = ({ introduction, isInactive }: Props) => {
   const { t } = useTranslation();
   return (
     <ResourceContent variant="content">
@@ -31,9 +30,7 @@ export const LearningpathIntroduction = ({ learningpath, isInactive }: Props) =>
           badges={<Badge>{t("contentTypes.learning-path")}</Badge>}
         />
         {!!isInactive && <InactiveMessageBox />}
-        <ArticleContent>
-          {!!learningpath.introduction?.length && <section>{transform(learningpath.introduction, {})}</section>}
-        </ArticleContent>
+        <ArticleContent>{!!introduction?.length && <section>{transform(introduction, {})}</section>}</ArticleContent>
       </ArticleWrapper>
     </ResourceContent>
   );

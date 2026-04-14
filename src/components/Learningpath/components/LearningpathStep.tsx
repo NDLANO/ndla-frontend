@@ -7,7 +7,10 @@
  */
 
 import { gql } from "@apollo/client";
-import { GQLLearningpath_LearningpathStepFragment, GQLLearningpath_LearningpathFragment } from "../../../graphqlTypes";
+import {
+  GQLLearningpathStep_LearningpathFragment,
+  GQLLearningpathStep_LearningpathStepFragment,
+} from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
 import { Breadcrumb } from "../../../interfaces";
 import { ArticleStep } from "./ArticleStep";
@@ -38,8 +41,8 @@ const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefin
 };
 
 interface Props {
-  learningpath: GQLLearningpath_LearningpathFragment;
-  learningpathStep: GQLLearningpath_LearningpathStepFragment;
+  learningpath: GQLLearningpathStep_LearningpathFragment;
+  learningpathStep: GQLLearningpathStep_LearningpathStepFragment;
   skipToContentId?: string;
   subjectId?: string;
   isInactive?: boolean;
@@ -133,7 +136,21 @@ LearningpathStep.fragments = {
   learningpathStep: gql`
     fragment LearningpathStep_LearningpathStep on BaseLearningpathStep {
       ...ArticleStep_LearningpathStep
+      ...LearningpathStepTitle_LearningpathStep
+      ...TextStep_LearningpathStep
+      ...ExternalStep_LearningpathStep
     }
     ${ArticleStep.fragments.learningpathStep}
+    ${LearningpathStepTitle.fragments.learningpathStep}
+    ${TextStep.fragments.learningpathStep}
+    ${ExternalStep.fragments.learningpathStep}
+  `,
+  learningpath: gql`
+    fragment LearningpathStep_Learningpath on BaseLearningpath {
+      ...TextStep_Learningpath
+      ...ExternalStep_Learningpath
+    }
+    ${TextStep.fragments.learningpath}
+    ${ExternalStep.fragments.learningpath}
   `,
 };
