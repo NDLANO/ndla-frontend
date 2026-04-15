@@ -5460,7 +5460,7 @@ export type GQLArticleLaunchpad_ResourceFragment = {
   resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
   context?: { __typename?: "TaxonomyContext"; contextId: string };
   learningpath?: { __typename?: "Learningpath"; id: number; description: string };
-  article?: { __typename?: "Article"; id: number; traits: Array<string> };
+  article?: { __typename?: "Article"; id: number; revision: number; traits: Array<string> };
 };
 
 export type GQLArticleLaunchpad_NodeFragment = {
@@ -5506,7 +5506,7 @@ export type GQLArticleLayoutQuery = {
       context?: { __typename?: "TaxonomyContext"; contextId: string; url: string };
       resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
       learningpath?: { __typename?: "Learningpath"; id: number; description: string };
-      article?: { __typename?: "Article"; id: number; traits: Array<string> };
+      article?: { __typename?: "Article"; id: number; revision: number; traits: Array<string> };
     }>;
     links?: Array<{
       __typename?: "Node";
@@ -6467,6 +6467,7 @@ export type GQLMovedResourcePage_NodeFragment = {
     traits: Array<string>;
     metaImage?: {
       __typename?: "ImageMetaInformationV3";
+      id: string;
       image: {
         __typename?: "ImageV3";
         imageUrl: string;
@@ -9404,6 +9405,7 @@ export type GQLResourcePageQuery = {
       language: string;
       metaImage?: {
         __typename?: "ImageMetaInformationV3";
+        id: string;
         image: {
           __typename?: "ImageV3";
           imageUrl: string;
