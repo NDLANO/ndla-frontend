@@ -210,7 +210,7 @@ const frameSrc = (() => {
     "video.qbrick.com",
     "www.norskpetroleum.no",
     "pub.dialogapi.no",
-    "*.*.kaltura.com",
+    "*.kaltura.com",
   ];
   if (config.runtimeType === "development") {
     return [
@@ -288,7 +288,7 @@ export const contentSecurityPolicy = {
       "*.facebook.com",
       "*.twitter.com",
       "*.twimg.com",
-      "*.*.kaltura.com",
+      "*.kaltura.com",
       " data:",
     ],
     mediaSrc: ["'self'", "blob:", "https://*.ndla.no", "*.brightcove.com", "brightcove.com"],
