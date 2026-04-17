@@ -29,7 +29,7 @@ import { AuthContext } from "../../../../components/AuthenticationContext";
 import { TextStep } from "../../../../components/Learningpath/components/TextStep";
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import { GQLLearningpathStepType, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import {
   useCreateLearningpathStep,
   useDeleteLearningpathStep,
@@ -39,7 +39,7 @@ import { routes } from "../../../../routeHelpers";
 import { PrivateRoute } from "../../../PrivateRoute/PrivateRoute";
 import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
 import { FormValues, LearningPathOutletContext } from "../types";
-import { getFormTypeFromStep, learningpathStepEditButtonId } from "../utils";
+import { learningpathStepEditButtonId } from "../utils";
 import { AlertDialog } from "./AlertDialog";
 import { ExternalStepForm } from "./ExternalStepForm";
 import { FolderStepForm } from "./FolderStepForm";
@@ -60,7 +60,7 @@ const ContentForm = styled("form", {
   },
 });
 
-const RADIO_GROUP_OPTIONS = ["text", "resource", "external", "folder"] as const;
+const RADIO_GROUP_OPTIONS = ["TEXT", "ARTICLE", "EXTERNAL", "FOLDER"] as const;
 
 interface Props {
   step?: GQLMyNdlaLearningpathStepFragment;
@@ -82,7 +82,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
 
   const methods = useForm<FormValues>({
     mode: "onSubmit",
-    defaultValues: toFormValues(getFormTypeFromStep(step), step),
+    defaultValues: toFormValues(step?.type ?? "TEXT", step),
   });
 
   useEffect(() => {
@@ -188,7 +188,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
     handleSubmit(onSave)();
   };
 
-  const stepType = getFormTypeFromStep(step);
+  const stepType = step?.type ?? "TEXT";
 
   return (
     <FormProvider {...methods}>
@@ -204,7 +204,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
                   <FieldErrorMessage>{fieldState.error?.message}</FieldErrorMessage>
                   <RadioGroupRoot
                     onValueChange={(details) => {
-                      reset(toFormValues(details.value as FormValues["type"]));
+                      reset(toFormValues(details.value as GQLLearningpathStepType));
                       field.onChange(details.value);
                     }}
                     value={field.value}
@@ -230,7 +230,7 @@ export const LearningpathStepForm = ({ step, language }: Props) => {
         ) : (
           <>
             <Text textStyle="body.medium">{t("myNdla.learningpath.form.content.text.editingDisabled.message")}</Text>
-            {stepType === "text" ? <TextStep learningpathStep={step} /> : null}
+            {stepType === "TEXT" ? <TextStep learningpathStep={step} /> : null}
           </>
         )}
         <HStack justify={step ? "space-between" : "end"}>
@@ -262,7 +262,7 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
   const { watch } = useFormContext<FormValues>();
   const formType = watch("type");
 
-  if (formType === "resource") {
+  if (formType === "ARTICLE") {
     return (
       <ResourceStepForm
         resource={
@@ -278,11 +278,11 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
         }
       />
     );
-  } else if (formType === "external") {
+  } else if (formType === "EXTERNAL") {
     return <ExternalStepForm />;
-  } else if (formType === "text") {
+  } else if (formType === "TEXT") {
     return <TextStepForm />;
-  } else if (formType === "folder") {
+  } else if (formType === "FOLDER") {
     return <FolderStepForm />;
   }
   return null;

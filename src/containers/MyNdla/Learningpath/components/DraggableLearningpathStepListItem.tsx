@@ -18,7 +18,7 @@ import { useParams } from "react-router";
 import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { DragHandle } from "../../components/DragHandle";
-import { getFormTypeFromStep, learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";
+import { learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";
 import { DraggableListItem } from "./DraggableListItem";
 import { LearningpathStepForm } from "./LearningpathStepForm";
 
@@ -82,8 +82,6 @@ export const DraggableLearningpathStepListItem = ({
     },
   });
 
-  const stepType = getFormTypeFromStep(step);
-
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -108,7 +106,7 @@ export const DraggableLearningpathStepListItem = ({
               <Text fontWeight="bold" textStyle="label.medium">
                 {step.title}
               </Text>
-              <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${stepType}`)}</Text>
+              <Text textStyle="label.small">{t(`myNdla.learningpath.form.options.${step.type}`)}</Text>
             </TextWrapper>
             {!isEditingStep ? (
               <SafeLinkButton

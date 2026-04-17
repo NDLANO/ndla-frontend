@@ -10,6 +10,7 @@ const config: CodegenConfig = {
     },
   },
   config: {
+    enumsAsTypes: true,
     maybeValue: "T",
     typesPrefix: "GQL",
   },

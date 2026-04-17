@@ -19,11 +19,6 @@ import { ExternalStep } from "./ExternalStep";
 import { LearningpathStepTitle } from "./LearningpathStepTitle";
 import { TextStep } from "./TextStep";
 
-const urlIsNDLAApiUrl = (url: string) => /^(http|https):\/\/(ndla-frontend|www).([a-zA-Z]+.)?api.ndla.no/.test(url);
-const urlIsNDLAEnvUrl = (url: string) => /^(http|https):\/\/(www.)?([a-zA-Z]+.)?ndla.no/.test(url);
-const urlIsLocalNdla = (url: string) => /^http:\/\/(proxy.ndla-local|localhost):30017/.test(url);
-const urlIsNDLAUrl = (url: string) => urlIsNDLAApiUrl(url) || urlIsNDLAEnvUrl(url) || urlIsLocalNdla(url);
-
 const regex = new RegExp(`^\\/(${supportedLanguages.join("|")})($|\\/)`, "");
 
 const getIdFromIframeUrl = (_url: string): [string | undefined, string | undefined] => {
@@ -62,31 +57,7 @@ export const LearningpathStep = ({
       ? getIdFromIframeUrl(learningpathStep.embedUrl.url)
       : [undefined, undefined];
 
-  const shouldUseConverter =
-    !!articleId &&
-    !!learningpathStep.resource?.article &&
-    !!learningpathStep.embedUrl &&
-    urlIsNDLAUrl(learningpathStep.embedUrl?.url);
-
-  if (
-    !shouldUseConverter &&
-    !learningpathStep.resource &&
-    learningpathStep.oembed?.html &&
-    (learningpathStep.embedUrl?.embedType === "oembed" || learningpathStep.embedUrl?.embedType === "iframe")
-  ) {
-    return (
-      <>
-        <LearningpathStepTitle learningpathStep={learningpathStep} />
-        <EmbedStep
-          skipToContentId={skipToContentId}
-          title={learningpathStep.title}
-          url={learningpathStep.embedUrl?.url ?? ""}
-          oembed={learningpathStep.oembed}
-          isInactive={isInactive}
-        />
-      </>
-    );
-  } else if (learningpathStep.resource) {
+  if (learningpathStep.type === "ARTICLE" && learningpathStep.resource) {
     return (
       <>
         <LearningpathStepTitle learningpathStep={learningpathStep} />
@@ -101,18 +72,36 @@ export const LearningpathStep = ({
         />
       </>
     );
-  } else if (learningpathStep.embedUrl?.embedType === "external") {
-    return (
-      <ExternalStep
-        learningpathStep={learningpathStep}
-        skipToContentId={skipToContentId}
-        learningpath={learningpath}
-        isInactive={isInactive}
-      />
-    );
+  } else if (learningpathStep.type === "EXTERNAL") {
+    if (learningpathStep.oembed?.html) {
+      return (
+        <>
+          <LearningpathStepTitle learningpathStep={learningpathStep} />
+          <EmbedStep
+            skipToContentId={skipToContentId}
+            title={learningpathStep.title}
+            url={learningpathStep.embedUrl?.url ?? ""}
+            oembed={learningpathStep.oembed}
+            isInactive={isInactive}
+          />
+        </>
+      );
+    } else if (learningpathStep.embedUrl?.embedType === "external") {
+      return (
+        <ExternalStep
+          learningpathStep={learningpathStep}
+          skipToContentId={skipToContentId}
+          learningpath={learningpath}
+          isInactive={isInactive}
+        />
+      );
+    }
     // this is either a plain text step from stier, or a text step from my ndla.
     // There's really no way to know, so we have to make an educated guess.
-  } else if (learningpathStep.introduction || learningpathStep.description?.startsWith("<section>")) {
+  } else if (
+    learningpathStep.type === "TEXT" &&
+    (learningpathStep.introduction || learningpathStep.description?.startsWith("<section>"))
+  ) {
     return (
       <TextStep
         learningpathStep={learningpathStep}
@@ -121,20 +110,22 @@ export const LearningpathStep = ({
         isInactive={isInactive}
       />
     );
-  } else {
-    return (
-      <LearningpathStepTitle
-        learningpathStep={learningpathStep}
-        skipToContentId={skipToContentId}
-        isInactive={isInactive}
-      />
-    );
   }
+
+  return (
+    <LearningpathStepTitle
+      learningpathStep={learningpathStep}
+      skipToContentId={skipToContentId}
+      isInactive={isInactive}
+    />
+  );
 };
 
 LearningpathStep.fragments = {
   learningpathStep: gql`
     fragment LearningpathStep_LearningpathStep on BaseLearningpathStep {
+      id
+      type
       ...ArticleStep_LearningpathStep
       ...LearningpathStepTitle_LearningpathStep
       ...TextStep_LearningpathStep

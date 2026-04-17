@@ -40,7 +40,7 @@ const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
 
 export interface ExternalFormValues {
-  type: "external";
+  type: "EXTERNAL";
   title: string;
   introduction: string;
   url: string;

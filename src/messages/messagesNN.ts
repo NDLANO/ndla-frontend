@@ -285,10 +285,10 @@ const messages = {
           },
         },
         options: {
-          text: "Tekst eg har skrive sjølv",
-          resource: "Innhald frå NDLA",
-          external: "Innhald frå ein annan nettstad",
-          folder: "Innhald frå ei av mine mapper i Min NDLA",
+          TEXT: "Tekst eg har skrive sjølv",
+          ARTICLE: "Innhald frå NDLA",
+          EXTERNAL: "Innhald frå ein annan nettstad",
+          FOLDER: "Innhald frå ei av mine mapper i Min NDLA",
         },
         steps: {
           next: "Neste: {{ next }}",

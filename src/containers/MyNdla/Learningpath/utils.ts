@@ -7,8 +7,6 @@
  */
 
 import config from "../../../config";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
-import { FormValues } from "./types";
 
 export const sharedLearningpathLink = (id: number, language?: string) => {
   const languageParam = language ? `/${language}` : "";
@@ -21,13 +19,6 @@ export const copyLearningpathSharingLink = (id: number, language?: string) =>
 export const LEARNINGPATH_SHARED = "UNLISTED";
 export const LEARNINGPATH_PRIVATE = "PRIVATE";
 export const LEARNINGPATH_READY_FOR_SHARING = "READY_FOR_SHARING";
-
-export const getFormTypeFromStep = (step?: GQLMyNdlaLearningpathStepFragment): FormValues["type"] => {
-  if (!step?.resource && !step?.oembed && !step?.embedUrl) return "text";
-  if (step?.resource || step.embedUrl?.url.includes("resource")) return "resource";
-  if (step?.embedUrl?.embedType === "external") return "external";
-  return "text";
-};
 
 export const learningpathListItemId = (id: number) => `learningpath-${id}`;
 export const learningpathStepEditButtonId = (id: number) => `edit-button-${id}`;

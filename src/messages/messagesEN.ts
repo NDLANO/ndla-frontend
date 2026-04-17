@@ -286,10 +286,10 @@ const messages = {
           },
         },
         options: {
-          text: "Text written by myself",
-          resource: "Content from NDLA",
-          external: "Content from a external website",
-          folder: "Content from one of my folder in My NDLA",
+          TEXT: "Text written by myself",
+          ARTICLE: "Content from NDLA",
+          EXTERNAL: "Content from a external website",
+          FOLDER: "Content from one of my folder in My NDLA",
         },
         steps: {
           next: "Neste: {{ next }}",

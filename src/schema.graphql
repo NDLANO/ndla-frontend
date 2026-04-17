@@ -173,7 +173,7 @@ interface BaseLearningpathStep {
   status: String!
   supportedLanguages: [String!]!
   title: String!
-  type: String!
+  type: LearningpathStepType!
 }
 
 type Breadcrumb {
@@ -654,7 +654,7 @@ type LearningpathStep implements BaseLearningpathStep {
   status: String!
   supportedLanguages: [String!]!
   title: String!
-  type: String!
+  type: LearningpathStepType!
 }
 
 type LearningpathStepEmbedUrl {
@@ -672,7 +672,7 @@ input LearningpathStepNewInput {
   license: String
   showTitle: Boolean!
   title: String!
-  type: String!
+  type: LearningpathStepType!
 }
 
 type LearningpathStepOembed {
@@ -681,6 +681,12 @@ type LearningpathStepOembed {
   type: String!
   version: String!
   width: Int!
+}
+
+enum LearningpathStepType {
+  ARTICLE
+  EXTERNAL
+  TEXT
 }
 
 input LearningpathStepUpdateInput {
@@ -694,7 +700,7 @@ input LearningpathStepUpdateInput {
   revision: Int!
   showTitle: Boolean
   title: String
-  type: String
+  type: LearningpathStepType
 }
 
 input LearningpathUpdateInput {
@@ -780,15 +786,18 @@ type Mutation {
     tags: [String!]
   ): MyNdlaResource!
   copyLearningpath(learningpathId: Int!, params: LearningpathCopyInput!): MyNdlaLearningpath!
+  copyMyNdlaResources(resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
   copySharedFolder(destinationFolderId: String, folderId: String!): Folder!
   deleteFolder(id: String!): String!
   deleteLearningpath(id: Int!): Boolean
   deleteLearningpathStep(learningpathId: Int!, learningstepId: Int!): Boolean
   deleteMyNdlaResource(folderId: String, resourceId: String!): String!
+  deleteMyNdlaResources(folderId: StringOrNull, resourceIds: [String!]!): Boolean!
   deletePersonalData: Boolean!
   favoriteSharedFolder(folderId: String!): String!
   moveFolder(id: String!, parentId: StringOrNull): Folder!
   moveMyNdlaResource(fromFolderId: StringOrNull, id: String!, toFolderId: StringOrNull): Boolean
+  moveMyNdlaResources(fromFolderId: StringOrNull, resourceIds: [String!]!, toFolderId: StringOrNull): Boolean!
   newLearningpath(params: LearningpathNewInput!): MyNdlaLearningpath!
   newLearningpathStep(learningpathId: Int!, params: LearningpathStepNewInput!): MyNdlaLearningpathStep!
   sortFolders(parentId: String, sortedIds: [String!]!): SortResult!
@@ -914,7 +923,7 @@ type MyNdlaLearningpathStep implements BaseLearningpathStep {
   status: String!
   supportedLanguages: [String!]!
   title: String!
-  type: String!
+  type: LearningpathStepType!
 }
 
 type MyNdlaPersonalData {

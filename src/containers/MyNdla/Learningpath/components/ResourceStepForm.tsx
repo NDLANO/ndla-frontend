@@ -31,7 +31,7 @@ import { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
 
 export interface ResourceFormValues {
-  type: "resource";
+  type: "ARTICLE";
   embedUrl: string;
   articleId?: number;
   title: string;

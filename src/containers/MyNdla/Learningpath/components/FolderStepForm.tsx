@@ -49,7 +49,7 @@ const PathText = styled(Text, {
 });
 
 export interface FolderFormValues {
-  type: "folder";
+  type: "FOLDER";
   articleId?: number;
   embedUrl: string;
   title: string;
