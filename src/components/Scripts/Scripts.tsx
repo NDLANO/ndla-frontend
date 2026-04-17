@@ -7,7 +7,6 @@
  */
 
 import { Formbricks } from "./Formbricks";
-import { Matomo } from "./Matomo";
 import { Monsido } from "./Monsido";
 import { Tagmanager } from "./Tagmanager";
 
@@ -15,7 +14,6 @@ export const Scripts = () => {
   return (
     <>
       <Formbricks />
-      <Matomo />
       <Monsido />
       <Tagmanager />
     </>

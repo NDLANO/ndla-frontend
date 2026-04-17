@@ -103,7 +103,6 @@ export type ConfigType = {
   localGraphQLApi: boolean;
   feideDomain: string;
   matomoUrl: string;
-  matomoSiteId: string;
   matomoTagmanagerId: string;
   isVercel: boolean;
   monsidoToken: string;
@@ -138,7 +137,6 @@ const getServerSideConfig = (): ConfigType => {
     localGraphQLApi: getEnvironmentVariable("LOCAL_GRAPHQL_API", false),
     feideDomain: getEnvironmentVariable("FEIDE_DOMAIN", feideDomain(ndlaEnvironment)),
     matomoUrl: getEnvironmentVariable("MATOMO_URL", "https://tall.ndla.no"),
-    matomoSiteId: getEnvironmentVariable("MATOMO_SITE_ID", ""),
     matomoTagmanagerId: getEnvironmentVariable("MATOMO_TAGMANAGER_ID", ""),
     isVercel: getEnvironmentVariable("IS_VERCEL", false),
     monsidoToken: getEnvironmentVariable("MONSIDO_TOKEN", ""),
