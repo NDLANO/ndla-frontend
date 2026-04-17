@@ -104,6 +104,21 @@ const StyledTreeItem = styled(TreeItem, {
         paddingInlineEnd: "small",
         paddingBlock: "medium",
         height: "unset",
+        _hover: {
+          background: "surface.action.brand.1.hover",
+        },
+        _selected: {
+          background: "surface.action.brand.1.active",
+          _hover: {
+            background: "surface.action.brand.1.hover.strong",
+          },
+        },
+        _active: {
+          background: "surface.action.brand.1.selected",
+          _hover: {
+            background: "surface.action.brand.1.hover.strong",
+          },
+        },
       },
       myNdla: {},
       folder: {},
