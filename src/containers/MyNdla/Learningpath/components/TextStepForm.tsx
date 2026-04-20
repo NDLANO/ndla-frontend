@@ -20,7 +20,7 @@ const TITLE_MAX_LENGTH = 64;
 const INTRODUCTION_MAX_LENGTH = 250;
 
 export interface TextFormValues {
-  type: "text";
+  type: "TEXT";
   title: string;
   introduction: string;
   description: Descendant[];

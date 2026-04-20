@@ -16,14 +16,14 @@ export const toFormValues = <T extends FormValues["type"]>(
   step?: GQLMyNdlaLearningpathStepFragment,
 ): FormValues => {
   switch (type) {
-    case "text":
+    case "TEXT":
       return {
-        type: "text",
+        type: "TEXT",
         title: step?.title ?? "",
         introduction: step?.introduction ?? "",
         description: deserializeToRichText(step?.description ?? ""),
       };
-    case "external":
+    case "EXTERNAL":
       return {
         type: type,
         title: step?.title ?? "",
@@ -31,8 +31,8 @@ export const toFormValues = <T extends FormValues["type"]>(
         url: step?.embedUrl?.url ?? "",
         shareable: !!step?.embedUrl?.url,
       };
-    case "resource":
-    case "folder":
+    case "ARTICLE":
+    case "FOLDER":
       return {
         type: type,
         title: step?.title ?? "",
@@ -45,7 +45,7 @@ export const toFormValues = <T extends FormValues["type"]>(
 };
 
 export const formValuesToGQLInput = (values: FormValues) => {
-  if (values.type === "text") {
+  if (values.type === "TEXT") {
     return {
       type: "TEXT",
       title: values.title,
@@ -56,9 +56,9 @@ export const formValuesToGQLInput = (values: FormValues) => {
     };
   }
 
-  if (values.type === "external") {
+  if (values.type === "EXTERNAL") {
     return {
-      type: "TEXT",
+      type: "EXTERNAL",
       title: values.title,
       introduction: values.introduction,
       description: null,
@@ -70,9 +70,9 @@ export const formValuesToGQLInput = (values: FormValues) => {
     };
   }
 
-  if (values.type === "resource") {
+  if (values.type === "ARTICLE") {
     return {
-      type: "TEXT",
+      type: "ARTICLE",
       title: values.title,
       articleId: values.articleId,
       introduction: null,
@@ -82,7 +82,7 @@ export const formValuesToGQLInput = (values: FormValues) => {
   }
 
   return {
-    type: "TEXT",
+    type: "ARTICLE",
     title: values.title,
     articleId: values.articleId,
     introduction: null,

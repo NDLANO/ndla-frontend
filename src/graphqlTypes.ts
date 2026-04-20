@@ -218,7 +218,7 @@ export type GQLBaseLearningpathStep = {
   status: Scalars["String"]["output"];
   supportedLanguages: Array<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
-  type: Scalars["String"]["output"];
+  type: GQLLearningpathStepType;
 };
 
 export type GQLBaseLearningpathStepResourceArgs = {
@@ -755,7 +755,7 @@ export type GQLLearningpathStep = GQLBaseLearningpathStep & {
   status: Scalars["String"]["output"];
   supportedLanguages: Array<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
-  type: Scalars["String"]["output"];
+  type: GQLLearningpathStepType;
 };
 
 export type GQLLearningpathStepResourceArgs = {
@@ -779,7 +779,7 @@ export type GQLLearningpathStepNewInput = {
   license?: InputMaybe<Scalars["String"]["input"]>;
   showTitle: Scalars["Boolean"]["input"];
   title: Scalars["String"]["input"];
-  type: Scalars["String"]["input"];
+  type: GQLLearningpathStepType;
 };
 
 export type GQLLearningpathStepOembed = {
@@ -790,6 +790,8 @@ export type GQLLearningpathStepOembed = {
   version: Scalars["String"]["output"];
   width: Scalars["Int"]["output"];
 };
+
+export type GQLLearningpathStepType = "ARTICLE" | "EXTERNAL" | "TEXT";
 
 export type GQLLearningpathStepUpdateInput = {
   articleId?: InputMaybe<Scalars["Int"]["input"]>;
@@ -802,7 +804,7 @@ export type GQLLearningpathStepUpdateInput = {
   revision: Scalars["Int"]["input"];
   showTitle?: InputMaybe<Scalars["Boolean"]["input"]>;
   title?: InputMaybe<Scalars["String"]["input"]>;
-  type?: InputMaybe<Scalars["String"]["input"]>;
+  type?: InputMaybe<GQLLearningpathStepType>;
 };
 
 export type GQLLearningpathUpdateInput = {
@@ -891,15 +893,18 @@ export type GQLMutation = {
   addFolder: GQLFolder;
   addMyNdlaResource: GQLMyNdlaResource;
   copyLearningpath: GQLMyNdlaLearningpath;
+  copyMyNdlaResources: Scalars["Boolean"]["output"];
   copySharedFolder: GQLFolder;
   deleteFolder: Scalars["String"]["output"];
   deleteLearningpath?: Maybe<Scalars["Boolean"]["output"]>;
   deleteLearningpathStep?: Maybe<Scalars["Boolean"]["output"]>;
   deleteMyNdlaResource: Scalars["String"]["output"];
+  deleteMyNdlaResources: Scalars["Boolean"]["output"];
   deletePersonalData: Scalars["Boolean"]["output"];
   favoriteSharedFolder: Scalars["String"]["output"];
   moveFolder: GQLFolder;
   moveMyNdlaResource?: Maybe<Scalars["Boolean"]["output"]>;
+  moveMyNdlaResources: Scalars["Boolean"]["output"];
   newLearningpath: GQLMyNdlaLearningpath;
   newLearningpathStep: GQLMyNdlaLearningpathStep;
   sortFolders: GQLSortResult;
@@ -937,6 +942,11 @@ export type GQLMutationCopyLearningpathArgs = {
   params: GQLLearningpathCopyInput;
 };
 
+export type GQLMutationCopyMyNdlaResourcesArgs = {
+  resourceIds: Array<Scalars["String"]["input"]>;
+  toFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
+};
+
 export type GQLMutationCopySharedFolderArgs = {
   destinationFolderId?: InputMaybe<Scalars["String"]["input"]>;
   folderId: Scalars["String"]["input"];
@@ -960,6 +970,11 @@ export type GQLMutationDeleteMyNdlaResourceArgs = {
   resourceId: Scalars["String"]["input"];
 };
 
+export type GQLMutationDeleteMyNdlaResourcesArgs = {
+  folderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
+  resourceIds: Array<Scalars["String"]["input"]>;
+};
+
 export type GQLMutationFavoriteSharedFolderArgs = {
   folderId: Scalars["String"]["input"];
 };
@@ -972,6 +987,12 @@ export type GQLMutationMoveFolderArgs = {
 export type GQLMutationMoveMyNdlaResourceArgs = {
   fromFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
   id: Scalars["String"]["input"];
+  toFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
+};
+
+export type GQLMutationMoveMyNdlaResourcesArgs = {
+  fromFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
+  resourceIds: Array<Scalars["String"]["input"]>;
   toFolderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
 };
 
@@ -1159,7 +1180,7 @@ export type GQLMyNdlaLearningpathStep = GQLBaseLearningpathStep & {
   status: Scalars["String"]["output"];
   supportedLanguages: Array<Scalars["String"]["output"]>;
   title: Scalars["String"]["output"];
-  type: Scalars["String"]["output"];
+  type: GQLLearningpathStepType;
 };
 
 export type GQLMyNdlaLearningpathStepResourceArgs = {
@@ -2385,6 +2406,7 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
   id: number;
   title: string;
   introduction?: string;
+  type: GQLLearningpathStepType;
   description?: string;
   showTitle: boolean;
   opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
@@ -2609,6 +2631,7 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
   id: number;
   title: string;
   introduction?: string;
+  type: GQLLearningpathStepType;
   description?: string;
   showTitle: boolean;
   opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
@@ -3820,6 +3843,7 @@ export type GQLLearningpathNavigation_LearningpathFragment =
 type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
   __typename?: "LearningpathStep";
   id: number;
+  type: GQLLearningpathStepType;
   title: string;
   description?: string;
   introduction?: string;
@@ -4044,6 +4068,7 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
 type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
   __typename?: "MyNdlaLearningpathStep";
   id: number;
+  type: GQLLearningpathStepType;
   title: string;
   description?: string;
   introduction?: string;
@@ -6104,7 +6129,7 @@ export type GQLLearningpathPage_NodeFragment = {
     };
     learningsteps: Array<{
       __typename?: "LearningpathStep";
-      type: string;
+      type: GQLLearningpathStepType;
       id: number;
       title: string;
       seqNo: number;
@@ -7396,6 +7421,7 @@ export type GQLPreviewLearningpathQuery = {
       title: string;
       seqNo: number;
       introduction?: string;
+      type: GQLLearningpathStepType;
       description?: string;
       showTitle: boolean;
       opengraph?: { __typename?: "ExternalOpengraph"; title?: string; description?: string; url?: string };
@@ -7723,7 +7749,7 @@ export type GQLMyLearningpathsQuery = {
       articleId?: number;
       description?: string;
       introduction?: string;
-      type: string;
+      type: GQLLearningpathStepType;
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
@@ -7797,7 +7823,7 @@ export type GQLMyNdlaLearningpathQuery = {
       articleId?: number;
       description?: string;
       introduction?: string;
-      type: string;
+      type: GQLLearningpathStepType;
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
@@ -8380,6 +8406,7 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
   coverphoto?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
   learningsteps: Array<{
     __typename?: "LearningpathStep";
+    type: GQLLearningpathStepType;
     id: number;
     title: string;
     seqNo: number;
@@ -8630,6 +8657,7 @@ export type GQLPlainLearningpathPageQuery = {
     coverphoto?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
     learningsteps: Array<{
       __typename?: "LearningpathStep";
+      type: GQLLearningpathStepType;
       id: number;
       title: string;
       seqNo: number;
@@ -9603,7 +9631,7 @@ export type GQLResourcePageQuery = {
       };
       learningsteps: Array<{
         __typename?: "LearningpathStep";
-        type: string;
+        type: GQLLearningpathStepType;
         id: number;
         title: string;
         seqNo: number;
@@ -10969,7 +10997,7 @@ export type GQLMyNdlaLearningpathStepFragment = {
   articleId?: number;
   description?: string;
   introduction?: string;
-  type: string;
+  type: GQLLearningpathStepType;
   supportedLanguages: Array<string>;
   showTitle: boolean;
   revision: number;
@@ -11034,7 +11062,7 @@ export type GQLMyNdlaLearningpathFragment = {
     articleId?: number;
     description?: string;
     introduction?: string;
-    type: string;
+    type: GQLLearningpathStepType;
     supportedLanguages: Array<string>;
     showTitle: boolean;
     revision: number;
@@ -13868,7 +13896,7 @@ export type GQLUpdateLearningpathStatusMutation = {
       articleId?: number;
       description?: string;
       introduction?: string;
-      type: string;
+      type: GQLLearningpathStepType;
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
@@ -13942,7 +13970,7 @@ export type GQLNewLearningpathMutation = {
       articleId?: number;
       description?: string;
       introduction?: string;
-      type: string;
+      type: GQLLearningpathStepType;
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
@@ -13999,7 +14027,7 @@ export type GQLNewLearningpathStepMutation = {
     articleId?: number;
     description?: string;
     introduction?: string;
-    type: string;
+    type: GQLLearningpathStepType;
     supportedLanguages: Array<string>;
     showTitle: boolean;
     revision: number;
@@ -14056,7 +14084,7 @@ export type GQLUpdateLearningpathStepMutation = {
     articleId?: number;
     description?: string;
     introduction?: string;
-    type: string;
+    type: GQLLearningpathStepType;
     supportedLanguages: Array<string>;
     showTitle: boolean;
     revision: number;
@@ -14137,7 +14165,7 @@ export type GQLUpdateLearningpathMutation = {
       articleId?: number;
       description?: string;
       introduction?: string;
-      type: string;
+      type: GQLLearningpathStepType;
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
@@ -14212,7 +14240,7 @@ export type GQLCopyLearningpathMutation = {
       articleId?: number;
       description?: string;
       introduction?: string;
-      type: string;
+      type: GQLLearningpathStepType;
       supportedLanguages: Array<string>;
       showTitle: boolean;
       revision: number;
