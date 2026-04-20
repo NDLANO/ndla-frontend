@@ -21,6 +21,7 @@ import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { MobileLaunchpadMenu } from "../../../components/Resource/Launchpad";
+import { ResourceContentContainer } from "../../../components/Resource/ResourceLayout";
 import { GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables } from "../../../graphqlTypes";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
@@ -147,13 +148,17 @@ export const PreviewLearningpathPage = () => {
                 loading={learningpathQuery.loading}
               />
             </MobileLaunchpadMenu>
-            <LearningpathContent
-              // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
-              learningpath={learningpath}
-              learningpathStep={learningpathStep}
-              context="preview"
-              loading={learningpathQuery.loading}
-            />
+            <ResourceContentContainer asChild consumeCss>
+              <div>
+                <LearningpathContent
+                  // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
+                  learningpath={learningpath}
+                  learningpathStep={learningpathStep}
+                  context="preview"
+                  loading={learningpathQuery.loading}
+                />
+              </div>
+            </ResourceContentContainer>
           </LearningpathWrapper>
         ) : (
           <Text>{t("myNdla.learningpath.previewLearningpath.noSteps")}</Text>

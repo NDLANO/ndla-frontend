@@ -17,7 +17,7 @@ import {
 import { Breadcrumb } from "../../interfaces";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { ContentPlaceholder } from "../ContentPlaceholder";
-import { ResourceContent, ResourceContentContainer } from "../Resource/ResourceLayout";
+import { ResourceContent } from "../Resource/ResourceLayout";
 import { RestrictedBlockContextProvider } from "../RestrictedBlock";
 import { LearningpathIntroduction } from "./components/LearningpathIntroduction";
 import { LearningpathNavigation } from "./components/LearningpathNavigation";
@@ -49,7 +49,7 @@ export const LearningpathContent = ({
   );
 
   return (
-    <ResourceContentContainer>
+    <>
       {!learningpathStep && !!learningpath?.introduction?.length && (
         <LearningpathIntroduction
           introduction={learningpath.introduction}
@@ -92,7 +92,7 @@ export const LearningpathContent = ({
             resourcePath={resource?.url}
           />
         )}
-    </ResourceContentContainer>
+    </>
   );
 };
 
