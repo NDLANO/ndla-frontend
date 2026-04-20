@@ -131,6 +131,7 @@ const dynamicMenuQueryDef = gql`
           id
           title
           slug
+          revision
         }
       }
     }

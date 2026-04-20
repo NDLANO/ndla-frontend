@@ -33,9 +33,11 @@ export const topicPageQuery = gql`
       relevanceId
       nodeType
       article {
+        id
         htmlTitle
         htmlIntroduction
         grepCodes
+        revision
         metaImage {
           image {
             imageUrl
