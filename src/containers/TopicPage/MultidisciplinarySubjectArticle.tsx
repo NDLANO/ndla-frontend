@@ -270,7 +270,9 @@ MultidisciplinarySubjectArticle.fragments = {
         introduction
         metaDescription
         traits
+        revision
         metaImage {
+          id
           image {
             imageUrl
           }
