@@ -5565,6 +5565,7 @@ export type GQLArticlePage_NodeFragment = {
   resourceTypes?: Array<{ __typename?: "ResourceType"; name: string; id: string }>;
   context?: {
     __typename?: "TaxonomyContext";
+    rootId: string;
     contextId: string;
     isArchived: boolean;
     parents?: Array<{ __typename?: "TaxonomyCrumb"; contextId: string; id: string; name: string; url: string }>;
@@ -6117,6 +6118,7 @@ export type GQLLearningpathPage_NodeFragment = {
   context?: {
     __typename?: "TaxonomyContext";
     contextId: string;
+    rootId: string;
     isArchived: boolean;
     url: string;
     defaultUrl: string;
@@ -6382,7 +6384,7 @@ export type GQLDynamicMenuQuery = {
     menu?: Array<{
       __typename?: "FrontpageMenu";
       articleId: number;
-      article: { __typename?: "Article"; id: number; title: string; slug?: string };
+      article: { __typename?: "Article"; id: number; title: string; slug?: string; revision: number };
     }>;
   };
 };
@@ -9424,8 +9426,9 @@ export type GQLResourcePageQuery = {
     context?: {
       __typename?: "TaxonomyContext";
       contextId: string;
-      url: string;
+      rootId: string;
       isArchived: boolean;
+      url: string;
       defaultUrl: string;
       parents?: Array<{ __typename?: "TaxonomyCrumb"; id: string; contextId: string; url: string; name: string }>;
     };
@@ -10442,15 +10445,16 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     introduction?: string;
     metaDescription: string;
     traits: Array<string>;
+    revision: number;
     supportedLanguages?: Array<string>;
     grepCodes?: Array<string>;
     htmlIntroduction?: string;
     htmlTitle: string;
-    revision: number;
     title: string;
     published: string;
     metaImage?: {
       __typename?: "ImageMetaInformationV3";
+      id: string;
       image: { __typename?: "ImageV3"; imageUrl: string };
       alttext: { __typename?: "ImageAltText"; alttext: string };
     };
@@ -10656,10 +10660,11 @@ export type GQLTopicPageQuery = {
     defaultUrl?: string;
     article?: {
       __typename?: "Article";
+      id: number;
       htmlTitle: string;
       htmlIntroduction?: string;
       grepCodes?: Array<string>;
-      id: number;
+      revision: number;
       language: string;
       created: string;
       updated: string;
@@ -10668,11 +10673,11 @@ export type GQLTopicPageQuery = {
       metaDescription: string;
       traits: Array<string>;
       supportedLanguages?: Array<string>;
-      revision: number;
       title: string;
       published: string;
       metaImage?: {
         __typename?: "ImageMetaInformationV3";
+        id: string;
         image: { __typename?: "ImageV3"; imageUrl: string };
         alttext: { __typename?: "ImageAltText"; alttext: string };
       };

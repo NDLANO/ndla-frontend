@@ -69,7 +69,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
     <>
       {!!resource && !!resource.article && !!article && (
         <>
-          <PageTitle title={getDocumentTitle(t, resource, root)} customPath={resource.defaultUrl} />
+          <PageTitle title={getDocumentTitle(t, resource, root)} trackingProps={resource} />
           {scripts?.map((script) => (
             <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
@@ -135,6 +135,7 @@ ArticlePage.fragments = {
         id
       }
       context {
+        rootId
         contextId
         isArchived
         parents {

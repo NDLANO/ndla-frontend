@@ -158,7 +158,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
-        <PageTitle title={pageTitle} customPath={programme.defaultUrl} />
+        <PageTitle title={pageTitle} trackingProps={{ defaultUrl: programme.defaultUrl, rootId: programme.id }} />
         <SocialMediaMetadata
           title={socialMediaTitle}
           description={metaDescription}

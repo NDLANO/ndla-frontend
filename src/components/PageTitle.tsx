@@ -18,17 +18,26 @@ interface BaseProps {
   title: string;
 }
 
-interface WithCustomUrl extends BaseProps {
-  customPath: string | undefined;
+interface TrackingProps {
+  defaultUrl?: string;
+  rootId?: string;
+  context?: {
+    rootId?: string;
+    defaultUrl?: string;
+  };
+}
+
+interface WithTrackingProps extends BaseProps {
+  trackingProps?: TrackingProps;
   useLocationForCustomPath?: false;
 }
 
-interface WithLocationForCustomUrl extends BaseProps {
-  customPath?: undefined;
+interface WithNoTrackingProps extends BaseProps {
+  trackingProps?: undefined;
   useLocationForCustomPath: true;
 }
 
-type Props = WithCustomUrl | WithLocationForCustomUrl;
+type Props = WithTrackingProps | WithNoTrackingProps;
 
 // NOTE: Builds the URL sent as `CustomUrl` on matomo `Pageview` events. Every
 // locale segment is stripped (unlike `getCanonicalUrl`, which only strips `nb`)
@@ -48,14 +57,15 @@ export const getTrackedUrl = (pathname: string) => {
 /**
  * A component for setting the page title and tracking a page view event.
  * @param title - The title of the page. Will update the document title tag and dispatch a page view event. The component expects this title to be stable for the lifetime of the page, meaning it should not change unless the page location changes.
- * @param customPath - Optional path to use for page view tracking instead of the canonical URL derived from the current location. Mutually exclusive with `useLocationForCustomPath`.
- * @param useLocationForCustomPath - When true, derives the tracked path from the current location's canonical URL. Mutually exclusive with `customUrl`.
+ * @param trackingProps - Optional tracking metadata for the page view event. `defaultUrl` overrides the path used for tracking instead of the current location; `rootId` is sent as the `subjectId` dimension. Either value may also be supplied nested under `context` to accept a GraphQL `TaxonomyContext` directly.
  */
-export const PageTitle = ({ title, customPath }: Props) => {
+export const PageTitle = ({ title, trackingProps }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
   const hasTracked = useRef(false);
 
   const location = useLocation();
+  const customPath = trackingProps?.defaultUrl ?? trackingProps?.context?.defaultUrl;
+  const subjectId = trackingProps?.rootId ?? trackingProps?.context?.rootId;
   const trackedPath = customPath ?? location.pathname;
   const trackedUrl = getTrackedUrl(trackedPath);
 
@@ -74,10 +84,11 @@ export const PageTitle = ({ title, customPath }: Props) => {
       page_title: title,
       event: "Pageview",
       CustomUrl: trackedUrl,
+      subjectId,
       ...dimensions,
     });
     hasTracked.current = true;
-  }, [authContextLoaded, title, trackedUrl, user]);
+  }, [authContextLoaded, title, trackedUrl, user, subjectId]);
 
   return <title>{title}</title>;
 };
