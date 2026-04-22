@@ -26,7 +26,7 @@ export const languagePartIndex = (parts: string[]) => {
 export const getCanonicalUrl = (pathname: string) => {
   const parts = pathname.split("/");
   const langIdx = languagePartIndex(parts);
-  if (parts[langIdx] === "nb") {
+  if (parts[langIdx] === config.defaultLocale) {
     parts.splice(langIdx, 1);
   }
 
