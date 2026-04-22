@@ -19,6 +19,10 @@ export const languagePartIndex = (parts: string[]) => {
   return parts.includes("article-iframe") ? 2 : 1;
 };
 
+// NOTE: Builds the `<link rel="canonical">` URL. Only the `nb` prefix is stripped
+// because bokmål is our default language and is served without a path segment;
+// other locales (`nn`, `en`, …) must remain in the URL so each language variant
+// has its own canonical and is indexed as a distinct page by search engines.
 export const getCanonicalUrl = (pathname: string) => {
   const parts = pathname.split("/");
   const langIdx = languagePartIndex(parts);
@@ -29,6 +33,10 @@ export const getCanonicalUrl = (pathname: string) => {
   return buildFullUrlFromPath(parts.join("/"));
 };
 
+// NOTE: Builds the `<link rel="alternate" hrefLang>` URL for a given language.
+// Any existing locale segment is removed and `alternateLanguage` is inserted in
+// its place so search engines can discover all language variants of a page from
+// any one of them.
 export const getAlternateUrl = (pathname: string, alternateLanguage: string) => {
   const parts = pathname.split("/");
   const langIdx = languagePartIndex(parts);

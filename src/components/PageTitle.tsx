@@ -30,6 +30,11 @@ interface WithLocationForCustomUrl extends BaseProps {
 
 type Props = WithCustomUrl | WithLocationForCustomUrl;
 
+// NOTE: Builds the URL sent as `CustomUrl` on matomo `Pageview` events. Every
+// locale segment is stripped (unlike `getCanonicalUrl`, which only strips `nb`)
+// so that every language variant of the same page collapses onto a single URL
+// in matomo — letting us track a page's traffic as one number regardless of
+// which language the visitor used.
 export const getTrackedUrl = (pathname: string) => {
   const parts = pathname.split("/");
   const langIdx = languagePartIndex(parts);
