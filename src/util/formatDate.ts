@@ -6,12 +6,13 @@
  *
  */
 
+import { toIntlLanguage } from "@ndla/util";
 import { LocaleType } from "../interfaces";
 
 const timeZone = "CET";
 
 export const formatDate = (date: string, locale: LocaleType) => {
-  return new Intl.DateTimeFormat(locale, {
+  return new Intl.DateTimeFormat(toIntlLanguage(locale), {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",

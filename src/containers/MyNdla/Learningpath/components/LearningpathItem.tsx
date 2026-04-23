@@ -11,6 +11,7 @@ import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, T
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
+import { toIntlLanguage } from "@ndla/util";
 import { Fragment, ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
@@ -62,7 +63,7 @@ export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props
   const MaybeWrapper = context === "list" ? "li" : Fragment;
 
   const createdString = useMemo(() => {
-    const TIME_FORMAT = new Intl.DateTimeFormat(i18n.language);
+    const TIME_FORMAT = new Intl.DateTimeFormat(toIntlLanguage(i18n.language));
     const created = TIME_FORMAT.format(new Date(learningpath.created));
     const arr = [t("myNdla.learningpath.created", { created })];
     if (learningpath.madeAvailable && learningpath.status === LEARNINGPATH_SHARED) {
