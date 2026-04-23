@@ -41,7 +41,7 @@ function buildLicenseTabList(
     {
       title: article.title,
       copyright: article.copyright,
-      updated: article.published,
+      updated: article.revised,
       copyText,
     },
   ];
@@ -164,6 +164,7 @@ LicenseBox.fragments = {
       title
       htmlTitle
       published
+      revised
       copyright {
         ...TextLicenseList_Copyright
       }

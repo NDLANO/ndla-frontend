@@ -192,6 +192,7 @@ const frontpageQuery = gql`
         introduction
         created
         updated
+        revised
         published
         language
         htmlTitle

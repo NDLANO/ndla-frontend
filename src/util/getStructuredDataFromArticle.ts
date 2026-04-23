@@ -267,6 +267,7 @@ export const structuredArticleDataFragment = gql`
     metaDescription
     published
     updated
+    revised
     supportedLanguages
     copyright {
       ...StructuredArticleData_Copyright

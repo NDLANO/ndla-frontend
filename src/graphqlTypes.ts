@@ -49,6 +49,7 @@ export type GQLArticle = {
   published: Scalars["String"]["output"];
   relatedContent?: Maybe<Array<GQLRelatedContent>>;
   requiredLibraries?: Maybe<Array<GQLArticleRequiredLibrary>>;
+  revised: Scalars["String"]["output"];
   revision: Scalars["Int"]["output"];
   revisionDate?: Maybe<Scalars["String"]["output"]>;
   slug?: Maybe<Scalars["String"]["output"]>;
@@ -2173,6 +2174,7 @@ export type GQLArticle_ArticleFragment = {
   language: string;
   title: string;
   published: string;
+  revised: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
@@ -2435,6 +2437,7 @@ type GQLLearningpathContent_LearningpathStep_LearningpathStep_Fragment = {
       articleType: string;
       title: string;
       published: string;
+      revised: string;
       supportedLanguages?: Array<string>;
       grepCodes?: Array<string>;
       htmlIntroduction?: string;
@@ -2660,6 +2663,7 @@ type GQLLearningpathContent_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       articleType: string;
       title: string;
       published: string;
+      revised: string;
       supportedLanguages?: Array<string>;
       grepCodes?: Array<string>;
       htmlIntroduction?: string;
@@ -2948,6 +2952,7 @@ export type GQLLearningpathEmbed_ArticleFragment = {
   articleType: string;
   title: string;
   published: string;
+  revised: string;
   supportedLanguages?: Array<string>;
   grepCodes?: Array<string>;
   htmlIntroduction?: string;
@@ -3144,6 +3149,7 @@ type GQLArticleStep_LearningpathStep_LearningpathStep_Fragment = {
       articleType: string;
       title: string;
       published: string;
+      revised: string;
       supportedLanguages?: Array<string>;
       grepCodes?: Array<string>;
       htmlIntroduction?: string;
@@ -3362,6 +3368,7 @@ type GQLArticleStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       articleType: string;
       title: string;
       published: string;
+      revised: string;
       supportedLanguages?: Array<string>;
       grepCodes?: Array<string>;
       htmlIntroduction?: string;
@@ -3580,6 +3587,7 @@ export type GQLLearningpathStepQuery = {
     articleType: string;
     title: string;
     published: string;
+    revised: string;
     supportedLanguages?: Array<string>;
     grepCodes?: Array<string>;
     htmlIntroduction?: string;
@@ -3874,6 +3882,7 @@ type GQLLearningpathStep_LearningpathStep_LearningpathStep_Fragment = {
       articleType: string;
       title: string;
       published: string;
+      revised: string;
       supportedLanguages?: Array<string>;
       grepCodes?: Array<string>;
       htmlIntroduction?: string;
@@ -4099,6 +4108,7 @@ type GQLLearningpathStep_LearningpathStep_MyNdlaLearningpathStep_Fragment = {
       articleType: string;
       title: string;
       published: string;
+      revised: string;
       supportedLanguages?: Array<string>;
       grepCodes?: Array<string>;
       htmlIntroduction?: string;
@@ -4729,6 +4739,7 @@ export type GQLLicenseBox_ArticleFragment = {
   title: string;
   htmlTitle: string;
   published: string;
+  revised: string;
   copyright: {
     __typename?: "Copyright";
     origin?: string;
@@ -4942,6 +4953,7 @@ export type GQLAboutPageLeaf_ArticleFragment = {
   published: string;
   title: string;
   htmlTitle: string;
+  revised: string;
   metaDescription: string;
   supportedLanguages?: Array<string>;
   transformedContent: {
@@ -5110,6 +5122,7 @@ export type GQLAboutPageNode_ArticleFragment = {
   published: string;
   oembed?: string;
   htmlTitle: string;
+  revised: string;
   metaDescription: string;
   supportedLanguages?: Array<string>;
   metaImage?: {
@@ -5293,6 +5306,7 @@ export type GQLAboutPageQuery = {
     title: string;
     oembed?: string;
     htmlTitle: string;
+    revised: string;
     metaDescription: string;
     supportedLanguages?: Array<string>;
     transformedContent: {
@@ -5574,6 +5588,7 @@ export type GQLArticlePage_NodeFragment = {
     __typename?: "Article";
     created: string;
     updated: string;
+    revised: string;
     metaDescription: string;
     oembed?: string;
     tags?: Array<string>;
@@ -5888,6 +5903,7 @@ export type GQLFilmFrontPageQuery = {
       language: string;
       title: string;
       published: string;
+      revised: string;
       transformedContent: {
         __typename?: "TransformedArticleContent";
         content: string;
@@ -6167,6 +6183,7 @@ export type GQLLearningpathPage_NodeFragment = {
           articleType: string;
           title: string;
           published: string;
+          revised: string;
           supportedLanguages?: Array<string>;
           grepCodes?: Array<string>;
           htmlIntroduction?: string;
@@ -7455,6 +7472,7 @@ export type GQLPreviewLearningpathQuery = {
           articleType: string;
           title: string;
           published: string;
+          revised: string;
           supportedLanguages?: Array<string>;
           grepCodes?: Array<string>;
           htmlIntroduction?: string;
@@ -8052,6 +8070,7 @@ export type GQLPlainArticleContainer_ArticleFragment = {
   title: string;
   metaDescription: string;
   published: string;
+  revised: string;
   transformedContent: {
     __typename?: "TransformedArticleContent";
     content: string;
@@ -8241,6 +8260,7 @@ export type GQLPlainArticlePageQuery = {
     title: string;
     metaDescription: string;
     published: string;
+    revised: string;
     transformedContent: {
       __typename?: "TransformedArticleContent";
       content: string;
@@ -8444,6 +8464,7 @@ export type GQLPlainLearningpathContainer_LearningpathFragment = {
         articleType: string;
         title: string;
         published: string;
+        revised: string;
         supportedLanguages?: Array<string>;
         grepCodes?: Array<string>;
         htmlIntroduction?: string;
@@ -8695,6 +8716,7 @@ export type GQLPlainLearningpathPageQuery = {
           articleType: string;
           title: string;
           published: string;
+          revised: string;
           supportedLanguages?: Array<string>;
           grepCodes?: Array<string>;
           htmlIntroduction?: string;
@@ -9440,6 +9462,7 @@ export type GQLResourcePageQuery = {
       traits: Array<string>;
       created: string;
       updated: string;
+      revised: string;
       oembed?: string;
       tags?: Array<string>;
       title: string;
@@ -9674,6 +9697,7 @@ export type GQLResourcePageQuery = {
             articleType: string;
             title: string;
             published: string;
+            revised: string;
             supportedLanguages?: Array<string>;
             grepCodes?: Array<string>;
             htmlIntroduction?: string;
@@ -10441,6 +10465,7 @@ export type GQLMultidisciplinarySubjectArticle_NodeFragment = {
     language: string;
     created: string;
     updated: string;
+    revised: string;
     oembed?: string;
     introduction?: string;
     metaDescription: string;
@@ -10668,6 +10693,7 @@ export type GQLTopicPageQuery = {
       language: string;
       created: string;
       updated: string;
+      revised: string;
       oembed?: string;
       introduction?: string;
       metaDescription: string;
@@ -10892,6 +10918,7 @@ export type GQLFrontpageDataQuery = {
       introduction?: string;
       created: string;
       updated: string;
+      revised: string;
       published: string;
       language: string;
       htmlTitle: string;
@@ -11147,6 +11174,7 @@ export type GQLIframeArticlePage_ArticleFragment = {
   language: string;
   title: string;
   published: string;
+  revised: string;
   metaImage?: {
     __typename?: "ImageMetaInformationV3";
     image: { __typename?: "ImageV3"; imageUrl: string };
@@ -11348,6 +11376,7 @@ export type GQLIframePageQuery = {
     language: string;
     title: string;
     published: string;
+    revised: string;
     metaImage?: {
       __typename?: "ImageMetaInformationV3";
       image: { __typename?: "ImageV3"; imageUrl: string };
@@ -14509,6 +14538,7 @@ export type GQLStructuredArticleDataFragment = {
   metaDescription: string;
   published: string;
   updated: string;
+  revised: string;
   supportedLanguages?: Array<string>;
   copyright: {
     __typename?: "Copyright";
