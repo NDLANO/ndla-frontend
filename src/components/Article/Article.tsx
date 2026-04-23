@@ -172,7 +172,7 @@ export const Article = ({
               footnotes={article.transformedContent.metaData?.footnotes ?? []}
               authors={authors}
               suppliers={article.copyright?.rightsholders}
-              published={article.published}
+              published={article.revised}
               licenseBox={<LicenseBox article={article} copyText={copyText} oembed={article.oembed} />}
             />
           )}

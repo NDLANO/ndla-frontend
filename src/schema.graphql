@@ -29,6 +29,7 @@ type Article {
   published: String!
   relatedContent(subjectId: String): [RelatedContent!]
   requiredLibraries: [ArticleRequiredLibrary!]
+  revised: String!
   revision: Int!
   revisionDate: String
   slug: String

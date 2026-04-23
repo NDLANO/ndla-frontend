@@ -148,6 +148,7 @@ ArticlePage.fragments = {
       article {
         created
         updated
+        revised
         metaDescription
         oembed
         tags

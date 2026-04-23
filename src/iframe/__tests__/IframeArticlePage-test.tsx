@@ -191,6 +191,7 @@ test("IframeArticlePage with article renderers correctly", () => {
     htmlTitle: "Politiske skillelinjer",
     updated: "2018-01-09T18:43:48Z",
     published: "2018-01-09T18:43:48Z",
+    revised: "2018-01-09T18:43:48Z",
     supportedLanguages: ["nb"],
   };
   const i18n = initializeI18nTest(locale);

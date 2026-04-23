@@ -26,6 +26,7 @@ const getBaseArticle = (): GQLStructuredArticleDataFragment => ({
   id: 1,
   metaDescription: "Meta description",
   published: "2021-01-01T00:00:00Z",
+  revised: "2021-01-01T00:00:00Z",
   updated: "2021-01-01T00:00:00Z",
   copyright: {
     ...getBaseCopyrightInfo(),

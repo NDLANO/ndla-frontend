@@ -35,7 +35,14 @@ type TransformedContent = Omit<GQLTransformedArticleContent, "metaData" | "visua
 
 export type BaseArticle = Pick<
   GQLArticle,
-  "created" | "htmlTitle" | "htmlIntroduction" | "updated" | "published" | "requiredLibraries" | "revisionDate"
+  | "created"
+  | "htmlTitle"
+  | "htmlIntroduction"
+  | "updated"
+  | "published"
+  | "revised"
+  | "requiredLibraries"
+  | "revisionDate"
 > & { transformedContent: TransformedContent };
 
 export type TransformedBaseArticle<T extends BaseArticle> = Omit<T, "transformedContent"> & {
@@ -66,9 +73,11 @@ export const transformArticle = <T extends BaseArticle>(
     created: formatDate(article.created, locale),
     updated: formatDate(article.updated, locale),
     published: formatDate(article.published, locale),
+    revised: formatDate(article.revised, locale),
     originalCreated: article.created,
     originalUpdated: article.updated,
     originalPublished: article.published,
+    originalRevised: article.revised,
     footNotes,
     requiredLibraries: article.requiredLibraries ?? [],
   };

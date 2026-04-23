@@ -12,14 +12,12 @@ import { useHref, useLocation } from "react-router";
 import config from "../../config";
 import { GQLArticle } from "../../graphqlTypes";
 
-export const useArticleCopyText = (
-  article: Pick<GQLArticle, "id" | "title" | "published" | "copyright"> | undefined,
-) => {
+export const useArticleCopyText = (article: Pick<GQLArticle, "id" | "title" | "revised" | "copyright"> | undefined) => {
   const { t, i18n } = useTranslation();
   const location = useLocation();
   const href = useHref(location);
   if (!article) return undefined;
-  const [day, month, year] = article.published.split(".").map((s) => parseInt(s));
+  const [day, month, year] = article.revised.split(".").map((s) => parseInt(s));
   const published = new Date(year!, month! - 1, day!).toUTCString();
   return webpageReferenceApa7CopyString(
     article.title,
