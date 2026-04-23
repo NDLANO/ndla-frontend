@@ -84,6 +84,9 @@ const messages = {
     subjectFavoritePitch: "Háliidat go dán fága merket oiddotfágan?",
     subjectFavoriteGuide:
       "Vai galggat sáhttit merket fága oiddohin, fertet logget sisa Mu NDLAii. Fága gávnnat bajimusas siiddus go leat sisaloggen.",
+    searchLabel: "Søk etter ressurser og emner i dette faget",
+    moreHits: "Vis flere treff",
+    multidisciplinaryCases: "Tverrfaglige caser",
   },
   topicsPage: {
     topics: "Fáttát",
@@ -706,6 +709,7 @@ const messages = {
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",
     multidisciplinaryLinksHeader: "Jobb tverrfaglig med faget",
+    videoResultsHeader: "Videoer i faget",
   },
   toolboxPage: {
     introduction:

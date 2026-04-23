@@ -9,10 +9,11 @@
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
+import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { SimpleBreadcrumbItem, HomeBreadcrumb, subjectCategories, subjectTypes } from "@ndla/ui";
 import { TFunction } from "i18next";
-import { useContext, useId } from "react";
+import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
@@ -25,7 +26,10 @@ import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinks } from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
-import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
+import {
+  TransportationNode,
+  TransportationSearchResult,
+} from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
 import { TransportationPageVisualElement } from "../../components/TransportationPage/TransportationPageVisualElement";
 import {
@@ -34,13 +38,15 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
-import { GQLSubjectContainer_NodeFragment } from "../../graphqlTypes";
+import { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
+import { SubjectSearch } from "./SubjectSearch";
 
-type Props = {
+interface Props {
   node: GQLSubjectContainer_NodeFragment;
+  searchResults: GQLSubjectContainer_SearchResultFragment[];
   subjectType?: string;
-};
+}
 
 const HeadingWrapper = styled("div", {
   base: {
@@ -80,6 +86,18 @@ const StyledNav = styled("nav", {
   },
 });
 
+const StyledPageContent = styled(PageContent, {
+  base: {
+    gap: "medium",
+  },
+});
+
+const StyledHeading = styled(Heading, {
+  base: {
+    textAlign: "center",
+  },
+});
+
 const StyledPageContainer = styled(PageContainer, {
   base: {
     background: "background.strong",
@@ -88,6 +106,20 @@ const StyledPageContainer = styled(PageContainer, {
     "& > :first-child": {
       marginBlockStart: "xxlarge",
       marginBlockEnd: "medium",
+    },
+  },
+});
+
+const SkipLinksWrapper = styled("div", {
+  base: {
+    display: "grid",
+    gap: "small",
+    gridTemplateColumns: "1fr",
+    tablet: {
+      gridTemplateColumns: "repeat(2, 1fr)",
+    },
+    desktop: {
+      gridTemplateColumns: "repeat(4, 1fr)",
     },
   },
 });
@@ -101,6 +133,10 @@ const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunc
     return undefined;
   }
 };
+
+const TOPICS_HEADING_ID = "topics";
+const LINKS_HEADING_ID = "links";
+const VIDEO_HEADING_ID = "videos";
 
 const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): string | undefined => {
   if (!subjectType || subjectType === subjectTypes.SUBJECT) {
@@ -116,12 +152,10 @@ const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): s
   }
 };
 
-export const SubjectContainer = ({ node, subjectType }: Props) => {
+export const SubjectContainer = ({ node, subjectType, searchResults }: Props) => {
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const about = node.subjectpage?.about;
-  const headingId = useId();
-  const linksHeadingId = useId();
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
@@ -190,6 +224,25 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
         </TransportationPageHeader>
       </StyledSubjectWrapper>
       <StyledPageContainer>
+        <StyledPageContent variant="content">
+          <StyledHeading asChild consumeCss>
+            <h2>{t("programmes.header")}</h2>
+          </StyledHeading>
+          <SkipLinksWrapper>
+            {!!node.nodes?.length && (
+              <SafeLinkButton to={{ hash: TOPICS_HEADING_ID }}>{t("topicsPage.topics")}</SafeLinkButton>
+            )}
+            {!!node.links?.length && (
+              <SafeLinkButton to={{ hash: LINKS_HEADING_ID }}>
+                {t("subjectsPage.multidisciplinaryCases")}
+              </SafeLinkButton>
+            )}
+            {!!searchResults.length && (
+              <SafeLinkButton to={{ hash: VIDEO_HEADING_ID }}>{t("subjectPage.videoResultsHeader")}</SafeLinkButton>
+            )}
+          </SkipLinksWrapper>
+          <SubjectSearch subjectId={node.id} />
+        </StyledPageContent>
         <RestrictedContent context="bleed">
           {subjectType !== "film" &&
             subjectType !== "multiDisciplinary" &&
@@ -210,8 +263,8 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
               </MessageBox>
             )}
           {!!node.nodes?.length && (
-            <StyledNav aria-labelledby={headingId}>
-              <Heading id={headingId} textStyle="heading.small" asChild consumeCss>
+            <StyledNav aria-labelledby={TOPICS_HEADING_ID}>
+              <Heading id={TOPICS_HEADING_ID} textStyle="heading.small" asChild consumeCss>
                 <h2>{t("topicsPage.topics")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="node">
@@ -222,13 +275,25 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
             </StyledNav>
           )}
           {!!node.links?.length && (
-            <StyledNav aria-labelledby={linksHeadingId}>
-              <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
+            <StyledNav aria-labelledby={LINKS_HEADING_ID}>
+              <Heading textStyle="heading.small" asChild consumeCss id={LINKS_HEADING_ID}>
                 <h2>{t("subjectPage.multidisciplinaryLinksHeader")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="case">
                 {node.links?.map((link) => (
                   <TransportationNode key={link.id} node={link} context="link" />
+                ))}
+              </TransportationPageNodeListGrid>
+            </StyledNav>
+          )}
+          {!!searchResults.length && (
+            <StyledNav aria-labelledby={VIDEO_HEADING_ID}>
+              <Heading textStyle="heading.small" asChild consumeCss id={VIDEO_HEADING_ID}>
+                <h2>{t("subjectPage.videoResultsHeader")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="case">
+                {searchResults.map((result) => (
+                  <TransportationSearchResult key={result.id} result={result} context="link" />
                 ))}
               </TransportationPageNodeListGrid>
             </StyledNav>
@@ -242,7 +307,7 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
   );
 };
 
-export const subjectContainerFragments = {
+SubjectContainer.fragments = {
   subject: gql`
     fragment SubjectContainer_Node on Node {
       id
@@ -291,5 +356,11 @@ export const subjectContainerFragments = {
     ${ImageLicenseList.fragments.image}
     ${FavoriteSubject.fragments.node}
     ${SubjectLinks.fragments.subjectPage}
+  `,
+  searchResult: gql`
+    fragment SubjectContainer_SearchResult on SearchResult {
+      ...TransportationSearchResult_SearchResult
+    }
+    ${TransportationSearchResult.fragments.searchResult}
   `,
 };

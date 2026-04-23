@@ -84,6 +84,9 @@ const messages = {
     subjectFavoritePitch: "Ønsker du å favorittmerke dette faget?",
     subjectFavoriteGuide:
       "For å favorittmerke eit fag må du logge inn på Min NDLA. Du finn faget øverst på denne sida etter at du har logga inn.",
+    searchLabel: "Søk etter ressursar og emner i dette faget",
+    moreHits: "Vis fleire treff",
+    multidisciplinaryCases: "Tverrfaglege caser",
   },
   topicsPage: {
     topics: "Emne",
@@ -706,6 +709,7 @@ const messages = {
   subjectPage: {
     topicsTitle: "Emne i {{topic}}",
     multidisciplinaryLinksHeader: "Jobb med dei tverrfaglege temaa",
+    videoResultsHeader: "Videoar i faget",
   },
   toolboxPage: {
     introduction:

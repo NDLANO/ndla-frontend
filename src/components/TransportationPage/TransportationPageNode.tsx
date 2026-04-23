@@ -14,12 +14,24 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { useTranslation } from "react-i18next";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import { GQLTransportationNode_NodeFragment } from "../../graphqlTypes";
+import {
+  GQLMetaImage,
+  GQLTransportationNode_NodeFragment,
+  GQLTransportationSearchResult_SearchResultFragment,
+} from "../../graphqlTypes";
+import { useListItemTraits } from "../../util/listItemTraits";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 
-interface Props {
-  node: GQLTransportationNode_NodeFragment;
-  context: "case" | "link" | "node";
+type TransportationNodeContext = "case" | "link" | "node";
+
+interface TransportationCardProps {
+  metaImage?: GQLMetaImage;
+  flavorText?: string;
+  name: string;
+  url: string;
+  relevanceId?: string;
+  metaDescription?: string;
+  context: TransportationNodeContext;
 }
 
 const StyledText = styled(Text, {
@@ -44,16 +56,98 @@ const TextWrapper = styled("div", {
   },
 });
 
-export const TransportationNode = ({ node, context }: Props) => {
+interface Props {
+  node: GQLTransportationNode_NodeFragment;
+  context: TransportationNodeContext;
+}
+
+export const TransportationNode = ({ node, context }: Props) => (
+  <TransportationCard
+    metaImage={node.meta?.metaImage}
+    flavorText={context !== "link" ? node.context?.breadcrumbs?.at(-2) : undefined}
+    name={node.name}
+    url={node.url ?? ""}
+    relevanceId={node.relevanceId}
+    metaDescription={node.meta?.metaDescription}
+    context={context}
+  />
+);
+
+interface TransportationSearchResultProps {
+  result: GQLTransportationSearchResult_SearchResultFragment;
+  context: TransportationNodeContext;
+}
+
+export const TransportationSearchResult = ({ result, context }: TransportationSearchResultProps) => {
+  const traits = useListItemTraits({
+    traits: "traits" in result ? result.traits : undefined,
+    resourceType: result.url.startsWith("/e/") ? "topic" : undefined,
+    relevanceId: result.context?.relevanceId,
+    resourceTypes: result.context?.resourceTypes,
+  });
+  return (
+    <TransportationCard
+      metaImage={"metaImage" in result ? result.metaImage : undefined}
+      flavorText={traits.join(", ")}
+      name={result.title}
+      url={result.url}
+      relevanceId={result.context?.relevanceId}
+      metaDescription={result.metaDescription}
+      context={context}
+    />
+  );
+};
+
+TransportationSearchResult.fragments = {
+  searchResult: gql`
+    fragment TransportationSearchResult_SearchResult on SearchResult {
+      id
+      title
+      url
+      metaDescription
+      context {
+        contextId
+        relevanceId
+        resourceTypes {
+          id
+          name
+        }
+      }
+      ... on ArticleSearchResult {
+        metaImage {
+          url
+          alt
+        }
+        traits
+      }
+      ... on LearningpathSearchResult {
+        metaImage {
+          url
+          alt
+        }
+        traits
+      }
+    }
+  `,
+};
+
+export const TransportationCard = ({
+  metaImage,
+  flavorText,
+  name,
+  url,
+  relevanceId,
+  metaDescription,
+  context,
+}: TransportationCardProps) => {
   const { t } = useTranslation();
-  const parent = node.context?.breadcrumbs?.at(-2);
   return (
     <CardRoot asChild consumeCss>
       <li>
-        {!!(context !== "node" && !!node.meta?.metaImage) && (
+        {!!(context !== "node" && !!metaImage) && (
           <CardImage
             // TODO: Variants
-            src={node.meta.metaImage.url}
+            src={metaImage.url}
             alt=""
             height={200}
             fallbackWidth={360}
@@ -62,21 +156,21 @@ export const TransportationNode = ({ node, context }: Props) => {
         )}
         <CardContent>
           <TextWrapper>
-            {context === "link" && (
+            {!!flavorText && (
               <Text textStyle="label.medium" color="text.subtle">
-                {parent}
+                {flavorText}
               </Text>
             )}
             <StyledCardHeading asChild css={linkOverlay.raw()}>
-              <SafeLink to={node.url ?? ""}>
-                {node.name}
-                {node.relevanceId === RELEVANCE_SUPPLEMENTARY && (
+              <SafeLink to={url ?? ""}>
+                {name}
+                {relevanceId === RELEVANCE_SUPPLEMENTARY && (
                   <Additional aria-label={t("resource.additionalTooltip")} title={t("resource.additionalTooltip")} />
                 )}
               </SafeLink>
             </StyledCardHeading>
           </TextWrapper>
-          {context !== "link" && <StyledText textStyle="body.large">{node.meta?.metaDescription ?? ""}</StyledText>}
+          {context !== "link" && <StyledText textStyle="body.large">{metaDescription ?? ""}</StyledText>}
         </CardContent>
       </li>
     </CardRoot>
