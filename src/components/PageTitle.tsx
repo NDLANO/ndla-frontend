@@ -7,6 +7,7 @@
  */
 
 import { useContext, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { isValidLocale } from "../i18n";
 import { log } from "../util/logger/logger";
@@ -61,6 +62,7 @@ export const getTrackedUrl = (pathname: string) => {
  */
 export const PageTitle = ({ title, trackingProps }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
+  const { i18n } = useTranslation();
   const hasTracked = useRef(false);
 
   const location = useLocation();
@@ -84,11 +86,12 @@ export const PageTitle = ({ title, trackingProps }: Props) => {
       page_title: title,
       event: "Pageview",
       CustomUrl: trackedUrl,
+      languageCode: i18n.language,
       subjectId,
       ...dimensions,
     });
     hasTracked.current = true;
-  }, [authContextLoaded, title, trackedUrl, user, subjectId]);
+  }, [authContextLoaded, title, trackedUrl, user, subjectId, i18n.language]);
 
   return <title>{title}</title>;
 };
