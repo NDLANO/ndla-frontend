@@ -29,12 +29,12 @@ interface TrackingProps {
 }
 
 interface WithTrackingProps extends BaseProps {
-  trackingProps?: TrackingProps;
+  trackingProps: TrackingProps;
   useLocationForCustomPath?: false;
 }
 
 interface WithNoTrackingProps extends BaseProps {
-  trackingProps?: undefined;
+  trackingProps?: never;
   useLocationForCustomPath: true;
 }
 
