@@ -28,6 +28,8 @@ export const TransportationPageHeader = styled("div", {
         objectFit: "cover",
         maxWidth: "365px",
         borderRadius: "0",
+        display: "flex",
+        alignItems: "flex-end",
       },
       maxWidth: "365px",
     },
