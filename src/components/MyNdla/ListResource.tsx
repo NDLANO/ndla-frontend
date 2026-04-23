@@ -52,6 +52,7 @@ export interface ListResourceProps {
   traits?: string[];
   storedResourceType?: string;
   isLoading?: boolean;
+  isSelected?: boolean;
 }
 
 const StyledDescription = styled(Text, {
@@ -107,16 +108,26 @@ const StyledListItemHeading = styled(ListItemHeading, {
 
 const LoadingListItemRoot = styled(ListItemRoot, {
   base: {
+    width: "100%",
     pointerEvents: "none",
   },
 });
 
 const StyledListItemRoot = styled(ListItemRoot, {
   base: {
+    width: "100%",
     tabletDown: {
       "& picture": {
         display: "none",
       },
+    },
+  },
+  variants: {
+    isSelected: {
+      true: {
+        backgroundColor: "surface.action.brand.1.selected",
+      },
+      false: {},
     },
   },
 });
@@ -140,6 +151,7 @@ export const ListResource = ({
   traits,
   storedResourceType,
   isLoading = false,
+  isSelected,
   nonInteractive,
 }: ListResourceProps & ListItemVariantProps) => {
   const { t } = useTranslation();
@@ -163,7 +175,7 @@ export const ListResource = ({
   }
 
   return (
-    <StyledListItemRoot id={id} nonInteractive={nonInteractive}>
+    <StyledListItemRoot id={id} nonInteractive={nonInteractive} isSelected={isSelected}>
       {/* TODO: Variants */}
       <StyledListItemImage
         src={resourceImage.src}

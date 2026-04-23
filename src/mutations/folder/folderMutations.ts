@@ -33,6 +33,12 @@ import {
   GQLMoveFolderMutationVariables,
   GQLMoveMyNdlaResourceMutation,
   GQLMoveMyNdlaResourceMutationVariables,
+  GQLBatchDeleteMyNdlaResourcesMutation,
+  GQLBatchDeleteMyNdlaResourcesMutationVariables,
+  GQLBatchMoveMyNdlaResourcesMutation,
+  GQLBatchMoveMyNdlaResourcesMutationVariables,
+  GQLBatchCopyMyNdlaResourcesMutation,
+  GQLBatchCopyMyNdlaResourcesMutationVariables,
 } from "../../graphqlTypes";
 import { folderFragment, myNdlaResourceFragment, foldersPageQueryFragment } from "./folderFragments";
 import { recentlyUsedQuery } from "./folderQueries";
@@ -325,8 +331,45 @@ const moveMyNdlaResourceMutation = gql`
   }
 `;
 
+const batchDeleteResourcesMutation = gql`
+  mutation batchDeleteMyNdlaResources($resourceIds: [String!]!, $folderId: StringOrNull) {
+    deleteMyNdlaResources(resourceIds: $resourceIds, folderId: $folderId)
+  }
+`;
+
+export const useDeleteMyNdlaResourcesMutation = () => {
+  return useMutation<GQLBatchDeleteMyNdlaResourcesMutation, GQLBatchDeleteMyNdlaResourcesMutationVariables>(
+    batchDeleteResourcesMutation,
+  );
+};
+
 export const useMoveMyNdlaResourceMutation = () => {
   return useMutation<GQLMoveMyNdlaResourceMutation, GQLMoveMyNdlaResourceMutationVariables>(moveMyNdlaResourceMutation);
+};
+
+const batchMoveResourcesMutation = gql`
+  mutation batchMoveMyNdlaResources($resourceIds: [String!]!, $fromFolderId: StringOrNull, $toFolderId: StringOrNull) {
+    moveMyNdlaResources(resourceIds: $resourceIds, fromFolderId: $fromFolderId, toFolderId: $toFolderId)
+  }
+`;
+
+export const useBatchMoveMyNdlaResourcesMutation = () => {
+  return useMutation<GQLBatchMoveMyNdlaResourcesMutation, GQLBatchMoveMyNdlaResourcesMutationVariables>(
+    batchMoveResourcesMutation,
+  );
+};
+
+const batchCopyMyNdlaResourcesMutation = gql`
+  mutation batchCopyMyNdlaResources($resourceIds: [String!]!, $toFolderId: StringOrNull) {
+    copyMyNdlaResources(resourceIds: $resourceIds, toFolderId: $toFolderId)
+  }
+`;
+
+export const useBatchCopyMyNdlaResourcesMutation = () => {
+  return useMutation<GQLBatchCopyMyNdlaResourcesMutation, GQLBatchCopyMyNdlaResourcesMutationVariables>(
+    batchCopyMyNdlaResourcesMutation,
+    { refetchQueries: [recentlyUsedQuery] },
+  );
 };
 
 const favoriteSharedFolderMutation = gql`
