@@ -261,13 +261,14 @@ export const WelcomePage = () => {
   return (
     <>
       <Heading srOnly>{t("welcomePage.heading.heading")}</Heading>
-      <PageTitle title={t("htmlTitles.welcomePage")} />
+      <PageTitle title={t("htmlTitles.welcomePage")} useLocationForCustomPath={true} />
       <script type="application/ld+json">{googleSearchJSONLd()}</script>
       <SocialMediaMetadata
         type="website"
         title={t("welcomePage.heading.heading")}
         description={t("meta.description")}
         imageUrl={`${config.ndlaFrontendDomain}/static/metaimage.png`}
+        useLocationForCanonicalPath={true}
       />
       <Hero variant={siteThemeToHeroVariant(siteTheme)}>
         <StyledHeroBackground />

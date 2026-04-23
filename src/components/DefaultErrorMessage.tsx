@@ -50,7 +50,7 @@ export const DefaultErrorMessagePage = () => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <PageTitle title={t("htmlTitles.errorPage")} />
+        <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />
         <DefaultErrorMessage applySkipToContentId={true} />
       </main>
     </PageContainer>

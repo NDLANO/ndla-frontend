@@ -29,7 +29,7 @@ const NotFound = ({ applySkipToContentId }: NotFoundProps) => {
   return (
     <Status code={404}>
       <ErrorMessageRoot>
-        <PageTitle title={t("htmlTitles.notFound")} />
+        <PageTitle title={t("htmlTitles.notFound")} useLocationForCustomPath={true} />
         <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
         <ErrorMessageContent>
           <ErrorMessageTitle id={applySkipToContentId ? SKIP_TO_CONTENT_ID : undefined}>

@@ -75,12 +75,13 @@ export const MyNdlaPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.myNdlaPage")} />
+      <PageTitle title={t("htmlTitles.myNdlaPage")} useLocationForCustomPath={true} />
       <SocialMediaMetadata
         title={t("myNdla.myNDLA")}
         description={t("myNdla.description")}
         trackableContent={{ supportedLanguages: myndlaLanguages }}
         imageUrl={`${config.ndlaFrontendDomain}/static/ndla-ai.jpg`}
+        useLocationForCanonicalPath={true}
       />
       <MyNdlaPageContent>
         <MyNdlaTitle title={t("myNdla.myNDLA")} />

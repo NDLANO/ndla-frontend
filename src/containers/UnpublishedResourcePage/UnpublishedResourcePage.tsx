@@ -26,7 +26,7 @@ export const UnpublishedResourcePage = () => {
     <Status code={410}>
       <PageContainer asChild consumeCss>
         <main>
-          <PageTitle title={t("htmlTitles.unpublished")} />
+          <PageTitle title={t("htmlTitles.unpublished")} useLocationForCustomPath={true} />
           <ErrorMessageRoot>
             <img src={"/static/not-exist.gif"} alt={t("errorMessage.title")} />
             <ErrorMessageContent>

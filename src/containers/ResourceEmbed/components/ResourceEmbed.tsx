@@ -175,13 +175,14 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
 
   return (
     <>
-      <PageTitle title={getDocumentTitle(properties.title, properties.type, t)} />
+      <PageTitle title={getDocumentTitle(properties.title, properties.type, t)} useLocationForCustomPath={true} />
       <SocialMediaMetadata
         type="website"
         audioUrl={properties?.audioUrl}
         title={socialMediaTitle}
         description={properties?.description}
         imageUrl={properties?.imageUrl}
+        useLocationForCanonicalPath={true}
       >
         {type !== "video" && <meta name="robots" content="noindex, nofollow" />}
       </SocialMediaMetadata>

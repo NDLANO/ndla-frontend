@@ -158,8 +158,13 @@ export const ProgrammeContainer = ({ programme }: Props) => {
   return (
     <StyledPageContainer padding="large" asChild consumeCss>
       <main>
-        <PageTitle title={pageTitle} />
-        <SocialMediaMetadata title={socialMediaTitle} description={metaDescription} imageUrl={image} />
+        <PageTitle title={pageTitle} trackingProps={{ defaultUrl: programme.defaultUrl, rootId: programme.id }} />
+        <SocialMediaMetadata
+          title={socialMediaTitle}
+          description={metaDescription}
+          imageUrl={image}
+          canonicalPath={programme.url}
+        />
         <div>
           {/* TODO: Use semantic tokens */}
           {/* TODO: Variants */}
@@ -211,6 +216,7 @@ ProgrammeContainer.fragments = {
     fragment ProgrammeContainer_Programme on ProgrammePage {
       id
       metaDescription
+      defaultUrl
       title {
         title
         language

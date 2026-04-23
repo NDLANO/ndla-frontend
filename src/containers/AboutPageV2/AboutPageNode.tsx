@@ -146,7 +146,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
 
   return (
     <main>
-      <PageTitle title={getDocumentTitle(t, article.title)} />
+      <PageTitle title={getDocumentTitle(t, article.title)} useLocationForCustomPath={true} />
       <meta name="pageid" content={`${article.id}`} />
       {scripts?.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
@@ -158,6 +158,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
         description={transformedArticle.metaDescription}
         imageUrl={transformedArticle.metaImage?.image.imageUrl}
         trackableContent={transformedArticle}
+        useLocationForCanonicalPath={true}
       />
       <StyledPageContent>
         <HomeBreadcrumb items={crumbs.map((bc) => ({ ...bc, to: bc.url }))} />

@@ -7,29 +7,73 @@
  */
 
 import { useContext, useEffect, useRef } from "react";
-import { useHref, useLocation } from "react-router";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router";
+import { isValidLocale } from "../i18n";
 import { log } from "../util/logger/logger";
 import { getAllDimensions } from "../util/trackingUtil";
 import { AuthContext } from "./AuthenticationContext";
+import { buildFullUrlFromPath, languagePartIndex } from "./SocialMediaMetadata";
 
-interface Props {
+interface BaseProps {
   title: string;
 }
+
+interface TrackingProps {
+  defaultUrl?: string;
+  rootId?: string;
+  context?: {
+    rootId?: string;
+    defaultUrl?: string;
+  };
+}
+
+interface WithTrackingProps extends BaseProps {
+  trackingProps: TrackingProps;
+  useLocationForCustomPath?: false;
+}
+
+interface WithNoTrackingProps extends BaseProps {
+  trackingProps?: never;
+  useLocationForCustomPath: true;
+}
+
+type Props = WithTrackingProps | WithNoTrackingProps;
+
+// NOTE: Builds the URL sent as `CustomUrl` on matomo `Pageview` events. Every
+// locale segment is stripped (unlike `getCanonicalUrl`, which only strips `nb`)
+// so that every language variant of the same page collapses onto a single URL
+// in matomo — letting us track a page's traffic as one number regardless of
+// which language the visitor used.
+export const getTrackedUrl = (pathname: string) => {
+  const parts = pathname.split("/");
+  const langIdx = languagePartIndex(parts);
+  if (isValidLocale(parts[langIdx])) {
+    parts.splice(langIdx, 1);
+  }
+
+  return buildFullUrlFromPath(parts.join("/"));
+};
 
 /**
  * A component for setting the page title and tracking a page view event.
  * @param title - The title of the page. Will update the document title tag and dispatch a page view event. The component expects this title to be stable for the lifetime of the page, meaning it should not change unless the page location changes.
+ * @param trackingProps - Optional tracking metadata for the page view event. `defaultUrl` overrides the path used for tracking instead of the current location; `rootId` is sent as the `subjectId` dimension. Either value may also be supplied nested under `context` to accept a GraphQL `TaxonomyContext` directly.
  */
-export const PageTitle = ({ title }: Props) => {
+export const PageTitle = ({ title, trackingProps }: Props) => {
   const { user, authContextLoaded } = useContext(AuthContext);
+  const { i18n } = useTranslation();
   const hasTracked = useRef(false);
 
   const location = useLocation();
-  const href = useHref(location);
+  const customPath = trackingProps?.defaultUrl ?? trackingProps?.context?.defaultUrl;
+  const subjectId = trackingProps?.rootId ?? trackingProps?.context?.rootId;
+  const trackedPath = customPath ?? location.pathname;
+  const trackedUrl = getTrackedUrl(trackedPath);
 
   useEffect(() => {
     hasTracked.current = false;
-  }, [href]);
+  }, [trackedUrl]);
 
   useEffect(() => {
     if (!authContextLoaded) return;
@@ -37,16 +81,17 @@ export const PageTitle = ({ title }: Props) => {
       log.info("PageTitle: Page view already tracked, skipping duplicate tracking. This should not happen");
       return;
     }
-    // for debugging purposes
-    // log.info(`PageTitle: Tracking page view with title: ${title}`);
     const dimensions = getAllDimensions({ user });
     window._mtm?.push({
       page_title: title,
       event: "Pageview",
+      CustomUrl: trackedUrl,
+      languageCode: i18n.language,
+      subjectId,
       ...dimensions,
     });
     hasTracked.current = true;
-  }, [authContextLoaded, title, user]);
+  }, [authContextLoaded, title, trackedUrl, user, subjectId, i18n.language]);
 
   return <title>{title}</title>;
 };

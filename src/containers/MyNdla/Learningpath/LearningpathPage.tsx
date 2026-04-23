@@ -27,7 +27,7 @@ export const LearningpathPage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.learningpathsPage")} />
+      <PageTitle title={t("htmlTitles.learningpathsPage")} useLocationForCustomPath={true} />
       <MyNdlaPageContent>
         <MyNdlaTitle title={t("myNdla.learningpath.title")} />
         <Text>{t("myNdla.learningpath.description")}</Text>

@@ -1010,6 +1010,7 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
+  defaultUrl: String
   grepCodes: [String!]
   id: String!
   language: String
@@ -1112,6 +1113,7 @@ type PodcastSeriesWithEpisodes implements PodcastSeriesBase {
 type ProgrammePage {
   contentUri: String
   contextId: String
+  defaultUrl: String
   desktopImage: MetaImage
   grades: [Grade!]
   id: String!
@@ -1258,6 +1260,7 @@ type Resource implements TaxBase & TaxonomyEntity & WithArticle {
   context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
+  defaultUrl: String
   id: String!
   language: String
   learningpath: Learningpath
@@ -1391,6 +1394,7 @@ type Subject implements TaxBase & TaxonomyEntity {
   context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
+  defaultUrl: String
   grepCodes: [String!]
   id: String!
   language: String
@@ -1459,6 +1463,7 @@ type Tags {
 }
 
 interface TaxBase {
+  defaultUrl: String
   id: String!
   name: String!
   url: String
@@ -1467,6 +1472,7 @@ interface TaxBase {
 type TaxonomyContext {
   breadcrumbs: [String!]!
   contextId: String!
+  defaultUrl: String!
   isActive: Boolean!
   isArchived: Boolean!
   name: String!
@@ -1480,6 +1486,7 @@ type TaxonomyContext {
 
 type TaxonomyCrumb implements TaxBase {
   contextId: String!
+  defaultUrl: String
   id: String!
   name: String!
   url: String!
@@ -1491,6 +1498,7 @@ interface TaxonomyEntity {
   context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
+  defaultUrl: String
   id: String!
   language: String
   metadata: TaxonomyMetadata!
@@ -1527,6 +1535,7 @@ type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   context: TaxonomyContext
   contextId: String
   contexts: [TaxonomyContext!]!
+  defaultUrl: String
   id: String!
   isPrimary: Boolean
   language: String

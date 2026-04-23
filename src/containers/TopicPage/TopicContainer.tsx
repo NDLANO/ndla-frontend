@@ -119,13 +119,14 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
 
   return (
     <main>
-      <PageTitle title={pageTitle} />
+      <PageTitle title={pageTitle} trackingProps={node} />
       {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
         title={metaTitle}
         description={node.meta?.metaDescription}
         imageUrl={node.article?.metaImage?.image.imageUrl}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
+        canonicalPath={node.context?.url}
       />
       <StyledTopicWrapper>
         {<HomeBreadcrumb items={breadcrumbs} />}
@@ -213,6 +214,7 @@ TopicContainer.fragments = {
       name
       contentUri
       url
+      defaultUrl
       children(nodeType: "TOPIC,CASE") {
         id
         ...TransportationNode_Node

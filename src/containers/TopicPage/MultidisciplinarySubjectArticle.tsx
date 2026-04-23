@@ -155,7 +155,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
         {!!node.context?.isArchived && <meta name="robots" content="noindex" />}
-        <PageTitle title={pageTitle} />
+        <PageTitle title={pageTitle} trackingProps={node} />
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
           description={socialMediaMetaData.description}
@@ -163,6 +163,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           trackableContent={{
             supportedLanguages: node.article?.supportedLanguages,
           }}
+          canonicalPath={node.context?.url}
         />
         <HeaderWrapper>
           <HomeBreadcrumb items={breadCrumbs.map((bc) => ({ ...bc, to: bc.url }))} />
@@ -249,6 +250,7 @@ MultidisciplinarySubjectArticle.fragments = {
         rootId
         breadcrumbs
         url
+        defaultUrl
         isArchived
         parents {
           contextId

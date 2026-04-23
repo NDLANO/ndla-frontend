@@ -79,7 +79,7 @@ export const MyProfilePage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.myProfilePage")} />
+      <PageTitle title={t("htmlTitles.myProfilePage")} useLocationForCustomPath={true} />
       <MyNdlaTitle title={t("myNdla.myProfile.title")} />
       <MyContactArea
         user={{

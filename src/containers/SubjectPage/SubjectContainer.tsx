@@ -144,7 +144,7 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
 
   return (
     <main>
-      <PageTitle title={pageTitle} />
+      <PageTitle title={pageTitle} trackingProps={node} />
       {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
         <meta name="robots" content="noindex, nofollow" />
       )}
@@ -153,6 +153,7 @@ export const SubjectContainer = ({ node, subjectType }: Props) => {
         description={node.subjectpage?.metaDescription}
         imageUrl={about?.visualElement.imageUrl}
         trackableContent={{ supportedLanguages: node.supportedLanguages }}
+        canonicalPath={node.context?.url}
       />
       <StyledSubjectWrapper>
         <HomeBreadcrumb items={breadCrumbs} />
@@ -258,6 +259,7 @@ export const subjectContainerFragments = {
         rootId
         parentIds
         url
+        defaultUrl
       }
       grepCodes
       links {

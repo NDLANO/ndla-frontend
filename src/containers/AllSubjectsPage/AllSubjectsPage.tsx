@@ -124,7 +124,7 @@ export const AllSubjectsPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <PageTitle title={t("htmlTitles.subjectsPage")} />
+        <PageTitle title={t("htmlTitles.subjectsPage")} useLocationForCustomPath={true} />
         <HeadingWrapper>
           <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
             {t("subjectsPage.allSubjects")}

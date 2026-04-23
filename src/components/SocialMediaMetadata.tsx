@@ -11,27 +11,40 @@ import { useLocation, useHref } from "react-router";
 import config from "../config";
 import { isValidLocale, preferredLanguages } from "../i18n";
 
-export const getCanonicalUrl = (pathname: string) => {
-  if (!pathname.includes("article-iframe")) {
-    return `${config.ndlaFrontendDomain}${pathname}`;
-  }
-  const paths = pathname.split("/");
-  if (isValidLocale(paths[2])) {
-    paths.splice(2, 1);
-  }
-  return `${config.ndlaFrontendDomain}${paths.join("/")}`;
+export const buildFullUrlFromPath = (path: string) => {
+  return `${config.ndlaFrontendDomain}${path}`;
 };
 
+export const languagePartIndex = (parts: string[]) => {
+  return parts.includes("article-iframe") ? 2 : 1;
+};
+
+// NOTE: Builds the `<link rel="canonical">` URL. Only the `nb` prefix is stripped
+// because bokmål is our default language and is served without a path segment;
+// other locales (`nn`, `en`, …) must remain in the URL so each language variant
+// has its own canonical and is indexed as a distinct page by search engines.
+export const getCanonicalUrl = (pathname: string) => {
+  const parts = pathname.split("/");
+  const langIdx = languagePartIndex(parts);
+  if (parts[langIdx] === config.defaultLocale) {
+    parts.splice(langIdx, 1);
+  }
+
+  return buildFullUrlFromPath(parts.join("/"));
+};
+
+// NOTE: Builds the `<link rel="alternate" hrefLang>` URL for a given language.
+// Any existing locale segment is removed and `alternateLanguage` is inserted in
+// its place so search engines can discover all language variants of a page from
+// any one of them.
 export const getAlternateUrl = (pathname: string, alternateLanguage: string) => {
-  if (!pathname.includes("article-iframe")) {
-    return `${config.ndlaFrontendDomain}/${alternateLanguage}${pathname}`;
+  const parts = pathname.split("/");
+  const langIdx = languagePartIndex(parts);
+  if (isValidLocale(parts[langIdx])) {
+    parts.splice(langIdx, 1);
   }
-  const paths = pathname.split("/");
-  if (isValidLocale(paths[2])) {
-    paths.splice(2, 1);
-  }
-  paths.splice(2, 0, alternateLanguage);
-  return `${config.ndlaFrontendDomain}${paths.join("/")}`;
+  parts.splice(langIdx, 0, alternateLanguage);
+  return buildFullUrlFromPath(parts.join("/"));
 };
 
 export const getAlternateLanguages = (trackableContent?: TrackableContent) => {
@@ -42,10 +55,9 @@ interface TrackableContent {
   supportedLanguages?: string[];
 }
 
-interface Props {
+interface BaseProps {
   title: string;
   description?: string;
-  path?: string;
   imageUrl?: string;
   audioUrl?: string;
   trackableContent?: TrackableContent;
@@ -53,32 +65,43 @@ interface Props {
   type?: string;
 }
 
+interface WithCanonicalPath extends BaseProps {
+  canonicalPath: string | undefined;
+  useLocationForCanonicalPath?: false;
+}
+
+interface WithLocationForCanonicalPath extends BaseProps {
+  canonicalPath?: undefined;
+  useLocationForCanonicalPath: true;
+}
+
+type Props = WithCanonicalPath | WithLocationForCanonicalPath;
+
 export const SocialMediaMetadata = ({
   title,
   imageUrl,
   audioUrl,
   description,
-  path,
   trackableContent,
   children,
+  canonicalPath,
   type = "article",
 }: Props) => {
   const location = useLocation();
-  const href = useHref(location);
+  const hrefLocation = canonicalPath ? { pathname: canonicalPath } : location;
+  const href = useHref(hrefLocation);
+  const canonicalUrl = getCanonicalUrl(href);
+
   return (
     <>
-      <link rel="canonical" href={getCanonicalUrl(path ? path : location.pathname)} />
-      {getAlternateLanguages(trackableContent).map((alternateLanguage) => (
-        <link
-          key={alternateLanguage}
-          rel="alternate"
-          hrefLang={alternateLanguage}
-          href={getAlternateUrl(path ? path : location.pathname, alternateLanguage)}
-        />
-      ))}
+      <link rel="canonical" href={canonicalUrl} />
+      {getAlternateLanguages(trackableContent).map((alternateLanguage) => {
+        const alternateUrl = getAlternateUrl(canonicalPath ?? location.pathname, alternateLanguage);
+        return <link key={alternateLanguage} rel="alternate" hrefLang={alternateLanguage} href={alternateUrl} />;
+      })}
       {children}
       <meta property="og:type" content={type} />
-      <meta property="og:url" content={`${config.ndlaFrontendDomain}${href}`} />
+      <meta property="og:url" content={canonicalUrl} />
       {!!title && <meta property="og:title" content={`${title} - NDLA`} />}
       {!!description && <meta property="og:description" content={description} />}
       {!!description && <meta name="description" content={description} />}

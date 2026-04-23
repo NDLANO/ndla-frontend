@@ -117,8 +117,13 @@ export const PodcastSeriesListPage = () => {
   return (
     <StyledPageContainer asChild consumeCss>
       <main>
-        <PageTitle title={t("htmlTitles.podcast", { page })} />
-        <SocialMediaMetadata type="website" title={t("podcastPage.podcasts")} description={t("podcastPage.meta")} />
+        <PageTitle title={t("htmlTitles.podcast", { page })} useLocationForCustomPath={true} />
+        <SocialMediaMetadata
+          type="website"
+          title={t("podcastPage.podcasts")}
+          description={t("podcastPage.meta")}
+          useLocationForCanonicalPath={true}
+        />
         <HomeBreadcrumb
           items={[
             {

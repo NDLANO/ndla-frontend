@@ -96,7 +96,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
 
   return (
     <main>
-      <PageTitle title={getDocumentTitle(t, article.title)} />
+      <PageTitle title={getDocumentTitle(t, article.title)} useLocationForCustomPath={true} />
       <meta name="pageid" content={`${article.id}`} />
       {scripts?.map((script) => (
         <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
@@ -108,6 +108,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
         description={article.metaDescription}
         imageUrl={article.metaImage?.image.imageUrl}
         trackableContent={article}
+        useLocationForCanonicalPath={true}
       />
       <Hero variant="primary">
         <HeroBackground />

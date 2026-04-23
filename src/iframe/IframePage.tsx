@@ -35,7 +35,7 @@ const Error = () => {
   return (
     <PageContainer asChild consumeCss>
       <main>
-        <PageTitle title={t("htmlTitles.errorPage")} />
+        <PageTitle title={t("htmlTitles.errorPage")} useLocationForCustomPath={true} />
         <Status code={INTERNAL_SERVER_ERROR}>
           <ErrorMessageRoot>
             <img src="/static/oops.gif" alt={t("errorMessage.title")} />

@@ -45,12 +45,13 @@ export const PlainLearningpathContainer = ({ learningpath, skipToContentId, step
       <meta name="robots" content="noindex, nofollow" />
       {!!learningpath && (
         <>
-          <PageTitle title={getDocumentTitle(learningpath, t)} />
+          <PageTitle title={getDocumentTitle(learningpath, t)} useLocationForCustomPath={true} />
           <SocialMediaMetadata
             title={learningpath.title}
             trackableContent={learningpath}
             description={learningpath.description}
             imageUrl={learningpath.coverphoto?.image.imageUrl}
+            useLocationForCanonicalPath={true}
           />
         </>
       )}

@@ -88,7 +88,10 @@ export const EditLearningpathTitlePage = () => {
 
   return (
     <MyNdlaPageWrapper>
-      <PageTitle title={t("htmlTitles.learningpathEditTitlePage", { name: data.myNdlaLearningpath.title })} />
+      <PageTitle
+        title={t("htmlTitles.learningpathEditTitlePage", { name: data.myNdlaLearningpath.title })}
+        useLocationForCustomPath={true}
+      />
       <MyNdlaPageContent>
         <MyNdlaBreadcrumb
           breadcrumbs={[{ id: "0", name: t("myNdla.learningpath.editLearningpathTitle") }]}

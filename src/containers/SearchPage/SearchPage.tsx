@@ -30,7 +30,7 @@ export const SearchPage = () => {
 
   return (
     <PageContainer>
-      <PageTitle title={t("htmlTitles.searchPage")} />
+      <PageTitle title={t("htmlTitles.searchPage")} useLocationForCustomPath={true} />
       <SearchContainer
         resourceTypes={resourceTypesQuery.data?.resourceTypes ?? []}
         resourceTypesLoading={resourceTypesQuery.loading}

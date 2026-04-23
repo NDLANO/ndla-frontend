@@ -140,7 +140,7 @@ export const PodcastSeriesPage = () => {
 
   return (
     <>
-      <PageTitle title={getDocumentTitle(podcastSeries, t)} />
+      <PageTitle title={getDocumentTitle(podcastSeries, t)} useLocationForCustomPath={true} />
       {!!podcastSeries.hasRSS && (
         <link type="application/rss+xml" rel="alternate" title={podcastSeries.title.title} href={rssUrl} />
       )}
@@ -153,6 +153,7 @@ export const PodcastSeriesPage = () => {
         }}
         description={podcastSeries.description.description}
         imageUrl={podcastSeries.coverPhoto.url}
+        useLocationForCanonicalPath={true}
       />
       <main>
         <Hero content="primary">
