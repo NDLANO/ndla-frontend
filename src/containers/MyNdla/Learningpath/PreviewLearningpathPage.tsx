@@ -154,7 +154,6 @@ export const PreviewLearningpathPage = () => {
             <ResourceContentContainer asChild consumeCss>
               <div>
                 <LearningpathContent
-                  // TODO: We should probably pass down `skipToContentId` here. Let's fix it when we fix the remaining learningpath previews
                   learningpath={learningpath}
                   learningpathStep={learningpathStep}
                   context="preview"

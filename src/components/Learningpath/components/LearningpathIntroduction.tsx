@@ -9,23 +9,25 @@
 import { transform } from "@ndla/article-converter";
 import { Badge } from "@ndla/primitives";
 import { ArticleContent, ArticleTitle, ArticleWrapper } from "@ndla/ui";
+import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { SKIP_TO_CONTENT_ID } from "../../../constants";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { ResourceContent } from "../../Resource/ResourceLayout";
 
 interface Props {
   introduction?: string;
   isInactive?: boolean;
+  skipToContentId?: string;
 }
 
-export const LearningpathIntroduction = ({ introduction, isInactive }: Props) => {
+export const LearningpathIntroduction = ({ introduction, isInactive, skipToContentId }: Props) => {
   const { t } = useTranslation();
+  const fallbackId = useId();
   return (
     <ResourceContent variant="content">
       <ArticleWrapper>
         <ArticleTitle
-          id={SKIP_TO_CONTENT_ID}
+          id={skipToContentId ?? fallbackId}
           title={t("learningpathPage.introduction")}
           badges={<Badge>{t("contentTypes.learning-path")}</Badge>}
         />
