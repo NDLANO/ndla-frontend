@@ -6,7 +6,9 @@
  *
  */
 
-import { DeleteBinLine, FileCopyLine, LinkMedium } from "@ndla/icons";
+import { CheckLine, DeleteBinLine, FileCopyLine, LinkMedium } from "@ndla/icons";
+import { CheckboxControl, CheckboxHiddenInput, CheckboxIndicator, CheckboxLabel, CheckboxRoot } from "@ndla/primitives";
+import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useContext, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
@@ -25,11 +27,29 @@ import { MoveResourceDialogContent } from "./MoveResourceDialogContent";
 interface Props {
   resource: GQLMyNdlaResource;
   selectedFolder: GQLFolder | undefined;
+  isBatchSelecting: boolean;
   loading?: boolean;
+  isSelected?: boolean;
   resourceMeta?: GQLMyNdlaResourceMetaFragment;
 }
 
-export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFolder }: Props) => {
+const StyledLi = styled("li", {
+  base: {
+    display: "flex",
+    gap: "xsmall",
+    alignItems: "center",
+    width: "100%",
+  },
+});
+
+export const ResourceWithMenu = ({
+  resource,
+  loading,
+  resourceMeta,
+  selectedFolder,
+  isBatchSelecting,
+  isSelected,
+}: Props) => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const toast = useToast();
@@ -149,7 +169,20 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
   }, [resourceMeta, resource]);
 
   return (
-    <li id={resourceId(resource.id)} ref={ref}>
+    <StyledLi id={resourceId(resource.id)} ref={ref}>
+      {!!isBatchSelecting && (
+        <CheckboxRoot value={resource.id}>
+          <CheckboxControl>
+            <CheckboxIndicator asChild>
+              <CheckLine />
+            </CheckboxIndicator>
+          </CheckboxControl>
+          <CheckboxLabel srOnly>
+            {t("myNdla.resource.selectResource", { resourceName: resourceMeta?.title ?? "" })}
+          </CheckboxLabel>
+          <CheckboxHiddenInput />
+        </CheckboxRoot>
+      )}
       <ListResource
         id={resource.id}
         isLoading={loading}
@@ -157,15 +190,16 @@ export const ResourceWithMenu = ({ resource, loading, resourceMeta, selectedFold
           src: resourceMeta?.metaImage?.url,
           alt: "",
         }}
+        isSelected={isSelected}
         link={resourcePath}
         storedResourceType={resource.resourceType}
         resourceTypes={resourceMeta?.resourceTypes}
         traits={resourceMeta?.__typename === "MyNdlaArticleResourceMeta" ? resourceMeta.traits : undefined}
         title={resourceMeta?.title ?? t("myNdla.sharedFolder.resourceRemovedTitle")}
         description={resourceMeta?.description ?? ""}
-        menu={menu}
+        menu={!isBatchSelecting && menu}
         nonInteractive={!resourceMeta}
       />
-    </li>
+    </StyledLi>
   );
 };

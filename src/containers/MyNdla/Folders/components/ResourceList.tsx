@@ -6,16 +6,19 @@
  *
  */
 
-import { Text } from "@ndla/primitives";
+import { CloseLine } from "@ndla/icons";
+import { Button, CheckboxGroup, DialogContent, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { keyBy, sortBy } from "@ndla/util";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolder, GQLMyNdlaResource } from "../../../../graphqlTypes";
 import { useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 import { SORT_CONTENT_TYPE, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";
+import { CopyResourcesDialogContent, MoveResourcesDialogContent } from "./BatchProcessResources";
+import { DeleteResourcesDialogContent } from "./DeleteResourcesDialogContent";
 import { ResourceSortOption } from "./ResourceSortOption";
 import { ResourceWithMenu } from "./ResourceWithMenu";
 import { TagsFilter } from "./TagsFilter";
@@ -31,9 +34,34 @@ const ListContainer = styled("div", {
 const ListOptionsWrapper = styled("div", {
   base: {
     display: "flex",
-    justifyContent: "space-between",
     gap: "medium",
     alignItems: "flex-end",
+    marginLeft: "auto",
+  },
+});
+
+const ListActionsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "medium",
+  },
+});
+
+const BatchSelectOptionsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    padding: "xsmall",
+    gap: "xsmall",
+    alignItems: "center",
+    background: "surface.default",
+    boxShadow: "xsmall",
+  },
+});
+
+const StyledButton = styled(Button, {
+  base: {
+    whiteSpace: "nowrap",
   },
 });
 
@@ -48,6 +76,8 @@ interface Props {
 export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) => {
   const { t } = useTranslation();
   const [params] = useStableSearchParams();
+  const [selectedResourceIds, setSelectedResourceIds] = useState<string[]>([]);
+  const [isBatchSelecting, setIsBatchSelecting] = useState(false);
 
   const { data, loading } = useMyNdlaResourceMetaSearch(
     resources.map((r) => ({
@@ -56,6 +86,23 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
       resourceType: r.resourceType,
     })),
   );
+
+  const onSuccessfulMutation = useCallback(() => {
+    setSelectedResourceIds([]);
+    setIsBatchSelecting(false);
+  }, []);
+
+  const keyedResources = keyBy(resources, (resource) => resource.id);
+
+  const selectedResources = useMemo(() => {
+    return selectedResourceIds.reduce<GQLMyNdlaResource[]>((acc, curr) => {
+      const found = keyedResources[curr];
+      if (found) {
+        acc.push(found);
+      }
+      return acc;
+    }, []);
+  }, [keyedResources, selectedResourceIds]);
 
   const keyedData = keyBy(data ?? [], (resource) => keyId(resource.type, resource.id));
 
@@ -83,21 +130,75 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
 
   return (
     <ListContainer>
-      <ListOptionsWrapper>
+      <ListActionsWrapper>
         <TagsFilter resources={resources} />
-        <ResourceSortOption />
-      </ListOptionsWrapper>
-      <BlockWrapper aria-labelledby={labelledBy}>
-        {sortedAndFilteredResources.map((resource) => (
-          <ResourceWithMenu
-            resource={resource}
-            key={resource.id}
-            loading={loading}
-            resourceMeta={keyedData[keyId(resource.resourceType, resource.resourceId)]}
-            selectedFolder={selectedFolder}
-          />
-        ))}
-      </BlockWrapper>
+        <ListOptionsWrapper>
+          <StyledButton
+            variant="secondary"
+            onClick={() => setIsBatchSelecting((p) => !p)}
+            data-state={isBatchSelecting ? "on" : undefined}
+          >
+            {t("myNdla.resource.batchSelect")}
+            {!!isBatchSelecting && <CloseLine />}
+          </StyledButton>
+          <ResourceSortOption />
+        </ListOptionsWrapper>
+      </ListActionsWrapper>
+      {!!selectedResources.length && (
+        <BatchSelectOptionsWrapper>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="secondary">{t("myNdla.resource.move")}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <MoveResourcesDialogContent
+                currentFolder={selectedFolder}
+                resources={selectedResources}
+                onSuccessfulMutation={onSuccessfulMutation}
+              />
+            </DialogContent>
+          </DialogRoot>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="secondary">{t("myNdla.resource.copy")}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <CopyResourcesDialogContent
+                currentFolder={selectedFolder}
+                resources={selectedResources}
+                onSuccessfulMutation={onSuccessfulMutation}
+              />
+            </DialogContent>
+          </DialogRoot>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="secondary">{t("myNdla.resource.remove")}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DeleteResourcesDialogContent
+                selectedFolder={selectedFolder}
+                resourceIds={selectedResourceIds}
+                onSuccessfulMutation={onSuccessfulMutation}
+              />
+            </DialogContent>
+          </DialogRoot>
+        </BatchSelectOptionsWrapper>
+      )}
+      <CheckboxGroup value={selectedResourceIds} onValueChange={setSelectedResourceIds}>
+        <BlockWrapper aria-labelledby={labelledBy}>
+          {sortedAndFilteredResources.map((resource) => (
+            <ResourceWithMenu
+              resource={resource}
+              key={resource.id}
+              loading={loading}
+              resourceMeta={keyedData[keyId(resource.resourceType, resource.resourceId)]}
+              selectedFolder={selectedFolder}
+              isBatchSelecting={isBatchSelecting}
+              isSelected={selectedResourceIds.includes(resource.id)}
+            />
+          ))}
+        </BlockWrapper>
+      </CheckboxGroup>
     </ListContainer>
   );
 };
