@@ -52,6 +52,7 @@ export const LearningpathContent = ({
     <>
       {!learningpathStep && !!learningpath?.introduction?.length && (
         <LearningpathIntroduction
+          skipToContentId={skipToContentId}
           introduction={learningpath.introduction}
           isInactive={!!resource?.context?.isArchived}
         />
