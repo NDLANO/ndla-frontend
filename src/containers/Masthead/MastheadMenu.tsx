@@ -126,7 +126,6 @@ const dynamicMenuQueryDef = gql`
       articleId
       menu {
         articleId
-        # TODO: Do we need hideLevel here?
         article {
           id
           title

@@ -142,7 +142,6 @@ export const useFolderActions = (
       return;
     }
 
-    // TODO: This is probably wrong. It should focus on shared folders, which I'm assuming is in another list?
     if (nextFocusElement instanceof HTMLElement) {
       setTimeout(() => nextFocusElement.getElementsByTagName("a")?.[0]?.focus({ preventScroll: true }), 1);
     } else if (fallbackFocusId) {

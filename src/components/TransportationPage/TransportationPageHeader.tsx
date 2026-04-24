@@ -21,7 +21,6 @@ export const TransportationPageHeader = styled("div", {
     },
     "& figure": {
       "& img, iframe": {
-        // TODO: Revise this clipPath. It's too steep?
         clipPath: "polygon(0 10%, 100% 0, 100% 100%, 0 100%)",
         width: "100%",
         aspectRatio: "4/3",

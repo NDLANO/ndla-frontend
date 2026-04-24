@@ -71,7 +71,6 @@ export const MyContactArea = ({ user }: MyContractAreaProps) => {
         </Heading>
         <WeirdLine />
         <Text textStyle="title.medium">{user.primaryOrg}</Text>
-        {/* TODO: Vurdere om vi også skal hente fylkesorganisasjonen og legge den her, ref design */}
       </ContentContainer>
     </MyContactAreaContainer>
   );

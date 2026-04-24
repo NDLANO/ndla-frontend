@@ -44,7 +44,6 @@ export default tseslint.config(
     rules: {
       ...graphqlPlugin.configs["flat/operations-recommended"].rules,
       ...graphqlPlugin.configs["flat/schema-recommended"].rules,
-      // TODO: Consider enabling these later
       "@graphql-eslint/selection-set-depth": "off",
       "@graphql-eslint/require-selections": "off",
     },

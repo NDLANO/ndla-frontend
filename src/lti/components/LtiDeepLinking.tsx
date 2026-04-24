@@ -137,7 +137,6 @@ export const LtiDeepLinking = ({ ltiData = {}, item }: Props) => {
           value={postData[key] instanceof Object ? JSON.stringify(postData[key]) : postData[key]}
         />
       ))}
-      {/* TODO: Not sure if this works. It's display properly though! */}
       <StyledButton variant="primary" type="submit">
         {t("lti.embed")}
       </StyledButton>
