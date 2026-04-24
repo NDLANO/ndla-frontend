@@ -14,12 +14,17 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { FilmFrontpage } from "../../containers/FilmFrontpage/FilmFrontpage";
-import { GQLSubjectPageQuery, GQLSubjectPageQueryVariables } from "../../graphqlTypes";
+import {
+  GQLSubjectPageQuery,
+  GQLSubjectPageQueryVariables,
+  GQLSubjectVideoSearchQuery,
+  GQLSubjectVideoSearchQueryVariables,
+} from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
 import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
-import { SubjectContainer, subjectContainerFragments } from "./SubjectContainer";
+import { SubjectContainer } from "./SubjectContainer";
 
 const subjectPageQuery = gql`
   query subjectPage($subjectId: String, $contextId: String, $metadataFilterKey: String, $metadataFilterValue: String) {
@@ -33,7 +38,18 @@ const subjectPageQuery = gql`
       }
     }
   }
-  ${subjectContainerFragments.subject}
+  ${SubjectContainer.fragments.subject}
+`;
+
+const videoQueryDef = gql`
+  query subjectVideoSearch($subjectId: String!, $language: String!) {
+    search(subjects: $subjectId, traits: "VIDEO", language: $language, pageSize: 8) {
+      results {
+        ...SubjectContainer_SearchResult
+      }
+    }
+  }
+  ${SubjectContainer.fragments.searchResult}
 `;
 
 export const SubjectPage = () => {
@@ -52,6 +68,11 @@ export const SubjectPage = () => {
 
   const data = newData ?? previousData;
 
+  const videoQuery = useQuery<GQLSubjectVideoSearchQuery, GQLSubjectVideoSearchQueryVariables>(videoQueryDef, {
+    variables: { subjectId: data?.node?.id ?? "", language: i18n.language },
+    skip: !data?.node?.id,
+  });
+
   if (error) {
     if (isNotFoundError(error)) {
       return <NotFoundPage />;
@@ -63,7 +84,7 @@ export const SubjectPage = () => {
     return <NotFoundPage />;
   }
 
-  if (!data) {
+  if (!data || videoQuery.loading) {
     return <ContentPlaceholder />;
   }
 
@@ -83,7 +104,13 @@ export const SubjectPage = () => {
     return <FilmFrontpage />;
   }
 
-  return <SubjectContainer node={data.node} subjectType={subjectType} />;
+  return (
+    <SubjectContainer
+      node={data.node}
+      subjectType={subjectType}
+      searchResults={videoQuery.data?.search?.results ?? []}
+    />
+  );
 };
 
 export const Component = SubjectPage;

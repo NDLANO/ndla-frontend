@@ -39,6 +39,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router";
 import { GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables } from "../../graphqlTypes";
 import { getListItemTraits } from "../../util/listItemTraits";
+import { toSearchParams } from "../../util/searchHelpers";
 import { useDebounce } from "../../util/useDebounce";
 
 const StyledComboboxContent = styled(ComboboxContentStandalone, {
@@ -227,7 +228,6 @@ interface Props {
 export const MastheadSearchForm = ({ root }: Props) => {
   const { t, i18n } = useTranslation();
   const { setOpen } = usePopoverContext();
-  // TODO: Maybe we can remove this?
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const { pathname } = useLocation();
   const formId = useId();
@@ -256,12 +256,8 @@ export const MastheadSearchForm = ({ root }: Props) => {
 
   const onSearch = (evt?: SubmitEvent) => {
     evt?.preventDefault();
-    const searchString = new URLSearchParams(
-      query?.length ? { query: encodeURIComponent(query) } : undefined,
-    ).toString();
-
     setOpen(false);
-    navigate({ pathname: "/search", search: `?${searchString}` });
+    navigate({ pathname: "/search", search: `?${toSearchParams({ query }).toString()}` });
   };
 
   const searchHits = useMemo(() => {

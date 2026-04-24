@@ -84,6 +84,9 @@ const messages = {
     subjectFavoritePitch: "Do you want to favorite this subject?",
     subjectFavoriteGuide:
       "To favorite a subject you must log in to My NDLA. You will find the subject on the top of this page after logging in.",
+    searchLabel: "Search for resources and topics in this subject",
+    moreHits: "Show more hits",
+    multidisciplinaryCases: "Multidisciplinary cases",
   },
   topicsPage: {
     topics: "Topics",
@@ -723,6 +726,7 @@ const messages = {
   subjectPage: {
     topicsTitle: "Topics in {{topic}}",
     multidisciplinaryLinksHeader: "Work multidisciplinarily with the subject",
+    videoResultsHeader: "Videos in the subject",
   },
   toolboxPage: {
     introduction:
