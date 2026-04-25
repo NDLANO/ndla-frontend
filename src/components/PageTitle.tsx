@@ -40,19 +40,18 @@ interface WithNoTrackingProps extends BaseProps {
 
 type Props = WithTrackingProps | WithNoTrackingProps;
 
-// NOTE: Builds the URL sent as `CustomUrl` on matomo `Pageview` events. Every
-// locale segment is stripped (unlike `getCanonicalUrl`, which only strips `nb`)
-// so that every language variant of the same page collapses onto a single URL
-// in matomo — letting us track a page's traffic as one number regardless of
-// which language the visitor used.
-export const getTrackedUrl = (pathname: string) => {
+// NOTE: Builds the path sent as `CustomPath` (and `CustomUrl`) on matomo `Pageview` events.
+// Every locale segment is stripped (unlike `getCanonicalUrl`, which only strips `nb`) so that every language
+// variant of the same page collapses onto a single entry in matomo.
+// This lets us track a page's traffic as one page regardless of the visited language.
+export const getTrackedPath = (pathname: string) => {
   const parts = pathname.split("/");
   const langIdx = languagePartIndex(parts);
   if (isValidLocale(parts[langIdx])) {
     parts.splice(langIdx, 1);
   }
 
-  return buildFullUrlFromPath(parts.join("/"));
+  return parts.join("/");
 };
 
 /**
@@ -68,8 +67,9 @@ export const PageTitle = ({ title, trackingProps }: Props) => {
   const location = useLocation();
   const customPath = trackingProps?.defaultUrl ?? trackingProps?.context?.defaultUrl;
   const subjectId = trackingProps?.rootId ?? trackingProps?.context?.rootId;
-  const trackedPath = customPath ?? location.pathname;
-  const trackedUrl = getTrackedUrl(trackedPath);
+  const rawPath = customPath ?? location.pathname;
+  const trackedPath = getTrackedPath(rawPath);
+  const trackedUrl = buildFullUrlFromPath(trackedPath);
 
   useEffect(() => {
     hasTracked.current = false;
@@ -86,12 +86,13 @@ export const PageTitle = ({ title, trackingProps }: Props) => {
       page_title: title,
       event: "Pageview",
       CustomUrl: trackedUrl,
+      CustomPath: trackedPath,
       languageCode: i18n.language,
       subjectId,
       ...dimensions,
     });
     hasTracked.current = true;
-  }, [authContextLoaded, title, trackedUrl, user, subjectId, i18n.language]);
+  }, [authContextLoaded, title, trackedUrl, trackedPath, user, subjectId, i18n.language]);
 
   return <title>{title}</title>;
 };
