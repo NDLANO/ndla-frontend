@@ -87,6 +87,7 @@ const messages = {
     searchLabel: "Search for resources and topics in this subject",
     moreHits: "Show more hits",
     multidisciplinaryCases: "Multidisciplinary cases",
+    viewMoreVideos: "View more learning resources containing videos",
   },
   topicsPage: {
     topics: "Topics",

@@ -39,6 +39,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
+import { toSearchParams } from "../../util/searchHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { SubjectSearch } from "./SubjectSearch";
 
@@ -86,6 +87,14 @@ const StyledNav = styled("nav", {
   },
 });
 
+const StyledCardNav = styled("nav", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
 const StyledPageContent = styled(PageContent, {
   base: {
     gap: "medium",
@@ -101,12 +110,18 @@ const StyledHeading = styled(Heading, {
 const StyledPageContainer = styled(PageContainer, {
   base: {
     background: "background.strong",
-    gap: "xxlarge",
+    gap: "4xlarge",
     paddingBlockStart: "0",
     "& > :first-child": {
       marginBlockStart: "xxlarge",
       marginBlockEnd: "medium",
     },
+  },
+});
+
+const StyledSafeLinkButton = styled(SafeLinkButton, {
+  base: {
+    width: "fit-content",
   },
 });
 
@@ -275,7 +290,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
             </StyledNav>
           )}
           {!!node.links?.length && (
-            <StyledNav aria-labelledby={LINKS_HEADING_ID}>
+            <StyledCardNav aria-labelledby={LINKS_HEADING_ID}>
               <Heading textStyle="heading.small" asChild consumeCss id={LINKS_HEADING_ID}>
                 <h2>{t("subjectPage.multidisciplinaryLinksHeader")}</h2>
               </Heading>
@@ -284,10 +299,10 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                   <TransportationNode key={link.id} node={link} context="link" />
                 ))}
               </TransportationPageNodeListGrid>
-            </StyledNav>
+            </StyledCardNav>
           )}
           {!!searchResults.length && (
-            <StyledNav aria-labelledby={VIDEO_HEADING_ID}>
+            <StyledCardNav aria-labelledby={VIDEO_HEADING_ID}>
               <Heading textStyle="heading.small" asChild consumeCss id={VIDEO_HEADING_ID}>
                 <h2>{t("subjectPage.videoResultsHeader")}</h2>
               </Heading>
@@ -296,7 +311,16 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                   <TransportationSearchResult key={result.id} result={result} context="link" />
                 ))}
               </TransportationPageNodeListGrid>
-            </StyledNav>
+              <StyledSafeLinkButton
+                variant="secondary"
+                to={{
+                  pathname: "/search",
+                  search: `?${toSearchParams({ subjectIds: [node.id], traits: ["VIDEO"], type: "resource" })}`,
+                }}
+              >
+                {t("subjectsPage.viewMoreVideos")}
+              </StyledSafeLinkButton>
+            </StyledCardNav>
           )}
           {!!about?.visualElement.imageLicense && (
             <ImageLicenseAccordion imageLicenses={[about.visualElement.imageLicense]} />

@@ -86,7 +86,8 @@ const messages = {
       "Vai galggat sáhttit merket fága oiddohin, fertet logget sisa Mu NDLAii. Fága gávnnat bajimusas siiddus go leat sisaloggen.",
     searchLabel: "Søk etter ressurser og emner i dette faget",
     moreHits: "Vis flere treff",
-    multidisciplinaryCases: "Tverrfaglige caser",
+    multidisciplinaryCases: "Tverrfaglige tema",
+    viewMoreVideos: "Se flere læringsressurser med videoer",
   },
   topicsPage: {
     topics: "Fáttát",

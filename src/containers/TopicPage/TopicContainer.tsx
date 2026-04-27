@@ -64,7 +64,7 @@ const HeaderWrapper = styled("div", {
 const StyledPageContainer = styled(PageContainer, {
   base: {
     background: "background.strong",
-    gap: "xxlarge",
+    gap: "4xlarge",
     overflowX: "hidden",
   },
 });
