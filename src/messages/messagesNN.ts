@@ -86,7 +86,8 @@ const messages = {
       "For å favorittmerke eit fag må du logge inn på Min NDLA. Du finn faget øverst på denne sida etter at du har logga inn.",
     searchLabel: "Søk etter ressursar og emner i dette faget",
     moreHits: "Vis fleire treff",
-    multidisciplinaryCases: "Tverrfaglege caser",
+    multidisciplinaryCases: "Tverrfaglege tema",
+    viewMoreVideos: "Sjå fleire læringsressursar med videoar",
   },
   topicsPage: {
     topics: "Emne",

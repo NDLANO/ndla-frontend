@@ -9,14 +9,22 @@
 interface SearchParamsProps {
   subjectIds?: string[];
   query?: string;
+  traits?: string[];
+  type?: string;
 }
-export const toSearchParams = ({ subjectIds, query }: SearchParamsProps) => {
+export const toSearchParams = ({ subjectIds, query, traits, type }: SearchParamsProps) => {
   const params = new URLSearchParams();
   if (query?.length) {
     params.set("query", encodeURIComponent(query));
   }
   if (subjectIds?.length) {
     params.set("subjects", subjectIds.map((id) => id.replace("urn:subject:", "")).join(","));
+  }
+  if (traits?.length) {
+    params.set("traits", traits.join(","));
+  }
+  if (type) {
+    params.set("type", type);
   }
   return params;
 };
