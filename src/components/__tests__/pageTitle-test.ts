@@ -6,34 +6,34 @@
  *
  */
 
-import { getTrackedUrl } from "../PageTitle";
+import { getTrackedPath } from "../PageTitle";
 
-test("getTrackedUrl with article-url and empty language", () => {
-  const url = getTrackedUrl("/article/123");
-  expect(url).toMatch("https://test.ndla.no/article/123");
+test("getTrackedPath with article-url and empty language", () => {
+  const url = getTrackedPath("/article/123");
+  expect(url).toMatch("/article/123");
 });
 
-test("getTrackedUrl with article-url and non-default language", () => {
-  const url = getTrackedUrl("/nn/article/123");
-  expect(url).toMatch("https://test.ndla.no/article/123");
+test("getTrackedPath with article-url and non-default language", () => {
+  const url = getTrackedPath("/nn/article/123");
+  expect(url).toMatch("/article/123");
 });
 
-test("getTrackedUrl with article-url and default language", () => {
-  const url = getTrackedUrl("/nb/article/123");
-  expect(url).toMatch("https://test.ndla.no/article/123");
+test("getTrackedPath with article-url and default language", () => {
+  const url = getTrackedPath("/nb/article/123");
+  expect(url).toMatch("/article/123");
 });
 
-test("getTrackedUrl with iframe-url and nb language", () => {
-  const url = getTrackedUrl("/article-iframe/nb/urn:topic:123/1");
-  expect(url).toMatch("https://test.ndla.no/article-iframe/urn:topic:123/1");
+test("getTrackedPath with iframe-url and nb language", () => {
+  const url = getTrackedPath("/article-iframe/nb/urn:topic:123/1");
+  expect(url).toMatch("/article-iframe/urn:topic:123/1");
 });
 
-test("getTrackedUrl with iframe-url and nn language", () => {
-  const url = getTrackedUrl("/article-iframe/nn/urn:topic:123/1");
-  expect(url).toMatch("https://test.ndla.no/article-iframe/urn:topic:123/1");
+test("getTrackedPath with iframe-url and nn language", () => {
+  const url = getTrackedPath("/article-iframe/nn/urn:topic:123/1");
+  expect(url).toMatch("/article-iframe/urn:topic:123/1");
 });
 
-test("getTrackedUrl with iframe-url and no language", () => {
-  const url = getTrackedUrl("/article-iframe/urn:topic:123/1");
-  expect(url).toMatch("https://test.ndla.no/article-iframe/urn:topic:123/1");
+test("getTrackedPath with iframe-url and no language", () => {
+  const url = getTrackedPath("/article-iframe/urn:topic:123/1");
+  expect(url).toMatch("/article-iframe/urn:topic:123/1");
 });
