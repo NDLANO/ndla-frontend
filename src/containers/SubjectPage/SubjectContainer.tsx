@@ -134,7 +134,10 @@ const SkipLinksWrapper = styled("div", {
       gridTemplateColumns: "repeat(2, 1fr)",
     },
     desktop: {
-      gridTemplateColumns: "repeat(4, 1fr)",
+      gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))",
+      "&:has(> :only-child)": {
+        gridTemplateColumns: "repeat(2, 1fr)",
+      },
     },
   },
 });
@@ -240,7 +243,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
       </StyledSubjectWrapper>
       <StyledPageContainer>
         <StyledPageContent variant="content">
-          <StyledHeading asChild consumeCss>
+          <StyledHeading asChild consumeCss textStyle="title.large">
             <h2>{t("programmes.header")}</h2>
           </StyledHeading>
           <SkipLinksWrapper>
