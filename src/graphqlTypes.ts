@@ -5615,7 +5615,6 @@ export type GQLArticleLayoutQuery = {
       context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
     }>;
   };
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLArticlePage_NodeFragment = {
@@ -10260,7 +10259,6 @@ export type GQLLaunchpadQuery = {
     }>;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   };
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLRevisionsQueryVariables = Exact<{
