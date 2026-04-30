@@ -6,11 +6,11 @@
  *
  */
 
+import config from "./config";
 import {
   ABOUT_PATH,
   FILM_ID,
   MULTIDISCIPLINARY_SUBJECT_ID,
-  PROGRAMME_PATH,
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
@@ -75,7 +75,10 @@ export function toBreadcrumbItems(
 
 export function toProgramme(programmePath?: string, grade?: string) {
   const gradeString = grade ? `/${grade}` : "";
-  return `${PROGRAMME_PATH}${programmePath}${gradeString}`;
+  if (config.runWithOldTaxonomyApi) {
+    return `/utdanning${programmePath}${gradeString}`;
+  }
+  return `${programmePath}${gradeString}`;
 }
 
 export const routes = {
