@@ -283,7 +283,7 @@ export const contentSecurityPolicy = {
         if (isEmbeddable || req.url?.startsWith("/lti")) {
           return "*";
         }
-        return "'self' https://tall.ndla.no https://tall.test.ndla.no https://exam.net https://*.exam.net";
+        return "'self' https://tall.ndla.no https://tall.test.ndla.no https://exam.net https://*.exam.net https://papertek.app https://stb-lockdown.app";
       },
     ],
     styleSrc: [
