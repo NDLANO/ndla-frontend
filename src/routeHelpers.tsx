@@ -6,6 +6,7 @@
  *
  */
 
+import config from "./config";
 import {
   ABOUT_PATH,
   FILM_ID,
@@ -74,6 +75,9 @@ export function toBreadcrumbItems(
 
 export function toProgramme(programmePath?: string, grade?: string) {
   const gradeString = grade ? `/${grade}` : "";
+  if (config.runWithOldTaxonomyApi) {
+    return `/utdanning${programmePath}${gradeString}`;
+  }
   return `${programmePath}${gradeString}`;
 }
 
