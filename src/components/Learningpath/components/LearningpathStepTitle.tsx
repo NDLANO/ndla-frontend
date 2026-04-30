@@ -12,7 +12,7 @@ import { getLicenseByAbbreviation } from "@ndla/licenses";
 import { Heading } from "@ndla/primitives";
 import { ArticleWrapper, ArticleContent, ArticleHeader, LicenseLink } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
-import { GQLLearningpathStepTitle_LearningpathStepFragment } from "../../../graphqlTypes";
+import type { GQLLearningpathStepTitle_LearningpathStepFragment } from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { ResourceContent } from "../../Resource/ResourceLayout";
 

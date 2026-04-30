@@ -6,10 +6,10 @@
  *
  */
 
-import { ExternalFormValues } from "./components/ExternalStepForm";
-import { FolderFormValues } from "./components/FolderStepForm";
-import { ResourceFormValues } from "./components/ResourceStepForm";
-import { TextFormValues } from "./components/TextStepForm";
+import type { ExternalFormValues } from "./components/ExternalStepForm";
+import type { FolderFormValues } from "./components/FolderStepForm";
+import type { ResourceFormValues } from "./components/ResourceStepForm";
+import type { TextFormValues } from "./components/TextStepForm";
 
 export type FormValues = TextFormValues | ExternalFormValues | ResourceFormValues | FolderFormValues;
 

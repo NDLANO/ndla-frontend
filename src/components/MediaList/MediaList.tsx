@@ -18,7 +18,7 @@ import {
 import { Heading, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { LicenseLink } from "@ndla/ui";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { LicenseBylineDescriptionList } from "./LicenseBylineDescriptionList";
 

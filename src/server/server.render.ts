@@ -6,14 +6,14 @@
  *
  */
 
-import { Request } from "express";
+import type { Request } from "express";
 import { withCtx } from "./middleware/loggerContextMiddleware";
 import { defaultRender } from "./render/defaultRender";
 import { errorRender } from "./render/errorRender";
 import { iframeArticleRender } from "./render/iframeArticleRender";
 import { iframeEmbedRender } from "./render/iframeEmbedRender";
 import { ltiRender } from "./render/ltiRender";
-import { RootRenderFunc } from "./serverHelpers";
+import type { RootRenderFunc } from "./serverHelpers";
 
 const render: RootRenderFunc = (req: Request, _res, renderer: string, chunkInfo, ctx) => {
   return withCtx(ctx, () => {

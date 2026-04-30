@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, type ReactNode, useContext } from "react";
 
 export const defaultValue = "default";
 const VersionHashContext = createContext<string>(defaultValue);

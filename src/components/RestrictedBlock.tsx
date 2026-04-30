@@ -9,8 +9,8 @@
 import { Heading, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { WithCss } from "@ndla/styled-system/types";
-import { createContext, ReactNode, useContext } from "react";
+import type { WithCss } from "@ndla/styled-system/types";
+import { createContext, type ReactNode, useContext } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { useRestrictedMode } from "./RestrictedModeContext";
 

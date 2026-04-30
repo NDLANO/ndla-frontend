@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useRouteError } from "react-router";
 import config from "./config";
 import { ErrorPage } from "./containers/ErrorPage/ErrorPage";

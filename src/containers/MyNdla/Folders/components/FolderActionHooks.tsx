@@ -7,15 +7,15 @@
  */
 
 import { CloseLine, AddLine, PencilLine, DeleteBinLine, FileCopyLine, ShareLine, ArrowRightLine } from "@ndla/icons";
-import { RefObject, useCallback, useContext, useMemo } from "react";
+import { type RefObject, useCallback, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalContent";
-import { FolderFormValues } from "../../../../components/MyNdla/FolderForm";
+import type { FolderFormValues } from "../../../../components/MyNdla/FolderForm";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLFolder } from "../../../../graphqlTypes";
+import type { GQLFolder } from "../../../../graphqlTypes";
 import {
   useAddFolderMutation,
   useCopySharedFolderMutation,
@@ -24,7 +24,7 @@ import {
   useUnFavoriteSharedFolder,
 } from "../../../../mutations/folder/folderMutations";
 import { routes } from "../../../../routeHelpers";
-import { MenuItemProps } from "../../components/SettingsMenu";
+import type { MenuItemProps } from "../../components/SettingsMenu";
 import { copyFolderSharingLink, isStudent } from "../util";
 import { FolderCreateModalContent } from "./FolderCreateModalContent";
 import { FolderEditModalContent } from "./FolderEditModalContent";

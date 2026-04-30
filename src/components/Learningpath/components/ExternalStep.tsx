@@ -12,7 +12,10 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleByline, ArticleContent, ArticleFooter, ArticleTitle, ArticleWrapper, ResourceBox } from "@ndla/ui";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLExternalStep_LearningpathFragment, GQLExternalStep_LearningpathStepFragment } from "../../../graphqlTypes";
+import type {
+  GQLExternalStep_LearningpathFragment,
+  GQLExternalStep_LearningpathStepFragment,
+} from "../../../graphqlTypes";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { ResourceContent } from "../../Resource/ResourceLayout";
 import { RestrictedBlock } from "../../RestrictedBlock";

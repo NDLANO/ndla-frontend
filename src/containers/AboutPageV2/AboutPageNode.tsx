@@ -29,7 +29,7 @@ import {
   licenseAttributes,
 } from "@ndla/ui";
 import parse from "html-react-parser";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LdJson } from "../../components/LdJson";
@@ -41,8 +41,8 @@ import { TransportationPageNodeListGrid } from "../../components/TransportationP
 import { TransportationPageVisualElement } from "../../components/TransportationPage/TransportationPageVisualElement";
 import config from "../../config";
 import { ABOUT_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLAboutPageNode_ArticleFragment, GQLAboutPageNode_FrontpageMenuFragment } from "../../graphqlTypes";
-import { Breadcrumb } from "../../interfaces";
+import type { GQLAboutPageNode_ArticleFragment, GQLAboutPageNode_FrontpageMenuFragment } from "../../graphqlTypes";
+import type { Breadcrumb } from "../../interfaces";
 import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";

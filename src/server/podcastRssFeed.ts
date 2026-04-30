@@ -8,7 +8,7 @@
 
 import { gql, ApolloClient } from "@apollo/client";
 import config from "../config";
-import { GQLPodcastSeriesQuery } from "../graphqlTypes";
+import type { GQLPodcastSeriesQuery } from "../graphqlTypes";
 import { createApolloClient } from "../util/apiHelpers";
 
 let apolloClient: ApolloClient;

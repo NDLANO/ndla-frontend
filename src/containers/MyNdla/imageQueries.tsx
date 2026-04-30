@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { useLazyQuery } from "@apollo/client/react";
-import {
+import type {
   GQLImageSearchQuery,
   GQLQueryImageSearchArgs,
   GQLFetchImageQuery,

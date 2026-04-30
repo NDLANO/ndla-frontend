@@ -12,7 +12,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { Stack, styled } from "@ndla/styled-system/jsx";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import { deserializeToRichText } from "../../../../components/RichTextEditor/richTextSerialization";
 import { routes } from "../../../../routeHelpers";

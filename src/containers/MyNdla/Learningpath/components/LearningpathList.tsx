@@ -10,7 +10,7 @@ import { Spinner, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
-import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { SettingsMenu } from "../../components/SettingsMenu";
 import { useMyLearningpaths } from "../learningpathQueries";
 import { useLearningpathActionHooks } from "./LearningpathActionHooks";

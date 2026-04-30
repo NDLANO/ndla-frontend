@@ -21,7 +21,7 @@ import {
   spanSerializer,
   type SlateSerializer,
 } from "@ndla/editor";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 
 export const serializers: SlateSerializer<any>[] = [
   paragraphSerializer,

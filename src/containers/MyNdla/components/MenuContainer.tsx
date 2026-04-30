@@ -10,8 +10,8 @@ import { ark } from "@ark-ui/react";
 import { ExternalLinkLine } from "@ndla/icons";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { StyledVariantProps } from "@ndla/styled-system/types";
-import { ReactElement } from "react";
+import type { StyledVariantProps } from "@ndla/styled-system/types";
+import type { ReactElement } from "react";
 import { useLocation } from "react-router";
 import { routes } from "../../../routeHelpers";
 

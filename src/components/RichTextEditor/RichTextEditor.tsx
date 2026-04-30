@@ -18,10 +18,10 @@ import {
 } from "@ndla/editor";
 import { useFieldContext } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { TextareaHTMLAttributes, useEffect, useMemo, useState } from "react";
-import { Descendant } from "slate";
+import { type TextareaHTMLAttributes, useEffect, useMemo, useState } from "react";
+import type { Descendant } from "slate";
 import { Editable, Slate } from "slate-react";
-import { EditableProps } from "slate-react/dist/components/editable";
+import type { EditableProps } from "slate-react/dist/components/editable";
 import { BreakElement } from "./plugins/break/BreakElement";
 import { HeadingElement } from "./plugins/heading/HeadingElement";
 import { headingPlugin } from "./plugins/heading/headingPlugin";

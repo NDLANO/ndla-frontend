@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
@@ -17,7 +17,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { ResourceContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
+import type { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";

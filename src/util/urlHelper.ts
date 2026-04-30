@@ -6,7 +6,7 @@
  *
  */
 
-import { Location } from "react-router";
+import type { Location } from "react-router";
 import { validContextIdRegExp } from "../constants";
 import { supportedLanguages } from "../i18n";
 

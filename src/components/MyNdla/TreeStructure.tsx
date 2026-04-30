@@ -6,7 +6,7 @@
  *
  */
 
-import { TreeViewNodeProviderProps } from "@ark-ui/react";
+import type { TreeViewNodeProviderProps } from "@ark-ui/react";
 import { ArrowRightShortLine, FolderLine, FolderUserLine, HeartFill } from "@ndla/icons";
 import {
   IconButton,
@@ -29,8 +29,8 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
-import { AddResourceType } from "./types";
+import type { GQLFolder } from "../../graphqlTypes";
+import type { AddResourceType } from "./types";
 
 const StyledTree = styled(Tree, {
   base: {

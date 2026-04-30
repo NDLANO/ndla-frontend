@@ -35,7 +35,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinkSet } from "../../components/Subject/SubjectLinks";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLMultidisciplinarySubjectArticle_NodeFragment } from "../../graphqlTypes";
+import type { GQLMultidisciplinarySubjectArticle_NodeFragment } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { useListItemTraits } from "../../util/listItemTraits";

@@ -9,9 +9,9 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import type { GQLFolder } from "../../graphqlTypes";
 import { TreeStructure } from "./TreeStructure";
-import { AddResourceType } from "./types";
+import type { AddResourceType } from "./types";
 
 interface Props {
   folders: GQLFolder[];

@@ -6,7 +6,7 @@
  *
  */
 
-import { Request } from "express";
+import type { Request } from "express";
 import config from "../../config";
 
 export const disableSSR = (req: Request) => {

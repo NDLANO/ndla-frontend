@@ -9,7 +9,7 @@
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
+import type { GQLMyNdlaPersonalDataFragmentFragment } from "../../../graphqlTypes";
 
 interface Props {
   user: GQLMyNdlaPersonalDataFragmentFragment | undefined;

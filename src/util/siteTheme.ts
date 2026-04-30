@@ -6,8 +6,8 @@
  *
  */
 
-import { HeroVariant } from "@ndla/primitives";
-import { SiteTheme } from "../interfaces";
+import type { HeroVariant } from "@ndla/primitives";
+import type { SiteTheme } from "../interfaces";
 
 const siteThemeToHeroMap: Record<SiteTheme, HeroVariant> = {
   brand1: "brand1Moderate",

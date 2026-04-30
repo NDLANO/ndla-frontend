@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { Hero, HeroBackground } from "@ndla/primitives";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import { LearningpathContent } from "../../components/Learningpath/LearningpathContent";
 import { LearningpathMenu } from "../../components/Learningpath/LearningpathMenu";
@@ -16,7 +16,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
+import type { GQLPlainLearningpathContainer_LearningpathFragment } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 
 const getDocumentTitle = (learningpath: GQLPlainLearningpathContainer_LearningpathFragment, t: TFunction) =>

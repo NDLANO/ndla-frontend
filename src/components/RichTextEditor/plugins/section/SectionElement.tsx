@@ -6,7 +6,7 @@
  *
  */
 
-import { ElementRenderer } from "@ndla/editor";
+import type { ElementRenderer } from "@ndla/editor";
 
 export const SectionElement: ElementRenderer = (props) => {
   const { element, attributes, children } = props;

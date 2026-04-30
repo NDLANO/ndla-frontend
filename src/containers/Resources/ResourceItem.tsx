@@ -12,10 +12,10 @@ import { Badge, ListItemContent, ListItemHeading, ListItemImage, ListItemRoot, T
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ImageVariantDTO } from "@ndla/types-backend/image-api";
+import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { BadgesContainer } from "@ndla/ui";
 import { ContentTypeFallbackIcon } from "../../components/ContentTypeFallbackIcon";
-import { GQLResourceItem_NodeFragment } from "../../graphqlTypes";
+import type { GQLResourceItem_NodeFragment } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 
 const StyledListItemContent = styled(ListItemContent, {

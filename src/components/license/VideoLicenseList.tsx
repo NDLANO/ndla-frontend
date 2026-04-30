@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
-import { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
+import type { GQLVideoLicenseList_BrightcoveLicenseFragment } from "../../graphqlTypes";
 import { FavoriteButton } from "../Article/FavoritesButton";
 import {
   MediaList,
@@ -24,7 +24,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
-  ItemType,
+  type ItemType,
   MediaListLicense,
   MediaListContent,
 } from "../MediaList/MediaList";

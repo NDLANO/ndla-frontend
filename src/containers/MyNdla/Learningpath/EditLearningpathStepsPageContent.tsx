@@ -9,7 +9,7 @@
 import {
   closestCenter,
   DndContext,
-  DragEndEvent,
+  type DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   useSensor,
@@ -30,12 +30,12 @@ import { useTranslation } from "react-i18next";
 import { Outlet, useLocation, useParams } from "react-router";
 import { useToast } from "../../../components/ToastContext";
 import config from "../../../config";
-import { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathFragment } from "../../../graphqlTypes";
 import { useUpdateLearningpathStepSeqNo } from "../../../mutations/learningpathMutations";
 import { routes } from "../../../routeHelpers";
 import { makeDndTranslations } from "../dndUtil";
 import { DraggableLearningpathStepListItem } from "./components/DraggableLearningpathStepListItem";
-import { LearningPathOutletContext, LocationState } from "./types";
+import type { LearningPathOutletContext, LocationState } from "./types";
 
 const StyledOl = styled("ol", {
   base: {

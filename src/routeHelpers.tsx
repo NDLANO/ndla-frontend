@@ -14,8 +14,8 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
-import { GQLTaxBase, GQLTaxonomyCrumb } from "./graphqlTypes";
-import { Breadcrumb } from "./interfaces";
+import type { GQLTaxBase, GQLTaxonomyCrumb } from "./graphqlTypes";
+import type { Breadcrumb } from "./interfaces";
 
 export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
 

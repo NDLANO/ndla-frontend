@@ -9,7 +9,7 @@
 import { gql } from "@apollo/client";
 import { useLazyQuery, useQuery } from "@apollo/client/react";
 import { learningpathFragment, learningpathStepOembed } from "../../../fragments/learningpathFragments";
-import {
+import type {
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
   GQLMyNdlaLearningpathQueryVariables,

@@ -6,10 +6,10 @@
  *
  */
 
-import { createInstance, i18n, InitOptions, ReadCallback, Services } from "i18next";
+import { createInstance, type i18n, type InitOptions, type ReadCallback, type Services } from "i18next";
 import { initReactI18next } from "react-i18next";
 import config from "./config";
-import { LocaleType } from "./interfaces";
+import type { LocaleType } from "./interfaces";
 
 export const supportedLanguages: LocaleType[] = ["nb", "nn", "en", "se"];
 export const preferredLanguages: LocaleType[] = ["nb", "nn"];

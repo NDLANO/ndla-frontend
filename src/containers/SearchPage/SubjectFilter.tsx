@@ -35,7 +35,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TabFilter } from "../../components/TabFilter";
-import { GQLSubjectFilterQuery } from "../../graphqlTypes";
+import type { GQLSubjectFilterQuery } from "../../graphqlTypes";
 import { useLtiContext } from "../../LtiContext";
 import { createFilters, groupAndFilterSubjectsByCategory } from "../../util/subjectFilter";
 import { FilterContainer } from "./FilterContainer";

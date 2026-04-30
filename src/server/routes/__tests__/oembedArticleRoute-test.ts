@@ -6,7 +6,7 @@
  *
  */
 
-import { Request } from "express";
+import type { Request } from "express";
 import nock from "nock";
 import { oembedArticleRoute, parseOembedUrl } from "../oembedArticleRoute";
 

@@ -29,8 +29,8 @@ import { TransportationNode } from "../../components/TransportationPage/Transpor
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
 import { TransportationPageVisualElement } from "../../components/TransportationPage/TransportationPageVisualElement";
 import { RELEVANCE_SUPPLEMENTARY, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLTopicPageQuery } from "../../graphqlTypes";
-import { SubjectType } from "../../routeHelpers";
+import type { GQLTopicPageQuery } from "../../graphqlTypes";
+import type { SubjectType } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { Resources } from "../Resources/Resources";
 

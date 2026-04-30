@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import config from "../../config";
-import {
+import type {
   GQLConceptLicenseList_ConceptLicenseFragment,
   GQLGlossLicenseList_GlossLicenseFragment,
 } from "../../graphqlTypes";
@@ -26,7 +26,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
-  ItemType,
+  type ItemType,
   MediaListLicense,
   MediaListContent,
 } from "../MediaList/MediaList";

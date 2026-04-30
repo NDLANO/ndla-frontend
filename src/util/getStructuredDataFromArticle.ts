@@ -10,7 +10,7 @@ import { gql } from "@apollo/client";
 import { licenses, getLicenseByAbbreviation } from "@ndla/licenses";
 import config from "../config";
 import { AcquireLicensePage } from "../constants";
-import {
+import type {
   GQLContributor,
   GQLStructuredArticleData_CopyrightFragment,
   GQLStructuredArticleDataFragment,
@@ -19,7 +19,7 @@ import {
   GQLStructuredArticleData_BrightcoveLicenseFragment,
   GQLStructuredArticleData_ImageLicenseFragment,
 } from "../graphqlTypes";
-import { Breadcrumb } from "../interfaces";
+import type { Breadcrumb } from "../interfaces";
 
 type CopyrightHolder = { "@type": string; name?: string };
 type Alignment = {

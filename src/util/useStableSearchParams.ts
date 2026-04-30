@@ -7,7 +7,7 @@
  */
 
 import { useCallback } from "react";
-import { NavigateOptions, useSearchParams } from "react-router";
+import { type NavigateOptions, useSearchParams } from "react-router";
 
 // The purpose of this hook is to provide a stable search params object that is always sorted by key. `useSearchParams` from "react-router" does not guarantee the order of the search params.
 export const useStableSearchParams = () => {

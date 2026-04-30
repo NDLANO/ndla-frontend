@@ -19,13 +19,13 @@ import {
   IconButton,
   MenuContent,
   MenuItem,
-  MenuItemVariantProps,
+  type MenuItemVariantProps,
   MenuRoot,
   MenuTrigger,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode, MouseEvent, useState, useCallback, useRef, type Ref } from "react";
+import { type ReactNode, type MouseEvent, useState, useCallback, useRef, type Ref } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../components/DialogCloseButton";
 

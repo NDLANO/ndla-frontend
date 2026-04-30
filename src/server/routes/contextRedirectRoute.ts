@@ -6,9 +6,9 @@
  *
  */
 
-import { ResolvedUrl } from "@ndla/types-taxonomy";
-import { NextFunction, Request, Response } from "express";
-import { Query } from "express-serve-static-core";
+import type { ResolvedUrl } from "@ndla/types-taxonomy";
+import type { NextFunction, Request, Response } from "express";
+import type { Query } from "express-serve-static-core";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
 
 async function resolve(path: string, lang?: string) {

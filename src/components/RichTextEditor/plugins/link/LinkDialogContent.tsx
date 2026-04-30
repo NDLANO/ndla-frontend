@@ -22,7 +22,7 @@ import {
   FieldRoot,
 } from "@ndla/primitives";
 import { useCallback } from "react";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Editor, Node, Range, Transforms } from "slate";
 import { useSlate } from "slate-react";

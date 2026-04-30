@@ -10,13 +10,13 @@ import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import { IconButton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
-  MouseEvent as ReactMouseEvent,
-  UIEvent,
+  type MouseEvent as ReactMouseEvent,
+  type UIEvent,
   useRef,
   useState,
   useEffect,
   useCallback,
-  HTMLAttributes,
+  type HTMLAttributes,
   type Ref,
 } from "react";
 import { useTranslation } from "react-i18next";

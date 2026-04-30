@@ -22,7 +22,7 @@ import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
-import { TitleFormValues, TitleForm } from "./components/TitleForm";
+import { type TitleFormValues, TitleForm } from "./components/TitleForm";
 import { useFetchLearningpath } from "./learningpathQueries";
 
 const StyledMyNdlaPageContent = styled(MyNdlaPageContent, {

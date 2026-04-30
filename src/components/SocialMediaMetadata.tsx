@@ -6,7 +6,7 @@
  *
  */
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useLocation, useHref } from "react-router";
 import config from "../config";
 import { isValidLocale, preferredLanguages } from "../i18n";

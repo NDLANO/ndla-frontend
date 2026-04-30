@@ -6,9 +6,9 @@
  *
  */
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
-import { matchRoutes, RouteObject } from "react-router";
+import { matchRoutes, type RouteObject } from "react-router";
 import config from "../config";
 
 export const renderOrHydrate = async (

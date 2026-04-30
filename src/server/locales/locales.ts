@@ -7,7 +7,7 @@
  */
 
 import { createHash } from "crypto";
-import { i18n } from "i18next";
+import type { i18n } from "i18next";
 import config from "../../config";
 import { preferredLanguages } from "../../i18n";
 import { i18nInstanceWithTranslations } from "../../i18nInstanceWithTranslations";

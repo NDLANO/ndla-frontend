@@ -6,7 +6,7 @@
  *
  */
 
-import { LeafRenderer } from "@ndla/editor";
+import type { LeafRenderer } from "@ndla/editor";
 
 export const MarkLeaf: LeafRenderer = (props) => {
   const { attributes, children, leaf } = props;

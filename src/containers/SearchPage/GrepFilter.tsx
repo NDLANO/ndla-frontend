@@ -13,7 +13,7 @@ import { Button, Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
+import type { GQLGrepFilterQuery, GQLGrepFilterQueryVariables } from "../../graphqlTypes";
 import { FilterContainer } from "./FilterContainer";
 import { useStableSearchPageParams } from "./useStableSearchPageParams";
 

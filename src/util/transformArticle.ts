@@ -6,11 +6,11 @@
  *
  */
 
-import { transform, TransformOptions } from "@ndla/article-converter";
+import { transform, type TransformOptions } from "@ndla/article-converter";
 import parse from "html-react-parser";
-import { ReactNode } from "react";
-import { GQLArticle, GQLFootNote, GQLResourceEmbed, GQLTransformedArticleContent } from "../graphqlTypes";
-import { LocaleType } from "../interfaces";
+import type { ReactNode } from "react";
+import type { GQLArticle, GQLFootNote, GQLResourceEmbed, GQLTransformedArticleContent } from "../graphqlTypes";
+import type { LocaleType } from "../interfaces";
 import { formatDate } from "./formatDate";
 
 function getContent(content: string, { path, isOembed, subject, articleLanguage }: TransformOptions) {

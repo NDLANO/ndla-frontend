@@ -6,7 +6,7 @@
  *
  */
 
-import { RefObject } from "react";
+import type { RefObject } from "react";
 
 /**
   Copied from Editorial

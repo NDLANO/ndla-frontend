@@ -9,7 +9,7 @@
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { FavoriteSubject } from "../../components/FavoriteSubject";
-import { GQLTaxBase } from "../../graphqlTypes";
+import type { GQLTaxBase } from "../../graphqlTypes";
 
 const SubjectLinkWrapper = styled("li", {
   base: {

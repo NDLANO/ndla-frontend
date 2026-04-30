@@ -28,7 +28,8 @@
     "types": ["vitest/globals", "node"],
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "verbatimModuleSyntax": true
   },
   "include": ["./src/**/*"]
 }

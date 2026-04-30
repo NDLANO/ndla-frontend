@@ -7,7 +7,7 @@
  */
 
 import config from "../config";
-import { GQLArticleRequiredLibrary, GQLTransformedArticleContent } from "../graphqlTypes";
+import type { GQLArticleRequiredLibrary, GQLTransformedArticleContent } from "../graphqlTypes";
 
 export interface Scripts {
   key?: string;

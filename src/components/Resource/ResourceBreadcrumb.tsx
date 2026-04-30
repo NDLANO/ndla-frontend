@@ -11,7 +11,7 @@ import { Skeleton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { Breadcrumb } from "../../interfaces";
+import type { Breadcrumb } from "../../interfaces";
 
 const CrumbContainer = styled("div", {
   base: {

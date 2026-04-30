@@ -9,8 +9,8 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { uniq } from "@ndla/util";
-import { createContext, ReactNode, useContext, useCallback, useMemo } from "react";
-import { GQLAlertsQuery, GQLAlertsQueryVariables } from "../graphqlTypes";
+import { createContext, type ReactNode, useContext, useCallback, useMemo } from "react";
+import type { GQLAlertsQuery, GQLAlertsQueryVariables } from "../graphqlTypes";
 import { useLocalStorage } from "../util/useLocalStorage";
 
 interface AlertsContextProps {

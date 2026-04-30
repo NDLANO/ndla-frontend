@@ -39,11 +39,11 @@ import parse from "html-react-parser";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { learningPathResourceTypes } from "../../../../constants";
-import { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
+import type { GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables } from "../../../../graphqlTypes";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 import { useDebounce } from "../../../../util/useDebounce";
-import { ResourceData } from "./folderTypes";
+import type { ResourceData } from "./folderTypes";
 
 const HitsWrapper = styled("div", {
   base: {

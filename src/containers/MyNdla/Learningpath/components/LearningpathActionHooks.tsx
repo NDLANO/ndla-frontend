@@ -12,14 +12,14 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import {
   useUpdateLearningpathStatus,
   useDeleteLearningpath,
   useCopyLearningpathMutation,
 } from "../../../../mutations/learningpathMutations";
 import { routes } from "../../../../routeHelpers";
-import { MenuItemProps } from "../../components/SettingsMenu";
+import type { MenuItemProps } from "../../components/SettingsMenu";
 import { myLearningpathQuery } from "../learningpathQueries";
 import {
   copyLearningpathSharingLink,

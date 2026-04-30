@@ -11,7 +11,7 @@ import { Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { GQLLastLearningpathStepInfo_NodeFragment } from "../../graphqlTypes";
+import type { GQLLastLearningpathStepInfo_NodeFragment } from "../../graphqlTypes";
 import { ResourceContent } from "../Resource/ResourceLayout";
 import { useRestrictedMode } from "../RestrictedModeContext";
 

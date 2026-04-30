@@ -10,7 +10,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
-import { LtiData, LtiItem } from "../../interfaces";
+import type { LtiData, LtiItem } from "../../interfaces";
 
 const StyledSafeLinkButton = styled(SafeLinkButton, {
   base: {

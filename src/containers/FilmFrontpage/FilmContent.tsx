@@ -8,11 +8,11 @@
 
 import { gql } from "@apollo/client";
 import { useTranslation } from "react-i18next";
-import { GQLMovieTheme } from "../../graphqlTypes";
+import type { GQLMovieTheme } from "../../graphqlTypes";
 import { AllMoviesAlphabetically } from "./AllMoviesAlphabetically";
 import { ALL_MOVIES_ID, findName } from "./filmHelper";
 import { MovieGrid, MovieGridLoadingShimmer, SelectionMovieGrid } from "./MovieGrid";
-import { MovieResourceType } from "./resourceTypes";
+import type { MovieResourceType } from "./resourceTypes";
 
 type MovieTheme = Omit<GQLMovieTheme, "path">;
 

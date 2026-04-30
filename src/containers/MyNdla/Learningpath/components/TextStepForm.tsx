@@ -11,7 +11,7 @@ import { Text, FieldErrorMessage, FieldHelper, FieldInput, FieldLabel, FieldRoot
 import { SafeLink } from "@ndla/safelink";
 import { Controller, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Descendant } from "slate";
+import type { Descendant } from "slate";
 import { RichTextEditor } from "../../../../components/RichTextEditor/RichTextEditor";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { FieldLength } from "../../components/FieldLength";

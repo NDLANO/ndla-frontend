@@ -6,12 +6,12 @@
  *
  */
 
-import { HTMLArkProps, ark } from "@ark-ui/react";
-import { PageContent, PageContentVariantProps } from "@ndla/primitives";
+import { type HTMLArkProps, ark } from "@ark-ui/react";
+import { PageContent, type PageContentVariantProps } from "@ndla/primitives";
 import { css, cva } from "@ndla/styled-system/css";
 import { styled } from "@ndla/styled-system/jsx";
-import { JsxStyleProps, RecipeVariantProps } from "@ndla/styled-system/types";
-import { type Ref } from "react";
+import type { JsxStyleProps, RecipeVariantProps } from "@ndla/styled-system/types";
+import type { Ref } from "react";
 
 export const PageLayout = styled(
   ark.div,

@@ -6,7 +6,7 @@
  *
  */
 
-import { ButtonHTMLAttributes, type Ref, useContext } from "react";
+import { type ButtonHTMLAttributes, type Ref, useContext } from "react";
 import { FavoriteButton as UIFavoriteButton } from "../../components/MyNdla/FavoriteButton";
 import { useResourceConnections } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";

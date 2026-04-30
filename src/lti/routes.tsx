@@ -6,7 +6,7 @@
  *
  */
 
-import { RouteObjectWithImportPath } from "../interfaces";
+import type { RouteObjectWithImportPath } from "../interfaces";
 import { ErrorBoundary } from "./ErrorBoundary";
 
 export const routes: RouteObjectWithImportPath[] = [

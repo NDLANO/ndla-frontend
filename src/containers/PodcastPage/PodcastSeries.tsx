@@ -13,7 +13,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { useTranslation } from "react-i18next";
-import { GQLPodcastSeries_PodcastSeriesSummaryFragment } from "../../graphqlTypes";
+import type { GQLPodcastSeries_PodcastSeriesSummaryFragment } from "../../graphqlTypes";
 
 const StyledText = styled(Text, { base: { lineClamp: "3" } });
 

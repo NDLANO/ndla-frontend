@@ -9,14 +9,14 @@
 import { gql } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
-import { RefObject, useCallback, useContext, useState } from "react";
+import { type RefObject, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../components/AuthenticationContext";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderSelect, ROOT_FOLDER_ID } from "../../../../components/MyNdla/FolderSelect";
 import { SaveHeartButton } from "../../../../components/SaveHeartButton";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLFolder, GQLMoveFolderDialogQuery, GQLMoveFolderDialogQueryVariables } from "../../../../graphqlTypes";
+import type { GQLFolder, GQLMoveFolderDialogQuery, GQLMoveFolderDialogQueryVariables } from "../../../../graphqlTypes";
 import { foldersPageQueryFragment } from "../../../../mutations/folder/folderFragments";
 import { useMoveFolderMutation } from "../../../../mutations/folder/folderMutations";
 

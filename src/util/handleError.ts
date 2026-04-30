@@ -6,18 +6,18 @@
  *
  */
 
-import { CombinedGraphQLErrors, ErrorLike } from "@apollo/client";
+import { CombinedGraphQLErrors, type ErrorLike } from "@apollo/client";
 import { captureException, setContext } from "@sentry/react";
-import { GraphQLFormattedError } from "graphql";
+import type { GraphQLFormattedError } from "graphql";
 import config from "../config";
-import { LogLevel } from "../interfaces";
+import type { LogLevel } from "../interfaces";
 import { GONE, NOT_FOUND } from "../statusCodes";
 import { NDLAError } from "./error/NDLAError";
 import { StatusError } from "./error/StatusError";
 import { unreachable } from "./guards";
 import { getLoggerContext } from "./logger/getLoggerContext";
 import { log } from "./logger/logger";
-import { LoggerContext } from "./logger/loggerContext";
+import type { LoggerContext } from "./logger/loggerContext";
 
 type UnknownError = {
   status?: number;

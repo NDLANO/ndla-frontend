@@ -25,8 +25,8 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
-import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
+import type { GQLArticle_ArticleFragment } from "../../graphqlTypes";
+import { type BaseArticle, type TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
 
 const StyledAside = styled("aside", {
   base: {

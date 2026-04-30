@@ -8,7 +8,7 @@
 
 import { useParams } from "react-router";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
-import { ResourceEmbed, StandaloneEmbed } from "../containers/ResourceEmbed/components/ResourceEmbed";
+import { ResourceEmbed, type StandaloneEmbed } from "../containers/ResourceEmbed/components/ResourceEmbed";
 import { PostResizeMessage } from "./PostResizeMessage";
 
 const supportedEmbedTypes: StandaloneEmbed[] = ["concept", "video", "audio", "image", "h5p"];

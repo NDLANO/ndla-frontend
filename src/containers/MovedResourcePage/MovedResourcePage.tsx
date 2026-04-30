@@ -12,7 +12,7 @@ import { Badge, CardContent, CardHeading, CardImage, CardRoot, Heading, Text } f
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ImageVariantDTO } from "@ndla/types-backend/image-api";
+import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { BadgesContainer } from "@ndla/ui";
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
@@ -21,7 +21,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { PageTitle } from "../../components/PageTitle";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
+import type { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 
 interface Props {

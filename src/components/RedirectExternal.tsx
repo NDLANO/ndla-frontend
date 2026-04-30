@@ -7,7 +7,7 @@
  */
 
 import { useContext } from "react";
-import { RedirectContext, RedirectInfo } from "./RedirectContext";
+import { RedirectContext, type RedirectInfo } from "./RedirectContext";
 /**
  * The react-router Redirect component does'nt work with external
  * urls. So we use this helper component to handle it for us.

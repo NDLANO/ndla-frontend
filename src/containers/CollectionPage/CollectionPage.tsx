@@ -11,7 +11,7 @@ import { useQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ImageVariantDTO } from "@ndla/types-backend/image-api";
+import type { ImageVariantDTO } from "@ndla/types-backend/image-api";
 import { subjectTypes } from "@ndla/ui";
 import { groupBy } from "@ndla/util";
 import { useMemo } from "react";
@@ -24,7 +24,7 @@ import { PageSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
+import type { GQLCollectionPageQuery, GQLCollectionPageQueryVariables } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 

@@ -23,7 +23,7 @@ import { RedirectContext } from "../components/RedirectContext";
 import { Status } from "../components/Status";
 import { SKIP_TO_CONTENT_ID } from "../constants";
 import { NotFoundPage } from "../containers/NotFoundPage/NotFoundPage";
-import { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
+import type { GQLIframePageQuery, GQLIframePageQueryVariables } from "../graphqlTypes";
 import { INTERNAL_SERVER_ERROR } from "../statusCodes";
 import { isGoneError } from "../util/handleError";
 import "../style/index.css";

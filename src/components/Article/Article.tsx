@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { HTMLProps } from "@ark-ui/react";
+import type { HTMLProps } from "@ark-ui/react";
 import { Badge, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import {
@@ -18,12 +18,12 @@ import {
   ArticleWrapper,
   licenseAttributes,
 } from "@ndla/ui";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
-import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
+import type { GQLArticle_ArticleFragment } from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
-import { TransformedBaseArticle } from "../../util/transformArticle";
+import type { TransformedBaseArticle } from "../../util/transformArticle";
 import { CompetenceGoals } from "../CompetenceGoals";
 import { Disclaimer } from "../Disclaimer";
 import { InactiveMessageBox } from "../InactiveMessageBox";

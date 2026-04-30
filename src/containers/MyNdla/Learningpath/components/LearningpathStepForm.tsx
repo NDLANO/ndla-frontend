@@ -21,7 +21,7 @@ import {
 } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { HStack, styled } from "@ndla/styled-system/jsx";
-import { FormEvent, useContext, useEffect, useRef, useState } from "react";
+import { type FormEvent, useContext, useEffect, useRef, useState } from "react";
 import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useOutletContext, useParams } from "react-router";
@@ -29,7 +29,7 @@ import { AuthContext } from "../../../../components/AuthenticationContext";
 import { TextStep } from "../../../../components/Learningpath/components/TextStep";
 import { useToast } from "../../../../components/ToastContext";
 import { SKIP_TO_CONTENT_ID } from "../../../../constants";
-import { GQLLearningpathStepType, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import type { GQLLearningpathStepType, GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import {
   useCreateLearningpathStep,
   useDeleteLearningpathStep,
@@ -38,7 +38,7 @@ import {
 import { routes } from "../../../../routeHelpers";
 import { PrivateRoute } from "../../../PrivateRoute/PrivateRoute";
 import { formValuesToGQLInput, toFormValues } from "../learningpathFormUtils";
-import { FormValues, LearningPathOutletContext } from "../types";
+import type { FormValues, LearningPathOutletContext } from "../types";
 import { learningpathStepEditButtonId } from "../utils";
 import { AlertDialog } from "./AlertDialog";
 import { ExternalStepForm } from "./ExternalStepForm";

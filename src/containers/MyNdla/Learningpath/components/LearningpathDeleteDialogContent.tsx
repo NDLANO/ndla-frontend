@@ -9,7 +9,7 @@
 import { Button, DialogBody, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { LearningpathItem } from "./LearningpathItem";
 
 interface Props {

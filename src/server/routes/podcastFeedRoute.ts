@@ -6,7 +6,7 @@
  *
  */
 
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import { NOT_FOUND_PAGE_PATH } from "../../constants";
 import { BAD_REQUEST } from "../../statusCodes";
 import { podcastRssFeed } from "../podcastRssFeed";

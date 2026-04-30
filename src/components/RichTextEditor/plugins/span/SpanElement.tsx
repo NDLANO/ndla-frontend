@@ -6,7 +6,7 @@
  *
  */
 
-import { SPAN_ELEMENT_TYPE, ElementRenderer } from "@ndla/editor";
+import { SPAN_ELEMENT_TYPE, type ElementRenderer } from "@ndla/editor";
 import { InlineBugfix } from "@ndla/editor-components";
 import { styled } from "@ndla/styled-system/jsx";
 

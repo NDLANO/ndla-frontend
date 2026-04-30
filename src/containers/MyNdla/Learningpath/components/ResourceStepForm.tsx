@@ -27,7 +27,7 @@ import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
 import { useListItemTraits } from "../../../../util/listItemTraits";
-import { ResourceData } from "./folderTypes";
+import type { ResourceData } from "./folderTypes";
 import { ResourcePicker } from "./ResourcePicker";
 
 export interface ResourceFormValues {

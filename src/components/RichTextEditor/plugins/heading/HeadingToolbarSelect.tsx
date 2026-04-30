@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { PARAGRAPH_ELEMENT_TYPE, toggleHeading } from "@ndla/editor";
 import { platformSpecificTooltip } from "@ndla/editor-components";
 import { ArrowDownShortLine, CheckLine } from "@ndla/icons";
@@ -26,12 +26,12 @@ import {
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { FontWeightToken } from "@ndla/styled-system/tokens";
-import { ElementType, ReactNode, useCallback, useMemo } from "react";
+import type { FontWeightToken } from "@ndla/styled-system/tokens";
+import { type ElementType, type ReactNode, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Editor, Element, Transforms, Range } from "slate";
 import { ReactEditor, useSlate, useSlateSelection, useSlateSelector } from "slate-react";
-import { TextType } from "./headingTypes";
+import type { TextType } from "./headingTypes";
 import { getHotKey } from "./headingUtils";
 
 interface HeadingProps {

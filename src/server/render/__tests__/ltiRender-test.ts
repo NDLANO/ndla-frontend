@@ -6,7 +6,7 @@
  *
  */
 
-import { Request } from "express";
+import type { Request } from "express";
 import { ltiRender, parseAndValidateParameters } from "../ltiRender";
 
 test("ltiRender 200 OK ", async () => {

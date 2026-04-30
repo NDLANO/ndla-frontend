@@ -6,8 +6,8 @@
  *
  */
 
-import { ErrorEvent, EventHint, init } from "@sentry/react";
-import { ConfigType } from "../config";
+import { type ErrorEvent, type EventHint, init } from "@sentry/react";
+import type { ConfigType } from "../config";
 import { deriveLogLevel } from "./handleError";
 
 const isInformationalError = (exception: unknown): boolean => {

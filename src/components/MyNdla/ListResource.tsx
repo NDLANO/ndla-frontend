@@ -12,7 +12,7 @@ import {
   ListItemHeading,
   ListItemImage,
   ListItemRoot,
-  ListItemVariantProps,
+  type ListItemVariantProps,
   Skeleton,
   Text,
 } from "@ndla/primitives";
@@ -20,7 +20,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useListItemTraits } from "../../util/listItemTraits";
 import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";

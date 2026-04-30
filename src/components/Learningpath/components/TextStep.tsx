@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ArticleFooter, ArticleByline } from "@ndla/ui";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import {
+import type {
   GQLTextStep_LearningpathFragment,
   GQLLearningpathPage_NodeFragment,
   GQLTextStep_LearningpathStepFragment,

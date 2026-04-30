@@ -16,7 +16,7 @@ import { usePrevious } from "@ndla/util";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import config from "../../config";
-import { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
+import type { GQLLearningpathMenu_LearningpathFragment } from "../../graphqlTypes";
 import { routes, toLearningPath } from "../../routeHelpers";
 import { formatDate } from "../../util/formatDate";
 import { FavoriteButton } from "../Article/FavoritesButton";
@@ -32,7 +32,7 @@ import {
   StepperSafeLink,
 } from "../Stepper";
 import { CopyLearningPath } from "./components/CopyLearningPath";
-import { LearningpathContext } from "./learningpathUtils";
+import type { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
   resourcePath?: string;

@@ -8,7 +8,7 @@
 
 import { ApolloClient, gql } from "@apollo/client";
 import config from "../config";
-import { GQLLmkDataQuery, GQLLmkDataQueryVariables } from "../graphqlTypes";
+import type { GQLLmkDataQuery, GQLLmkDataQueryVariables } from "../graphqlTypes";
 import { createApolloClient } from "../util/apiHelpers";
 
 let apolloClient: ApolloClient;

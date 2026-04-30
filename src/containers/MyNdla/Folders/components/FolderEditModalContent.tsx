@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderForm } from "../../../../components/MyNdla/FolderForm";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLFolder } from "../../../../graphqlTypes";
+import type { GQLFolder } from "../../../../graphqlTypes";
 import { useUpdateFolderMutation } from "../../../../mutations/folder/folderMutations";
 import { useFolders, getFolder } from "../../../../mutations/folder/folderQueries";
 

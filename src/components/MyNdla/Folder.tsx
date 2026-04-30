@@ -11,9 +11,9 @@ import { ListItemContent, ListItemHeading, ListItemRoot, Text } from "@ndla/prim
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import type { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 
 interface IconCountProps {

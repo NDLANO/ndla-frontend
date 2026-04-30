@@ -7,7 +7,7 @@
  */
 
 import config from "../../config";
-import { LoggerContext } from "./loggerContext";
+import type { LoggerContext } from "./loggerContext";
 
 export const getLoggerContext = async (): Promise<LoggerContext | undefined> => {
   if ((typeof __IS_SSR_BUILD__ === "undefined" || __IS_SSR_BUILD__) && !config.isClient) {

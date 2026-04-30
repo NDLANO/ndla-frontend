@@ -14,7 +14,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { MULTIDISCIPLINARY_SUBJECT_ID } from "../../constants";
-import { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
+import type { GQLTopicPageQuery, GQLTopicPageQueryVariables } from "../../graphqlTypes";
 import { getSubjectType } from "../../routeHelpers";
 import { findAccessDeniedErrors, isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";

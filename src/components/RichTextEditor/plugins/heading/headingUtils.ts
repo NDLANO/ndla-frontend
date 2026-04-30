@@ -7,7 +7,7 @@
  */
 
 import { unreachable } from "../../../../util/guards";
-import { TextType } from "./headingTypes";
+import type { TextType } from "./headingTypes";
 
 export const getHotKey = (textType: TextType) => {
   switch (textType) {
