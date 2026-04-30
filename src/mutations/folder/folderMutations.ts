@@ -6,9 +6,9 @@
  *
  */
 
-import { gql, Reference } from "@apollo/client";
+import { gql, type Reference } from "@apollo/client";
 import { useApolloClient, useMutation } from "@apollo/client/react";
-import {
+import type {
   GQLAddFolderMutation,
   GQLCopySharedFolderMutation,
   GQLDeleteFolderMutation,

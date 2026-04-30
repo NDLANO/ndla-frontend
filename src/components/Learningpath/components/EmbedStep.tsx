@@ -10,7 +10,7 @@ import { Badge } from "@ndla/primitives";
 import { ArticleWrapper, ArticleTitle, ArticleContent, ExternalEmbed } from "@ndla/ui";
 import { useId } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLLearningpathStepOembedFragment } from "../../../graphqlTypes";
+import type { GQLLearningpathStepOembedFragment } from "../../../graphqlTypes";
 import { urlIsNDLAUrl } from "../../../util/ndlaUrl";
 import { InactiveMessageBox } from "../../InactiveMessageBox";
 import { ResourceContent } from "../../Resource/ResourceLayout";

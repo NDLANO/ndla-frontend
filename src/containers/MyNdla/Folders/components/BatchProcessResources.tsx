@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, StoreObject } from "@apollo/client";
+import { gql, type StoreObject } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { useDialogContext } from "@ark-ui/react";
 import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
@@ -18,7 +18,7 @@ import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderSelect, ROOT_FOLDER_ID } from "../../../../components/MyNdla/FolderSelect";
 import { SaveHeartButton } from "../../../../components/SaveHeartButton";
 import { useToast } from "../../../../components/ToastContext";
-import {
+import type {
   GQLBatchProcessFoldersQuery,
   GQLBatchProcessFoldersQueryVariables,
   GQLFolder,

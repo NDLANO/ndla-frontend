@@ -7,9 +7,9 @@
  */
 
 import { DialogRoot, DialogTrigger } from "@ndla/primitives";
-import { ReactNode, useCallback, useContext, useState } from "react";
+import { type ReactNode, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import type { GQLFolder } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 import { AuthContext } from "../AuthenticationContext";
 import { CopyFolder } from "./CopyFolder";

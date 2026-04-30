@@ -6,7 +6,7 @@
  *
  */
 
-import { Component, ReactNode } from "react";
+import { Component, type ReactNode } from "react";
 import { DefaultErrorMessage, DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { handleError } from "../../util/handleError";
 

@@ -21,7 +21,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { uniq } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLMyNdlaResource } from "../../../../graphqlTypes";
+import type { GQLMyNdlaResource } from "../../../../graphqlTypes";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 
 interface Props {

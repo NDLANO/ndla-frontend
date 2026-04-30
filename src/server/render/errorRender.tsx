@@ -11,7 +11,7 @@ import { renderToString } from "react-dom/server";
 import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
 import { errorRoutes } from "../../appRoutes";
-import { RedirectInfo } from "../../components/RedirectContext";
+import type { RedirectInfo } from "../../components/RedirectContext";
 import { RestrictedModeProvider } from "../../components/RestrictedModeContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import config from "../../config";
@@ -22,7 +22,7 @@ import { getSiteTheme } from "../../util/siteTheme";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
-import { RenderFunc } from "../serverHelpers";
+import type { RenderFunc } from "../serverHelpers";
 
 const { query, dataRoutes } = createStaticHandler(errorRoutes);
 

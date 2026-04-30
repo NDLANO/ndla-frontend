@@ -6,7 +6,7 @@
  *
  */
 
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, type ReactNode, useContext } from "react";
 
 const LtiContext = createContext<boolean>(false);
 

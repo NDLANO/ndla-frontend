@@ -31,7 +31,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
+import type { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { PodcastSeries } from "./PodcastSeries";
 

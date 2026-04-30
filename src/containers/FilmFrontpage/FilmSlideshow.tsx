@@ -11,7 +11,7 @@ import { BleedPageContent, Image, Skeleton, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useCallback, useEffect, useState } from "react";
-import { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
+import type { GQLFilmSlideshow_MovieFragment } from "../../graphqlTypes";
 import { Carousel } from "./Carousel";
 import { FilmContentCard } from "./FilmContentCard";
 

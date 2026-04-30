@@ -7,8 +7,8 @@
  */
 
 import { Skeleton } from "@ndla/primitives";
-import { type Ref } from "react";
-import { PageContainer, PageContainerProps } from "./Layout/PageContainer";
+import type { Ref } from "react";
+import { PageContainer, type PageContainerProps } from "./Layout/PageContainer";
 
 interface Props extends PageContainerProps {
   ref?: Ref<HTMLDivElement>;

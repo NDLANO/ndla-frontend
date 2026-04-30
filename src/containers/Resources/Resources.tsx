@@ -10,12 +10,12 @@ import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode, useId } from "react";
+import { type ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
 import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
-import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
+import type { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
 import { partitionResources } from "./getResourceGroups";
 import { ResourceItem } from "./ResourceItem";
 

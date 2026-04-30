@@ -7,8 +7,8 @@
  */
 
 import { AsyncLocalStorage } from "node:async_hooks";
-import { NextFunction, Request, Response } from "express";
-import { LoggerContext } from "../../util/logger/loggerContext";
+import type { NextFunction, Request, Response } from "express";
+import type { LoggerContext } from "../../util/logger/loggerContext";
 
 const asyncLocalStorage = new AsyncLocalStorage<LoggerContext>();
 

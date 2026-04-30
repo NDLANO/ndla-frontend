@@ -6,13 +6,13 @@
  *
  */
 
-import { Request, Response } from "express";
-import { Manifest } from "vite";
-import { LocaleType } from "../interfaces";
+import type { Request, Response } from "express";
+import type { Manifest } from "vite";
+import type { LocaleType } from "../interfaces";
 import { OK, MOVED_PERMANENTLY, TEMPORARY_REDIRECT, GONE } from "../statusCodes";
 import { NDLAError } from "../util/error/NDLAError";
 import { handleError } from "../util/handleError";
-import { LoggerContext } from "../util/logger/loggerContext";
+import type { LoggerContext } from "../util/logger/loggerContext";
 
 interface RenderLocationReturn {
   status: number;

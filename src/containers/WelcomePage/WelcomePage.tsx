@@ -24,7 +24,7 @@ import { useSiteTheme } from "../../components/SiteThemeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { FILM_PAGE_URL, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLFrontpageDataQuery } from "../../graphqlTypes";
+import type { GQLFrontpageDataQuery } from "../../graphqlTypes";
 import { routes, toProgramme } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";

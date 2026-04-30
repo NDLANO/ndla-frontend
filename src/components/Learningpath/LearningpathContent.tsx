@@ -9,12 +9,12 @@
 import { gql } from "@apollo/client";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
+import type {
   GQLLearningpathContent_LearningpathFragment,
   GQLLearningpathContent_LearningpathStepFragment,
   GQLLearningpathContent_NodeFragment,
 } from "../../graphqlTypes";
-import { Breadcrumb } from "../../interfaces";
+import type { Breadcrumb } from "../../interfaces";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { ContentPlaceholder } from "../ContentPlaceholder";
 import { ResourceContent } from "../Resource/ResourceLayout";
@@ -23,7 +23,7 @@ import { LearningpathIntroduction } from "./components/LearningpathIntroduction"
 import { LearningpathNavigation } from "./components/LearningpathNavigation";
 import { LearningpathStep } from "./components/LearningpathStep";
 import { LastLearningpathStepInfo } from "./LastLearningpathStepInfo";
-import { LearningpathContext } from "./learningpathUtils";
+import type { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
   learningpath: GQLLearningpathContent_LearningpathFragment | undefined;

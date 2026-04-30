@@ -6,10 +6,10 @@
  *
  */
 
-import { RouteObject } from "react-router";
+import type { RouteObject } from "react-router";
 import { ErrorPage } from "./containers/ErrorPage/ErrorPage";
 import { Layout } from "./containers/Page/Layout";
-import { RouteObjectWithImportPath } from "./interfaces";
+import type { RouteObjectWithImportPath } from "./interfaces";
 import { ErrorElement } from "./RouteErrorElement";
 
 export const routes: RouteObjectWithImportPath[] = [

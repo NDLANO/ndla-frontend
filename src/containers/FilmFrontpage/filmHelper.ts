@@ -6,7 +6,7 @@
  *
  */
 
-import { GQLName } from "../../graphqlTypes";
+import type { GQLName } from "../../graphqlTypes";
 
 export const findName = (themeNames: GQLName[], language: string) => {
   const themeName = themeNames.find((name) => name.language === language);

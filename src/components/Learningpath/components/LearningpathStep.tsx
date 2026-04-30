@@ -7,12 +7,12 @@
  */
 
 import { gql } from "@apollo/client";
-import {
+import type {
   GQLLearningpathStep_LearningpathFragment,
   GQLLearningpathStep_LearningpathStepFragment,
 } from "../../../graphqlTypes";
 import { supportedLanguages } from "../../../i18n";
-import { Breadcrumb } from "../../../interfaces";
+import type { Breadcrumb } from "../../../interfaces";
 import { ArticleStep } from "./ArticleStep";
 import { EmbedStep } from "./EmbedStep";
 import { ExternalStep } from "./ExternalStep";

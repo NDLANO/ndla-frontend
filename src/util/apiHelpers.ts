@@ -15,7 +15,7 @@ import {
   LocalStateError,
   ServerError,
   ServerParseError,
-  TypePolicies,
+  type TypePolicies,
   UnconventionalError,
 } from "@apollo/client";
 import { BatchHttpLink } from "@apollo/client/link/batch-http";

@@ -38,7 +38,11 @@ import {
 } from "@ndla/ui";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLMyNdlaResource, GQLUpdateResourceTagsQuery, GQLUpdateResourceTagsQueryVariables } from "../../graphqlTypes";
+import type {
+  GQLMyNdlaResource,
+  GQLUpdateResourceTagsQuery,
+  GQLUpdateResourceTagsQueryVariables,
+} from "../../graphqlTypes";
 import { useUpdateMyNdlaResourceMutation } from "../../mutations/folder/folderMutations";
 import { useDebounce } from "../../util/useDebounce";
 import { DialogCloseButton } from "../DialogCloseButton";

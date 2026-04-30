@@ -8,7 +8,7 @@
 
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { MenuItemElement, MenuItemProps } from "./SettingsMenu";
+import { MenuItemElement, type MenuItemProps } from "./SettingsMenu";
 
 const PageActionsContainer = styled("div", {
   base: {

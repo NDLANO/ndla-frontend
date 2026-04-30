@@ -15,7 +15,7 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import { GQLFolder, GQLRootFoldersPageQuery, GQLRootFoldersPageQueryVariables } from "../../../graphqlTypes";
+import type { GQLFolder, GQLRootFoldersPageQuery, GQLRootFoldersPageQueryVariables } from "../../../graphqlTypes";
 import {
   foldersPageQueryFragment,
   myNdlaResourceFragment,

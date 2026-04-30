@@ -6,7 +6,7 @@
  *
  */
 
-import { NextFunction, Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import nock from "nock";
 import { forwardingRoute } from "../forwardingRoute";
 

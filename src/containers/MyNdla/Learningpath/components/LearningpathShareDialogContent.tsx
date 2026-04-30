@@ -11,7 +11,7 @@ import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
-import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { LearningpathItem } from "./LearningpathItem";
 import { LearningpathShareLink } from "./LearningpathShareLink";

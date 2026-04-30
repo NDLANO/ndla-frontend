@@ -14,7 +14,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { FILM_ID } from "../../constants";
-import { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
+import type { GQLAllMoviesQuery, GQLAllMoviesQueryVariables } from "../../graphqlTypes";
 import { movieResourceTypes } from "./resourceTypes";
 
 const LetterHeading = styled(Heading, {

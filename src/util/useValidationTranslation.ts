@@ -7,7 +7,7 @@
  */
 
 import { useCallback } from "react";
-import { FieldError } from "react-hook-form";
+import type { FieldError } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import messages from "../messages/messagesNB";
 

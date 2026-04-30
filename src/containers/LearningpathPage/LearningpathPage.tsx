@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { Hero, HeroBackground } from "@ndla/primitives";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -19,13 +19,13 @@ import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb";
 import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import {
+import type {
   GQLLearningpath,
   GQLLearningpathPage_NodeFragment,
   GQLLearningpathStep,
   GQLTaxonomyCrumb,
 } from "../../graphqlTypes";
-import { Breadcrumb } from "../../interfaces";
+import type { Breadcrumb } from "../../interfaces";
 import { htmlTitle } from "../../util/titleHelper";
 
 interface Props {

@@ -7,14 +7,14 @@
  */
 
 import { PencilLine, CheckLine, UserLine, RouteLine } from "@ndla/icons";
-import { ListItemContent, ListItemHeading, ListItemRoot, ListItemVariantProps, Text } from "@ndla/primitives";
+import { ListItemContent, ListItemHeading, ListItemRoot, type ListItemVariantProps, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { toIntlLanguage } from "@ndla/util";
-import { Fragment, ReactNode, useMemo } from "react";
+import { Fragment, type ReactNode, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import {
   LEARNINGPATH_PRIVATE,

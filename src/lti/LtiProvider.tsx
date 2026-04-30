@@ -12,7 +12,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { SearchContainer } from "../containers/SearchPage/SearchContainer";
-import { GQLLtiSearchResourceTypesQuery } from "../graphqlTypes";
+import type { GQLLtiSearchResourceTypesQuery } from "../graphqlTypes";
 import { LtiContextProvider } from "../LtiContext";
 import { createApolloLinks } from "../util/apiHelpers";
 

@@ -6,7 +6,7 @@
  *
  */
 
-import { GQLResourceType } from "../../../../graphqlTypes";
+import type { GQLResourceType } from "../../../../graphqlTypes";
 
 export interface ResourceData {
   articleId?: number;

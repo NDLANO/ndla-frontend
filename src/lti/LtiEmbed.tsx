@@ -7,7 +7,7 @@
  */
 
 import { useLtiData } from "../components/LtiContext";
-import { LtiData, LtiItem } from "../interfaces";
+import type { LtiData, LtiItem } from "../interfaces";
 import { LtiBasicLaunch } from "./components/LtiBasicLaunch";
 import { LtiDeepLinking } from "./components/LtiDeepLinking";
 import { LtiDefault } from "./components/LtiDefault";

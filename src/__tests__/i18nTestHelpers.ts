@@ -6,7 +6,7 @@
  *
  */
 
-import { i18n } from "i18next";
+import type { i18n } from "i18next";
 import { preferredLanguages } from "../i18n";
 import { i18nInstanceWithTranslations } from "../i18nInstanceWithTranslations";
 import en from "../messages/messagesEN";

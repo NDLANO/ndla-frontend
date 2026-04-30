@@ -7,10 +7,10 @@
  */
 
 import { ark } from "@ark-ui/react";
-import { SafeLink, SafeLinkProps } from "@ndla/safelink";
+import { SafeLink, type SafeLinkProps } from "@ndla/safelink";
 import { sva } from "@ndla/styled-system/css";
 import { createStyleContext, styled } from "@ndla/styled-system/jsx";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 const stepperRecipe = sva({
   slots: ["root", "track", "link", "list", "listItem", "indicator"],

@@ -6,10 +6,10 @@
  *
  */
 
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { Scripts } from "./components/Scripts/Scripts";
 import config from "./config";
-import { RouteChunkInfo } from "./server/serverHelpers";
+import type { RouteChunkInfo } from "./server/serverHelpers";
 
 interface Props {
   language: string;

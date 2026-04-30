@@ -9,9 +9,9 @@
 import { Additional, PresentationLine } from "@ndla/icons";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode, useId } from "react";
+import { type ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
-import { NavigationSafeLinkButton, NavigationSafeLinkButtonVariantProps } from "./NavigationSafeLinkButton";
+import { NavigationSafeLinkButton, type NavigationSafeLinkButtonVariantProps } from "./NavigationSafeLinkButton";
 
 const StyledWrapper = styled("nav", {
   base: {

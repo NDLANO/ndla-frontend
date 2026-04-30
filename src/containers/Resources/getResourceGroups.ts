@@ -8,7 +8,7 @@
 
 import { partition, sortBy, uniqBy } from "@ndla/util";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import { GQLResource, GQLResourceTypeDefinition } from "../../graphqlTypes";
+import type { GQLResource, GQLResourceTypeDefinition } from "../../graphqlTypes";
 
 type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes" | "rank" | "relevanceId">;
 

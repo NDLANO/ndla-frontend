@@ -15,7 +15,7 @@ import { BAD_REQUEST, OK } from "../../statusCodes";
 import { getLazyLoadedChunks } from "../getManifestChunks";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { stringifiedLanguages } from "../locales/locales";
-import { RenderFunc } from "../serverHelpers";
+import type { RenderFunc } from "../serverHelpers";
 
 const bodyFields: Record<string, { required: boolean; value?: any }> = {
   lti_message_type: {

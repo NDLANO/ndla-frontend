@@ -7,9 +7,9 @@
  */
 
 import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathStepFragment } from "../../../graphqlTypes";
 import { unreachable } from "../../../util/guards";
-import { FormValues } from "./types";
+import type { FormValues } from "./types";
 
 export const toFormValues = <T extends FormValues["type"]>(
   type: T,

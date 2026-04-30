@@ -18,7 +18,7 @@ import { SiteThemeProvider } from "./components/SiteThemeContext";
 import { VersionHashProvider } from "./components/VersionHashContext";
 import { Document } from "./Document";
 import { getLocaleInfoFromPath, initializeI18n, isValidLocale } from "./i18n";
-import { NDLAWindow } from "./interfaces";
+import type { NDLAWindow } from "./interfaces";
 import { createApolloClient } from "./util/apiHelpers";
 import { renderOrHydrate } from "./util/renderOrHydrate";
 import { initSentry } from "./util/sentry";

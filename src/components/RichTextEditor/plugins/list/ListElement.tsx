@@ -6,7 +6,7 @@
  *
  */
 
-import { ElementRenderer } from "@ndla/editor";
+import type { ElementRenderer } from "@ndla/editor";
 import { OrderedList, UnOrderedList } from "@ndla/primitives";
 
 export const ListElement: ElementRenderer = (props) => {

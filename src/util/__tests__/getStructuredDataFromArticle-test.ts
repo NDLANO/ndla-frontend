@@ -6,7 +6,7 @@
  *
  */
 
-import { GQLStructuredArticleDataFragment, GQLStructuredArticleData_CopyrightFragment } from "../../graphqlTypes";
+import type { GQLStructuredArticleDataFragment, GQLStructuredArticleData_CopyrightFragment } from "../../graphqlTypes";
 import { getStructuredDataFromArticle } from "../getStructuredDataFromArticle";
 
 const getBaseCopyrightInfo = (): Pick<

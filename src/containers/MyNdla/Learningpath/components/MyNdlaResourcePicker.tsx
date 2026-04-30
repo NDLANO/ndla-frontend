@@ -26,12 +26,12 @@ import {
   ComboboxList,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ResourceType } from "@ndla/types-backend/myndla-api";
+import type { ResourceType } from "@ndla/types-backend/myndla-api";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import {
+import type {
   GQLBreadcrumb,
   GQLFolder,
   GQLMyNdlaResource,
@@ -40,7 +40,7 @@ import {
 import { useFolders, useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
-import { MyNdlaResource } from "./folderTypes";
+import type { MyNdlaResource } from "./folderTypes";
 
 const StyledHitsWrapper = styled("div", {
   base: {

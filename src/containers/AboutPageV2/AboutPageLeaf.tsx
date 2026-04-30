@@ -18,7 +18,7 @@ import {
   ArticleBylineAccordionItem,
   licenseAttributes,
 } from "@ndla/ui";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LdJson } from "../../components/LdJson";
@@ -27,8 +27,8 @@ import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { SKIP_TO_CONTENT_ID, ABOUT_PATH } from "../../constants";
-import { GQLAboutPageLeaf_ArticleFragment } from "../../graphqlTypes";
-import { Breadcrumb } from "../../interfaces";
+import type { GQLAboutPageLeaf_ArticleFragment } from "../../graphqlTypes";
+import type { Breadcrumb } from "../../interfaces";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { transformArticle } from "../../util/transformArticle";

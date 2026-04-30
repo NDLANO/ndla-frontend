@@ -29,7 +29,7 @@ import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
+import type { GQLSearchResult_SearchResultFragment } from "../../graphqlTypes";
 import { LtiEmbed } from "../../lti/LtiEmbed";
 import { useLtiContext } from "../../LtiContext";
 import { useListItemTraits } from "../../util/listItemTraits";

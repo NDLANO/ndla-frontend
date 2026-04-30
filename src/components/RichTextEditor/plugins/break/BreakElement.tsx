@@ -6,7 +6,7 @@
  *
  */
 
-import { BREAK_ELEMENT_TYPE, ElementRenderer } from "@ndla/editor";
+import { BREAK_ELEMENT_TYPE, type ElementRenderer } from "@ndla/editor";
 
 export const BreakElement: ElementRenderer = (props) => {
   const { element, attributes, children } = props;

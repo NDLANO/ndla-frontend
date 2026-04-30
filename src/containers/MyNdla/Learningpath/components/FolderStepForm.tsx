@@ -24,9 +24,9 @@ import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import config from "../../../../config";
-import { MyNdlaResource } from "./folderTypes";
+import type { MyNdlaResource } from "./folderTypes";
 import { MyNdlaResourcePicker } from "./MyNdlaResourcePicker";
-import { ResourceFormValues } from "./ResourceStepForm";
+import type { ResourceFormValues } from "./ResourceStepForm";
 
 const TextWrapper = styled("div", {
   base: {

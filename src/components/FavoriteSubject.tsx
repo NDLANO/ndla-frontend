@@ -9,9 +9,9 @@
 import { gql } from "@apollo/client";
 import { DialogRoot, DialogTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode, useContext, useState } from "react";
+import { type ReactNode, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFavoriteSubject_NodeFragment } from "../graphqlTypes";
+import type { GQLFavoriteSubject_NodeFragment } from "../graphqlTypes";
 import { useUpdatePersonalData } from "../mutations/userMutations";
 import { AuthContext } from "./AuthenticationContext";
 import { DeleteModalContent } from "./MyNdla/DeleteModalContent";

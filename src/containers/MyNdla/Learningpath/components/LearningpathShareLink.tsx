@@ -11,7 +11,7 @@ import { Button, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { copyLearningpathSharingLink, sharedLearningpathLink } from "../utils";
 
 const GapWrapper = styled("div", {

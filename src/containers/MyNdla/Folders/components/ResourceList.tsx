@@ -13,7 +13,7 @@ import { keyBy, sortBy } from "@ndla/util";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
-import { GQLFolder, GQLMyNdlaResource } from "../../../../graphqlTypes";
+import type { GQLFolder, GQLMyNdlaResource } from "../../../../graphqlTypes";
 import { useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 import { SORT_CONTENT_TYPE, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";

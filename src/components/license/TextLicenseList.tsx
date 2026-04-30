@@ -13,7 +13,7 @@ import { Button } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
+import type { GQLTextLicenseList_CopyrightFragment } from "../../graphqlTypes";
 import { toRevisions } from "../../routeHelpers";
 import {
   MediaList,
@@ -21,7 +21,7 @@ import {
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
-  ItemType,
+  type ItemType,
   MediaListLicense,
   MediaListContent,
 } from "../MediaList/MediaList";

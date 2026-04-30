@@ -33,7 +33,7 @@ import {
   NDLAFILM_RESOURCE_TYPE_SERIES,
   NDLAFILM_RESOURCE_TYPE_SHORT_FILM,
 } from "../../constants";
-import { GQLResourceTypeFilter_ResourceTypeDefinitionFragment } from "../../graphqlTypes";
+import type { GQLResourceTypeFilter_ResourceTypeDefinitionFragment } from "../../graphqlTypes";
 import { useLtiContext } from "../../LtiContext";
 import { FilterContainer } from "./FilterContainer";
 import { ALL_NODE_TYPES, defaultNodeType, RESOURCE_NODE_TYPE, SUBJECT_NODE_TYPE, TOPIC_NODE_TYPE } from "./searchUtils";

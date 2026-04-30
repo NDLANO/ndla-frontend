@@ -7,7 +7,7 @@
  */
 
 import { HeartFill, HeartLine } from "@ndla/icons";
-import { Button, ButtonProps, Spinner } from "@ndla/primitives";
+import { Button, type ButtonProps, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { type MouseEvent, useState } from "react";
 

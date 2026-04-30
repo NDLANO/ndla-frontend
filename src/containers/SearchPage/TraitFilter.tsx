@@ -16,7 +16,7 @@ import {
   CheckboxRoot,
   Heading,
 } from "@ndla/primitives";
-import { ArticleTrait } from "@ndla/types-backend/article-api";
+import type { ArticleTrait } from "@ndla/types-backend/article-api";
 import { useCallback, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLtiContext } from "../../LtiContext";

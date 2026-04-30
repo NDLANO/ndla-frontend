@@ -24,7 +24,7 @@ import {
   UserLine,
 } from "@ndla/icons";
 import { Button, Heading, PopoverRoot, PopoverTrigger, Text } from "@ndla/primitives";
-import { SafeLink, SafeLinkButton, SafeLinkButtonProps, SafeLinkProps } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton, type SafeLinkButtonProps, type SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { usePrevious } from "@ndla/util";
 import { useContext, useEffect, useId, useMemo, useState } from "react";
@@ -34,7 +34,7 @@ import { AuthContext } from "../../components/AuthenticationContext";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";
 import config from "../../config";
 import { FILM_PAGE_URL, MULTIDISCIPLINARY_URL, TOOLBOX_STUDENT_URL, TOOLBOX_TEACHER_URL } from "../../constants";
-import {
+import type {
   GQLDynamicMenuQuery,
   GQLMastheadFavoriteSubjectsQuery,
   GQLMastheadFavoriteSubjectsQueryVariables,

@@ -6,8 +6,8 @@
  *
  */
 
-import { createContext, ReactNode, useContext } from "react";
-import { SiteTheme } from "../interfaces";
+import { createContext, type ReactNode, useContext } from "react";
+import type { SiteTheme } from "../interfaces";
 
 const SiteThemeContext = createContext<SiteTheme>("brand1");
 

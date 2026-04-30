@@ -6,7 +6,7 @@
  *
  */
 
-import { ElementRenderer } from "@ndla/editor";
+import type { ElementRenderer } from "@ndla/editor";
 import { Heading } from "@ndla/primitives";
 
 export const HeadingElement: ElementRenderer = (props) => {

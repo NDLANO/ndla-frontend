@@ -6,7 +6,7 @@
  *
  */
 
-import { EventHint, ErrorEvent } from "@sentry/react";
+import type { EventHint, ErrorEvent } from "@sentry/react";
 import { beforeSend } from "../sentry";
 
 const knownErrors = [

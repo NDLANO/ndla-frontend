@@ -6,7 +6,7 @@
  *
  */
 
-import { createListCollection, SelectValueChangeDetails } from "@ark-ui/react";
+import { createListCollection, type SelectValueChangeDetails } from "@ark-ui/react";
 import { hasNodeOfType, isSpanElement, SPAN_ELEMENT_TYPE } from "@ndla/editor";
 import { CheckLine, ArrowDownShortLine, CloseLine } from "@ndla/icons";
 import {

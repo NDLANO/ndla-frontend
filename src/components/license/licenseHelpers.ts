@@ -7,8 +7,8 @@
  */
 
 import { licenses, metaTypes } from "@ndla/licenses";
-import { TFunction } from "i18next";
-import { GQLConceptCopyright, GQLContributor, GQLLicenseListCopyrightFragment } from "../../graphqlTypes";
+import type { TFunction } from "i18next";
+import type { GQLConceptCopyright, GQLContributor, GQLLicenseListCopyrightFragment } from "../../graphqlTypes";
 
 export const downloadUrl = (src: string) => {
   const url = new URL(src);

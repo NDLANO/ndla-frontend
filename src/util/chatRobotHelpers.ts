@@ -7,7 +7,7 @@
  */
 
 import config from "../config";
-import { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
+import type { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { getNdlaRobotDateFormat } from "./formatDate";
 
 export const getChatRobotUrl = (user: GQLMyNdlaPersonalDataFragmentFragment | undefined) => {

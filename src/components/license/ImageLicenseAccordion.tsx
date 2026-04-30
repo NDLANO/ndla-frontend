@@ -16,7 +16,7 @@ import {
   Heading,
 } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
-import { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
+import type { GQLImageLicenseList_ImageLicenseFragment } from "../../graphqlTypes";
 import { ImageLicenseList } from "./ImageLicenseList";
 
 type Props = {

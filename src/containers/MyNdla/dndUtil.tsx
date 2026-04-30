@@ -6,8 +6,8 @@
  *
  */
 
-import { Announcements } from "@dnd-kit/core";
-import { TFunction } from "i18next";
+import type { Announcements } from "@dnd-kit/core";
+import type { TFunction } from "i18next";
 
 interface DraggableData {
   name: string;

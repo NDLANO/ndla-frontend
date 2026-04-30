@@ -7,7 +7,7 @@
  */
 
 import { toIntlLanguage } from "@ndla/util";
-import { LocaleType } from "../interfaces";
+import type { LocaleType } from "../interfaces";
 
 const timeZone = "CET";
 

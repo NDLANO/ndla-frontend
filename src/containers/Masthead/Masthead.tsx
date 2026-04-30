@@ -9,7 +9,7 @@
 import { NdlaLogoText, PageContent } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { ComponentProps } from "react";
+import type { ComponentProps } from "react";
 import { BannerAlerts } from "../../components/BannerAlerts";
 import { FeideLoginButton } from "../../components/FeideLoginButton/FeideLoginButton";
 import { LanguageSelector } from "../../components/LanguageSelector/LanguageSelector";

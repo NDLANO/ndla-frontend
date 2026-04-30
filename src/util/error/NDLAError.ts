@@ -6,7 +6,7 @@
  *
  */
 
-import { LogLevel } from "../../interfaces";
+import type { LogLevel } from "../../interfaces";
 
 export class NDLAError extends Error {
   logLevel: LogLevel = "error";

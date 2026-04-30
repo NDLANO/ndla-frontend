@@ -8,14 +8,14 @@
 
 import { gql } from "@apollo/client";
 import { styled } from "@ndla/styled-system/jsx";
-import { ReactNode, useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
 import { AudioLicenseList } from "../../../components/license/AudioLicenseList";
 import { ConceptLicenseList, GlossLicenseList } from "../../../components/license/ConceptLicenseList";
 import { H5pLicenseList } from "../../../components/license/H5pLicenseList";
 import { ImageLicenseList } from "../../../components/license/ImageLicenseList";
 import { PodcastLicenseList } from "../../../components/license/PodcastLicenseList";
 import { VideoLicenseList } from "../../../components/license/VideoLicenseList";
-import { GQLResourceEmbedLicenseContent_MetaFragment } from "../../../graphqlTypes";
+import type { GQLResourceEmbedLicenseContent_MetaFragment } from "../../../graphqlTypes";
 
 interface Props {
   metaData: GQLResourceEmbedLicenseContent_MetaFragment;

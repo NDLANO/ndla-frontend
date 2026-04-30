@@ -6,9 +6,9 @@
  *
  */
 
-import { Spinner, SpinnerProps } from "@ndla/primitives";
+import { Spinner, type SpinnerProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { type Ref } from "react";
+import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 
 const SpinnerWrapper = styled("div", {

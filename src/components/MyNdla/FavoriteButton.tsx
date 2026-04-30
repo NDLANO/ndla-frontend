@@ -7,9 +7,9 @@
  */
 
 import { HeartFill, HeartLine } from "@ndla/icons";
-import { IconButton, IconButtonProps } from "@ndla/primitives";
+import { IconButton, type IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { type Ref } from "react";
+import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 
 const StyledFavoriteButton = styled(IconButton, { base: { borderRadius: "100%" } });

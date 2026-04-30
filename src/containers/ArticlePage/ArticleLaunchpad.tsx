@@ -15,7 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer } from "@ndla/ui";
 import { usePrevious } from "@ndla/util";
-import { ComponentProps, ReactNode, useEffect, useId, useState } from "react";
+import { type ComponentProps, type ReactNode, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Launchpad } from "../../components/Resource/Launchpad";
@@ -27,7 +27,7 @@ import {
   StepperRoot,
   StepperSafeLink,
 } from "../../components/Stepper";
-import { GQLArticleLaunchpad_NodeFragment, GQLArticleLaunchpad_ResourceFragment } from "../../graphqlTypes";
+import type { GQLArticleLaunchpad_NodeFragment, GQLArticleLaunchpad_ResourceFragment } from "../../graphqlTypes";
 import { getListItemTraits, useListItemTraits } from "../../util/listItemTraits";
 
 interface Props {

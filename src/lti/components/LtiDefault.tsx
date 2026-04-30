@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import config from "../../config";
 import { fetchArticleOembed } from "../../containers/ArticlePage/articleApi";
-import { LtiItem } from "../../interfaces";
+import type { LtiItem } from "../../interfaces";
 
 const BreakableCode = styled("code", {
   base: {

@@ -8,9 +8,9 @@
 
 import { gql } from "@apollo/client";
 import { Text, Image } from "@ndla/primitives";
-import { SafeLink, SafeLinkProps } from "@ndla/safelink";
+import { SafeLink, type SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { JsxStyleProps, StyledVariantProps } from "@ndla/styled-system/types";
+import type { JsxStyleProps, StyledVariantProps } from "@ndla/styled-system/types";
 import { movieResourceTypes } from "./resourceTypes";
 
 interface MovieType {

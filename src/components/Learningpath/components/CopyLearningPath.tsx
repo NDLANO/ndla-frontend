@@ -25,7 +25,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
+import type {
   GQLCopyPublicLearningpathMutation,
   GQLCopyPublicLearningpathMutationVariables,
   GQLCopyLearningpath_LearningpathFragment,

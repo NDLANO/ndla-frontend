@@ -22,7 +22,7 @@ import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection, MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { PageActions } from "../components/PageActions";
-import { MenuItemProps } from "../components/SettingsMenu";
+import type { MenuItemProps } from "../components/SettingsMenu";
 
 const LoadingGrid = styled("div", {
   base: {

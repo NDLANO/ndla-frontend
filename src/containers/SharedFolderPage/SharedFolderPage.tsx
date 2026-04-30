@@ -23,7 +23,7 @@ import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
 import { PageSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { GQLFolder, GQLMyNdlaResource } from "../../graphqlTypes";
+import type { GQLFolder, GQLMyNdlaResource } from "../../graphqlTypes";
 import { useGetSharedFolder, useMyNdlaResourceMetaSearch } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { isNotFoundError } from "../../util/handleError";

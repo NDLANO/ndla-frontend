@@ -6,12 +6,12 @@
  *
  */
 
-import { NormalizedCacheObject } from "@apollo/client";
-import { RouteObject } from "react-router";
-import { RestrictedModeState } from "./components/RestrictedModeContext";
-import { ConfigType } from "./config";
+import type { NormalizedCacheObject } from "@apollo/client";
+import type { RouteObject } from "react-router";
+import type { RestrictedModeState } from "./components/RestrictedModeContext";
+import type { ConfigType } from "./config";
 import { LocaleValues } from "./constants";
-import { RouteChunkInfo } from "./server/serverHelpers";
+import type { RouteChunkInfo } from "./server/serverHelpers";
 
 export type RouteObjectWithImportPath = RouteObject & {
   importPath?: string;

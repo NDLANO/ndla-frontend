@@ -7,8 +7,8 @@
  */
 
 import { CloseLine } from "@ndla/icons";
-import { DialogCloseTrigger, IconButton, IconButtonProps } from "@ndla/primitives";
-import { type Ref } from "react";
+import { DialogCloseTrigger, IconButton, type IconButtonProps } from "@ndla/primitives";
+import type { Ref } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props extends IconButtonProps {

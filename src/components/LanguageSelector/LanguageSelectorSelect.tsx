@@ -17,14 +17,14 @@ import {
   SelectItemText,
   SelectLabel,
   SelectRoot,
-  SelectRootProps,
+  type SelectRootProps,
   SelectTrigger,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { preferredLanguages } from "../../i18n";
-import { LocaleType } from "../../interfaces";
+import type { LocaleType } from "../../interfaces";
 
 const LanguageSelectTrigger = styled(SelectTrigger, {
   base: {

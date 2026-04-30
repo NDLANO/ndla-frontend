@@ -14,14 +14,14 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import config from "../../config";
-import { GQLH5pLicenseList_H5pLicenseFragment } from "../../graphqlTypes";
+import type { GQLH5pLicenseList_H5pLicenseFragment } from "../../graphqlTypes";
 import {
   MediaList,
   MediaListItem,
   MediaListItemBody,
   MediaListItemActions,
   MediaListItemMeta,
-  ItemType,
+  type ItemType,
   MediaListLicense,
   MediaListContent,
 } from "../MediaList/MediaList";

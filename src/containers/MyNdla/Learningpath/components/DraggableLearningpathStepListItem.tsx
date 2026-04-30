@@ -15,7 +15,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
-import { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
+import type { GQLMyNdlaLearningpathStepFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { DragHandle } from "../../components/DragHandle";
 import { learningpathStepCloseButtonId, learningpathStepEditButtonId } from "../utils";

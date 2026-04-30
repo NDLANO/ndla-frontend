@@ -7,7 +7,7 @@
  */
 
 import { GlobalLine } from "@ndla/icons";
-import { Button, ButtonProps } from "@ndla/primitives";
+import { Button, type ButtonProps } from "@ndla/primitives";
 import { useMemo, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
 import { useHref, useLocation } from "react-router";

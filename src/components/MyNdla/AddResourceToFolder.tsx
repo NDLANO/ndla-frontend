@@ -14,7 +14,7 @@ import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useState, useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import {
+import type {
   GQLAddResourceToFolderStructureQuery,
   GQLAddResourceToFolderStructureQueryVariables,
   GQLFolder,
@@ -28,7 +28,7 @@ import { AuthContext } from "../AuthenticationContext";
 import { SaveHeartButton } from "../SaveHeartButton";
 import { useToast } from "../ToastContext";
 import { FolderSelect, ROOT_FOLDER_ID } from "./FolderSelect";
-import { AddResourceType } from "./types";
+import type { AddResourceType } from "./types";
 
 export interface ResourceAttributes {
   path: string;

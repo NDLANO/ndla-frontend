@@ -6,7 +6,7 @@
  *
  */
 
-import { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
+import type { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 
 interface Props {
   user?: GQLMyNdlaPersonalDataFragmentFragment;

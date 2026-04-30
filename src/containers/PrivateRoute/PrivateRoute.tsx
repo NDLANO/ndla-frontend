@@ -7,7 +7,7 @@
  */
 
 import { NoSSR } from "@ndla/util";
-import { ReactElement, useContext } from "react";
+import { type ReactElement, useContext } from "react";
 import { useHref, useLocation } from "react-router";
 import { AuthContext } from "../../components/AuthenticationContext";
 import { toHref } from "../../util/urlHelper";

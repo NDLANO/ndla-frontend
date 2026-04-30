@@ -9,16 +9,16 @@
 import { gql } from "@apollo/client";
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
-import { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
+import type { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
 import { AudioLicenseList } from "./AudioLicenseList";
 import { ConceptLicenseList, GlossLicenseList } from "./ConceptLicenseList";
 import { H5pLicenseList } from "./H5pLicenseList";
 import { ImageLicenseList } from "./ImageLicenseList";
 import { OembedItem } from "./OembedItem";
 import { PodcastLicenseList } from "./PodcastLicenseList";
-import { TextLicenseList, TextItem } from "./TextLicenseList";
+import { TextLicenseList, type TextItem } from "./TextLicenseList";
 import { VideoLicenseList } from "./VideoLicenseList";
 
 const StyledTabsRoot = styled(TabsRoot, {

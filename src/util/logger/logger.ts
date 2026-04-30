@@ -8,10 +8,10 @@
 
 import type { Logger } from "winston";
 import config from "../../config";
-import { LogLevel } from "../../interfaces";
+import type { LogLevel } from "../../interfaces";
 import { getErrorLog } from "../handleError";
 import { getLoggerContext } from "./getLoggerContext";
-import { LoggerContext } from "./loggerContext";
+import type { LoggerContext } from "./loggerContext";
 
 let winstonLogger: Logger | undefined;
 

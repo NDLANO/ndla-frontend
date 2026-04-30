@@ -8,7 +8,7 @@
 
 import { useSortable } from "@dnd-kit/sortable";
 import { Draggable } from "@ndla/icons";
-import { IconButton, IconButtonProps } from "@ndla/primitives";
+import { IconButton, type IconButtonProps } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 

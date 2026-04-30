@@ -6,7 +6,7 @@
  *
  */
 
-import { SPAN_ELEMENT_TYPE, SpanElement } from "@ndla/editor";
+import { SPAN_ELEMENT_TYPE, type SpanElement } from "@ndla/editor";
 import { jsx as slatejsx } from "slate-hyperscript";
 
 export const defaultSpanBlock = (data: SpanElement["data"] = {}) =>

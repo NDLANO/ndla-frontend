@@ -27,7 +27,7 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";
 import { LoginModalContent } from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
-import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import type { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { useFavoriteSharedFolder, useUnFavoriteSharedFolder } from "../../../mutations/folder/folderMutations";
 import { foldersPageQuery } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";

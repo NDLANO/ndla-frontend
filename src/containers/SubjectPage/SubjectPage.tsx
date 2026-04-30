@@ -14,7 +14,7 @@ import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { FilmFrontpage } from "../../containers/FilmFrontpage/FilmFrontpage";
-import {
+import type {
   GQLSubjectPageQuery,
   GQLSubjectPageQueryVariables,
   GQLSubjectVideoSearchQuery,

@@ -13,15 +13,15 @@ import { I18nextProvider } from "react-i18next";
 import { createStaticHandler, createStaticRouter, StaticRouterProvider } from "react-router";
 import { routes } from "../../appRoutes";
 import { AuthenticationContext } from "../../components/AuthenticationContext";
-import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
-import { ResponseContext, ResponseInfo } from "../../components/ResponseContext";
+import { RedirectContext, type RedirectInfo } from "../../components/RedirectContext";
+import { ResponseContext, type ResponseInfo } from "../../components/ResponseContext";
 import { RestrictedModeProvider } from "../../components/RestrictedModeContext";
 import { SiteThemeProvider } from "../../components/SiteThemeContext";
 import { VersionHashProvider } from "../../components/VersionHashContext";
 import config from "../../config";
 import { Document } from "../../Document";
 import { getLocaleInfoFromPath, isValidLocale } from "../../i18n";
-import { LocaleType } from "../../interfaces";
+import type { LocaleType } from "../../interfaces";
 import { MOVED_PERMANENTLY, OK, TEMPORARY_REDIRECT } from "../../statusCodes";
 import { createApolloClient } from "../../util/apiHelpers";
 import { getSiteTheme } from "../../util/siteTheme";
@@ -29,7 +29,7 @@ import { getLazyLoadedChunks } from "../getManifestChunks";
 import { isRestrictedMode } from "../helpers/restrictedMode";
 import { initializeI18n, stringifiedLanguages } from "../locales/locales";
 import { createFetchRequest } from "../request";
-import { RenderFunc } from "../serverHelpers";
+import type { RenderFunc } from "../serverHelpers";
 import { disableSSR } from "./renderHelpers";
 
 export const defaultRender: RenderFunc = async (req, chunkInfo) => {

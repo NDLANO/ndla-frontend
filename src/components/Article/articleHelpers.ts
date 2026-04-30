@@ -10,7 +10,7 @@ import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import { useTranslation } from "react-i18next";
 import { useHref, useLocation } from "react-router";
 import config from "../../config";
-import { GQLArticle } from "../../graphqlTypes";
+import type { GQLArticle } from "../../graphqlTypes";
 
 export const useArticleCopyText = (article: Pick<GQLArticle, "id" | "title" | "revised" | "copyright"> | undefined) => {
   const { t, i18n } = useTranslation();

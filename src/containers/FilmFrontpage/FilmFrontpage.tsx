@@ -18,7 +18,7 @@ import {
   RadioGroupRoot,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { TFunction } from "i18next";
+import type { TFunction } from "i18next";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
@@ -28,13 +28,13 @@ import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
+import type { GQLFilmFrontPageQuery } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { AboutNdlaFilm } from "./AboutNdlaFilm";
 import { FilmContent } from "./FilmContent";
 import { ALL_MOVIES_ID } from "./filmHelper";
 import { FilmSlideshow } from "./FilmSlideshow";
-import { MovieResourceType, movieResourceTypes } from "./resourceTypes";
+import { type MovieResourceType, movieResourceTypes } from "./resourceTypes";
 
 const Wrapper = styled("div", {
   base: {

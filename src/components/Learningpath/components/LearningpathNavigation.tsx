@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { useMemo } from "react";
-import { GQLLearningpathNavigation_LearningpathFragment } from "../../../graphqlTypes";
+import type { GQLLearningpathNavigation_LearningpathFragment } from "../../../graphqlTypes";
 import { routes, toLearningPath } from "../../../routeHelpers";
 import { ResourceNavigation } from "../../Resource/ResourceNavigation";
 

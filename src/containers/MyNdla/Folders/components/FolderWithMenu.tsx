@@ -9,7 +9,7 @@
 import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Folder } from "../../../../components/MyNdla/Folder";
-import { GQLFolder } from "../../../../graphqlTypes";
+import type { GQLFolder } from "../../../../graphqlTypes";
 import { SettingsMenu } from "../../components/SettingsMenu";
 import { folderId, FOLDERS_HEADING_ID, SHARED_FOLDERS_HEADING_ID, sharedFolderId } from "../util";
 import { useFolderActions } from "./FolderActionHooks";

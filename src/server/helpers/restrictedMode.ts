@@ -6,7 +6,7 @@
  *
  */
 
-import { Request } from "express";
+import type { Request } from "express";
 import ipAddr from "ipaddr.js";
 import type { RestrictedModeState } from "../../components/RestrictedModeContext";
 import { getEnvironmentVariable } from "../../config";

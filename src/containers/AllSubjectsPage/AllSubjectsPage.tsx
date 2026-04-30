@@ -31,7 +31,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
 import { TabFilter } from "../../components/TabFilter";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
+import type { GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables } from "../../graphqlTypes";
 import { createFilters, groupAndFilterSubjectsByCategory } from "../../util/subjectFilter";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { FavoriteSubjects } from "./FavoriteSubjects";

@@ -7,7 +7,7 @@
  */
 
 import { Figure, Image } from "@ndla/primitives";
-import { EmbedMetaData } from "@ndla/types-embed";
+import type { EmbedMetaData } from "@ndla/types-embed";
 import { ImageEmbed } from "@ndla/ui";
 
 interface Props {

@@ -21,7 +21,7 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphqlTypes";
+import type { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphqlTypes";
 import { toRevision } from "../../routeHelpers";
 import { formatDate } from "../../util/formatDate";
 import { isAccessDeniedError, isGoneError, isNotFoundError } from "../../util/handleError";

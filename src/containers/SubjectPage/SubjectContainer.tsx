@@ -11,8 +11,8 @@ import { InformationLine } from "@ndla/icons";
 import { Heading, MessageBox, PageContent, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { SimpleBreadcrumbItem, HomeBreadcrumb, subjectCategories, subjectTypes } from "@ndla/ui";
-import { TFunction } from "i18next";
+import { type SimpleBreadcrumbItem, HomeBreadcrumb, subjectCategories, subjectTypes } from "@ndla/ui";
+import type { TFunction } from "i18next";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../components/AuthenticationContext";
@@ -38,7 +38,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT,
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
-import { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
+import type { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
 import { toSearchParams } from "../../util/searchHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { SubjectSearch } from "./SubjectSearch";

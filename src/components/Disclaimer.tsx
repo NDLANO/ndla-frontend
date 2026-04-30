@@ -19,7 +19,7 @@ import {
 } from "@ndla/primitives";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLTransformedArticleContent } from "../graphqlTypes";
+import type { GQLTransformedArticleContent } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {

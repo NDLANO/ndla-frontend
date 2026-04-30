@@ -6,9 +6,9 @@
  *
  */
 
-import { ListType } from "@ndla/editor";
+import type { ListType } from "@ndla/editor";
 import { platformSpecificTooltip, useListToolbarButton, useListToolbarButtonState } from "@ndla/editor-components";
-import { IconButton, IconButtonProps } from "@ndla/primitives";
+import { IconButton, type IconButtonProps } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { useSlateSelection } from "slate-react";
 
