@@ -31,7 +31,7 @@ import { GQLArticleLaunchpad_NodeFragment, GQLArticleLaunchpad_ResourceFragment 
 import { getListItemTraits, useListItemTraits } from "../../util/listItemTraits";
 
 interface Props {
-  isUnordered: boolean;
+  numbered: boolean;
   context: "desktop" | "mobile";
   topic: GQLArticleLaunchpad_NodeFragment | undefined;
   learningpaths: GQLArticleLaunchpad_ResourceFragment[];
@@ -109,7 +109,7 @@ const StyledStepperListItem = styled(StepperListItem, {
 
 export const ArticleLaunchpad = ({
   topic,
-  isUnordered,
+  numbered,
   learningpaths,
   supplementaryArticles,
   coreArticles,
@@ -154,7 +154,7 @@ export const ArticleLaunchpad = ({
                           index={idx}
                           completed={completed.includes(article.context?.contextId ?? "")}
                           current={article.context?.contextId === contextId}
-                          isUnordered={isUnordered}
+                          numbered={numbered}
                           collapsed={collapsed}
                         />
                       ))}
@@ -193,7 +193,7 @@ export const ArticleLaunchpad = ({
                         index={idx}
                         completed={completed.includes(article.context?.contextId ?? "")}
                         current={article.context?.contextId === contextId}
-                        isUnordered
+                        numbered
                         collapsed={collapsed}
                       />
                     ))}
@@ -234,7 +234,7 @@ interface ArticleStepperListItemProps {
   current: boolean;
   collapsed: boolean;
   index: number;
-  isUnordered: boolean;
+  numbered: boolean;
 }
 
 const ArticleStepperListItem = ({
@@ -243,7 +243,7 @@ const ArticleStepperListItem = ({
   collapsed,
   completed,
   index,
-  isUnordered,
+  numbered,
 }: ArticleStepperListItemProps) => {
   const { t } = useTranslation();
   return (
@@ -262,13 +262,7 @@ const ArticleStepperListItem = ({
         title={article.name}
       >
         <StepperIndicator>
-          {!current && completed ? (
-            <CheckLine size="small" />
-          ) : isUnordered ? (
-            <ArrowRightLine size="small" />
-          ) : (
-            index + 1
-          )}
+          {!current && completed ? <CheckLine size="small" /> : numbered ? <ArrowRightLine size="small" /> : index + 1}
         </StepperIndicator>
       </CollapsedLinkComponent>
       {!collapsed && (

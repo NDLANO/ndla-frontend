@@ -5615,7 +5615,6 @@ export type GQLArticleLayoutQuery = {
       context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
     }>;
   };
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLArticlePage_NodeFragment = {
@@ -10260,7 +10259,6 @@ export type GQLLaunchpadQuery = {
     }>;
     metadata: { __typename?: "TaxonomyMetadata"; customFields: any };
   };
-  resourceTypes?: Array<{ __typename?: "ResourceTypeDefinition"; id: string; name: string }>;
 };
 
 export type GQLRevisionsQueryVariables = Exact<{
@@ -10833,7 +10831,6 @@ export type GQLSubjectSearchQuery = {
       | {
           __typename?: "ArticleSearchResult";
           traits: Array<string>;
-          htmlTitle: string;
           id: string;
           title: string;
           url: string;
@@ -10849,7 +10846,6 @@ export type GQLSubjectSearchQuery = {
       | {
           __typename?: "LearningpathSearchResult";
           traits: Array<string>;
-          htmlTitle: string;
           id: string;
           title: string;
           url: string;
@@ -13516,7 +13512,7 @@ export type GQLBatchDeleteMyNdlaResourcesMutationVariables = Exact<{
   folderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
 }>;
 
-export type GQLBatchDeleteMyNdlaResourcesMutation = { __typename?: "Mutation"; deleteMyNdlaResources: Array<string> };
+export type GQLBatchDeleteMyNdlaResourcesMutation = { __typename?: "Mutation"; deleteMyNdlaResources: boolean };
 
 export type GQLBatchMoveMyNdlaResourcesMutationVariables = Exact<{
   resourceIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
