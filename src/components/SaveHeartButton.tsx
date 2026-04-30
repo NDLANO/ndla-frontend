@@ -107,7 +107,7 @@ const MovingHeart1 = styled(BurstHeartBase, {
   variants: {
     triggered: {
       true: {
-        transform: "translate(-30px, -62px) scale(2) rotate(-20deg)",
+        transform: "translate(-42px, -86px) scale(2) rotate(-20deg)",
         animationDuration: "220ms",
         animationDelay: "150ms",
         transitionDuration: "760ms",
@@ -120,7 +120,7 @@ const MovingHeart2 = styled(BurstHeartBase, {
   variants: {
     triggered: {
       true: {
-        transform: "translate(42px, -64px) scale(1.9) rotate(26deg)",
+        transform: "translate(58px, -90px) scale(1.9) rotate(26deg)",
         animationDuration: "240ms",
         transitionDuration: "860ms",
         animationDelay: "180ms",
@@ -133,7 +133,7 @@ const MovingHeart3 = styled(BurstHeartBase, {
   variants: {
     triggered: {
       true: {
-        transform: "translate(8px, -80px) scale(1.85) rotate(6deg)",
+        transform: "translate(10px, -110px) scale(1.85) rotate(6deg)",
         animationDuration: "260ms",
         transitionDuration: "980ms",
         animationDelay: "220ms",
