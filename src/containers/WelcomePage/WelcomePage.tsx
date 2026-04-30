@@ -23,9 +23,9 @@ import { RestrictedContent } from "../../components/RestrictedBlock";
 import { useSiteTheme } from "../../components/SiteThemeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { FILM_PAGE_URL, PROGRAMME_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
+import { FILM_PAGE_URL, SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLFrontpageDataQuery } from "../../graphqlTypes";
-import { routes } from "../../routeHelpers";
+import { routes, toProgramme } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
@@ -287,7 +287,7 @@ export const WelcomePage = () => {
               <StyledList variant="programme">
                 {fpQuery.data?.programmes?.map((programme) => (
                   <li key={programme.id}>
-                    <StyledSafeLinkButton to={`${PROGRAMME_PATH}${programme.url}`} variant="secondary">
+                    <StyledSafeLinkButton to={toProgramme(programme.url)} variant="secondary">
                       {programme.title.title}
                       <ArrowRightLine />
                     </StyledSafeLinkButton>
