@@ -13,7 +13,7 @@ import { Button, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useState, useEffect, useMemo, Suspense, lazy } from "react";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router";
 import { GQLCurrentContextQuery, GQLCurrentContextQueryVariables } from "../../graphqlTypes";
 import { isValidContextId } from "../../util/urlHelper";
 import { MastheadPopoverBackdrop, MastheadPopoverContent } from "./MastheadPopover";
@@ -50,6 +50,7 @@ export const MastheadSearch = () => {
   const [dialogState, setDialogState] = useState({ open: false });
   const { t } = useTranslation();
   const { contextId } = useParams();
+  const location = useLocation();
 
   const currentContextQuery = useQuery<GQLCurrentContextQuery, GQLCurrentContextQueryVariables>(
     currentContextQueryDef,
@@ -106,7 +107,7 @@ export const MastheadSearch = () => {
       </PopoverTrigger>
       <MastheadPopoverContent aria-label={t("searchPage.searchFieldPlaceholder")}>
         <Suspense>
-          <MastheadSearchForm root={root} />
+          <MastheadSearchForm root={root} key={location.pathname} />
         </Suspense>
       </MastheadPopoverContent>
       <MastheadPopoverBackdrop present={dialogState.open} />

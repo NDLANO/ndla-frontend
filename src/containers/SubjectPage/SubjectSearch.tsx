@@ -31,6 +31,7 @@ import {
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
+import { contains } from "@ndla/util";
 import { TFunction } from "i18next";
 import { SubmitEvent, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -131,6 +132,7 @@ export const SubjectSearch = ({ subjectId }: Props) => {
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const delayedQuery = useDebounce(searchQuery, 250);
+  const rootRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
   const comboboxTranslations = useComboboxTranslations();
@@ -167,6 +169,12 @@ export const SubjectSearch = ({ subjectId }: Props) => {
         scrollToIndexFn={(details) => scrollToIndexFn(contentRef, details.index)}
         inputValue={searchQuery}
         onInputValueChange={(details) => setSearchQuery(details.inputValue)}
+        ref={rootRef}
+        onFocusOutside={(e) => {
+          if (contains(rootRef.current, e.detail.originalEvent.target)) {
+            e.preventDefault();
+          }
+        }}
         selectionBehavior="preserve"
         form={formId}
       >
