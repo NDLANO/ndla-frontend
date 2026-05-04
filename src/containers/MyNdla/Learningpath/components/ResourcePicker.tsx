@@ -218,6 +218,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
       positioning={{ strategy: "fixed" }}
       selectionBehavior="preserve"
       closeOnSelect={false}
+      openOnClick
       context="standalone"
       variant="complex"
       onValueChange={(details) => {
