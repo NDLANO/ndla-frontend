@@ -7,7 +7,7 @@
  */
 
 import { ApolloClient, gql } from "@apollo/client";
-import { Node } from "@ndla/types-taxonomy";
+import { Node } from "@ndla/types-backend/taxonomy-api";
 import express from "express";
 import { matchPath, Params } from "react-router";
 import config from "../../config";

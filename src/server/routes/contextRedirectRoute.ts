@@ -6,7 +6,7 @@
  *
  */
 
-import { ResolvedUrl } from "@ndla/types-taxonomy";
+import { ResolvedUrl } from "@ndla/types-backend/taxonomy-api";
 import { NextFunction, Request, Response } from "express";
 import { Query } from "express-serve-static-core";
 import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
