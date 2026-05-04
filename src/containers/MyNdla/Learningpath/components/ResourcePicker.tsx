@@ -220,6 +220,11 @@ export const ResourcePicker = ({ setResource }: Props) => {
       closeOnSelect={false}
       context="standalone"
       variant="complex"
+      onPointerDownOutside={(event) => {
+        if (event.detail.target === document.documentElement) {
+          event.preventDefault();
+        }
+      }}
       onValueChange={(details) => {
         if (details.items[0]) {
           const val = details.items[0];
