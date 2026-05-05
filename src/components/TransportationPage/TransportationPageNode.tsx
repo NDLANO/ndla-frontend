@@ -7,13 +7,10 @@
  */
 
 import { gql } from "@apollo/client";
-import { Additional } from "@ndla/icons";
 import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
-import { useTranslation } from "react-i18next";
-import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import {
   GQLMetaImage,
   GQLTransportationNode_NodeFragment,
@@ -136,11 +133,9 @@ export const TransportationCard = ({
   flavorText,
   name,
   url,
-  relevanceId,
   metaDescription,
   context,
 }: TransportationCardProps) => {
-  const { t } = useTranslation();
   return (
     <CardRoot asChild consumeCss>
       <li>
@@ -164,9 +159,6 @@ export const TransportationCard = ({
             <StyledCardHeading asChild css={linkOverlay.raw()}>
               <SafeLink to={url ?? ""}>
                 {name}
-                {relevanceId === RELEVANCE_SUPPLEMENTARY && (
-                  <Additional aria-label={t("resource.additionalTooltip")} title={t("resource.additionalTooltip")} />
-                )}
               </SafeLink>
             </StyledCardHeading>
           </TextWrapper>
