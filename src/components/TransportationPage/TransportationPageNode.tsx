@@ -64,7 +64,7 @@ interface Props {
 export const TransportationNode = ({ node, context }: Props) => (
   <TransportationCard
     metaImage={node.meta?.metaImage}
-    flavorText={context !== "link" ? node.context?.breadcrumbs?.at(-2) : undefined}
+    flavorText={context === "case" ? node.context?.breadcrumbs?.at(-2) : undefined}
     name={node.name}
     url={node.url ?? ""}
     relevanceId={node.relevanceId}
