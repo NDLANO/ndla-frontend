@@ -82,7 +82,6 @@ export const TransportationSearchResult = ({ result, context }: TransportationSe
   const traits = useListItemTraits({
     traits: "traits" in result ? result.traits : undefined,
     resourceType: result.url.startsWith("/e/") ? "topic" : undefined,
-    relevanceId: result.context?.relevanceId,
     resourceTypes: result.context?.resourceTypes,
   });
   return (
@@ -91,7 +90,6 @@ export const TransportationSearchResult = ({ result, context }: TransportationSe
       flavorText={traits.join(", ")}
       name={result.title}
       url={result.url}
-      relevanceId={result.context?.relevanceId}
       metaDescription={result.metaDescription}
       context={context}
     />
@@ -107,7 +105,6 @@ TransportationSearchResult.fragments = {
       metaDescription
       context {
         contextId
-        relevanceId
         resourceTypes {
           id
           name
