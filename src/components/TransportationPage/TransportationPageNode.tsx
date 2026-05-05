@@ -157,9 +157,7 @@ export const TransportationCard = ({
               </Text>
             )}
             <StyledCardHeading asChild css={linkOverlay.raw()}>
-              <SafeLink to={url ?? ""}>
-                {name}
-              </SafeLink>
+              <SafeLink to={url ?? ""}>{name}</SafeLink>
             </StyledCardHeading>
           </TextWrapper>
           {context !== "link" && <StyledText textStyle="body.large">{metaDescription ?? ""}</StyledText>}
