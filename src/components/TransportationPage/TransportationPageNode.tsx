@@ -91,7 +91,6 @@ export const TransportationSearchResult = ({ result, context }: TransportationSe
       flavorText={traits.join(", ")}
       name={result.title}
       url={result.url}
-      relevanceId={result.context?.relevanceId}
       metaDescription={result.metaDescription}
       context={context}
     />
