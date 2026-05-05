@@ -82,6 +82,7 @@ export const TransportationSearchResult = ({ result, context }: TransportationSe
   const traits = useListItemTraits({
     traits: "traits" in result ? result.traits : undefined,
     resourceType: result.url.startsWith("/e/") ? "topic" : undefined,
+    relevanceId: result.context?.relevanceId,
     resourceTypes: result.context?.resourceTypes,
   });
   return (
@@ -105,6 +106,7 @@ TransportationSearchResult.fragments = {
       metaDescription
       context {
         contextId
+        relevanceId
         resourceTypes {
           id
           name
