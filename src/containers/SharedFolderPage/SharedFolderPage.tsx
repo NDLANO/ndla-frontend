@@ -30,12 +30,6 @@ import { isNotFoundError } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SaveLink } from "./components/SaveLink";
 
-const flattenResources = (folder?: GQLFolder): GQLMyNdlaResource[] => {
-  const subResources = folder?.subfolders.flatMap(flattenResources) ?? [];
-
-  return (folder?.resources ?? []).concat(subResources);
-};
-
 const StyledPageContainer = styled(PageContainer, {
   base: {
     background: "background.strong",
@@ -91,7 +85,7 @@ export const SharedFolderPage = () => {
   });
 
   const { data } = useMyNdlaResourceMetaSearch(
-    flattenResources(folder).map((res) => ({
+    folder?.resources.map((res) => ({
       id: res.resourceId,
       path: res.path,
       resourceType: res.resourceType,
