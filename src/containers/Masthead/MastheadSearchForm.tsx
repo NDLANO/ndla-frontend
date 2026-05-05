@@ -31,12 +31,11 @@ import {
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
-import { linkOverlay } from "@ndla/styled-system/patterns";
 import { BadgesContainer, useComboboxTranslations } from "@ndla/ui";
 import parse from "html-react-parser";
-import { SubmitEvent, useEffect, useId, useMemo, useState } from "react";
+import { SubmitEvent, useId, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables } from "../../graphqlTypes";
 import { getListItemTraits } from "../../util/listItemTraits";
 import { toSearchParams } from "../../util/searchHelpers";
@@ -150,18 +149,22 @@ const InlineText = styled(Text, {
   },
 });
 
-const StyledComboboxItemText = styled(ComboboxItemText, {
-  base: {
-    textDecoration: "underline",
-    _highlighted: {
-      textDecoration: "none",
-    },
-  },
-});
-
 const StyledMoreHitsButton = styled(Button, {
   base: {
     marginBlockStart: "small",
+  },
+});
+
+type SearchResult = Omit<NonNullable<GQLMastheadSearchQuery["search"]>["results"][number], "__typename"> & {
+  htmlTitle: ReturnType<typeof parse> | string;
+  isSubject: boolean;
+  traits: string[];
+};
+
+const StyledComboboxRoot = styled(ComboboxRoot<SearchResult>, {
+  base: {
+    width: "100%",
+    gap: "xsmall",
   },
 });
 
@@ -205,7 +208,7 @@ const searchQuery = gql`
           traits
           htmlTitle
         }
-        contexts {
+        context {
           contextId
           isPrimary
           breadcrumbs
@@ -229,22 +232,11 @@ export const MastheadSearchForm = ({ root }: Props) => {
   const { t, i18n } = useTranslation();
   const { setOpen } = usePopoverContext();
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
-  const { pathname } = useLocation();
   const formId = useId();
   const comboboxTranslations = useComboboxTranslations();
   const [query, setQuery] = useState("");
   const delayedSearchQuery = useDebounce(query, 250);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setQuery("");
-  }, [pathname]);
-
-  // TODO: Can we avoid this?
-  const onNavigate = () => {
-    setOpen(false);
-    setQuery("");
-  };
 
   const { loading, data: searchResult = {} } = useQuery<GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables>(
     searchQuery,
@@ -260,68 +252,55 @@ export const MastheadSearchForm = ({ root }: Props) => {
     navigate({ pathname: "/search", search: `?${toSearchParams({ query }).toString()}` });
   };
 
-  const searchHits = useMemo(() => {
-    if (!query.length) return [];
-    return (
-      searchResult.search?.results.map((result) => {
-        const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
-        const nodeType =
-          result.__typename === "NodeSearchResult" ? "subject" : result.url.startsWith("/e/") ? "topic" : undefined;
-
-        const traits = getListItemTraits(
-          {
-            relevanceId: context?.relevanceId,
-            resourceTypes: context?.resourceTypes,
-            resourceType: nodeType,
-            traits:
-              result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult"
-                ? result.traits
-                : undefined,
-          },
-          t,
-        );
-        return {
-          ...result,
-          htmlTitle:
-            result.__typename === "ArticleSearchResult" || result.__typename === "LearningpathSearchResult"
-              ? parse(result.htmlTitle)
-              : result.title,
-          isSubject: result.__typename === "NodeSearchResult",
-          traits,
-          path: context?.url ?? result.url,
-        };
-      }) ?? []
-    );
+  const searchHits: SearchResult[] = useMemo(() => {
+    if (!query.length || !searchResult.search?.results?.length) return [];
+    return searchResult.search.results.map((result) => {
+      const traits = getListItemTraits(
+        {
+          relevanceId: result.context?.relevanceId,
+          resourceTypes: result.context?.resourceTypes,
+          resourceType:
+            result.__typename === "NodeSearchResult" ? "subject" : result.url.startsWith("/e/") ? "topic" : undefined,
+          traits: "traits" in result ? result.traits : undefined,
+        },
+        t,
+      );
+      return {
+        ...result,
+        htmlTitle: "htmlTitle" in result ? parse(result.htmlTitle) : result.title,
+        isSubject: result.__typename === "NodeSearchResult",
+        traits,
+      };
+    });
   }, [query.length, searchResult.search?.results, t]);
 
   const collection = useMemo(
     () =>
-      createListCollection({
+      createListCollection<SearchResult>({
         items: searchHits,
-        itemToValue: (item) => item.path,
+        itemToValue: (item) => item.url,
         itemToString: (item) => item.title,
       }),
     [searchHits],
   );
 
   return (
-    <StyledForm role="search" action="/search/" onSubmit={onSearch} id={formId}>
-      <ComboboxRoot
+    <StyledForm role="search" onSubmit={onSearch} id={formId}>
+      <StyledComboboxRoot
         defaultOpen
+        onOpenChange={(details) => setOpen(details.open)}
+        navigate={(details) => navigate({ pathname: details.value })}
         collection={collection}
         highlightedValue={highlightedValue}
         onHighlightChange={(details) => setHighligtedValue(details.highlightedValue)}
         inputValue={query}
         onInputValueChange={(details) => setQuery(details.inputValue)}
-        onInteractOutside={(e) => e.preventDefault()}
-        positioning={{ strategy: "fixed" }}
+        onFocusOutside={(e) => e.preventDefault()}
         context="composite"
         variant="complex"
-        closeOnSelect
         form={formId}
         selectionBehavior="preserve"
         translations={comboboxTranslations}
-        css={{ width: "100%", gap: "xsmall" }}
       >
         <LabelContainer>
           <PopoverTitle asChild>
@@ -342,9 +321,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !highlightedValue) {
                     onSearch();
-                  } else if (e.key === "Enter" && highlightedValue) {
-                    onNavigate();
-                    navigate({ pathname: highlightedValue });
+                    e.preventDefault();
                   }
                 }}
               />
@@ -379,45 +356,39 @@ export const MastheadSearchForm = ({ root }: Props) => {
                   ? t("masthead.activeProgrammeSearch")
                   : t("masthead.activeSubjectSearch")}
               </InlineText>
-              <StyledSafeLink to={getActiveSubjectUrl(root.id, query)} onClick={() => onNavigate()}>
+              <StyledSafeLink to={getActiveSubjectUrl(root.id, query)}>
                 &quot;<span>{root.name}</span>&quot;
               </StyledSafeLink>
             </div>
           </ActiveSubjectWrapper>
         ) : null}
-        {!!searchHits.length || loading ? (
-          <StyledComboboxContent>
-            {loading ? (
-              <Spinner />
-            ) : (
-              searchHits.map((resource) => (
-                <StyledComboboxItem key={resource.id} item={resource} className="peer" asChild>
-                  <ListItemRoot>
+        <StyledComboboxContent>
+          {loading ? (
+            <Spinner />
+          ) : (
+            searchHits.map((resource) => (
+              <StyledComboboxItem key={resource.id} item={resource} asChild>
+                <ListItemRoot asChild>
+                  <SafeLink
+                    to={resource.url}
+                    // used by matomo
+                    data-search-item
+                    onKeyDown={(e) => e.preventDefault()}
+                  >
+                    <ComboboxItemText>{resource.htmlTitle}</ComboboxItemText>
                     <TextWrapper>
-                      <StyledComboboxItemText>
-                        <SafeLink
-                          to={resource.path}
-                          onClick={onNavigate}
-                          unstyled
-                          css={linkOverlay.raw()}
-                          id="matomo-masthead-search-anchor-element"
-                        >
-                          {resource.htmlTitle}
-                        </SafeLink>
-                      </StyledComboboxItemText>
                       {resource.isSubject ? (
                         <Text textStyle="label.small" color="text.subtle">
                           {resource.metaDescription}
                         </Text>
                       ) : (
-                        !!resource.contexts[0] && (
+                        !!resource.context && (
                           <Text
                             textStyle="label.small"
                             color="text.subtle"
-                            css={{ textAlign: "start" }}
-                            aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.contexts[0]?.breadcrumbs.join(", ")}`}
+                            aria-label={`${t("breadcrumb.breadcrumb")}: ${resource.context?.breadcrumbs.join(", ")}`}
                           >
-                            {resource.contexts[0].breadcrumbs.join(" › ")}
+                            {resource.context.breadcrumbs.join(" › ")}
                           </Text>
                         )
                       )}
@@ -429,13 +400,13 @@ export const MastheadSearchForm = ({ root }: Props) => {
                         </Badge>
                       ))}
                     </StyledBadgesContainer>
-                  </ListItemRoot>
-                </StyledComboboxItem>
-              ))
-            )}
-          </StyledComboboxContent>
-        ) : null}
-      </ComboboxRoot>
+                  </SafeLink>
+                </ListItemRoot>
+              </StyledComboboxItem>
+            ))
+          )}
+        </StyledComboboxContent>
+      </StyledComboboxRoot>
       {!!searchHits.length && !loading && (
         <StyledMoreHitsButton variant="secondary" type="submit">
           {t("masthead.moreHits")}

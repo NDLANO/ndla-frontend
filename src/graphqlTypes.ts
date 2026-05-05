@@ -6499,7 +6499,7 @@ export type GQLMastheadSearchQuery = {
           title: string;
           url: string;
           metaDescription: string;
-          contexts: Array<{
+          context?: {
             __typename?: "SearchContext";
             contextId: string;
             isPrimary: boolean;
@@ -6507,7 +6507,7 @@ export type GQLMastheadSearchQuery = {
             url: string;
             relevanceId: string;
             resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
-          }>;
+          };
         }
       | {
           __typename?: "LearningpathSearchResult";
@@ -6517,7 +6517,7 @@ export type GQLMastheadSearchQuery = {
           title: string;
           url: string;
           metaDescription: string;
-          contexts: Array<{
+          context?: {
             __typename?: "SearchContext";
             contextId: string;
             isPrimary: boolean;
@@ -6525,7 +6525,7 @@ export type GQLMastheadSearchQuery = {
             url: string;
             relevanceId: string;
             resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
-          }>;
+          };
         }
       | {
           __typename?: "NodeSearchResult";
@@ -6533,7 +6533,7 @@ export type GQLMastheadSearchQuery = {
           title: string;
           url: string;
           metaDescription: string;
-          contexts: Array<{
+          context?: {
             __typename?: "SearchContext";
             contextId: string;
             isPrimary: boolean;
@@ -6541,7 +6541,7 @@ export type GQLMastheadSearchQuery = {
             url: string;
             relevanceId: string;
             resourceTypes: Array<{ __typename?: "SearchContextResourceTypes"; id: string; name: string }>;
-          }>;
+          };
         }
     >;
   };
@@ -10833,7 +10833,6 @@ export type GQLSubjectSearchQuery = {
       | {
           __typename?: "ArticleSearchResult";
           traits: Array<string>;
-          htmlTitle: string;
           id: string;
           title: string;
           url: string;
@@ -10849,7 +10848,6 @@ export type GQLSubjectSearchQuery = {
       | {
           __typename?: "LearningpathSearchResult";
           traits: Array<string>;
-          htmlTitle: string;
           id: string;
           title: string;
           url: string;
@@ -13516,7 +13514,7 @@ export type GQLBatchDeleteMyNdlaResourcesMutationVariables = Exact<{
   folderId?: InputMaybe<Scalars["StringOrNull"]["input"]>;
 }>;
 
-export type GQLBatchDeleteMyNdlaResourcesMutation = { __typename?: "Mutation"; deleteMyNdlaResources: Array<string> };
+export type GQLBatchDeleteMyNdlaResourcesMutation = { __typename?: "Mutation"; deleteMyNdlaResources: boolean };
 
 export type GQLBatchMoveMyNdlaResourcesMutationVariables = Exact<{
   resourceIds: Array<Scalars["String"]["input"]> | Scalars["String"]["input"];
