@@ -43,7 +43,7 @@ const subjectPageQuery = gql`
 
 const videoQueryDef = gql`
   query subjectVideoSearch($subjectId: String!, $language: String!) {
-    search(subjects: $subjectId, traits: "VIDEO", language: $language, pageSize: 8) {
+    search(subjects: $subjectId, traits: "VIDEO", language: $language, sort: "-lastUpdated", pageSize: 8) {
       results {
         ...SubjectContainer_SearchResult
       }
