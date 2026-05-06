@@ -136,6 +136,9 @@ const messages = {
     },
     noHitsShort: "No results for search: {{query}}",
     search: "Search",
+    sortBy: "Sort by:",
+    sortRelevance: "Relevance",
+    sortNewest: "Newest",
     searchFieldPlaceholder: "Search for subjects, tasks and activities or learningpaths",
     searchFieldPlaceholderShort: "Search",
     searchResultListMessages: {

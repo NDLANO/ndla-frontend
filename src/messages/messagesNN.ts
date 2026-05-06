@@ -136,6 +136,9 @@ const messages = {
     },
     noHitsShort: "Ingen treff på søk: {{query}}",
     search: "Søk",
+    sortBy: "Sorter etter:",
+    sortRelevance: "Relevans",
+    sortNewest: "Nyaste",
     searchFieldPlaceholder: "Søk i fagstoff, oppgåver og aktivitetar eller læringsstiar",
     searchFieldPlaceholderShort: "Søk",
     searchResultListMessages: {

@@ -23,6 +23,12 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupLabel,
+  RadioGroupRoot,
   Spinner,
   Text,
 } from "@ndla/primitives";
@@ -110,6 +116,14 @@ const FormWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",
+  },
+});
+
+const StyledSortRadioGroup = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
   },
 });
 
@@ -249,6 +263,7 @@ interface Props {
 export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const [query, setQuery] = useState(decodeURIComponent(searchParams.get("query") ?? ""));
+  const activeSort = searchParams.get("sort") ?? "relevance";
   const [page, setPage] = useState(() => {
     const maybePage = parseInt(searchParams.get("page") ?? "1");
     return maybePage ?? 1;
@@ -274,6 +289,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       query: queryParam ? decodeURIComponent(queryParam) : undefined,
       language: i18n.language,
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
+      sort: searchParams.get("sort") ?? undefined,
       subjects,
       pageSize: 10,
       traits: searchParams.get("traits") ?? undefined,
@@ -389,6 +405,25 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
                 </IconButton>
               </SearchFieldWrapper>
             </form>
+            <StyledSortRadioGroup
+              orientation="horizontal"
+              value={activeSort}
+              onValueChange={(details) => (details.value ? setSearchParams({ sort: details.value }) : undefined)}
+            >
+              <RadioGroupLabel textStyle="label.medium" fontWeight="bold" asChild consumeCss>
+                <h3>{t("searchPage.sortBy")}</h3>
+              </RadioGroupLabel>
+              <RadioGroupItem value="relevance">
+                <RadioGroupItemControl />
+                <RadioGroupItemText>{t("searchPage.sortRelevance")}</RadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+              <RadioGroupItem value="-lastUpdated">
+                <RadioGroupItemControl />
+                <RadioGroupItemText>{t("searchPage.sortNewest")}</RadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+            </StyledSortRadioGroup>
             {!!resultsTranslation && (
               <Text textStyle="label.small" aria-live="polite" role="status">
                 {resultsTranslation}
