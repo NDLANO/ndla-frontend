@@ -16,7 +16,6 @@ import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb
 import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { ResourceNavigation } from "../../components/Resource/ResourceNavigation";
 import { useRestrictedMode } from "../../components/RestrictedModeContext";
-import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import { GQLArticleLayoutQuery, GQLArticleLayoutQueryVariables } from "../../graphqlTypes";
 import { Breadcrumb } from "../../interfaces";
 import { partitionResources } from "../Resources/getResourceGroups";
@@ -58,10 +57,6 @@ const articleLayoutQueryDef = gql`
       }
       ...ArticleLaunchpad_Node
     }
-    resourceTypes {
-      id
-      name
-    }
   }
   ${ArticleLaunchpad.fragments.resource}
   ${ArticleLaunchpad.fragments.node}
@@ -91,14 +86,10 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
       (child) => child.context?.contextId === contextId && child.contentUri?.includes("article"),
     );
 
-  const isUnordered =
-    topicQuery.data?.node?.metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !==
-    TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE;
+  const numbered = topicQuery.data?.node?.metadata.customFields.numbered === "true";
 
   const { coreArticles, supplementaryArticles, learningpaths } = partitionResources<Resource>(
     topicQuery.data?.node?.children ?? [],
-    topicQuery.data?.resourceTypes ?? [],
-    isUnordered,
   );
 
   const crumbs = useMemo(() => {
@@ -127,7 +118,7 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
               learningpaths={learningpaths}
               coreArticles={coreArticles}
               supplementaryArticles={supplementaryArticles}
-              isUnordered={isUnordered}
+              numbered={numbered}
               loading={isLoading}
             />
           </MobileLaunchpadMenu>
@@ -141,7 +132,7 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
               learningpaths={learningpaths}
               coreArticles={coreArticles}
               supplementaryArticles={supplementaryArticles}
-              isUnordered={isUnordered}
+              numbered={numbered}
             />
           )}
           <ResourceContentContainer asChild consumeCss>
