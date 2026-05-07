@@ -27,7 +27,6 @@ import {
   RadioGroupItemControl,
   RadioGroupItemHiddenInput,
   RadioGroupItemText,
-  RadioGroupLabel,
   RadioGroupRoot,
   Spinner,
   Text,
@@ -124,6 +123,18 @@ const StyledSortRadioGroup = styled(RadioGroupRoot, {
     _horizontal: {
       flexDirection: "column",
     },
+    _vertical: {
+      flexDirection: "row",
+    },
+  },
+});
+
+const SortWrapper = styled("div", {
+  base: {
+    marginBlockStart: "medium",
+    display: "flex",
+    flexDirection: "column",
+    gap: "3xsmall",
   },
 });
 
@@ -405,30 +416,32 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
                 </IconButton>
               </SearchFieldWrapper>
             </form>
-            <StyledSortRadioGroup
-              orientation="horizontal"
-              value={activeSort}
-              onValueChange={(details) => (details.value ? setSearchParams({ sort: details.value }) : undefined)}
-            >
-              <RadioGroupLabel textStyle="label.medium" fontWeight="bold" asChild consumeCss>
-                <h3>{t("searchPage.sortBy")}</h3>
-              </RadioGroupLabel>
-              <RadioGroupItem value="relevance">
-                <RadioGroupItemControl />
-                <RadioGroupItemText>{t("searchPage.sortRelevance")}</RadioGroupItemText>
-                <RadioGroupItemHiddenInput />
-              </RadioGroupItem>
-              <RadioGroupItem value="-lastUpdated">
-                <RadioGroupItemControl />
-                <RadioGroupItemText>{t("searchPage.sortNewest")}</RadioGroupItemText>
-                <RadioGroupItemHiddenInput />
-              </RadioGroupItem>
-            </StyledSortRadioGroup>
             {!!resultsTranslation && (
               <Text textStyle="label.small" aria-live="polite" role="status">
                 {resultsTranslation}
               </Text>
             )}
+            <SortWrapper>
+              <Text textStyle="label.medium" fontWeight="bold">
+                {t("searchPage.sortBy")}
+              </Text>
+              <StyledSortRadioGroup
+                orientation="vertical"
+                value={activeSort}
+                onValueChange={(details) => (details.value ? setSearchParams({ sort: details.value }) : undefined)}
+              >
+                <RadioGroupItem value="relevance">
+                  <RadioGroupItemControl />
+                  <RadioGroupItemText>{t("searchPage.sortRelevance")}</RadioGroupItemText>
+                  <RadioGroupItemHiddenInput />
+                </RadioGroupItem>
+                <RadioGroupItem value="-lastUpdated">
+                  <RadioGroupItemControl />
+                  <RadioGroupItemText>{t("searchPage.sortNewest")}</RadioGroupItemText>
+                  <RadioGroupItemHiddenInput />
+                </RadioGroupItem>
+              </StyledSortRadioGroup>
+            </SortWrapper>
             {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
           </FormWrapper>
           <StyledUl>

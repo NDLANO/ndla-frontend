@@ -138,7 +138,7 @@ const messages = {
     search: "Søk",
     sortBy: "Sorter etter:",
     sortRelevance: "Beste treff",
-    sortNewest: "Nyeste",
+    sortNewest: "Dato",
     searchFieldPlaceholder: "Søk i fagstoff, oppgaver og aktiviteter eller læringsstier",
     searchFieldPlaceholderShort: "Søk",
     searchResultListMessages: {

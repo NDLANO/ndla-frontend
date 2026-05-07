@@ -138,7 +138,7 @@ const messages = {
     search: "Search",
     sortBy: "Sort by:",
     sortRelevance: "Relevance",
-    sortNewest: "Newest",
+    sortNewest: "Date",
     searchFieldPlaceholder: "Search for subjects, tasks and activities or learningpaths",
     searchFieldPlaceholderShort: "Search",
     searchResultListMessages: {

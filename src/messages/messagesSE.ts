@@ -138,7 +138,7 @@ const messages = {
     search: "Oza",
     sortBy: "Sortere maŋŋá:",
     sortRelevance: "Relevánsa",
-    sortNewest: "Ođasemus",
+    sortNewest: "Biejjie",
     searchFieldPlaceholder: "Oza fágaáššiin, bargobihtáin ja doaimmain dahje oahppanbálgáin",
     searchFieldPlaceholderShort: "Oza",
     searchResultListMessages: {
