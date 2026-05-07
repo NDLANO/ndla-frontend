@@ -136,6 +136,9 @@ const messages = {
     },
     noHitsShort: "Du ohcamii ii lean deaivva: {{query}}",
     search: "Oza",
+    sortBy: "Sortere maŋŋá:",
+    sortRelevance: "Relevánsa",
+    sortNewest: "Biejjie",
     searchFieldPlaceholder: "Oza fágaáššiin, bargobihtáin ja doaimmain dahje oahppanbálgáin",
     searchFieldPlaceholderShort: "Oza",
     searchResultListMessages: {
