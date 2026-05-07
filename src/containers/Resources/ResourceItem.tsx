@@ -37,6 +37,16 @@ const StyledListItemHeading = styled(ListItemHeading, {
   },
 });
 
+const StyledListItemRoot = styled(ListItemRoot, {
+  base: {
+    mobileWideDown: {
+      "& picture": {
+        display: "none",
+      },
+    },
+  },
+});
+
 const StyledListItemImage = styled(ListItemImage, {
   base: {
     mobileWideDown: {
@@ -73,7 +83,7 @@ export const ResourceItem = ({ resource }: Props) => {
   if (!resource.learningpath && !resource.article) return null;
 
   return (
-    <ListItemRoot asChild consumeCss>
+    <StyledListItemRoot asChild consumeCss>
       <li>
         {!resource.learningpath && (
           <StyledListItemImage
@@ -106,7 +116,7 @@ export const ResourceItem = ({ resource }: Props) => {
           </BadgesContainer>
         </StyledListItemContent>
       </li>
-    </ListItemRoot>
+    </StyledListItemRoot>
   );
 };
 
