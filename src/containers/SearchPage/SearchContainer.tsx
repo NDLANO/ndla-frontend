@@ -23,6 +23,11 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
+  RadioGroupItem,
+  RadioGroupItemControl,
+  RadioGroupItemHiddenInput,
+  RadioGroupItemText,
+  RadioGroupRoot,
   Spinner,
   Text,
 } from "@ndla/primitives";
@@ -110,6 +115,27 @@ const FormWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "3xsmall",
+  },
+});
+
+const StyledSortRadioGroup = styled(RadioGroupRoot, {
+  base: {
+    _horizontal: {
+      flexDirection: "column",
+    },
+    _vertical: {
+      flexDirection: "row",
+    },
+  },
+});
+
+const SortWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    rowGap: "xxsmall",
+    columnGap: "xsmall",
   },
 });
 
@@ -249,6 +275,7 @@ interface Props {
 export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) => {
   const [searchParams, setSearchParams] = useStableSearchPageParams();
   const [query, setQuery] = useState(decodeURIComponent(searchParams.get("query") ?? ""));
+  const activeSort = searchParams.get("sort") ?? "relevance";
   const [page, setPage] = useState(() => {
     const maybePage = parseInt(searchParams.get("page") ?? "1");
     return maybePage ?? 1;
@@ -274,6 +301,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
       query: queryParam ? decodeURIComponent(queryParam) : undefined,
       language: i18n.language,
       page: parseInt(searchParams.get("page") ?? "1") ?? undefined,
+      sort: searchParams.get("sort") ?? undefined,
       subjects,
       pageSize: 10,
       traits: searchParams.get("traits") ?? undefined,
@@ -396,6 +424,27 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
             )}
             {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
           </FormWrapper>
+          <SortWrapper>
+            <Text textStyle="label.medium" fontWeight="bold">
+              {t("searchPage.sortBy")}
+            </Text>
+            <StyledSortRadioGroup
+              orientation="vertical"
+              value={activeSort}
+              onValueChange={(details) => (details.value ? setSearchParams({ sort: details.value }) : undefined)}
+            >
+              <RadioGroupItem value="relevance">
+                <RadioGroupItemControl />
+                <RadioGroupItemText>{t("searchPage.sortRelevance")}</RadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+              <RadioGroupItem value="-lastUpdated">
+                <RadioGroupItemControl />
+                <RadioGroupItemText>{t("searchPage.sortNewest")}</RadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+            </StyledSortRadioGroup>
+          </SortWrapper>
           <StyledUl>
             {data?.search?.results.map((result) => (
               <SearchResult searchResult={result} key={result.id} />
