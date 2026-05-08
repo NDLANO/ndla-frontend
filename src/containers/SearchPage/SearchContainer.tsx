@@ -131,10 +131,10 @@ const StyledSortRadioGroup = styled(RadioGroupRoot, {
 
 const SortWrapper = styled("div", {
   base: {
-    marginBlockStart: "medium",
     display: "flex",
     flexDirection: "column",
-    gap: "3xsmall",
+    alignItems: "flex-start",
+    gap: "8px",
   },
 });
 
