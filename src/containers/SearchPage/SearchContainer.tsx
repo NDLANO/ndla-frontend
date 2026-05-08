@@ -134,7 +134,7 @@ const SortWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     alignItems: "flex-start",
-    gap: "8px",
+    gap: "xxsmall",
   },
 });
 
