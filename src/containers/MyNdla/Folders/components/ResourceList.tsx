@@ -59,7 +59,7 @@ const BatchSelectOptionsWrapper = styled("div", {
     transitionDuration: "fast",
     transitionProperty: "opacity",
     transitionTimingFunction: "ease-in-out",
-    minHeight: "3xlarge",
+    minHeight: "3xsmall",
     opacity: "0",
   },
   variants: {
