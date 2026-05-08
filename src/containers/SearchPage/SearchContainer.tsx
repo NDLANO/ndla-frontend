@@ -422,29 +422,29 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
                 {resultsTranslation}
               </Text>
             )}
-            <SortWrapper>
-              <Text textStyle="label.medium" fontWeight="bold">
-                {t("searchPage.sortBy")}
-              </Text>
-              <StyledSortRadioGroup
-                orientation="vertical"
-                value={activeSort}
-                onValueChange={(details) => (details.value ? setSearchParams({ sort: details.value }) : undefined)}
-              >
-                <RadioGroupItem value="relevance">
-                  <RadioGroupItemControl />
-                  <RadioGroupItemText>{t("searchPage.sortRelevance")}</RadioGroupItemText>
-                  <RadioGroupItemHiddenInput />
-                </RadioGroupItem>
-                <RadioGroupItem value="-lastUpdated">
-                  <RadioGroupItemControl />
-                  <RadioGroupItemText>{t("searchPage.sortNewest")}</RadioGroupItemText>
-                  <RadioGroupItemHiddenInput />
-                </RadioGroupItem>
-              </StyledSortRadioGroup>
-            </SortWrapper>
             {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
           </FormWrapper>
+          <SortWrapper>
+            <Text textStyle="label.medium" fontWeight="bold">
+              {t("searchPage.sortBy")}
+            </Text>
+            <StyledSortRadioGroup
+              orientation="vertical"
+              value={activeSort}
+              onValueChange={(details) => (details.value ? setSearchParams({ sort: details.value }) : undefined)}
+            >
+              <RadioGroupItem value="relevance">
+                <RadioGroupItemControl />
+                <RadioGroupItemText>{t("searchPage.sortRelevance")}</RadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+              <RadioGroupItem value="-lastUpdated">
+                <RadioGroupItemControl />
+                <RadioGroupItemText>{t("searchPage.sortNewest")}</RadioGroupItemText>
+                <RadioGroupItemHiddenInput />
+              </RadioGroupItem>
+            </StyledSortRadioGroup>
+          </SortWrapper>
           <StyledUl>
             {data?.search?.results.map((result) => (
               <SearchResult searchResult={result} key={result.id} />
