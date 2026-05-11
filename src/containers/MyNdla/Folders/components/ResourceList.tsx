@@ -31,6 +31,14 @@ const ListContainer = styled("div", {
   },
 });
 
+const ControlsWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "medium",
+  },
+});
+
 const ListOptionsWrapper = styled("div", {
   base: {
     display: "flex",
@@ -143,28 +151,28 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
 
   return (
     <ListContainer>
-      <ListActionsWrapper>
-        <TagsFilter resources={resources} />
-        <ListOptionsWrapper>
-          <StyledButton
-            variant="secondary"
-            onClick={() => {
-              if (isBatchSelecting) {
-                setSelectedResourceIds([]);
-              }
-              setIsBatchSelecting((p) => !p);
-            }}
-            data-state={isBatchSelecting ? "on" : undefined}
-          >
-            {t("myNdla.resource.batchSelect")}
-            {!!isBatchSelecting && <CloseLine />}
-          </StyledButton>
-          <ResourceSortOption />
-        </ListOptionsWrapper>
-      </ListActionsWrapper>
-      <BatchSelectOptionsWrapper visible={!!selectedResources.length}>
+      <ControlsWrapper>
+        <ListActionsWrapper>
+          <TagsFilter resources={resources} />
+          <ListOptionsWrapper>
+            <StyledButton
+              variant="secondary"
+              onClick={() => {
+                if (isBatchSelecting) {
+                  setSelectedResourceIds([]);
+                }
+                setIsBatchSelecting((p) => !p);
+              }}
+              data-state={isBatchSelecting ? "on" : undefined}
+            >
+              {t("myNdla.resource.batchSelect")}
+              {!!isBatchSelecting && <CloseLine />}
+            </StyledButton>
+            <ResourceSortOption />
+          </ListOptionsWrapper>
+        </ListActionsWrapper>
         {!!selectedResources.length && (
-          <>
+          <BatchSelectOptionsWrapper visible>
             <DialogRoot>
               <DialogTrigger asChild>
                 <Button variant="secondary">{t("myNdla.resource.move")}</Button>
@@ -201,9 +209,9 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
                 />
               </DialogContent>
             </DialogRoot>
-          </>
+          </BatchSelectOptionsWrapper>
         )}
-      </BatchSelectOptionsWrapper>
+      </ControlsWrapper>
       <CheckboxGroup value={selectedResourceIds} onValueChange={setSelectedResourceIds}>
         <BlockWrapper aria-labelledby={labelledBy}>
           {sortedAndFilteredResources.map((resource) => (
