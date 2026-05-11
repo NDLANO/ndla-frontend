@@ -31,14 +31,6 @@ const ListContainer = styled("div", {
   },
 });
 
-const ControlsWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "medium",
-  },
-});
-
 const ListOptionsWrapper = styled("div", {
   base: {
     display: "flex",
@@ -67,7 +59,6 @@ const BatchSelectOptionsWrapper = styled("div", {
     transitionDuration: "fast",
     transitionProperty: "opacity",
     transitionTimingFunction: "ease-in-out",
-    minHeight: "3xsmall",
     opacity: "0",
   },
   variants: {
@@ -151,67 +142,65 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
 
   return (
     <ListContainer>
-      <ControlsWrapper>
-        <ListActionsWrapper>
-          <TagsFilter resources={resources} />
-          <ListOptionsWrapper>
-            <StyledButton
-              variant="secondary"
-              onClick={() => {
-                if (isBatchSelecting) {
-                  setSelectedResourceIds([]);
-                }
-                setIsBatchSelecting((p) => !p);
-              }}
-              data-state={isBatchSelecting ? "on" : undefined}
-            >
-              {t("myNdla.resource.batchSelect")}
-              {!!isBatchSelecting && <CloseLine />}
-            </StyledButton>
-            <ResourceSortOption />
-          </ListOptionsWrapper>
-        </ListActionsWrapper>
-        {!!selectedResources.length && (
-          <BatchSelectOptionsWrapper visible>
-            <DialogRoot>
-              <DialogTrigger asChild>
-                <Button variant="secondary">{t("myNdla.resource.move")}</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <MoveResourcesDialogContent
-                  currentFolder={selectedFolder}
-                  resources={selectedResources}
-                  onSuccessfulMutation={onSuccessfulMutation}
-                />
-              </DialogContent>
-            </DialogRoot>
-            <DialogRoot>
-              <DialogTrigger asChild>
-                <Button variant="secondary">{t("myNdla.resource.copy")}</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <CopyResourcesDialogContent
-                  currentFolder={selectedFolder}
-                  resources={selectedResources}
-                  onSuccessfulMutation={onSuccessfulMutation}
-                />
-              </DialogContent>
-            </DialogRoot>
-            <DialogRoot>
-              <DialogTrigger asChild>
-                <Button variant="secondary">{t("myNdla.resource.remove")}</Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DeleteResourcesDialogContent
-                  selectedFolder={selectedFolder}
-                  resourceIds={selectedResourceIds}
-                  onSuccessfulMutation={onSuccessfulMutation}
-                />
-              </DialogContent>
-            </DialogRoot>
-          </BatchSelectOptionsWrapper>
-        )}
-      </ControlsWrapper>
+      <ListActionsWrapper>
+        <TagsFilter resources={resources} />
+        <ListOptionsWrapper>
+          <StyledButton
+            variant="secondary"
+            onClick={() => {
+              if (isBatchSelecting) {
+                setSelectedResourceIds([]);
+              }
+              setIsBatchSelecting((p) => !p);
+            }}
+            data-state={isBatchSelecting ? "on" : undefined}
+          >
+            {t("myNdla.resource.batchSelect")}
+            {!!isBatchSelecting && <CloseLine />}
+          </StyledButton>
+          <ResourceSortOption />
+        </ListOptionsWrapper>
+      </ListActionsWrapper>
+      {!!selectedResources.length && (
+        <BatchSelectOptionsWrapper visible>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="secondary">{t("myNdla.resource.move")}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <MoveResourcesDialogContent
+                currentFolder={selectedFolder}
+                resources={selectedResources}
+                onSuccessfulMutation={onSuccessfulMutation}
+              />
+            </DialogContent>
+          </DialogRoot>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="secondary">{t("myNdla.resource.copy")}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <CopyResourcesDialogContent
+                currentFolder={selectedFolder}
+                resources={selectedResources}
+                onSuccessfulMutation={onSuccessfulMutation}
+              />
+            </DialogContent>
+          </DialogRoot>
+          <DialogRoot>
+            <DialogTrigger asChild>
+              <Button variant="secondary">{t("myNdla.resource.remove")}</Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DeleteResourcesDialogContent
+                selectedFolder={selectedFolder}
+                resourceIds={selectedResourceIds}
+                onSuccessfulMutation={onSuccessfulMutation}
+              />
+            </DialogContent>
+          </DialogRoot>
+        </BatchSelectOptionsWrapper>
+      )}
       <CheckboxGroup value={selectedResourceIds} onValueChange={setSelectedResourceIds}>
         <BlockWrapper aria-labelledby={labelledBy}>
           {sortedAndFilteredResources.map((resource) => (
