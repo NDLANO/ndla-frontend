@@ -9,7 +9,9 @@
 import express from "express";
 import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { isValidLocale } from "../i18n";
-import { BAD_REQUEST } from "../statusCodes";
+import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../statusCodes";
+import { fetchArticleRss } from "../util/articleApi";
+import { isStatusError } from "../util/error/StatusError";
 import { log } from "../util/logger/logger";
 import authEndpoints from "./authEndpoints";
 import { generateOauthData } from "./helpers/oauthHelper";
@@ -91,6 +93,19 @@ router.get("/utdanningsprogram-sitemap.txt", async (req, res) => {
 });
 
 router.get(["/podkast/:seriesId/feed.xml", `/podkast/:"seriesId"_:seriesTitle/feed.xml`], podcastFeedRoute);
+
+router.get("/om/:slug/rss.xml", async (req, res) => {
+  try {
+    const rss = await fetchArticleRss(req.params.slug);
+    res.setHeader("Content-Type", "application/xml");
+    res.setHeader("Cache-Control", "public, max-age=300");
+    res.send(rss);
+  } catch (error) {
+    const statusError = isStatusError(error) ? error : undefined;
+    const status = statusError?.status ?? INTERNAL_SERVER_ERROR;
+    res.sendStatus(status);
+  }
+});
 
 router.post("/lti/oauth", async (req, res) => {
   const { body, query } = req;

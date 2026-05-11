@@ -7,8 +7,9 @@
  */
 
 import { ArticleV2DTO } from "@ndla/types-backend/article-api";
-import { OembedResponse } from "../../interfaces";
-import { resolveJsonOrRejectWithError, apiResourceUrl } from "../../util/apiHelpers";
+import { OembedResponse } from "../interfaces";
+import { apiResourceUrl, resolveJsonOrRejectWithError } from "./apiHelpers";
+import { StatusError } from "./error/StatusError";
 
 const baseUrl = apiResourceUrl("/article-api/v2/articles");
 
@@ -19,3 +20,14 @@ export const fetchArticle = (id: string | number, locale: string): Promise<Artic
 
 export const fetchArticleOembed = (url: string): Promise<OembedResponse> =>
   fetch(`/oembed?url=${url}`).then((r) => resolveJsonOrRejectWithError(r) as Promise<OembedResponse>);
+
+export const fetchArticleRss = async (slug: string): Promise<string> => {
+  const response = await fetch(`${baseUrl}/${slug}/rss.xml`);
+  if (!response.ok) {
+    throw new StatusError(
+      `Got error with status ${response.status} when requesting '${response.url}'`,
+      response.status,
+    );
+  }
+  return response.text();
+};

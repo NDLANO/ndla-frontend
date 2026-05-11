@@ -21,8 +21,8 @@ import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import config from "../../config";
-import { fetchArticleOembed } from "../../containers/ArticlePage/articleApi";
 import { LtiItem } from "../../interfaces";
+import { fetchArticleOembed } from "../../util/articleApi";
 
 const BreakableCode = styled("code", {
   base: {
