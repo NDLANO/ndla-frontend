@@ -33,3 +33,5 @@ export class NotFoundError extends StatusError {
     super(message, 404);
   }
 }
+
+export const isStatusError = (error: unknown): error is StatusError => error instanceof StatusError;
