@@ -7,8 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { Additional } from "@ndla/icons";
-import { CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
+import { Badge, CardContent, CardHeading, CardImage, CardRoot, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
@@ -53,6 +52,17 @@ const TextWrapper = styled("div", {
     display: "flex",
     flexDirection: "column",
     gap: "4xsmall",
+    flex: "1",
+    minWidth: "0",
+  },
+});
+
+const CardTopRow = styled("div", {
+  base: {
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: "xsmall",
   },
 });
 
@@ -154,21 +164,21 @@ export const TransportationCard = ({
           />
         )}
         <CardContent>
-          <TextWrapper>
-            {!!flavorText && (
-              <Text textStyle="label.medium" color="text.subtle">
-                {flavorText}
-              </Text>
+          <CardTopRow>
+            <TextWrapper>
+              {!!flavorText && (
+                <Text textStyle="label.medium" color="text.subtle">
+                  {flavorText}
+                </Text>
+              )}
+              <StyledCardHeading asChild css={linkOverlay.raw()}>
+                <SafeLink to={url ?? ""}>{name}</SafeLink>
+              </StyledCardHeading>
+            </TextWrapper>
+            {relevanceId === RELEVANCE_SUPPLEMENTARY && (
+              <Badge aria-label={t("navigation.additionalTopic")}>{t("navigation.additionalTopic")}</Badge>
             )}
-            <StyledCardHeading asChild css={linkOverlay.raw()}>
-              <SafeLink to={url ?? ""}>
-                {name}
-                {relevanceId === RELEVANCE_SUPPLEMENTARY && (
-                  <Additional aria-label={t("resource.additionalTooltip")} title={t("resource.additionalTooltip")} />
-                )}
-              </SafeLink>
-            </StyledCardHeading>
-          </TextWrapper>
+          </CardTopRow>
           {context !== "link" && <StyledText textStyle="body.large">{metaDescription ?? ""}</StyledText>}
         </CardContent>
       </li>
