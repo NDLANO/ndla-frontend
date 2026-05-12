@@ -218,6 +218,7 @@ export const BatchProcessResources = ({ currentFolder, type, onProcess, loading 
   const [saved, setSaved] = useState(false);
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
+  const { setOpen } = useDialogContext();
   const foldersQuery = useQuery<GQLBatchProcessFoldersQuery, GQLBatchProcessFoldersQueryVariables>(queryDef);
 
   const onSetFolderId = (id: string | undefined) => {
@@ -251,7 +252,7 @@ export const BatchProcessResources = ({ currentFolder, type, onProcess, loading 
         setSelectedFolderId={onSetFolderId}
       />
       <DialogFooter>
-        <Button variant="secondary" onClick={close}>
+        <Button variant="secondary" onClick={() => setOpen(false)}>
           {t("close")}
         </Button>
         <SaveHeartButton
