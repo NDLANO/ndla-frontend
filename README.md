@@ -19,7 +19,7 @@ What's in the box?
 - React
 - GraphQL
 - Express
-- Vite + Babel (ES6)
+- Vite
 
 ### Dependencies
 
