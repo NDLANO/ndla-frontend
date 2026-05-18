@@ -51,6 +51,12 @@ const StyledCheckboxRoot = styled(CheckboxRoot, {
   },
 });
 
+const StyledCheckboxLabel = styled(CheckboxLabel, {
+  base: {
+    overflowWrap: "anywhere",
+  },
+});
+
 export const TagsFilter = ({ resources }: Props) => {
   const { t } = useTranslation();
   const [params, setParams] = useStableSearchParams();
@@ -80,8 +86,7 @@ export const TagsFilter = ({ resources }: Props) => {
                 <CheckLine />
               </CheckboxIndicator>
             </CheckboxControl>
-            {/* TODO: This can overflow on long tags. Consider wrapping or ellipsis */}
-            <CheckboxLabel>{tag}</CheckboxLabel>
+            <StyledCheckboxLabel>{tag}</StyledCheckboxLabel>
             <CheckboxHiddenInput />
           </StyledCheckboxRoot>
         ))}
