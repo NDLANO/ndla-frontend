@@ -6,26 +6,16 @@
  *
  */
 
-import * as esbuild from "esbuild";
+import { build } from "rolldown";
 
-await esbuild.build({
-  entryPoints: ["src/server.ts"],
-  bundle: true,
-  format: "esm",
+await build({
+  input: "src/server.ts",
   platform: "node",
-  target: "esnext",
-  ignoreAnnotations: true,
-  sourcemap: true,
-  sourcesContent: false,
   external: ["vite"],
-  outfile: "build/server.js",
-  // Vite automatically handles SSR env variables, covering most of our application.
-  // However, we also need to define it here to cover the small portion of our backend that runs outside of Vite.
-  define: {
-    "import.meta.env.SSR": "true",
-  },
-  // Mixing ESM and CJS is still a struggle. This is a workaround for now.
-  banner: {
-    js: `import { createRequire } from 'module';const require = createRequire(import.meta.url);`,
+  output: {
+    file: "build/server.js",
+    format: "esm",
+    codeSplitting: false,
+    sourcemap: true,
   },
 });
