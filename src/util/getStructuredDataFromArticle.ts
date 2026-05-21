@@ -339,7 +339,7 @@ export const getStructuredDataFromArticle = (
     },
     description: article.metaDescription,
     dateCreated: article.published,
-    datePublished: article.published,
+    datePublished: article.revised,
     dateModified: article.updated,
     educationalAlignment,
     image: article.metaImage?.image.imageUrl,
