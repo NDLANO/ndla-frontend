@@ -25,7 +25,7 @@ const messages = {
   },
   htmlTitles: {
     titleTemplate,
-    welcomePage: `Frontpage - ${titleTemplate}`,
+    welcomePage: `Learning resources for upper secondary education - ${titleTemplate}`,
     topicPage: "Topic",
     subjectsPage: `All subjects - ${titleTemplate}`,
     searchPage: `Search - ${titleTemplate}`,

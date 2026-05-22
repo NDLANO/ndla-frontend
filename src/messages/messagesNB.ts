@@ -25,7 +25,7 @@ const messages = {
   },
   htmlTitles: {
     titleTemplate,
-    welcomePage: `Forsiden - ${titleTemplate}`,
+    welcomePage: `Læringsressurser for videregående opplæring - ${titleTemplate}`,
     topicPage: "Emne",
     subjectsPage: `Alle fag - ${titleTemplate}`,
     searchPage: `Søk - ${titleTemplate}`,
