@@ -250,9 +250,13 @@ export const WelcomePage = () => {
       "@context": "https://schema.org",
       "@type": "WebSite",
       url: "https://ndla.no/",
+      name: "NDLA",
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://ndla.no/search?query={search_term_string}",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: "https://ndla.no/search?query={search_term_string}",
+        },
         "query-input": "required name=search_term_string",
       },
     };
