@@ -249,10 +249,14 @@ export const WelcomePage = () => {
     const data = {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      url: "https://ndla.no/",
+      url: config.ndlaFrontendDomain,
+      name: "NDLA",
       potentialAction: {
         "@type": "SearchAction",
-        target: "https://ndla.no/search?query={search_term_string}",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${config.ndlaFrontendDomain}/search?query={search_term_string}`,
+        },
         "query-input": "required name=search_term_string",
       },
     };
