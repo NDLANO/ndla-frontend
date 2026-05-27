@@ -14,7 +14,6 @@ import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
-import { TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES, TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE } from "../../constants";
 import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
 import { partitionResources } from "./getResourceGroups";
 import { ResourceItem } from "./ResourceItem";
@@ -51,13 +50,8 @@ export const Resources = ({ parentId, rootId }: Props) => {
   });
 
   const node = data?.node;
-  const resourceTypes = data?.resourceTypes;
 
-  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(
-    node?.children ?? [],
-    resourceTypes ?? [],
-    node?.metadata.customFields[TAXONOMY_CUSTOM_FIELD_TOPIC_RESOURCES] !== TAXONOMY_CUSTOM_FIELD_UNGROUPED_RESOURCE,
-  );
+  const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(node?.children ?? []);
 
   if (loading) {
     return <Spinner />;
@@ -147,10 +141,6 @@ const resourcesQuery = gql`
       metadata {
         customFields
       }
-    }
-    resourceTypes {
-      id
-      name
     }
   }
   ${ResourceItem.fragments.node}
