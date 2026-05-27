@@ -25,7 +25,7 @@ const messages = {
   },
   htmlTitles: {
     titleTemplate,
-    welcomePage: `Oahpparesursa. Joatkkaskuvla - ${titleTemplate}`,
+    welcomePage: `Oahpponeavvut joatkkaoahpahussii - ${titleTemplate}`,
     topicPage: "Fáddá",
     subjectsPage: `Vállje fága - ${titleTemplate}`,
     searchPage: `Oza - ${titleTemplate}`,
