@@ -262,7 +262,7 @@ const ArticleStepperListItem = ({
         title={article.name}
       >
         <StepperIndicator>
-          {!current && completed ? <CheckLine size="small" /> : numbered ? <ArrowRightLine size="small" /> : index + 1}
+          {!current && completed ? <CheckLine size="small" /> : numbered ? index + 1 : <ArrowRightLine size="small" />}
         </StepperIndicator>
       </CollapsedLinkComponent>
       {!collapsed && (
