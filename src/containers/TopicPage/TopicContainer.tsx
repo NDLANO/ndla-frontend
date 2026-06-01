@@ -87,6 +87,7 @@ interface TopicContainerProps {
 export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
   const { t } = useTranslation();
   const headingId = useId();
+  const linksHeadingId = useId();
 
   const metaTitle = useMemo(() => htmlTitle(node.name, [node.breadcrumbs[0]]), [node.breadcrumbs, node.name]);
   const pageTitle = useMemo(() => htmlTitle(metaTitle, [t("htmlTitles.titleTemplate")]), [metaTitle, t]);
@@ -192,6 +193,18 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
               </TransportationPageNodeListGrid>
             </NodeGridWrapper>
           )}
+          {!!node.links?.length && (
+            <NodeGridWrapper aria-labelledby={linksHeadingId}>
+              <Heading textStyle="heading.small" asChild consumeCss id={linksHeadingId}>
+                <h2>{t("launchpad.linksTitle")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="case">
+                {node.links.map((link) => (
+                  <TransportationNode key={link.id} node={link} context="link" />
+                ))}
+              </TransportationPageNodeListGrid>
+            </NodeGridWrapper>
+          )}
           {!!node && (
             <NoSSR fallback={null}>
               <Resources parentId={node.id} rootId={node.context?.rootId} />
@@ -217,6 +230,9 @@ TopicContainer.fragments = {
       defaultUrl
       children(nodeType: "TOPIC,CASE") {
         id
+        ...TransportationNode_Node
+      }
+      links {
         ...TransportationNode_Node
       }
     }
