@@ -10,7 +10,6 @@ import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { uniqBy } from "@ndla/util";
 import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
@@ -41,7 +40,7 @@ const LayoutContainer = styled("div", {
   },
 });
 
-export const Resources = ({ parentId, rootId, fallbackLinks }: Props) => {
+export const Resources = ({ parentId, rootId }: Props) => {
   const { t } = useTranslation();
 
   const { error, loading, data } = useQuery<GQLLaunchpadQuery, GQLLaunchpadQueryVariables>(resourcesQuery, {
@@ -54,9 +53,7 @@ export const Resources = ({ parentId, rootId, fallbackLinks }: Props) => {
   const node = data?.node;
 
   const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(node?.children ?? []);
-  const mergedLinks = uniqBy([...(fallbackLinks ?? []), ...(node?.links ?? [])], (link) => link.id);
-  const hasLaunchpadContent =
-    !!coreArticles.length || !!supplementaryArticles.length || !!learningpaths.length || !!mergedLinks.length;
+  const hasLaunchpadContent = !!coreArticles.length || !!supplementaryArticles.length || !!learningpaths.length;
 
   if (loading) {
     return <Spinner />;
