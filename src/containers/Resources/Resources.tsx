@@ -21,7 +21,6 @@ import { ResourceItem } from "./ResourceItem";
 interface Props {
   parentId: string;
   rootId?: string;
-  fallbackLinks?: NonNullable<NonNullable<GQLLaunchpadQuery["node"]>["links"]>;
 }
 
 const StyledNav = styled("nav", {
@@ -53,13 +52,12 @@ export const Resources = ({ parentId, rootId }: Props) => {
   const node = data?.node;
 
   const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(node?.children ?? []);
-  const hasLaunchpadContent = !!coreArticles.length || !!supplementaryArticles.length || !!learningpaths.length;
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (error || !hasLaunchpadContent) {
+  if (error || !node?.children?.length) {
     return null;
   }
 
