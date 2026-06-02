@@ -8,6 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
+import { uniqBy } from "@ndla/util";
 import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ReactNode, useId } from "react";
@@ -21,6 +22,7 @@ import { ResourceItem } from "./ResourceItem";
 interface Props {
   parentId: string;
   rootId?: string;
+  fallbackLinks?: NonNullable<NonNullable<GQLLaunchpadQuery["node"]>["links"]>;
 }
 
 const StyledNav = styled("nav", {
@@ -39,7 +41,7 @@ const LayoutContainer = styled("div", {
   },
 });
 
-export const Resources = ({ parentId, rootId }: Props) => {
+export const Resources = ({ parentId, rootId, fallbackLinks }: Props) => {
   const { t } = useTranslation();
 
   const { error, loading, data } = useQuery<GQLLaunchpadQuery, GQLLaunchpadQueryVariables>(resourcesQuery, {
@@ -52,12 +54,15 @@ export const Resources = ({ parentId, rootId }: Props) => {
   const node = data?.node;
 
   const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(node?.children ?? []);
+  const mergedLinks = uniqBy([...(fallbackLinks ?? []), ...(node?.links ?? [])], (link) => link.id);
+  const hasLaunchpadContent =
+    !!coreArticles.length || !!supplementaryArticles.length || !!learningpaths.length || !!mergedLinks.length;
 
   if (loading) {
     return <Spinner />;
   }
 
-  if (error || !node?.children?.length) {
+  if (error || !hasLaunchpadContent) {
     return null;
   }
 
@@ -84,9 +89,9 @@ export const Resources = ({ parentId, rootId }: Props) => {
           ))}
         </NavSection>
       )}
-      {!!node.links?.length && (
+      {!!mergedLinks.length && (
         <NavSection title={t("launchpad.linksTitle")} variant="cards">
-          {node.links.map((link) => (
+          {mergedLinks.map((link) => (
             <TransportationNode key={link.id} node={link} context="link" />
           ))}
         </NavSection>
