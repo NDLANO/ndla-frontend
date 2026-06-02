@@ -8,9 +8,9 @@
 
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { uniqBy } from "@ndla/util";
 import { Heading, Spinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
+import { uniqBy } from "@ndla/util";
 import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
