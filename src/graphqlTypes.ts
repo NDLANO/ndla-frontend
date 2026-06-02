@@ -11329,20 +11329,6 @@ export type GQLTopicPageQuery = {
       };
       context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
     }>;
-    links?: Array<{
-      __typename?: "Node";
-      id: string;
-      nodeType: string;
-      name: string;
-      url?: string;
-      relevanceId?: string;
-      meta?: {
-        __typename?: "Meta";
-        metaDescription?: string;
-        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
-      };
-      context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
-    }>;
   };
 };
 
