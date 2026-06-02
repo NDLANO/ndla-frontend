@@ -89,13 +89,6 @@ export const Resources = ({ parentId, rootId, fallbackLinks }: Props) => {
           ))}
         </NavSection>
       )}
-      {!!mergedLinks.length && (
-        <NavSection title={t("launchpad.linksTitle")} variant="cards">
-          {mergedLinks.map((link) => (
-            <TransportationNode key={link.id} node={link} context="link" />
-          ))}
-        </NavSection>
-      )}
     </LayoutContainer>
   );
 };
