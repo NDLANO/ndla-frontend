@@ -91,10 +91,17 @@ const StyledLetter = styled(SafeLinkIconButton, {
 
 interface Props {
   activeLetters: string[];
+  search?: string;
 }
 
-export const LetterNavigation = ({ activeLetters }: Props) => {
+export const LetterNavigation = ({ activeLetters, search }: Props) => {
   const { t } = useTranslation();
+
+  const letterHref = (letter: string) => {
+    const hash = `#subject-header-${letter}`;
+    return search ? `?${search}${hash}` : hash;
+  };
+
   return (
     <LetterNavigationWrapper aria-label={t("subjectsPage.scrollToGroup")}>
       {subjectLetters.map((letter) => {
@@ -102,7 +109,7 @@ export const LetterNavigation = ({ activeLetters }: Props) => {
         return (
           <li key={letter}>
             <StyledLetter
-              to={`#subject-header-${letter}`}
+              to={letterHref(letter)}
               size="small"
               variant="secondary"
               disabled={!enabled}
