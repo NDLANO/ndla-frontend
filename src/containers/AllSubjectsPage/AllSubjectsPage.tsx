@@ -155,7 +155,7 @@ export const AllSubjectsPage = () => {
             </StyledFieldsetRoot>
           )}
         </FilterWrapper>
-        <LetterNavigation activeLetters={letters} search={params.toString()} />
+        <LetterNavigation activeLetters={letters} />
         <StyledList aria-label={t("subjectsPage.alphabeticSort")}>
           {groupedSubjects.map(({ label, subjects }) => (
             <SubjectCategory favorites={favoriteSubjects} key={label} label={label} subjects={subjects} />
