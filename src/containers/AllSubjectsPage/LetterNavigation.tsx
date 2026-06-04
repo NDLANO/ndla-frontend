@@ -95,6 +95,7 @@ interface Props {
 
 export const LetterNavigation = ({ activeLetters }: Props) => {
   const { t } = useTranslation();
+
   return (
     <LetterNavigationWrapper aria-label={t("subjectsPage.scrollToGroup")}>
       {subjectLetters.map((letter) => {
@@ -102,7 +103,7 @@ export const LetterNavigation = ({ activeLetters }: Props) => {
         return (
           <li key={letter}>
             <StyledLetter
-              to={`#subject-header-${letter}`}
+              to={{ ...location, hash: `#subject-header-${letter}` }}
               size="small"
               variant="secondary"
               disabled={!enabled}
