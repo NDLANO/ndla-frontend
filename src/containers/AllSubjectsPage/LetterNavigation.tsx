@@ -10,7 +10,6 @@ import { Text } from "@ndla/primitives";
 import { SafeLinkIconButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { useLocation, useHref } from "react-router";
 
 const subjectLetters = [
   "#",
@@ -97,14 +96,6 @@ interface Props {
 export const LetterNavigation = ({ activeLetters }: Props) => {
   const { t } = useTranslation();
 
-  const location = useLocation();
-  const baseHref = useHref({
-    pathname: location.pathname,
-    search: location.search,
-  });
-
-  const letterHref = (letter: string) => `${baseHref}#subject-header-${letter}`;
-
   return (
     <LetterNavigationWrapper aria-label={t("subjectsPage.scrollToGroup")}>
       {subjectLetters.map((letter) => {
@@ -112,7 +103,7 @@ export const LetterNavigation = ({ activeLetters }: Props) => {
         return (
           <li key={letter}>
             <StyledLetter
-              to={letterHref(letter)}
+              to={{ ...location, hash: `#subject-header-${letter}` }}
               size="small"
               variant="secondary"
               disabled={!enabled}
