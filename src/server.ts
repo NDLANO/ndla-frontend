@@ -9,7 +9,6 @@
 import path from "node:path";
 import { getCookie } from "@ndla/util";
 import express, { NextFunction, Request, Response } from "express";
-import promBundle from "express-prom-bundle";
 import helmet from "helmet";
 import { matchPath } from "react-router";
 import serialize from "serialize-javascript";
@@ -25,6 +24,7 @@ import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
 import { isRestrictedMode } from "./server/helpers/restrictedMode";
 import { activeRequestsMiddleware } from "./server/middleware/activeRequestsMiddleware";
 import { loggerContextMiddleware, getLoggerContextStore } from "./server/middleware/loggerContextMiddleware";
+import { metricsMiddleware } from "./server/middleware/metricsMiddleware";
 import { healthRouter } from "./server/routes/healthRouter";
 import { RootRenderFunc, RouteChunkInfoWithManifest, sendResponse } from "./server/serverHelpers";
 import { INTERNAL_SERVER_ERROR } from "./statusCodes";
@@ -55,16 +55,6 @@ if (!isProduction) {
   const sirv = (await import("sirv")).default;
   app.use(base, sirv(path.join(process.cwd(), "build", "public"), { extensions: [], maxAge: 5 * 60 }));
 }
-
-const metricsMiddleware = promBundle({
-  includeMethod: true,
-  includePath: true,
-  excludeRoutes: ["/health"],
-  normalizePath: (req) => {
-    const route = req.route;
-    return route ? `${req.baseUrl}${route.path}` : "unmatched";
-  },
-});
 
 app.use(metricsMiddleware);
 app.use(activeRequestsMiddleware);
