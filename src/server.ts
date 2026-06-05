@@ -58,8 +58,12 @@ if (!isProduction) {
 
 const metricsMiddleware = promBundle({
   includeMethod: true,
-  includePath: false,
+  includePath: true,
   excludeRoutes: ["/health"],
+  normalizePath: (req) => {
+    const route = req.route;
+    return route ? `${req.baseUrl}${route.path}` : "unmatched";
+  },
 });
 
 app.use(metricsMiddleware);
