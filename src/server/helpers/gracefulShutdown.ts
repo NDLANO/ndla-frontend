@@ -13,7 +13,7 @@ import { getActiveRequests } from "../middleware/activeRequestsMiddleware";
 import { getIsShuttingDown, setIsShuttingDown } from "../routes/healthRouter";
 
 async function waitForActiveRequests() {
-  const timeout = 30000;
+  const timeout = 20_000;
   const pollInterval = 250;
   const start = Date.now();
 
