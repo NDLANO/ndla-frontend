@@ -25,7 +25,6 @@ import { matchPath } from "react-router";
 import config from "../config";
 import {
   AUTOLOGIN_COOKIE,
-  FEIDE_ACCESS_TOKEN_COOKIE,
   FEIDE_ID_TOKEN_COOKIE,
   NODEBB_AUTH_COOKIE,
   NONCE_COOKIE,
@@ -59,10 +58,9 @@ const stateOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none
 const pkceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
 const nonceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
 const returnToOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
-const accessTokenOptions: CookieOptions = { sameSite: SAME_SITE, secure: DEPLOYED };
 const sessionExpiryOptions: CookieOptions = { sameSite: SAME_SITE, secure: DEPLOYED };
 const nodeBbOptions: CookieOptions = { httpOnly: true, secure: DEPLOYED, domain: NODEBB_DOMAIN, sameSite: SAME_SITE };
-const idTokenOptions: CookieOptions = { httpOnly: true, sameSite: SAME_SITE, secure: DEPLOYED };
+const idTokenOptions: CookieOptions = { sameSite: SAME_SITE, secure: DEPLOYED };
 
 const router = express.Router();
 
@@ -179,35 +177,41 @@ router.get("/login/success", async (req, res) => {
     return Promise.reject(error);
   });
 
-  const expiresInMs = (tokens.expiresIn() ?? 0) * 1000;
-
-  res.cookie(FEIDE_ACCESS_TOKEN_COOKIE, tokens.access_token, {
-    ...accessTokenOptions,
-    maxAge: expiresInMs,
-  });
-  res.cookie(FEIDE_ID_TOKEN_COOKIE, tokens.id_token, {
-    ...idTokenOptions,
-    maxAge: expiresInMs,
-  });
-  res.cookie(SESSION_EXPIRY_COOKIE, (expiresInMs + Date.now()).toString(), {
-    ...sessionExpiryOptions,
-    maxAge: expiresInMs,
-  });
-
   clearTemporaryCookies(res);
+
+  let userInfo: MyNDLAUserDTO | undefined = undefined;
+  try {
+    const response = await fetch(apiResourceUrl("/myndla-api/v1/users"), {
+      method: "PUT",
+      headers: {
+        FeideAuthorization: `Bearer ${tokens.id_token}`,
+      },
+      body: JSON.stringify({
+        accessToken: tokens.access_token,
+      }),
+    });
+    userInfo = await resolveJsonOrRejectWithError<MyNDLAUserDTO>(response);
+
+    const expires = new Date((tokens.claims()?.exp ?? 0) * 1000);
+
+    res.cookie(FEIDE_ID_TOKEN_COOKIE, tokens.id_token, {
+      ...idTokenOptions,
+      expires,
+    });
+    res.cookie(SESSION_EXPIRY_COOKIE, expires.getTime(), {
+      ...sessionExpiryOptions,
+      expires,
+    });
+  } catch (error) {
+    log.error("Failed to create/update MyNDLA user using Feide tokens", { error });
+  }
 
   // Set cookie for nodebb to use if user is arena enabled
   try {
-    const response = await fetch(apiResourceUrl("/myndla-api/v1/users"), {
-      headers: {
-        FeideAuthorization: `Bearer ${tokens.access_token}`,
-      },
-    });
     const nodeBbSecret = process.env.NODEBB_SECRET;
     if (!nodeBbSecret && DEPLOYED) {
       throw new Error("NODEBB_SECRET is not defined");
     }
-    const userInfo = await resolveJsonOrRejectWithError<MyNDLAUserDTO>(response);
     if (userInfo && userInfo.arenaEnabled) {
       const nodebbUser = {
         id: userInfo.feideId,
@@ -236,13 +240,12 @@ router.get("/login/success", async (req, res) => {
 
 router.get(["/logout", "/:lang/logout"], async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
-  const idToken = getCookie(FEIDE_ID_TOKEN_COOKIE, req.headers.cookie ?? "") ?? "";
   if (req.query.returnTo && typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
     res.cookie(RETURN_TO_COOKIE, req.query.returnTo, returnToOptions);
   }
 
-  const accessToken = getCookie(FEIDE_ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");
-  if (!accessToken) {
+  const idToken = getCookie(FEIDE_ID_TOKEN_COOKIE, req.headers.cookie ?? "");
+  if (!idToken) {
     res.redirect("/");
     return;
   }
@@ -251,7 +254,6 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
   const oidcConfig = await getConfig();
 
   res.clearCookie(FEIDE_ID_TOKEN_COOKIE, idTokenOptions);
-  res.clearCookie(FEIDE_ACCESS_TOKEN_COOKIE, accessTokenOptions);
   res.clearCookie(SESSION_EXPIRY_COOKIE, sessionExpiryOptions);
   res.clearCookie(NODEBB_AUTH_COOKIE, nodeBbOptions);
 
