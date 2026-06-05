@@ -205,6 +205,11 @@ app.get("/lti", async (req, res, next) => {
   handleRequest(req, res, next, ltiRoute);
 });
 
+app.get("/build-id", (_req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  res.json({ buildId: config.componentVersion });
+});
+
 app.get(["/", "/*splat"], (req, res, next) => {
   const { basepath: path } = getLocaleInfoFromPath(req.path);
   const route = routes.find((r) => matchPath(r, path)); // match with routes used in frontend

@@ -17,6 +17,7 @@ import { initializeI18n } from "../i18n";
 import { createApolloClient } from "../util/apiHelpers";
 import { renderOrHydrate } from "../util/renderOrHydrate";
 import { initSentry } from "../util/sentry";
+import { initSkewDetection } from "../util/skewDetection";
 import { iframeArticleRoutes } from "./iframeArticleRoutes";
 
 const { config, initialProps, chunkInfo, hash, restrictedMode } = window.DATA;
@@ -29,6 +30,8 @@ const client = createApolloClient(language);
 const i18n = initializeI18n(language, hash);
 
 const router = createBrowserRouter(iframeArticleRoutes);
+
+initSkewDetection(config.componentVersion);
 
 renderOrHydrate(
   document,
