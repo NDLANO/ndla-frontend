@@ -749,8 +749,7 @@ const messages = {
       },
       chatRobot: {
         title: "NDLA Praterobot",
-        description:
-          "Bygg din egen robot, bruk en ferdiglaget – eller test bilderoboten! Våre KI-verktøy er trygge og klare til bruk.",
+        description: "Bygg din egen robot eller bruk en ferdiglaget! Våre KI-verktøy er trygge og klare til bruk.",
       },
       arena: {
         title: "NDLA Arena",
