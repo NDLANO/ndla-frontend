@@ -748,7 +748,8 @@ const messages = {
       },
       chatRobot: {
         title: "NDLA Praterobot",
-        description: "Ráhkat iežat robohta dehe geavat gárvves robohta! Min KI-reaiddut leat oadjebasat ja gergosat geavahuvvot.",
+        description:
+          "Ráhkat iežat robohta dehe geavat gárvves robohta! Min KI-reaiddut leat oadjebasat ja gergosat geavahuvvot.",
       },
       arena: {
         title: "NDLA Arena",
