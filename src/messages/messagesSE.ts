@@ -740,26 +740,26 @@ const messages = {
       heading: "Našunála digitála oahppanarena",
     },
     quickLinks: {
-      title: "Våre tjenester",
+      title: "Min bálvalusat",
       myNdla: {
         title: "Min NDLA",
         description:
-          "Skreddersy din egen læringssti! Lag mapper, samle favoritter og del fagstoff – enkelt, inspirerende og helt på din måte.",
+          "Searvva iežat oahppanmáđii! Lágit mappaid, čokke favorihtaid ja juogada fágaávdnasiid - álkit, movttiidahtti ja áibbas iežat láhkai.",
       },
       chatRobot: {
         title: "NDLA Praterobot",
         description:
-          "Bygg din egen robot, bruk en ferdiglaget – eller test bilderoboten! Våre KI-verktøy er trygge og klare til bruk.",
+          "Ráhkat iežat robohta dehe geavat gárvves robohta! Min KI-reaiddut leat oadjebasat ja gergosat geavahuvvot.",
       },
       arena: {
         title: "NDLA Arena",
         description:
-          "Del undervisningsopplegg, diskuter fag og samarbeid med andre lærere! Arenaen er et faglig fellesskap for lærere i videregående opplæring.",
+          "Juogadit oahpahuslážuid, digaštallat fágaid ja ovttasbargat eará oahpaheddjiiguin! Arena lea joatkkaskuvlla oahpaheddjiid fágalaš searvevuohta.",
       },
       film: {
         title: "NDLA Film",
         description:
-          "Sjekk vårt store utvalg av spillefilmer, dokumentarer, TV-serier og undervisningsklipp. Vi tilbyr oppgaver til flere av dem.",
+          "Iskka min stuora speallanfilmmaid, dokumentára, TV-ráidduid ja oahpahusfilmmaid. Mii fállat barggu máŋgasiidda sis.",
       },
     },
   },
