@@ -6,11 +6,15 @@
  *
  */
 
+import { LearningPathV2DTO } from "@ndla/types-backend/learningpath-api";
+import { ExportedUserDataDTO } from "@ndla/types-backend/myndla-api";
 import express from "express";
 import { ABOUT_PATH, FILM_PAGE_URL, UKR_PAGE_URL, programmeRedirects } from "../constants";
 import { isValidLocale } from "../i18n";
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from "../statusCodes";
+import { apiResourceUrl, resolveJsonOrRejectWithError } from "../util/apiHelpers";
 import { fetchArticleRss } from "../util/articleApi";
+import { getFeideCookie } from "../util/authHelpers";
 import { isStatusError } from "../util/error/StatusError";
 import { log } from "../util/logger/logger";
 import authEndpoints from "./authEndpoints";
@@ -158,6 +162,36 @@ router.get(
     }
   },
 );
+
+router.get("/api/user-data-dump", async (req, res) => {
+  const token = getFeideCookie(req.headers.cookie ?? "");
+  if (!token) {
+    res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const userData = await fetch(apiResourceUrl("/myndla-api/v1/users/export"), {
+      headers: {
+        FeideAuthorization: `Bearer ${token}`,
+      },
+    }).then((r) => resolveJsonOrRejectWithError<ExportedUserDataDTO>(r));
+
+    const learningpaths = await fetch(apiResourceUrl("/learningpath-api/v2/learningpaths/mine"), {
+      headers: {
+        FeideAuthorization: `Bearer ${token}`,
+      },
+    }).then((r) => resolveJsonOrRejectWithError<LearningPathV2DTO[]>(r));
+
+    res.json({
+      ...userData,
+      learningpaths,
+    });
+  } catch (e) {
+    res
+      .status(isStatusError(e) ? (e.status ?? INTERNAL_SERVER_ERROR) : INTERNAL_SERVER_ERROR)
+      .json({ message: "Error fetching user data" });
+  }
+});
 
 router.get("/lmk/subjects", async (_, res) => {
   res.setHeader("Content-Type", "application/ld+json");
