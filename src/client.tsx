@@ -22,6 +22,7 @@ import { NDLAWindow } from "./interfaces";
 import { createApolloClient } from "./util/apiHelpers";
 import { renderOrHydrate } from "./util/renderOrHydrate";
 import { initSentry } from "./util/sentry";
+import { initSkewDetection } from "./util/skewDetection";
 
 declare global {
   interface Window extends NDLAWindow {}
@@ -44,6 +45,8 @@ const versionHash = url.searchParams.get("versionHash");
 const client = createApolloClient(abbreviation, versionHash);
 
 const router = createBrowserRouter(routes, { basename: basename ? `/${basename}` : undefined });
+
+initSkewDetection(config.componentVersion);
 
 const i18nInstance = initializeI18n(abbreviation, hash);
 

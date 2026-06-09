@@ -123,7 +123,8 @@ const getServerSideConfig = (): ConfigType => {
   return {
     defaultLocale: getEnvironmentVariable("NDLA_DEFAULT_LOCALE", "nb"),
     componentName: "ndla-frontend",
-    componentVersion: getEnvironmentVariable("COMPONENT_VERSION") ?? "SNAPSHOT",
+    componentVersion:
+      getEnvironmentVariable("COMPONENT_VERSION") ?? getEnvironmentVariable("VERCEL_DEPLOYMENT_ID") ?? "SNAPSHOT",
     ndlaEnvironment,
     host: getEnvironmentVariable("NDLA_FRONTEND_HOST", "localhost"),
     port: getEnvironmentVariable("NDLA_FRONTEND_PORT", "3000"),

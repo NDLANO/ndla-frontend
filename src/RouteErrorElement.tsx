@@ -6,11 +6,12 @@
  *
  */
 
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 import { useRouteError } from "react-router";
 import config from "./config";
 import { ErrorPage } from "./containers/ErrorPage/ErrorPage";
 import { handleError } from "./util/handleError";
+import { consumeReloadGuard, hadChunkReloadAttempt, isChunkLoadError, triggerCrashReload } from "./util/skewDetection";
 
 interface Props {
   children?: ReactNode;
@@ -18,8 +19,20 @@ interface Props {
 
 export const ErrorElement = ({ children }: Props) => {
   const error = useRouteError();
-  if (config.runtimeType === "production") {
+  const isChunk = isChunkLoadError(error);
+  const hadAttempt = useRef(isChunk && hadChunkReloadAttempt()).current;
+
+  if (isChunk) {
+    if (hadAttempt) {
+      consumeReloadGuard();
+      if (config.runtimeType === "production") handleError(error as Error);
+    } else {
+      triggerCrashReload();
+      return null;
+    }
+  } else if (config.runtimeType === "production") {
     handleError(error as Error);
   }
+
   return children ?? <ErrorPage />;
 };
