@@ -7,6 +7,7 @@
  */
 
 import "source-map-support/register";
+import { isSpanContextValid, trace } from "@opentelemetry/api";
 import pc from "picocolors";
 import type { Formatter } from "picocolors/types";
 import winston from "winston";
@@ -25,9 +26,22 @@ const indentString = (str: string): string => {
     .join("\n");
 };
 
+// Attach the active span's ids at log time so logs can be joined with traces in Tempo/Loki. A no-op when
+// no span is recording.
+const traceContextFormat = winston.format((info) => {
+  const ctx = trace.getActiveSpan()?.spanContext();
+  if (ctx && isSpanContextValid(ctx)) {
+    info.trace_id = ctx.traceId;
+    info.span_id = ctx.spanId;
+    info.trace_flags = ctx.traceFlags.toString(16).padStart(2, "0");
+  }
+  return info;
+});
+
 const getFormat = () => {
   if (config.runtimeType === "production") {
     return winston.format.combine(
+      traceContextFormat(),
       winston.format.timestamp(),
       winston.format.errors({ stack: true }),
       winston.format.json(),
