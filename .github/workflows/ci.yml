@@ -36,7 +36,7 @@ jobs:
   integration_tests:
     name: "Integration tests"
     runs-on: ubuntu-latest
-    container: mcr.microsoft.com/playwright:v1.57.0-noble
+    container: mcr.microsoft.com/playwright:v1.60.0-noble
     env:
       DEFAULT_TIMEOUT: 5000
       NDLA_PERSONAL_CLIENT_ID: ${{ secrets.NDLA_PERSONAL_CLIENT_ID }}
