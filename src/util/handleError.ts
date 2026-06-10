@@ -103,28 +103,88 @@ const getStatus = (extraContext: object | undefined, error: Error | unknown): nu
   return undefined;
 };
 
+// Node/undici expose the actual failure reason as own (often non-enumerable) properties that
+// `JSON.stringify` would otherwise drop. These turn a bare "fetch failed" into something diagnosable.
+const ERROR_DETAIL_KEYS = [
+  "code",
+  "errno",
+  "syscall",
+  "address",
+  "port",
+  "hostname",
+  "requestUrl",
+  "requestMethod",
+] as const;
+
+const pickErrorDetails = (error: object): Record<string, unknown> => {
+  const details: Record<string, unknown> = {};
+  for (const key of ERROR_DETAIL_KEYS) {
+    const value = (error as Record<string, unknown>)[key];
+    if (value !== undefined) details[key] = value;
+  }
+  return details;
+};
+
+const MAX_CAUSE_DEPTH = 5;
+
+/** undici hides the real failure behind a generic "fetch failed" `TypeError`, with the reason
+ * (ENOTFOUND, ECONNREFUSED, timeouts, TLS errors ...) living in `error.cause` — frequently an
+ * `AggregateError` whose `errors` hold the per-address details. Recursively serialise that chain so
+ * the logs actually say what went wrong. */
+const serializeCause = (error: unknown, depth = 0): unknown => {
+  if (error == null || depth > MAX_CAUSE_DEPTH) return undefined;
+  if (!(error instanceof Error)) {
+    return typeof error === "object" ? error : String(error);
+  }
+  const result: Record<string, unknown> = {
+    name: error.name,
+    message: error.message,
+    ...pickErrorDetails(error),
+  };
+  if (error instanceof AggregateError && Array.isArray(error.errors)) {
+    result.errors = error.errors.map((e) => serializeCause(e, depth + 1));
+  }
+  const cause = serializeCause(error.cause, depth + 1);
+  if (cause !== undefined) result.cause = cause;
+  return result;
+};
+
 export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | undefined): object | string => {
-  const ctx = { ...extraContext, statusCode: getStatus(extraContext, error) };
+  const ctx: Record<string, unknown> = { ...extraContext, statusCode: getStatus(extraContext, error) };
   if (!error) return { ...ctx, message: `Unknown error: ${JSON.stringify(error)}` };
 
+  const withCause = (base: Record<string, unknown>, err: Error): Record<string, unknown> => {
+    const cause = serializeCause(err.cause ?? ctx.cause);
+    if (cause !== undefined) base.cause = cause;
+    return base;
+  };
+
   if (error instanceof StatusError) {
-    return {
-      ...ctx,
-      message: getMessage(error),
-      json: error.json,
-      status: error.status,
-      stack: error.stack,
-      name: error.name,
-    };
+    return withCause(
+      {
+        ...ctx,
+        message: getMessage(error),
+        json: error.json,
+        status: error.status,
+        stack: error.stack,
+        name: error.name,
+        ...pickErrorDetails(error),
+      },
+      error,
+    );
   }
 
   if (error instanceof Error) {
-    return {
-      ...ctx,
-      message: getMessage(error),
-      stack: error.stack,
-      name: error.name,
-    };
+    return withCause(
+      {
+        ...ctx,
+        message: getMessage(error),
+        stack: error.stack,
+        name: error.name,
+        ...pickErrorDetails(error),
+      },
+      error,
+    );
   }
 
   if (typeof error === "object") {

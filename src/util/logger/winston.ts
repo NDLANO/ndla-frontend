@@ -26,8 +26,6 @@ const indentString = (str: string): string => {
     .join("\n");
 };
 
-// Attach the active span's ids at log time so logs can be joined with traces in Tempo/Loki. A no-op when
-// no span is recording.
 const traceContextFormat = winston.format((info) => {
   const ctx = trace.getActiveSpan()?.spanContext();
   if (ctx && isSpanContextValid(ctx)) {

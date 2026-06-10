@@ -40,7 +40,6 @@ const base = "/";
 const isProduction = config.runtimeType === "production";
 
 global.fetch = fetch;
-// Forward the request's correlation id on server-side outgoing calls (Apollo -> graphql-api etc.).
 installCorrelationIdFetch();
 const app = express();
 const allowedBodyContentTypes = ["application/json", "application/x-www-form-urlencoded"];

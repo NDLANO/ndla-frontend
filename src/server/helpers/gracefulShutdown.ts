@@ -40,8 +40,7 @@ export async function gracefulShutdown(server: Server) {
     log.info("Shutting down gracefully...");
     await waitForActiveRequests();
     if (server) server.close();
-    // Flush any buffered spans before exiting (no-op when the SDK is not attached).
-    await sdk?.shutdown().catch(() => {});
+    await sdk?.shutdown().catch(() => { });
     process.exit(0);
   }, gracePeriod * 1000);
 }
