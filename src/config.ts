@@ -98,6 +98,7 @@ export type ConfigType = {
   disableSSR: boolean;
   isNdlaProdEnvironment: boolean;
   ndlaApiUrl: string;
+  graphqlApiHost: string | undefined;
   ndlaFrontendDomain: string;
   zendeskWidgetKey: string | undefined;
   localGraphQLApi: boolean;
@@ -133,6 +134,7 @@ const getServerSideConfig = (): ConfigType => {
     disableSSR: getEnvironmentVariable("DISABLE_SSR", false),
     isNdlaProdEnvironment: ndlaEnvironment === "prod",
     ndlaApiUrl: getEnvironmentVariable("NDLA_API_URL", apiDomain(ndlaEnvironment)),
+    graphqlApiHost: getEnvironmentVariable("GRAPHQL_API_HOST"),
     ndlaFrontendDomain: getEnvironmentVariable("FRONTEND_DOMAIN", ndlaFrontendDomain(ndlaEnvironment)),
     zendeskWidgetKey: getEnvironmentVariable("NDLA_ZENDESK_WIDGET_KEY"),
     localGraphQLApi: getEnvironmentVariable("LOCAL_GRAPHQL_API", false),

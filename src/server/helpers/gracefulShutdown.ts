@@ -40,7 +40,7 @@ export async function gracefulShutdown(server: Server) {
     log.info("Shutting down gracefully...");
     await waitForActiveRequests();
     if (server) server.close();
-    await sdk?.shutdown().catch(() => { });
+    await sdk?.shutdown().catch(() => {});
     process.exit(0);
   }, gracePeriod * 1000);
 }
