@@ -35,7 +35,17 @@ import { StatusError } from "./error/StatusError";
 import { handleError } from "./handleError";
 
 const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
-const uri = config.localGraphQLApi ? "http://localhost:4000/graphql-api/graphql" : `${apiBaseUrl}/graphql-api/graphql`;
+
+// Resolve the GraphQL endpoint. Server-side, prefer the in-cluster graphql-api service (GRAPHQL_API_HOST)
+// so SSR calls hit it directly instead of resolving the public api hostname from inside the cluster. The
+// service mounts the API under the same /graphql-api/graphql path; the client always uses the public url.
+const getGraphqlUri = (): string => {
+  if (config.localGraphQLApi) return "http://localhost:4000/graphql-api/graphql";
+  if (!config.isClient && config.graphqlApiHost) return `http://${config.graphqlApiHost}/graphql-api/graphql`;
+  return `${apiBaseUrl}/graphql-api/graphql`;
+};
+
+const uri = getGraphqlUri();
 
 export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
