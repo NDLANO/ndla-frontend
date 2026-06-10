@@ -8,24 +8,43 @@
 
 import { getLoggerContextStore } from "./middleware/loggerContextMiddleware";
 
+const getRequestUrl = (input: RequestInfo | URL): string => {
+  if (typeof input === "string") return input;
+  if (input instanceof URL) return input.href;
+  return input.url;
+};
+
+const getRequestMethod = (input: RequestInfo | URL, init?: RequestInit): string => {
+  if (init?.method) return init.method;
+  if (input instanceof Request) return input.method;
+  return "GET";
+};
+
 /** Wrap the global `fetch` so server-side outgoing requests (Apollo to graphql-api, and any other
- * downstream call) carry the request's correlation id, letting it reach downstream logs. The whole request
- * — including the nested SSR render — runs inside `loggerContextMiddleware`'s AsyncLocalStorage scope, so
- * the id is available here. The W3C `traceparent` is added separately and automatically by the
- * OpenTelemetry undici instrumentation, so it is not set here. Must be installed once, server-side, during
- * bootstrap. */
+ * downstream call) carry the request's correlation id, letting it reach downstream logs.
+ * Must be installed once, server-side, during bootstrap. */
 export const installCorrelationIdFetch = (): void => {
   const originalFetch = globalThis.fetch;
 
-  globalThis.fetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+  globalThis.fetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const correlationID = getLoggerContextStore()?.correlationID;
-    if (!correlationID) return originalFetch(input, init);
+    try {
+      if (!correlationID) return await originalFetch(input, init);
 
-    // Normalise to a Request so we can mutate headers regardless of how fetch was called.
-    const request = new Request(input, init);
-    if (!request.headers.has("x-correlation-id")) {
-      request.headers.set("x-correlation-id", correlationID);
+      // Normalise to a Request so we can mutate headers regardless of how fetch was called.
+      const request = new Request(input, init);
+      if (!request.headers.has("x-correlation-id")) {
+        request.headers.set("x-correlation-id", correlationID);
+      }
+      return await originalFetch(request);
+    } catch (error) {
+      // undici rejects network failures with a bare "fetch failed" TypeError that omits the target.
+      // Annotate it so logs identify which downstream call failed; the underlying cause (ENOTFOUND,
+      // ECONNREFUSED ...) is serialised separately by `getErrorLog`.
+      if (error instanceof Error) {
+        Object.assign(error, { requestUrl: getRequestUrl(input), requestMethod: getRequestMethod(input, init) });
+      }
+      throw error;
     }
-    return originalFetch(request);
   };
 };
