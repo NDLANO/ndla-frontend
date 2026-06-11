@@ -1929,6 +1929,7 @@ export type GQLSubjectPage = {
   leadsTo: Array<Maybe<GQLSubjectLink>>;
   metaDescription?: Maybe<Scalars["String"]["output"]>;
   name: Scalars["String"]["output"];
+  popularArticles: Array<Maybe<GQLArticle>>;
   supportedLanguages: Array<Scalars["String"]["output"]>;
 };
 
@@ -10604,6 +10605,13 @@ export type GQLSubjectContainer_NodeFragment = {
         };
       };
     };
+    popularArticles: Array<{
+      __typename?: "Article";
+      id: number;
+      title: string;
+      traits: Array<string>;
+      metaImage?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
+    }>;
     buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
     connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
     leadsTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
@@ -10748,6 +10756,13 @@ export type GQLSubjectPageQuery = {
           };
         };
       };
+      popularArticles: Array<{
+        __typename?: "Article";
+        id: number;
+        title: string;
+        traits: Array<string>;
+        metaImage?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
+      }>;
       buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
       connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
       leadsTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
