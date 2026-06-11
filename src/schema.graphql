@@ -1424,6 +1424,7 @@ type SubjectPage {
   leadsTo: [SubjectLink]!
   metaDescription: String
   name: String!
+  popularArticles: [Article]!
   supportedLanguages: [String!]!
 }
 
