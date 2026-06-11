@@ -27,6 +27,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinks } from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import {
+  TransportationCard,
   TransportationNode,
   TransportationSearchResult,
 } from "../../components/TransportationPage/TransportationPageNode";
@@ -39,6 +40,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
+import { useListItemTraits } from "../../util/listItemTraits";
 import { toSearchParams } from "../../util/searchHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { SubjectSearch } from "./SubjectSearch";
@@ -48,6 +50,10 @@ interface Props {
   searchResults: GQLSubjectContainer_SearchResultFragment[];
   subjectType?: string;
 }
+
+type PopularArticle = NonNullable<
+  NonNullable<GQLSubjectContainer_NodeFragment["subjectpage"]>["popularArticles"][number]
+>;
 
 const HeadingWrapper = styled("div", {
   base: {
@@ -155,6 +161,32 @@ const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunc
 const TOPICS_HEADING_ID = "topics";
 const LINKS_HEADING_ID = "links";
 const VIDEO_HEADING_ID = "videos";
+const POPULAR_ARTICLES_HEADING_ID = "popular-articles";
+
+interface PopularArticleCardProps {
+  article: PopularArticle;
+}
+
+const PopularArticleCard = ({ article }: PopularArticleCardProps) => {
+  const traits = useListItemTraits({ traits: article.traits });
+
+  return (
+    <TransportationCard
+      metaImage={
+        article.metaImage
+          ? {
+              url: article.metaImage.image.imageUrl,
+              alt: "",
+            }
+          : undefined
+      }
+      flavorText={traits.join(", ")}
+      name={article.title}
+      url={`/article/${article.id}`}
+      context="link"
+    />
+  );
+};
 
 const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): string | undefined => {
   if (!subjectType || subjectType === subjectTypes.SUBJECT) {
@@ -174,6 +206,8 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const about = node.subjectpage?.about;
+  const popularArticles =
+    node.subjectpage?.popularArticles.filter((article): article is PopularArticle => !!article) ?? [];
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
@@ -255,6 +289,11 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                 {t("subjectsPage.multidisciplinaryCases")}
               </SafeLinkButton>
             )}
+            {!!popularArticles.length && (
+              <SafeLinkButton to={{ hash: POPULAR_ARTICLES_HEADING_ID }}>
+                {t("subjectsPage.popularArticles")}
+              </SafeLinkButton>
+            )}
             {!!searchResults.length && (
               <SafeLinkButton to={{ hash: VIDEO_HEADING_ID }}>{t("subjectPage.videoResultsHeader")}</SafeLinkButton>
             )}
@@ -300,6 +339,18 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
               <TransportationPageNodeListGrid context="case">
                 {node.links?.map((link) => (
                   <TransportationNode key={link.id} node={link} context="link" />
+                ))}
+              </TransportationPageNodeListGrid>
+            </StyledCardNav>
+          )}
+          {!!popularArticles.length && (
+            <StyledCardNav aria-labelledby={POPULAR_ARTICLES_HEADING_ID}>
+              <Heading textStyle="heading.small" asChild consumeCss id={POPULAR_ARTICLES_HEADING_ID}>
+                <h2>{t("subjectsPage.popularArticles")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="case">
+                {popularArticles.map((article) => (
+                  <PopularArticleCard key={article.id} article={article} />
                 ))}
               </TransportationPageNodeListGrid>
             </StyledCardNav>
@@ -376,6 +427,16 @@ SubjectContainer.fragments = {
           }
         }
         ...SubjectLinks_SubjectPage
+        popularArticles {
+          id
+          title
+          traits
+          metaImage {
+            image {
+              imageUrl
+            }
+          }
+        }
       }
       ...FavoriteSubject_Node
     }
