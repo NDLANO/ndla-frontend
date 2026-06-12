@@ -22,8 +22,8 @@ import {
   ComboboxTrigger,
   ComboboxItemText,
   Input,
-  Spinner,
   ComboboxList,
+  RainbowSpinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ResourceType } from "@ndla/types-backend/myndla-api";
@@ -191,7 +191,7 @@ export const MyNdlaResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     [filteredResources],
   );
 
-  if (!!foldersLoading || !!myNdlaResourceMetaLoading) return <Spinner />;
+  if (!!foldersLoading || !!myNdlaResourceMetaLoading) return <RainbowSpinner />;
 
   if (!!foldersError || !!myNdlaResourceMetaError)
     return <Text color="text.error">{t("myNdla.learningpath.form.content.folder.error")}</Text>;

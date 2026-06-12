@@ -6,12 +6,13 @@
  *
  */
 
-import { Spinner, Button } from "@ndla/primitives";
+import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { Navigate, useNavigate, useParams } from "react-router";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { deserializeToRichText, serializeFromRichText } from "../../../components/RichTextEditor/richTextSerialization";
 import config from "../../../config";
@@ -75,7 +76,7 @@ export const EditLearningpathTitlePage = () => {
     navigate(routes.myNdla.learningpathEditSteps(data?.myNdlaLearningpath?.id ?? 0));
   };
   if (loading) {
-    return <Spinner aria-label={t("loading")} />;
+    return <PageRainbowSpinner />;
   }
 
   if (!data?.myNdlaLearningpath) {

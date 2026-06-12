@@ -13,7 +13,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
-import { PageSpinner } from "../../../components/PageSpinner";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { GQLFolder, GQLRootFoldersPageQuery, GQLRootFoldersPageQueryVariables } from "../../../graphqlTypes";
 import {
@@ -57,7 +57,7 @@ const RootFoldersPage = () => {
   const menuItems = useFolderActions(null, undefined, true);
 
   if (pageQuery.loading) {
-    return <PageSpinner />;
+    return <PageRainbowSpinner />;
   }
 
   return (

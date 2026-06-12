@@ -17,7 +17,7 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { DefaultErrorMessage } from "../../../components/DefaultErrorMessage";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle, TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
-import { PageSpinner } from "../../../components/PageSpinner";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { foldersPageQuery, useFolder } from "../../../mutations/folder/folderQueries";
@@ -65,7 +65,7 @@ const SubFolderPage = () => {
   const menuItems = useFolderActions(selectedFolder, undefined, true);
 
   if (loading) {
-    return <PageSpinner />;
+    return <PageRainbowSpinner />;
   }
 
   if (!selectedFolder) {

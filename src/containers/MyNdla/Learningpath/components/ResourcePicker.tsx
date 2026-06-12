@@ -30,7 +30,7 @@ import {
   PaginationNextTrigger,
   PaginationPrevTrigger,
   PaginationRoot,
-  Spinner,
+  RainbowSpinner,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -259,7 +259,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
           </div>
         </HitsWrapper>
         {loading ? (
-          <Spinner />
+          <RainbowSpinner />
         ) : (
           <StyledComboboxList tabIndex={-1}>
             {collection.items.map((resource) => (

@@ -6,10 +6,11 @@
  *
  */
 
-import { Spinner, Text } from "@ndla/primitives";
+import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import parse from "html-react-parser";
 import { useTranslation } from "react-i18next";
+import { PageRainbowSpinner } from "../../../../components/PageSpinner";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { SettingsMenu } from "../../components/SettingsMenu";
 import { useMyLearningpaths } from "../learningpathQueries";
@@ -33,7 +34,7 @@ export const LearningpathList = () => {
   const { data, loading } = useMyLearningpaths();
 
   if (loading) {
-    return <Spinner />;
+    return <PageRainbowSpinner />;
   }
 
   return (

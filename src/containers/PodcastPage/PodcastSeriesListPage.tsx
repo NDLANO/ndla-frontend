@@ -19,7 +19,6 @@ import {
   Text,
   Heading,
   PaginationContext,
-  Spinner,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
@@ -27,6 +26,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
+import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
@@ -149,7 +149,7 @@ export const PodcastSeriesListPage = () => {
         <RestrictedContent context="bleed">
           <section>
             {loading ? (
-              <Spinner aria-label={t("loading")} />
+              <PageRainbowSpinner />
             ) : results?.length ? (
               <StyledUl>
                 {results.map((series) => {

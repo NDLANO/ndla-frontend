@@ -9,7 +9,7 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
-import { Badge, Hero, HeroBackground, HeroContent, PageContent, Spinner } from "@ndla/primitives";
+import { Badge, Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ArticleFooter, ArticleWrapper, HomeBreadcrumb, ArticleContent, ArticleTitle } from "@ndla/ui";
 import { TFunction } from "i18next";
@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { CreatedBy } from "../../../components/Article/CreatedBy";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { RestrictedBlock } from "../../../components/RestrictedBlock";
 import { useRestrictedMode } from "../../../components/RestrictedModeContext";
@@ -160,7 +161,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   }, [data?.resourceEmbed.content, pathname]);
 
   if (loading) {
-    return <Spinner />;
+    return <PageRainbowSpinner />;
   }
 
   if (isNotFoundError(error)) {

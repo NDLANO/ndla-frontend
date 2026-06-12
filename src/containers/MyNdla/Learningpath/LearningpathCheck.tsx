@@ -10,7 +10,7 @@ import { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { Outlet } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
-import { PageSpinner } from "../../../components/PageSpinner";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { routes } from "../../../routeHelpers";
 import { ForbiddenPage } from "../../ErrorPage/ForbiddenPage";
 
@@ -18,7 +18,7 @@ export const LearningpathCheck = () => {
   const { t } = useTranslation();
   const { authContextLoaded, authenticated, user } = useContext(AuthContext);
 
-  if (!authContextLoaded) return <PageSpinner />;
+  if (!authContextLoaded) return <PageRainbowSpinner />;
 
   if (!authenticated || !user || user.role !== "employee") {
     return <ForbiddenPage navigationLink={{ to: routes.myNdla.root, children: t("myNdla.goToMyNdla") }} />;

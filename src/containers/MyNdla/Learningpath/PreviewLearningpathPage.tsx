@@ -18,7 +18,7 @@ import { LearningpathContent } from "../../../components/Learningpath/Learningpa
 import { LearningpathMenu } from "../../../components/Learningpath/LearningpathMenu";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
-import { PageSpinner } from "../../../components/PageSpinner";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { MobileLaunchpadMenu } from "../../../components/Resource/Launchpad";
 import { ResourceContentContainer } from "../../../components/Resource/ResourceLayout";
@@ -88,7 +88,7 @@ export const PreviewLearningpathPage = () => {
   );
 
   if (learningpathQuery.loading) {
-    return <PageSpinner />;
+    return <PageRainbowSpinner />;
   }
 
   if (!learningpathQuery.data?.myNdlaLearningpath || (stepId && isNaN(Number(stepId)))) {
