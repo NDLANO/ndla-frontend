@@ -1929,7 +1929,7 @@ export type GQLSubjectPage = {
   leadsTo: Array<Maybe<GQLSubjectLink>>;
   metaDescription?: Maybe<Scalars["String"]["output"]>;
   name: Scalars["String"]["output"];
-  popularArticles: Array<Maybe<GQLArticle>>;
+  popularArticles?: Maybe<Array<GQLNode>>;
   supportedLanguages: Array<Scalars["String"]["output"]>;
 };
 
@@ -10605,12 +10605,16 @@ export type GQLSubjectContainer_NodeFragment = {
         };
       };
     };
-    popularArticles: Array<{
-      __typename?: "Article";
-      id: number;
-      title: string;
-      traits: Array<string>;
-      metaImage?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
+    popularArticles?: Array<{
+      __typename?: "Node";
+      id: string;
+      name: string;
+      url?: string;
+      meta?: {
+        __typename?: "Meta";
+        metaDescription?: string;
+        metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+      };
     }>;
     buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
     connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
@@ -10756,12 +10760,16 @@ export type GQLSubjectPageQuery = {
           };
         };
       };
-      popularArticles: Array<{
-        __typename?: "Article";
-        id: number;
-        title: string;
-        traits: Array<string>;
-        metaImage?: { __typename?: "ImageMetaInformationV3"; image: { __typename?: "ImageV3"; imageUrl: string } };
+      popularArticles?: Array<{
+        __typename?: "Node";
+        id: string;
+        name: string;
+        url?: string;
+        meta?: {
+          __typename?: "Meta";
+          metaDescription?: string;
+          metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+        };
       }>;
       buildsOn: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
       connectedTo: Array<{ __typename?: "SubjectLink"; name?: string; url?: string }>;
@@ -11099,6 +11107,20 @@ export type GQLTopicContainer_NodeFragment = {
   url?: string;
   defaultUrl?: string;
   children?: Array<{
+    __typename?: "Node";
+    id: string;
+    nodeType: string;
+    name: string;
+    url?: string;
+    relevanceId?: string;
+    meta?: {
+      __typename?: "Meta";
+      metaDescription?: string;
+      metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
+    };
+    context?: { __typename?: "TaxonomyContext"; contextId: string; breadcrumbs: Array<string> };
+  }>;
+  links?: Array<{
     __typename?: "Node";
     id: string;
     nodeType: string;
