@@ -87,6 +87,7 @@ const messages = {
     searchLabel: "Søk etter ressurser og emner i dette faget",
     moreHits: "Vis flere treff",
     multidisciplinaryCases: "Tverrfaglige tema",
+    popularArticles: "Mest leste læringsressurser",
     viewMoreVideos: "Se flere læringsressurser med videoer",
   },
   topicsPage: {
