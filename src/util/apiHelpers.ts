@@ -158,14 +158,14 @@ export const createApolloClient = (language = "nb", versionHash?: any) => {
 
 export const createApolloLinks = (lang: string, versionHash?: any) => {
   const cookieString = config.isClient ? document.cookie : "";
-  const accessToken = getFeideCookie(cookieString);
+  const idToken = getFeideCookie(cookieString);
   const versionHeader: Record<string, string> = versionHash ? { versionHash: versionHash } : {};
 
   const headers = {
     "Accept-Language": lang,
     ...versionHeader,
-    ...(config.isClient && accessToken && isActiveSession(getActiveSessionCookieClient())
-      ? { FeideAuthorization: `Bearer ${accessToken}` }
+    ...(config.isClient && idToken && isActiveSession(getActiveSessionCookieClient())
+      ? { FeideAuthorization: `Bearer ${idToken}` }
       : {}),
   };
 
