@@ -20,9 +20,6 @@ const getRequestMethod = (input: RequestInfo | URL, init?: RequestInit): string 
   return "GET";
 };
 
-/** Wrap the global `fetch` so server-side outgoing requests (Apollo to graphql-api, and any other
- * downstream call) carry the request's correlation id, letting it reach downstream logs.
- * Must be installed once, server-side, during bootstrap. */
 export const installCorrelationIdFetch = (): void => {
   const originalFetch = globalThis.fetch;
 
@@ -31,12 +28,11 @@ export const installCorrelationIdFetch = (): void => {
     try {
       if (!correlationID) return await originalFetch(input, init);
 
-      // Normalise to a Request so we can mutate headers regardless of how fetch was called.
-      const request = new Request(input, init);
-      if (!request.headers.has("x-correlation-id")) {
-        request.headers.set("x-correlation-id", correlationID);
+      const headers = new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined));
+      if (!headers.has("x-correlation-id")) {
+        headers.set("x-correlation-id", correlationID);
       }
-      return await originalFetch(request);
+      return await originalFetch(input, { ...init, headers });
     } catch (error) {
       // undici rejects network failures with a bare "fetch failed" TypeError that omits the target.
       // Annotate it so logs identify which downstream call failed; the underlying cause (ENOTFOUND,

@@ -8,7 +8,6 @@
 
 import { Server } from "http";
 import config from "../../config";
-import { sdk } from "../../instrumentation";
 import { log } from "../../util/logger/logger";
 import { getActiveRequests } from "../middleware/activeRequestsMiddleware";
 import { getIsShuttingDown, setIsShuttingDown } from "../routes/healthRouter";
@@ -40,7 +39,6 @@ export async function gracefulShutdown(server: Server) {
     log.info("Shutting down gracefully...");
     await waitForActiveRequests();
     if (server) server.close();
-    await sdk?.shutdown().catch(() => {});
     process.exit(0);
   }, gracePeriod * 1000);
 }

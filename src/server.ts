@@ -6,8 +6,6 @@
  *
  */
 
-// NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
-import "./instrumentation";
 import path from "node:path";
 import { getCookie } from "@ndla/util";
 import express, { NextFunction, Request, Response } from "express";
