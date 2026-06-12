@@ -564,6 +564,7 @@ const messages = {
       privacyLink: "https://ndla.no/article/personvernerklaering",
       questions: { question: "Lurer du på noe?", ask: "Spør NDLA" },
       wishToDelete: "Vil du ikke ha brukerprofil hos oss lenger?",
+      downloadUserData: "Last ned alt innholdet i dine mapper og dine læringsstier.",
       recentFavourites: {
         title: "Nylig lagt til i mine mapper",
         link: "Se alle mappene dine",
