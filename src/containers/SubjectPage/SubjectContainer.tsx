@@ -40,7 +40,6 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
-import { useListItemTraits } from "../../util/listItemTraits";
 import { toSearchParams } from "../../util/searchHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { SubjectSearch } from "./SubjectSearch";
@@ -52,7 +51,7 @@ interface Props {
 }
 
 type PopularArticle = NonNullable<
-  NonNullable<GQLSubjectContainer_NodeFragment["subjectpage"]>["popularArticles"][number]
+  NonNullable<NonNullable<GQLSubjectContainer_NodeFragment["subjectpage"]>["popularArticles"]>[number]
 >;
 
 const HeadingWrapper = styled("div", {
@@ -163,31 +162,6 @@ const LINKS_HEADING_ID = "links";
 const VIDEO_HEADING_ID = "videos";
 const POPULAR_ARTICLES_HEADING_ID = "popular-articles";
 
-interface PopularArticleCardProps {
-  article: PopularArticle;
-}
-
-const PopularArticleCard = ({ article }: PopularArticleCardProps) => {
-  const traits = useListItemTraits({ traits: article.traits });
-
-  return (
-    <TransportationCard
-      metaImage={
-        article.metaImage
-          ? {
-              url: article.metaImage.image.imageUrl,
-              alt: "",
-            }
-          : undefined
-      }
-      flavorText={traits.join(", ")}
-      name={article.title}
-      url={`/article/${article.id}`}
-      context="link"
-    />
-  );
-};
-
 const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): string | undefined => {
   if (!subjectType || subjectType === subjectTypes.SUBJECT) {
     return undefined;
@@ -206,8 +180,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const about = node.subjectpage?.about;
-  const popularArticles =
-    node.subjectpage?.popularArticles.filter((article): article is PopularArticle => !!article) ?? [];
+  const popularArticles: PopularArticle[] = node.subjectpage?.popularArticles ?? [];
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
@@ -349,9 +322,18 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                 <h2>{t("subjectsPage.popularArticles")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="case">
-                {popularArticles.map((article) => (
-                  <PopularArticleCard key={article.id} article={article} />
-                ))}
+                {popularArticles
+                  .filter((article) => !!article.url)
+                  .map((article) => (
+                    <TransportationCard
+                      key={article.id}
+                      name={article.name}
+                      url={article.url!}
+                      metaImage={article.meta?.metaImage ?? undefined}
+                      metaDescription={article.meta?.metaDescription}
+                      context="link"
+                    />
+                  ))}
               </TransportationPageNodeListGrid>
             </StyledCardNav>
           )}
@@ -429,11 +411,13 @@ SubjectContainer.fragments = {
         ...SubjectLinks_SubjectPage
         popularArticles {
           id
-          title
-          traits
-          metaImage {
-            image {
-              imageUrl
+          name
+          url
+          meta {
+            metaDescription
+            metaImage {
+              url
+              alt
             }
           }
         }
