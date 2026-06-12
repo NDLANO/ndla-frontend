@@ -20,7 +20,7 @@ import { CopyFolderModal } from "../../components/MyNdla/CopyFolderModal";
 import { Folder } from "../../components/MyNdla/Folder";
 import { ListResource } from "../../components/MyNdla/ListResource";
 import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
-import { PageSpinner } from "../../components/PageSpinner";
+import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { GQLFolder, GQLMyNdlaResource } from "../../graphqlTypes";
@@ -104,7 +104,7 @@ export const SharedFolderPage = () => {
       : resource.path;
 
   if (loading) {
-    return <PageSpinner />;
+    return <PageRainbowSpinner />;
   }
   if (isNotFoundError(error)) {
     return <NotFoundPage />;

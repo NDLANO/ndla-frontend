@@ -26,7 +26,7 @@ import {
   ListItemRoot,
   PopoverCloseTrigger,
   PopoverTitle,
-  Spinner,
+  RainbowSpinner,
   Text,
 } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -165,6 +165,12 @@ const StyledComboboxRoot = styled(ComboboxRoot<SearchResult>, {
   base: {
     width: "100%",
     gap: "xsmall",
+  },
+});
+
+const StyledRainbowSpinner = styled(RainbowSpinner, {
+  base: {
+    marginInline: "auto",
   },
 });
 
@@ -364,7 +370,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
         ) : null}
         <StyledComboboxContent>
           {loading ? (
-            <Spinner />
+            <StyledRainbowSpinner />
           ) : (
             searchHits.map((resource) => (
               <StyledComboboxItem key={resource.id} item={resource} asChild>

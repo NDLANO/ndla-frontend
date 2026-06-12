@@ -6,9 +6,8 @@
  *
  */
 
-import { Spinner, SpinnerProps } from "@ndla/primitives";
+import { RainbowSpinner } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
-import { type Ref } from "react";
 import { useTranslation } from "react-i18next";
 
 const SpinnerWrapper = styled("div", {
@@ -20,15 +19,11 @@ const SpinnerWrapper = styled("div", {
   },
 });
 
-interface Props extends SpinnerProps {
-  ref?: Ref<HTMLDivElement>;
-}
-
-export const PageSpinner = (rest: Props) => {
+export const PageRainbowSpinner = () => {
   const { t } = useTranslation();
   return (
     <SpinnerWrapper>
-      <Spinner {...rest} aria-label={t("loading")} />
+      <RainbowSpinner aria-label={t("loading")} />
     </SpinnerWrapper>
   );
 };

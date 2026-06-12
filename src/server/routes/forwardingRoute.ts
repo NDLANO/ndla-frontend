@@ -59,7 +59,7 @@ export const forwardPath = async (forwardNodeId: string, lang?: string) => {
 
   const languagePrefix = lang && lang !== "nb" ? `/${lang}` : ""; // send urls with nb to root/default lang
 
-  if (resource && isLearningPathResource(resource.contentUri)) {
+  if (resource?.contentUri && isLearningPathResource(resource.contentUri)) {
     return `${languagePrefix}/learningpaths/${getLearningPathIdFromResource(resource.contentUri)}`;
   } else {
     return `${languagePrefix}${resource!.url}`;

@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import { PageSpinner } from "../../components/PageSpinner";
+import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { GQLRevisionsQuery, GQLRevisionsQueryVariables } from "../../graphqlTypes";
@@ -119,7 +119,7 @@ export const RevisionsPage = () => {
   }, [query.data]);
 
   if (query.loading) {
-    return <PageSpinner />;
+    return <PageRainbowSpinner />;
   }
 
   if (isGoneError(query.error)) {

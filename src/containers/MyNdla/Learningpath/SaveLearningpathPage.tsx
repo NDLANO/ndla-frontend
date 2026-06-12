@@ -15,7 +15,7 @@ import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../../components/DefaultErrorMessage";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
-import { PageSpinner } from "../../../components/PageSpinner";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { useToast } from "../../../components/ToastContext";
 import { useUpdateLearningpathStatus } from "../../../mutations/learningpathMutations";
@@ -101,7 +101,7 @@ export const SaveLearningpathPage = () => {
   };
 
   if (learningpathQuery.loading) {
-    return <PageSpinner />;
+    return <PageRainbowSpinner />;
   }
 
   if (!learningpathQuery.data?.myNdlaLearningpath) {

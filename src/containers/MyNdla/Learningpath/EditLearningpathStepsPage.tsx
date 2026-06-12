@@ -6,11 +6,11 @@
  *
  */
 
-import { Spinner } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
+import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
 import { routes } from "../../../routeHelpers";
 import { NotFoundPage } from "../../NotFoundPage/NotFoundPage";
@@ -35,7 +35,7 @@ export const EditLearningpathStepsPage = () => {
   });
 
   if (loading) {
-    return <Spinner aria-label={t("loading")} />;
+    return <PageRainbowSpinner />;
   }
 
   if (!data?.myNdlaLearningpath) {

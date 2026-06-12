@@ -20,7 +20,7 @@ import { useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
-import { PageSpinner } from "../../components/PageSpinner";
+import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { COLLECTION_LANGUAGES, SKIP_TO_CONTENT_ID } from "../../constants";
@@ -81,7 +81,7 @@ export const CollectionPage = () => {
   });
 
   if (collectionQuery.loading) {
-    return <PageSpinner />;
+    return <PageRainbowSpinner />;
   }
 
   if (!isValidLanguage || !collectionId) {

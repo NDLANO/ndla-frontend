@@ -28,7 +28,6 @@ import {
   RadioGroupItemHiddenInput,
   RadioGroupItemText,
   RadioGroupRoot,
-  Spinner,
   Text,
 } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -36,6 +35,7 @@ import { HomeBreadcrumb, usePaginationTranslations } from "@ndla/ui";
 import { SubmitEvent, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSelectorSelect } from "../../components/LanguageSelector/LanguageSelectorSelect";
+import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
 import {
   GQLSearchPageQueryVariables,
@@ -422,7 +422,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
                 {resultsTranslation}
               </Text>
             )}
-            {!!searchQuery.loading && <Spinner aria-label={t("loading")} />}
+            {!!searchQuery.loading && <PageRainbowSpinner />}
           </FormWrapper>
           <SortWrapper>
             <Text textStyle="label.medium" fontWeight="bold">

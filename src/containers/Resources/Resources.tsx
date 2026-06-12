@@ -8,10 +8,11 @@
 
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { Heading, Spinner } from "@ndla/primitives";
+import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { ReactNode, useId } from "react";
 import { useTranslation } from "react-i18next";
+import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { TransportationNode } from "../../components/TransportationPage/TransportationPageNode";
 import { TransportationPageNodeListGrid } from "../../components/TransportationPage/TransportationPageNodeListGrid";
 import { GQLLaunchpadQuery, GQLLaunchpadQueryVariables } from "../../graphqlTypes";
@@ -54,7 +55,7 @@ export const Resources = ({ parentId, rootId }: Props) => {
   const { coreArticles, supplementaryArticles, learningpaths } = partitionResources(node?.children ?? []);
 
   if (loading) {
-    return <Spinner />;
+    return <PageRainbowSpinner />;
   }
 
   if (error || !node?.children?.length) {

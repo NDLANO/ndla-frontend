@@ -25,7 +25,7 @@ import {
   Input,
   InputContainer,
   ListItemRoot,
-  Spinner,
+  RainbowSpinner,
   Text,
 } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
@@ -73,6 +73,12 @@ const queryDef = gql`
 interface Props {
   subjectId: string;
 }
+
+const StyledRainbowSpinner = styled(RainbowSpinner, {
+  base: {
+    marginInline: "auto",
+  },
+});
 
 type TransformType = NonNullable<GQLSubjectSearchQuery["search"]>["results"][number];
 
@@ -200,7 +206,7 @@ export const SubjectSearch = ({ subjectId }: Props) => {
           {!!delayedQuery.length && (
             <StyledComboboxContent ref={contentRef} tabIndex={-1}>
               {query.loading ? (
-                <Spinner />
+                <StyledRainbowSpinner />
               ) : !items.length ? (
                 <Text>{`${t("searchPage.noHitsShort", { query: "" })} ${delayedQuery}`}</Text>
               ) : (
