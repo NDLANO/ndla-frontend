@@ -21,45 +21,49 @@ type SentryIgnore = {
 };
 
 const sentryIgnoreErrors: SentryIgnore[] = [
-  // Network problems
-  { error: "[Network error]: Failed to fetch", exact: true },
-  { error: "Failed to fetch", exact: true },
   // https://github.com/getsentry/sentry/issues/61469
   { error: 'Object.prototype.hasOwnProperty.call(o,"telephone")' },
   { error: 'Object.prototype.hasOwnProperty.call(e,"telephone")' },
   // https://github.com/matomo-org/matomo/issues/22836
   { error: "'get' on proxy: property 'javaEnabled' is a read-only and non-configurable data property" },
-  // Based on Sentry issues. ChromeOS specific errors.
-  { error: "Request timeout isMathOcrAvailable" },
-  { error: "Request timeout getDictionariesByLanguageId" },
-  { error: "Request timeout getSupportScreenShot" },
-  { error: "Request timeout isDictateAvailable" },
-  { error: "Request timeout isPredictionAvailable" },
-  { error: "Request timeout dictionariesDistributor.getValue" },
-  { error: "Request timeout speechVoicesDistributor.getValue" },
-  { error: "Request timeout userDistributor.getValue" },
-  { error: "Request timeout predictionDistributor.getValue" },
-  { error: "Request timeout dictateStateDistributor.getValue" },
-  { error: "Request timeout nn-NO_wordsDistributor.getValue" },
-  { error: "Request timeout availableTextCheckLanguagesDistributor.getValue" },
-  { error: "Request timeout es_wordsDistributor.getValue" },
-  { error: "Request timeout lettersVoicesDistributor.getValue" },
-  { error: "Request timeout topicsDistributor.getValue" },
-  { error: "Request timeout availableLanguagesDistributor.getValue" },
-  { error: "Request timeout ac_wordsDistributor.getValue" },
-  { error: "Request timeout nb-NO_wordsDistributor.getValue" },
-  { error: "Request timeout ua_wordsDistributor.getValue" },
-  { error: "Request timeout en_wordsDistributor.getValue" },
-  { error: "Request timeout appSettingsDistributor.getValue" },
-  { error: "Request timeout DefineExpirationForLanguagePacks.getValue" },
-  { error: "Request timeout textCheckersDistributor.getValue" },
-  { error: "Request timeout de_wordsDistributor.getValue" },
-  { error: "Request timeout fr_wordsDistributor.getValue" },
-  { error: "Request timeout ru_wordsDistributor.getValue" },
-  { error: "Request timeout ToolbarStatus" },
-  { error: "Request timeout getSelectedText" },
   { error: "Object Not Found Matching Id" },
 ];
+
+// Network failures phrased differently per browser. Sentry's fetch instrumentation appends a
+// " (host)" suffix and Apollo prefixes "[Network error]: ", so strip those before matching. We
+// compare against the EXACT stem (not `includes`) so chunk-load errors such as
+// "Failed to fetch dynamically imported module: ..." are left for skewDetection to handle.
+const networkErrorStems = [
+  "Failed to fetch", // Chromium
+  "Load failed", // Safari
+  "NetworkError when attempting to fetch resource.", // Firefox
+];
+
+const isNetworkError = (message: string): boolean => {
+  const stripped = message
+    .replace(/^\[Network error\]:\s*/, "")
+    .replace(/\s*\([^)]*\)\s*$/, "")
+    .trim();
+  return networkErrorStems.includes(stripped);
+};
+
+// ChromeOS accessibility tooling emits a steady stream of "Request timeout <thing>" errors. Match the
+// whole class by prefix instead of enumerating every variant (and `includes` so it also matches the
+// "Non-Error promise rejection captured with value: " wrapper Sentry adds for non-Error rejections).
+const isRequestTimeout = (message: string): boolean => message.includes("Request timeout ");
+
+// Non-Error rejections (e.g. a CustomEvent) hide the real cause under `.reason`/`.detail.reason`, so the
+// top-level event message is opaque. Dig it out so the network/timeout filters can still match.
+const extractRejectionMessage = (originalException: unknown): string | undefined => {
+  if (originalException == null || typeof originalException !== "object") return undefined;
+  const obj = originalException as { reason?: unknown; detail?: { reason?: unknown } };
+  const reason = obj.reason ?? obj.detail?.reason;
+  if (typeof reason === "string") return reason;
+  if (reason && typeof reason === "object" && typeof (reason as { message?: unknown }).message === "string") {
+    return (reason as { message: string }).message;
+  }
+  return undefined;
+};
 
 export const beforeSend = (event: ErrorEvent, hint: EventHint) => {
   const exception = hint.originalException;
@@ -68,6 +72,15 @@ export const beforeSend = (event: ErrorEvent, hint: EventHint) => {
 
   const message =
     event.message || event?.exception?.values?.[0]?.value || (hint?.originalException as Error | undefined)?.message;
+
+  // Drop unactionable network/timeout noise. Check both the primary message and any unwrapped
+  // rejection reason so non-Error rejections (whose `message` is opaque) are still caught.
+  const rejectionMessage = extractRejectionMessage(hint?.originalException);
+  const candidateMessages = [message, rejectionMessage].filter((m): m is string => typeof m === "string");
+  if (candidateMessages.some((m) => isNetworkError(m) || isRequestTimeout(m))) {
+    return null;
+  }
+
   if (typeof message !== "string") return event;
 
   // Extension error filtering

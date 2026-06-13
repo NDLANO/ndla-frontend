@@ -120,7 +120,9 @@ export const defaultRender: RenderFunc = async (req, chunkInfo) => {
   const apolloState = client.extract();
 
   return {
-    status: redirectContext.status ?? OK,
+    // Honour a deliberately-set status (e.g. NotFoundPage via redirectContext), otherwise
+    // propagate React Router's own error status so an unmatched route is a 404, not a 200/500.
+    status: redirectContext.status ?? (context.statusCode >= 400 ? context.statusCode : OK),
     locale,
     data: {
       htmlContent: result.result,

@@ -9,6 +9,7 @@
 import { CombinedGraphQLErrors, ErrorLike } from "@apollo/client";
 import { captureException, setContext } from "@sentry/react";
 import { GraphQLFormattedError } from "graphql";
+import { isRouteErrorResponse } from "react-router";
 import config from "../config";
 import { LogLevel } from "../interfaces";
 import { GONE, NOT_FOUND } from "../statusCodes";
@@ -90,12 +91,44 @@ const getMessage = (error: Error | unknown): string => {
     return `AggregateError with errors: [${aggregateMessages}]`;
   }
   if (typeof error === "string" && error) return error;
+
+  // React Router surfaces routing failures (e.g. "No route matches URL") as ErrorResponse
+  // objects where the human-readable text lives in `data`, not `message`.
+  if (isRouteErrorResponse(error)) {
+    const { data } = error;
+    if (typeof data === "string" && data) return data;
+    if (data instanceof Error && data.message) return data.message;
+    if (data && typeof data === "object" && typeof (data as { message?: unknown }).message === "string") {
+      return (data as { message: string }).message;
+    }
+    return error.statusText || `${error.status}`;
+  }
+
+  // Fall back to whatever text a non-Error object carries before giving up, so a log is never opaque.
+  if (error && typeof error === "object") {
+    const obj = error as Record<string, unknown>;
+    if (typeof obj.message === "string" && obj.message) return obj.message;
+    const nested = obj.error;
+    if (nested && typeof nested === "object" && typeof (nested as { message?: unknown }).message === "string") {
+      return (nested as { message: string }).message;
+    }
+    if (typeof obj.data === "string" && obj.data) return obj.data;
+    if (typeof obj.statusText === "string" && obj.statusText) return obj.statusText;
+    try {
+      const snapshot = JSON.stringify(error);
+      if (snapshot && snapshot !== "{}") return snapshot.slice(0, 1000);
+    } catch {
+      // Circular reference — fall through to the generic message.
+    }
+  }
+
   return "Got error without message";
 };
 
 const getStatus = (extraContext: object | undefined, error: Error | unknown): number | undefined => {
   if (extraContext && "statusCode" in extraContext && typeof extraContext.statusCode === "number")
     return extraContext.statusCode;
+  if (isRouteErrorResponse(error)) return error.status;
   if (error instanceof StatusError) return error.status;
   if (error instanceof Error && "status" in error && typeof error.status === "number") {
     return error.status;
@@ -124,6 +157,16 @@ export const getErrorLog = (error: ErrorLike | unknown, extraContext: object | u
       message: getMessage(error),
       stack: error.stack,
       name: error.name,
+    };
+  }
+
+  if (isRouteErrorResponse(error)) {
+    return {
+      ...ctx,
+      message: getMessage(error),
+      status: error.status,
+      statusText: error.statusText,
+      data: typeof error.data === "string" ? error.data : serializeCause(error.data),
     };
   }
 

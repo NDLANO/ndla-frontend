@@ -102,6 +102,7 @@ const renderRoute = async (req: Request, res: Response, renderer: string, chunkI
       render = (await vite!.ssrLoadModule(`./src/server/server.render.ts`)).default;
     } catch (e) {
       vite?.ssrFixStacktrace(e as Error);
+      handleError(ensureError(e), { statusCode: INTERNAL_SERVER_ERROR });
       return {
         status: INTERNAL_SERVER_ERROR,
         data: "Failed to parse server-side render function. You probably have some syntax errors somewhere.",
