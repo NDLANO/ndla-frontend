@@ -2728,13 +2728,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ndla/preset-panda@npm:^0.0.78":
-  version: 0.0.78
-  resolution: "@ndla/preset-panda@npm:0.0.78"
+"@ndla/preset-panda@npm:^0.0.76":
+  version: 0.0.76
+  resolution: "@ndla/preset-panda@npm:0.0.76"
   dependencies:
     "@ndla/core": "npm:^6.0.7-alpha.0"
     "@pandacss/dev": "npm:^1.10.0"
-  checksum: 10c0/99b65553fd1f1e42a2583014decd2125545d95f950cff613a4466f6f432449affcdf0eb6883d36572a43f9fd9c743f457913e81d8a9a0a708ca004f4186fa7ec
+  checksum: 10c0/6d1c1ad1397bdc9d0ea2aafa13e4dda5fd2a031f44761bd3d35ce45fa598946377c7eaf78d1014e9b419611c91f5027159d0430221695616247b9a39ee6d4e89
   languageName: node
   linkType: hard
 
@@ -9845,7 +9845,7 @@ __metadata:
     "@ndla/icons": "npm:^8.0.91-alpha.0"
     "@ndla/image-search": "npm:^11.0.159-alpha.0"
     "@ndla/licenses": "npm:^10.0.12-alpha.0"
-    "@ndla/preset-panda": "npm:^0.0.78"
+    "@ndla/preset-panda": "npm:^0.0.76"
     "@ndla/primitives": "npm:^1.0.132-alpha.0"
     "@ndla/safelink": "npm:^7.0.135-alpha.0"
     "@ndla/styled-system": "npm:^0.0.51"
