@@ -566,6 +566,7 @@ const messages = {
       privacyLink: "https://ndla.no/article/personvernerklaering",
       questions: { question: "Any questions?", ask: "Ask NDLA" },
       wishToDelete: "Do you wish to delete your account?",
+      downloadUserData: "Download all content in your folders and your learning paths.",
       feide: "We have retrieved this information from Feide",
       feideWrongInfo:
         "If the information is incorrect, it has to be updated by the host organizationg or the school that the account is associated with. An overview of user support can be found here: feide.no/brukerstotte",
