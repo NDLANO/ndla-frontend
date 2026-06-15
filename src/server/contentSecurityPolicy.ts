@@ -206,6 +206,7 @@ const frameSrc = (() => {
     "www.norskpetroleum.no",
     "pub.dialogapi.no",
     "*.kaltura.com",
+    "www.google.com",
   ];
   if (config.runtimeType === "development") {
     return [
