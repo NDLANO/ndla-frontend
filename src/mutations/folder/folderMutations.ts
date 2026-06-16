@@ -140,8 +140,8 @@ export const useDeleteFolderMutation = () => {
         fields: {
           folders(existingFolders, { readField }) {
             return {
-              folders: existingFolders.folders.filter((r: any) => readField("id", r) !== data?.deleteFolder),
-              sharedFolders: existingFolders.sharedFolders.filter(
+              folders: existingFolders.folders?.filter((r: any) => readField("id", r) !== data?.deleteFolder),
+              sharedFolders: existingFolders.sharedFolders?.filter(
                 (r: any) => readField("id", r) !== data?.deleteFolder,
               ),
             };
