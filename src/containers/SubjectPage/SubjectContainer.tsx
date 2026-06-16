@@ -50,10 +50,6 @@ interface Props {
   subjectType?: string;
 }
 
-type PopularArticle = NonNullable<
-  NonNullable<NonNullable<GQLSubjectContainer_NodeFragment["subjectpage"]>["popularArticles"]>[number]
->;
-
 const HeadingWrapper = styled("div", {
   base: {
     display: "flex",
@@ -180,7 +176,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const about = node.subjectpage?.about;
-  const popularArticles: PopularArticle[] = node.subjectpage?.popularArticles ?? [];
+  const popularArticles = node.subjectpage?.popularArticles ?? [];
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
