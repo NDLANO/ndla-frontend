@@ -81,9 +81,11 @@ test.describe("skew detection", () => {
   });
 
   test("reloads on a chunk load error", async ({ page, waitGraphql }) => {
+    const programmeLink = page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" });
+    await expect(programmeLink).toBeVisible();
     await page.route("**/*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}", (route) => route.fulfill({ status: 404 }));
     const reloadPromise = page.waitForRequest((req) => req.resourceType() === "document" && req.url() === page.url());
-    await page.getByTestId("programme-list").getByRole("link", { name: "Medier og kommunikasjon" }).click();
+    await programmeLink.click();
     await reloadPromise;
     await page.unroute("**/*.{js,jsx,ts,tsx,cjs,mjs,cts,mts}");
 
