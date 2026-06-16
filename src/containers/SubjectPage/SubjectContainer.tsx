@@ -317,7 +317,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
               <Heading textStyle="heading.small" asChild consumeCss id={POPULAR_ARTICLES_HEADING_ID}>
                 <h2>{t("subjectsPage.popularArticles")}</h2>
               </Heading>
-              <TransportationPageNodeListGrid context="case">
+              <TransportationPageNodeListGrid context="node">
                 {popularArticles
                   .filter((article) => !!article.url)
                   .map((article) => (
