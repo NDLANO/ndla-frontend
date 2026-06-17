@@ -40,6 +40,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
+import { getListItemTraits } from "../../util/listItemTraits";
 import { toSearchParams } from "../../util/searchHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { SubjectSearch } from "./SubjectSearch";
@@ -320,16 +321,28 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
               <TransportationPageNodeListGrid context="case">
                 {popularArticles
                   .filter((article) => !!article.url)
-                  .map((article) => (
-                    <TransportationCard
-                      key={article.id}
-                      name={article.name}
-                      url={article.url!}
-                      metaImage={article.meta?.metaImage ?? undefined}
-                      metaDescription={article.meta?.metaDescription}
-                      context="link"
-                    />
-                  ))}
+                  .map((article) => {
+                    const traits = getListItemTraits(
+                      {
+                        traits: article.meta?.traits,
+                        resourceType: article.url?.startsWith("/e/") ? "topic" : undefined,
+                        relevanceId: article.relevanceId,
+                        resourceTypes: article.resourceTypes,
+                      },
+                      t,
+                    );
+                    return (
+                      <TransportationCard
+                        key={article.id}
+                        name={article.name}
+                        url={article.url!}
+                        flavorText={traits.join(", ")}
+                        metaImage={article.meta?.metaImage ?? undefined}
+                        metaDescription={article.meta?.metaDescription}
+                        context="link"
+                      />
+                    );
+                  })}
               </TransportationPageNodeListGrid>
             </StyledCardNav>
           )}
@@ -409,7 +422,13 @@ SubjectContainer.fragments = {
           id
           name
           url
+          relevanceId
+          resourceTypes {
+            id
+            name
+          }
           meta {
+            traits
             metaDescription
             metaImage {
               url

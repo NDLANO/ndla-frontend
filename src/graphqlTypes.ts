@@ -10610,8 +10610,11 @@ export type GQLSubjectContainer_NodeFragment = {
       id: string;
       name: string;
       url?: string;
+      relevanceId?: string;
+      resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
       meta?: {
         __typename?: "Meta";
+        traits?: Array<string>;
         metaDescription?: string;
         metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
       };
@@ -10765,8 +10768,11 @@ export type GQLSubjectPageQuery = {
         id: string;
         name: string;
         url?: string;
+        relevanceId?: string;
+        resourceTypes?: Array<{ __typename?: "ResourceType"; id: string; name: string }>;
         meta?: {
           __typename?: "Meta";
+          traits?: Array<string>;
           metaDescription?: string;
           metaImage?: { __typename?: "MetaImage"; url: string; alt: string };
         };
