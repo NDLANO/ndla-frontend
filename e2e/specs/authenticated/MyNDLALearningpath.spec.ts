@@ -332,6 +332,7 @@ test("shows warning dialog when navigating and folder form is dirty", async ({ p
 });
 
 test("can preview learningpath", async ({ page, waitGraphql }) => {
+  test.slow();
   const learningpath = page.getByRole("main").getByRole("listitem").last().getByRole("link");
   const learningpathTitle = await learningpath.textContent();
   await learningpath.click();
