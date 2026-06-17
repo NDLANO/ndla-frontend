@@ -116,10 +116,14 @@ const ERROR_DETAIL_KEYS = [
   "requestMethod",
 ] as const;
 
-const pickErrorDetails = (error: object): Record<string, unknown> => {
-  const details: Record<string, unknown> = {};
+type ErrorDetailKey = (typeof ERROR_DETAIL_KEYS)[number];
+type ErrorDetails = Partial<Record<ErrorDetailKey, unknown>>;
+type ErrorWithMaybeDetails = Error & ErrorDetails;
+
+const pickErrorDetails = (error: ErrorWithMaybeDetails): Record<string, unknown> => {
+  const details: ErrorDetails = {};
   for (const key of ERROR_DETAIL_KEYS) {
-    const value = (error as Record<string, unknown>)[key];
+    const value = error[key];
     if (value !== undefined) details[key] = value;
   }
   return details;
