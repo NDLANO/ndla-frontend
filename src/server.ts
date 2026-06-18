@@ -6,6 +6,8 @@
  *
  */
 
+// NOTE: Must be first so OpenTelemetry can instrument `http` and `fetch` before they are loaded/used.
+import "./instrumentation";
 import path from "node:path";
 import { getCookie } from "@ndla/util";
 import express, { NextFunction, Request, Response } from "express";
@@ -19,12 +21,14 @@ import { getLocaleInfoFromPath } from "./i18n";
 import { privateRoutes, routes } from "./routes";
 import api from "./server/api";
 import { contentSecurityPolicy } from "./server/contentSecurityPolicy";
+import { installCorrelationIdFetch } from "./server/correlationFetch";
 import { getRouteChunkInfo } from "./server/getManifestChunks";
 import { gracefulShutdown } from "./server/helpers/gracefulShutdown";
 import { isRestrictedMode } from "./server/helpers/restrictedMode";
 import { activeRequestsMiddleware } from "./server/middleware/activeRequestsMiddleware";
 import { loggerContextMiddleware, getLoggerContextStore } from "./server/middleware/loggerContextMiddleware";
 import { metricsMiddleware } from "./server/middleware/metricsMiddleware";
+import { spanNamingMiddleware } from "./server/middleware/spanNamingMiddleware";
 import { healthRouter } from "./server/routes/healthRouter";
 import { RootRenderFunc, RouteChunkInfoWithManifest, sendResponse } from "./server/serverHelpers";
 import { INTERNAL_SERVER_ERROR } from "./statusCodes";
@@ -36,6 +40,7 @@ const base = "/";
 const isProduction = config.runtimeType === "production";
 
 global.fetch = fetch;
+installCorrelationIdFetch();
 const app = express();
 const allowedBodyContentTypes = ["application/json", "application/x-www-form-urlencoded"];
 
@@ -59,6 +64,7 @@ if (!isProduction) {
 app.use(metricsMiddleware);
 app.use(activeRequestsMiddleware);
 app.use(loggerContextMiddleware);
+app.use(spanNamingMiddleware);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(

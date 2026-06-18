@@ -35,7 +35,14 @@ import { StatusError } from "./error/StatusError";
 import { handleError } from "./handleError";
 
 const apiBaseUrl = config.runtimeType === "test" ? "http://ndla-api" : config.ndlaApiUrl;
-const uri = config.localGraphQLApi ? "http://localhost:4000/graphql-api/graphql" : `${apiBaseUrl}/graphql-api/graphql`;
+
+const getGraphqlUri = (): string => {
+  if (config.localGraphQLApi) return "http://localhost:4000/graphql-api/graphql";
+  if (!config.isClient && config.graphqlApiHost) return `http://${config.graphqlApiHost}/graphql-api/graphql`;
+  return `${apiBaseUrl}/graphql-api/graphql`;
+};
+
+const uri = getGraphqlUri();
 
 export function apiResourceUrl(path: string) {
   return apiBaseUrl + path;
