@@ -7,7 +7,6 @@
  */
 
 import config from "../config";
-import { GQLArticleRequiredLibrary, GQLTransformedArticleContent } from "../graphqlTypes";
 
 export interface Scripts {
   key?: string;
@@ -17,18 +16,18 @@ export interface Scripts {
   defer?: boolean;
 }
 
-interface BaseArticle {
-  requiredLibraries?: GQLArticleRequiredLibrary[];
-  transformedContent: Pick<GQLTransformedArticleContent, "content">;
+interface Library {
+  url: string;
+  mediaType: string;
 }
 
-export function getArticleScripts(article: BaseArticle, locale = "nb") {
+export function getArticleScripts(requiredLibraries: Library[], transformedContent: string | null, locale = "nb") {
   const scripts: Array<Scripts> =
-    article.requiredLibraries?.map((lib) => ({
+    requiredLibraries?.map((lib) => ({
       src: lib.url,
       type: lib.mediaType,
     })) || [];
-  if (article && article.transformedContent?.content.indexOf("<math") > -1 && config.isClient) {
+  if (transformedContent && transformedContent.indexOf("<math") > -1 && config.isClient) {
     if (!window.MathJax) {
       window.MathJax = {
         loader: { load: ["[mml]/mml3"] },
@@ -61,7 +60,7 @@ export function getArticleScripts(article: BaseArticle, locale = "nb") {
     });
   }
 
-  if (article && article.transformedContent?.content.indexOf('data-resource="h5p"') > -1) {
+  if (transformedContent && transformedContent.indexOf('data-resource="h5p"') > -1) {
     scripts.push({
       src: "/static/h5p-resizer.js",
       type: "text/javascript",

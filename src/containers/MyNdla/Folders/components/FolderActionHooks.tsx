@@ -15,7 +15,7 @@ import { DeleteModalContent } from "../../../../components/MyNdla/DeleteModalCon
 import { FolderFormValues } from "../../../../components/MyNdla/FolderForm";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLFolder } from "../../../../graphqlTypes";
+import { GQLFolderFragment } from "../../../../graphqlTypes";
 import {
   useAddFolderMutation,
   useCopySharedFolderMutation,
@@ -32,7 +32,7 @@ import { FolderShareModalContent } from "./FolderShareModalContent";
 import { MoveFolderDialogContent } from "./MoveFolderDialogContent";
 
 export const useFolderActions = (
-  selectedFolder: GQLFolder | null,
+  selectedFolder: GQLFolderFragment | null,
   ref: RefObject<HTMLLIElement | null> | undefined,
   inToolbar?: boolean,
   fallbackFocusId?: string,
@@ -66,7 +66,7 @@ export const useFolderActions = (
           parentId: inToolbar ? folderId : (selectedFolder?.parentId ?? undefined),
         },
       });
-      const folder = res.data?.addFolder as GQLFolder | undefined;
+      const folder = res.data?.addFolder;
       navigate(routes.myNdla.folders(folder?.id));
 
       if (folder) {

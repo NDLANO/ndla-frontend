@@ -80,7 +80,7 @@ export const PlainArticleContainer = ({ article: propArticle, revision, skipToCo
         path: `${config.ndlaFrontendDomain}/article/${propArticle.id}`,
         articleLanguage: propArticle.language,
       }),
-      getArticleScripts(propArticle, i18n.language),
+      getArticleScripts(propArticle.requiredLibraries, propArticle.transformedContent.content, i18n.language),
     ];
   }, [propArticle, i18n.language]);
 
@@ -132,6 +132,10 @@ export const plainArticleContainerFragments = {
     fragment PlainArticleContainer_Article on Article {
       created
       tags
+      requiredLibraries {
+        url
+        mediaType
+      }
       ...Article_Article
       ...StructuredArticleData
     }

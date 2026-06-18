@@ -15,11 +15,11 @@ import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import { GQLFolder, GQLRootFoldersPageQuery, GQLRootFoldersPageQueryVariables } from "../../../graphqlTypes";
+import { GQLFolderFragment, GQLRootFoldersPageQuery, GQLRootFoldersPageQueryVariables } from "../../../graphqlTypes";
 import {
-  foldersPageQueryFragment,
+  folderFragment,
   myNdlaResourceFragment,
-  sharedFoldersPageQueryFragment,
+  sharedFolderFragment,
 } from "../../../mutations/folder/folderFragments";
 import { MyNdlaPageSection } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
@@ -33,18 +33,18 @@ const rootFoldersPageQuery = gql`
   query rootFoldersPage {
     folders(includeSubfolders: true, includeResources: true) {
       folders {
-        ...FoldersPageQueryFragment
+        ...Folder
       }
       sharedFolders {
-        ...SharedFoldersPageQueryFragment
+        ...SharedFolder
       }
     }
     myNdlaRootResources {
-      ...MyNdlaResourceFragment
+      ...MyNdlaResource
     }
   }
-  ${foldersPageQueryFragment}
-  ${sharedFoldersPageQueryFragment}
+  ${folderFragment}
+  ${sharedFolderFragment}
   ${myNdlaResourceFragment}
 `;
 
@@ -69,7 +69,10 @@ const RootFoldersPage = () => {
           <h2>{t("myNdla.folder.folders")}</h2>
         </Heading>
         {!examLock && <PageActions actions={menuItems} />}
-        <FolderList labelledBy={FOLDERS_HEADING_ID} folders={(pageQuery.data?.folders.folders ?? []) as GQLFolder[]} />
+        <FolderList
+          labelledBy={FOLDERS_HEADING_ID}
+          folders={(pageQuery.data?.folders.folders ?? []) as GQLFolderFragment[]}
+        />
       </MyNdlaPageSection>
       <MyNdlaPageSection>
         <MyNdlaPageSection>
@@ -89,7 +92,7 @@ const RootFoldersPage = () => {
         </Heading>
         <FolderList
           labelledBy={SHARED_FOLDERS_HEADING_ID}
-          folders={(pageQuery.data?.folders.sharedFolders ?? []) as unknown as GQLFolder[]}
+          folders={(pageQuery.data?.folders.sharedFolders ?? []) as unknown as GQLFolderFragment[]}
           isFavorited
         />
       </MyNdlaPageSection>

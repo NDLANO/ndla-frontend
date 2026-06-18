@@ -36,7 +36,7 @@ const StyledMessageBox = styled(MessageBox, {
 });
 
 interface Props {
-  stringToCopy: string | undefined;
+  stringToCopy: string | null | undefined;
   license: string | undefined;
 }
 

@@ -33,7 +33,7 @@ import { getListItemTraits, useListItemTraits } from "../../util/listItemTraits"
 interface Props {
   numbered: boolean;
   context: "desktop" | "mobile";
-  topic: GQLArticleLaunchpad_NodeFragment | undefined;
+  topic: GQLArticleLaunchpad_NodeFragment | undefined | null;
   learningpaths: GQLArticleLaunchpad_ResourceFragment[];
   supplementaryArticles: GQLArticleLaunchpad_ResourceFragment[];
   coreArticles: GQLArticleLaunchpad_ResourceFragment[];
@@ -269,7 +269,7 @@ const ArticleStepperListItem = ({
         <StepperItemContent>
           <StepperSafeLink
             to={article.url || ""}
-            lang={article.language}
+            lang={article.language ?? undefined}
             css={linkOverlay.raw()}
             aria-current={current ? "page" : undefined}
           >

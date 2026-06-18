@@ -30,7 +30,7 @@ import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
 import { siteThemeToHeroVariant } from "../../util/siteTheme";
-import { transformArticle } from "../../util/transformArticle";
+import { baseArticleFragment, transformArticle } from "../../util/transformArticle";
 
 const HeadingWrapper = styled("div", {
   base: {
@@ -196,6 +196,10 @@ const frontpageQuery = gql`
         published
         language
         htmlTitle
+        requiredLibraries {
+          url
+          mediaType
+        }
         transformedContent(transformArgs: $transformArgs) {
           content
           metaData {
@@ -203,10 +207,12 @@ const frontpageQuery = gql`
           }
         }
         ...StructuredArticleData
+        ...BaseArticle
       }
     }
   }
   ${structuredArticleDataFragment}
+  ${baseArticleFragment}
 `;
 
 export const WelcomePage = () => {
@@ -241,7 +247,7 @@ export const WelcomePage = () => {
           processed: _article.copyright.processed ?? false,
         },
       },
-      getArticleScripts(_article, i18n.language),
+      getArticleScripts(_article.requiredLibraries, _article.transformedContent.content, i18n.language),
     ];
   }, [fpQuery.data?.frontpage?.article, i18n.language])!;
 

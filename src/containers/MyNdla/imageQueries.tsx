@@ -10,15 +10,16 @@ import { gql } from "@apollo/client";
 import { useLazyQuery } from "@apollo/client/react";
 import {
   GQLImageSearchQuery,
-  GQLQueryImageSearchArgs,
   GQLFetchImageQuery,
   GQLFetchImageQueryVariables,
+  GQLImageSearchQueryVariables,
 } from "../../graphqlTypes";
 
 const imageFragment = gql`
   fragment Image on ImageMetaInformationV3 {
     id
     metaUrl
+    inactive
     title {
       title
       language
@@ -108,7 +109,7 @@ const fetchImageQuery = gql`
 `;
 
 export const useImageSearch = (options?: useLazyQuery.Options<GQLImageSearchQuery>) =>
-  useLazyQuery<GQLImageSearchQuery, GQLQueryImageSearchArgs>(imagesSearchQuery, {
+  useLazyQuery<GQLImageSearchQuery, GQLImageSearchQueryVariables>(imagesSearchQuery, {
     ...options,
   });
 

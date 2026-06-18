@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { transform } from "@ndla/article-converter";
 import { AccessibilityFill } from "@ndla/icons";
 import {
@@ -19,19 +20,19 @@ import {
 } from "@ndla/primitives";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLTransformedArticleContent } from "../graphqlTypes";
+import { GQLDisclaimer_ArticleFragment } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {
-  disclaimer: GQLTransformedArticleContent;
+  article: GQLDisclaimer_ArticleFragment;
 }
 
-export const Disclaimer = ({ disclaimer }: Props) => {
+export const Disclaimer = ({ article }: Props) => {
   const { t } = useTranslation();
 
   const transformedDisclaimer = useMemo(() => {
-    return transform(disclaimer.content, {});
-  }, [disclaimer]);
+    return transform(article.transformedDisclaimer.content, {});
+  }, [article.transformedDisclaimer.content]);
 
   return (
     <DialogRoot>
@@ -52,4 +53,15 @@ export const Disclaimer = ({ disclaimer }: Props) => {
       </DialogContent>
     </DialogRoot>
   );
+};
+
+Disclaimer.fragments = {
+  article: gql`
+    fragment Disclaimer_Article on Article {
+      id
+      transformedDisclaimer {
+        content
+      }
+    }
+  `,
 };

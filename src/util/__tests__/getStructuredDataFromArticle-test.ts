@@ -11,12 +11,15 @@ import { getStructuredDataFromArticle } from "../getStructuredDataFromArticle";
 
 const getBaseCopyrightInfo = (): Pick<
   GQLStructuredArticleData_CopyrightFragment,
-  "creators" | "processors" | "rightsholders" | "license"
+  "__typename" | "creators" | "processors" | "rightsholders" | "license" | "processed"
 > => ({
+  __typename: "Copyright",
   creators: [],
   rightsholders: [],
   processors: [],
+  processed: false,
   license: {
+    __typename: "License",
     url: "http://license.url",
     license: "COPYRIGHTED",
   },
@@ -24,26 +27,44 @@ const getBaseCopyrightInfo = (): Pick<
 
 const getBaseArticle = (): GQLStructuredArticleDataFragment => ({
   id: 1,
+  __typename: "Article",
   metaDescription: "Meta description",
   published: "2021-01-01T00:00:00Z",
   revised: "2021-01-01T00:00:00Z",
   updated: "2021-01-01T00:00:00Z",
+  supportedLanguages: ["nb", "en"],
+  competenceGoals: [],
+  coreElements: [],
+  metaImage: {
+    __typename: "ImageMetaInformationV3",
+    image: {
+      __typename: "ImageV3",
+      imageUrl: "http://meta.image.url",
+    },
+    alttext: {
+      __typename: "ImageAltText",
+      alttext: "Alt",
+    },
+  },
   copyright: {
     ...getBaseCopyrightInfo(),
     creators: [
       {
+        __typename: "Contributor",
         name: "Creator name",
         type: "originator",
       },
     ],
     rightsholders: [
       {
+        __typename: "Contributor",
         name: "Copy holder name",
         type: "rightsholder",
       },
     ],
     processors: [
       {
+        __typename: "Contributor",
         name: "Processor name",
         type: "processor",
       },
@@ -51,7 +72,9 @@ const getBaseArticle = (): GQLStructuredArticleDataFragment => ({
   },
   title: "Article title",
   transformedContent: {
+    __typename: "TransformedArticleContent",
     metaData: {
+      __typename: "ArticleMetaData",
       images: [],
       brightcoves: [],
       podcasts: [],
@@ -63,15 +86,20 @@ const getBaseArticle = (): GQLStructuredArticleDataFragment => ({
 const getArticleWithImage = (): GQLStructuredArticleDataFragment => ({
   ...getBaseArticle(),
   transformedContent: {
+    __typename: "TransformedArticleContent",
     metaData: {
+      __typename: "ArticleMetaData",
       images: [
         {
+          __typename: "ImageLicense",
           title: "Image title",
           src: "http://image.url",
           copyright: {
-            license: { license: "COPYRIGHTED" },
+            __typename: "Copyright",
+            license: { __typename: "License", license: "COPYRIGHTED", url: "https://license.url" },
             creators: [
               {
+                __typename: "Contributor",
                 type: "artist",
                 name: "Kunstner Kunstnersen",
               },
@@ -79,10 +107,12 @@ const getArticleWithImage = (): GQLStructuredArticleDataFragment => ({
             processors: [],
             rightsholders: [
               {
+                __typename: "Contributor",
                 type: "rightsholder",
                 name: "Rettighetshaver",
               },
               {
+                __typename: "Contributor",
                 type: "publisher",
                 name: "Rettighetshaver2",
               },
@@ -130,9 +160,14 @@ test("util/getStructuredDataFromArticle article with video should return video s
   const article = getBaseArticle();
   article.transformedContent!.metaData!.brightcoves = [
     {
+      __typename: "BrightcoveLicense",
       title: "Video title",
       src: "http://video.url",
       copyright: getBaseCopyrightInfo(),
+      download: "",
+      description: "desc",
+      uploadDate: "2021-01-01T00:00:00Z",
+      cover: "http://cover.url",
     },
   ];
 

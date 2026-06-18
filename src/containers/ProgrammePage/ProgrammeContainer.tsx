@@ -39,7 +39,7 @@ interface GradesData {
     name: string;
     subjects?: {
       label: string;
-      url?: string;
+      url?: string | null;
     }[];
   }[];
 }
@@ -55,7 +55,7 @@ export const sanitizeGrade = (grade: string) => {
 
 const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]): GradesData[] => {
   if (!grades) return [];
-  return grades?.map((grade) => {
+  return grades.map((grade) => {
     let foundProgrammeSubject = false;
     const categories = grade.categories?.map((category) => {
       foundProgrammeSubject = foundProgrammeSubject || category.isProgrammeSubject;

@@ -8,13 +8,13 @@
 
 import { DialogContent, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import { GQLFolderFragment } from "../../graphqlTypes";
 import { DialogCloseButton } from "../DialogCloseButton";
 import AddResourceToFolder, { ResourceAttributes } from "./AddResourceToFolder";
 
 interface Props {
   close: VoidFunction;
-  defaultOpenFolder?: GQLFolder;
+  defaultOpenFolder?: GQLFolderFragment;
   resource: ResourceAttributes;
 }
 

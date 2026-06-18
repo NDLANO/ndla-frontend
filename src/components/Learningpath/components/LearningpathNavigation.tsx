@@ -16,7 +16,7 @@ interface Props {
   learningpath: GQLLearningpathNavigation_LearningpathFragment;
   context: "default" | "preview";
   currentId: number | undefined;
-  resourcePath: string | undefined;
+  resourcePath: string | undefined | null;
   parentUrl: string | undefined;
 }
 

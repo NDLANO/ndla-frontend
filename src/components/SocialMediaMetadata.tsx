@@ -57,16 +57,16 @@ interface TrackableContent {
 
 interface BaseProps {
   title: string;
-  description?: string;
-  imageUrl?: string;
-  audioUrl?: string;
+  description?: string | null;
+  imageUrl?: string | null;
+  audioUrl?: string | null;
   trackableContent?: TrackableContent;
   children?: ReactNode;
   type?: string;
 }
 
 interface WithCanonicalPath extends BaseProps {
-  canonicalPath: string | undefined;
+  canonicalPath: string | undefined | null;
   useLocationForCanonicalPath?: false;
 }
 

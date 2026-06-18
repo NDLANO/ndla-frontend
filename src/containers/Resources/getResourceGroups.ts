@@ -8,14 +8,6 @@
 
 import { partition, sortBy, uniqBy } from "@ndla/util";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
-import { GQLResource } from "../../graphqlTypes";
-
-type GQLResourceLike = Pick<GQLResource, "id" | "resourceTypes" | "rank" | "relevanceId">;
-
-const sortResources = <T extends GQLResourceLike>(resources: T[]): T[] => {
-  const uniq = uniqBy(resources, (res) => res.id);
-  return sortBy(uniq, (res) => res.rank ?? res.id);
-};
 
 interface PartitionedResources<T> {
   learningpaths: T[];
@@ -23,9 +15,18 @@ interface PartitionedResources<T> {
   coreArticles: T[];
 }
 
-export const partitionResources = <T extends GQLResourceLike>(resources: T[]): PartitionedResources<T> => {
-  // For some reason ts generics fails us here:')
-  const sortedResources = sortResources<T>(resources);
+interface ResourceLike {
+  id: string;
+  resourceTypes: { id: string }[] | null;
+  relevanceId: string | null;
+  rank: number | null;
+}
+
+export const partitionResources = <T extends ResourceLike>(resources: T[]): PartitionedResources<T> => {
+  const sortedResources = sortBy(
+    uniqBy(resources, (res) => res.id),
+    (res) => res.rank ?? res.id,
+  );
 
   const [learningpaths, articles] = partition(
     sortedResources,

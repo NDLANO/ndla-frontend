@@ -8,12 +8,12 @@ type AggregationResult {
 type Article {
   articleType: String!
   availability: String
-  competenceGoals: [CompetenceGoal!]
+  competenceGoals: [CompetenceGoal!]!
   conceptIds: [Int!]
   concepts: [Concept!]
   content: String!
   copyright: Copyright!
-  coreElements: [CoreElement!]
+  coreElements: [CoreElement!]!
   created: String!
   crossSubjectTopics(subjectId: String): [CrossSubjectElement!]
   grepCodes: [String!]
@@ -28,12 +28,12 @@ type Article {
   oldNdlaUrl: String
   published: String!
   relatedContent(subjectId: String): [RelatedContent!]
-  requiredLibraries: [ArticleRequiredLibrary!]
+  requiredLibraries: [ArticleRequiredLibrary!]!
   revised: String!
   revision: Int!
   revisionDate: String
   slug: String
-  supportedLanguages: [String!]
+  supportedLanguages: [String!]!
   tags: [String!]
   title: String!
   traits: [String!]!
@@ -419,7 +419,7 @@ type FrontpageMenu {
   article: Article!
   articleId: Int!
   hideLevel: Boolean
-  menu: [FrontpageMenu]
+  menu: [FrontpageMenu!]!
 }
 
 type Gloss {
@@ -528,6 +528,7 @@ type ImageMetaInformationV3 {
   editorNotes: [EditorNote!]
   id: String!
   image: ImageV3!
+  inactive: Boolean!
   metaUrl: String!
   modelRelease: String!
   supportedLanguages: [String!]!
@@ -1024,7 +1025,7 @@ type Node implements TaxBase & TaxonomyEntity & WithArticle {
   parentId: String
   rank: Int
   relevanceId: String
-  resourceTypes: [ResourceType!]
+  resourceTypes: [ResourceType!]!
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   url: String
@@ -1095,7 +1096,7 @@ type PodcastSeriesSummary {
   description: Description!
   episodes: [AudioSummary!]
   id: Int!
-  supportedLanguages: [String!]
+  supportedLanguages: [String!]!
   title: Title!
 }
 
@@ -1127,16 +1128,16 @@ type ProgrammePage {
 
 type Query {
   aiEnabledOrgs: ConfigMetaStringList
-  alerts: [UptimeAlert]
+  alerts: [UptimeAlert!]
   allMyNdlaResources(size: Int): [MyNdlaResource!]!
   arenaEnabledOrgs: ConfigMetaStringList
   article(id: String!, revision: Int): Article
   articleResource(articleId: String, taxonomyId: String): Resource
   audio(id: Int!): Audio
   competenceGoal(code: String!, language: String): CompetenceGoal
-  competenceGoals(codes: [String], language: String): [CompetenceGoal!]
+  competenceGoals(codes: [String], language: String): [CompetenceGoal!]!
   coreElement(code: String!, language: String): CoreElement
-  coreElements(codes: [String], language: String): [CoreElement!]
+  coreElements(codes: [String], language: String): [CoreElement!]!
   examLockStatus: ConfigMetaBoolean!
   filmfrontpage: FilmFrontpage
   folder(id: String!, includeResources: Boolean, includeSubfolders: Boolean): Folder!
@@ -1272,7 +1273,7 @@ type Resource implements TaxBase & TaxonomyEntity & WithArticle {
   parents: [Topic!]
   rank: Int
   relevanceId: String
-  resourceTypes: [ResourceType!]
+  resourceTypes: [ResourceType!]!
   supportedLanguages: [String!]!
   url: String
 }
@@ -1403,7 +1404,7 @@ type Subject implements TaxBase & TaxonomyEntity {
   name: String!
   nodeType: String!
   relevanceId: String
-  resourceTypes: [ResourceType!]
+  resourceTypes: [ResourceType!]!
   subjectpage: SubjectPage
   supportedLanguages: [String!]!
   url: String
@@ -1418,10 +1419,10 @@ type SubjectLink {
 type SubjectPage {
   about: SubjectPageAbout
   banner: SubjectPageBanner!
-  buildsOn: [SubjectLink]!
-  connectedTo: [SubjectLink]!
+  buildsOn: [SubjectLink!]!
+  connectedTo: [SubjectLink!]!
   id: Int!
-  leadsTo: [SubjectLink]!
+  leadsTo: [SubjectLink!]!
   metaDescription: String
   name: String!
   popularArticles: [Node!]
@@ -1507,7 +1508,7 @@ interface TaxonomyEntity {
   name: String!
   nodeType: String!
   relevanceId: String
-  resourceTypes: [ResourceType!]
+  resourceTypes: [ResourceType!]!
   supportedLanguages: [String!]!
   url: String
 }
@@ -1547,7 +1548,7 @@ type Topic implements TaxBase & TaxonomyEntity & WithArticle {
   nodeType: String!
   parentId: String
   relevanceId: String
-  resourceTypes: [ResourceType!]
+  resourceTypes: [ResourceType!]!
   supportedLanguages: [String!]!
   url: String
 }

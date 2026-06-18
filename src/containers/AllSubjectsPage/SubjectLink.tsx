@@ -6,10 +6,11 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { FavoriteSubject } from "../../components/FavoriteSubject";
-import { GQLTaxBase } from "../../graphqlTypes";
+import { GQLSubjectLink_NodeFragment } from "../../graphqlTypes";
 
 const SubjectLinkWrapper = styled("li", {
   base: {
@@ -24,7 +25,7 @@ const StyledSafeLink = styled(SafeLink, {
 });
 
 interface Props {
-  subject: GQLTaxBase;
+  subject: GQLSubjectLink_NodeFragment;
   favorites: string[] | undefined;
   className?: string;
 }
@@ -40,4 +41,16 @@ export const SubjectLink = ({ subject, favorites, className }: Props) => {
       <StyledSafeLink to={subject.url || ""}>{subject.name}</StyledSafeLink>
     </SubjectLinkWrapper>
   );
+};
+
+SubjectLink.fragments = {
+  node: gql`
+    fragment SubjectLink_Node on Node {
+      id
+      url
+      name
+      ...FavoriteSubject_Node
+    }
+    ${FavoriteSubject.fragments.node}
+  `,
 };

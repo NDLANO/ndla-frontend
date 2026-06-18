@@ -268,8 +268,8 @@ const StepFormType = ({ step }: StepFormTypeProps) => {
         resource={
           step?.resource
             ? {
-                articleId: step.articleId,
-                resourceTypes: step.resource.resourceTypes,
+                articleId: step.articleId ?? undefined,
+                resourceTypes: step.resource.resourceTypes ?? undefined,
                 title: step.title,
                 breadcrumbs: step.resource.breadcrumbs,
                 traits: step.resource.article?.traits,

@@ -20,16 +20,12 @@ interface BaseProps {
 }
 
 interface TrackingProps {
-  defaultUrl?: string;
-  rootId?: string;
-  context?: {
-    rootId?: string;
-    defaultUrl?: string;
-  };
+  defaultUrl: string | null;
+  rootId: string | null;
 }
 
 interface WithTrackingProps extends BaseProps {
-  trackingProps: TrackingProps;
+  trackingProps: TrackingProps | null;
   useLocationForCustomPath?: false;
 }
 
@@ -65,8 +61,8 @@ export const PageTitle = ({ title, trackingProps }: Props) => {
   const hasTracked = useRef(false);
 
   const location = useLocation();
-  const customPath = trackingProps?.defaultUrl ?? trackingProps?.context?.defaultUrl;
-  const subjectId = trackingProps?.rootId ?? trackingProps?.context?.rootId;
+  const customPath = trackingProps?.defaultUrl;
+  const subjectId = trackingProps?.rootId;
   const rawPath = customPath ?? location.pathname;
   const trackedPath = getTrackedPath(rawPath);
   const trackedUrl = buildFullUrlFromPath(trackedPath);

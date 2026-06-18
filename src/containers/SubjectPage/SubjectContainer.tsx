@@ -192,7 +192,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
 
   const pageTitle = htmlTitle(node.name, [t("htmlTitles.titleTemplate")]);
 
-  const customFields = node?.metadata.customFields || {};
+  const customFields = (node?.metadata.customFields || {}) as any;
 
   const nonRegularSubjectMessage = getSubjectCategoryMessage(customFields[TAXONOMY_CUSTOM_FIELD_SUBJECT_CATEGORY], t);
 
@@ -200,7 +200,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
 
   return (
     <main>
-      <PageTitle title={pageTitle} trackingProps={node} />
+      <PageTitle title={pageTitle} trackingProps={node.context} />
       {!!node.context?.isArchived && customFields?.[TAXONOMY_CUSTOM_FIELD_SUBJECT_FOR_CONCEPT] === "true" && (
         <meta name="robots" content="noindex, nofollow" />
       )}

@@ -13,12 +13,12 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderForm } from "../../../../components/MyNdla/FolderForm";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLFolder } from "../../../../graphqlTypes";
+import { GQLFolderFragment } from "../../../../graphqlTypes";
 import { useUpdateFolderMutation } from "../../../../mutations/folder/folderMutations";
 import { useFolders, getFolder } from "../../../../mutations/folder/folderQueries";
 
 interface Props {
-  folder?: GQLFolder;
+  folder?: GQLFolderFragment;
   onClose: () => void;
   onSaved: () => void;
 }
@@ -47,7 +47,7 @@ export const FolderEditModalContent = ({ folder, onClose, onSaved }: Props) => {
         {!!folder && (
           <FolderForm
             folder={folder}
-            siblings={siblings}
+            siblings={siblings as GQLFolderFragment[]}
             onClose={onClose}
             onSave={async (values) => {
               const res = await updateFolder({

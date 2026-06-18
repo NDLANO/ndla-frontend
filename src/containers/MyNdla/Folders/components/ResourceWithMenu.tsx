@@ -18,15 +18,15 @@ import { ListResource } from "../../../../components/MyNdla/ListResource";
 import { UpdateResourceTagsDialogContent } from "../../../../components/MyNdla/UpdateResourceTagsDialogContent";
 import { useToast } from "../../../../components/ToastContext";
 import config from "../../../../config";
-import { GQLFolder, GQLMyNdlaResource, GQLMyNdlaResourceMetaFragment } from "../../../../graphqlTypes";
+import { GQLFolderFragment, GQLMyNdlaResourceFragment, GQLMyNdlaResourceMetaFragment } from "../../../../graphqlTypes";
 import { useDeleteMyNdlaResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { SettingsMenu, MenuItemProps } from "../../components/SettingsMenu";
 import { resourceId, RESOURCES_HEADING_ID } from "../util";
 import { MoveResourceDialogContent } from "./MoveResourceDialogContent";
 
 interface Props {
-  resource: GQLMyNdlaResource;
-  selectedFolder: GQLFolder | undefined;
+  resource: GQLMyNdlaResourceFragment;
+  selectedFolder: GQLFolderFragment | undefined;
   isBatchSelecting: boolean;
   loading?: boolean;
   isSelected?: boolean;
@@ -58,7 +58,7 @@ export const ResourceWithMenu = ({
   const [deleteMyNdlaResource] = useDeleteMyNdlaResourceMutation(selectedFolder?.id);
 
   const onDeleteResource = useCallback(
-    async (resource: GQLMyNdlaResource) => {
+    async (resource: GQLMyNdlaResourceFragment) => {
       const nextFocusElement = ref.current?.nextElementSibling ?? ref?.current?.previousElementSibling;
       const res = await deleteMyNdlaResource({
         variables: { folderId: selectedFolder?.id, resourceId: resource.id },

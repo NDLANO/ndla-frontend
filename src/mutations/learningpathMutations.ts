@@ -11,9 +11,7 @@ import { useMutation, useApolloClient } from "@apollo/client/react";
 import { learningpathFragment, learningpathStepFragment } from "../fragments/learningpathFragments";
 import {
   GQLDeleteLearningpathMutation,
-  GQLMutationDeleteLearningpathArgs,
   GQLUpdateLearningpathStatusMutation,
-  GQLMutationUpdateLearningpathStatusArgs,
   GQLDeleteLearningpathStepMutation,
   GQLDeleteLearningpathStepMutationVariables,
   GQLNewLearningpathMutation,
@@ -28,7 +26,9 @@ import {
   GQLCopyLearningpathMutation,
   GQLUpdateLearningpathStepSeqNoMutation,
   GQLUpdateLearningpathStepSeqNoMutationVariables,
-  GQLLearningpath,
+  GQLDeleteLearningpathMutationVariables,
+  GQLUpdateLearningpathStatusMutationVariables,
+  GQLMyNdlaLearningpathFragment,
 } from "../graphqlTypes";
 
 const deleteLearningpathMutation = gql`
@@ -38,20 +38,23 @@ const deleteLearningpathMutation = gql`
 `;
 
 export const useDeleteLearningpath = (
-  options?: useMutation.Options<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>,
+  options?: useMutation.Options<GQLDeleteLearningpathMutation, GQLDeleteLearningpathMutationVariables>,
 ) => {
   const client = useApolloClient();
-  return useMutation<GQLDeleteLearningpathMutation, GQLMutationDeleteLearningpathArgs>(deleteLearningpathMutation, {
-    ...options,
-    onCompleted: (_data, methodOptions) => {
-      // TODO: Is this problematic? We don't remove it from the root query
-      const normalizedId = client.cache.identify({
-        __ref: `MyNdlaLearningpath:${methodOptions?.variables?.id}`,
-      });
-      client.cache.evict({ id: normalizedId });
-      client.cache.gc();
+  return useMutation<GQLDeleteLearningpathMutation, GQLDeleteLearningpathMutationVariables>(
+    deleteLearningpathMutation,
+    {
+      ...options,
+      onCompleted: (_data, methodOptions) => {
+        // TODO: Is this problematic? We don't remove it from the root query
+        const normalizedId = client.cache.identify({
+          __ref: `MyNdlaLearningpath:${methodOptions?.variables?.id}`,
+        });
+        client.cache.evict({ id: normalizedId });
+        client.cache.gc();
+      },
     },
-  });
+  );
 };
 
 const updateLearningpathStatusMutation = gql`
@@ -64,9 +67,9 @@ const updateLearningpathStatusMutation = gql`
 `;
 
 export const useUpdateLearningpathStatus = (
-  options?: useMutation.Options<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>,
+  options?: useMutation.Options<GQLUpdateLearningpathStatusMutation, GQLUpdateLearningpathStatusMutationVariables>,
 ) => {
-  return useMutation<GQLUpdateLearningpathStatusMutation, GQLMutationUpdateLearningpathStatusArgs>(
+  return useMutation<GQLUpdateLearningpathStatusMutation, GQLUpdateLearningpathStatusMutationVariables>(
     updateLearningpathStatusMutation,
     options,
   );
@@ -122,7 +125,7 @@ export const useCreateLearningpathStep = (
     {
       ...options,
       onCompleted: (data, methodOptions) => {
-        client.cache.modify<GQLLearningpath>({
+        client.cache.modify<GQLMyNdlaLearningpathFragment>({
           id: client.cache.identify({
             __ref: `MyNdlaLearningpath:${methodOptions?.variables?.learningpathId}`,
           }),
@@ -188,7 +191,7 @@ export const useDeleteLearningpathStep = (
     {
       ...options,
       onCompleted: (_data, opts) => {
-        client.cache.modify<GQLLearningpath>({
+        client.cache.modify<GQLMyNdlaLearningpathFragment>({
           id: client.cache.identify({
             __ref: `MyNdlaLearningpath:${opts?.variables?.learningpathId}`,
           }),

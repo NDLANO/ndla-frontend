@@ -15,14 +15,14 @@ import { getActiveSessionCookieClient, isActiveSession, millisUntilExpiration } 
 interface AuthContextType {
   authenticated: boolean;
   authContextLoaded: boolean;
-  user: GQLMyNdlaPersonalDataFragmentFragment | undefined;
+  user: GQLMyNdlaPersonalDataFragmentFragment | null;
   examLock: boolean;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   authenticated: false,
   authContextLoaded: true,
-  user: undefined,
+  user: null,
   examLock: false,
 });
 
@@ -86,9 +86,9 @@ export const AuthenticationContext = ({ children }: Props) => {
   }, [authenticated, myNdlaData.loading]);
 
   const user = useMemo(() => {
-    if (authenticated) return myNdlaData.data?.personalData;
-    return undefined;
-  }, [authenticated, myNdlaData.data?.personalData]);
+    if (authenticated && myNdlaData.data) return myNdlaData.data.personalData;
+    return null;
+  }, [authenticated, myNdlaData.data]);
 
   const examLock = useMemo(() => {
     return (

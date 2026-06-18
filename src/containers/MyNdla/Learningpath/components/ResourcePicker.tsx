@@ -107,7 +107,7 @@ interface Props {
 const SEARCH_RESOURCE_TYPES = learningPathResourceTypes.join();
 const PAGE_SIZE = 10;
 
-const searchQuery = gql`
+const searchQueryDef = gql`
   query resourcePickerSearch($query: String, $page: Int, $pageSize: Int!, $resourceTypes: String) {
     search(query: $query, page: $page, pageSize: $pageSize, resourceTypes: $resourceTypes) {
       pageSize
@@ -115,6 +115,7 @@ const searchQuery = gql`
       language
       totalCount
       results {
+        __typename
         id
         url
         title
@@ -154,10 +155,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
     setPage(1);
   }, [delayedQuery]);
 
-  const { loading, data: searchResult = {} } = useQuery<
-    GQLResourcePickerSearchQuery,
-    GQLResourcePickerSearchQueryVariables
-  >(searchQuery, {
+  const searchQuery = useQuery<GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables>(searchQueryDef, {
     variables: {
       query: delayedQuery,
       page: page,
@@ -172,7 +170,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
 
   const searchHits = useMemo(() => {
     return (
-      searchResult.search?.results.map((result) => {
+      searchQuery.data?.search?.results.map((result) => {
         const context = result.contexts.find((context) => context.isPrimary) ?? result.contexts[0];
         const traits = getListItemTraits(
           {
@@ -194,7 +192,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
         };
       }) ?? []
     );
-  }, [searchResult.search?.results, t]);
+  }, [searchQuery.data?.search?.results, t]);
 
   const collection = useMemo(
     () =>
@@ -251,14 +249,14 @@ export const ResourcePicker = ({ setResource }: Props) => {
       <StyledComboboxContent ref={contentRef} tabIndex={-1}>
         <HitsWrapper aria-live="assertive">
           <div>
-            {!(searchHits.length >= 1) && !loading ? (
+            {!(searchHits.length >= 1) && !searchQuery.loading ? (
               <Text textStyle="label.small">{t("searchPage.noHitsShort", { query })}</Text>
             ) : (
               <Text textStyle="label.small">{`${t("searchPage.resultType.showingSearchPhrase")} "${query}"`}</Text>
             )}
           </div>
         </HitsWrapper>
-        {loading ? (
+        {searchQuery.loading ? (
           <RainbowSpinner />
         ) : (
           <StyledComboboxList tabIndex={-1}>
@@ -295,13 +293,13 @@ export const ResourcePicker = ({ setResource }: Props) => {
             ))}
           </StyledComboboxList>
         )}
-        {searchResult.search && searchResult.search.totalCount > searchResult.search.pageSize ? (
+        {searchQuery.data?.search && searchQuery.data?.search.totalCount > searchQuery.data?.search.pageSize ? (
           <StyledPaginationRoot
             page={page}
             onPageChange={(details) => {
               setPage(details.page);
             }}
-            count={Math.min(searchResult.search?.totalCount ?? 0, 1000)}
+            count={Math.min(searchQuery.data?.search?.totalCount ?? 0, 1000)}
             pageSize={PAGE_SIZE}
             translations={paginationTranslations}
             siblingCount={2}

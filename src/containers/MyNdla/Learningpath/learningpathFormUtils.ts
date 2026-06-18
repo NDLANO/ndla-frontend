@@ -37,7 +37,7 @@ export const toFormValues = <T extends FormValues["type"]>(
         type: type,
         title: step?.title ?? "",
         embedUrl: step?.embedUrl?.url ?? "",
-        articleId: step?.articleId,
+        articleId: step?.articleId ?? undefined,
       };
     default:
       return unreachable(type);

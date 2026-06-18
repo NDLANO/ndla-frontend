@@ -20,7 +20,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import { GQLFolderFragment } from "../../graphqlTypes";
 import { useCopySharedFolderMutation } from "../../mutations/folder/folderMutations";
 import { useFolders } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
@@ -31,7 +31,7 @@ import { Folder } from "./Folder";
 import { FolderSelect, ROOT_FOLDER_ID } from "./FolderSelect";
 
 interface Props {
-  folder: GQLFolder;
+  folder: GQLFolderFragment;
   onClose: () => void;
 }
 

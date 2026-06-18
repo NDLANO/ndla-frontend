@@ -6,6 +6,7 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import {
   BleedPageContent,
   Button,
@@ -25,8 +26,8 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
-import { GQLArticle_ArticleFragment } from "../../graphqlTypes";
-import { BaseArticle, TransformedBaseArticle, transformArticle } from "../../util/transformArticle";
+import { GQLAboutNdlaFilm_ArticleFragment, GQLAboutNdlaFilm_FilmPageAboutFragment } from "../../graphqlTypes";
+import { transformArticle } from "../../util/transformArticle";
 
 const StyledAside = styled("aside", {
   base: {
@@ -63,11 +64,7 @@ const StyledDialogCloseButton = styled(DialogCloseButton, {
 });
 
 interface VisualElementProps {
-  visualElement: {
-    alt?: string;
-    url: string;
-    type: string;
-  };
+  visualElement: GQLAboutNdlaFilm_FilmPageAboutFragment["visualElement"];
 }
 
 const VisualElement = ({ visualElement }: VisualElementProps) => {
@@ -83,18 +80,8 @@ const VisualElement = ({ visualElement }: VisualElementProps) => {
 };
 
 interface AboutNdlaFilmProps {
-  aboutNDLAVideo:
-    | {
-        title: string;
-        description: string;
-        visualElement: {
-          alt?: string;
-          url: string;
-          type: string;
-        };
-      }
-    | undefined;
-  article?: BaseArticle;
+  aboutNDLAVideo: GQLAboutNdlaFilm_FilmPageAboutFragment | null;
+  article: GQLAboutNdlaFilm_ArticleFragment | null | undefined;
 }
 
 export const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) => {
@@ -103,7 +90,7 @@ export const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) =
 
   const transformedArticle = useMemo(() => {
     if (article) {
-      return transformArticle(article, i18n.language) as TransformedBaseArticle<GQLArticle_ArticleFragment>;
+      return transformArticle(article, i18n.language);
     }
     return undefined;
   }, [article, i18n.language]);
@@ -147,4 +134,25 @@ export const AboutNdlaFilm = ({ aboutNDLAVideo, article }: AboutNdlaFilmProps) =
       </PageContent>
     </BleedPageContent>
   );
+};
+
+AboutNdlaFilm.fragments = {
+  article: gql`
+    fragment AboutNdlaFilm_Article on Article {
+      title
+      ...Article_Article
+    }
+    ${Article.fragments.article}
+  `,
+  filmPageAbout: gql`
+    fragment AboutNdlaFilm_FilmPageAbout on FilmPageAbout {
+      title
+      description
+      visualElement {
+        type
+        url
+        alt
+      }
+    }
+  `,
 };

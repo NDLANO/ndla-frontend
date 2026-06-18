@@ -30,7 +30,7 @@ import { PostResizeMessage } from "./PostResizeMessage";
 
 interface Props {
   locale?: LocaleType;
-  node?: GQLIframeArticlePage_NodeFragment;
+  node?: GQLIframeArticlePage_NodeFragment | null;
   article: GQLIframeArticlePage_ArticleFragment;
 }
 
@@ -54,7 +54,7 @@ export const IframeArticlePage = ({ node, article: propArticle, locale: localePr
         isOembed: true,
         articleLanguage: propArticle.language,
       }),
-      getArticleScripts(propArticle, locale),
+      getArticleScripts(propArticle.requiredLibraries, propArticle.transformedContent.content, locale),
     ];
   }, [propArticle, locale]);
 
@@ -111,6 +111,10 @@ export const iframeArticlePageFragments = {
       updated
       metaDescription
       oembed
+      requiredLibraries {
+        url
+        mediaType
+      }
       metaImage {
         image {
           imageUrl

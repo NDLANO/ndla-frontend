@@ -10,11 +10,10 @@ import { ArrowRightShortLine } from "@ndla/icons";
 import { SafeLink } from "@ndla/safelink";
 import { Breadcrumb, IndexedBreadcrumbItem } from "@ndla/ui";
 import { useTranslation } from "react-i18next";
-import { GQLBreadcrumb } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 
 interface Props {
-  breadcrumbs: GQLBreadcrumb[];
+  breadcrumbs: { name: string; id: string }[];
   page: PageType;
 }
 

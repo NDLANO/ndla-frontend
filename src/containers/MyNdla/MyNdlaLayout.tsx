@@ -253,7 +253,7 @@ const MyNdlaMenu = () => {
 const menuLinks = (
   t: TFunction,
   location: Location,
-  user: GQLMyNdlaPersonalDataFragmentFragment | undefined,
+  user: GQLMyNdlaPersonalDataFragmentFragment | null,
 ): MenuLink[] => [
   {
     id: "root",

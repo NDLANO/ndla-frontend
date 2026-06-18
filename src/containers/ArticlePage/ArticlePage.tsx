@@ -7,7 +7,6 @@
  */
 
 import { gql } from "@apollo/client";
-import { TFunction } from "i18next";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { Article } from "../../components/Article/Article";
@@ -17,7 +16,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { ResourceContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
-import { GQLArticlePage_NodeFragment, GQLTaxonomyCrumb } from "../../graphqlTypes";
+import { GQLArticlePage_NodeFragment } from "../../graphqlTypes";
 import { toBreadcrumbItems } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
@@ -26,7 +25,7 @@ import { transformArticle } from "../../util/transformArticle";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 
 interface Props {
-  resource: GQLArticlePage_NodeFragment | undefined;
+  resource: GQLArticlePage_NodeFragment | null | undefined;
   skipToContentId?: string;
   loading: boolean;
 }
@@ -45,7 +44,7 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
         subject: root?.id,
         articleLanguage: resource.article.language,
       }),
-      getArticleScripts(resource.article, i18n.language),
+      getArticleScripts(resource.article.requiredLibraries, resource.article.transformedContent.content, i18n.language),
     ];
   }, [resource, i18n.language, root?.id]);
 
@@ -69,7 +68,10 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
     <>
       {!!resource && !!resource.article && !!article && (
         <>
-          <PageTitle title={getDocumentTitle(t, resource, root)} trackingProps={resource} />
+          <PageTitle
+            title={htmlTitle(resource.article?.title, [root?.name, t("htmlTitles.titleTemplate")])}
+            trackingProps={resource.context}
+          />
           {scripts?.map((script) => (
             <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
           ))}
@@ -114,12 +116,6 @@ export const ArticlePage = ({ resource, skipToContentId, loading }: Props) => {
   );
 };
 
-const getDocumentTitle = (
-  t: TFunction,
-  resource: GQLArticlePage_NodeFragment,
-  root: Omit<GQLTaxonomyCrumb, "path"> | undefined,
-) => htmlTitle(resource.article?.title, [root?.name, t("htmlTitles.titleTemplate")]);
-
 ArticlePage.fragments = {
   resource: gql`
     fragment ArticlePage_Node on Node {
@@ -136,6 +132,7 @@ ArticlePage.fragments = {
       }
       context {
         rootId
+        defaultUrl
         contextId
         isArchived
         parents {
@@ -152,6 +149,10 @@ ArticlePage.fragments = {
         metaDescription
         oembed
         tags
+        requiredLibraries {
+          url
+          mediaType
+        }
         ...StructuredArticleData
         ...Article_Article
       }

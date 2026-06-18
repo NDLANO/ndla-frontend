@@ -31,7 +31,7 @@ import { GQLAboutPageLeaf_ArticleFragment } from "../../graphqlTypes";
 import { Breadcrumb } from "../../interfaces";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { transformArticle } from "../../util/transformArticle";
+import { baseArticleFragment, transformArticle } from "../../util/transformArticle";
 
 interface Props {
   article: GQLAboutPageLeaf_ArticleFragment;
@@ -78,7 +78,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
         },
         introduction: transformedArticle.introduction ?? "",
       },
-      getArticleScripts(_article, i18n.language),
+      getArticleScripts(_article.requiredLibraries, _article.transformedContent.content, i18n.language),
     ];
   }, [_article, i18n.language])!;
 
@@ -135,7 +135,7 @@ export const AboutPageLeaf = ({ article: _article, crumbs }: Props) => {
                     <LicenseBox
                       article={article}
                       copyText={article?.transformedContent?.metaData?.copyText}
-                      oembed={undefined}
+                      oembed={null}
                     />
                   </ArticleBylineAccordionItem>
                 </AccordionRoot>
@@ -160,16 +160,22 @@ AboutPageLeaf.fragments = {
       slug
       language
       published
+      requiredLibraries {
+        url
+        mediaType
+      }
       transformedContent(transformArgs: $transformArgs) {
         content
         metaData {
           copyText
         }
       }
+      ...BaseArticle
       ...LicenseBox_Article
       ...StructuredArticleData
     }
     ${LicenseBox.fragments.article}
+    ${baseArticleFragment}
     ${structuredArticleDataFragment}
   `,
 };

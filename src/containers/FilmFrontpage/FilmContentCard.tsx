@@ -11,23 +11,11 @@ import { Text, Image } from "@ndla/primitives";
 import { SafeLink, SafeLinkProps } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { JsxStyleProps, StyledVariantProps } from "@ndla/styled-system/types";
+import { GQLFilmContentCard_MovieFragment } from "../../graphqlTypes";
 import { movieResourceTypes } from "./resourceTypes";
 
-interface MovieType {
-  metaImage?: {
-    url: string;
-  };
-  resourceTypes: {
-    id: string;
-    name: string;
-  }[];
-  title: string;
-  id: string | number;
-  url: string;
-}
-
 interface Props extends JsxStyleProps, Omit<SafeLinkProps, "to">, StyledVariantProps<typeof StyledSafeLink> {
-  movie: MovieType;
+  movie: GQLFilmContentCard_MovieFragment;
 }
 
 const ImageWrapper = styled("div", {

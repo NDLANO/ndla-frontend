@@ -3,15 +3,20 @@
 exports[`That getCompetenceGoals groups competenceGoals by curriculum  1`] = `
 [
   {
+    "__typename": "Reference",
     "competenceGoalSets": [
       {
+        "__typename": "Reference",
         "goals": [
           {
+            "__typename": "CompetenceGoal",
             "competenceGoalSet": {
+              "__typename": "Reference",
               "id": "KV244",
               "title": "Competence aims and assessment health promotion",
             },
             "curriculum": {
+              "__typename": "Reference",
               "id": "HSF01-03",
               "title": "Curriculum vg1 healthcare, child and youth development",
             },
@@ -20,11 +25,14 @@ exports[`That getCompetenceGoals groups competenceGoals by curriculum  1`] = `
             "type": "LK20",
           },
           {
+            "__typename": "CompetenceGoal",
             "competenceGoalSet": {
+              "__typename": "Reference",
               "id": "KV244",
               "title": "Competence aims and assessment health promotion",
             },
             "curriculum": {
+              "__typename": "Reference",
               "id": "HSF01-03",
               "title": "Curriculum vg1 healthcare, child and youth development",
             },
@@ -41,15 +49,20 @@ exports[`That getCompetenceGoals groups competenceGoals by curriculum  1`] = `
     "title": "Curriculum vg1 healthcare, child and youth development",
   },
   {
+    "__typename": "Reference",
     "competenceGoalSets": [
       {
+        "__typename": "Reference",
         "goals": [
           {
+            "__typename": "CompetenceGoal",
             "competenceGoalSet": {
+              "__typename": "Reference",
               "id": "KV115",
               "title": "Competence aims and assessment Vg3 programmes for general studies",
             },
             "curriculum": {
+              "__typename": "Reference",
               "id": "NOR01-06",
               "title": "Curriculum for Norwegian",
             },

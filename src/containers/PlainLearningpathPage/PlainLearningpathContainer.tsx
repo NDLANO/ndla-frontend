@@ -23,7 +23,7 @@ const getDocumentTitle = (learningpath: GQLPlainLearningpathContainer_Learningpa
   htmlTitle(learningpath.title, [t("htmlTitles.titleTemplate")]);
 
 interface Props {
-  learningpath: GQLPlainLearningpathContainer_LearningpathFragment | undefined;
+  learningpath: GQLPlainLearningpathContainer_LearningpathFragment | null | undefined;
   stepId: string | undefined;
   skipToContentId?: string;
   loading: boolean;

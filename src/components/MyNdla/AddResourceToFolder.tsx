@@ -17,10 +17,9 @@ import { useTranslation } from "react-i18next";
 import {
   GQLAddResourceToFolderStructureQuery,
   GQLAddResourceToFolderStructureQueryVariables,
-  GQLFolder,
-  GQLMyNdlaResourceConnection,
+  GQLFolderFragment,
 } from "../../graphqlTypes";
-import { foldersPageQueryFragment } from "../../mutations/folder/folderFragments";
+import { folderFragment } from "../../mutations/folder/folderFragments";
 import { useAddMyNdlaResourceMutation } from "../../mutations/folder/folderMutations";
 import { useFolder } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
@@ -40,7 +39,7 @@ interface Props {
   onClose: () => void;
   type: AddResourceType;
   resource: ResourceAttributes;
-  defaultOpenFolder?: GQLFolder;
+  defaultOpenFolder?: GQLFolderFragment;
 }
 
 const AddResourceContainer = styled("div", {
@@ -60,7 +59,7 @@ const WarningText = styled(Text, {
 });
 
 interface ResourceAddedSnackProps {
-  folder: GQLFolder | null | undefined;
+  folder: GQLFolderFragment | null | undefined;
 }
 
 const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
@@ -80,7 +79,7 @@ const structureQueryDef = gql`
   query addResourceToFolderStructure($path: String!) {
     folders(includeSubfolders: true) {
       folders {
-        ...FoldersPageQueryFragment
+        ...Folder
       }
     }
     myNdlaResourceConnections(path: $path) {
@@ -88,7 +87,7 @@ const structureQueryDef = gql`
       resourceId
     }
   }
-  ${foldersPageQueryFragment}
+  ${folderFragment}
 `;
 
 export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type }: Props) => {
@@ -160,16 +159,16 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
           },
         });
       }
-      const newResourceConnection: GQLMyNdlaResourceConnection = {
-        folderId: selectedFolder?.id,
-        resourceId: data.addMyNdlaResource.id,
-      };
       client.cache.writeQuery({
         query: structureQueryDef,
         variables: { path: resource.path },
         data: {
           ...structureQuery.data,
-          myNdlaResourceConnections: structureQuery.data?.myNdlaResourceConnections.concat(newResourceConnection),
+          myNdlaResourceConnections: structureQuery.data?.myNdlaResourceConnections.concat({
+            __typename: "MyNdlaResourceConnection",
+            folderId: selectedFolder?.id ?? null,
+            resourceId: data.addMyNdlaResource.id,
+          }),
         },
       });
       toast.create({
@@ -190,7 +189,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
       ) : (
         <>
           <FolderSelect
-            folders={(structureQuery.data?.folders.folders ?? []) as GQLFolder[]}
+            folders={(structureQuery.data?.folders.folders ?? []) as GQLFolderFragment[]}
             type={type}
             selectedFolderId={selectedFolderId}
             setSelectedFolderId={onSetSelectedFolderId}

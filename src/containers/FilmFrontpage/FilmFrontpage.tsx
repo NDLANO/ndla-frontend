@@ -21,7 +21,6 @@ import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Article } from "../../components/Article/Article";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { PageTitle } from "../../components/PageTitle";
@@ -89,15 +88,15 @@ export const FilmFrontpage = () => {
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const { data: { filmfrontpage, node } = {}, loading } = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQuery, {
+  const frontpageQuery = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQueryDef, {
     variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
   });
 
-  const about = filmfrontpage?.about?.find((about) => about.language === i18n.language);
+  const about = frontpageQuery.data?.filmfrontpage?.about?.find((about) => about.language === i18n.language);
 
   const definedSlideshowMovies = useMemo(
-    () => filmfrontpage?.slideShow.filter((slideshow) => !!slideshow.metaImage),
-    [filmfrontpage?.slideShow],
+    () => frontpageQuery.data?.filmfrontpage?.slideShow.filter((slideshow) => !!slideshow.metaImage),
+    [frontpageQuery.data?.filmfrontpage?.slideShow],
   );
 
   const onChangeResourceType = (resourceType: MovieResourceType) => {
@@ -113,10 +112,12 @@ export const FilmFrontpage = () => {
 
   return (
     <>
-      {!!node && <PageTitle title={getDocumentTitle(t, node)} useLocationForCustomPath={true} />}
+      {!!frontpageQuery.data?.node && (
+        <PageTitle title={getDocumentTitle(t, frontpageQuery.data.node)} useLocationForCustomPath={true} />
+      )}
       <SocialMediaMetadata
         type="website"
-        title={node?.name ?? ""}
+        title={frontpageQuery.data?.node?.name ?? ""}
         description={about?.description}
         useLocationForCanonicalPath={true}
       />
@@ -130,7 +131,7 @@ export const FilmFrontpage = () => {
               </Heading>
               <NavigationBox
                 heading={t("ndlaFilm.topics")}
-                items={node?.children?.map((child) => {
+                items={frontpageQuery.data?.node?.children?.map((child) => {
                   return {
                     id: child.id,
                     label: child.name,
@@ -166,11 +167,11 @@ export const FilmFrontpage = () => {
             </Wrapper>
             <FilmContent
               resourceTypeSelected={resourceTypeSelected}
-              movieThemes={filmfrontpage?.movieThemes}
-              loading={loading}
+              movieThemes={frontpageQuery.data?.filmfrontpage?.movieThemes}
+              loading={frontpageQuery.loading}
               loadingPlaceholderHeight={loadingPlaceholderHeight}
             />
-            {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={filmfrontpage?.article} />}
+            {!!about && <AboutNdlaFilm aboutNDLAVideo={about} article={frontpageQuery.data?.filmfrontpage?.article} />}
           </RestrictedContent>
         </main>
       </StyledPageContainer>
@@ -178,33 +179,22 @@ export const FilmFrontpage = () => {
   );
 };
 
-const filmFrontPageQuery = gql`
+const filmFrontPageQueryDef = gql`
   query filmFrontPage($nodeId: String!, $transformArgs: TransformedArticleContentInput) {
     filmfrontpage {
       slideShow {
         ...FilmSlideshow_Movie
       }
       movieThemes {
-        name {
-          name
-          language
-        }
-        movies {
-          ...FilmContent_Movie
-        }
+        ...FilmContent_MovieTheme
       }
       about {
-        title
         description
-        visualElement {
-          alt
-          url
-          type
-        }
         language
+        ...AboutNdlaFilm_FilmPageAbout
       }
       article {
-        ...Article_Article
+        ...AboutNdlaFilm_Article
       }
     }
     node(id: $nodeId) {
@@ -218,7 +208,8 @@ const filmFrontPageQuery = gql`
       }
     }
   }
-  ${FilmContent.fragments.movie}
+  ${FilmContent.fragments.movieTheme}
   ${FilmSlideshow.fragments.movie}
-  ${Article.fragments.article}
+  ${AboutNdlaFilm.fragments.article}
+  ${AboutNdlaFilm.fragments.filmPageAbout}
 `;

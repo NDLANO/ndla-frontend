@@ -46,7 +46,7 @@ import { Breadcrumb } from "../../interfaces";
 import { toAbout } from "../../routeHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
 import { structuredArticleDataFragment } from "../../util/getStructuredDataFromArticle";
-import { transformArticle } from "../../util/transformArticle";
+import { baseArticleFragment, transformArticle } from "../../util/transformArticle";
 
 const StyledPageContent = styled(PageContent, {
   base: {
@@ -132,7 +132,7 @@ export const AboutPageNode = ({ article, menuItems, crumbs }: Props) => {
         ...transformedArticle,
         introduction: transformedArticle.introduction ?? "",
       },
-      getArticleScripts(article, i18n.language),
+      getArticleScripts(article.requiredLibraries, article.transformedContent.content, i18n.language),
     ];
   }, [article, i18n.language])!;
 
@@ -229,6 +229,10 @@ AboutPageNode.fragments = {
       updated
       published
       oembed
+      requiredLibraries {
+        url
+        mediaType
+      }
       metaImage {
         image {
           imageUrl
@@ -248,8 +252,10 @@ AboutPageNode.fragments = {
       }
       ...LicenseBox_Article
       ...StructuredArticleData
+      ...BaseArticle
     }
     ${LicenseBox.fragments.article}
+    ${baseArticleFragment}
     ${structuredArticleDataFragment}
   `,
   frontpageMenu: gql`

@@ -16,13 +16,17 @@ import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderSelect, ROOT_FOLDER_ID } from "../../../../components/MyNdla/FolderSelect";
 import { SaveHeartButton } from "../../../../components/SaveHeartButton";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLFolder, GQLMoveFolderDialogQuery, GQLMoveFolderDialogQueryVariables } from "../../../../graphqlTypes";
-import { foldersPageQueryFragment } from "../../../../mutations/folder/folderFragments";
+import {
+  GQLFolderFragment,
+  GQLMoveFolderDialogQuery,
+  GQLMoveFolderDialogQueryVariables,
+} from "../../../../graphqlTypes";
+import { folderFragment } from "../../../../mutations/folder/folderFragments";
 import { useMoveFolderMutation } from "../../../../mutations/folder/folderMutations";
 
 interface Props {
   close: VoidFunction;
-  currentFolder: GQLFolder;
+  currentFolder: GQLFolderFragment;
   ref: RefObject<HTMLLIElement | null> | undefined;
   fallbackFocusId?: string;
 }
@@ -31,11 +35,11 @@ const queryDef = gql`
 query moveFolderDialog {
   folders(includeSubfolders: true) {
     folders {
-      ...FoldersPageQueryFragment
+      ...Folder
     }
   }
 }
-${foldersPageQueryFragment},
+${folderFragment},
 `;
 
 export const MoveFolderDialogContent = ({ close, currentFolder, ref, fallbackFocusId }: Props) => {
@@ -132,7 +136,7 @@ export const MoveFolderDialogContent = ({ close, currentFolder, ref, fallbackFoc
         <DialogCloseButton />
       </DialogHeader>
       <FolderSelect
-        folders={(foldersQuery.data?.folders?.folders ?? []) as GQLFolder[]}
+        folders={(foldersQuery.data?.folders?.folders ?? []) as GQLFolderFragment[]}
         folderToMove={currentFolder}
         type="folder"
         defaultOpenFolder={{ ...currentFolder, breadcrumbs: currentFolder.breadcrumbs.slice(0, -1) }}

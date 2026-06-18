@@ -23,7 +23,7 @@ import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { GQLFolder, GQLMyNdlaResource } from "../../graphqlTypes";
+import { GQLFolderFragment, GQLMyNdlaResourceFragment } from "../../graphqlTypes";
 import { useGetSharedFolder, useMyNdlaResourceMetaSearch } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { isNotFoundError } from "../../util/handleError";
@@ -70,8 +70,11 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const containsFolder = (folder: GQLFolder): boolean => {
-  return !!folder.subfolders.find((subfolder) => containsFolder(subfolder)) || folder.resources.length > 0;
+const containsFolder = (folder: GQLFolderFragment): boolean => {
+  return (
+    !!folder.subfolders.find((subfolder) => containsFolder(subfolder as GQLFolderFragment)) ||
+    folder.resources.length > 0
+  );
 };
 
 export const SharedFolderPage = () => {
@@ -96,7 +99,7 @@ export const SharedFolderPage = () => {
   const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
   const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
 
-  const getResourceMetaPath = (resource: GQLMyNdlaResource, resourceMeta: any) =>
+  const getResourceMetaPath = (resource: GQLMyNdlaResourceFragment, resourceMeta: any) =>
     resourceMeta &&
     resourceMeta?.resourceTypes.length < 1 &&
     (resource.resourceType === "article" || resource.resourceType === "learningpath")
@@ -151,9 +154,9 @@ export const SharedFolderPage = () => {
             </Heading>
             <BlockWrapper aria-labelledby={foldersHeadingId}>
               {folder.subfolders.map((subFolder) =>
-                containsFolder(subFolder) ? (
+                containsFolder(subFolder as GQLFolderFragment) ? (
                   <li key={`folder-${subFolder.id}`}>
-                    <Folder folder={subFolder} link={routes.folder(subFolder.id)} />
+                    <Folder folder={subFolder as GQLFolderFragment} link={routes.folder(subFolder.id)} />
                   </li>
                 ) : null,
               )}

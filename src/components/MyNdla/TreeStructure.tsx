@@ -29,7 +29,7 @@ import {
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import { GQLFolderFragment } from "../../graphqlTypes";
 import { AddResourceType } from "./types";
 
 const StyledTree = styled(Tree, {
@@ -47,15 +47,15 @@ const StyledTree = styled(Tree, {
 export interface TreeStructureProps {
   type: AddResourceType;
   defaultOpenFolders?: string[];
-  folders: GQLFolder[];
+  folders: GQLFolderFragment[];
   label?: string;
   onSelectFolder?: (id: string) => void;
   ariaDescribedby?: string;
   placements: Set<string> | undefined;
-  folderToMove?: GQLFolder;
+  folderToMove?: GQLFolderFragment;
 }
 
-interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolder> {
+interface TreeStructureItemProps extends TreeViewNodeProviderProps<GQLFolderFragment> {
   selected?: boolean;
   placements: Set<string> | undefined;
   focusId?: string | null;
@@ -152,14 +152,17 @@ const StyledText = styled(Text, {
 interface RootNode {
   id: string;
   name: string;
-  subfolders: GQLFolder[];
+  subfolders: GQLFolderFragment[];
   disabled?: boolean;
 }
 
-const recursivelyDisableChildren = (nodes: GQLFolder[], folderToMove: GQLFolder): GQLFolder[] => {
-  return nodes.reduce<GQLFolder[]>((acc, curr) => {
+const recursivelyDisableChildren = (
+  nodes: GQLFolderFragment[],
+  folderToMove: GQLFolderFragment,
+): GQLFolderFragment[] => {
+  return nodes.reduce<GQLFolderFragment[]>((acc, curr) => {
     if (curr.id !== folderToMove.id) {
-      const subfolders = recursivelyDisableChildren(curr.subfolders, folderToMove);
+      const subfolders = recursivelyDisableChildren(curr.subfolders as GQLFolderFragment[], folderToMove);
       acc.push({ ...curr, subfolders });
     }
     return acc;
@@ -281,7 +284,7 @@ export const TreeStructureItem = ({ node, focusId, indexPath, placements, type }
             {node.subfolders.map((child, index) => (
               <TreeStructureItem
                 key={child.id}
-                node={child}
+                node={child as GQLFolderFragment}
                 indexPath={[...indexPath, index]}
                 placements={placements}
                 type={type}

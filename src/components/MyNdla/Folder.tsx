@@ -13,7 +13,7 @@ import { styled } from "@ndla/styled-system/jsx";
 import { linkOverlay } from "@ndla/styled-system/patterns";
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import { GQLFolderFragment } from "../../graphqlTypes";
 import { routes } from "../../routeHelpers";
 
 interface IconCountProps {
@@ -65,7 +65,7 @@ const Count = ({ type, count }: IconCountProps) => {
 interface Props {
   description?: string;
   menu?: ReactNode;
-  folder: GQLFolder;
+  folder: GQLFolderFragment;
   isFavorited?: boolean;
   link?: string;
   nonInteractive?: boolean;

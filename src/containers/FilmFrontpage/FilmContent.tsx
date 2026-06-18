@@ -7,18 +7,18 @@
  */
 
 import { gql } from "@apollo/client";
+import { keyBy } from "@ndla/util";
 import { useTranslation } from "react-i18next";
-import { GQLMovieTheme } from "../../graphqlTypes";
+import config from "../../config";
+import { GQLFilmContent_MovieThemeFragment } from "../../graphqlTypes";
 import { AllMoviesAlphabetically } from "./AllMoviesAlphabetically";
-import { ALL_MOVIES_ID, findName } from "./filmHelper";
+import { ALL_MOVIES_ID } from "./filmHelper";
 import { MovieGrid, MovieGridLoadingShimmer, SelectionMovieGrid } from "./MovieGrid";
 import { MovieResourceType } from "./resourceTypes";
 
-type MovieTheme = Omit<GQLMovieTheme, "path">;
-
 interface Props {
   resourceTypeSelected: MovieResourceType | undefined;
-  movieThemes: MovieTheme[] | undefined;
+  movieThemes: GQLFilmContent_MovieThemeFragment[] | undefined;
   loadingPlaceholderHeight: string;
   loading: boolean;
 }
@@ -38,19 +38,28 @@ export const FilmContent = ({ resourceTypeSelected, movieThemes, loading }: Prop
     return <MovieGridLoadingShimmer showHeading />;
   }
 
-  return movieThemes?.map((theme) => (
-    <SelectionMovieGrid
-      key={theme.name[0]?.name}
-      name={findName(theme.name ?? [], i18n.language)}
-      movies={theme.movies}
-    />
-  ));
+  return movieThemes?.map((theme) => {
+    const keyed = keyBy(theme.name, (name) => name.language);
+    return (
+      <SelectionMovieGrid
+        key={theme.name[0]?.name}
+        name={keyed[i18n.language]?.name ?? keyed[config.defaultLocale]?.name ?? ""}
+        movies={theme.movies}
+      />
+    );
+  });
 };
 
 FilmContent.fragments = {
-  movie: gql`
-    fragment FilmContent_Movie on Movie {
-      ...SelectionMovieGrid_Movie
+  movieTheme: gql`
+    fragment FilmContent_MovieTheme on MovieTheme {
+      name {
+        name
+        language
+      }
+      movies {
+        ...SelectionMovieGrid_Movie
+      }
     }
     ${SelectionMovieGrid.fragments.movie}
   `,

@@ -23,10 +23,9 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router";
 import { Article } from "../../components/Article/Article";
-import { useArticleCopyText } from "../../components/Article/articleHelpers";
 import { FavoriteButton } from "../../components/Article/FavoritesButton";
 import { CompetenceGoals } from "../../components/CompetenceGoals";
-import { LicenseBox } from "../../components/license/LicenseBox";
+import { LicenseBox, useArticleCopyText } from "../../components/license/LicenseBox";
 import { AddResourceToFolderModal } from "../../components/MyNdla/AddResourceToFolderModal";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedBlock } from "../../components/RestrictedBlock";
@@ -114,7 +113,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
         subject: root?.id,
         articleLanguage: node.article.language,
       }),
-      getArticleScripts(node.article, i18n.language),
+      getArticleScripts(node.article.requiredLibraries, node.article.transformedContent.content, i18n.language),
     ];
   }, [node.article, i18n.language, root?.id]);
 
@@ -155,7 +154,7 @@ export const MultidisciplinarySubjectArticle = ({ node }: Props) => {
           <script key={script.src} src={script.src} type={script.type} async={script.async} defer={script.defer} />
         ))}
         {!!node.context?.isArchived && <meta name="robots" content="noindex" />}
-        <PageTitle title={pageTitle} trackingProps={node} />
+        <PageTitle title={pageTitle} trackingProps={node.context} />
         <SocialMediaMetadata
           title={socialMediaMetaData.title}
           description={socialMediaMetaData.description}
@@ -274,6 +273,10 @@ MultidisciplinarySubjectArticle.fragments = {
         metaDescription
         traits
         revision
+        requiredLibraries {
+          url
+          mediaType
+        }
         metaImage {
           id
           image {

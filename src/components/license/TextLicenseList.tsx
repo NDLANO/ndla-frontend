@@ -117,7 +117,7 @@ const TextLicenseInfo = ({ text, articleId }: TextLicenseInfoProps) => {
 export interface TextItem {
   copyright: GQLTextLicenseList_CopyrightFragment;
   updated?: string;
-  copyText?: string;
+  copyText?: string | null;
   title?: string;
 }
 

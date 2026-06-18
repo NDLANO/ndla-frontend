@@ -13,7 +13,6 @@ import {
   TOOLBOX_STUDENT_SUBJECT_ID,
   TOOLBOX_TEACHER_SUBJECT_ID,
 } from "./constants";
-import { GQLTaxBase, GQLTaxonomyCrumb } from "./graphqlTypes";
 import { Breadcrumb } from "./interfaces";
 
 export type SubjectType = "multiDisciplinary" | "standard" | "toolbox" | "film" | undefined;
@@ -34,7 +33,7 @@ export const getSubjectType = (subjectId?: string): SubjectType => {
 
 const LEARNINGPATHS = "/learningpaths";
 
-export function toLearningPath(pathId?: string | number, stepId?: string | number, resourcePath?: string) {
+export function toLearningPath(pathId?: string | number, stepId?: string | number, resourcePath?: string | null) {
   if (resourcePath) {
     return stepId ? `${resourcePath}/${stepId}` : resourcePath;
   }
@@ -55,12 +54,14 @@ export const toRevisions = (articleId: number | string) => {
   return `/revisions/${articleId}`;
 };
 
-export const toAbout = (slug = "") => `${ABOUT_PATH}/${slug}`;
+export const toAbout = (slug: string | null | undefined) => `${ABOUT_PATH}/${slug ?? ""}`;
 
-export function toBreadcrumbItems(
-  rootName: string,
-  paths: (GQLTaxBase | GQLTaxonomyCrumb | undefined)[],
-): Breadcrumb[] {
+interface Crumb {
+  url: string | null;
+  name: string | null;
+}
+
+export function toBreadcrumbItems(rootName: string, paths: (Crumb | null | undefined)[]): Breadcrumb[] {
   const safePaths = paths.filter(Boolean);
   if (safePaths.length === 0) return [];
   const breadcrumbs = safePaths.map((crumb) => {
@@ -72,7 +73,7 @@ export function toBreadcrumbItems(
   return [{ url: "/", name: rootName }, ...breadcrumbs];
 }
 
-export function toProgramme(programmePath?: string, grade?: string) {
+export function toProgramme(programmePath?: string | null, grade?: string) {
   const gradeString = grade ? `/${grade}` : "";
   return `${programmePath}${gradeString}`;
 }
@@ -83,7 +84,7 @@ export const routes = {
   myNdla: {
     root: "/minndla",
     profile: "/minndla/profile",
-    folders: (folderId: string | undefined) => `/minndla/folders${folderId ? `/${folderId}` : ""}`,
+    folders: (folderId: string | undefined | null) => `/minndla/folders${folderId ? `/${folderId}` : ""}`,
     subjects: "/minndla/subjects",
     learningpath: "/minndla/learningpaths",
     learningpathNew: "/minndla/learningpaths/new",

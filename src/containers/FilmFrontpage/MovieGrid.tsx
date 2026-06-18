@@ -70,10 +70,13 @@ export const MovieGridLoadingShimmer = ({ showHeading }: MovieGridLoadingShimmer
           <Skeleton key={index}>
             <StyledFilmContentCard
               movie={{
+                __typename: "Movie",
                 id: `dummy-${index}`,
                 resourceTypes: [],
                 url: "",
                 title: "",
+                metaDescription: "",
+                metaImage: null,
               }}
             />
           </Skeleton>
@@ -116,10 +119,14 @@ export const MovieGrid = ({ resourceType }: Props) => {
                   style={{ "--index": index } as CSSProperties}
                   key={`${resourceType.id}-${index}`}
                   movie={{
-                    id: movie.id,
-                    metaImage: movie.metaImage,
+                    ...movie,
+                    __typename: "Movie",
+                    metaImage: {
+                      __typename: "MetaImage",
+                      url: movie.metaImage?.url ?? "",
+                      alt: "",
+                    },
                     resourceTypes: [],
-                    title: movie.title,
                     url: context?.url ?? "",
                   }}
                 />

@@ -124,8 +124,8 @@ const CollectionPageContent = ({ collectionLanguage, subjects, image }: Collecti
       metadata: {
         ...subject.metadata,
         customFields: {
-          ...subject.metadata.customFields,
-          subjectType: subject.metadata.customFields.subjectType ?? subjectTypes.SUBJECT,
+          ...(subject.metadata.customFields as any),
+          subjectType: (subject.metadata.customFields as any).subjectType ?? subjectTypes.SUBJECT,
         },
       },
     }));

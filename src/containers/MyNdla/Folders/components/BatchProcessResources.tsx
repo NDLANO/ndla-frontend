@@ -21,30 +21,30 @@ import { useToast } from "../../../../components/ToastContext";
 import {
   GQLBatchProcessFoldersQuery,
   GQLBatchProcessFoldersQueryVariables,
-  GQLFolder,
-  GQLMyNdlaResource,
+  GQLFolderFragment,
+  GQLMyNdlaResourceFragment,
 } from "../../../../graphqlTypes";
-import { foldersPageQueryFragment } from "../../../../mutations/folder/folderFragments";
+import { folderFragment } from "../../../../mutations/folder/folderFragments";
 import {
   useBatchCopyMyNdlaResourcesMutation,
   useBatchMoveMyNdlaResourcesMutation,
 } from "../../../../mutations/folder/folderMutations";
 
 interface Props {
-  currentFolder: GQLFolder | undefined;
+  currentFolder: GQLFolderFragment | undefined;
   onSuccessfulMutation: VoidFunction;
-  resources: GQLMyNdlaResource[];
+  resources: GQLMyNdlaResourceFragment[];
 }
 
 const queryDef = gql`
 query batchProcessFolders {
   folders(includeSubfolders: true) {
     folders {
-      ...FoldersPageQueryFragment
+      ...Folder
     }
   }
 }
-${foldersPageQueryFragment},
+${folderFragment},
 `;
 
 export const MoveResourcesDialogContent = ({ currentFolder, resources, onSuccessfulMutation }: Props) => {
@@ -207,7 +207,7 @@ export const CopyResourcesDialogContent = ({ currentFolder, resources, onSuccess
 };
 
 interface BatchProcessResourcesProps {
-  currentFolder: GQLFolder | undefined;
+  currentFolder: GQLFolderFragment | undefined;
   type: "move" | "copy";
   onProcess: (folderId: string | undefined) => Promise<void>;
   loading: boolean;
@@ -245,7 +245,7 @@ export const BatchProcessResources = ({ currentFolder, type, onProcess, loading 
         <DialogCloseButton />
       </DialogHeader>
       <FolderSelect
-        folders={(foldersQuery.data?.folders.folders ?? []) as GQLFolder[]}
+        folders={foldersQuery.data?.folders.folders ?? []}
         type="myNdla"
         defaultOpenFolder={currentFolder}
         selectedFolderId={folderId}

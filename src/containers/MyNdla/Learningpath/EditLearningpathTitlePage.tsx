@@ -65,7 +65,6 @@ export const EditLearningpathTitlePage = () => {
             title,
             coverPhotoMetaUrl: imageUrl,
             description: " ",
-            //@ts-expect-error - this is null instead of undefined
             introduction: introduction,
             language: learningpath.supportedLanguages[0] ?? config.defaultLocale,
             revision: learningpath.revision,

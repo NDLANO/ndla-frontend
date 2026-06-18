@@ -11,25 +11,21 @@ import { useApolloClient, useQuery } from "@apollo/client/react";
 import {
   GQLFavouriteSubjectsQuery,
   GQLFavouriteSubjectsQueryVariables,
-  GQLFolder,
   GQLMyNdlaResourceMetaQuery,
   GQLMyNdlaResourceMetaSearchInput,
   GQLMyNdlaResourceMetaSearchQuery,
   GQLFoldersPageQuery,
   GQLRecentlyUsedQuery,
-  GQLSharedFolder,
+  GQLSharedFolderFragment,
   GQLSharedFolderQuery,
   GQLSharedFolderQueryVariables,
   GQLRootResourcesQuery,
   GQLRootResourcesQueryVariables,
   GQLResourceConnectionsQuery,
   GQLResourceConnectionsQueryVariables,
+  GQLFolderFragment,
 } from "../../graphqlTypes";
-import {
-  foldersPageQueryFragment,
-  myNdlaResourceMetaFragment,
-  sharedFoldersPageQueryFragment,
-} from "./folderFragments";
+import { folderFragment, myNdlaResourceMetaFragment, sharedFolderFragment } from "./folderFragments";
 
 const myNdlaResourceMetaQuery = gql`
   query myNdlaResourceMeta($resource: MyNdlaResourceMetaSearchInput!) {
@@ -81,15 +77,15 @@ export const foldersPageQuery = gql`
   query foldersPage {
     folders(includeSubfolders: true, includeResources: true) {
       folders {
-        ...FoldersPageQueryFragment
+        ...Folder
       }
       sharedFolders {
-        ...SharedFoldersPageQueryFragment
+        ...SharedFolder
       }
     }
   }
-  ${foldersPageQueryFragment}
-  ${sharedFoldersPageQueryFragment}
+  ${folderFragment}
+  ${sharedFolderFragment}
 `;
 
 interface UseFolders {
@@ -97,8 +93,8 @@ interface UseFolders {
 }
 
 export const useFolders = ({ skip }: UseFolders = {}): {
-  folders: GQLFolder[];
-  sharedFolders: GQLSharedFolder[];
+  folders: GQLFolderFragment[];
+  sharedFolders: GQLSharedFolderFragment[];
   loading: boolean;
   error?: ErrorLike;
 } => {
@@ -106,17 +102,17 @@ export const useFolders = ({ skip }: UseFolders = {}): {
     skip,
   });
 
-  const folders = (data?.folders.folders ?? []) as GQLFolder[];
-  const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLSharedFolder[];
+  const folders = (data?.folders.folders ?? []) as GQLFolderFragment[];
+  const sharedFolders = (data?.folders.sharedFolders ?? []) as GQLSharedFolderFragment[];
   return { folders, sharedFolders, loading, error };
 };
 
-export const getFolder = (cache: ApolloCache, folderId?: string, shared?: boolean): GQLFolder | null => {
+export const getFolder = (cache: ApolloCache, folderId?: string, shared?: boolean): GQLFolderFragment | null => {
   if (!folderId) return null;
 
   return cache.readFragment({
-    fragmentName: shared ? "SharedFoldersPageQueryFragment" : "FoldersPageQueryFragment",
-    fragment: shared ? sharedFoldersPageQueryFragment : foldersPageQueryFragment,
+    fragmentName: shared ? "SharedFolder" : "Folder",
+    fragment: shared ? sharedFolderFragment : folderFragment,
     id: cache.identify({
       __typename: shared ? "SharedFolder" : "Folder",
       id: folderId,
@@ -124,12 +120,12 @@ export const getFolder = (cache: ApolloCache, folderId?: string, shared?: boolea
   });
 };
 
-export const useFolder = (folderId?: string): GQLFolder | null => {
+export const useFolder = (folderId?: string): GQLFolderFragment | null => {
   const { cache } = useApolloClient();
   return getFolder(cache, folderId);
 };
 
-export const useSharedFolder = (folderId?: string): GQLFolder | null => {
+export const useSharedFolder = (folderId?: string): GQLFolderFragment | null => {
   const { cache } = useApolloClient();
   return getFolder(cache, folderId, true);
 };
@@ -137,10 +133,10 @@ export const useSharedFolder = (folderId?: string): GQLFolder | null => {
 export const sharedFolderQuery = gql`
   query sharedFolder($id: String!) {
     sharedFolder(id: $id) {
-      ...SharedFoldersPageQueryFragment
+      ...SharedFolder
     }
   }
-  ${sharedFoldersPageQueryFragment}
+  ${sharedFolderFragment}
 `;
 
 interface UseSharedFolder {
@@ -150,7 +146,7 @@ interface UseSharedFolder {
 export const useGetSharedFolder = ({
   id,
 }: UseSharedFolder): {
-  folder?: GQLFolder;
+  folder?: GQLFolderFragment;
   loading: boolean;
   error?: ErrorLike;
 } => {
@@ -158,7 +154,7 @@ export const useGetSharedFolder = ({
     variables: { id },
   });
 
-  const folder = data?.sharedFolder as GQLFolder | undefined;
+  const folder = data?.sharedFolder as GQLFolderFragment | undefined;
 
   return { folder, loading, error };
 };

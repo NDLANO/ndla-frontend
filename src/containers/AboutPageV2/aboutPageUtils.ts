@@ -11,7 +11,7 @@ import { toAbout } from "../../routeHelpers";
 
 interface BaseMenuType {
   article: {
-    slug?: string;
+    slug?: string | null;
     title: string;
   };
   menu?: BaseMenuType[];
