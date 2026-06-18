@@ -27,6 +27,7 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SubjectLinks } from "../../components/Subject/SubjectLinks";
 import { TransportationPageHeader } from "../../components/TransportationPage/TransportationPageHeader";
 import {
+  TransportationCard,
   TransportationNode,
   TransportationSearchResult,
 } from "../../components/TransportationPage/TransportationPageNode";
@@ -39,6 +40,7 @@ import {
   TAXONOMY_CUSTOM_FIELD_SUBJECT_TYPE,
 } from "../../constants";
 import { GQLSubjectContainer_NodeFragment, GQLSubjectContainer_SearchResultFragment } from "../../graphqlTypes";
+import { getListItemTraits } from "../../util/listItemTraits";
 import { toSearchParams } from "../../util/searchHelpers";
 import { htmlTitle } from "../../util/titleHelper";
 import { SubjectSearch } from "./SubjectSearch";
@@ -155,6 +157,7 @@ const getSubjectCategoryMessage = (subjectCategory: string | undefined, t: TFunc
 const TOPICS_HEADING_ID = "topics";
 const LINKS_HEADING_ID = "links";
 const VIDEO_HEADING_ID = "videos";
+const POPULAR_ARTICLES_HEADING_ID = "popular-articles";
 
 const getSubjectTypeMessage = (subjectType: string | undefined, t: TFunction): string | undefined => {
   if (!subjectType || subjectType === subjectTypes.SUBJECT) {
@@ -174,6 +177,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
   const { user } = useContext(AuthContext);
   const { t } = useTranslation();
   const about = node.subjectpage?.about;
+  const popularArticles = node.subjectpage?.popularArticles ?? [];
 
   const breadCrumbs: SimpleBreadcrumbItem[] = [
     {
@@ -255,6 +259,11 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                 {t("subjectsPage.multidisciplinaryCases")}
               </SafeLinkButton>
             )}
+            {!!popularArticles.length && (
+              <SafeLinkButton to={{ hash: POPULAR_ARTICLES_HEADING_ID }}>
+                {t("subjectsPage.popularArticles")}
+              </SafeLinkButton>
+            )}
             {!!searchResults.length && (
               <SafeLinkButton to={{ hash: VIDEO_HEADING_ID }}>{t("subjectPage.videoResultsHeader")}</SafeLinkButton>
             )}
@@ -301,6 +310,40 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                 {node.links?.map((link) => (
                   <TransportationNode key={link.id} node={link} context="link" />
                 ))}
+              </TransportationPageNodeListGrid>
+            </StyledCardNav>
+          )}
+          {!!popularArticles.length && (
+            <StyledCardNav aria-labelledby={POPULAR_ARTICLES_HEADING_ID}>
+              <Heading textStyle="heading.small" asChild consumeCss id={POPULAR_ARTICLES_HEADING_ID}>
+                <h2>{t("subjectsPage.popularArticles")}</h2>
+              </Heading>
+              <TransportationPageNodeListGrid context="node">
+                {popularArticles.map((article) => {
+                  if (!article.url) {
+                    return null;
+                  }
+                  const traits = getListItemTraits(
+                    {
+                      traits: article.meta?.traits,
+                      resourceType: article.url?.startsWith("/e/") ? "topic" : undefined,
+                      relevanceId: article.relevanceId,
+                      resourceTypes: article.resourceTypes,
+                    },
+                    t,
+                  );
+                  return (
+                    <TransportationCard
+                      key={article.id}
+                      name={article.name}
+                      url={article.url}
+                      flavorText={traits.join(", ")}
+                      metaImage={article.meta?.metaImage ?? undefined}
+                      metaDescription={article.meta?.metaDescription}
+                      context="link"
+                    />
+                  );
+                })}
               </TransportationPageNodeListGrid>
             </StyledCardNav>
           )}
@@ -376,6 +419,24 @@ SubjectContainer.fragments = {
           }
         }
         ...SubjectLinks_SubjectPage
+        popularArticles {
+          id
+          name
+          url
+          relevanceId
+          resourceTypes {
+            id
+            name
+          }
+          meta {
+            traits
+            metaDescription
+            metaImage {
+              url
+              alt
+            }
+          }
+        }
       }
       ...FavoriteSubject_Node
     }
