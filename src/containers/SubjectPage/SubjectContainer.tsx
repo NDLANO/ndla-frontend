@@ -320,8 +320,10 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
               </Heading>
               <TransportationPageNodeListGrid context="node">
                 {popularArticles
-                  .filter((article) => !!article.url)
                   .map((article) => {
+                    if (!article.url) {
+                      return null;
+                    }
                     const traits = getListItemTraits(
                       {
                         traits: article.meta?.traits,
@@ -335,7 +337,7 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                       <TransportationCard
                         key={article.id}
                         name={article.name}
-                        url={article.url!}
+                        url={article.url}
                         flavorText={traits.join(", ")}
                         metaImage={article.meta?.metaImage ?? undefined}
                         metaDescription={article.meta?.metaDescription}
