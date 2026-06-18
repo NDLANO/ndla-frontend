@@ -319,32 +319,31 @@ export const SubjectContainer = ({ node, subjectType, searchResults }: Props) =>
                 <h2>{t("subjectsPage.popularArticles")}</h2>
               </Heading>
               <TransportationPageNodeListGrid context="node">
-                {popularArticles
-                  .map((article) => {
-                    if (!article.url) {
-                      return null;
-                    }
-                    const traits = getListItemTraits(
-                      {
-                        traits: article.meta?.traits,
-                        resourceType: article.url?.startsWith("/e/") ? "topic" : undefined,
-                        relevanceId: article.relevanceId,
-                        resourceTypes: article.resourceTypes,
-                      },
-                      t,
-                    );
-                    return (
-                      <TransportationCard
-                        key={article.id}
-                        name={article.name}
-                        url={article.url}
-                        flavorText={traits.join(", ")}
-                        metaImage={article.meta?.metaImage ?? undefined}
-                        metaDescription={article.meta?.metaDescription}
-                        context="link"
-                      />
-                    );
-                  })}
+                {popularArticles.map((article) => {
+                  if (!article.url) {
+                    return null;
+                  }
+                  const traits = getListItemTraits(
+                    {
+                      traits: article.meta?.traits,
+                      resourceType: article.url?.startsWith("/e/") ? "topic" : undefined,
+                      relevanceId: article.relevanceId,
+                      resourceTypes: article.resourceTypes,
+                    },
+                    t,
+                  );
+                  return (
+                    <TransportationCard
+                      key={article.id}
+                      name={article.name}
+                      url={article.url}
+                      flavorText={traits.join(", ")}
+                      metaImage={article.meta?.metaImage ?? undefined}
+                      metaDescription={article.meta?.metaDescription}
+                      context="link"
+                    />
+                  );
+                })}
               </TransportationPageNodeListGrid>
             </StyledCardNav>
           )}
