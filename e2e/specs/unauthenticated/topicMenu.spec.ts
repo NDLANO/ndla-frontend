@@ -21,6 +21,5 @@ test("menu is displayed", async ({ page, waitGraphql }) => {
   await waitGraphql();
   await expect(page.getByRole("heading", { name: "Mediesamfunnet 1" })).toBeVisible();
   await page.getByTestId("masthead-menu-button").click();
-  await waitGraphql();
   expect(page.getByRole("link", { name: "Mediesamfunnet 1" })).toBeDefined();
 });
