@@ -7,10 +7,10 @@
  */
 
 import { getCookie } from "@ndla/util";
-import { FEIDE_ACCESS_TOKEN_COOKIE, SESSION_EXPIRY_COOKIE } from "../constants";
+import { FEIDE_ID_TOKEN_COOKIE, SESSION_EXPIRY_COOKIE } from "../constants";
 
 export const getFeideCookie = (cookies: string) => {
-  return getCookie(FEIDE_ACCESS_TOKEN_COOKIE, cookies);
+  return getCookie(FEIDE_ID_TOKEN_COOKIE, cookies);
 };
 
 export const getActiveSessionCookieClient = () => {

@@ -22,7 +22,7 @@ test("authenticate", async ({ page }) => {
 
     await page.context().addCookies([
       {
-        name: "ndla_session_expires_at",
+        name: "ndla_session_expires_at_v2",
         value: expAt.toString(),
         expires: 2147483647,
         path: "/",
