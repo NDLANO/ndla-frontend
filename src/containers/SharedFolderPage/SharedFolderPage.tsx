@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { FolderUserLine } from "@ndla/icons";
 import { Button, Heading, Text } from "@ndla/primitives";
 import { HStack, styled } from "@ndla/styled-system/jsx";
@@ -23,8 +24,8 @@ import { MyNdlaTitle } from "../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../components/PageSpinner";
 import { PageTitle } from "../../components/PageTitle";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { GQLFolderFragment, GQLMyNdlaResourceFragment } from "../../graphqlTypes";
-import { useGetSharedFolder, useMyNdlaResourceMetaSearch } from "../../mutations/folder/folderQueries";
+import { GQLFolderFragment, GQLMyNdlaResourceFragment, GQLSharedFolderFragment } from "../../graphqlTypes";
+import { myNdlaResourceMetaSearchQuery, sharedFolderQueryDef } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { isNotFoundError } from "../../util/handleError";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
@@ -70,7 +71,7 @@ const HeadingWrapper = styled("div", {
   },
 });
 
-const containsFolder = (folder: GQLFolderFragment): boolean => {
+const containsFolder = (folder: GQLFolderFragment | GQLSharedFolderFragment): boolean => {
   return (
     !!folder.subfolders.find((subfolder) => containsFolder(subfolder as GQLFolderFragment)) ||
     folder.resources.length > 0
@@ -83,21 +84,25 @@ export const SharedFolderPage = () => {
   const foldersHeadingId = useId();
   const resourcesHeadingId = useId();
 
-  const { folder, loading, error } = useGetSharedFolder({
-    id: folderId,
+  const sharedFolderQuery = useQuery(sharedFolderQueryDef, { variables: { id: folderId } });
+
+  const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, {
+    variables: {
+      resources:
+        sharedFolderQuery.data?.sharedFolder?.resources.map((res) => ({
+          id: res.resourceId,
+          path: res.path,
+          resourceType: res.resourceType,
+        })) ?? [],
+    },
+    skip: !sharedFolderQuery.data?.sharedFolder || sharedFolderQuery.data.sharedFolder?.resources?.length === 0,
   });
 
-  const { data } = useMyNdlaResourceMetaSearch(
-    folder?.resources.map((res) => ({
-      id: res.resourceId,
-      path: res.path,
-      resourceType: res.resourceType,
-    })) ?? [],
-    { skip: !folder || folder?.resources?.length === 0 },
+  const keyedData = keyBy(
+    metaQuery.data?.myNdlaResourceMetaSearch ?? [],
+    (resource) => `${resource.type}-${resource.id}`,
   );
-
-  const keyedData = keyBy(data ?? [], (resource) => `${resource.type}-${resource.id}`);
-  const metaWithMetaImage = data?.find((d) => !!d.metaImage?.url);
+  const metaWithMetaImage = metaQuery.data?.myNdlaResourceMetaSearch?.find((d) => !!d.metaImage?.url);
 
   const getResourceMetaPath = (resource: GQLMyNdlaResourceFragment, resourceMeta: any) =>
     resourceMeta &&
@@ -106,15 +111,17 @@ export const SharedFolderPage = () => {
       ? `/${resource.resourceType}${resource.resourceType === "learningpath" ? "s" : ""}/${resource.resourceId}`
       : resource.path;
 
-  if (loading) {
+  if (sharedFolderQuery.loading) {
     return <PageRainbowSpinner />;
   }
-  if (isNotFoundError(error)) {
+  if (isNotFoundError(sharedFolderQuery.error)) {
     return <NotFoundPage />;
   }
-  if (error || !folder) {
+  if (sharedFolderQuery.error || !sharedFolderQuery.data?.sharedFolder) {
     return <DefaultErrorMessagePage />;
   }
+
+  const folder = sharedFolderQuery.data.sharedFolder;
 
   return (
     <StyledPageContainer asChild consumeCss>
@@ -154,9 +161,9 @@ export const SharedFolderPage = () => {
             </Heading>
             <BlockWrapper aria-labelledby={foldersHeadingId}>
               {folder.subfolders.map((subFolder) =>
-                containsFolder(subFolder as GQLFolderFragment) ? (
+                containsFolder(subFolder as GQLSharedFolderFragment) ? (
                   <li key={`folder-${subFolder.id}`}>
-                    <Folder folder={subFolder as GQLFolderFragment} link={routes.folder(subFolder.id)} />
+                    <Folder folder={subFolder as GQLSharedFolderFragment} link={routes.folder(subFolder.id)} />
                   </li>
                 ) : null,
               )}

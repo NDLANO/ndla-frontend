@@ -6,13 +6,13 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
 import { PageLayout } from "../components/Layout/PageContainer";
 import { SearchContainer } from "../containers/SearchPage/SearchContainer";
-import { GQLLtiSearchResourceTypesQuery } from "../graphqlTypes";
+import { GQLLtiSearchResourceTypesQuery, GQLLtiSearchResourceTypesQueryVariables } from "../graphqlTypes";
 import { LtiContextProvider } from "../LtiContext";
 import { createApolloLinks } from "../util/apiHelpers";
 
@@ -23,7 +23,10 @@ const StyledPageLayout = styled(PageLayout, {
   },
 });
 
-const searchResourceTypesQuery = gql`
+const searchResourceTypesQuery: TypedDocumentNode<
+  GQLLtiSearchResourceTypesQuery,
+  GQLLtiSearchResourceTypesQueryVariables
+> = gql`
   query ltiSearchResourceTypes {
     resourceTypes {
       ...SearchContainer_ResourceTypeDefinition
@@ -37,7 +40,7 @@ export const Component = () => {
 
   const client = useApolloClient();
 
-  const resourceTypesQuery = useQuery<GQLLtiSearchResourceTypesQuery>(searchResourceTypesQuery);
+  const resourceTypesQuery = useQuery(searchResourceTypesQuery);
 
   i18n.on("languageChanged", (lang) => {
     client.resetStore();

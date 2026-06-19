@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, ListItemHeading, ListItemRoot, PageContent, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -29,7 +29,7 @@ import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const queryDef = gql`
+const queryDef: TypedDocumentNode<GQLRevisionsQuery, GQLRevisionsQueryVariables> = gql`
   query revisions($articleId: Int!, $articleIdString: String!) {
     revisionHistory(id: $articleId) {
       revisions {
@@ -105,7 +105,7 @@ export const RevisionsPage = () => {
   const { t, i18n } = useTranslation();
   const { articleId } = useParams();
   const parsedArticleId = Number(articleId);
-  const query = useQuery<GQLRevisionsQuery, GQLRevisionsQueryVariables>(queryDef, {
+  const query = useQuery(queryDef, {
     variables: { articleId: parsedArticleId, articleIdString: articleId ?? "" },
     skip: !parsedArticleId,
   });

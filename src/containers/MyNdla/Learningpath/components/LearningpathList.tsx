@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import parse from "html-react-parser";
@@ -13,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { PageRainbowSpinner } from "../../../../components/PageSpinner";
 import { GQLMyNdlaLearningpathFragment } from "../../../../graphqlTypes";
 import { SettingsMenu } from "../../components/SettingsMenu";
-import { useMyLearningpaths } from "../learningpathQueries";
+import { myLearningpathQuery } from "../learningpathQueries";
 import { useLearningpathActionHooks } from "./LearningpathActionHooks";
 import { LearningpathItem } from "./LearningpathItem";
 
@@ -31,7 +32,7 @@ export const LearningpathList = () => {
   const { t } = useTranslation();
 
   // TODO: Better error handling https://github.com/NDLANO/Issues/issues/4242
-  const { data, loading } = useMyLearningpaths();
+  const { data, loading } = useQuery(myLearningpathQuery);
 
   if (loading) {
     return <PageRainbowSpinner />;

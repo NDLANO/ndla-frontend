@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine, CheckLine, CloseLine } from "@ndla/icons";
@@ -61,7 +61,7 @@ const StyledComboboxContent = styled(ComboboxContent, {
   },
 });
 
-const queryDef = gql`
+const queryDef: TypedDocumentNode<GQLUpdateResourceTagsQuery, GQLUpdateResourceTagsQueryVariables> = gql`
   query updateResourceTags {
     myNdlaResourceTags
   }
@@ -82,7 +82,7 @@ export const UpdateResourceTagsDialogContent = ({ onClose, resource }: Props) =>
   const [updateMyNdlaResource, { loading }] = useUpdateMyNdlaResourceMutation();
   const toast = useToast();
 
-  const tagsQuery = useQuery<GQLUpdateResourceTagsQuery, GQLUpdateResourceTagsQueryVariables>(queryDef);
+  const tagsQuery = useQuery(queryDef);
 
   const filteredTags = useMemo(() => {
     if (!debouncedQuery) return tagsQuery.data?.myNdlaResourceTags ?? [];

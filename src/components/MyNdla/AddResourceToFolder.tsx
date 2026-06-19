@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
 import { MessageBox, Button, Text, DialogFooter } from "@ndla/primitives";
@@ -75,7 +75,10 @@ const ResourceAddedSnack = ({ folder }: ResourceAddedSnackProps) => {
   );
 };
 
-const structureQueryDef = gql`
+const structureQueryDef: TypedDocumentNode<
+  GQLAddResourceToFolderStructureQuery,
+  GQLAddResourceToFolderStructureQueryVariables
+> = gql`
   query addResourceToFolderStructure($path: String!) {
     folders(includeSubfolders: true) {
       folders {
@@ -95,10 +98,7 @@ export const AddResourceToFolder = ({ onClose, resource, defaultOpenFolder, type
   const [saved, setSaved] = useState(false);
   const { examLock } = useContext(AuthContext);
   const client = useApolloClient();
-  const structureQuery = useQuery<GQLAddResourceToFolderStructureQuery, GQLAddResourceToFolderStructureQueryVariables>(
-    structureQueryDef,
-    { variables: { path: resource.path } },
-  );
+  const structureQuery = useQuery(structureQueryDef, { variables: { path: resource.path } });
   const [selectedFolderId, setSelectedFolderId] = useState<string | undefined>(undefined);
   const selectedFolder = useFolder(selectedFolderId);
   const toast = useToast();

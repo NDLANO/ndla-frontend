@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
 import {
@@ -31,7 +31,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLPodcastSeriesListPageQuery } from "../../graphqlTypes";
+import { GQLPodcastSeriesListPageQuery, GQLPodcastSeriesListPageQueryVariables } from "../../graphqlTypes";
 import { useStableSearchParams } from "../../util/useStableSearchParams";
 import { PodcastSeries } from "./PodcastSeries";
 
@@ -78,7 +78,7 @@ export const PodcastSeriesListPage = () => {
 
   const apolloClient = useApolloClient();
 
-  const { error, loading, data } = useQuery<GQLPodcastSeriesListPageQuery>(podcastSeriesListPageQuery, {
+  const { error, loading, data } = useQuery(podcastSeriesListPageQuery, {
     variables: {
       page: page,
       pageSize: PAGE_SIZE,
@@ -205,7 +205,10 @@ export const PodcastSeriesListPage = () => {
   );
 };
 
-const podcastSeriesListPageQuery = gql`
+const podcastSeriesListPageQuery: TypedDocumentNode<
+  GQLPodcastSeriesListPageQuery,
+  GQLPodcastSeriesListPageQueryVariables
+> = gql`
   ${PodcastSeries.fragments.series}
   query podcastSeriesListPage($page: Int!, $pageSize: Int!, $fallback: Boolean) {
     podcastSeriesSearch(page: $page, pageSize: $pageSize, fallback: $fallback) {

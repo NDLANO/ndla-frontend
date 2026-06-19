@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -22,7 +22,7 @@ import { AboutPageLeaf } from "./AboutPageLeaf";
 import { AboutPageNode } from "./AboutPageNode";
 import { findBreadcrumb, getBreadcrumb } from "./aboutPageUtils";
 
-const aboutPageQuery = gql`
+const aboutPageQuery: TypedDocumentNode<GQLAboutPageQuery, GQLAboutPageQueryVariables> = gql`
   query aboutPage($slug: String!, $transformArgs: TransformedArticleContentInput) {
     article(id: $slug) {
       ...AboutPageLeaf_Article
@@ -49,7 +49,7 @@ const aboutPageQuery = gql`
 export const AboutPage = () => {
   const { t } = useTranslation();
   const { slug } = useParams();
-  const { error, loading, data } = useQuery<GQLAboutPageQuery, GQLAboutPageQueryVariables>(aboutPageQuery, {
+  const { error, loading, data } = useQuery(aboutPageQuery, {
     skip: !slug,
     variables: { slug: slug ?? "" },
   });

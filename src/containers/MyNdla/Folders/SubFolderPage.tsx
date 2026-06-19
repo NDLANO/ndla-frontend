@@ -19,7 +19,7 @@ import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle, TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import { GQLFolderFragment, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { GQLFolderFragment } from "../../../graphqlTypes";
 import { foldersPageQuery, useFolder } from "../../../mutations/folder/folderQueries";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection } from "../components/MyNdlaPageSection";
@@ -53,7 +53,7 @@ const SubFolderPage = () => {
   const { folderId } = useParams();
   const { examLock } = useContext(AuthContext);
   // We load this to ensure all folders are in cache.
-  const { loading } = useQuery<GQLFoldersPageQuery>(foldersPageQuery);
+  const { loading } = useQuery(foldersPageQuery);
   const selectedFolder = useFolder(folderId);
 
   const title = useMemo(() => {

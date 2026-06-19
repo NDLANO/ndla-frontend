@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import {
   ErrorMessageContent,
@@ -56,7 +56,7 @@ interface Props {
   isOembed?: string;
 }
 
-const iframePageQuery = gql`
+const iframePageQuery: TypedDocumentNode<GQLIframePageQuery, GQLIframePageQueryVariables> = gql`
   query iframePage($articleId: String!, $taxonomyId: String!, $transformArgs: TransformedArticleContentInput) {
     article(id: $articleId) {
       ...IframeArticlePage_Article
@@ -72,7 +72,7 @@ const iframePageQuery = gql`
 export const IframePage = ({ taxonomyId, articleId, isOembed }: Props) => {
   const location = useLocation();
   const redirectContext = useContext(RedirectContext);
-  const { loading, data, error } = useQuery<GQLIframePageQuery, GQLIframePageQueryVariables>(iframePageQuery, {
+  const { loading, data, error } = useQuery(iframePageQuery, {
     variables: {
       articleId: articleId!,
       taxonomyId: taxonomyId || "",

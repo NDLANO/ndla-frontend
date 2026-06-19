@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createContext, ReactNode, useMemo, useSyncExternalStore } from "react";
 import { GQLMyNdlaDataQuery, GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
@@ -51,7 +51,7 @@ export const personalDataQueryFragment = gql`
   }
 `;
 
-const myNdlaQuery = gql`
+const myNdlaQuery: TypedDocumentNode<GQLMyNdlaDataQuery> = gql`
   query myNdlaData {
     examLockStatus {
       key
@@ -77,7 +77,7 @@ const getSnapshot = () => {
 export const AuthenticationContext = ({ children }: Props) => {
   const authenticated = useSyncExternalStore(timeoutSubscribe, getSnapshot, () => undefined);
 
-  const myNdlaData = useQuery<GQLMyNdlaDataQuery>(myNdlaQuery, {
+  const myNdlaData = useQuery(myNdlaQuery, {
     skip: typeof window === "undefined" || !authenticated,
   });
 

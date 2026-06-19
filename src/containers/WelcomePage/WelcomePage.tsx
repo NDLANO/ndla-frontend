@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ArrowRightLine, ChatHeartLine, ExternalLinkLine, HeartLine, MovieLine, RobotFill } from "@ndla/icons";
 import { CardContent, CardHeading, CardRoot, Heading, Hero, HeroBackground, Text } from "@ndla/primitives";
@@ -24,7 +24,7 @@ import { useSiteTheme } from "../../components/SiteThemeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { FILM_PAGE_URL, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLFrontpageDataQuery } from "../../graphqlTypes";
+import { GQLFrontpageDataQuery, GQLFrontpageDataQueryVariables } from "../../graphqlTypes";
 import { routes, toProgramme } from "../../routeHelpers";
 import { getChatRobotUrl } from "../../util/chatRobotHelpers";
 import { getArticleScripts } from "../../util/getArticleScripts";
@@ -175,7 +175,7 @@ const StyledCardRoot = styled(CardRoot, {
   },
 });
 
-const frontpageQuery = gql`
+const frontpageQuery: TypedDocumentNode<GQLFrontpageDataQuery, GQLFrontpageDataQueryVariables> = gql`
   query frontpageData($transformArgs: TransformedArticleContentInput) {
     programmes {
       id
@@ -229,7 +229,7 @@ export const WelcomePage = () => {
     ] as const;
   }, [user]);
 
-  const fpQuery = useQuery<GQLFrontpageDataQuery>(frontpageQuery);
+  const fpQuery = useQuery(frontpageQuery);
 
   const [article] = useMemo(() => {
     const _article = fpQuery.data?.frontpage?.article;

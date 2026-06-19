@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { ArrowRightLine } from "@ndla/icons";
 import { Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -15,7 +16,7 @@ import { useNavigate } from "react-router";
 import { AuthContext } from "../../../components/AuthenticationContext";
 import { MyNdlaTitle } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageTitle } from "../../../components/PageTitle";
-import { useFavouriteSubjects } from "../../../mutations/folder/folderQueries";
+import { favouriteSubjectsQueryDef } from "../../../mutations/folder/folderQueries";
 import { GridList } from "../../AllSubjectsPage/SubjectCategory";
 import { SubjectLink } from "../../AllSubjectsPage/SubjectLink";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
@@ -50,9 +51,11 @@ export const Component = () => {
 export const FavoriteSubjectsPage = () => {
   const { t } = useTranslation();
   const { user } = useContext(AuthContext);
-  const favouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects.toReversed() ?? [], {
+  const favouriteSubjectsQuery = useQuery(favouriteSubjectsQueryDef, {
+    variables: { ids: user?.favoriteSubjects.toReversed() ?? [] },
     skip: !user?.favoriteSubjects.length,
   });
+
   const navigate = useNavigate();
 
   const menuItems: MenuItemProps[] = [

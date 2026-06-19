@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,7 +16,7 @@ import { RedirectContext, RedirectInfo } from "../../components/RedirectContext"
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLResourcePageQuery } from "../../graphqlTypes";
+import { GQLResourcePageQuery, GQLResourcePageQueryVariables } from "../../graphqlTypes";
 import { findAccessDeniedErrors, isGoneError, isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
@@ -27,7 +27,7 @@ import { MovedResourcePage } from "../MovedResourcePage/MovedResourcePage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 
-const resourcePageQuery = gql`
+const resourcePageQuery: TypedDocumentNode<GQLResourcePageQuery, GQLResourcePageQueryVariables> = gql`
   query resourcePage($contextId: String, $transformArgs: TransformedArticleContentInput) {
     node(contextId: $contextId) {
       relevanceId
@@ -56,7 +56,7 @@ export const ResourcePage = () => {
   const { contextId, stepId } = useParams();
   const decodedPathname = useMemo(() => decodeURIComponent(location.pathname), [location]);
 
-  const { error, loading, data, previousData } = useQuery<GQLResourcePageQuery>(resourcePageQuery, {
+  const { error, loading, data, previousData } = useQuery(resourcePageQuery, {
     variables: {
       contextId,
       transformArgs: {

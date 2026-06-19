@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ReactNode, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -52,26 +52,21 @@ export const ArticleStep = ({
   const { t, i18n } = useTranslation();
   const location = useLocation();
 
-  const { data, loading } = useQuery<GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables>(
-    learningpathStepQuery,
-    {
-      variables: {
-        articleId: articleId ?? learningpathStep.resource?.article?.id.toString() ?? "",
-        resourceId: taxId ?? "",
-        includeResource: !!taxId,
-        transformArgs: {
-          path: location.pathname,
-          subjectId,
-        },
+  const stepQuery = useQuery(learningpathStepQuery, {
+    variables: {
+      articleId: articleId ?? learningpathStep.resource?.article?.id.toString() ?? "",
+      resourceId: taxId ?? "",
+      includeResource: !!taxId,
+      transformArgs: {
+        path: location.pathname,
+        subjectId,
       },
-      skip:
-        !!learningpathStep.resource?.article ||
-        !articleId ||
-        (!learningpathStep.embedUrl && !learningpathStep.resource),
     },
-  );
+    skip:
+      !!learningpathStep.resource?.article || !articleId || (!learningpathStep.embedUrl && !learningpathStep.resource),
+  });
 
-  const url = !learningpathStep.resource?.url ? data?.node?.url : undefined;
+  const url = !learningpathStep.resource?.url ? stepQuery.data?.node?.url : undefined;
   const contentUrl = url ? `${config.ndlaFrontendDomain}${url}` : undefined;
 
   useEffect(() => {
@@ -85,7 +80,7 @@ export const ArticleStep = ({
   });
 
   const [article, scripts] = useMemo(() => {
-    const article = learningpathStep.resource?.article ? learningpathStep.resource.article : data?.article;
+    const article = learningpathStep.resource?.article ? learningpathStep.resource.article : stepQuery.data?.article;
     if (!article) return [undefined, undefined];
     return [
       transformArticle(article, i18n.language, {
@@ -95,9 +90,9 @@ export const ArticleStep = ({
       }),
       getArticleScripts(article.requiredLibraries, article.transformedContent.content, i18n.language),
     ];
-  }, [data?.article, i18n.language, learningpathStep.resource, subjectId]);
+  }, [i18n.language, learningpathStep?.resource?.article, stepQuery.data?.article, subjectId]);
 
-  if (loading) {
+  if (stepQuery.loading) {
     return (
       <ResourceContent>
         <ContentPlaceholder variant="article" />
@@ -109,8 +104,8 @@ export const ArticleStep = ({
     return null;
   }
 
-  const learningpathStepResource = learningpathStep.resource ?? data;
-  const resource = learningpathStep.resource ?? data?.node;
+  const learningpathStepResource = learningpathStep.resource ?? stepQuery.data;
+  const resource = learningpathStep.resource ?? stepQuery.data?.node;
   const stepArticle = learningpathStepResource?.article;
 
   if (!stepArticle) {
@@ -201,7 +196,7 @@ ArticleStep.fragments = {
   `,
 };
 
-const learningpathStepQuery = gql`
+const learningpathStepQuery: TypedDocumentNode<GQLLearningpathStepQuery, GQLLearningpathStepQueryVariables> = gql`
   query learningpathStep(
     $articleId: String!
     $resourceId: String!

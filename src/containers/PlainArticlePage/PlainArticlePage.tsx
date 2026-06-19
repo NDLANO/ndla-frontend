@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useContext } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router";
@@ -22,7 +22,7 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
 import { PlainArticleContainer, plainArticleContainerFragments } from "./PlainArticleContainer";
 
-const plainArticlePageQuery = gql`
+const plainArticlePageQuery: TypedDocumentNode<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables> = gql`
   query plainArticlePage($articleId: String!, $revision: Int, $transformArgs: TransformedArticleContentInput) {
     article(id: $articleId, revision: $revision) {
       ...PlainArticleContainer_Article
@@ -39,21 +39,18 @@ export const PlainArticlePage = () => {
   const redirectContext = useContext(RedirectContext);
   const responseContext = useContext(ResponseContext);
   const parsedRevision = revision ? Number(revision) : undefined;
-  const { loading, data, error } = useQuery<GQLPlainArticlePageQuery, GQLPlainArticlePageQueryVariables>(
-    plainArticlePageQuery,
-    {
-      variables: {
-        articleId: articleId ?? "",
-        revision: parsedRevision ? parsedRevision : undefined,
-        transformArgs: {
-          showVisualElement: "true",
-          path: pathname,
-          isOembed: "false",
-        },
+  const { loading, data, error } = useQuery(plainArticlePageQuery, {
+    variables: {
+      articleId: articleId ?? "",
+      revision: parsedRevision ? parsedRevision : undefined,
+      transformArgs: {
+        showVisualElement: "true",
+        path: pathname,
+        isOembed: "false",
       },
-      skip: !articleId,
     },
-  );
+    skip: !articleId,
+  });
 
   if (loading) {
     return <ContentPlaceholder variant="article" />;

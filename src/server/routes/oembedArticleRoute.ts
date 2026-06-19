@@ -6,7 +6,7 @@
  *
  */
 
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql, TypedDocumentNode } from "@apollo/client";
 import { Node } from "@ndla/types-backend/taxonomy-api";
 import express from "express";
 import { matchPath, Params } from "react-router";
@@ -118,7 +118,7 @@ const getEmbedTitle = (type: string, data: GQLEmbedOembedQuery) => {
   }
 };
 
-const embedOembedQuery = gql`
+const embedOembedQuery: TypedDocumentNode<GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables> = gql`
   query embedOembed($id: String!, $type: String!) {
     resourceEmbed(id: $id, type: $type) {
       meta {
@@ -145,10 +145,7 @@ const embedOembedQuery = gql`
 const getEmbedObject = async (lang: string, embedId: string, embedType: string, req: express.Request) => {
   const client = getApolloClient(lang);
 
-  const embed = await client.query<GQLEmbedOembedQuery, GQLEmbedOembedQueryVariables>({
-    query: embedOembedQuery,
-    variables: { id: embedId, type: embedType },
-  });
+  const embed = await client.query({ query: embedOembedQuery, variables: { id: embedId, type: embedType } });
   // This will probably never happen. client.query throws on errors I think
   if (!embed.data) {
     return {

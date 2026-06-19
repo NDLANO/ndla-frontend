@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, StoreObject } from "@apollo/client";
+import { gql, StoreObject, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { useDialogContext } from "@ark-ui/react";
 import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
@@ -36,7 +36,7 @@ interface Props {
   resources: GQLMyNdlaResourceFragment[];
 }
 
-const queryDef = gql`
+const queryDef: TypedDocumentNode<GQLBatchProcessFoldersQuery, GQLBatchProcessFoldersQueryVariables> = gql`
 query batchProcessFolders {
   folders(includeSubfolders: true) {
     folders {
@@ -219,7 +219,7 @@ export const BatchProcessResources = ({ currentFolder, type, onProcess, loading 
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
   const { setOpen } = useDialogContext();
-  const foldersQuery = useQuery<GQLBatchProcessFoldersQuery, GQLBatchProcessFoldersQueryVariables>(queryDef);
+  const foldersQuery = useQuery(queryDef);
 
   const onSetFolderId = (id: string | undefined) => {
     setFolderId(id);

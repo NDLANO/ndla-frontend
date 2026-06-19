@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowDownShortLine } from "@ndla/icons";
 import {
@@ -36,7 +37,7 @@ import {
   GQLMyNdlaResourceFragment,
   GQLMyNdlaResourceMetaSearchQuery,
 } from "../../../../graphqlTypes";
-import { useFolders, useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
+import { foldersPageQuery, myNdlaResourceMetaSearchQuery } from "../../../../mutations/folder/folderQueries";
 import { getListItemTraits } from "../../../../util/listItemTraits";
 import { scrollToIndexFn } from "../../../../util/scrollToIndexFn";
 import { MyNdlaResource } from "./folderTypes";
@@ -155,26 +156,25 @@ export const MyNdlaResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
   const [highlightedValue, setHighligtedValue] = useState<string | null>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const { folders, loading: foldersLoading, error: foldersError } = useFolders();
+  const foldersQuery = useQuery(foldersPageQuery);
   const translations = useComboboxTranslations();
 
-  const resources = useMemo(() => flattenResources(folders), [folders]);
+  const resources = useMemo(
+    () => flattenResources(foldersQuery.data?.folders.folders ?? []),
+    [foldersQuery.data?.folders],
+  );
 
   const resourceSearchInput = useMemo(() => {
     return resources.map((r) => ({ id: r.resourceId, path: r.path, resourceType: r.resourceType }));
   }, [resources]);
 
-  const {
-    data,
-    loading: myNdlaResourceMetaLoading,
-    error: myNdlaResourceMetaError,
-  } = useMyNdlaResourceMetaSearch(resourceSearchInput);
+  const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, { variables: { resources: resourceSearchInput } });
 
   useEffect(() => {
-    if (data && resources.length) {
-      setStitchedResources(stitchResourcesWithMeta(resources, data, t));
+    if (metaQuery.data?.myNdlaResourceMetaSearch && resources.length) {
+      setStitchedResources(stitchResourcesWithMeta(resources, metaQuery.data.myNdlaResourceMetaSearch, t));
     }
-  }, [data, resources, t]);
+  }, [metaQuery.data?.myNdlaResourceMetaSearch, resources, t]);
 
   const filteredResources = useMemo(() => {
     return stitchedResources.filter((res) => res.meta?.title.toLowerCase().includes(inputValue.toLowerCase()));
@@ -190,9 +190,9 @@ export const MyNdlaResourcePicker = ({ onResourceSelect }: ComboboxProps) => {
     [filteredResources],
   );
 
-  if (!!foldersLoading || !!myNdlaResourceMetaLoading) return <RainbowSpinner />;
+  if (!!foldersQuery.loading || !!metaQuery.loading) return <RainbowSpinner />;
 
-  if (!!foldersError || !!myNdlaResourceMetaError)
+  if (!!foldersQuery.error || !!metaQuery.error)
     return <Text color="text.error">{t("myNdla.learningpath.form.content.folder.error")}</Text>;
 
   if (stitchedResources.length === 0) {

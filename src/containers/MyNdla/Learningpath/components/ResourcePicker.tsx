@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowLeftShortLine, ArrowRightShortLine } from "@ndla/icons";
@@ -107,7 +107,7 @@ interface Props {
 const SEARCH_RESOURCE_TYPES = learningPathResourceTypes.join();
 const PAGE_SIZE = 10;
 
-const searchQueryDef = gql`
+const searchQueryDef: TypedDocumentNode<GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables> = gql`
   query resourcePickerSearch($query: String, $page: Int, $pageSize: Int!, $resourceTypes: String) {
     search(query: $query, page: $page, pageSize: $pageSize, resourceTypes: $resourceTypes) {
       pageSize
@@ -155,7 +155,7 @@ export const ResourcePicker = ({ setResource }: Props) => {
     setPage(1);
   }, [delayedQuery]);
 
-  const searchQuery = useQuery<GQLResourcePickerSearchQuery, GQLResourcePickerSearchQueryVariables>(searchQueryDef, {
+  const searchQuery = useQuery(searchQueryDef, {
     variables: {
       query: delayedQuery,
       page: page,

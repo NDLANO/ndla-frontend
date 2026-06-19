@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Skeleton } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -92,15 +92,12 @@ interface Props {
 
 export const MovieGrid = ({ resourceType }: Props) => {
   const { t, i18n } = useTranslation();
-  const resourceTypeMovies = useQuery<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables>(
-    resourceTypeMoviesQuery,
-    {
-      variables: {
-        resourceType: resourceType.id,
-        language: i18n.language,
-      },
+  const resourceTypeMovies = useQuery(resourceTypeMoviesQuery, {
+    variables: {
+      resourceType: resourceType.id,
+      language: i18n.language,
     },
-  );
+  });
 
   return (
     <StyledSection>
@@ -169,7 +166,7 @@ SelectionMovieGrid.fragments = {
   `,
 };
 
-const resourceTypeMoviesQuery = gql`
+const resourceTypeMoviesQuery: TypedDocumentNode<GQLResourceTypeMoviesQuery, GQLResourceTypeMoviesQueryVariables> = gql`
   query resourceTypeMovies($resourceType: String!, $language: String!) {
     searchWithoutPagination(
       resourceTypes: $resourceType

@@ -6,7 +6,7 @@
  *
  */
 
-import { ApolloClient, gql } from "@apollo/client";
+import { ApolloClient, gql, TypedDocumentNode } from "@apollo/client";
 import config from "../config";
 import { GQLLmkDataQuery, GQLLmkDataQueryVariables } from "../graphqlTypes";
 import { createApolloClient } from "../util/apiHelpers";
@@ -24,7 +24,7 @@ const getApolloClient = (locale: string) => {
   }
 };
 
-const lmkGql = gql`
+const lmkGql: TypedDocumentNode<GQLLmkDataQuery, GQLLmkDataQueryVariables> = gql`
   query lmkData {
     nodes(nodeType: "SUBJECT", filterVisible: true) {
       id
@@ -69,9 +69,7 @@ const langMap = {
 export const fetchLmk = async () => {
   const client = getApolloClient("nb");
 
-  const lmkQuery = await client.query<GQLLmkDataQuery, GQLLmkDataQueryVariables>({
-    query: lmkGql,
-  });
+  const lmkQuery = await client.query({ query: lmkGql });
 
   const graphNodes =
     lmkQuery.data?.nodes?.map((subject) => ({

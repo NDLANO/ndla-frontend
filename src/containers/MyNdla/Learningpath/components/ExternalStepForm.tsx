@@ -6,6 +6,7 @@
  *
  */
 
+import { useLazyQuery } from "@apollo/client/react";
 import { CheckLine, ExternalLinkLine } from "@ndla/icons";
 import {
   FieldLabel,
@@ -28,7 +29,7 @@ import { useTranslation } from "react-i18next";
 import { URL_REGEX } from "../../../../util/urlHelper";
 import { useValidationTranslation } from "../../../../util/useValidationTranslation";
 import { FieldLength } from "../../components/FieldLength";
-import { useFetchOpengraph } from "../learningpathQueries";
+import { opengraphQueryDef } from "../learningpathQueries";
 
 const StyledCheckboxRoot = styled(CheckboxRoot, {
   base: {
@@ -50,7 +51,7 @@ export interface ExternalFormValues {
 export const ExternalStepForm = () => {
   const { t } = useTranslation();
   const { control, setValue, watch } = useFormContext<ExternalFormValues>();
-  const [fetchOpengraph] = useFetchOpengraph();
+  const [fetchOpengraph] = useLazyQuery(opengraphQueryDef);
   const { validationT } = useValidationTranslation();
 
   useEffect(() => {

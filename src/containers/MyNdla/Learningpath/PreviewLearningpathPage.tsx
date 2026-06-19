@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
@@ -53,22 +53,23 @@ const LearningpathWrapper = styled("div", {
   },
 });
 
-const previewLearningpathQuery = gql`
-  query previewLearningpath($pathId: String!, $transformArgs: TransformedArticleContentInput) {
-    myNdlaLearningpath(pathId: $pathId) {
-      id
-      canEdit
-      ...LearningpathMenu_Learningpath
-      ...LearningpathContent_Learningpath
-      learningsteps {
-        ...LearningpathContent_LearningpathStep
+const previewLearningpathQuery: TypedDocumentNode<GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables> =
+  gql`
+    query previewLearningpath($pathId: String!, $transformArgs: TransformedArticleContentInput) {
+      myNdlaLearningpath(pathId: $pathId) {
+        id
+        canEdit
+        ...LearningpathMenu_Learningpath
+        ...LearningpathContent_Learningpath
+        learningsteps {
+          ...LearningpathContent_LearningpathStep
+        }
       }
     }
-  }
-  ${LearningpathMenu.fragments.learningpath}
-  ${LearningpathContent.fragments.learningpath}
-  ${LearningpathContent.fragments.learningpathStep}
-`;
+    ${LearningpathMenu.fragments.learningpath}
+    ${LearningpathContent.fragments.learningpath}
+    ${LearningpathContent.fragments.learningpathStep}
+  `;
 
 export const Component = () => {
   return <PrivateRoute element={<PreviewLearningpathPage />} />;
@@ -78,14 +79,11 @@ export const PreviewLearningpathPage = () => {
   const { t } = useTranslation();
   const { learningpathId, stepId } = useParams();
 
-  const learningpathQuery = useQuery<GQLPreviewLearningpathQuery, GQLPreviewLearningpathQueryVariables>(
-    previewLearningpathQuery,
-    {
-      variables: { pathId: learningpathId ?? "" },
-      skip: !learningpathId,
-      fetchPolicy: "network-only",
-    },
-  );
+  const learningpathQuery = useQuery(previewLearningpathQuery, {
+    variables: { pathId: learningpathId ?? "" },
+    skip: !learningpathId,
+    fetchPolicy: "network-only",
+  });
 
   if (learningpathQuery.loading) {
     return <PageRainbowSpinner />;

@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { Button, DialogRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
@@ -29,7 +30,7 @@ import { LearningpathShareDialogContent } from "./components/LearningpathShareDi
 import { LearningpathShareLink } from "./components/LearningpathShareLink";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { LearningpathFormButtonContainer } from "./LearningpathFormButtonContainer";
-import { useFetchLearningpath } from "./learningpathQueries";
+import { learningpathQueryDef } from "./learningpathQueries";
 import { LEARNINGPATH_READY_FOR_SHARING, LEARNINGPATH_SHARED } from "./utils";
 
 const TextWrapper = styled("div", {
@@ -57,7 +58,7 @@ export const SaveLearningpathPage = () => {
   const { t } = useTranslation();
   const { learningpathId } = useParams();
   const toast = useToast();
-  const learningpathQuery = useFetchLearningpath({
+  const learningpathQuery = useQuery(learningpathQueryDef, {
     variables: { pathId: learningpathId ?? "" },
     skip: !learningpathId,
   });

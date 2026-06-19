@@ -6,7 +6,7 @@
  *
  */
 
-import { gql, Reference } from "@apollo/client";
+import { gql, Reference, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useMutation } from "@apollo/client/react";
 import {
   GQLAddFolderMutation,
@@ -43,13 +43,16 @@ import {
 import { folderFragment, myNdlaResourceFragment } from "./folderFragments";
 import { recentlyUsedQuery } from "./folderQueries";
 
-const deleteFolderMutation = gql`
+const deleteFolderMutation: TypedDocumentNode<GQLDeleteFolderMutation, GQLDeleteFolderMutationVariables> = gql`
   mutation deleteFolder($id: String!) {
     deleteFolder(id: $id)
   }
 `;
 
-const updateMyNdlaResourceMutation = gql`
+const updateMyNdlaResourceMutation: TypedDocumentNode<
+  GQLUpdateMyNdlaResourceMutation,
+  GQLUpdateMyNdlaResourceMutationVariables
+> = gql`
   mutation updateMyNdlaResource($id: String!, $tags: [String!]!) {
     updateMyNdlaResource(id: $id, tags: $tags) {
       ...MyNdlaResource
@@ -58,7 +61,7 @@ const updateMyNdlaResourceMutation = gql`
   ${myNdlaResourceFragment}
 `;
 
-const addFolderMutation = gql`
+const addFolderMutation: TypedDocumentNode<GQLAddFolderMutation, GQLAddFolderMutationVariables> = gql`
   mutation addFolder($name: String!, $parentId: String, $status: String, $description: String) {
     addFolder(name: $name, parentId: $parentId, status: $status, description: $description) {
       ...Folder
@@ -67,7 +70,7 @@ const addFolderMutation = gql`
   ${folderFragment}
 `;
 
-const updateFolderMutation = gql`
+const updateFolderMutation: TypedDocumentNode<GQLUpdateFolderMutation, GQLUpdateFolderMutationVariables> = gql`
   mutation updateFolder($id: String!, $name: String, $status: String, $description: String) {
     updateFolder(id: $id, name: $name, status: $status, description: $description) {
       ...Folder
@@ -76,24 +79,28 @@ const updateFolderMutation = gql`
   ${folderFragment}
 `;
 
-const updateFolderStatusMutation = gql`
+const updateFolderStatusMutation: TypedDocumentNode<
+  GQLUpdateFolderStatusMutation,
+  GQLUpdateFolderStatusMutationVariables
+> = gql`
   mutation updateFolderStatus($folderId: String!, $status: String!) {
     updateFolderStatus(folderId: $folderId, status: $status)
   }
 `;
 
-const copySharedFolderMutation = gql`
-  mutation copySharedFolder($folderId: String!, $destinationFolderId: String) {
-    copySharedFolder(folderId: $folderId, destinationFolderId: $destinationFolderId) {
-      ...Folder
+const copySharedFolderMutation: TypedDocumentNode<GQLCopySharedFolderMutation, GQLCopySharedFolderMutationVariables> =
+  gql`
+    mutation copySharedFolder($folderId: String!, $destinationFolderId: String) {
+      copySharedFolder(folderId: $folderId, destinationFolderId: $destinationFolderId) {
+        ...Folder
+      }
     }
-  }
-  ${folderFragment}
-`;
+    ${folderFragment}
+  `;
 
 export const useAddFolderMutation = () => {
   const client = useApolloClient();
-  return useMutation<GQLAddFolderMutation, GQLAddFolderMutationVariables>(addFolderMutation, {
+  return useMutation(addFolderMutation, {
     onCompleted: ({ addFolder: newFolder }) => {
       const parentId = newFolder.parentId;
       if (!parentId) {
@@ -129,7 +136,7 @@ export const useAddFolderMutation = () => {
 };
 
 export const useDeleteFolderMutation = () => {
-  return useMutation<GQLDeleteFolderMutation, GQLDeleteFolderMutationVariables>(deleteFolderMutation, {
+  return useMutation(deleteFolderMutation, {
     refetchQueries: [{ query: recentlyUsedQuery }],
     update: (cache, { data }) => {
       cache.modify({
@@ -148,33 +155,29 @@ export const useDeleteFolderMutation = () => {
   });
 };
 
-export const useUpdateMyNdlaResourceMutation = () =>
-  useMutation<GQLUpdateMyNdlaResourceMutation, GQLUpdateMyNdlaResourceMutationVariables>(updateMyNdlaResourceMutation);
+export const useUpdateMyNdlaResourceMutation = () => useMutation(updateMyNdlaResourceMutation);
 
 export const useUpdateFolderStatusMutation = () => {
   const { cache } = useApolloClient();
-  return useMutation<GQLUpdateFolderStatusMutation, GQLUpdateFolderStatusMutationVariables>(
-    updateFolderStatusMutation,
-    {
-      onCompleted: (data, values) => {
-        data?.updateFolderStatus.forEach((folderId) => {
-          cache.modify({
-            id: cache.identify({ id: folderId, __typename: "Folder" }),
-            fields: {
-              status: () => {
-                return values!.variables!.status;
-              },
+  return useMutation(updateFolderStatusMutation, {
+    onCompleted: (data, values) => {
+      data?.updateFolderStatus.forEach((folderId) => {
+        cache.modify({
+          id: cache.identify({ id: folderId, __typename: "Folder" }),
+          fields: {
+            status: () => {
+              return values!.variables!.status;
             },
-          });
+          },
         });
-      },
+      });
     },
-  );
+  });
 };
 
 export const useCopySharedFolderMutation = () => {
   const { cache } = useApolloClient();
-  return useMutation<GQLCopySharedFolderMutation, GQLCopySharedFolderMutationVariables>(copySharedFolderMutation, {
+  return useMutation(copySharedFolderMutation, {
     onCompleted: (data, values) => {
       if (values?.variables?.destinationFolderId) {
         cache.modify({
@@ -213,7 +216,7 @@ export const useCopySharedFolderMutation = () => {
   });
 };
 
-const moveFolderMutation = gql`
+const moveFolderMutation: TypedDocumentNode<GQLMoveFolderMutation, GQLMoveFolderMutationVariables> = gql`
   mutation moveFolder($id: String!, $parentId: StringOrNull) {
     moveFolder(id: $id, parentId: $parentId) {
       ...Folder
@@ -223,12 +226,12 @@ const moveFolderMutation = gql`
 `;
 
 export const useMoveFolderMutation = () => {
-  return useMutation<GQLMoveFolderMutation, GQLMoveFolderMutationVariables>(moveFolderMutation);
+  return useMutation(moveFolderMutation);
 };
 
 export const useUpdateFolderMutation = () => {
   const { cache } = useApolloClient();
-  return useMutation<GQLUpdateFolderMutation, GQLUpdateFolderMutationVariables>(updateFolderMutation, {
+  return useMutation(updateFolderMutation, {
     onCompleted(data, values) {
       cache.modify({
         id: cache.identify({
@@ -248,34 +251,38 @@ export const useUpdateFolderMutation = () => {
   });
 };
 
-const addMyNdlaResourceQuery = gql`
-  mutation addMyNdlaResource(
-    $resourceId: String!
-    $folderId: String
-    $resourceType: String!
-    $path: String!
-    $tags: [String!]
-  ) {
-    addMyNdlaResource(
-      resourceId: $resourceId
-      folderId: $folderId
-      resourceType: $resourceType
-      path: $path
-      tags: $tags
+const addMyNdlaResourceQuery: TypedDocumentNode<GQLAddMyNdlaResourceMutation, GQLAddMyNdlaResourceMutationVariables> =
+  gql`
+    mutation addMyNdlaResource(
+      $resourceId: String!
+      $folderId: String
+      $resourceType: String!
+      $path: String!
+      $tags: [String!]
     ) {
-      ...MyNdlaResource
+      addMyNdlaResource(
+        resourceId: $resourceId
+        folderId: $folderId
+        resourceType: $resourceType
+        path: $path
+        tags: $tags
+      ) {
+        ...MyNdlaResource
+      }
     }
-  }
-  ${myNdlaResourceFragment}
-`;
+    ${myNdlaResourceFragment}
+  `;
 
 export const useAddMyNdlaResourceMutation = () => {
-  return useMutation<GQLAddMyNdlaResourceMutation, GQLAddMyNdlaResourceMutationVariables>(addMyNdlaResourceQuery, {
+  return useMutation(addMyNdlaResourceQuery, {
     refetchQueries: [{ query: recentlyUsedQuery }],
   });
 };
 
-const deleteMyNdlaResourceMutation = gql`
+const deleteMyNdlaResourceMutation: TypedDocumentNode<
+  GQLDeleteMyNdlaResourceMutation,
+  GQLDeleteMyNdlaResourceMutationVariables
+> = gql`
   mutation deleteMyNdlaResource($folderId: String, $resourceId: String!) {
     deleteMyNdlaResource(folderId: $folderId, resourceId: $resourceId)
   }
@@ -283,154 +290,156 @@ const deleteMyNdlaResourceMutation = gql`
 
 export const useDeleteMyNdlaResourceMutation = (folderId: string | undefined) => {
   const { cache } = useApolloClient();
-  return useMutation<GQLDeleteMyNdlaResourceMutation, GQLDeleteMyNdlaResourceMutationVariables>(
-    deleteMyNdlaResourceMutation,
-    {
-      refetchQueries: [{ query: recentlyUsedQuery }],
-      onCompleted: ({ deleteMyNdlaResource: id }) => {
-        if (folderId) {
-          cache.modify({
-            id: cache.identify({ __typename: "Folder", id: folderId }),
-            fields: {
-              resources(existing = []) {
-                return existing.filter((res: Reference) => res.__ref !== `MyNdlaResource:${id}`);
-              },
-            },
-          });
-        } else {
-          cache.modify({
-            fields: {
-              myNdlaRootResources(existing = []) {
-                return existing.filter((res: Reference) => res.__ref !== `MyNdlaResource:${id}`);
-              },
-            },
-          });
-        }
-        const connectionId = cache.identify({
-          __typename: "MyNdlaResourceConnection",
-          resourceId: id,
-          folderId: folderId,
-        });
+  return useMutation(deleteMyNdlaResourceMutation, {
+    refetchQueries: [{ query: recentlyUsedQuery }],
+    onCompleted: ({ deleteMyNdlaResource: id }) => {
+      if (folderId) {
         cache.modify({
+          id: cache.identify({ __typename: "Folder", id: folderId }),
           fields: {
-            myNdlaResourceConnections(existing = []) {
-              return existing.filter((res: Reference) => res.__ref !== connectionId);
+            resources(existing = []) {
+              return existing.filter((res: Reference) => res.__ref !== `MyNdlaResource:${id}`);
             },
           },
         });
-        cache.gc();
-      },
+      } else {
+        cache.modify({
+          fields: {
+            myNdlaRootResources(existing = []) {
+              return existing.filter((res: Reference) => res.__ref !== `MyNdlaResource:${id}`);
+            },
+          },
+        });
+      }
+      const connectionId = cache.identify({
+        __typename: "MyNdlaResourceConnection",
+        resourceId: id,
+        folderId: folderId,
+      });
+      cache.modify({
+        fields: {
+          myNdlaResourceConnections(existing = []) {
+            return existing.filter((res: Reference) => res.__ref !== connectionId);
+          },
+        },
+      });
+      cache.gc();
     },
-  );
+  });
 };
 
-const moveMyNdlaResourceMutation = gql`
+const moveMyNdlaResourceMutation: TypedDocumentNode<
+  GQLMoveMyNdlaResourceMutation,
+  GQLMoveMyNdlaResourceMutationVariables
+> = gql`
   mutation moveMyNdlaResource($id: String!, $fromFolderId: StringOrNull, $toFolderId: StringOrNull) {
     moveMyNdlaResource(id: $id, fromFolderId: $fromFolderId, toFolderId: $toFolderId)
   }
 `;
 
-const batchDeleteResourcesMutation = gql`
+const batchDeleteResourcesMutation: TypedDocumentNode<
+  GQLBatchDeleteMyNdlaResourcesMutation,
+  GQLBatchDeleteMyNdlaResourcesMutationVariables
+> = gql`
   mutation batchDeleteMyNdlaResources($resourceIds: [String!]!, $folderId: StringOrNull) {
     deleteMyNdlaResources(resourceIds: $resourceIds, folderId: $folderId)
   }
 `;
 
 export const useDeleteMyNdlaResourcesMutation = () => {
-  return useMutation<GQLBatchDeleteMyNdlaResourcesMutation, GQLBatchDeleteMyNdlaResourcesMutationVariables>(
-    batchDeleteResourcesMutation,
-  );
+  return useMutation(batchDeleteResourcesMutation);
 };
 
 export const useMoveMyNdlaResourceMutation = () => {
-  return useMutation<GQLMoveMyNdlaResourceMutation, GQLMoveMyNdlaResourceMutationVariables>(moveMyNdlaResourceMutation);
+  return useMutation(moveMyNdlaResourceMutation);
 };
 
-const batchMoveResourcesMutation = gql`
+const batchMoveResourcesMutation: TypedDocumentNode<
+  GQLBatchMoveMyNdlaResourcesMutation,
+  GQLBatchMoveMyNdlaResourcesMutationVariables
+> = gql`
   mutation batchMoveMyNdlaResources($resourceIds: [String!]!, $fromFolderId: StringOrNull, $toFolderId: StringOrNull) {
     moveMyNdlaResources(resourceIds: $resourceIds, fromFolderId: $fromFolderId, toFolderId: $toFolderId)
   }
 `;
 
 export const useBatchMoveMyNdlaResourcesMutation = () => {
-  return useMutation<GQLBatchMoveMyNdlaResourcesMutation, GQLBatchMoveMyNdlaResourcesMutationVariables>(
-    batchMoveResourcesMutation,
-  );
+  return useMutation(batchMoveResourcesMutation);
 };
 
-const batchCopyMyNdlaResourcesMutation = gql`
+const batchCopyMyNdlaResourcesMutation: TypedDocumentNode<
+  GQLBatchCopyMyNdlaResourcesMutation,
+  GQLBatchCopyMyNdlaResourcesMutationVariables
+> = gql`
   mutation batchCopyMyNdlaResources($resourceIds: [String!]!, $toFolderId: StringOrNull) {
     copyMyNdlaResources(resourceIds: $resourceIds, toFolderId: $toFolderId)
   }
 `;
 
 export const useBatchCopyMyNdlaResourcesMutation = () => {
-  return useMutation<GQLBatchCopyMyNdlaResourcesMutation, GQLBatchCopyMyNdlaResourcesMutationVariables>(
-    batchCopyMyNdlaResourcesMutation,
-    { refetchQueries: [recentlyUsedQuery] },
-  );
+  return useMutation(batchCopyMyNdlaResourcesMutation, { refetchQueries: [recentlyUsedQuery] });
 };
 
-const favoriteSharedFolderMutation = gql`
+const favoriteSharedFolderMutation: TypedDocumentNode<
+  GQLFavoriteSharedFolderMutation,
+  GQLFavoriteSharedFolderMutationVariables
+> = gql`
   mutation favoriteSharedFolder($folderId: String!) {
     favoriteSharedFolder(folderId: $folderId)
   }
 `;
 
 export const useFavoriteSharedFolder = () => {
-  return useMutation<GQLFavoriteSharedFolderMutation, GQLFavoriteSharedFolderMutationVariables>(
-    favoriteSharedFolderMutation,
-    {
-      refetchQueries: [{ query: recentlyUsedQuery }],
-      update: (cache, { data }) => {
-        cache.modify({
-          fields: {
-            folders: (
-              { sharedFolders: existingFolders, ...rest } = {
-                folders: [],
-                sharedFolders: [],
-                __typename: "UserFolder",
-              },
-            ) => {
-              return {
-                sharedFolders: existingFolders.concat({
-                  __ref: cache.identify({ id: data?.favoriteSharedFolder, __typename: "SharedFolder" }),
-                }),
-                ...rest,
-              };
+  return useMutation(favoriteSharedFolderMutation, {
+    refetchQueries: [{ query: recentlyUsedQuery }],
+    update: (cache, { data }) => {
+      cache.modify({
+        fields: {
+          folders: (
+            { sharedFolders: existingFolders, ...rest } = {
+              folders: [],
+              sharedFolders: [],
+              __typename: "UserFolder",
             },
+          ) => {
+            return {
+              sharedFolders: existingFolders.concat({
+                __ref: cache.identify({ id: data?.favoriteSharedFolder, __typename: "SharedFolder" }),
+              }),
+              ...rest,
+            };
           },
-        });
-      },
+        },
+      });
     },
-  );
+  });
 };
 
-const unFavoriteSharedFolderMutation = gql`
+const unFavoriteSharedFolderMutation: TypedDocumentNode<
+  GQLUnFavoriteSharedFolderMutation,
+  GQLUnFavoriteSharedFolderMutationVariables
+> = gql`
   mutation unFavoriteSharedFolder($folderId: String!) {
     unFavoriteSharedFolder(folderId: $folderId)
   }
 `;
 
 export const useUnFavoriteSharedFolder = () => {
-  return useMutation<GQLUnFavoriteSharedFolderMutation, GQLUnFavoriteSharedFolderMutationVariables>(
-    unFavoriteSharedFolderMutation,
-    {
-      refetchQueries: [{ query: recentlyUsedQuery }],
-      update: (cache, { data }) => {
-        cache.modify({
-          fields: {
-            folders(folders, { readField }) {
-              return {
-                folders: folders.folders,
-                sharedFolders: folders.sharedFolders.filter(
-                  (f: Reference) => readField("id", f) !== data?.unFavoriteSharedFolder,
-                ),
-              };
-            },
+  return useMutation(unFavoriteSharedFolderMutation, {
+    refetchQueries: [{ query: recentlyUsedQuery }],
+    update: (cache, { data }) => {
+      cache.modify({
+        fields: {
+          folders(folders, { readField }) {
+            return {
+              folders: folders.folders,
+              sharedFolders: folders.sharedFolders.filter(
+                (f: Reference) => readField("id", f) !== data?.unFavoriteSharedFolder,
+              ),
+            };
           },
-        });
-      },
+        },
+      });
     },
-  );
+  });
 };

@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Badge, CardContent, CardHeading, CardImage, CardRoot, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -21,7 +21,11 @@ import { PageContainer } from "../../components/Layout/PageContainer";
 import { NavigationBox } from "../../components/NavigationBox";
 import { PageTitle } from "../../components/PageTitle";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLMovedResourcePage_NodeFragment, GQLMovedResourceQuery } from "../../graphqlTypes";
+import {
+  GQLMovedResourcePage_NodeFragment,
+  GQLMovedResourceQuery,
+  GQLMovedResourceQueryVariables,
+} from "../../graphqlTypes";
 import { useListItemTraits } from "../../util/listItemTraits";
 
 interface Props {
@@ -50,7 +54,7 @@ const StyledCardRoot = styled(CardRoot, {
   },
 });
 
-const movedResourceQuery = gql`
+const movedResourceQuery: TypedDocumentNode<GQLMovedResourceQuery, GQLMovedResourceQueryVariables> = gql`
   query movedResource($resourceId: String!) {
     resource: node(id: $resourceId) {
       contexts {
@@ -65,7 +69,7 @@ const movedResourceQuery = gql`
 export const MovedResourcePage = ({ resource }: Props) => {
   const { t } = useTranslation();
 
-  const { error, loading, data } = useQuery<GQLMovedResourceQuery>(movedResourceQuery, {
+  const { error, loading, data } = useQuery(movedResourceQuery, {
     variables: { resourceId: resource.id },
   });
 

@@ -12,9 +12,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:^4.1.6":
-  version: 4.1.6
-  resolution: "@apollo/client@npm:4.1.6"
+"@apollo/client@npm:^4.2.3":
+  version: 4.2.3
+  resolution: "@apollo/client@npm:4.2.3"
   dependencies:
     "@graphql-typed-document-node/core": "npm:^3.1.1"
     "@wry/caches": "npm:^1.0.0"
@@ -24,7 +24,7 @@ __metadata:
     optimism: "npm:^0.18.0"
     tslib: "npm:^2.3.0"
   peerDependencies:
-    graphql: ^16.0.0
+    graphql: ^16.0.0 || ^17.0.0
     graphql-ws: ^5.5.5 || ^6.0.3
     react: ^17.0.0 || ^18.0.0 || >=19.0.0-rc
     react-dom: ^17.0.0 || ^18.0.0 || >=19.0.0-rc
@@ -39,7 +39,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: 10c0/ff152317932cb0ba46423161d388d1a2bc0bbc6c8ec6e2e85e915bb2ec22f461effa6fd2bbc8b754babd75ac8b52843f1e3ddf8e501cbe1d9b857e4df2f2f2df
+  checksum: 10c0/5aa020c6f859e4d97c417f0d61fc71f1c998e88667c7aacb85693b37bbcf56553d7fa122715c4f6604cb614eac513b3d2da3cbabd29e6428622f0862f13f5c7f
   languageName: node
   linkType: hard
 
@@ -1558,9 +1558,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/cli@npm:^7.1.2":
-  version: 7.1.2
-  resolution: "@graphql-codegen/cli@npm:7.1.2"
+"@graphql-codegen/cli@npm:^7.1.3":
+  version: 7.1.3
+  resolution: "@graphql-codegen/cli@npm:7.1.3"
   dependencies:
     "@babel/generator": "npm:^7.18.13"
     "@babel/template": "npm:^7.18.10"
@@ -1609,7 +1609,7 @@ __metadata:
     graphql-codegen: esm/bin.js
     graphql-codegen-cjs: cjs/bin.js
     graphql-codegen-esm: esm/bin.js
-  checksum: 10c0/db050c0bd42cbd0716883d3f1096cd7e524234691aa2674ce9d1c76aea1f8169feed73094e1946531e5ce0acc3d090e064c88ff3d6be67c5da3d46577527cb45
+  checksum: 10c0/117faffe1add1d3fcc519c1d82c34d684fdbca1ad591e857456c7c416d0cb831b9dfa65d0a0781a28013508971f7cbaa8532aa50849fb8c8a541cf84a3dd6a0c
   languageName: node
   linkType: hard
 
@@ -11196,7 +11196,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "ndla-frontend@workspace:."
   dependencies:
-    "@apollo/client": "npm:^4.1.6"
+    "@apollo/client": "npm:^4.2.3"
     "@ark-ui/react": "npm:^5.37.2"
     "@dnd-kit/core": "npm:^6.3.1"
     "@dnd-kit/modifiers": "npm:^8.0.0"
@@ -11204,7 +11204,7 @@ __metadata:
     "@dnd-kit/utilities": "npm:^3.2.2"
     "@fontsource-variable/source-code-pro": "npm:^5.2.7"
     "@fontsource-variable/source-serif-4": "npm:^5.2.9"
-    "@graphql-codegen/cli": "npm:^7.1.2"
+    "@graphql-codegen/cli": "npm:^7.1.3"
     "@graphql-codegen/schema-ast": "npm:^6.0.1"
     "@graphql-codegen/typescript-operations": "npm:^6.0.4"
     "@graphql-eslint/eslint-plugin": "npm:^4.4.0"
