@@ -12,8 +12,8 @@ import { ImageEmbed } from "@ndla/ui";
 
 interface Props {
   embed?: EmbedMetaData;
-  imageUrl?: string;
-  imageAlt?: string;
+  imageUrl?: string | null;
+  imageAlt?: string | null;
 }
 
 // This is styled in TransportationPageHeader

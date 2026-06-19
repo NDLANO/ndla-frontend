@@ -22,14 +22,14 @@ import { TFunction } from "i18next";
 import { useForm, Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { FieldLength } from "../../containers/MyNdla/components/FieldLength";
-import { GQLFolder } from "../../graphqlTypes";
+import { GQLFolderFragment } from "../../graphqlTypes";
 import { useValidationTranslation } from "../../util/useValidationTranslation";
 
 interface EditFolderFormProps {
-  folder?: GQLFolder;
+  folder?: GQLFolderFragment;
   onClose: () => void;
   onSave: (values: FolderFormValues) => Promise<void>;
-  siblings: GQLFolder[];
+  siblings: GQLFolderFragment[];
   context?: "simple" | "full";
   loading?: boolean;
 }
@@ -56,7 +56,7 @@ export interface FolderFormValues {
   description?: string;
 }
 
-const toFormValues = (folder: GQLFolder | undefined, t: TFunction): FolderFormValues => {
+const toFormValues = (folder: GQLFolderFragment | undefined, t: TFunction): FolderFormValues => {
   return {
     name: folder?.name ?? "",
     description: folder?.description ?? t("myNdla.sharedFolder.description"),

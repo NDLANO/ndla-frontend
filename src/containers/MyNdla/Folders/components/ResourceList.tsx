@@ -13,7 +13,7 @@ import { keyBy, sortBy } from "@ndla/util";
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
-import { GQLFolder, GQLMyNdlaResource } from "../../../../graphqlTypes";
+import { GQLFolderFragment, GQLMyNdlaResourceFragment } from "../../../../graphqlTypes";
 import { useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 import { SORT_CONTENT_TYPE, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";
@@ -80,8 +80,8 @@ const StyledButton = styled(Button, {
 const keyId = (type: string, id: string) => `${type}-${id}`;
 
 interface Props {
-  selectedFolder: GQLFolder | undefined;
-  resources: GQLMyNdlaResource[];
+  selectedFolder: GQLFolderFragment | undefined;
+  resources: GQLMyNdlaResourceFragment[];
   labelledBy: string;
 }
 
@@ -107,7 +107,7 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
   const keyedResources = keyBy(resources, (resource) => resource.id);
 
   const selectedResources = useMemo(() => {
-    return selectedResourceIds.reduce<GQLMyNdlaResource[]>((acc, curr) => {
+    return selectedResourceIds.reduce<GQLMyNdlaResourceFragment[]>((acc, curr) => {
       const found = keyedResources[curr];
       if (found) {
         acc.push(found);

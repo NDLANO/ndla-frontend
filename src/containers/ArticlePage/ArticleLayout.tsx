@@ -86,7 +86,7 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
       (child) => child.context?.contextId === contextId && child.contentUri?.includes("article"),
     );
 
-  const numbered = topicQuery.data?.node?.metadata.customFields.numbered === "true";
+  const numbered = (topicQuery.data?.node?.metadata.customFields as any)?.numbered === "true";
 
   const { coreArticles, supplementaryArticles, learningpaths } = partitionResources<Resource>(
     topicQuery.data?.node?.children ?? [],

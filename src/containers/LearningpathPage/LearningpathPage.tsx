@@ -8,7 +8,6 @@
 
 import { gql } from "@apollo/client";
 import { Hero, HeroBackground } from "@ndla/primitives";
-import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
@@ -19,12 +18,7 @@ import { MobileLaunchpadMenu } from "../../components/Resource/Launchpad";
 import { ResourceBreadcrumb } from "../../components/Resource/ResourceBreadcrumb";
 import { LayoutWrapper, ResourceContentContainer, RootPageContent } from "../../components/Resource/ResourceLayout";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import {
-  GQLLearningpath,
-  GQLLearningpathPage_NodeFragment,
-  GQLLearningpathStep,
-  GQLTaxonomyCrumb,
-} from "../../graphqlTypes";
+import { GQLLearningpathPage_NodeFragment } from "../../graphqlTypes";
 import { Breadcrumb } from "../../interfaces";
 import { htmlTitle } from "../../util/titleHelper";
 
@@ -47,16 +41,21 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
     return crumbs;
   }, [node]);
 
-  if (!node.learningpath || !node?.learningpath?.learningsteps?.length) {
-    return <DefaultErrorMessagePage />;
-  }
   const learningpath = node.learningpath;
 
   const learningpathStep = stepId
-    ? learningpath.learningsteps?.find((step) => step.id.toString() === stepId.toString())
-    : learningpath.introduction?.length
+    ? learningpath?.learningsteps?.find((step) => step.id.toString() === stepId.toString())
+    : learningpath?.introduction?.length
       ? undefined
-      : learningpath.learningsteps?.[0];
+      : learningpath?.learningsteps?.[0];
+
+  const title = useMemo(() => {
+    return htmlTitle(learningpath?.title, [learningpathStep?.title, node.context?.parents?.[0]?.name]);
+  }, [learningpath?.title, learningpathStep?.title, node.context?.parents]);
+
+  if (!learningpath || !learningpath.learningsteps?.length) {
+    return <DefaultErrorMessagePage />;
+  }
 
   const index = learningpathStep
     ? learningpath?.learningsteps.findIndex((step) => step.id === learningpathStep.id)
@@ -64,10 +63,10 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
 
   return (
     <>
-      <PageTitle title={getDocumentTitle(t, node, stepId)} trackingProps={node} />
+      <PageTitle title={htmlTitle(title, [t("htmlTitles.titleTemplate")])} trackingProps={node.context} />
       {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
-        title={getTitle(node.context?.parents?.[0], learningpath, learningpathStep)}
+        title={title}
         trackableContent={learningpath}
         description={learningpath.description}
         imageUrl={learningpath.coverphoto?.image.imageUrl}
@@ -112,22 +111,6 @@ export const LearningpathPage = ({ node, skipToContentId, stepId, loading }: Pro
       </Hero>
     </>
   );
-};
-
-const getTitle = (
-  root?: Pick<GQLTaxonomyCrumb, "name">,
-  learningpath?: Pick<GQLLearningpath, "title">,
-  learningpathStep?: Pick<GQLLearningpathStep, "title">,
-) => {
-  return htmlTitle(learningpath?.title, [learningpathStep?.title, root?.name]);
-};
-
-const getDocumentTitle = (t: TFunction, node: NonNullable<GQLLearningpathPage_NodeFragment>, stepId?: string) => {
-  const subject = node.context?.parents?.[0];
-  const learningpath = node?.learningpath;
-  const maybeStepId = parseInt(stepId ?? "");
-  const step = learningpath?.learningsteps.find((step) => step.id === maybeStepId);
-  return htmlTitle(getTitle(subject, learningpath, step), [t("htmlTitles.titleTemplate")]);
 };
 
 LearningpathPage.fragments = {

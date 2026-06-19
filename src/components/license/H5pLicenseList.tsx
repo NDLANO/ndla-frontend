@@ -53,9 +53,9 @@ const H5pLicenseInfo = ({ h5p }: H5pLicenseInfoProps) => {
   const copyText = figureApa7CopyString(
     h5p.title,
     undefined,
-    h5p.src,
+    h5p.src ?? undefined,
     `${config.ndlaFrontendDomain}/h5p/${h5p.id}`,
-    h5p.copyright,
+    h5p.copyright ?? undefined,
     h5p?.copyright?.license.license,
     "",
     (id: string) => t(id),

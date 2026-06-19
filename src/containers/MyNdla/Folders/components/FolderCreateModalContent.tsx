@@ -10,14 +10,14 @@ import { DialogBody, DialogContent, DialogHeader, DialogTitle } from "@ndla/prim
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { FolderForm, FolderFormValues } from "../../../../components/MyNdla/FolderForm";
-import { GQLFolder } from "../../../../graphqlTypes";
+import { GQLFolderFragment } from "../../../../graphqlTypes";
 import { useFolders } from "../../../../mutations/folder/folderQueries";
 
 interface Props {
   onClose: (e?: Event) => void;
   onCreate: (values: FolderFormValues) => Promise<void>;
-  folders?: GQLFolder[];
-  parentFolder?: GQLFolder | null;
+  folders?: GQLFolderFragment[];
+  parentFolder?: GQLFolderFragment | null;
 }
 
 export const FolderCreateModalContent = ({ onClose, parentFolder, onCreate }: Props) => {
@@ -31,7 +31,7 @@ export const FolderCreateModalContent = ({ onClose, parentFolder, onCreate }: Pr
       </DialogHeader>
       <DialogBody>
         <FolderForm
-          siblings={parentFolder?.subfolders ?? folders ?? []}
+          siblings={(parentFolder?.subfolders ?? folders ?? []) as GQLFolderFragment[]}
           onClose={onClose}
           onSave={async (values) => {
             await onCreate(values);

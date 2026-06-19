@@ -9,7 +9,7 @@
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import { lazy, ReactNode, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import { GQLFolderFragment } from "../../graphqlTypes";
 import { useMyNdlaResourceMeta } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
@@ -20,7 +20,7 @@ import { LoginModalContent } from "./LoginModalContent";
 const AddResourceToFolder = lazy(() => import("./AddResourceToFolder"));
 
 interface Props {
-  defaultOpenFolder?: GQLFolder;
+  defaultOpenFolder?: GQLFolderFragment;
   resource: ResourceAttributes;
   children: ReactNode;
 }

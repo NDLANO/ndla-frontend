@@ -38,14 +38,18 @@ import {
 } from "@ndla/ui";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLMyNdlaResource, GQLUpdateResourceTagsQuery, GQLUpdateResourceTagsQueryVariables } from "../../graphqlTypes";
+import {
+  GQLMyNdlaResourceFragment,
+  GQLUpdateResourceTagsQuery,
+  GQLUpdateResourceTagsQueryVariables,
+} from "../../graphqlTypes";
 import { useUpdateMyNdlaResourceMutation } from "../../mutations/folder/folderMutations";
 import { useDebounce } from "../../util/useDebounce";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { useToast } from "../ToastContext";
 
 interface Props {
-  resource: GQLMyNdlaResource;
+  resource: GQLMyNdlaResourceFragment;
   onClose: VoidFunction;
 }
 
@@ -63,7 +67,7 @@ const queryDef = gql`
   }
 `;
 
-const shouldUpdateMyNdlaResource = (storedResource: GQLMyNdlaResource, selectedTags: string[]) => {
+const shouldUpdateMyNdlaResource = (storedResource: GQLMyNdlaResourceFragment, selectedTags: string[]) => {
   if (storedResource.tags.length !== selectedTags.length) return true;
   const storedSet = new Set(storedResource.tags);
   return !selectedTags.every((tag) => storedSet.has(tag));

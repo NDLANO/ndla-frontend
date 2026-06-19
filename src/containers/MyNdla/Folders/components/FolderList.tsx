@@ -9,12 +9,12 @@
 import { Text } from "@ndla/primitives";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
-import { GQLFolder } from "../../../../graphqlTypes";
+import { GQLFolderFragment } from "../../../../graphqlTypes";
 import { folderId, sharedFolderId } from "../util";
 import { FolderWithMenu } from "./FolderWithMenu";
 
 interface Props {
-  folders: GQLFolder[];
+  folders: GQLFolderFragment[];
   isFavorited?: boolean;
   labelledBy: string;
 }

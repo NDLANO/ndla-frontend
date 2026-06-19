@@ -26,7 +26,7 @@ import { LastLearningpathStepInfo } from "./LastLearningpathStepInfo";
 import { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
-  learningpath: GQLLearningpathContent_LearningpathFragment | undefined;
+  learningpath: GQLLearningpathContent_LearningpathFragment | undefined | null;
   learningpathStep: GQLLearningpathContent_LearningpathStepFragment | undefined;
   resource?: GQLLearningpathContent_NodeFragment | undefined;
   skipToContentId?: string;

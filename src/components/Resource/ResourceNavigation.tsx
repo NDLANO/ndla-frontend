@@ -13,7 +13,7 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 interface Props<T> {
-  parentUrl: string | undefined;
+  parentUrl: string | undefined | null;
   items: T[];
   getUrl: (item: T | undefined) => string | undefined;
   getId: (item: T) => string | number | undefined;

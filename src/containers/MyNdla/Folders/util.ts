@@ -16,7 +16,7 @@ export interface withRole {
   role: string;
 }
 
-export const isStudent = (user: withRole | undefined) => user?.role === "student";
+export const isStudent = (user: withRole | null) => user?.role === "student";
 
 export const FOLDERS_HEADING_ID = "folders-section";
 export const RESOURCES_HEADING_ID = "resources-section";

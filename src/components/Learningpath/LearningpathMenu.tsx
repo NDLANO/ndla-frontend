@@ -35,8 +35,8 @@ import { CopyLearningPath } from "./components/CopyLearningPath";
 import { LearningpathContext } from "./learningpathUtils";
 
 interface Props {
-  resourcePath?: string;
-  learningpath: GQLLearningpathMenu_LearningpathFragment | undefined;
+  resourcePath?: string | null;
+  learningpath: GQLLearningpathMenu_LearningpathFragment | undefined | null;
   currentIndex: number | undefined;
   context?: LearningpathContext;
   displayContext: "mobile" | "desktop";
@@ -53,7 +53,7 @@ const StyledStepperList = styled(StepperList, {
 const stepLink = (
   learningpathId: number,
   stepId: number | undefined,
-  resourcePath: string | undefined,
+  resourcePath: string | undefined | null,
   context: LearningpathContext | undefined,
 ) => {
   return context === "preview"

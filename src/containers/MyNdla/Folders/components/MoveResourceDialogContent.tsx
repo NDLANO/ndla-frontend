@@ -18,29 +18,28 @@ import { FolderSelect, ROOT_FOLDER_ID } from "../../../../components/MyNdla/Fold
 import { SaveHeartButton } from "../../../../components/SaveHeartButton";
 import { useToast } from "../../../../components/ToastContext";
 import {
-  GQLFolder,
+  GQLFolderFragment,
   GQLMoveResourceQuery,
   GQLMoveResourceQueryVariables,
-  GQLMyNdlaResource,
-  GQLMyNdlaResourceConnection,
+  GQLMyNdlaResourceFragment,
 } from "../../../../graphqlTypes";
-import { foldersPageQueryFragment } from "../../../../mutations/folder/folderFragments";
+import { folderFragment } from "../../../../mutations/folder/folderFragments";
 import { useMoveMyNdlaResourceMutation } from "../../../../mutations/folder/folderMutations";
 import { useFolder } from "../../../../mutations/folder/folderQueries";
 
 interface Props {
   close: VoidFunction;
-  resource: GQLMyNdlaResource;
+  resource: GQLMyNdlaResourceFragment;
   ref: RefObject<HTMLLIElement | null> | undefined;
   fallbackFocusId?: string;
-  currentFolder: GQLFolder | undefined;
+  currentFolder: GQLFolderFragment | undefined;
 }
 
 const queryDef = gql`
   query moveResource($path: String!) {
     folders(includeSubfolders: true) {
       folders {
-        ...FoldersPageQueryFragment
+        ...Folder
       }
     }
     myNdlaResourceConnections(path: $path) {
@@ -48,7 +47,7 @@ const queryDef = gql`
       resourceId
     }
   }
-  ${foldersPageQueryFragment}
+  ${folderFragment}
 `;
 
 const WarningText = styled(Text, {
@@ -103,17 +102,16 @@ export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref,
       const filteredConnections =
         structureQuery.data?.myNdlaResourceConnections.filter((conn) => conn.folderId !== fromFolderId) ?? [];
 
-      const newConnection: GQLMyNdlaResourceConnection = {
-        folderId: toFolderId as string | undefined,
-        resourceId: resource.id,
-      };
-
       client.cache.writeQuery({
         query: queryDef,
         variables: { path: resource.path },
         data: {
           ...structureQuery.data,
-          myNdlaResourceConnections: filteredConnections.concat(newConnection),
+          myNdlaResourceConnections: filteredConnections.concat({
+            __typename: "MyNdlaResourceConnection",
+            folderId: toFolderId,
+            resourceId: resource.id,
+          }),
         },
       });
       if (!fromFolderId) {
@@ -181,7 +179,7 @@ export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref,
         <DialogCloseButton />
       </DialogHeader>
       <FolderSelect
-        folders={(structureQuery.data?.folders.folders ?? []) as GQLFolder[]}
+        folders={structureQuery.data?.folders.folders ?? []}
         type="myNdla"
         selectedFolderId={selectedFolderId}
         setSelectedFolderId={onSetSelectedFolderId}

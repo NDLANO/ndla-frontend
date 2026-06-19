@@ -9,7 +9,7 @@
 import { gql } from "@apollo/client";
 
 export const myNdlaResourceFragment = gql`
-  fragment MyNdlaResourceFragment on MyNdlaResource {
+  fragment MyNdlaResource on MyNdlaResource {
     __typename
     resourceId
     id
@@ -20,8 +20,8 @@ export const myNdlaResourceFragment = gql`
   }
 `;
 
-export const folderFragment = gql`
-  fragment FolderFragment on Folder {
+const baseFolderFragment = gql`
+  fragment BaseFolder on Folder {
     __typename
     id
     name
@@ -40,62 +40,98 @@ export const folderFragment = gql`
       name
     }
     resources {
-      ...MyNdlaResourceFragment
+      ...MyNdlaResource
+    }
+  }
+`;
+
+// GraphQL does not support recursion. As such, we just do
+// an arbitrary number of nested queries that is above the
+// maximum folder depth
+export const folderFragment = gql`
+  fragment Folder on Folder {
+    __typename
+    ...BaseFolder
+    subfolders {
+      ...BaseFolder
+      subfolders {
+        ...BaseFolder
+        subfolders {
+          ...BaseFolder
+          subfolders {
+            ...BaseFolder
+            subfolders {
+              ...BaseFolder
+              subfolders {
+                ...BaseFolder
+                subfolders {
+                  ...BaseFolder
+                  subfolders {
+                    ...BaseFolder
+                    subfolders {
+                      ...BaseFolder
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ${baseFolderFragment}
+  ${myNdlaResourceFragment}
+`;
+
+const baseSharedFolderFragment = gql`
+  fragment BaseSharedFolder on SharedFolder {
+    __typename
+    id
+    name
+    status
+    parentId
+    created
+    updated
+    description
+    breadcrumbs {
+      __typename
+      id
+      name
+    }
+    owner {
+      __typename
+      name
+    }
+    resources {
+      ...MyNdlaResource
     }
   }
   ${myNdlaResourceFragment}
 `;
 
 export const sharedFolderFragment = gql`
-  fragment SharedFolderFragment on SharedFolder {
+  fragment SharedFolder on SharedFolder {
     __typename
-    id
-    name
-    status
-    parentId
-    created
-    updated
-    description
-    breadcrumbs {
-      __typename
-      id
-      name
-    }
-    owner {
-      __typename
-      name
-    }
-    resources {
-      ...MyNdlaResourceFragment
-    }
-  }
-  ${myNdlaResourceFragment}
-`;
-
-// GraphQL does not support recursion. As such, we just do
-// an arbitrary number of nested queries that is above the
-// maximum folder depth
-export const foldersPageQueryFragment = gql`
-  fragment FoldersPageQueryFragment on Folder {
-    ...FolderFragment
+    ...BaseSharedFolder
     subfolders {
-      ...FolderFragment
+      ...BaseSharedFolder
       subfolders {
-        ...FolderFragment
+        ...BaseSharedFolder
         subfolders {
-          ...FolderFragment
+          ...BaseSharedFolder
           subfolders {
-            ...FolderFragment
+            ...BaseSharedFolder
             subfolders {
-              ...FolderFragment
+              ...BaseSharedFolder
               subfolders {
-                ...FolderFragment
+                ...BaseSharedFolder
                 subfolders {
-                  ...FolderFragment
+                  ...BaseSharedFolder
                   subfolders {
-                    ...FolderFragment
+                    ...BaseSharedFolder
                     subfolders {
-                      ...FolderFragment
+                      ...BaseSharedFolder
                     }
                   }
                 }
@@ -106,41 +142,7 @@ export const foldersPageQueryFragment = gql`
       }
     }
   }
-  ${folderFragment}
-`;
-
-export const sharedFoldersPageQueryFragment = gql`
-  fragment SharedFoldersPageQueryFragment on SharedFolder {
-    ...SharedFolderFragment
-    subfolders {
-      ...SharedFolderFragment
-      subfolders {
-        ...SharedFolderFragment
-        subfolders {
-          ...SharedFolderFragment
-          subfolders {
-            ...SharedFolderFragment
-            subfolders {
-              ...SharedFolderFragment
-              subfolders {
-                ...SharedFolderFragment
-                subfolders {
-                  ...SharedFolderFragment
-                  subfolders {
-                    ...SharedFolderFragment
-                    subfolders {
-                      ...SharedFolderFragment
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${sharedFolderFragment}
+  ${baseSharedFolderFragment}
 `;
 
 export const myNdlaResourceMetaFragment = gql`

@@ -101,7 +101,7 @@ export const ResourceItem = ({ resource }: Props) => {
         <StyledListItemContent>
           <TextWrapper>
             <StyledListItemHeading asChild css={linkOverlay.raw()}>
-              <SafeLink to={resource.url || ""} lang={resource.language} title={resource.name}>
+              <SafeLink to={resource.url || ""} lang={resource.language ?? undefined} title={resource.name}>
                 {resource.name}
               </SafeLink>
             </StyledListItemHeading>

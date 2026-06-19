@@ -120,7 +120,7 @@ export const TopicContainer = ({ node, subjectType }: TopicContainerProps) => {
 
   return (
     <main>
-      <PageTitle title={pageTitle} trackingProps={node} />
+      <PageTitle title={pageTitle} trackingProps={node.context} />
       {!!node.context?.isArchived && <meta name="robots" content="noindex, nofollow" />}
       <SocialMediaMetadata
         title={metaTitle}

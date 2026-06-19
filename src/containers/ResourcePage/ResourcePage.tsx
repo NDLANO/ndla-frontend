@@ -8,15 +8,15 @@
 
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Navigate, useLocation, Location, useParams } from "react-router";
+import { Navigate, useLocation, useParams } from "react-router";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectContext, RedirectInfo } from "../../components/RedirectContext";
 import { RedirectExternal } from "../../components/RedirectExternal";
 import { ResponseContext } from "../../components/ResponseContext";
 import { SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLResourcePageQuery, GQLTaxonomyContext } from "../../graphqlTypes";
+import { GQLResourcePageQuery } from "../../graphqlTypes";
 import { findAccessDeniedErrors, isGoneError, isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { AccessDeniedPage } from "../AccessDeniedPage/AccessDeniedPage";
@@ -26,17 +26,6 @@ import { LearningpathPage } from "../LearningpathPage/LearningpathPage";
 import { MovedResourcePage } from "../MovedResourcePage/MovedResourcePage";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { UnpublishedResourcePage } from "../UnpublishedResourcePage/UnpublishedResourcePage";
-
-const urlInContexts = (location: Location, contexts: Pick<GQLTaxonomyContext, "url">[]) => {
-  const pathname = decodeURIComponent(location.pathname);
-  return contexts?.find((c) => {
-    return pathname.includes(c.url);
-  });
-};
-
-const contextIdInContexts = (contexts: Pick<GQLTaxonomyContext, "contextId">[], contextId?: string) => {
-  return contexts?.find((c) => c.contextId === contextId);
-};
 
 const resourcePageQuery = gql`
   query resourcePage($contextId: String, $transformArgs: TransformedArticleContentInput) {
@@ -65,6 +54,7 @@ export const ResourcePage = () => {
   const { i18n } = useTranslation();
   const location = useLocation();
   const { contextId, stepId } = useParams();
+  const decodedPathname = useMemo(() => decodeURIComponent(location.pathname), [location]);
 
   const { error, loading, data, previousData } = useQuery<GQLResourcePageQuery>(resourcePageQuery, {
     variables: {
@@ -115,7 +105,9 @@ export const ResourcePage = () => {
 
     if (
       data.node &&
-      (contextId ? !contextIdInContexts(data.node.contexts, contextId) : !urlInContexts(location, data.node.contexts))
+      (contextId
+        ? !data.node.contexts.some((c) => c.contextId === contextId)
+        : !data.node.contexts.some((c) => decodedPathname.includes(c.url)))
     ) {
       if (data.node.contexts?.length === 1) {
         if (typeof window === "undefined") {

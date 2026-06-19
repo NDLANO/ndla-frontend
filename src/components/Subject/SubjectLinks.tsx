@@ -31,8 +31,8 @@ const StyledText = styled(Text, {
 });
 
 type SubjectLinkItem = {
-  name?: string;
-  url?: string;
+  name: string | null;
+  url: string | null;
 };
 
 interface SubjectLinkSetProps {
@@ -71,7 +71,7 @@ export const SubjectLinkSet = ({ set, subjects, title }: SubjectLinkSetProps) =>
   );
 };
 
-interface SubjectLinksProps extends GQLSubjectLinks_SubjectPageFragment {}
+interface SubjectLinksProps extends Omit<GQLSubjectLinks_SubjectPageFragment, "__typename"> {}
 
 export const SubjectLinks = ({ buildsOn, connectedTo, leadsTo }: SubjectLinksProps) => {
   const { t } = useTranslation();

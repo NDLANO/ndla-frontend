@@ -8,7 +8,6 @@
 
 import { licenses, metaTypes } from "@ndla/licenses";
 import { TFunction } from "i18next";
-import { GQLConceptCopyright, GQLContributor, GQLLicenseListCopyrightFragment } from "../../graphqlTypes";
 
 export const downloadUrl = (src: string) => {
   const url = new URL(src);
@@ -16,9 +15,20 @@ export const downloadUrl = (src: string) => {
   return url.toString();
 };
 
+interface Author {
+  name: string;
+  type: string;
+}
+
+interface BaseCopyright {
+  creators?: Author[];
+  rightsholders?: Author[];
+  processors?: Author[];
+}
+
 export const isCopyrighted = (license?: string) => license === licenses.COPYRIGHTED;
 
-export function mkContributorString(contributors: GQLContributor[], ignoreType: string, t: TFunction) {
+export function mkContributorString(contributors: Author[], ignoreType: string, t: TFunction) {
   return contributors
     .map((contributor) => {
       const type = contributor.type.toLowerCase();
@@ -31,10 +41,7 @@ export function mkContributorString(contributors: GQLContributor[], ignoreType: 
     .join(", ");
 }
 
-export function getGroupedContributorDescriptionList(
-  copyright: GQLLicenseListCopyrightFragment | GQLConceptCopyright | undefined,
-  t: TFunction,
-) {
+export function getGroupedContributorDescriptionList(copyright: BaseCopyright | null | undefined, t: TFunction) {
   return [
     {
       label: t("originator"),

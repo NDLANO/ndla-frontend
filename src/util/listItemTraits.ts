@@ -12,12 +12,12 @@ import { RELEVANCE_SUPPLEMENTARY } from "../constants";
 
 interface ListItemTraitParams {
   /** Article traits */
-  traits?: string[];
+  traits?: string[] | null;
   /** The actual resource types attached to a node. Prefer resourceType over passing in additional stuff here. */
-  resourceTypes?: { id: string; name: string }[];
-  relevanceId?: string;
+  resourceTypes?: { id: string; name: string }[] | null;
+  relevanceId?: string | null;
   /** Useful for items that do not support resource types (subjects, topics, images etc). Omitted if resourceTypes are defined. */
-  resourceType?: string;
+  resourceType?: string | null;
 }
 
 export const getListItemTraits = (params: ListItemTraitParams, t: (key: string) => string) => {

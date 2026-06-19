@@ -6,10 +6,11 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
-import { GQLTaxBase } from "../../graphqlTypes";
+import { GQLSubjectCategory_NodeFragment } from "../../graphqlTypes";
 import { SubjectLink } from "./SubjectLink";
 
 export const GridList = styled("ul", {
@@ -44,7 +45,7 @@ const StyledGridList = styled(GridList, {
 
 interface Props {
   label: string;
-  subjects: GQLTaxBase[];
+  subjects: GQLSubjectCategory_NodeFragment[];
   favorites: string[] | undefined;
 }
 
@@ -68,4 +69,14 @@ export const SubjectCategory = ({ label, subjects, favorites }: Props) => {
       </StyledGridList>
     </li>
   );
+};
+
+SubjectCategory.fragments = {
+  node: gql`
+    fragment SubjectCategory_Node on Node {
+      id
+      ...SubjectLink_Node
+    }
+    ${SubjectLink.fragments.node}
+  `,
 };

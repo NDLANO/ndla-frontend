@@ -10,7 +10,7 @@ import config from "../config";
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 import { getNdlaRobotDateFormat } from "./formatDate";
 
-export const getChatRobotUrl = (user: GQLMyNdlaPersonalDataFragmentFragment | undefined) => {
+export const getChatRobotUrl = (user: GQLMyNdlaPersonalDataFragmentFragment | null) => {
   const dateString = getNdlaRobotDateFormat(new Date());
   const token = user ? btoa(dateString) : "";
   return config.disableKiToken ? "https://ndla-ki.no/" : `https://ndla-ki.no/${token}`;

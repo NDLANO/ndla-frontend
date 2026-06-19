@@ -57,9 +57,9 @@ const StyledRestrictedBlock = styled(RestrictedBlock, {
 
 interface MetaProperies {
   title: string;
-  audioUrl?: string;
-  description?: string;
-  imageUrl?: string;
+  audioUrl?: string | null;
+  description?: string | null;
+  imageUrl?: string | null;
   type: StandaloneEmbed | "gloss" | "podcast";
 }
 

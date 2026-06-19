@@ -197,7 +197,7 @@ export const MastheadMenu = () => {
         </DrawerButton>
       </PopoverTrigger>
       <MastheadPopoverContent>
-        <NavigationPart dynamicLinks={dynamicLinks} favouriteSubjects={favouriteSubjectsQuery.data?.nodes} />
+        <NavigationPart dynamicLinks={dynamicLinks} favouriteSubjects={favouriteSubjectsQuery.data?.nodes ?? []} />
         <MyNdlaPart />
       </MastheadPopoverContent>
       <MastheadPopoverBackdrop present={open} />

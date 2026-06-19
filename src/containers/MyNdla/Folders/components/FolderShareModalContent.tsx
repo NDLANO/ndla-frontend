@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { Folder } from "../../../../components/MyNdla/Folder";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLFolder } from "../../../../graphqlTypes";
+import { GQLFolderFragment } from "../../../../graphqlTypes";
 import { routes } from "../../../../routeHelpers";
 import { sharedFolderLink } from "../util";
 
@@ -52,7 +52,7 @@ const StyledDialogBody = styled(DialogBody, {
 });
 
 interface BaseProps {
-  folder: GQLFolder;
+  folder: GQLFolderFragment;
   onCopyText?: () => void;
 }
 

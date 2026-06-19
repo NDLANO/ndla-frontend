@@ -49,7 +49,7 @@ export interface ListResourceProps {
   resourceTypes?: { id: string; name: string }[];
   description?: string;
   menu?: ReactNode;
-  traits?: string[];
+  traits?: string[] | null;
   storedResourceType?: string;
   isLoading?: boolean;
   isSelected?: boolean;

@@ -6,14 +6,15 @@
  *
  */
 
-import { GQLResourceType } from "../../../../graphqlTypes";
-
 export interface ResourceData {
   articleId?: number;
   title: string;
   breadcrumbs?: string[];
   traits?: string[];
-  resourceTypes?: Pick<GQLResourceType, "id" | "name">[];
+  resourceTypes?: {
+    id: string;
+    name: string;
+  }[];
 }
 export interface MyNdlaResource {
   articleId?: number;

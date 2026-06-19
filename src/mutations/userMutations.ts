@@ -27,6 +27,7 @@ export const useDeletePersonalData = () => {
 
 const personalDataQueryFragment = gql`
   fragment MySubjectMyNdlaPersonalDataFragment on MyNdlaPersonalData {
+    __typename
     id
     favoriteSubjects
     role
@@ -44,23 +45,9 @@ const updatePersonalDataQuery = gql`
 `;
 
 export const useUpdatePersonalData = () => {
-  const { cache } = useApolloClient();
   const [updatePersonalData, { loading }] = useMutation<
     GQLUpdatePersonalDataMutation,
     GQLUpdatePersonalDataMutationVariables
-  >(updatePersonalDataQuery, {
-    onCompleted: (data) => {
-      cache.modify({
-        id: cache.identify({
-          __ref: data.__typename,
-        }),
-        fields: {
-          personalData() {
-            return data.updatePersonalData;
-          },
-        },
-      });
-    },
-  });
+  >(updatePersonalDataQuery);
   return { updatePersonalData, loading };
 };

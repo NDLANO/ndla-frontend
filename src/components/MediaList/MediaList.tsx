@@ -104,7 +104,7 @@ interface MediaListItemBodyProps {
   children: ReactNode;
   license: string;
   locale: string;
-  resourceUrl?: string;
+  resourceUrl?: string | null;
   resourceType?: "video" | "image" | "audio" | "text" | "h5p" | "podcast";
 }
 
@@ -122,7 +122,7 @@ export const MediaListItemBody = ({
   children,
   license: licenseAbbreviation,
   locale,
-  resourceUrl = "", // defaults to current page
+  resourceUrl,
   resourceType,
 }: MediaListItemBodyProps) => {
   const license = getLicenseByAbbreviation(licenseAbbreviation, locale);
@@ -130,7 +130,7 @@ export const MediaListItemBody = ({
     ? {
         "xmlns:cc": "https://creativecommons.org/ns#",
         "xmlns:dct": "http://purl.org/dc/terms/",
-        about: resourceUrl,
+        about: resourceUrl ?? "", // defaults to current page,
       }
     : {};
 

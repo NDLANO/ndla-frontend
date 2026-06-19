@@ -33,7 +33,7 @@ import { groupBy, sortBy, uniqBy } from "@ndla/util";
 import parse from "html-react-parser";
 import { useMemo, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLCompetenceGoal, GQLCompetenceGoalsQuery, GQLCoreElement, GQLReference } from "../graphqlTypes";
+import { GQLCompetenceGoalsQuery } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {
@@ -43,18 +43,25 @@ interface Props {
   isOembed?: boolean;
 }
 
-const getUniqueCurriculums = (competenceGoals: (GQLCompetenceGoal | GQLCoreElement)[]): GQLReference[] => {
+interface Reference {
+  id: string;
+  title: string;
+}
+
+const getUniqueCurriculums = (
+  competenceGoals: GQLCompetenceGoalsQuery["coreElements"] | GQLCompetenceGoalsQuery["competenceGoals"],
+): Reference[] => {
   const curriculums = competenceGoals
     .filter((e) => e.curriculum?.id)
-    .map<GQLReference>((competenceGoal) => competenceGoal.curriculum!);
+    .map<Reference>((competenceGoal) => competenceGoal.curriculum!);
   return uniqBy(curriculums, (item) => item?.id);
 };
 
-interface CompetenceGoalCurriculum extends GQLReference {
+interface CompetenceGoalCurriculum extends Reference {
   competenceGoalSets: CompetenceGoalSet[];
 }
 
-interface CompetenceGoalSet extends GQLReference {
+interface CompetenceGoalSet extends Reference {
   goals: {
     id: string;
     title: string;
@@ -62,12 +69,12 @@ interface CompetenceGoalSet extends GQLReference {
   }[];
 }
 
-interface CoreElementCurriculum extends GQLReference {
-  coreElements: GQLCoreElement[];
+interface CoreElementCurriculum extends Reference {
+  coreElements: GQLCompetenceGoalsQuery["coreElements"];
 }
 
 export const getCompetenceGoals = (
-  competenceGoals: GQLCompetenceGoal[],
+  competenceGoals: GQLCompetenceGoalsQuery["competenceGoals"],
   subject?: GQLCompetenceGoalsQuery["node"],
 ): CompetenceGoalCurriculum[] => {
   const curriculums = getUniqueCurriculums(competenceGoals);
@@ -98,7 +105,7 @@ export const getCompetenceGoals = (
   return mappedCuriculums;
 };
 
-const getCoreElements = (coreElements: GQLCoreElement[]): CoreElementCurriculum[] => {
+const getCoreElements = (coreElements: GQLCompetenceGoalsQuery["coreElements"]): CoreElementCurriculum[] => {
   const curriculums = getUniqueCurriculums(coreElements);
   const groupedByCurriculum = groupBy(coreElements, (element) => element.curriculum?.id ?? "");
   return curriculums.map((curriculum) => ({ ...curriculum, coreElements: groupedByCurriculum[curriculum.id] ?? [] }));
@@ -250,7 +257,7 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
   );
 };
 
-interface ContentProps<T extends GQLReference> {
+interface ContentProps<T extends Reference> {
   items: T[];
   isOembed: boolean | undefined;
   subjectId: string | undefined;

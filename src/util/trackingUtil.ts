@@ -9,7 +9,7 @@
 import { GQLMyNdlaPersonalDataFragmentFragment } from "../graphqlTypes";
 
 interface Props {
-  user?: GQLMyNdlaPersonalDataFragmentFragment;
+  user?: GQLMyNdlaPersonalDataFragmentFragment | null;
 }
 
 export const getAllDimensions = ({ user }: Props) => {

@@ -19,7 +19,7 @@ import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
 import { MyNdlaTitle, TitleWrapper } from "../../../components/MyNdla/MyNdlaTitle";
 import { PageRainbowSpinner } from "../../../components/PageSpinner";
 import { PageTitle } from "../../../components/PageTitle";
-import { GQLFolder, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { GQLFolderFragment, GQLFoldersPageQuery } from "../../../graphqlTypes";
 import { foldersPageQuery, useFolder } from "../../../mutations/folder/folderQueries";
 import { PrivateRoute } from "../../PrivateRoute/PrivateRoute";
 import { MyNdlaPageSection } from "../components/MyNdlaPageSection";
@@ -60,7 +60,7 @@ const SubFolderPage = () => {
     return t("htmlTitles.myFolderPage", { folderName: selectedFolder?.name });
   }, [selectedFolder?.name, t]);
 
-  const folders: GQLFolder[] = useMemo(() => selectedFolder?.subfolders ?? [], [selectedFolder]);
+  const folders = useMemo(() => selectedFolder?.subfolders ?? [], [selectedFolder]);
 
   const menuItems = useFolderActions(selectedFolder, undefined, true);
 
@@ -92,7 +92,7 @@ const SubFolderPage = () => {
           <h2>{t("myNdla.folder.folders")}</h2>
         </Heading>
         {!examLock && <PageActions actions={menuItems} />}
-        <FolderList labelledBy={FOLDERS_HEADING_ID} folders={folders} />
+        <FolderList labelledBy={FOLDERS_HEADING_ID} folders={folders as GQLFolderFragment[]} />
       </MyNdlaPageSection>
       <MyNdlaPageSection>
         <Heading asChild consumeCss textStyle="heading.small" id={RESOURCES_HEADING_ID} tabIndex={-1}>

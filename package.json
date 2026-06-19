@@ -35,8 +35,9 @@
     "e2e": "playwright test --ui",
     "e2e:headless": "playwright test",
     "e2e:record": "DISABLE_CSP=true RECORD_FIXTURES=true playwright test --ui",
-    "generate-gql:server": "graphql-codegen --config codegen.server.ts && oxfmt --write src/graphqlTypes.ts src/schema.graphql",
-    "generate-gql:local": "graphql-codegen --config codegen.local.ts && oxfmt --write src/graphqlTypes.ts src/schema.graphql",
+    "generate-gql": "graphql-codegen --config codegen.ts && oxfmt --write src/graphqlTypes.ts src/schema.graphql",
+    "generate-gql:local": "GQL_SCHEMA='local' yarn generate-gql",
+    "generate-gql:server": "GQL_SCHEMA='server' yarn generate-gql",
     "check-translations": "vitest --run src/messages/__tests__/"
   },
   "dependencies": {
@@ -97,10 +98,9 @@
     "winston": "^3.12.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^6.3.1",
-    "@graphql-codegen/schema-ast": "^5.0.2",
-    "@graphql-codegen/typescript": "^5.0.10",
-    "@graphql-codegen/typescript-operations": "^5.1.0",
+    "@graphql-codegen/cli": "^7.1.2",
+    "@graphql-codegen/schema-ast": "^6.0.1",
+    "@graphql-codegen/typescript-operations": "^6.0.4",
     "@graphql-eslint/eslint-plugin": "^4.4.0",
     "@juggle/resize-observer": "^3.4.0",
     "@ndla/preset-panda": "^0.0.78",

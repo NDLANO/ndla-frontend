@@ -84,12 +84,15 @@ const allSubjectsQuery = gql`
     nodes(nodeType: "SUBJECT", filterVisible: true) {
       id
       name
-      url
       metadata {
         customFields
       }
+      ...SubjectCategory_Node
+      ...FavoriteSubjects_Node
     }
   }
+  ${FavoriteSubjects.fragments.node}
+  ${SubjectCategory.fragments.node}
 `;
 
 export const AllSubjectsPage = () => {

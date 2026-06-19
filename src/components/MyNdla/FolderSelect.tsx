@@ -9,18 +9,18 @@
 import { styled } from "@ndla/styled-system/jsx";
 import { useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLFolder } from "../../graphqlTypes";
+import { GQLFolderFragment } from "../../graphqlTypes";
 import { TreeStructure } from "./TreeStructure";
 import { AddResourceType } from "./types";
 
 interface Props {
-  folders: GQLFolder[];
+  folders: GQLFolderFragment[];
   type: AddResourceType;
   selectedFolderId: string | undefined;
   setSelectedFolderId: (v: string | undefined) => void;
-  defaultOpenFolder?: GQLFolder;
+  defaultOpenFolder?: GQLFolderFragment;
   placements?: Set<string>;
-  folderToMove?: GQLFolder;
+  folderToMove?: GQLFolderFragment;
 }
 
 const StyledDiv = styled("div", {
@@ -47,8 +47,9 @@ export const FolderSelect = ({
 }: Props) => {
   const { t } = useTranslation();
 
-  const structureFolders: GQLFolder[] = useMemo(() => {
-    const favoritesFolder: GQLFolder = {
+  const structureFolders: GQLFolderFragment[] = useMemo(() => {
+    const favoritesFolder: GQLFolderFragment = {
+      __typename: "Folder",
       id: ROOT_FOLDER_ID,
       name: t("myNdla.myFavorites"),
       status: "private",
@@ -57,6 +58,9 @@ export const FolderSelect = ({
       resources: [],
       created: "",
       updated: "",
+      description: "",
+      owner: null,
+      parentId: null,
     };
 
     if (type === "resource") {

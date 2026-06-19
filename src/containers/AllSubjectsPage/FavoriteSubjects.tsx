@@ -6,16 +6,17 @@
  *
  */
 
+import { gql } from "@apollo/client";
 import { Heading } from "@ndla/primitives";
 import { keyBy } from "@ndla/util";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLTaxBase } from "../../graphqlTypes";
+import { GQLFavoriteSubjects_NodeFragment } from "../../graphqlTypes";
 import { GridList } from "./SubjectCategory";
 import { SubjectLink } from "./SubjectLink";
 
 interface Props {
-  subjects: GQLTaxBase[];
+  subjects: GQLFavoriteSubjects_NodeFragment[];
   favorites: string[];
 }
 
@@ -24,7 +25,7 @@ export const FavoriteSubjects = ({ favorites, subjects }: Props) => {
 
   const mappedFavorites = useMemo(() => {
     const keyed = keyBy(subjects, (sub) => sub.id);
-    return favorites.map((id) => keyed[id]).filter((sub): sub is GQLTaxBase => !!sub);
+    return favorites.map((id) => keyed[id]).filter((sub): sub is GQLFavoriteSubjects_NodeFragment => !!sub);
   }, [favorites, subjects]);
 
   return (
@@ -39,4 +40,14 @@ export const FavoriteSubjects = ({ favorites, subjects }: Props) => {
       </GridList>
     </div>
   );
+};
+
+FavoriteSubjects.fragments = {
+  node: gql`
+    fragment FavoriteSubjects_Node on Node {
+      id
+      ...SubjectLink_Node
+    }
+    ${SubjectLink.fragments.node}
+  `,
 };

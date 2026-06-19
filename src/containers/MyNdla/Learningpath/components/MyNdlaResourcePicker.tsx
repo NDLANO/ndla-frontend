@@ -32,9 +32,8 @@ import { TFunction } from "i18next";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  GQLBreadcrumb,
-  GQLFolder,
-  GQLMyNdlaResource,
+  GQLFolderFragment,
+  GQLMyNdlaResourceFragment,
   GQLMyNdlaResourceMetaSearchQuery,
 } from "../../../../graphqlTypes";
 import { useFolders, useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
@@ -92,16 +91,16 @@ const StyledText = styled(Text, {
 const LEGAL_RESOURCE_TYPES: ResourceType[] = ["article"];
 
 type GQLMyNdlaResourceMetaSearch = GQLMyNdlaResourceMetaSearchQuery["myNdlaResourceMetaSearch"][number];
-type GQLMyNdlaResourceWithCrumb = GQLMyNdlaResource & {
+type GQLMyNdlaResourceWithCrumb = GQLMyNdlaResourceFragment & {
   uniqueId: string;
-  breadcrumbs: GQLBreadcrumb[];
+  breadcrumbs: GQLFolderFragment["breadcrumbs"];
   meta?: GQLMyNdlaResourceMetaSearch;
   traits?: string[];
 };
 
 const toKeyedMetaId = (id: string, resourceType: string) => `${resourceType}-${id}`;
 
-const flattenResources = (folders: GQLFolder[]): GQLMyNdlaResourceWithCrumb[] => {
+const flattenResources = (folders: GQLFolderFragment[]): GQLMyNdlaResourceWithCrumb[] => {
   if (folders.length === 0) return [];
 
   const resources = folders.flatMap((folder) =>
@@ -114,7 +113,7 @@ const flattenResources = (folders: GQLFolder[]): GQLMyNdlaResourceWithCrumb[] =>
       })),
   );
 
-  return resources.concat(flattenResources(folders.flatMap((folder) => folder.subfolders)));
+  return resources.concat(flattenResources(folders.flatMap((folder) => folder.subfolders as GQLFolderFragment[])));
 };
 
 const stitchResourcesWithMeta = (

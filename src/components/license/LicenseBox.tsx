@@ -7,10 +7,13 @@
  */
 
 import { gql } from "@apollo/client";
+import { webpageReferenceApa7CopyString } from "@ndla/licenses";
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
+import { useHref, useLocation } from "react-router";
+import config from "../../config";
 import { GQLLicenseBox_ArticleFragment } from "../../graphqlTypes";
 import { AudioLicenseList } from "./AudioLicenseList";
 import { ConceptLicenseList, GlossLicenseList } from "./ConceptLicenseList";
@@ -32,8 +35,8 @@ const StyledTabsRoot = styled(TabsRoot, {
 function buildLicenseTabList(
   article: GQLLicenseBox_ArticleFragment,
   t: TFunction,
-  copyText?: string,
-  oembed?: string | undefined,
+  copyText?: string | null,
+  oembed?: string | null,
 ) {
   const metaData = article.transformedContent?.metaData;
   const tabs = [];
@@ -125,10 +128,29 @@ function buildLicenseTabList(
   return tabs;
 }
 
+export const useArticleCopyText = (article: GQLLicenseBox_ArticleFragment | undefined) => {
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
+  const href = useHref(location);
+  if (!article) return undefined;
+  const [day, month, year] = article.revised.split(".").map((s) => parseInt(s));
+  const published = new Date(year!, month! - 1, day!).toUTCString();
+  return webpageReferenceApa7CopyString(
+    article.title,
+    undefined,
+    published,
+    `${config.ndlaFrontendDomain}${href}`,
+    article.copyright,
+    i18n.language,
+    "",
+    (id: string) => t(id),
+  );
+};
+
 interface Props {
   article: GQLLicenseBox_ArticleFragment;
-  copyText?: string;
-  oembed: string | undefined;
+  copyText?: string | null;
+  oembed: string | null;
 }
 export const LicenseBox = ({ article, copyText, oembed }: Props) => {
   const { t } = useTranslation();

@@ -35,7 +35,7 @@ const StyledList = styled("ul", {
 });
 
 interface ItemProps {
-  url?: string;
+  url?: string | null;
   label: string;
   id?: string;
   current?: "page" | boolean;

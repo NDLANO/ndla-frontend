@@ -65,9 +65,9 @@ const VideoLicenseInfo = ({ video, isResourcePage }: VideoLicenseInfoProps) => {
   const copyText = figureApa7CopyString(
     video.title,
     undefined,
-    video.src,
+    video.src ?? undefined,
     `${config.ndlaFrontendDomain}/video/${video.id}`,
-    video.copyright,
+    video.copyright ?? undefined,
     video?.copyright?.license.license,
     "",
     (id: string) => t(id),

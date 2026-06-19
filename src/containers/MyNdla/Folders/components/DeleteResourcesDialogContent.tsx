@@ -12,11 +12,11 @@ import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../../../components/DialogCloseButton";
 import { useToast } from "../../../../components/ToastContext";
-import { GQLFolder } from "../../../../graphqlTypes";
+import { GQLFolderFragment } from "../../../../graphqlTypes";
 import { useDeleteMyNdlaResourcesMutation } from "../../../../mutations/folder/folderMutations";
 
 interface Props {
-  selectedFolder: GQLFolder | undefined;
+  selectedFolder: GQLFolderFragment | undefined;
   onSuccessfulMutation: VoidFunction;
   resourceIds: string[];
 }

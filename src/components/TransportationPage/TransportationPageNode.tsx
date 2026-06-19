@@ -14,7 +14,6 @@ import { linkOverlay } from "@ndla/styled-system/patterns";
 import { useTranslation } from "react-i18next";
 import { RELEVANCE_SUPPLEMENTARY } from "../../constants";
 import {
-  GQLMetaImage,
   GQLTransportationNode_NodeFragment,
   GQLTransportationSearchResult_SearchResultFragment,
 } from "../../graphqlTypes";
@@ -24,12 +23,12 @@ import { ContentTypeFallbackIcon } from "../ContentTypeFallbackIcon";
 type TransportationNodeContext = "case" | "link" | "node";
 
 interface TransportationCardProps {
-  metaImage?: GQLMetaImage;
+  metaImage?: { url: string; alt: string } | null;
   flavorText?: string;
   name: string;
   url: string;
-  relevanceId?: string;
-  metaDescription?: string;
+  relevanceId?: string | null;
+  metaDescription?: string | null;
   context: TransportationNodeContext;
 }
 

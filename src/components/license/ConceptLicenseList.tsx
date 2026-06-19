@@ -73,9 +73,9 @@ const ConceptLicenseInfo = ({ concept, type }: ConceptLicenseInfoProps) => {
   const copyText = figureApa7CopyString(
     concept.title,
     undefined,
-    concept.src,
+    concept.src ?? undefined,
     `${config.ndlaFrontendDomain}/concept/${concept.id}`,
-    concept.copyright,
+    concept.copyright ?? undefined,
     concept.copyright?.license?.license,
     "",
     (id: string) => t(id),

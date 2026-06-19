@@ -187,7 +187,7 @@ const getActiveSubjectUrl = (id: string, query: string): string => {
   return `/search?${searchParams}`;
 };
 
-const searchQuery = gql`
+const searchQueryDef = gql`
   query mastheadSearch($query: String, $language: String) {
     search(
       query: $query
@@ -202,6 +202,7 @@ const searchQuery = gql`
       resultTypes: "node,article,learningpath"
     ) {
       results {
+        __typename
         id
         title
         url
@@ -244,13 +245,10 @@ export const MastheadSearchForm = ({ root }: Props) => {
   const delayedSearchQuery = useDebounce(query, 250);
   const navigate = useNavigate();
 
-  const { loading, data: searchResult = {} } = useQuery<GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables>(
-    searchQuery,
-    {
-      skip: delayedSearchQuery.length <= 2,
-      variables: { query: delayedSearchQuery, language: i18n.language },
-    },
-  );
+  const searchQuery = useQuery<GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables>(searchQueryDef, {
+    skip: delayedSearchQuery.length <= 2,
+    variables: { query: delayedSearchQuery, language: i18n.language },
+  });
 
   const onSearch = (evt?: SubmitEvent) => {
     evt?.preventDefault();
@@ -259,8 +257,8 @@ export const MastheadSearchForm = ({ root }: Props) => {
   };
 
   const searchHits: SearchResult[] = useMemo(() => {
-    if (!query.length || !searchResult.search?.results?.length) return [];
-    return searchResult.search.results.map((result) => {
+    if (!query.length || !searchQuery.data?.search?.results?.length) return [];
+    return searchQuery.data.search.results.map((result) => {
       const traits = getListItemTraits(
         {
           relevanceId: result.context?.relevanceId,
@@ -278,7 +276,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
         traits,
       };
     });
-  }, [query.length, searchResult.search?.results, t]);
+  }, [query.length, searchQuery.data?.search?.results, t]);
 
   const collection = useMemo(
     () =>
@@ -343,7 +341,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
           </IconButton>
         </ComboboxControl>
         <StyledHitsWrapper aria-live="assertive">
-          {!loading && !!query && (
+          {!searchQuery.loading && !!query && (
             <div>
               {!(searchHits.length >= 1) ? (
                 <Text textStyle="label.small">{`${t("searchPage.noHitsShort", { query: "" })} ${query}`}</Text>
@@ -353,7 +351,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
             </div>
           )}
         </StyledHitsWrapper>
-        {!loading && !!query && root ? (
+        {!searchQuery.loading && !!query && root ? (
           <ActiveSubjectWrapper>
             <SearchLine />
             <div>
@@ -369,7 +367,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
           </ActiveSubjectWrapper>
         ) : null}
         <StyledComboboxContent>
-          {loading ? (
+          {searchQuery.loading ? (
             <StyledRainbowSpinner />
           ) : (
             searchHits.map((resource) => (
@@ -413,7 +411,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
           )}
         </StyledComboboxContent>
       </StyledComboboxRoot>
-      {!!searchHits.length && !loading && (
+      {!!searchHits.length && !searchQuery.loading && (
         <StyledMoreHitsButton variant="secondary" type="submit">
           {t("masthead.moreHits")}
           <ArrowRightLine />

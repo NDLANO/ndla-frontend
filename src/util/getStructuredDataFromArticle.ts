@@ -11,7 +11,6 @@ import { licenses, getLicenseByAbbreviation } from "@ndla/licenses";
 import config from "../config";
 import { AcquireLicensePage } from "../constants";
 import {
-  GQLContributor,
   GQLStructuredArticleData_CopyrightFragment,
   GQLStructuredArticleDataFragment,
   GQLStructuredArticleData_AudioLicenseFragment,
@@ -19,7 +18,7 @@ import {
   GQLStructuredArticleData_BrightcoveLicenseFragment,
   GQLStructuredArticleData_ImageLicenseFragment,
 } from "../graphqlTypes";
-import { Breadcrumb } from "../interfaces";
+import { Author, Breadcrumb } from "../interfaces";
 
 type CopyrightHolder = { "@type": string; name?: string };
 type Alignment = {
@@ -33,14 +32,14 @@ type Alignment = {
 interface StructuredData {
   "@type"?: string;
   "@context"?: string;
-  "@id"?: string;
-  abstract?: string;
+  "@id"?: string | null;
+  abstract?: string | null;
   audience?: {
     "@type": string;
     educationalRole: string[];
   };
   author?: CopyrightHolder[];
-  contentUrl?: string;
+  contentUrl?: string | null;
   contributor?: CopyrightHolder[];
   copyrightHolder?: CopyrightHolder[];
   creator?: CopyrightHolder[];
@@ -49,10 +48,10 @@ interface StructuredData {
   dateCreated?: string;
   dateModified?: string;
   datePublished?: string;
-  description?: string;
+  description?: string | null;
   educationalAlignment?: Alignment[];
   educationalRole?: string;
-  embedUrl?: string;
+  embedUrl?: string | null;
   headline?: string;
   identifier?: string;
   image?: string;
@@ -64,11 +63,11 @@ interface StructuredData {
     position: number;
   }[];
   learningResourceType?: string[];
-  license?: string;
+  license?: string | null;
   name?: string;
   numberOfItems?: number;
-  thumbnailUrl?: string;
-  uploadDate?: string;
+  thumbnailUrl?: string | null;
+  uploadDate?: string | null;
 }
 
 interface Mediaelements {
@@ -107,7 +106,7 @@ const structuredDataBase = {
   "@context": "http://schema.org",
 };
 
-const mapType = (type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE, arr?: GQLContributor[]) =>
+const mapType = (type: typeof PERSON_TYPE | typeof ORGANIZATION_TYPE, arr?: Author[]) =>
   arr?.map((item) => ({
     "@type": type,
     name: item.name,
