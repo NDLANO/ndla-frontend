@@ -54,6 +54,7 @@ const PROTOCOL = DEPLOYED ? "https" : "http";
 const PORT = DEPLOYED ? "" : `:${config.port}`;
 const SAME_SITE: CookieOptions["sameSite"] = DEPLOYED ? "lax" : undefined;
 const NODEBB_DOMAIN = config.feideDomain ? `.${config.feideDomain}` : undefined;
+const FRONTEND_HOSTNAME = new URL(config.ndlaFrontendDomain).hostname;
 
 const stateOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
 const pkceOptions: CookieOptions = { httpOnly: true, sameSite: DEPLOYED ? "none" : undefined, secure: DEPLOYED };
@@ -73,12 +74,18 @@ const clearTemporaryCookies = (res: Response) => {
   res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
 };
 
-const isSafeRedirect = (url: string) => {
+const parseSafeRedirect = (url: string): string | URL | undefined => {
   try {
-    const decodedUrl = decodeURIComponent(url).trim();
-    return decodedUrl.startsWith("/") && !decodedUrl.startsWith("//");
+    const decodedUrl = decodeURIComponent(url);
+    const parsed = new URL(decodedUrl, config.ndlaFrontendDomain);
+    if (parsed.hostname === FRONTEND_HOSTNAME) {
+      return `${parsed.pathname}${parsed.search}${parsed.hash}`;
+    } else if (parsed.hostname === config.arenaDomain) {
+      return parsed;
+    }
+    return undefined;
   } catch (e) {
-    return false;
+    return undefined;
   }
 };
 
@@ -96,18 +103,22 @@ const getConfig = async (): Promise<Configuration> => {
 router.get(["/login", "/:lang/login"], async (req: Request, res: Response) => {
   res.setHeader("Cache-Control", "no-store");
   const activeSessionCookie = getCookie(SESSION_EXPIRY_COOKIE, req.headers.cookie ?? "");
-  let returnTo = "/";
-  if (typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
-    returnTo = decodeURIComponent(req.query.returnTo);
-  } else {
-    const returnToCookie = getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
-    if (returnToCookie && isSafeRedirect(returnToCookie)) {
-      returnTo = decodeURIComponent(returnToCookie);
-    }
-  }
+  const returnTo =
+    (typeof req.query.returnTo === "string" ? req.query.returnTo : undefined) ??
+    getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
+  const safeReturnTo = returnTo ? parseSafeRedirect(returnTo) : undefined;
 
-  const lang = req.params.lang ? (isValidLocale(req.params.lang) ? req.params.lang : config.defaultLocale) : undefined;
-  const redirect = constructNewPath(returnTo, lang);
+  let redirect = "/";
+  if (safeReturnTo instanceof URL) {
+    redirect = safeReturnTo.toString();
+  } else if (safeReturnTo) {
+    const lang = req.params.lang
+      ? isValidLocale(req.params.lang)
+        ? req.params.lang
+        : config.defaultLocale
+      : undefined;
+    redirect = constructNewPath(safeReturnTo, lang);
+  }
 
   if (activeSessionCookie && isActiveSession(activeSessionCookie)) {
     return res.redirect(redirect);
@@ -150,7 +161,8 @@ router.get("/login/success", async (req, res) => {
   const state = getCookie(STATE_COOKIE, req.headers.cookie ?? "");
   const nonce = getCookie(NONCE_COOKIE, req.headers.cookie ?? "");
   const returnToCookie = getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
-  const returnTo = returnToCookie && isSafeRedirect(returnToCookie) ? returnToCookie : "/";
+  const returnTo = (returnToCookie && parseSafeRedirect(returnToCookie)) ?? "/";
+  const redirect = returnTo instanceof URL ? returnTo.toString() : returnTo;
 
   if (!code || !verifier || !state || !nonce) {
     clearTemporaryCookies(res);
@@ -231,14 +243,15 @@ router.get("/login/success", async (req, res) => {
     // Set cookie to automatically send user to feide if present
     res.cookie(AUTOLOGIN_COOKIE, "true", { domain: NODEBB_DOMAIN });
   }
-  return res.redirect(decodeURIComponent(returnTo));
+  return res.redirect(redirect);
 });
 
 router.get(["/logout", "/:lang/logout"], async (req, res) => {
   res.setHeader("Cache-Control", "no-store");
   const idToken = getCookie(FEIDE_ID_TOKEN_COOKIE, req.headers.cookie ?? "") ?? "";
-  if (req.query.returnTo && typeof req.query.returnTo === "string" && isSafeRedirect(req.query.returnTo)) {
-    res.cookie(RETURN_TO_COOKIE, req.query.returnTo, returnToOptions);
+  const safeReturnTo = typeof req.query.returnTo === "string" ? parseSafeRedirect(req.query.returnTo) : undefined;
+  if (safeReturnTo) {
+    res.cookie(RETURN_TO_COOKIE, safeReturnTo instanceof URL ? safeReturnTo.toString() : safeReturnTo, returnToOptions);
   }
 
   const accessToken = getCookie(FEIDE_ACCESS_TOKEN_COOKIE, req.headers.cookie ?? "");
@@ -269,13 +282,19 @@ router.get(["/logout", "/:lang/logout"], async (req, res) => {
 });
 
 router.get("/logout/session", (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   const returnToCookie = getCookie(RETURN_TO_COOKIE, req.headers.cookie ?? "");
   res.clearCookie(RETURN_TO_COOKIE, returnToOptions);
-  const returnTo = returnToCookie && isSafeRedirect(returnToCookie) ? decodeURIComponent(returnToCookie) : "/";
-  const { basepath, basename } = getLocaleInfoFromPath(returnTo);
+  const returnTo = returnToCookie && parseSafeRedirect(returnToCookie);
+
+  if (returnTo instanceof URL) {
+    return res.redirect(returnTo.toString());
+  }
+
+  const { basepath, basename } = getLocaleInfoFromPath(returnTo ?? "/");
   const wasPrivateRoute = privateRoutes.some((r) => matchPath(r, basepath));
-  const redirect = wasPrivateRoute || basepath === routes.myNdla.root ? constructNewPath("/", basename) : returnTo;
-  res.setHeader("Cache-Control", "no-store");
+  const redirect =
+    wasPrivateRoute || basepath === routes.myNdla.root ? constructNewPath("/", basename) : (returnTo ?? "/");
   return res.redirect(redirect);
 });
 
