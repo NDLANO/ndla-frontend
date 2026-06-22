@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { InformationLine } from "@ndla/icons";
-import { Heading, Image, MessageBox, Text } from "@ndla/primitives";
+import { Heading, Image, Label, MessageBox, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useMemo } from "react";
@@ -25,6 +25,8 @@ import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
 import { toProgramme } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
+import { SafeLink } from "@ndla/safelink";
+import { DragWrapper } from "../MyNdla/Learningpath/components/DraggableLearningpathStepListItem";
 
 const getDocumentTitle = (title: string, t: TFunction) => {
   return htmlTitle(`${title}`, [t("htmlTitles.titleTemplate")]);
@@ -36,6 +38,7 @@ interface GradesData {
   slug: string;
   missingProgrammeSubjects: boolean;
   categories?: {
+    id: string;
     name: string;
     subjects?: {
       label: string;
@@ -66,6 +69,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
         };
       });
       return {
+        id: category.id,
         name: category.title.title,
         isProgrammeSubject: category.isProgrammeSubject,
         subjects: categorySubjects,
@@ -83,25 +87,31 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
 
 const HeadingWrapper = styled("div", {
   base: {
+    width: "100%",
+    alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
-    marginBlockEnd: "xxlarge",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "xsmall",
-    boxShadow: "full",
-    paddingInline: "medium",
-    paddingBlockStart: "xxlarge",
-    paddingBlockEnd: "large",
+    gap: "large",
+    backgroundColor: "background.default",
+    boxShadow: "xsmall",
+    paddingTop: "medium",
+    paddingRight: "xxlarge",
+    paddingBottom: "large",
+    paddingLeft: "large",
 
     tabletDown: {
-      gap: "xsmall",
+      gap: "medium",
       paddingBlockStart: "medium",
-      paddingInline: "xsmall",
-      paddingBlockEnd: "small",
-      marginBlockEnd: "medium",
+      paddingInline: "medium",
+      paddingBlockEnd: "medium",
     },
+  },
+});
+
+const HeadingTextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
   },
 });
 
@@ -109,6 +119,9 @@ const GradesList = styled("ul", {
   base: {
     display: "flex",
     gap: "xsmall",
+    padding: "xsmall",
+    alignItems: "flex-start",
+    flexDirection: "row",
   },
 });
 
@@ -122,22 +135,72 @@ const MessageBoxWrapper = styled("div", {
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
+    backgroundColor: "background.strong",
     paddingBlockStart: "0",
-    gap: "xxlarge",
+    gap: "medium",
   },
 });
 
 const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
   base: {
-    minWidth: "3xlarge",
+    width: "79px",
+    minHeight: "32px",
     justifyContent: "center",
+    display: "flex",
+    padding: "4xsmall xsmall",
+    gap: "small",
   },
 });
 
 const StyledImage = styled(Image, {
   base: {
     width: "100%",
+    maxWidth: "1128px",
+    padding: "large",
   },
+});
+
+const SubjectSection = styled("div", {
+  base: {
+    width: "100%",
+    alignSelf: "center",
+    backgroundColor: "background.default",
+    boxShadow: "xsmall",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    gap: "small",
+    padding: "xxlarge",
+
+    tabletDown: {
+      padding: "medium",
+    },
+  },
+});
+
+const SubjectList = styled("ul", {
+  base: {
+    listStyle: "none",
+    padding: "0",
+    display: "grid",
+    rowGap: "xsmall",
+    columnGap: "xsmall",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+
+    tabletDown: {
+      gridTemplateColumns: "1fr",
+    },
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    color: "text.strong",
+    textDecoration: "underline",
+    textUnderlineOffset: "20%",
+    textStyle: "body.large",
+    overflowWrap: "break-word",
+  }
 });
 
 export const ProgrammeContainer = ({ programme }: Props) => {
@@ -156,7 +219,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
   const pageTitle = getDocumentTitle(socialMediaTitle, t);
 
   return (
-    <StyledPageContainer padding="large" asChild consumeCss>
+    <StyledPageContainer asChild consumeCss>
       <main>
         <PageTitle title={pageTitle} trackingProps={{ defaultUrl: programme.defaultUrl, rootId: programme.id }} />
         <SocialMediaMetadata
@@ -170,9 +233,14 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           {/* TODO: Variants */}
           <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
           <HeadingWrapper>
-            <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-              {heading}
-            </Heading>
+            <HeadingTextWrapper>
+              <Label textStyle="label.small">
+                {"Utdanningsprogram"}
+              </Label>
+              <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
+                {heading}
+              </Heading>
+            </HeadingTextWrapper>
             {!!grades.length && (
               <GradesList aria-label={t("programmes.grades")}>
                 {grades?.map((item) => (
@@ -191,19 +259,20 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           </HeadingWrapper>
         </div>
         <RestrictedContent context="bleed">
-          {!!grade?.missingProgrammeSubjects && (
-            <MessageBoxWrapper>
-              <Heading asChild consumeCss textStyle="heading.small">
-                <h2>{t("programmePage.programmeSubjects")}</h2>
-              </Heading>
-              <MessageBox variant="info">
-                <InformationLine />
-                <Text>{t("messageBoxInfo.noContent")}</Text>
-              </MessageBox>
-            </MessageBoxWrapper>
-          )}
           {grade?.categories?.map((category) => (
-            <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
+            <SubjectSection key={category.id}>
+              <Heading textStyle="title.large">
+                {category.name}
+              </Heading>
+              <SubjectList>
+                {category.subjects?.map((subject) => (
+                  <li key={subject.url}>
+                    <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
+                  </li>
+                ))
+                }
+              </SubjectList>
+            </SubjectSection>
           ))}
         </RestrictedContent>
       </main>
