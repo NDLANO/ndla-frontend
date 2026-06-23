@@ -7,15 +7,14 @@
  */
 
 import { gql } from "@apollo/client";
-import { InformationLine } from "@ndla/icons";
-import { Heading, Image, Label, MessageBox, Text } from "@ndla/primitives";
+import { Heading, Image, Label } from "@ndla/primitives";
+import { SafeLink } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import { NavigationBox } from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
@@ -25,8 +24,6 @@ import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
 import { toProgramme } from "../../routeHelpers";
 import { htmlTitle } from "../../util/titleHelper";
-import { SafeLink } from "@ndla/safelink";
-import { DragWrapper } from "../MyNdla/Learningpath/components/DraggableLearningpathStepListItem";
 
 const getDocumentTitle = (title: string, t: TFunction) => {
   return htmlTitle(`${title}`, [t("htmlTitles.titleTemplate")]);
@@ -125,14 +122,6 @@ const GradesList = styled("ul", {
   },
 });
 
-const MessageBoxWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "xsmall",
-  },
-});
-
 const StyledPageContainer = styled(PageContainer, {
   base: {
     backgroundColor: "background.strong",
@@ -143,7 +132,7 @@ const StyledPageContainer = styled(PageContainer, {
 
 const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
   base: {
-    width: "79px",
+    minWidth: "79px",
     minHeight: "32px",
     justifyContent: "center",
     display: "flex",
@@ -155,7 +144,6 @@ const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
 const StyledImage = styled(Image, {
   base: {
     width: "100%",
-    maxWidth: "1128px",
     padding: "large",
   },
 });
@@ -200,7 +188,16 @@ const StyledSafeLink = styled(SafeLink, {
     textUnderlineOffset: "20%",
     textStyle: "body.large",
     overflowWrap: "break-word",
-  }
+  },
+});
+
+const ResourceButtonList = styled("ul", {
+  base: {
+    display: "flex",
+    padding: "small medium",
+    gap: "xxsmall",
+    alignItems: "flex-start",
+  },
 });
 
 export const ProgrammeContainer = ({ programme }: Props) => {
@@ -234,9 +231,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
           <HeadingWrapper>
             <HeadingTextWrapper>
-              <Label textStyle="label.small">
-                {"Utdanningsprogram"}
-              </Label>
+              <Label textStyle="label.small">{"Utdanningsprogram"}</Label>
               <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
                 {heading}
               </Heading>
@@ -259,21 +254,34 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           </HeadingWrapper>
         </div>
         <RestrictedContent context="bleed">
-          {grade?.categories?.map((category) => (
-            <SubjectSection key={category.id}>
-              <Heading textStyle="title.large">
-                {category.name}
-              </Heading>
-              <SubjectList>
-                {category.subjects?.map((subject) => (
-                  <li key={subject.url}>
-                    <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
-                  </li>
-                ))
-                }
-              </SubjectList>
-            </SubjectSection>
-          ))}
+          {grade?.categories?.map((category) => {
+            const isOtherResources = category.name === "Andre ressurser";
+            return (
+              <SubjectSection key={category.id}>
+                <Heading textStyle="title.large">{category.name}</Heading>
+
+                {isOtherResources ? (
+                  <ResourceButtonList>
+                    {category.subjects?.map((subject) => (
+                      <li key={subject.url ?? subject.label}>
+                        <StyledNavigationSafeLinkButton to={subject.url || "#"} variant="secondary">
+                          {subject.label}
+                        </StyledNavigationSafeLinkButton>
+                      </li>
+                    ))}
+                  </ResourceButtonList>
+                ) : (
+                  <SubjectList>
+                    {category.subjects?.map((subject) => (
+                      <li key={subject.url ?? subject.label}>
+                        <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
+                      </li>
+                    ))}
+                  </SubjectList>
+                )}
+              </SubjectSection>
+            );
+          })}
         </RestrictedContent>
       </main>
     </StyledPageContainer>
