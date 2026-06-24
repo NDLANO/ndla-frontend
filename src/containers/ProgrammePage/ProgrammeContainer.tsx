@@ -198,7 +198,6 @@ const ResourceButtonList = styled("ul", {
   },
 });
 
-const OTHER_RESOURCES_URL_NAME = "andre-ressurser";
 const OTHER_RESOURCES_HEADING_ID = "programme-other-resources-heading";
 
 export const ProgrammeContainer = ({ programme }: Props) => {
@@ -240,7 +239,9 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
           <HeadingWrapper>
             <HeadingTextWrapper>
-              <Label textStyle="label.small">{"Utdanningsprogram"}</Label>
+              <Label textStyle="label.large" fontWeight="normal">
+                {t("masthead.menuOptions.programme")}
+              </Label>
               <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
                 {heading}
               </Heading>
@@ -264,9 +265,6 @@ export const ProgrammeContainer = ({ programme }: Props) => {
         </div>
         <RestrictedContent context="bleed">
           {grade?.categories?.map((category) => {
-            if (config.disableOtherResourcesFromED && category.defaultUrlName === OTHER_RESOURCES_URL_NAME) {
-              return null;
-            }
             return (
               <SubjectSection key={category.id}>
                 <Heading textStyle="title.large">{category.name}</Heading>
@@ -280,7 +278,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
               </SubjectSection>
             );
           })}
-          {!!config.disableOtherResourcesFromED && (
+          {!!config.displayStaticOtherResources && (
             <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
               <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
                 {t("programmePage.otherResources")}
