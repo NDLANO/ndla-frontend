@@ -8,7 +8,7 @@
 
 import { gql } from "@apollo/client";
 import { Heading, Image, Label } from "@ndla/primitives";
-import { SafeLink } from "@ndla/safelink";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useMemo } from "react";
@@ -19,6 +19,7 @@ import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkBut
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
+import config from "../../config";
 import {
   FILM_PAGE_URL,
   MULTIDISCIPLINARY_URL,
@@ -42,6 +43,7 @@ interface GradesData {
   missingProgrammeSubjects: boolean;
   categories?: {
     id: string;
+    defaultUrlName: string | undefined;
     name: string;
     subjects?: {
       label: string;
@@ -74,6 +76,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       return {
         id: category.id,
         name: category.title.title,
+        defaultUrlName: category.defaultUrlName?? undefined,
         isProgrammeSubject: category.isProgrammeSubject,
         subjects: categorySubjects,
       };
@@ -136,18 +139,6 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
-  base: {
-    minWidth: "79px",
-    minHeight: "32px",
-    justifyContent: "center",
-    display: "flex",
-    padding: "4xsmall xsmall",
-    gap: "small",
-    borderRadius: "xsmall",
-  },
-});
-
 const StyledImage = styled(Image, {
   base: {
     width: "100%",
@@ -155,7 +146,7 @@ const StyledImage = styled(Image, {
   },
 });
 
-const SubjectSection = styled("div", {
+const SubjectSection = styled("nav", {
   base: {
     width: "100%",
     alignSelf: "center",
@@ -207,6 +198,7 @@ const ResourceButtonList = styled("ul", {
   },
 });
 
+const OTHER_RESOURCES_URL_NAME = "andre-ressurser";
 const OTHER_RESOURCES_HEADING_ID = "programme-other-resources-heading";
 
 export const ProgrammeContainer = ({ programme }: Props) => {
@@ -258,13 +250,13 @@ export const ProgrammeContainer = ({ programme }: Props) => {
               <GradesList aria-label={t("programmes.grades")}>
                 {grades?.map((item) => (
                   <li key={item.id}>
-                    <StyledNavigationSafeLinkButton
+                    <NavigationSafeLinkButton
                       to={toProgramme(programme.url, item.slug)}
                       variant="secondary"
                       aria-current={item.slug === grade?.slug ? "page" : undefined}
                     >
                       {item.name}
-                    </StyledNavigationSafeLinkButton>
+                    </NavigationSafeLinkButton>
                   </li>
                 ))}
               </GradesList>
@@ -273,38 +265,38 @@ export const ProgrammeContainer = ({ programme }: Props) => {
         </div>
         <RestrictedContent context="bleed">
           {grade?.categories?.map((category) => {
-            if (category.name !== otherResourcesHeading) {
-              return (
-                <SubjectSection key={category.id}>
-                  <Heading textStyle="title.large">{category.name}</Heading>
-                  <SubjectList>
-                    {category.subjects?.map((subject) => (
-                      <li key={subject.url ?? subject.label}>
-                        <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
-                      </li>
-                    ))}
-                  </SubjectList>
-                </SubjectSection>
-              );
+            if (config.disableOtherResourcesFromED && category.defaultUrlName === OTHER_RESOURCES_URL_NAME) {
+              return null;
             }
-
             return (
-              <SubjectSection key={category.id} aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
-                <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
-                  {otherResourcesHeading}
-                </Heading>
-                <ResourceButtonList>
-                  {otherResources.map((resource) => (
-                    <li key={resource.url}>
-                      <StyledNavigationSafeLinkButton to={resource.url} variant="secondary">
-                        {resource.label}
-                      </StyledNavigationSafeLinkButton>
+              <SubjectSection key={category.id}>
+                <Heading textStyle="title.large">{category.name}</Heading>
+                <SubjectList>
+                  {category.subjects?.map((subject) => (
+                    <li key={subject.url ?? subject.label}>
+                      <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
                     </li>
                   ))}
-                </ResourceButtonList>
+                </SubjectList>
               </SubjectSection>
             );
           })}
+          {config.disableOtherResourcesFromED && (
+            <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
+              <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
+                {otherResourcesHeading}
+              </Heading>
+              <ResourceButtonList>
+                {otherResources.map((resource) => (
+                  <li key={resource.url}>
+                    <SafeLinkButton to={resource.url} variant="secondary">
+                      {resource.label}
+                    </SafeLinkButton>
+                  </li>
+                ))}
+              </ResourceButtonList>
+            </SubjectSection>
+          )}
         </RestrictedContent>
       </main>
     </StyledPageContainer>
@@ -333,6 +325,7 @@ ProgrammeContainer.fragments = {
         url
         categories {
           id
+          defaultUrlName
           title {
             title
           }

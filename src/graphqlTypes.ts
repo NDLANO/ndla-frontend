@@ -7670,6 +7670,7 @@ export type GQLProgrammeContainer_ProgrammeFragment = {
     categories: Array<{
       __typename: "Category";
       id: string;
+      defaultUrlName: string | null;
       isProgrammeSubject: boolean;
       title: { __typename: "Title"; title: string };
       subjects: Array<{
@@ -7706,6 +7707,7 @@ export type GQLProgrammePageQuery = {
       categories: Array<{
         __typename: "Category";
         id: string;
+        defaultUrlName: string | null;
         isProgrammeSubject: boolean;
         title: { __typename: "Title"; title: string };
         subjects: Array<{
