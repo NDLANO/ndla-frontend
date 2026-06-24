@@ -43,7 +43,6 @@ interface GradesData {
   missingProgrammeSubjects: boolean;
   categories?: {
     id: string;
-    defaultUrlName: string | undefined;
     name: string;
     subjects?: {
       label: string;
@@ -76,7 +75,6 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       return {
         id: category.id,
         name: category.title.title,
-        defaultUrlName: category.defaultUrlName ?? undefined,
         isProgrammeSubject: category.isProgrammeSubject,
         subjects: categorySubjects,
       };
@@ -322,7 +320,6 @@ ProgrammeContainer.fragments = {
         url
         categories {
           id
-          defaultUrlName
           title {
             title
           }
