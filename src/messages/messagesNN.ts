@@ -721,6 +721,7 @@ const messages = {
   pagination: { next: "Neste", prev: "Førre" },
   programmePage: {
     programmeSubjects: "Programfag",
+    otherResources: "Andre ressursar",
   },
   aboutPage: {
     menuItems: "Undersidar",

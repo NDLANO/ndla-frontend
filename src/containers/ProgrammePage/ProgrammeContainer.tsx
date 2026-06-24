@@ -19,7 +19,13 @@ import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkBut
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import {
+  FILM_PAGE_URL,
+  MULTIDISCIPLINARY_URL,
+  SKIP_TO_CONTENT_ID,
+  TOOLBOX_STUDENT_URL,
+  TOOLBOX_TEACHER_URL,
+} from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
 import { toProgramme } from "../../routeHelpers";
@@ -138,6 +144,7 @@ const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
     display: "flex",
     padding: "4xsmall xsmall",
     gap: "small",
+    borderRadius: "xsmall",
   },
 });
 
@@ -200,6 +207,8 @@ const ResourceButtonList = styled("ul", {
   },
 });
 
+const OTHER_RESOURCES_HEADING_ID = "programme-other-resources-heading";
+
 export const ProgrammeContainer = ({ programme }: Props) => {
   const { t } = useTranslation();
   const { grade: gradeParam = "" } = useParams();
@@ -214,6 +223,15 @@ export const ProgrammeContainer = ({ programme }: Props) => {
   const metaDescription = programme.metaDescription;
   const image = programme.desktopImage?.url || "";
   const pageTitle = getDocumentTitle(socialMediaTitle, t);
+
+  const otherResources = [
+    { label: t("subjectsPage.multidisciplinaryCases"), url: MULTIDISCIPLINARY_URL },
+    { label: t("ndlaFilm.heading"), url: FILM_PAGE_URL },
+    { label: t("masthead.menu.links.tips.studentToolbox"), url: TOOLBOX_STUDENT_URL },
+    { label: t("masthead.menu.links.tips.teacherToolbox"), url: TOOLBOX_TEACHER_URL },
+    { label: t("subjectsPage.allSubjects"), url: "/subjects" },
+  ];
+  const otherResourcesHeading = t("programmePage.otherResources");
 
   return (
     <StyledPageContainer asChild consumeCss>
@@ -255,22 +273,10 @@ export const ProgrammeContainer = ({ programme }: Props) => {
         </div>
         <RestrictedContent context="bleed">
           {grade?.categories?.map((category) => {
-            const isOtherResources = category.name === "Andre ressurser";
-            return (
-              <SubjectSection key={category.id}>
-                <Heading textStyle="title.large">{category.name}</Heading>
-
-                {isOtherResources ? (
-                  <ResourceButtonList>
-                    {category.subjects?.map((subject) => (
-                      <li key={subject.url ?? subject.label}>
-                        <StyledNavigationSafeLinkButton to={subject.url || "#"} variant="secondary">
-                          {subject.label}
-                        </StyledNavigationSafeLinkButton>
-                      </li>
-                    ))}
-                  </ResourceButtonList>
-                ) : (
+            if (category.name !== otherResourcesHeading) {
+              return (
+                <SubjectSection key={category.id}>
+                  <Heading textStyle="title.large">{category.name}</Heading>
                   <SubjectList>
                     {category.subjects?.map((subject) => (
                       <li key={subject.url ?? subject.label}>
@@ -278,7 +284,24 @@ export const ProgrammeContainer = ({ programme }: Props) => {
                       </li>
                     ))}
                   </SubjectList>
-                )}
+                </SubjectSection>
+              );
+            }
+
+            return (
+              <SubjectSection key={category.id} aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
+                <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
+                  {otherResourcesHeading}
+                </Heading>
+                <ResourceButtonList>
+                  {otherResources.map((resource) => (
+                    <li key={resource.url}>
+                      <StyledNavigationSafeLinkButton to={resource.url} variant="secondary">
+                        {resource.label}
+                      </StyledNavigationSafeLinkButton>
+                    </li>
+                  ))}
+                </ResourceButtonList>
               </SubjectSection>
             );
           })}

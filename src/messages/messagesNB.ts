@@ -722,6 +722,7 @@ const messages = {
   pagination: { next: "Neste", prev: "Forrige" },
   programmePage: {
     programmeSubjects: "Programfag",
+    otherResources: "Andre ressurser",
   },
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",
