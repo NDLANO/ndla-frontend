@@ -76,7 +76,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       return {
         id: category.id,
         name: category.title.title,
-        defaultUrlName: category.defaultUrlName?? undefined,
+        defaultUrlName: category.defaultUrlName ?? undefined,
         isProgrammeSubject: category.isProgrammeSubject,
         subjects: categorySubjects,
       };
@@ -223,7 +223,6 @@ export const ProgrammeContainer = ({ programme }: Props) => {
     { label: t("masthead.menu.links.tips.teacherToolbox"), url: TOOLBOX_TEACHER_URL },
     { label: t("subjectsPage.allSubjects"), url: "/subjects" },
   ];
-  const otherResourcesHeading = t("programmePage.otherResources");
 
   return (
     <StyledPageContainer asChild consumeCss>
@@ -281,10 +280,10 @@ export const ProgrammeContainer = ({ programme }: Props) => {
               </SubjectSection>
             );
           })}
-          {config.disableOtherResourcesFromED && (
+          {!!config.disableOtherResourcesFromED && (
             <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
               <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
-                {otherResourcesHeading}
+                {t("programmePage.otherResources")}
               </Heading>
               <ResourceButtonList>
                 {otherResources.map((resource) => (
