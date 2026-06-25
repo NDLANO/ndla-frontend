@@ -7,7 +7,7 @@
  */
 
 import { gql } from "@apollo/client";
-import { Heading, Image, Label } from "@ndla/primitives";
+import { Heading, Image, Text } from "@ndla/primitives";
 import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
@@ -42,7 +42,6 @@ interface GradesData {
   slug: string;
   missingProgrammeSubjects: boolean;
   categories?: {
-    id: string;
     name: string;
     subjects?: {
       label: string;
@@ -98,16 +97,16 @@ const HeadingWrapper = styled("div", {
     gap: "large",
     backgroundColor: "background.default",
     boxShadow: "xsmall",
-    paddingTop: "medium",
-    paddingRight: "xxlarge",
-    paddingBottom: "large",
-    paddingLeft: "large",
+    paddingBlockStart: "medium",
+    paddingInline: "xxlarge",
+    paddingBlockEnd: "large",
+
 
     tabletDown: {
       gap: "medium",
       paddingInline: "medium",
-      paddingTop: "medium",
-      paddingBottom: "large",
+      paddingBlockStart: "medium",
+      paddingBlockEnd: "large",
     },
   },
 });
@@ -122,10 +121,8 @@ const HeadingTextWrapper = styled("div", {
 const GradesList = styled("ul", {
   base: {
     display: "flex",
+    alignItems: "center",
     gap: "xsmall",
-    padding: "xsmall",
-    alignItems: "flex-start",
-    flexDirection: "row",
   },
 });
 
@@ -139,37 +136,28 @@ const StyledPageContainer = styled(PageContainer, {
 
 const StyledImage = styled(Image, {
   base: {
-    width: "100%",
-    padding: "large",
+    height: "400px", 
+    width: "1128px",
   },
 });
 
 const SubjectSection = styled("nav", {
   base: {
-    width: "100%",
-    alignSelf: "center",
     backgroundColor: "background.default",
     boxShadow: "xsmall",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "stretch",
     gap: "small",
     padding: "xxlarge",
-
     tabletDown: {
-      paddingInline: "small",
-      paddingBlock: "medium",
+      paddingInline: "medium",
+      paddingBlock: "large",
     },
   },
 });
 
 const SubjectList = styled("ul", {
   base: {
-    listStyle: "none",
-    padding: "0",
     display: "grid",
-    rowGap: "xsmall",
-    columnGap: "xsmall",
+    gap: "xsmall",
     gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
 
     tabletDown: {
@@ -198,7 +186,7 @@ const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
   },
 });
 
-const ResourceButtonList = styled("ul", {
+const ResourceLinkList = styled("ul", {
   base: {
     display: "flex",
     flexWrap: "wrap",
@@ -246,12 +234,12 @@ export const ProgrammeContainer = ({ programme }: Props) => {
         <div>
           {/* TODO: Use semantic tokens */}
           {/* TODO: Variants */}
-          <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
+          <StyledImage src={programme.desktopImage?.url} alt="" fetchPriority="high" />
           <HeadingWrapper>
             <HeadingTextWrapper>
-              <Label textStyle="label.large" fontWeight="normal">
+              <Text textStyle="label.large" fontWeight="normal">
                 {t("masthead.menuOptions.programme")}
-              </Label>
+              </Text>
               <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
                 {heading}
               </Heading>
@@ -276,12 +264,12 @@ export const ProgrammeContainer = ({ programme }: Props) => {
         <RestrictedContent context="bleed">
           {grade?.categories?.map((category) => {
             return (
-              <SubjectSection key={category.id}>
-                <Heading textStyle="title.large">{category.name}</Heading>
+              <SubjectSection key={category.name}>
+                <Heading asChild textStyle="title.large" aria-labelledby={`${category.name}-heading`}>{category.name}</Heading>
                 <SubjectList>
                   {category.subjects?.map((subject) => (
                     <li key={subject.url ?? subject.label}>
-                      <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
+                      <StyledSafeLink to={subject.url || ""}>{subject.label}</StyledSafeLink>
                     </li>
                   ))}
                 </SubjectList>
@@ -293,7 +281,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
               <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
                 {t("programmePage.otherResources")}
               </Heading>
-              <ResourceButtonList>
+              <ResourceLinkList>
                 {otherResources.map((resource) => (
                   <li key={resource.url}>
                     <SafeLinkButton to={resource.url} variant="secondary">
@@ -301,7 +289,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
                     </SafeLinkButton>
                   </li>
                 ))}
-              </ResourceButtonList>
+              </ResourceLinkList>
             </SubjectSection>
           )}
         </RestrictedContent>
