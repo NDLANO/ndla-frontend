@@ -105,9 +105,9 @@ const HeadingWrapper = styled("div", {
 
     tabletDown: {
       gap: "medium",
-      paddingBlockStart: "medium",
       paddingInline: "medium",
-      paddingBlockEnd: "medium",
+      paddingTop: "medium",
+      paddingBottom: "large",
     },
   },
 });
@@ -157,7 +157,8 @@ const SubjectSection = styled("nav", {
     padding: "xxlarge",
 
     tabletDown: {
-      padding: "medium",
+      paddingInline: "small",
+      paddingBlock: "medium",
     },
   },
 });
@@ -187,11 +188,22 @@ const StyledSafeLink = styled(SafeLink, {
   },
 });
 
+const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
+  base: {
+    width: "3xlarge",
+    minHeight: "large",
+    justifyContent: "center",
+    paddingInline: "xsmall",
+    paddingBlock: "4xsmall",
+  },
+});
+
 const ResourceButtonList = styled("ul", {
   base: {
     display: "flex",
-    padding: "small medium",
-    gap: "xxsmall",
+    flexWrap: "wrap",
+    padding: "xxsmall medium",
+    gap: "small",
     alignItems: "flex-start",
   },
 });
@@ -222,7 +234,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
   ];
 
   return (
-    <StyledPageContainer asChild consumeCss>
+    <StyledPageContainer asChild consumeCss gutters="tabletUp">
       <main>
         <PageTitle title={pageTitle} trackingProps={{ defaultUrl: programme.defaultUrl, rootId: programme.id }} />
         <SocialMediaMetadata
@@ -248,13 +260,13 @@ export const ProgrammeContainer = ({ programme }: Props) => {
               <GradesList aria-label={t("programmes.grades")}>
                 {grades?.map((item) => (
                   <li key={item.id}>
-                    <NavigationSafeLinkButton
+                    <StyledNavigationSafeLinkButton
                       to={toProgramme(programme.url, item.slug)}
                       variant="secondary"
                       aria-current={item.slug === grade?.slug ? "page" : undefined}
                     >
                       {item.name}
-                    </NavigationSafeLinkButton>
+                    </StyledNavigationSafeLinkButton>
                   </li>
                 ))}
               </GradesList>
