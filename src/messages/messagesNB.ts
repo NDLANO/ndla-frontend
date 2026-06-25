@@ -723,6 +723,8 @@ const messages = {
   programmePage: {
     programmeSubjects: "Programfag",
     otherResources: "Andre ressurser",
+    programme: "Utdanningsprogram",
+    grades: "Trinn",
   },
   subjectPage: {
     topicsTitle: "Emner i {{topic}}",

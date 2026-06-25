@@ -42,6 +42,7 @@ interface GradesData {
   slug: string;
   missingProgrammeSubjects: boolean;
   categories?: {
+    id: string;
     name: string;
     subjects?: {
       label: string;
@@ -137,6 +138,7 @@ const StyledImage = styled(Image, {
   base: {
     height: "400px",
     width: "1128px",
+    gap: "medium",
   },
 });
 
@@ -170,7 +172,7 @@ const StyledSafeLink = styled(SafeLink, {
   base: {
     color: "text.strong",
     textDecoration: "underline",
-    textUnderlineOffset: "20%",
+
     textStyle: "body.large",
     overflowWrap: "break-word",
   },
@@ -238,14 +240,14 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           <HeadingWrapper>
             <HeadingTextWrapper>
               <Text textStyle="label.large" fontWeight="normal">
-                {t("masthead.menuOptions.programme")}
+                {t("programmePage.programme")}
               </Text>
               <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
                 {heading}
               </Heading>
             </HeadingTextWrapper>
             {!!grades.length && (
-              <GradesList aria-label={t("programmes.grades")}>
+              <GradesList aria-label={t("programmePage.grades")}>
                 {grades?.map((item) => (
                   <li key={item.id}>
                     <StyledNavigationSafeLinkButton
@@ -264,14 +266,14 @@ export const ProgrammeContainer = ({ programme }: Props) => {
         <RestrictedContent context="bleed">
           {grade?.categories?.map((category) => {
             return (
-              <SubjectSection key={category.name}>
-                <Heading asChild textStyle="title.large" aria-labelledby={`${category.name}`}>
-                  {category.name}
+              <SubjectSection key={category.name} aria-labelledby={`${category.name}`}>
+                <Heading asChild consumeCss textStyle="title.large">
+                  <h1>{category.name}</h1>
                 </Heading>
                 <SubjectList>
                   {category.subjects?.map((subject) => (
                     <li key={subject.url ?? subject.label}>
-                      <StyledSafeLink to={subject.url || ""}>{subject.label}</StyledSafeLink>
+                      <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
                     </li>
                   ))}
                 </SubjectList>

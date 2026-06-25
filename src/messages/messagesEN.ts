@@ -725,6 +725,8 @@ const messages = {
   programmePage: {
     programmeSubjects: "Programme subjects",
     otherResources: "Other resources",
+    programme: "Programmes",
+    grades: "Grades",
   },
   aboutPage: {
     menuItems: "Subpages",

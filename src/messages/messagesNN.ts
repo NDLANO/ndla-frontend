@@ -722,6 +722,8 @@ const messages = {
   programmePage: {
     programmeSubjects: "Programfag",
     otherResources: "Andre ressursar",
+    programme: "Utdanningsprogram",
+    grades: "Trinn",
   },
   aboutPage: {
     menuItems: "Undersidar",
