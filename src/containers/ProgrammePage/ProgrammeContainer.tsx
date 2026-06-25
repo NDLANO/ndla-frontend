@@ -101,7 +101,6 @@ const HeadingWrapper = styled("div", {
     paddingInline: "xxlarge",
     paddingBlockEnd: "large",
 
-
     tabletDown: {
       gap: "medium",
       paddingInline: "medium",
@@ -136,7 +135,7 @@ const StyledPageContainer = styled(PageContainer, {
 
 const StyledImage = styled(Image, {
   base: {
-    height: "400px", 
+    height: "400px",
     width: "1128px",
   },
 });
@@ -147,6 +146,7 @@ const SubjectSection = styled("nav", {
     boxShadow: "xsmall",
     gap: "small",
     padding: "xxlarge",
+
     tabletDown: {
       paddingInline: "medium",
       paddingBlock: "large",
@@ -265,7 +265,9 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           {grade?.categories?.map((category) => {
             return (
               <SubjectSection key={category.name}>
-                <Heading asChild textStyle="title.large" aria-labelledby={`${category.name}-heading`}>{category.name}</Heading>
+                <Heading asChild textStyle="title.large" aria-labelledby={`${category.name}`}>
+                  {category.name}
+                </Heading>
                 <SubjectList>
                   {category.subjects?.map((subject) => (
                     <li key={subject.url ?? subject.label}>
