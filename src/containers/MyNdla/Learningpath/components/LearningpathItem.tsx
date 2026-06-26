@@ -85,9 +85,7 @@ export const LearningpathItem = ({ learningpath, context, menu, ...rest }: Props
         <ListItemContent>
           <div>
             <StyledListItemHeading asChild consumeCss css={linkOverlay.raw()}>
-              <SafeLink to={routes.myNdla.learningpathEditSteps(learningpath.id)} unstyled>
-                {learningpath.title}
-              </SafeLink>
+              <SafeLink to={routes.myNdla.learningpathEditSteps(learningpath.id)}>{learningpath.title}</SafeLink>
             </StyledListItemHeading>
             <TimestampText textStyle="label.small" color="text.subtle">
               {createdString}

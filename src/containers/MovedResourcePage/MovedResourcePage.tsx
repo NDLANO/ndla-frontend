@@ -111,7 +111,7 @@ export const MovedResourcePage = ({ resource }: Props) => {
             )}
             <CardContent>
               <CardHeading asChild consumeCss>
-                <SafeLink to={resource.url ?? ""} unstyled css={linkOverlay.raw()}>
+                <SafeLink to={resource.url ?? ""} css={linkOverlay.raw()}>
                   {resource.name}
                 </SafeLink>
               </CardHeading>

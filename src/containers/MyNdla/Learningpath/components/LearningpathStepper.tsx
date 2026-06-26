@@ -121,7 +121,6 @@ const DesktopStepper = ({ step, learningpathId }: Props) => {
           {learningpathId ? (
             <StyledSafeLink
               aria-label={t(`myNdla.learningpath.form.steps.${key}`)}
-              unstyled
               aria-selected={step === key}
               to={PATH_MAPPING[key](learningpathId)}
             >
