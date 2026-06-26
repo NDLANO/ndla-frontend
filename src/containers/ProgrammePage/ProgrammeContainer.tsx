@@ -95,7 +95,7 @@ const HeadingWrapper = styled("div", {
     alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
-    gap: "large",
+    gap: "xxlarge",
     backgroundColor: "background.default",
     boxShadow: "xsmall",
     paddingBlockStart: "medium",
@@ -103,7 +103,7 @@ const HeadingWrapper = styled("div", {
     paddingBlockEnd: "large",
 
     tabletDown: {
-      gap: "medium",
+      gap: "large",
       paddingInline: "medium",
       paddingBlockStart: "medium",
       paddingBlockEnd: "large",
@@ -129,16 +129,29 @@ const GradesList = styled("ul", {
 const StyledPageContainer = styled(PageContainer, {
   base: {
     backgroundColor: "background.strong",
-    paddingBlockStart: "0",
+    rowGap: "xxlarge",
+
+    tablet: {
+      rowGap: "xlarge",
+    },
+
+    tabletDown: {
+      rowGap: "large",
+    },
+  },
+});
+
+const SectionHero = styled("div", {
+  base: {
     gap: "medium",
+    display: "flex",
+    flexDirection: "column",
   },
 });
 
 const StyledImage = styled(Image, {
   base: {
-    height: "400px",
-    width: "1128px",
-    gap: "medium",
+    width: "100%",
   },
 });
 
@@ -146,7 +159,6 @@ const SubjectSection = styled("nav", {
   base: {
     backgroundColor: "background.default",
     boxShadow: "xsmall",
-    gap: "small",
     padding: "xxlarge",
 
     tabletDown: {
@@ -192,7 +204,6 @@ const ResourceLinkList = styled("ul", {
   base: {
     display: "flex",
     flexWrap: "wrap",
-    padding: "xxsmall medium",
     gap: "small",
     alignItems: "flex-start",
   },
@@ -233,70 +244,72 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           imageUrl={image}
           canonicalPath={programme.url}
         />
-        <div>
-          {/* TODO: Use semantic tokens */}
-          {/* TODO: Variants */}
-          <StyledImage src={programme.desktopImage?.url} alt="" fetchPriority="high" />
-          <HeadingWrapper>
-            <HeadingTextWrapper>
-              <Text textStyle="label.large" fontWeight="normal">
-                {t("programmePage.programme")}
-              </Text>
-              <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
-                {heading}
-              </Heading>
-            </HeadingTextWrapper>
-            {!!grades.length && (
-              <GradesList aria-label={t("programmePage.grades")}>
-                {grades?.map((item) => (
-                  <li key={item.id}>
-                    <StyledNavigationSafeLinkButton
-                      to={toProgramme(programme.url, item.slug)}
-                      variant="secondary"
-                      aria-current={item.slug === grade?.slug ? "page" : undefined}
-                    >
-                      {item.name}
-                    </StyledNavigationSafeLinkButton>
-                  </li>
-                ))}
-              </GradesList>
-            )}
-          </HeadingWrapper>
-        </div>
-        <RestrictedContent context="bleed">
-          {grade?.categories?.map((category) => {
-            return (
-              <SubjectSection key={category.name} aria-labelledby={`${category.name}`}>
-                <Heading asChild consumeCss textStyle="title.large">
-                  <h1>{category.name}</h1>
+        {/* TODO: Use semantic tokens */}
+        {/* TODO: Variants */}
+
+        <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
+        <HeadingWrapper>
+          <HeadingTextWrapper>
+            <Text textStyle="label.large" fontWeight="normal">
+              {t("programmePage.programme")}
+            </Text>
+            <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
+              {heading}
+            </Heading>
+          </HeadingTextWrapper>
+          {!!grades.length && (
+            <GradesList aria-label={t("programmePage.grades")}>
+              {grades?.map((item) => (
+                <li key={item.id}>
+                  <StyledNavigationSafeLinkButton
+                    to={toProgramme(programme.url, item.slug)}
+                    variant="secondary"
+                    aria-current={item.slug === grade?.slug ? "page" : undefined}
+                  >
+                    {item.name}
+                  </StyledNavigationSafeLinkButton>
+                </li>
+              ))}
+            </GradesList>
+          )}
+        </HeadingWrapper>
+
+        <SectionHero>
+          <RestrictedContent context="bleed">
+            {grade?.categories?.map((category) => {
+              return (
+                <SubjectSection key={category.name} aria-labelledby={`${category.name}`}>
+                  <Heading asChild consumeCss textStyle="title.large">
+                    <h1>{category.name}</h1>
+                  </Heading>
+                  <SubjectList>
+                    {category.subjects?.map((subject) => (
+                      <li key={subject.url ?? subject.label}>
+                        <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
+                      </li>
+                    ))}
+                  </SubjectList>
+                </SubjectSection>
+              );
+            })}
+            {!!config.displayStaticOtherResources && (
+              <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
+                <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
+                  {t("programmePage.otherResources")}
                 </Heading>
-                <SubjectList>
-                  {category.subjects?.map((subject) => (
-                    <li key={subject.url ?? subject.label}>
-                      <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
+                <ResourceLinkList>
+                  {otherResources.map((resource) => (
+                    <li key={resource.url}>
+                      <SafeLinkButton to={resource.url} variant="secondary">
+                        {resource.label}
+                      </SafeLinkButton>
                     </li>
                   ))}
-                </SubjectList>
+                </ResourceLinkList>
               </SubjectSection>
-            );
-          })}
-          {!!config.displayStaticOtherResources && (
-            <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
-              <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
-                {t("programmePage.otherResources")}
-              </Heading>
-              <ResourceLinkList>
-                {otherResources.map((resource) => (
-                  <li key={resource.url}>
-                    <SafeLinkButton to={resource.url} variant="secondary">
-                      {resource.label}
-                    </SafeLinkButton>
-                  </li>
-                ))}
-              </ResourceLinkList>
-            </SubjectSection>
-          )}
-        </RestrictedContent>
+            )}
+          </RestrictedContent>
+        </SectionHero>
       </main>
     </StyledPageContainer>
   );
