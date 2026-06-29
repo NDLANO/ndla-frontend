@@ -101,7 +101,7 @@ export const SearchResult = ({ searchResult }: Props) => {
     <StyledListItemRoot asChild consumeCss>
       <li>
         <ListItemHeading asChild consumeCss>
-          <SafeLink to={resultUrl(searchResult, ltiContext, i18n.language) ?? ""} unstyled css={linkOverlay.raw()}>
+          <SafeLink to={resultUrl(searchResult, ltiContext, i18n.language) ?? ""} css={linkOverlay.raw()}>
             {searchResult.__typename === "ArticleSearchResult" || searchResult.__typename === "LearningpathSearchResult"
               ? parse(searchResult.htmlTitle)
               : searchResult.title}

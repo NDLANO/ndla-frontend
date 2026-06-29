@@ -251,7 +251,7 @@ export const MenuItemElement = ({
 
   if (item.type === "link") {
     return (
-      <SafeLink unstyled to={item.link} {...rest}>
+      <SafeLink to={item.link} {...rest}>
         {children}
       </SafeLink>
     );
