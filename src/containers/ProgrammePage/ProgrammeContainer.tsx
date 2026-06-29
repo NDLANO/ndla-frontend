@@ -160,6 +160,9 @@ const SubjectSection = styled("nav", {
     backgroundColor: "background.default",
     boxShadow: "xsmall",
     padding: "xxlarge",
+    gap: "small",
+    display: "flex",
+    flexDirection: "column",
 
     tabletDown: {
       paddingInline: "medium",
@@ -184,7 +187,6 @@ const StyledSafeLink = styled(SafeLink, {
   base: {
     color: "text.strong",
     textDecoration: "underline",
-
     textStyle: "body.large",
     overflowWrap: "break-word",
   },
@@ -294,8 +296,8 @@ export const ProgrammeContainer = ({ programme }: Props) => {
             })}
             {!!config.displayStaticOtherResources && (
               <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
-                <Heading id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
-                  {t("programmePage.otherResources")}
+                <Heading asChild consumeCss id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
+                  <h1>{t("programmePage.otherResources")}</h1>
                 </Heading>
                 <ResourceLinkList>
                   {otherResources.map((resource) => (
