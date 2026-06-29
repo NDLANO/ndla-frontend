@@ -194,7 +194,7 @@ const StyledSafeLink = styled(SafeLink, {
 
 const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
   base: {
-    width: "3xlarge",
+    minWidth: "3xlarge",
     minHeight: "large",
     justifyContent: "center",
     paddingInline: "xsmall",
