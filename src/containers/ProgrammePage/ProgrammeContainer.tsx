@@ -40,7 +40,6 @@ interface GradesData {
   id: string;
   name: string;
   slug: string;
-  missingProgrammeSubjects: boolean;
   categories?: {
     id: string;
     name: string;
@@ -63,9 +62,7 @@ export const sanitizeGrade = (grade: string) => {
 const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]): GradesData[] => {
   if (!grades) return [];
   return grades.map((grade) => {
-    let foundProgrammeSubject = false;
     const categories = grade.categories?.map((category) => {
-      foundProgrammeSubject = foundProgrammeSubject || category.isProgrammeSubject;
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || "",
@@ -83,7 +80,6 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       id: grade.id,
       name: grade.title.title,
       slug: sanitizeGrade(grade.title.title),
-      missingProgrammeSubjects: !foundProgrammeSubject,
       categories,
     };
   });
@@ -175,10 +171,20 @@ const SubjectList = styled("ul", {
   base: {
     display: "grid",
     gap: "xsmall",
-    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
 
     tabletDown: {
       gridTemplateColumns: "1fr",
+    },
+  },
+
+  variants: {
+    singleColumn: {
+      true: {
+        gridTemplateColumns: "1fr",
+      },
+      false: {
+        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+      },
     },
   },
 });
@@ -284,7 +290,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
                   <Heading asChild consumeCss textStyle="title.large">
                     <h1>{category.name}</h1>
                   </Heading>
-                  <SubjectList>
+                  <SubjectList singleColumn={category.subjects?.length !== undefined && category.subjects.length <= 3}>
                     {category.subjects?.map((subject) => (
                       <li key={subject.url ?? subject.label}>
                         <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
