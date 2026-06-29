@@ -137,7 +137,7 @@ const StyledPageContainer = styled(PageContainer, {
   },
 });
 
-const SectionHero = styled("div", {
+const SectionWrapper = styled("div", {
   base: {
     gap: "medium",
     display: "flex",
@@ -161,8 +161,8 @@ const SubjectSection = styled("nav", {
     flexDirection: "column",
 
     tabletDown: {
-      paddingInline: "medium",
-      paddingBlock: "large",
+      paddingInline: "small",
+      paddingBlock: "medium",
     },
   },
 });
@@ -171,18 +171,10 @@ const SubjectList = styled("ul", {
   base: {
     display: "grid",
     gap: "xsmall",
+    gridTemplateColumns: "1fr",
 
-    tabletDown: {
-      gridTemplateColumns: "1fr",
-    },
-  },
-
-  variants: {
-    singleColumn: {
-      true: {
-        gridTemplateColumns: "1fr",
-      },
-      false: {
+    tablet: {
+      "&:has(*:nth-child(4))": {
         gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
       },
     },
@@ -282,15 +274,15 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           )}
         </HeadingWrapper>
 
-        <SectionHero>
+        <SectionWrapper>
           <RestrictedContent context="bleed">
             {grade?.categories?.map((category) => {
               return (
                 <SubjectSection key={category.name} aria-labelledby={`${category.name}`}>
                   <Heading asChild consumeCss textStyle="title.large">
-                    <h1>{category.name}</h1>
+                    <h2>{category.name}</h2>
                   </Heading>
-                  <SubjectList singleColumn={category.subjects?.length !== undefined && category.subjects.length <= 3}>
+                  <SubjectList>
                     {category.subjects?.map((subject) => (
                       <li key={subject.url ?? subject.label}>
                         <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
@@ -303,7 +295,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
             {!!config.displayStaticOtherResources && (
               <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
                 <Heading asChild consumeCss id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
-                  <h1>{t("programmePage.otherResources")}</h1>
+                  <h2>{t("programmePage.otherResources")}</h2>
                 </Heading>
                 <ResourceLinkList>
                   {otherResources.map((resource) => (
@@ -317,7 +309,7 @@ export const ProgrammeContainer = ({ programme }: Props) => {
               </SubjectSection>
             )}
           </RestrictedContent>
-        </SectionHero>
+        </SectionWrapper>
       </main>
     </StyledPageContainer>
   );
