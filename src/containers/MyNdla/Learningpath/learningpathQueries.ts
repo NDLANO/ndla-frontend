@@ -6,20 +6,18 @@
  *
  */
 
-import { gql } from "@apollo/client";
-import { useLazyQuery, useQuery } from "@apollo/client/react";
-import { learningpathFragment, learningpathStepOembed } from "../../../fragments/learningpathFragments";
+import { gql, TypedDocumentNode } from "@apollo/client";
+import { learningpathFragment } from "../../../fragments/learningpathFragments";
 import {
   GQLMyLearningpathsQuery,
   GQLMyNdlaLearningpathQuery,
   GQLMyNdlaLearningpathQueryVariables,
-  GQLLearningpathStepOembedQuery,
-  GQLLearningpathStepOembedQueryVariables,
   GQLOpengraphQuery,
   GQLOpengraphQueryVariables,
+  GQLMyLearningpathsQueryVariables,
 } from "../../../graphqlTypes";
 
-export const myLearningpathQuery = gql`
+export const myLearningpathQuery: TypedDocumentNode<GQLMyLearningpathsQuery, GQLMyLearningpathsQueryVariables> = gql`
   query MyLearningpaths($includeSteps: Boolean = false) {
     myLearningpaths {
       ...MyNdlaLearningpath
@@ -28,35 +26,17 @@ export const myLearningpathQuery = gql`
   ${learningpathFragment}
 `;
 
-export const useMyLearningpaths = () => useQuery<GQLMyLearningpathsQuery>(myLearningpathQuery);
-
-export const learningpathQuery = gql`
-  query myNdlaLearningpath($pathId: String!, $includeSteps: Boolean = true) {
-    myNdlaLearningpath(pathId: $pathId) {
-      ...MyNdlaLearningpath
+export const learningpathQueryDef: TypedDocumentNode<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables> =
+  gql`
+    query myNdlaLearningpath($pathId: String!, $includeSteps: Boolean = true) {
+      myNdlaLearningpath(pathId: $pathId) {
+        ...MyNdlaLearningpath
+      }
     }
-  }
-  ${learningpathFragment}
-`;
+    ${learningpathFragment}
+  `;
 
-export const useFetchLearningpath = (
-  options: useQuery.Options<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>,
-) => useQuery<GQLMyNdlaLearningpathQuery, GQLMyNdlaLearningpathQueryVariables>(learningpathQuery, options);
-
-const fetchOembedUrl = gql`
-  query learningpathStepOembed($url: String!) {
-    learningpathStepOembed(url: $url) {
-      ...LearningpathStepOembed
-    }
-  }
-  ${learningpathStepOembed}
-`;
-
-export const useFetchOembed = (
-  options: useQuery.Options<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>,
-) => useQuery<GQLLearningpathStepOembedQuery, GQLLearningpathStepOembedQueryVariables>(fetchOembedUrl, options);
-
-const opengraphQuery = gql`
+export const opengraphQueryDef: TypedDocumentNode<GQLOpengraphQuery, GQLOpengraphQueryVariables> = gql`
   query opengraph($url: String!) {
     opengraph(url: $url) {
       title
@@ -66,6 +46,3 @@ const opengraphQuery = gql`
     }
   }
 `;
-
-export const useFetchOpengraph = (options?: useQuery.Options<GQLOpengraphQuery, GQLOpengraphQueryVariables>) =>
-  useLazyQuery<GQLOpengraphQuery, GQLOpengraphQueryVariables>(opengraphQuery, options);

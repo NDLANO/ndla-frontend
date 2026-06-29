@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createListCollection, usePopoverContext } from "@ark-ui/react";
 import { ArrowRightLine, CloseLine, SearchLine } from "@ndla/icons";
@@ -187,7 +187,7 @@ const getActiveSubjectUrl = (id: string, query: string): string => {
   return `/search?${searchParams}`;
 };
 
-const searchQueryDef = gql`
+const searchQueryDef: TypedDocumentNode<GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables> = gql`
   query mastheadSearch($query: String, $language: String) {
     search(
       query: $query
@@ -245,7 +245,7 @@ export const MastheadSearchForm = ({ root }: Props) => {
   const delayedSearchQuery = useDebounce(query, 250);
   const navigate = useNavigate();
 
-  const searchQuery = useQuery<GQLMastheadSearchQuery, GQLMastheadSearchQueryVariables>(searchQueryDef, {
+  const searchQuery = useQuery(searchQueryDef, {
     skip: delayedSearchQuery.length <= 2,
     variables: { query: delayedSearchQuery, language: i18n.language },
   });

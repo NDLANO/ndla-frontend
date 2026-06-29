@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { CheckLine } from "@ndla/icons";
 import {
@@ -79,7 +79,7 @@ const StyledFieldsetRoot = styled(FieldsetRoot, {
   },
 });
 
-const allSubjectsQuery = gql`
+const allSubjectsQuery: TypedDocumentNode<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables> = gql`
   query allSubjects {
     nodes(nodeType: "SUBJECT", filterVisible: true) {
       id
@@ -100,7 +100,7 @@ export const AllSubjectsPage = () => {
   const [params, setParams] = useStableSearchParams();
   const { user } = useContext(AuthContext);
 
-  const subjectsQuery = useQuery<GQLAllSubjectsQuery, GQLAllSubjectsQueryVariables>(allSubjectsQuery);
+  const subjectsQuery = useQuery(allSubjectsQuery);
 
   const filterOptions = useMemo(() => createFilters(t), [t]);
   const subFilters = useMemo(() => params.get("subFilters")?.split(",") ?? [], [params]);

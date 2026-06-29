@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Portal } from "@ark-ui/react";
 import {
@@ -33,7 +33,7 @@ import { groupBy, sortBy, uniqBy } from "@ndla/util";
 import parse from "html-react-parser";
 import { useMemo, useSyncExternalStore } from "react";
 import { useTranslation } from "react-i18next";
-import { GQLCompetenceGoalsQuery } from "../graphqlTypes";
+import { GQLCompetenceGoalsQuery, GQLCompetenceGoalsQueryVariables } from "../graphqlTypes";
 import { DialogCloseButton } from "./DialogCloseButton";
 
 interface Props {
@@ -118,7 +118,7 @@ const toSearchUrl = (code: string, subjectId: string | undefined) => {
   return `/search?type=resource&grepCodes=${code}`;
 };
 
-const competenceGoalsQuery = gql`
+const competenceGoalsQuery: TypedDocumentNode<GQLCompetenceGoalsQuery, GQLCompetenceGoalsQueryVariables> = gql`
   query competenceGoals($codes: [String!], $language: String, $subjectId: String, $includeSubject: Boolean!) {
     competenceGoals(codes: $codes, language: $language) {
       id
@@ -155,7 +155,7 @@ export const CompetenceGoals = ({ codes, subjectId, supportedLanguages, isOembed
   const { t, i18n } = useTranslation();
   const language = supportedLanguages?.find((l) => l === i18n.language) || supportedLanguages?.[0] || i18n.language;
 
-  const { error, data, loading } = useQuery<GQLCompetenceGoalsQuery>(competenceGoalsQuery, {
+  const { error, data, loading } = useQuery(competenceGoalsQuery, {
     variables: { codes, language, subjectId, includeSubject: !!subjectId },
     skip: typeof window === "undefined",
   });

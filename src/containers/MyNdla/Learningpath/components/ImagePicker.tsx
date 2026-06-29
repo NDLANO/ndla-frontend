@@ -6,6 +6,7 @@
  *
  */
 
+import { useLazyQuery } from "@apollo/client/react";
 import { DeleteBinLine } from "@ndla/icons";
 import { ImageSearch } from "@ndla/image-search";
 import { licenses } from "@ndla/licenses";
@@ -16,7 +17,7 @@ import { useImageSearchTranslations } from "@ndla/ui";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLImageFragment } from "../../../../graphqlTypes";
-import { useFetchImage, useImageSearch } from "../../imageQueries";
+import { fetchImageQuery, imagesSearchQuery } from "../../imageQueries";
 
 interface Props {
   imageUrl: string;
@@ -29,7 +30,7 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
 
   const imageId = imageUrl?.split("/").pop();
 
-  const [fetchImage, { loading, data: image }] = useFetchImage();
+  const [fetchImage, { loading, data: image }] = useLazyQuery(fetchImageQuery);
 
   useEffect(() => {
     if (imageId) {
@@ -37,7 +38,7 @@ export const ImagePicker = ({ imageUrl, onSelectImage }: Props) => {
     }
   }, [fetchImage, imageId]);
 
-  const [fetchImages] = useImageSearch();
+  const [fetchImages] = useLazyQuery(imagesSearchQuery);
 
   const onSearchImage = async (query?: string, page?: number) =>
     (await fetchImages({ variables: { query, page: page ?? 1, pageSize: 16, license: licenses.CC_BY_SA_4 } }))?.data

@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { useContext } from "react";
@@ -29,7 +29,7 @@ import { FolderList } from "./components/FolderList";
 import { ResourceList } from "./components/ResourceList";
 import { FOLDERS_HEADING_ID, RESOURCES_HEADING_ID, SHARED_FOLDERS_HEADING_ID } from "./util";
 
-const rootFoldersPageQuery = gql`
+const rootFoldersPageQuery: TypedDocumentNode<GQLRootFoldersPageQuery, GQLRootFoldersPageQueryVariables> = gql`
   query rootFoldersPage {
     folders(includeSubfolders: true, includeResources: true) {
       folders {
@@ -52,7 +52,7 @@ const RootFoldersPage = () => {
   const { t } = useTranslation();
   const { examLock } = useContext(AuthContext);
 
-  const pageQuery = useQuery<GQLRootFoldersPageQuery, GQLRootFoldersPageQueryVariables>(rootFoldersPageQuery);
+  const pageQuery = useQuery(rootFoldersPageQuery);
 
   const menuItems = useFolderActions(null, undefined, true);
 

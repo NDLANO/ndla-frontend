@@ -6,9 +6,10 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { ButtonHTMLAttributes, type Ref, useContext } from "react";
 import { FavoriteButton as UIFavoriteButton } from "../../components/MyNdla/FavoriteButton";
-import { useResourceConnections } from "../../mutations/folder/folderQueries";
+import { resourceConnectionsQuery } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";
 
 interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "type"> {
@@ -18,6 +19,9 @@ interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "size" | "
 
 export const FavoriteButton = (props: Props) => {
   const { authenticated } = useContext(AuthContext);
-  const connectionsQuery = useResourceConnections({ skip: !authenticated, variables: { path: props.path } });
+  const connectionsQuery = useQuery(resourceConnectionsQuery, {
+    skip: !authenticated,
+    variables: { path: props.path },
+  });
   return <UIFavoriteButton isFavorite={!!connectionsQuery.data?.myNdlaResourceConnections?.length} {...props} />;
 };

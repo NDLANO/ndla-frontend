@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { uniq } from "@ndla/util";
 import { createContext, ReactNode, useContext, useCallback, useMemo } from "react";
@@ -27,7 +27,7 @@ interface Props {
   children: ReactNode;
 }
 
-export const alertsQuery = gql`
+export const alertsQuery: TypedDocumentNode<GQLAlertsQuery, GQLAlertsQueryVariables> = gql`
   query alerts {
     alerts {
       title
@@ -40,7 +40,7 @@ export const alertsQuery = gql`
 
 const AlertsProvider = ({ children }: Props) => {
   const [closedAlerts, setClosedAlerts] = useLocalStorage("closedAlerts", "[]");
-  const { data: { alerts } = {} } = useQuery<GQLAlertsQuery, GQLAlertsQueryVariables>(alertsQuery, {
+  const { data: { alerts } = {} } = useQuery(alertsQuery, {
     pollInterval: 10 * 60 * 1000,
     skip: typeof window === "undefined",
   });

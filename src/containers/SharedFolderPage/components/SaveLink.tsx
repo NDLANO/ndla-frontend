@@ -27,13 +27,13 @@ import { DialogCloseButton } from "../../../components/DialogCloseButton";
 import { Folder } from "../../../components/MyNdla/Folder";
 import { LoginModalContent } from "../../../components/MyNdla/LoginModalContent";
 import { useToast } from "../../../components/ToastContext";
-import { GQLFolderFragment, GQLFoldersPageQuery } from "../../../graphqlTypes";
+import { GQLFolderFragment, GQLSharedFolderFragment } from "../../../graphqlTypes";
 import { useFavoriteSharedFolder, useUnFavoriteSharedFolder } from "../../../mutations/folder/folderMutations";
 import { foldersPageQuery } from "../../../mutations/folder/folderQueries";
 import { routes } from "../../../routeHelpers";
 
 interface SaveLinkProps {
-  folder: GQLFolderFragment;
+  folder: GQLFolderFragment | GQLSharedFolderFragment;
 }
 
 export const SaveLink = ({ folder }: SaveLinkProps) => {
@@ -47,7 +47,7 @@ export const SaveLink = ({ folder }: SaveLinkProps) => {
   const { authenticated } = useContext(AuthContext);
   const toast = useToast();
 
-  const sharedFoldersQuery = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+  const sharedFoldersQuery = useQuery(foldersPageQuery, {
     skip: !authenticated,
   });
 

@@ -6,27 +6,28 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
 import { PageContainer } from "../../components/Layout/PageContainer";
 import { PageTitle } from "../../components/PageTitle";
-import { GQLSearchResourceTypesQuery } from "../../graphqlTypes";
+import { GQLSearchResourceTypesQuery, GQLSearchResourceTypesQueryVariables } from "../../graphqlTypes";
 import { SearchContainer } from "./SearchContainer";
 
-const searchResourceTypesQuery = gql`
-  query searchResourceTypes {
-    resourceTypes {
-      ...SearchContainer_ResourceTypeDefinition
+const searchResourceTypesQuery: TypedDocumentNode<GQLSearchResourceTypesQuery, GQLSearchResourceTypesQueryVariables> =
+  gql`
+    query searchResourceTypes {
+      resourceTypes {
+        ...SearchContainer_ResourceTypeDefinition
+      }
     }
-  }
-  ${SearchContainer.fragments.resourceTypeDefinition}
-`;
+    ${SearchContainer.fragments.resourceTypeDefinition}
+  `;
 
 export const SearchPage = () => {
   const { t } = useTranslation();
 
-  const resourceTypesQuery = useQuery<GQLSearchResourceTypesQuery>(searchResourceTypesQuery);
+  const resourceTypesQuery = useQuery(searchResourceTypesQuery);
 
   return (
     <PageContainer>

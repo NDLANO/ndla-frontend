@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { ArrowDownShortLine } from "@ndla/icons";
@@ -38,7 +38,7 @@ import { useRestrictedMode } from "../../components/RestrictedModeContext";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { AcquireLicensePage, PODCAST_SERIES_LIST_PAGE_PATH, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLPodcastSeriesPageQuery } from "../../graphqlTypes";
+import { GQLPodcastSeriesPageQuery, GQLPodcastSeriesPageQueryVariables } from "../../graphqlTypes";
 import { publisher } from "../../util/getStructuredDataFromArticle";
 import { hasLicensedContent } from "../ResourceEmbed/components/ResourceEmbed";
 import { ResourceEmbedLicenseContent } from "../ResourceEmbed/components/ResourceEmbedLicenseContent";
@@ -68,7 +68,7 @@ export const PodcastSeriesPage = () => {
     error,
     loading,
     data: { podcastSeries } = {},
-  } = useQuery<GQLPodcastSeriesPageQuery>(podcastSeriesPageQuery, {
+  } = useQuery(podcastSeriesPageQuery, {
     variables: { id: Number(id) },
     skip: !id,
   });
@@ -233,7 +233,7 @@ export const PodcastSeriesPage = () => {
     </>
   );
 };
-const podcastSeriesPageQuery = gql`
+const podcastSeriesPageQuery: TypedDocumentNode<GQLPodcastSeriesPageQuery, GQLPodcastSeriesPageQueryVariables> = gql`
   query podcastSeriesPage($id: Int!) {
     podcastSeries(id: $id) {
       id

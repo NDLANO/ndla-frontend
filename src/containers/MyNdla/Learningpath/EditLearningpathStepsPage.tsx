@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useParams } from "react-router";
 import { MyNdlaBreadcrumb } from "../../../components/MyNdla/MyNdlaBreadcrumb";
@@ -19,7 +20,7 @@ import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { EditLearningpathStepsPageContent } from "./EditLearningpathStepsPageContent";
-import { useFetchLearningpath } from "./learningpathQueries";
+import { learningpathQueryDef } from "./learningpathQueries";
 
 export const Component = () => {
   return <PrivateRoute element={<EditLearningpathStepsPage />} />;
@@ -29,7 +30,7 @@ export const EditLearningpathStepsPage = () => {
   const { t } = useTranslation();
   const { learningpathId } = useParams();
 
-  const { data, loading } = useFetchLearningpath({
+  const { data, loading } = useQuery(learningpathQueryDef, {
     variables: { pathId: learningpathId ?? "-1" },
     skip: !learningpathId,
   });

@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { CloseLine } from "@ndla/icons";
 import { Button, Heading, Spinner } from "@ndla/primitives";
@@ -40,7 +40,7 @@ const FiltersWrapper = styled("div", {
 //   },
 // });
 
-const grepFilterQuery = gql`
+const grepFilterQuery: TypedDocumentNode<GQLGrepFilterQuery, GQLGrepFilterQueryVariables> = gql`
   query grepFilter($codes: [String!], $language: String!) {
     competenceGoals(codes: $codes, language: $language) {
       id
@@ -68,7 +68,7 @@ export const GrepFilter = () => {
   const { t, i18n } = useTranslation();
   const codes = useMemo(() => searchParams.get("grepCodes")?.split(",") ?? [], [searchParams]);
 
-  const grepQuery = useQuery<GQLGrepFilterQuery, GQLGrepFilterQueryVariables>(grepFilterQuery, {
+  const grepQuery = useQuery(grepFilterQuery, {
     variables: { language: i18n.language, codes },
     skip: !codes.length,
   });

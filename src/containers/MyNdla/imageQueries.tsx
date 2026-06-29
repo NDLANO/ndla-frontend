@@ -6,8 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
-import { useLazyQuery } from "@apollo/client/react";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import {
   GQLImageSearchQuery,
   GQLFetchImageQuery,
@@ -84,7 +83,7 @@ const imageFragment = gql`
   }
 `;
 
-const imagesSearchQuery = gql`
+export const imagesSearchQuery: TypedDocumentNode<GQLImageSearchQuery, GQLImageSearchQueryVariables> = gql`
   query imageSearch($query: String, $page: Int, $pageSize: Int, $license: String) {
     imageSearch(query: $query, page: $page, pageSize: $pageSize, license: $license) {
       totalCount
@@ -99,7 +98,7 @@ const imagesSearchQuery = gql`
   ${imageFragment}
 `;
 
-const fetchImageQuery = gql`
+export const fetchImageQuery: TypedDocumentNode<GQLFetchImageQuery, GQLFetchImageQueryVariables> = gql`
   query fetchImage($id: String!) {
     imageV3(id: $id) {
       ...Image
@@ -107,11 +106,3 @@ const fetchImageQuery = gql`
   }
   ${imageFragment}
 `;
-
-export const useImageSearch = (options?: useLazyQuery.Options<GQLImageSearchQuery>) =>
-  useLazyQuery<GQLImageSearchQuery, GQLImageSearchQueryVariables>(imagesSearchQuery, {
-    ...options,
-  });
-
-export const useFetchImage = (options?: useLazyQuery.Options<GQLFetchImageQuery, GQLFetchImageQueryVariables>) =>
-  useLazyQuery<GQLFetchImageQuery, GQLFetchImageQueryVariables>(fetchImageQuery, options);

@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { SearchLine } from "@ndla/icons";
 import { Button, PopoverRoot, PopoverTrigger } from "@ndla/primitives";
@@ -31,7 +31,7 @@ const StyledButton = styled(Button, {
   },
 });
 
-const currentContextQueryDef = gql`
+const currentContextQueryDef: TypedDocumentNode<GQLCurrentContextQuery, GQLCurrentContextQueryVariables> = gql`
   query currentContext($contextId: String!) {
     root: node(contextId: $contextId) {
       id
@@ -52,15 +52,12 @@ export const MastheadSearch = () => {
   const { contextId } = useParams();
   const location = useLocation();
 
-  const currentContextQuery = useQuery<GQLCurrentContextQuery, GQLCurrentContextQueryVariables>(
-    currentContextQueryDef,
-    {
-      variables: {
-        contextId: contextId ?? "",
-      },
-      skip: !isValidContextId(contextId) || typeof window === "undefined",
+  const currentContextQuery = useQuery(currentContextQueryDef, {
+    variables: {
+      contextId: contextId ?? "",
     },
-  );
+    skip: !isValidContextId(contextId) || typeof window === "undefined",
+  });
 
   const root = useMemo(() => {
     const root = currentContextQuery.data?.root;

@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { Button } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
 import { useTranslation } from "react-i18next";
@@ -24,7 +25,7 @@ import { MyNdlaPageContent } from "../components/MyNdlaPageSection";
 import { MyNdlaPageWrapper } from "../components/MyNdlaPageWrapper";
 import { LearningpathStepper } from "./components/LearningpathStepper";
 import { TitleFormValues, TitleForm } from "./components/TitleForm";
-import { useFetchLearningpath } from "./learningpathQueries";
+import { learningpathQueryDef } from "./learningpathQueries";
 
 const StyledMyNdlaPageContent = styled(MyNdlaPageContent, {
   base: {
@@ -43,7 +44,7 @@ export const EditLearningpathTitlePage = () => {
   const { learningpathId } = useParams();
 
   const navigate = useNavigate();
-  const { data, loading } = useFetchLearningpath({
+  const { data, loading } = useQuery(learningpathQueryDef, {
     variables: { pathId: learningpathId ?? "-1" },
     skip: !learningpathId,
   });

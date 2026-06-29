@@ -6,20 +6,20 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
 import { ContentPlaceholder } from "../../components/ContentPlaceholder";
 import { DefaultErrorMessagePage } from "../../components/DefaultErrorMessage";
 import { RedirectExternal } from "../../components/RedirectExternal";
-import { GQLProgrammePageQuery } from "../../graphqlTypes";
+import { GQLProgrammePageQuery, GQLProgrammePageQueryVariables } from "../../graphqlTypes";
 import { isNotFoundError } from "../../util/handleError";
 import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { ProgrammeContainer } from "./ProgrammeContainer";
 
-const programmePageQuery = gql`
+const programmePageQuery: TypedDocumentNode<GQLProgrammePageQuery, GQLProgrammePageQueryVariables> = gql`
   query programmePage($contextId: String) {
     programme(contextId: $contextId) {
       grades {
@@ -39,7 +39,7 @@ export const ProgrammePage = () => {
   const location = useLocation();
   const { programme, contextId } = useParams();
 
-  const { loading, data, error } = useQuery<GQLProgrammePageQuery>(programmePageQuery, {
+  const { loading, data, error } = useQuery(programmePageQuery, {
     variables: { contextId: contextId },
     skip: programme?.includes("__") || !isValidContextId(contextId),
   });

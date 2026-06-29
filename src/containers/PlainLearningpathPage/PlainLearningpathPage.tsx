@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router";
 import {} from "../../components/ContentPlaceholder";
@@ -15,7 +15,10 @@ import { SKIP_TO_CONTENT_ID } from "../../constants";
 import { GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables } from "../../graphqlTypes";
 import { PlainLearningpathContainer, plainLearningpathContainerFragments } from "./PlainLearningpathContainer";
 
-const plainLearningpathPageQuery = gql`
+const plainLearningpathPageQuery: TypedDocumentNode<
+  GQLPlainLearningpathPageQuery,
+  GQLPlainLearningpathPageQueryVariables
+> = gql`
   query plainLearningpathPage($pathId: String!, $transformArgs: TransformedArticleContentInput) {
     learningpath(pathId: $pathId) {
       ...PlainLearningpathContainer_Learningpath
@@ -27,15 +30,10 @@ const plainLearningpathPageQuery = gql`
 export const PlainLearningpathPage = () => {
   const { learningpathId, stepId } = useParams();
 
-  const { data, loading } = useQuery<GQLPlainLearningpathPageQuery, GQLPlainLearningpathPageQueryVariables>(
-    plainLearningpathPageQuery,
-    {
-      variables: {
-        pathId: learningpathId ?? "",
-      },
-      skip: !learningpathId,
-    },
-  );
+  const { data, loading } = useQuery(plainLearningpathPageQuery, {
+    variables: { pathId: learningpathId ?? "" },
+    skip: !learningpathId,
+  });
 
   if (!loading && (!data || !data.learningpath || (data.learningpath.learningsteps?.length ?? 0) < 1)) {
     return <DefaultErrorMessagePage />;

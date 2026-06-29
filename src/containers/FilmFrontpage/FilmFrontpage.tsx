@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import {
   Heading,
@@ -27,7 +27,7 @@ import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import { FILM_ID, SKIP_TO_CONTENT_ID } from "../../constants";
-import { GQLFilmFrontPageQuery } from "../../graphqlTypes";
+import { GQLFilmFrontPageQuery, GQLFilmFrontPageQueryVariables } from "../../graphqlTypes";
 import { htmlTitle } from "../../util/titleHelper";
 import { AboutNdlaFilm } from "./AboutNdlaFilm";
 import { FilmContent } from "./FilmContent";
@@ -88,7 +88,7 @@ export const FilmFrontpage = () => {
   const [loadingPlaceholderHeight, setLoadingPlaceholderHeight] = useState<string>("");
   const movieListRef = useRef<HTMLDivElement | null>(null);
 
-  const frontpageQuery = useQuery<GQLFilmFrontPageQuery>(filmFrontPageQueryDef, {
+  const frontpageQuery = useQuery(filmFrontPageQueryDef, {
     variables: { nodeId: FILM_ID, transformArgs: { subjectId: FILM_ID } },
   });
 
@@ -179,7 +179,7 @@ export const FilmFrontpage = () => {
   );
 };
 
-const filmFrontPageQueryDef = gql`
+const filmFrontPageQueryDef: TypedDocumentNode<GQLFilmFrontPageQuery, GQLFilmFrontPageQueryVariables> = gql`
   query filmFrontPage($nodeId: String!, $transformArgs: TransformedArticleContentInput) {
     filmfrontpage {
       slideShow {

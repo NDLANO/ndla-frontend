@@ -6,13 +6,12 @@
  *
  */
 
-import { ApolloCache, ErrorLike, gql } from "@apollo/client";
+import { ApolloCache, ErrorLike, gql, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import {
   GQLFavouriteSubjectsQuery,
   GQLFavouriteSubjectsQueryVariables,
   GQLMyNdlaResourceMetaQuery,
-  GQLMyNdlaResourceMetaSearchInput,
   GQLMyNdlaResourceMetaSearchQuery,
   GQLFoldersPageQuery,
   GQLRecentlyUsedQuery,
@@ -24,10 +23,17 @@ import {
   GQLResourceConnectionsQuery,
   GQLResourceConnectionsQueryVariables,
   GQLFolderFragment,
+  GQLFoldersPageQueryVariables,
+  GQLMyNdlaResourceMetaSearchQueryVariables,
+  GQLRecentlyUsedQueryVariables,
+  GQLMyNdlaResourceMetaQueryVariables,
 } from "../../graphqlTypes";
 import { folderFragment, myNdlaResourceMetaFragment, sharedFolderFragment } from "./folderFragments";
 
-const myNdlaResourceMetaQuery = gql`
+export const myNdlaResourceMetaQuery: TypedDocumentNode<
+  GQLMyNdlaResourceMetaQuery,
+  GQLMyNdlaResourceMetaQueryVariables
+> = gql`
   query myNdlaResourceMeta($resource: MyNdlaResourceMetaSearchInput!) {
     myNdlaResourceMeta(resource: $resource) {
       ...MyNdlaResourceMeta
@@ -36,19 +42,10 @@ const myNdlaResourceMetaQuery = gql`
   ${myNdlaResourceMetaFragment}
 `;
 
-export const useMyNdlaResourceMeta = (
-  resource: GQLMyNdlaResourceMetaSearchInput,
-  options?: useQuery.Options<GQLMyNdlaResourceMetaQuery>,
-) => {
-  const { data: { myNdlaResourceMeta } = {}, ...rest } = useQuery<GQLMyNdlaResourceMetaQuery>(myNdlaResourceMetaQuery, {
-    variables: { resource },
-    ...options,
-  });
-
-  return { meta: myNdlaResourceMeta, ...rest };
-};
-
-const myNdlaResourceMetaSearchQuery = gql`
+export const myNdlaResourceMetaSearchQuery: TypedDocumentNode<
+  GQLMyNdlaResourceMetaSearchQuery,
+  GQLMyNdlaResourceMetaSearchQueryVariables
+> = gql`
   query myNdlaResourceMetaSearch($resources: [MyNdlaResourceMetaSearchInput!]!) {
     myNdlaResourceMetaSearch(resources: $resources) {
       ...MyNdlaResourceMeta
@@ -58,22 +55,7 @@ const myNdlaResourceMetaSearchQuery = gql`
   ${myNdlaResourceMetaFragment}
 `;
 
-export const useMyNdlaResourceMetaSearch = (
-  resources: GQLMyNdlaResourceMetaSearchInput[],
-  options?: useQuery.Options<GQLMyNdlaResourceMetaSearchQuery>,
-) => {
-  const { data: { myNdlaResourceMetaSearch: data } = {}, ...rest } = useQuery<GQLMyNdlaResourceMetaSearchQuery>(
-    myNdlaResourceMetaSearchQuery,
-    {
-      variables: { resources },
-      ...options,
-    },
-  );
-
-  return { data, ...rest };
-};
-
-export const foldersPageQuery = gql`
+export const foldersPageQuery: TypedDocumentNode<GQLFoldersPageQuery, GQLFoldersPageQueryVariables> = gql`
   query foldersPage {
     folders(includeSubfolders: true, includeResources: true) {
       folders {
@@ -98,7 +80,7 @@ export const useFolders = ({ skip }: UseFolders = {}): {
   loading: boolean;
   error?: ErrorLike;
 } => {
-  const { data, loading, error } = useQuery<GQLFoldersPageQuery>(foldersPageQuery, {
+  const { data, loading, error } = useQuery(foldersPageQuery, {
     skip,
   });
 
@@ -130,7 +112,7 @@ export const useSharedFolder = (folderId?: string): GQLFolderFragment | null => 
   return getFolder(cache, folderId, true);
 };
 
-export const sharedFolderQuery = gql`
+export const sharedFolderQueryDef: TypedDocumentNode<GQLSharedFolderQuery, GQLSharedFolderQueryVariables> = gql`
   query sharedFolder($id: String!) {
     sharedFolder(id: $id) {
       ...SharedFolder
@@ -139,27 +121,7 @@ export const sharedFolderQuery = gql`
   ${sharedFolderFragment}
 `;
 
-interface UseSharedFolder {
-  id: string;
-}
-
-export const useGetSharedFolder = ({
-  id,
-}: UseSharedFolder): {
-  folder?: GQLFolderFragment;
-  loading: boolean;
-  error?: ErrorLike;
-} => {
-  const { data, loading, error } = useQuery<GQLSharedFolderQuery, GQLSharedFolderQueryVariables>(sharedFolderQuery, {
-    variables: { id },
-  });
-
-  const folder = data?.sharedFolder as GQLFolderFragment | undefined;
-
-  return { folder, loading, error };
-};
-
-export const recentlyUsedQuery = gql`
+export const recentlyUsedQuery: TypedDocumentNode<GQLRecentlyUsedQuery, GQLRecentlyUsedQueryVariables> = gql`
   query recentlyUsed {
     allMyNdlaResources(size: 5) {
       id
@@ -172,11 +134,7 @@ export const recentlyUsedQuery = gql`
   }
 `;
 
-export const useRecentlyUsedResources = (skip?: boolean) => {
-  return useQuery<GQLRecentlyUsedQuery>(recentlyUsedQuery, { skip });
-};
-
-export const rootResourcesQuery = gql`
+export const rootResourcesQuery: TypedDocumentNode<GQLRootResourcesQuery, GQLRootResourcesQueryVariables> = gql`
   query rootResources {
     myNdlaRootResources {
       id
@@ -189,11 +147,10 @@ export const rootResourcesQuery = gql`
   }
 `;
 
-export const useRootResources = (options?: useQuery.Options<GQLRootResourcesQuery, GQLRootResourcesQueryVariables>) => {
-  return useQuery<GQLRootResourcesQuery, GQLRootResourcesQueryVariables>(rootResourcesQuery, options);
-};
-
-const favouriteSubjects = gql`
+export const favouriteSubjectsQueryDef: TypedDocumentNode<
+  GQLFavouriteSubjectsQuery,
+  GQLFavouriteSubjectsQueryVariables
+> = gql`
   query favouriteSubjects($ids: [String!]!) {
     subjects: nodes(nodeType: "SUBJECT", ids: $ids) {
       id
@@ -206,7 +163,10 @@ const favouriteSubjects = gql`
   }
 `;
 
-const resourceConnectionsQuery = gql`
+export const resourceConnectionsQuery: TypedDocumentNode<
+  GQLResourceConnectionsQuery,
+  GQLResourceConnectionsQueryVariables
+> = gql`
   query resourceConnections($path: String!) {
     myNdlaResourceConnections(path: $path) {
       resourceId
@@ -214,18 +174,3 @@ const resourceConnectionsQuery = gql`
     }
   }
 `;
-
-export const useResourceConnections = (
-  options: useQuery.Options<GQLResourceConnectionsQuery, GQLResourceConnectionsQueryVariables>,
-) => {
-  return useQuery<GQLResourceConnectionsQuery, GQLResourceConnectionsQueryVariables>(resourceConnectionsQuery, options);
-};
-
-export const useFavouriteSubjects = (
-  ids: string[],
-  options?: Omit<useQuery.Options<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>, "variables">,
-) =>
-  useQuery<GQLFavouriteSubjectsQuery, GQLFavouriteSubjectsQueryVariables>(favouriteSubjects, {
-    variables: { ids },
-    ...options,
-  });

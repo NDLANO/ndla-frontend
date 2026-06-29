@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
 import { Navigate, useLocation, useParams } from "react-router";
@@ -26,7 +26,7 @@ import { constructNewPath, isValidContextId } from "../../util/urlHelper";
 import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { SubjectContainer } from "./SubjectContainer";
 
-const subjectPageQuery = gql`
+const subjectPageQuery: TypedDocumentNode<GQLSubjectPageQuery, GQLSubjectPageQueryVariables> = gql`
   query subjectPage($subjectId: String, $contextId: String, $metadataFilterKey: String, $metadataFilterValue: String) {
     node(id: $subjectId, contextId: $contextId) {
       ...SubjectContainer_Node
@@ -41,7 +41,7 @@ const subjectPageQuery = gql`
   ${SubjectContainer.fragments.subject}
 `;
 
-const videoQueryDef = gql`
+const videoQueryDef: TypedDocumentNode<GQLSubjectVideoSearchQuery, GQLSubjectVideoSearchQueryVariables> = gql`
   query subjectVideoSearch($subjectId: String!, $language: String!) {
     search(subjects: $subjectId, traits: "VIDEO", language: $language, sort: "-lastUpdated", pageSize: 8) {
       results {
@@ -61,14 +61,14 @@ export const SubjectPage = () => {
     loading,
     data: newData,
     previousData,
-  } = useQuery<GQLSubjectPageQuery, GQLSubjectPageQueryVariables>(subjectPageQuery, {
+  } = useQuery(subjectPageQuery, {
     variables: { contextId: contextId },
     skip: !isValidContextId(contextId),
   });
 
   const data = newData ?? previousData;
 
-  const videoQuery = useQuery<GQLSubjectVideoSearchQuery, GQLSubjectVideoSearchQueryVariables>(videoQueryDef, {
+  const videoQuery = useQuery(videoQueryDef, {
     variables: { subjectId: data?.node?.id ?? "", language: i18n.language },
     skip: !data?.node?.id,
   });

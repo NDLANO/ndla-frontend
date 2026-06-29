@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { CheckLine, CloseLine } from "@ndla/icons";
 import {
@@ -35,7 +35,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DialogCloseButton } from "../../components/DialogCloseButton";
 import { TabFilter } from "../../components/TabFilter";
-import { GQLSubjectFilterQuery } from "../../graphqlTypes";
+import { GQLSubjectFilterQuery, GQLSubjectFilterQueryVariables } from "../../graphqlTypes";
 import { useLtiContext } from "../../LtiContext";
 import { createFilters, groupAndFilterSubjectsByCategory } from "../../util/subjectFilter";
 import { FilterContainer } from "./FilterContainer";
@@ -50,7 +50,7 @@ const FiltersWrapper = styled("div", {
   },
 });
 
-const subjectFilterQuery = gql`
+const subjectFilterQuery: TypedDocumentNode<GQLSubjectFilterQuery, GQLSubjectFilterQueryVariables> = gql`
   query subjectFilter {
     nodes(nodeType: "SUBJECT", filterVisible: true) {
       id
@@ -81,7 +81,7 @@ export const SubjectFilter = () => {
     [isLti],
   );
 
-  const subjectsQuery = useQuery<GQLSubjectFilterQuery>(subjectFilterQuery, {
+  const subjectsQuery = useQuery(subjectFilterQuery, {
     skip: nodeType === SUBJECT_NODE_TYPE,
   });
 

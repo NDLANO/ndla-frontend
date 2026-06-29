@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useMutation } from "@apollo/client/react";
 import { FileCopyLine } from "@ndla/icons";
 import {
@@ -47,7 +47,10 @@ interface Props {
   learningpath: GQLCopyLearningpath_LearningpathFragment;
 }
 
-const copyLearningpathMutation = gql`
+const copyLearningpathMutation: TypedDocumentNode<
+  GQLCopyPublicLearningpathMutation,
+  GQLCopyPublicLearningpathMutationVariables
+> = gql`
   mutation copyPublicLearningpath($learningpathId: Int!, $params: LearningpathCopyInput!) {
     copyLearningpath(learningpathId: $learningpathId, params: $params) {
       id
@@ -62,19 +65,15 @@ export const CopyLearningPath = ({ learningpath }: Props) => {
   const { authenticated, user } = useContext(AuthContext);
   const client = useApolloClient();
 
-  const [copyLearningPath] = useMutation<GQLCopyPublicLearningpathMutation, GQLCopyPublicLearningpathMutationVariables>(
-    copyLearningpathMutation,
-    {
-      onCompleted: (vars) => {
-        client.cache.modify({
-          fields: {
-            myLearningpaths: (existing = []) =>
-              existing.concat({ __ref: client.cache.identify(vars.copyLearningpath) }),
-          },
-        });
-      },
+  const [copyLearningPath] = useMutation(copyLearningpathMutation, {
+    onCompleted: (vars) => {
+      client.cache.modify({
+        fields: {
+          myLearningpaths: (existing = []) => existing.concat({ __ref: client.cache.identify(vars.copyLearningpath) }),
+        },
+      });
     },
-  );
+  });
 
   const onError = () => toast.create({ title: t("myNdla.learningpath.copy.error") });
 

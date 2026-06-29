@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Hero, HeroBackground } from "@ndla/primitives";
 import { ReactNode, useMemo } from "react";
@@ -28,7 +28,7 @@ interface Props {
   children: ReactNode;
 }
 
-const articleLayoutQueryDef = gql`
+const articleLayoutQueryDef: TypedDocumentNode<GQLArticleLayoutQuery, GQLArticleLayoutQueryVariables> = gql`
   query articleLayout($id: String!, $rootId: String) {
     node(id: $id, rootId: $rootId) {
       id
@@ -72,7 +72,7 @@ export const ArticleLayout = ({ parentId, rootId, children, rootLoading }: Props
   const restrictedInfo = useRestrictedMode();
   const { contextId } = useParams();
 
-  const topicQuery = useQuery<GQLArticleLayoutQuery, GQLArticleLayoutQueryVariables>(articleLayoutQueryDef, {
+  const topicQuery = useQuery(articleLayoutQueryDef, {
     variables: { id: parentId!, rootId },
     skip: !parentId || !rootId,
   });

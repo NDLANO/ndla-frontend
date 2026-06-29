@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { Feide, ArrowRightLine } from "@ndla/icons";
 import { Button, DialogRoot, DialogTrigger, Heading, Text } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -22,9 +23,9 @@ import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
 import config from "../../config";
 import { myndlaLanguages } from "../../i18n";
 import {
-  useMyNdlaResourceMetaSearch,
-  useFavouriteSubjects,
-  useRecentlyUsedResources,
+  recentlyUsedQuery,
+  myNdlaResourceMetaSearchQuery,
+  favouriteSubjectsQueryDef,
 } from "../../mutations/folder/folderQueries";
 import { routes } from "../../routeHelpers";
 import { GridList } from "../AllSubjectsPage/SubjectCategory";
@@ -54,22 +55,24 @@ export const MyNdlaPage = () => {
   const favoriteSubjectsHeadingId = useId();
   const recentlyFavoritedHeadingId = useId();
 
-  const recentFavouriteSubjectsQuery = useFavouriteSubjects(user?.favoriteSubjects?.toReversed().slice(0, 4) ?? [], {
+  const recentFavouriteSubjectsQuery = useQuery(favouriteSubjectsQueryDef, {
+    variables: { ids: user?.favoriteSubjects?.toReversed().slice(0, 4) ?? [] },
     skip: !user?.favoriteSubjects.length,
   });
-  const { data: recentlyUsedResources } = useRecentlyUsedResources(!authenticated);
-  const { data: metaData, loading } = useMyNdlaResourceMetaSearch(
-    recentlyUsedResources?.allMyNdlaResources?.map((r) => ({
-      id: r.resourceId,
-      path: r.path,
-      resourceType: r.resourceType,
-    })) ?? [],
-    {
-      skip: !recentlyUsedResources?.allMyNdlaResources.length,
+  const recentlyUsed = useQuery(recentlyUsedQuery, { skip: !authenticated });
+  const metaQuery = useQuery(myNdlaResourceMetaSearchQuery, {
+    variables: {
+      resources:
+        recentlyUsed.data?.allMyNdlaResources?.map((r) => ({
+          id: r.resourceId,
+          path: r.path,
+          resourceType: r.resourceType,
+        })) ?? [],
     },
-  );
+    skip: !recentlyUsed.data?.allMyNdlaResources.length,
+  });
 
-  const keyedData = keyBy(metaData ?? [], (r) => `${r.type}${r.id}`);
+  const keyedData = keyBy(metaQuery.data?.myNdlaResourceMetaSearch ?? [], (r) => `${r.type}${r.id}`);
 
   // const aiLang = i18n.language === "nn" ? "" : ""; // TODO: Readd nn when Jan says so
 
@@ -138,19 +141,19 @@ export const MyNdlaPage = () => {
             </SafeLink>
           </MyNdlaPageSection>
         </>
-      ) : recentlyUsedResources?.allMyNdlaResources?.length ? (
+      ) : recentlyUsed.data?.allMyNdlaResources?.length ? (
         <MyNdlaPageSection>
           <Heading asChild consumeCss textStyle="heading.small" id={recentlyFavoritedHeadingId}>
             <h2>{t("myNdla.myPage.recentFavourites.title")}</h2>
           </Heading>
           <StyledList aria-labelledby={recentlyFavoritedHeadingId}>
-            {recentlyUsedResources.allMyNdlaResources.map((res) => {
+            {recentlyUsed.data.allMyNdlaResources.map((res) => {
               const meta = keyedData[`${res.resourceType}${res.resourceId}`];
               return (
                 <li key={res.id}>
                   <ListResource
                     id={res.id}
-                    isLoading={loading}
+                    isLoading={metaQuery.loading}
                     key={res.id}
                     link={res.path}
                     title={meta ? meta.title : t("myNdla.sharedFolder.resourceRemovedTitle")}

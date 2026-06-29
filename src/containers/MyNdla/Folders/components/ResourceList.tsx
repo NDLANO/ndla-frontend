@@ -6,6 +6,7 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { CloseLine } from "@ndla/icons";
 import { Button, CheckboxGroup, DialogContent, DialogRoot, DialogTrigger, Text } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -14,7 +15,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { BlockWrapper } from "../../../../components/MyNdla/BlockWrapper";
 import { GQLFolderFragment, GQLMyNdlaResourceFragment } from "../../../../graphqlTypes";
-import { useMyNdlaResourceMetaSearch } from "../../../../mutations/folder/folderQueries";
+import { myNdlaResourceMetaSearchQuery } from "../../../../mutations/folder/folderQueries";
 import { useStableSearchParams } from "../../../../util/useStableSearchParams";
 import { SORT_CONTENT_TYPE, SORT_NAME_ASC, SORT_NAME_DESC } from "../util";
 import { CopyResourcesDialogContent, MoveResourcesDialogContent } from "./BatchProcessResources";
@@ -91,13 +92,15 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
   const [selectedResourceIds, setSelectedResourceIds] = useState<string[]>([]);
   const [isBatchSelecting, setIsBatchSelecting] = useState(false);
 
-  const { data, loading } = useMyNdlaResourceMetaSearch(
-    resources.map((r) => ({
-      id: r.resourceId,
-      path: r.path,
-      resourceType: r.resourceType,
-    })),
-  );
+  const searchQuery = useQuery(myNdlaResourceMetaSearchQuery, {
+    variables: {
+      resources: resources.map((r) => ({
+        id: r.resourceId,
+        path: r.path,
+        resourceType: r.resourceType,
+      })),
+    },
+  });
 
   const onSuccessfulMutation = useCallback(() => {
     setSelectedResourceIds([]);
@@ -116,7 +119,9 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
     }, []);
   }, [keyedResources, selectedResourceIds]);
 
-  const keyedData = keyBy(data ?? [], (resource) => keyId(resource.type, resource.id));
+  const keyedData = keyBy(searchQuery.data?.myNdlaResourceMetaSearch ?? [], (resource) =>
+    keyId(resource.type, resource.id),
+  );
 
   const sortedAndFilteredResources = useMemo(() => {
     let _resources = resources;
@@ -207,7 +212,7 @@ export const ResourceList = ({ selectedFolder, resources, labelledBy }: Props) =
             <ResourceWithMenu
               resource={resource}
               key={resource.id}
-              loading={loading}
+              loading={searchQuery.loading}
               resourceMeta={keyedData[keyId(resource.resourceType, resource.resourceId)]}
               selectedFolder={selectedFolder}
               isBatchSelecting={isBatchSelecting}

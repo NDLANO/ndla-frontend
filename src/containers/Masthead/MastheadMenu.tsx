@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { usePopoverContext } from "@ark-ui/react";
 import {
@@ -36,6 +36,7 @@ import config from "../../config";
 import { FILM_PAGE_URL, MULTIDISCIPLINARY_URL, TOOLBOX_STUDENT_URL, TOOLBOX_TEACHER_URL } from "../../constants";
 import {
   GQLDynamicMenuQuery,
+  GQLDynamicMenuQueryVariables,
   GQLMastheadFavoriteSubjectsQuery,
   GQLMastheadFavoriteSubjectsQueryVariables,
 } from "../../graphqlTypes";
@@ -119,7 +120,7 @@ const NavigationListWrapper = styled("div", {
   },
 });
 
-const dynamicMenuQueryDef = gql`
+const dynamicMenuQueryDef: TypedDocumentNode<GQLDynamicMenuQuery, GQLDynamicMenuQueryVariables> = gql`
   query dynamicMenu {
     frontpage {
       # If we don't include articleId, the query response will be overridden
@@ -137,7 +138,10 @@ const dynamicMenuQueryDef = gql`
   }
 `;
 
-const favoriteSubjectsQueryDefinition = gql`
+const favoriteSubjectsQueryDefinition: TypedDocumentNode<
+  GQLMastheadFavoriteSubjectsQuery,
+  GQLMastheadFavoriteSubjectsQueryVariables
+> = gql`
   query mastheadFavoriteSubjects($ids: [String!]!) {
     nodes(nodeType: "SUBJECT", ids: $ids) {
       id
@@ -154,17 +158,14 @@ export const MastheadMenu = () => {
   const previousLocation = usePrevious(location);
   const { user, authenticated } = useContext(AuthContext);
 
-  const dynamicMenuQuery = useQuery<GQLDynamicMenuQuery>(dynamicMenuQueryDef, {
+  const dynamicMenuQuery = useQuery(dynamicMenuQueryDef, {
     skip: typeof window === "undefined",
   });
 
-  const favouriteSubjectsQuery = useQuery<GQLMastheadFavoriteSubjectsQuery, GQLMastheadFavoriteSubjectsQueryVariables>(
-    favoriteSubjectsQueryDefinition,
-    {
-      variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
-      skip: !authenticated || !user?.favoriteSubjects.length,
-    },
-  );
+  const favouriteSubjectsQuery = useQuery(favoriteSubjectsQueryDefinition, {
+    variables: { ids: user?.favoriteSubjects.toReversed().slice(0, 5) ?? [] },
+    skip: !authenticated || !user?.favoriteSubjects.length,
+  });
 
   const dynamicLinks = useMemo(() => {
     if (!dynamicMenuQuery.data?.frontpage?.menu?.length) return [];

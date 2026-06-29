@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@ndla/primitives";
 import { RefObject, useCallback, useContext, useState } from "react";
@@ -31,7 +31,7 @@ interface Props {
   fallbackFocusId?: string;
 }
 
-const queryDef = gql`
+const queryDef: TypedDocumentNode<GQLMoveFolderDialogQuery, GQLMoveFolderDialogQueryVariables> = gql`
 query moveFolderDialog {
   folders(includeSubfolders: true) {
     folders {
@@ -51,7 +51,7 @@ export const MoveFolderDialogContent = ({ close, currentFolder, ref, fallbackFoc
   const toast = useToast();
   const { examLock } = useContext(AuthContext);
 
-  const foldersQuery = useQuery<GQLMoveFolderDialogQuery, GQLMoveFolderDialogQueryVariables>(queryDef);
+  const foldersQuery = useQuery(queryDef);
 
   const onSetFolderId = (id: string | undefined) => {
     setFolderId(id);

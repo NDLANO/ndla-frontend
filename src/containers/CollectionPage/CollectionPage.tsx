@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ErrorWarningLine } from "@ndla/icons";
 import { Heading, Image, MessageBox } from "@ndla/primitives";
@@ -31,7 +31,7 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 // TODO: We might want to reconsider this at some point. For now it'll do.
 const IMAGE_ID = "67778";
 
-const collectionPageQuery = gql`
+const collectionPageQuery: TypedDocumentNode<GQLCollectionPageQuery, GQLCollectionPageQueryVariables> = gql`
   query collectionPage($language: String!, $imageId: String!) {
     subjectCollection(language: $language) {
       id
@@ -75,7 +75,7 @@ export const CollectionPage = () => {
   const { collectionId } = useParams();
   const isValidLanguage = COLLECTION_LANGUAGES.includes(collectionId ?? "");
 
-  const collectionQuery = useQuery<GQLCollectionPageQuery, GQLCollectionPageQueryVariables>(collectionPageQuery, {
+  const collectionQuery = useQuery(collectionPageQuery, {
     variables: { language: collectionId!, imageId: IMAGE_ID },
     skip: !isValidLanguage,
   });

@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useQuery } from "@apollo/client/react";
 import { InformationLine } from "@ndla/icons";
 import { Button, DialogContent, DialogFooter, DialogHeader, DialogTitle, Text } from "@ndla/primitives";
@@ -35,7 +35,7 @@ interface Props {
   currentFolder: GQLFolderFragment | undefined;
 }
 
-const queryDef = gql`
+const queryDef: TypedDocumentNode<GQLMoveResourceQuery, GQLMoveResourceQueryVariables> = gql`
   query moveResource($path: String!) {
     folders(includeSubfolders: true) {
       folders {
@@ -68,9 +68,7 @@ export const MoveResourceDialogContent = ({ close, resource, currentFolder, ref,
   const [moveResourceMutation, { loading }] = useMoveMyNdlaResourceMutation();
 
   const selectedFolder = useFolder(selectedFolderId);
-  const structureQuery = useQuery<GQLMoveResourceQuery, GQLMoveResourceQueryVariables>(queryDef, {
-    variables: { path: resource.path },
-  });
+  const structureQuery = useQuery(queryDef, { variables: { path: resource.path } });
 
   const onSetSelectedFolderId = (id: string | undefined) => {
     setSelectedFolderId(id);

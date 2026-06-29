@@ -6,11 +6,12 @@
  *
  */
 
+import { useQuery } from "@apollo/client/react";
 import { DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger } from "@ndla/primitives";
 import { lazy, ReactNode, Suspense, useCallback, useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GQLFolderFragment } from "../../graphqlTypes";
-import { useMyNdlaResourceMeta } from "../../mutations/folder/folderQueries";
+import { myNdlaResourceMetaQuery } from "../../mutations/folder/folderQueries";
 import { AuthContext } from "../AuthenticationContext";
 import { DialogCloseButton } from "../DialogCloseButton";
 import { ResourceAttributes } from "./AddResourceToFolder";
@@ -29,9 +30,7 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const { meta, loading } = useMyNdlaResourceMeta(resource, {
-    skip: !resource || !open,
-  });
+  const { data, loading } = useQuery(myNdlaResourceMetaQuery, { variables: { resource }, skip: !resource || !open });
 
   const close = useCallback(() => setOpen(false), []);
 
@@ -63,13 +62,17 @@ export const AddResourceToFolderModal = ({ resource, children, defaultOpenFolder
                 isLoading={loading}
                 id={resource.id.toString()}
                 link={resource.path}
-                title={meta?.title ?? ""}
+                title={data?.myNdlaResourceMeta?.title ?? ""}
                 resourceImage={{
-                  src: meta?.metaImage?.url,
-                  alt: meta?.metaImage?.alt ?? "",
+                  src: data?.myNdlaResourceMeta?.metaImage?.url,
+                  alt: data?.myNdlaResourceMeta?.metaImage?.alt ?? "",
                 }}
-                traits={meta?.__typename === "MyNdlaArticleResourceMeta" ? meta.traits : undefined}
-                resourceTypes={meta?.resourceTypes}
+                traits={
+                  data?.myNdlaResourceMeta?.__typename === "MyNdlaArticleResourceMeta"
+                    ? data.myNdlaResourceMeta.traits
+                    : undefined
+                }
+                resourceTypes={data?.myNdlaResourceMeta?.resourceTypes}
                 storedResourceType={resource.resourceType}
               />
             )

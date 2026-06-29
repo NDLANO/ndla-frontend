@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { ArrowLeftShortLine, ArrowRightShortLine, CloseLine, SearchLine } from "@ndla/icons";
 import {
@@ -147,7 +147,7 @@ const StyledUl = styled("ul", {
   },
 });
 
-const searchPageQueryFragment = gql`
+const searchPageQueryFragment: TypedDocumentNode<GQLSearchPageQuery, GQLSearchPageQueryVariables> = gql`
   query searchPage(
     $query: String
     $page: Int
@@ -317,7 +317,7 @@ export const SearchContainer = ({ resourceTypes, resourceTypesLoading }: Props) 
     };
   }, [i18n.language, isLti, resourceTypes, searchParams]);
 
-  const searchQuery = useQuery<GQLSearchPageQuery, GQLSearchPageQueryVariables>(searchPageQueryFragment, {
+  const searchQuery = useQuery(searchPageQueryFragment, {
     variables: queryParams,
   });
 

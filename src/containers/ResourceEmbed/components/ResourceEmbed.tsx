@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { transform } from "@ndla/article-converter";
 import { Badge, Hero, HeroBackground, HeroContent, PageContent } from "@ndla/primitives";
@@ -141,7 +141,7 @@ export const ResourceEmbed = ({ id, type, isOembed }: Props) => {
   const { pathname } = useLocation();
   const restrictedInfo = useRestrictedMode();
 
-  const { data, loading, error } = useQuery<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables>(ResourceEmbedQuery, {
+  const { data, loading, error } = useQuery(ResourceEmbedQuery, {
     variables: { id: id ?? "", type },
     skip: !id,
   });
@@ -249,7 +249,7 @@ const getDocumentTitle = (title: string, type: string | undefined, t: TFunction)
   });
 };
 
-export const ResourceEmbedQuery = gql`
+export const ResourceEmbedQuery: TypedDocumentNode<GQLResourceEmbedQuery, GQLResourceEmbedQueryVariables> = gql`
   query resourceEmbed($id: String!, $type: String!) {
     resourceEmbed(id: $id, type: $type) {
       content

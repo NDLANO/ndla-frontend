@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading } from "@ndla/primitives";
 import { styled } from "@ndla/styled-system/jsx";
@@ -43,7 +43,7 @@ const LayoutContainer = styled("div", {
 export const Resources = ({ parentId, rootId }: Props) => {
   const { t } = useTranslation();
 
-  const { error, loading, data } = useQuery<GQLLaunchpadQuery, GQLLaunchpadQueryVariables>(resourcesQuery, {
+  const { error, loading, data } = useQuery(resourcesQuery, {
     variables: {
       parentId: parentId,
       rootId: rootId,
@@ -119,7 +119,7 @@ const NavSection = ({ title, children, variant }: NavSectionProps) => {
   );
 };
 
-const resourcesQuery = gql`
+const resourcesQuery: TypedDocumentNode<GQLLaunchpadQuery, GQLLaunchpadQueryVariables> = gql`
   query launchpad($parentId: String!, $rootId: String) {
     node(id: $parentId, rootId: $rootId) {
       id

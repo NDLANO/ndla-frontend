@@ -6,9 +6,9 @@
  *
  */
 
-import { gql, ApolloClient } from "@apollo/client";
+import { gql, ApolloClient, TypedDocumentNode } from "@apollo/client";
 import config from "../config";
-import { GQLPodcastSeriesQuery } from "../graphqlTypes";
+import { GQLPodcastSeriesQuery, GQLPodcastSeriesQueryVariables } from "../graphqlTypes";
 import { createApolloClient } from "../util/apiHelpers";
 
 let apolloClient: ApolloClient;
@@ -27,7 +27,7 @@ const getApolloClient = (locale: string) => {
 export const podcastRssFeed = async (seriesId: number): Promise<string> => {
   const client = getApolloClient("nb");
 
-  const { data: { podcastSeries } = {} } = await client.query<GQLPodcastSeriesQuery>({
+  const { data: { podcastSeries } = {} } = await client.query({
     query: podcastSeriesQuery,
     variables: { id: seriesId },
   });
@@ -107,7 +107,7 @@ export const podcastRssFeed = async (seriesId: number): Promise<string> => {
     return Promise.reject(err);
   }
 };
-const podcastSeriesQuery = gql`
+const podcastSeriesQuery: TypedDocumentNode<GQLPodcastSeriesQuery, GQLPodcastSeriesQueryVariables> = gql`
   query podcastSeries($id: Int!) {
     podcastSeries(id: $id) {
       id

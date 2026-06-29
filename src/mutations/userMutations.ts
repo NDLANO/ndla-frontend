@@ -6,11 +6,11 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useApolloClient, useMutation } from "@apollo/client/react";
 import { GQLUpdatePersonalDataMutation, GQLUpdatePersonalDataMutationVariables } from "../graphqlTypes";
 
-const deletePersonalDataMutation = gql`
+const deletePersonalDataMutation: TypedDocumentNode<boolean> = gql`
   mutation deletePersonalData {
     deletePersonalData
   }
@@ -18,7 +18,7 @@ const deletePersonalDataMutation = gql`
 
 export const useDeletePersonalData = () => {
   const client = useApolloClient();
-  const [deletePersonalData] = useMutation<boolean>(deletePersonalDataMutation, {
+  const [deletePersonalData] = useMutation(deletePersonalDataMutation, {
     onCompleted: () => client.clearStore(),
   });
 
@@ -35,7 +35,10 @@ const personalDataQueryFragment = gql`
   }
 `;
 
-const updatePersonalDataQuery = gql`
+const updatePersonalDataQuery: TypedDocumentNode<
+  GQLUpdatePersonalDataMutation,
+  GQLUpdatePersonalDataMutationVariables
+> = gql`
   mutation updatePersonalData($favoriteSubjects: [String!]) {
     updatePersonalData(favoriteSubjects: $favoriteSubjects) {
       ...MySubjectMyNdlaPersonalDataFragment
@@ -45,9 +48,6 @@ const updatePersonalDataQuery = gql`
 `;
 
 export const useUpdatePersonalData = () => {
-  const [updatePersonalData, { loading }] = useMutation<
-    GQLUpdatePersonalDataMutation,
-    GQLUpdatePersonalDataMutationVariables
-  >(updatePersonalDataQuery);
+  const [updatePersonalData, { loading }] = useMutation(updatePersonalDataQuery);
   return { updatePersonalData, loading };
 };

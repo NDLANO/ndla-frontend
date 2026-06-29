@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { createListCollection } from "@ark-ui/react";
 import { ArrowRightLine, SearchLine } from "@ndla/icons";
@@ -42,7 +42,7 @@ import { scrollToIndexFn } from "../../util/scrollToIndexFn";
 import { toSearchParams } from "../../util/searchHelpers";
 import { useDebounce } from "../../util/useDebounce";
 
-const queryDef = gql`
+const queryDef: TypedDocumentNode<GQLSubjectSearchQuery, GQLSubjectSearchQueryVariables> = gql`
   query subjectSearch($query: String!, $subjectId: String!, $language: String!) {
     search(query: $query, subjects: $subjectId, language: $language) {
       results {
@@ -142,7 +142,7 @@ export const SubjectSearch = ({ subjectId }: Props) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
   const comboboxTranslations = useComboboxTranslations();
-  const query = useQuery<GQLSubjectSearchQuery, GQLSubjectSearchQueryVariables>(queryDef, {
+  const query = useQuery(queryDef, {
     variables: { query: delayedQuery, subjectId, language: i18n.language },
     skip: delayedQuery.length < 2,
   });

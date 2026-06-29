@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router";
@@ -23,7 +23,7 @@ import { NotFoundPage } from "../NotFoundPage/NotFoundPage";
 import { MultidisciplinarySubjectArticle } from "./MultidisciplinarySubjectArticle";
 import { TopicContainer } from "./TopicContainer";
 
-export const topicPageQuery = gql`
+export const topicPageQuery: TypedDocumentNode<GQLTopicPageQuery, GQLTopicPageQueryVariables> = gql`
   query topicPage($rootId: String, $contextId: String, $transformArgs: TransformedArticleContentInput) {
     node(rootId: $rootId, contextId: $contextId) {
       id
@@ -82,7 +82,7 @@ export const TopicPage = () => {
   const { contextId } = useParams();
   const location = useLocation();
   const { i18n } = useTranslation();
-  const query = useQuery<GQLTopicPageQuery, GQLTopicPageQueryVariables>(topicPageQuery, {
+  const query = useQuery(topicPageQuery, {
     variables: {
       contextId: contextId,
       // TODO: Is it wise to hardcode this? Should it always be set? Multidisciplinary breaks if we don't have it.

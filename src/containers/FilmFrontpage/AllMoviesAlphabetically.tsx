@@ -6,7 +6,7 @@
  *
  */
 
-import { gql } from "@apollo/client";
+import { gql, TypedDocumentNode } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { Heading, Text, Image, Skeleton } from "@ndla/primitives";
 import { SafeLink } from "@ndla/safelink";
@@ -122,7 +122,7 @@ const LoadingShimmer = () => {
 
 export const AllMoviesAlphabetically = () => {
   const { t, i18n } = useTranslation();
-  const allMovies = useQuery<GQLAllMoviesQuery, GQLAllMoviesQueryVariables>(allMoviesQuery, {
+  const allMovies = useQuery(allMoviesQuery, {
     variables: {
       resourceTypes: movieResourceTypes.map((resourceType) => resourceType.id).join(","),
       language: i18n.language,
@@ -175,7 +175,7 @@ export const AllMoviesAlphabetically = () => {
   );
 };
 
-const allMoviesQuery = gql`
+const allMoviesQuery: TypedDocumentNode<GQLAllMoviesQuery, GQLAllMoviesQueryVariables> = gql`
   query allMovies($resourceTypes: String!, $language: String!) {
     searchWithoutPagination(
       resourceTypes: $resourceTypes
