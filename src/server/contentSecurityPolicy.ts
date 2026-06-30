@@ -32,6 +32,8 @@ const connectSrc = (() => {
     "https://*.clarity.ms",
     "https://*.sentry.io",
     "https://app.formbricks.com",
+    "https://cdn.dialogapi.no",
+    "https://*.hcaptcha.com",
   ];
   if (config.runtimeType === "development") {
     return [
@@ -114,6 +116,8 @@ const scriptSrc = (() => {
     "https://browser.sentry-cdn.com",
     "https://js.sentry-cdn.com",
     "https://app.formbricks.com",
+    "https://*.dialogapi.no",
+    "https://*.hcaptcha.com",
   ];
   if (config.runtimeType === "development") {
     return [...defaultScriptSrc, "http://localhost:3001", "ws://localhost:3001", "http://localhost:3000"];
@@ -207,6 +211,7 @@ const frameSrc = (() => {
     "pub.dialogapi.no",
     "*.kaltura.com",
     "www.google.com",
+    "*.hcaptcha.com",
   ];
   if (config.runtimeType === "development") {
     return [
@@ -229,6 +234,7 @@ const fontSrc = (() => {
     "https://*.clarity.ms",
     "cdn.jsdelivr.net",
     "*.fontshare.com",
+    "https://cdn.imghost.no",
   ];
   if (config.runtimeType === "development") {
     return defaultFontSrc.concat("http://localhost:3001");
@@ -276,6 +282,7 @@ export const contentSecurityPolicy = {
     defaultSrc: ["'self'", "blob:"],
     upgradeInsecureRequests: config.runtimeType === "development" || config.ndlaEnvironment === "local" ? null : [],
     scriptSrc,
+    scriptSrcAttr: null,
     frameSrc,
     workerSrc: ["'self'", "blob:"],
     frameAncestors: [
@@ -297,6 +304,7 @@ export const contentSecurityPolicy = {
       "*.twimg.com",
       "cdn.jsdelivr.net",
       "*.fontshare.com",
+      "https://cdn.imghost.no",
     ],
     fontSrc,
     imgSrc,

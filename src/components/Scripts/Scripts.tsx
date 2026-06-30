@@ -6,6 +6,7 @@
  *
  */
 
+import { DialogApi } from "./DialogApi";
 import { Formbricks } from "./Formbricks";
 import { Monsido } from "./Monsido";
 import { Tagmanager } from "./Tagmanager";
@@ -16,6 +17,7 @@ export const Scripts = () => {
       <Formbricks />
       <Monsido />
       <Tagmanager />
+      <DialogApi />
     </>
   );
 };
