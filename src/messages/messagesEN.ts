@@ -724,6 +724,9 @@ const messages = {
   pagination: { next: "Next", prev: "Previous" },
   programmePage: {
     programmeSubjects: "Programme subjects",
+    otherResources: "Other resources",
+    programme: "Programmes",
+    grades: "Grades",
   },
   aboutPage: {
     menuItems: "Subpages",

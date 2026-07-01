@@ -7,20 +7,26 @@
  */
 
 import { gql } from "@apollo/client";
-import { InformationLine } from "@ndla/icons";
-import { Heading, Image, MessageBox, Text } from "@ndla/primitives";
+import { Heading, Image, Text } from "@ndla/primitives";
+import { SafeLink, SafeLinkButton } from "@ndla/safelink";
 import { styled } from "@ndla/styled-system/jsx";
 import { TFunction } from "i18next";
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { PageContainer } from "../../components/Layout/PageContainer";
-import { NavigationBox } from "../../components/NavigationBox";
 import { NavigationSafeLinkButton } from "../../components/NavigationSafeLinkButton";
 import { PageTitle } from "../../components/PageTitle";
 import { RestrictedContent } from "../../components/RestrictedBlock";
 import { SocialMediaMetadata } from "../../components/SocialMediaMetadata";
-import { SKIP_TO_CONTENT_ID } from "../../constants";
+import config from "../../config";
+import {
+  FILM_PAGE_URL,
+  MULTIDISCIPLINARY_URL,
+  SKIP_TO_CONTENT_ID,
+  TOOLBOX_STUDENT_URL,
+  TOOLBOX_TEACHER_URL,
+} from "../../constants";
 import { GQLProgrammeContainer_ProgrammeFragment } from "../../graphqlTypes";
 import { LocaleType } from "../../interfaces";
 import { toProgramme } from "../../routeHelpers";
@@ -34,8 +40,8 @@ interface GradesData {
   id: string;
   name: string;
   slug: string;
-  missingProgrammeSubjects: boolean;
   categories?: {
+    id: string;
     name: string;
     subjects?: {
       label: string;
@@ -56,9 +62,7 @@ export const sanitizeGrade = (grade: string) => {
 const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]): GradesData[] => {
   if (!grades) return [];
   return grades.map((grade) => {
-    let foundProgrammeSubject = false;
     const categories = grade.categories?.map((category) => {
-      foundProgrammeSubject = foundProgrammeSubject || category.isProgrammeSubject;
       const categorySubjects = category.subjects?.map((subject) => {
         return {
           label: subject.subjectpage?.about?.title || subject.name || "",
@@ -66,6 +70,7 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
         };
       });
       return {
+        id: category.id,
         name: category.title.title,
         isProgrammeSubject: category.isProgrammeSubject,
         subjects: categorySubjects,
@@ -75,7 +80,6 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
       id: grade.id,
       name: grade.title.title,
       slug: sanitizeGrade(grade.title.title),
-      missingProgrammeSubjects: !foundProgrammeSubject,
       categories,
     };
   });
@@ -83,54 +87,61 @@ const mapGradesData = (grades: GQLProgrammeContainer_ProgrammeFragment["grades"]
 
 const HeadingWrapper = styled("div", {
   base: {
+    width: "100%",
+    alignItems: "flex-start",
     display: "flex",
     flexDirection: "column",
-    gap: "medium",
-    marginBlockEnd: "xxlarge",
-    border: "1px solid",
-    borderColor: "stroke.default",
-    borderRadius: "xsmall",
-    boxShadow: "full",
-    paddingInline: "medium",
-    paddingBlockStart: "xxlarge",
+    gap: "xxlarge",
+    backgroundColor: "background.default",
+    boxShadow: "xsmall",
+    paddingBlockStart: "medium",
+    paddingInline: "xxlarge",
     paddingBlockEnd: "large",
 
     tabletDown: {
-      gap: "xsmall",
+      gap: "large",
+      paddingInline: "medium",
       paddingBlockStart: "medium",
-      paddingInline: "xsmall",
-      paddingBlockEnd: "small",
-      marginBlockEnd: "medium",
+      paddingBlockEnd: "large",
     },
+  },
+});
+
+const HeadingTextWrapper = styled("div", {
+  base: {
+    display: "flex",
+    flexDirection: "column",
   },
 });
 
 const GradesList = styled("ul", {
   base: {
     display: "flex",
-    gap: "xsmall",
-  },
-});
-
-const MessageBoxWrapper = styled("div", {
-  base: {
-    display: "flex",
-    flexDirection: "column",
+    alignItems: "center",
     gap: "xsmall",
   },
 });
 
 const StyledPageContainer = styled(PageContainer, {
   base: {
-    paddingBlockStart: "0",
-    gap: "xxlarge",
+    backgroundColor: "background.strong",
+    rowGap: "xxlarge",
+
+    tablet: {
+      rowGap: "xlarge",
+    },
+
+    tabletDown: {
+      rowGap: "large",
+    },
   },
 });
 
-const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
+const SectionWrapper = styled("div", {
   base: {
-    minWidth: "3xlarge",
-    justifyContent: "center",
+    gap: "medium",
+    display: "flex",
+    flexDirection: "column",
   },
 });
 
@@ -139,6 +150,66 @@ const StyledImage = styled(Image, {
     width: "100%",
   },
 });
+
+const SubjectSection = styled("nav", {
+  base: {
+    backgroundColor: "background.default",
+    boxShadow: "xsmall",
+    padding: "xxlarge",
+    gap: "small",
+    display: "flex",
+    flexDirection: "column",
+
+    tabletDown: {
+      paddingInline: "small",
+      paddingBlock: "medium",
+    },
+  },
+});
+
+const SubjectList = styled("ul", {
+  base: {
+    display: "grid",
+    gap: "xsmall",
+    gridTemplateColumns: "1fr",
+
+    tablet: {
+      "&:has(*:nth-child(4))": {
+        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+      },
+    },
+  },
+});
+
+const StyledSafeLink = styled(SafeLink, {
+  base: {
+    color: "text.strong",
+    textDecoration: "underline",
+    textStyle: "body.large",
+    overflowWrap: "break-word",
+  },
+});
+
+const StyledNavigationSafeLinkButton = styled(NavigationSafeLinkButton, {
+  base: {
+    minWidth: "3xlarge",
+    minHeight: "large",
+    justifyContent: "center",
+    paddingInline: "xsmall",
+    paddingBlock: "4xsmall",
+  },
+});
+
+const ResourceLinkList = styled("ul", {
+  base: {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: "small",
+    alignItems: "flex-start",
+  },
+});
+
+const OTHER_RESOURCES_HEADING_ID = "programme-other-resources-heading";
 
 export const ProgrammeContainer = ({ programme }: Props) => {
   const { t } = useTranslation();
@@ -155,8 +226,16 @@ export const ProgrammeContainer = ({ programme }: Props) => {
   const image = programme.desktopImage?.url || "";
   const pageTitle = getDocumentTitle(socialMediaTitle, t);
 
+  const otherResources = [
+    { label: t("subjectsPage.multidisciplinaryCases"), url: MULTIDISCIPLINARY_URL },
+    { label: t("ndlaFilm.heading"), url: FILM_PAGE_URL },
+    { label: t("masthead.menu.links.tips.studentToolbox"), url: TOOLBOX_STUDENT_URL },
+    { label: t("masthead.menu.links.tips.teacherToolbox"), url: TOOLBOX_TEACHER_URL },
+    { label: t("subjectsPage.allSubjects"), url: "/subjects" },
+  ];
+
   return (
-    <StyledPageContainer padding="large" asChild consumeCss>
+    <StyledPageContainer asChild consumeCss gutters="tabletUp">
       <main>
         <PageTitle title={pageTitle} trackingProps={{ defaultUrl: programme.defaultUrl, rootId: programme.id }} />
         <SocialMediaMetadata
@@ -165,47 +244,72 @@ export const ProgrammeContainer = ({ programme }: Props) => {
           imageUrl={image}
           canonicalPath={programme.url}
         />
-        <div>
-          {/* TODO: Use semantic tokens */}
-          {/* TODO: Variants */}
-          <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
-          <HeadingWrapper>
+        {/* TODO: Use semantic tokens */}
+        {/* TODO: Variants */}
+
+        <StyledImage src={programme.desktopImage?.url} alt="" height="400" width="1128" fetchPriority="high" />
+        <HeadingWrapper>
+          <HeadingTextWrapper>
+            <Text textStyle="label.large" fontWeight="normal">
+              {t("programmePage.programme")}
+            </Text>
             <Heading textStyle="heading.medium" id={SKIP_TO_CONTENT_ID}>
               {heading}
             </Heading>
-            {!!grades.length && (
-              <GradesList aria-label={t("programmes.grades")}>
-                {grades?.map((item) => (
-                  <li key={item.id}>
-                    <StyledNavigationSafeLinkButton
-                      to={toProgramme(programme.url, item.slug)}
-                      variant="secondary"
-                      aria-current={item.slug === grade?.slug ? "page" : undefined}
-                    >
-                      {item.name}
-                    </StyledNavigationSafeLinkButton>
-                  </li>
-                ))}
-              </GradesList>
-            )}
-          </HeadingWrapper>
-        </div>
-        <RestrictedContent context="bleed">
-          {!!grade?.missingProgrammeSubjects && (
-            <MessageBoxWrapper>
-              <Heading asChild consumeCss textStyle="heading.small">
-                <h2>{t("programmePage.programmeSubjects")}</h2>
-              </Heading>
-              <MessageBox variant="info">
-                <InformationLine />
-                <Text>{t("messageBoxInfo.noContent")}</Text>
-              </MessageBox>
-            </MessageBoxWrapper>
+          </HeadingTextWrapper>
+          {!!grades.length && (
+            <GradesList aria-label={t("programmePage.grades")}>
+              {grades?.map((item) => (
+                <li key={item.id}>
+                  <StyledNavigationSafeLinkButton
+                    to={toProgramme(programme.url, item.slug)}
+                    variant="secondary"
+                    aria-current={item.slug === grade?.slug ? "page" : undefined}
+                  >
+                    {item.name}
+                  </StyledNavigationSafeLinkButton>
+                </li>
+              ))}
+            </GradesList>
           )}
-          {grade?.categories?.map((category) => (
-            <NavigationBox key={category.name} heading={category.name} items={category.subjects} />
-          ))}
-        </RestrictedContent>
+        </HeadingWrapper>
+
+        <SectionWrapper>
+          <RestrictedContent context="bleed">
+            {grade?.categories?.map((category) => {
+              return (
+                <SubjectSection key={category.name} aria-labelledby={`${category.name}`}>
+                  <Heading asChild consumeCss textStyle="title.large">
+                    <h2>{category.name}</h2>
+                  </Heading>
+                  <SubjectList>
+                    {category.subjects?.map((subject) => (
+                      <li key={subject.url ?? subject.label}>
+                        <StyledSafeLink to={subject.url || "#"}>{subject.label}</StyledSafeLink>
+                      </li>
+                    ))}
+                  </SubjectList>
+                </SubjectSection>
+              );
+            })}
+            {!!config.displayStaticOtherResources && (
+              <SubjectSection aria-labelledby={OTHER_RESOURCES_HEADING_ID}>
+                <Heading asChild consumeCss id={OTHER_RESOURCES_HEADING_ID} textStyle="title.large">
+                  <h2>{t("programmePage.otherResources")}</h2>
+                </Heading>
+                <ResourceLinkList>
+                  {otherResources.map((resource) => (
+                    <li key={resource.url}>
+                      <SafeLinkButton to={resource.url} variant="secondary">
+                        {resource.label}
+                      </SafeLinkButton>
+                    </li>
+                  ))}
+                </ResourceLinkList>
+              </SubjectSection>
+            )}
+          </RestrictedContent>
+        </SectionWrapper>
       </main>
     </StyledPageContainer>
   );

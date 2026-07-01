@@ -117,6 +117,7 @@ export type ConfigType = {
   gracePeriodSeconds: number;
   githubIconEnabled: boolean;
   disableKiToken: boolean;
+  displayStaticOtherResources: boolean;
 };
 
 const getServerSideConfig = (): ConfigType => {
@@ -156,6 +157,7 @@ const getServerSideConfig = (): ConfigType => {
     gracePeriodSeconds: parseInt(getEnvironmentVariable("READINESS_PROBE_DETECTION_SECONDS", "7")),
     githubIconEnabled: getEnvironmentVariable("GITHUB_ICON_ENABLED", false),
     disableKiToken: getEnvironmentVariable("DISABLE_KI_TOKEN", false),
+    displayStaticOtherResources: getEnvironmentVariable("DISPLAY_STATIC_OTHER_RESOURCES", false),
   };
 };
 

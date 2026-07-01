@@ -232,6 +232,7 @@ type Caption {
 }
 
 type Category {
+  defaultUrlName: String
   id: String!
   isProgrammeSubject: Boolean!
   subjects: [Subject!]
