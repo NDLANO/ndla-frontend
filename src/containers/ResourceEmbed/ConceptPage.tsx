@@ -12,7 +12,8 @@ import { ResourceEmbed } from "./components/ResourceEmbed";
 
 export const ConceptPage = () => {
   const { conceptId } = useParams();
-  if (!conceptId || !parseInt(conceptId)) {
+
+  if (!conceptId || !/^\d+$/.test(conceptId)) {
     return <NotFoundPage />;
   }
 

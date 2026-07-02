@@ -13,7 +13,7 @@ import { ResourceEmbed } from "./components/ResourceEmbed";
 export const AudioPage = () => {
   const { audioId } = useParams();
 
-  if (!audioId || !parseInt(audioId)) {
+  if (!audioId || !/^\d+$/.test(audioId)) {
     return <NotFoundPage />;
   }
 
