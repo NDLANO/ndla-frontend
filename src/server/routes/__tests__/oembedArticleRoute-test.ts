@@ -337,4 +337,10 @@ describe("parseAndMatchUrl", () => {
       lang: "nn",
     });
   });
+  it("rejects malformed numeric ids", () => {
+    expect(parseOembedUrl("https://test.ndla.no/image/53751).")).toBeUndefined();
+    expect(parseOembedUrl("https://test.ndla.no/nn/image/53751).")).toBeUndefined();
+    expect(parseOembedUrl("https://test.ndla.no/audio/4809abc")).toBeUndefined();
+    expect(parseOembedUrl("https://test.ndla.no/concept/12-34")).toBeUndefined();
+  });
 });

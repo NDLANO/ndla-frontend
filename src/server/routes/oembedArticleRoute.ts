@@ -224,7 +224,16 @@ export function parseOembedUrl(url: string) {
         : undefined;
     }
 
-    return matchRoute<OembedReturnParams>(path, oembedRoutes, isValidLocale(paths[1]));
+    const match = matchRoute<OembedReturnParams>(path, oembedRoutes, isValidLocale(paths[1]));
+    if (!match) return undefined;
+
+    // Validate that numeric IDs are actually numeric
+    const numericIdParams: OembedReturnParams[] = ["imageId", "audioId", "conceptId"];
+    if (numericIdParams.some((key) => match[key] !== undefined && !/^\d+$/.test(match[key]!))) {
+      return undefined;
+    }
+
+    return match;
   } catch (error) {
     log.warn(`Error parsing oEmbed URL '${url}'`, error, { url });
     return;

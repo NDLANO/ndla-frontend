@@ -13,7 +13,7 @@ import { ResourceEmbed } from "./components/ResourceEmbed";
 export const ImagePage = () => {
   const { imageId } = useParams();
 
-  if (!imageId || !parseInt(imageId)) {
+  if (!imageId || !/^\d+$/.test(imageId)) {
     return <NotFoundPage />;
   }
 
